@@ -37,7 +37,7 @@ AUDIT_REPORT_FILE = os.path.join(META_DIR, "audit_report.json")
 # ── Concurrency locks ──────────────────────────────────────────────────
 # Global lock for git commit/push to prevent race conditions when multiple
 # agents edit simultaneously.
-GIT_LOCK = threading.Lock()
+GIT_LOCK = threading.RLock()  # Reentrant: _maybe_git_push acquires it inside git_commit
 
 # Per-page file locks (lazy-created) to prevent two agents editing the same
 # markdown file at the same time.

@@ -8,7 +8,7 @@ tags:
 - whole-brain-modeling
 title: gira
 type: concept
-updated: '2026-05-14'
+updated: '2026-05-15'
 ---
 
 # gira

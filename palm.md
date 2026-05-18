@@ -1,7 +1,7 @@
 ---
 title: PALM
 created: 2024-01-15
-updated: 2026-05-04
+updated: 2026-05-15
 type: entity
 tags: [neuroimaging, software-fsl, neuroimaging-fmri, bayes-factors, variational-bayes, parameter-estimation]
 sources:
@@ -44,6 +44,8 @@ The foundational PALM paper describes the permutation-based inference framework 
 - [[spm]] — alternative [[neuroimaging]] analysis package with its own inference framework
 - [[afni]] — another major [[neuroimaging]] analysis platform with permutation testing capabilities
 - [[brain-connectivity-toolbox]] — network analysis toolbox often used alongside PALM for [[connectome]] analysis
+
+[[fslnets]]
 
 ## Relationships to Other Concepts
 

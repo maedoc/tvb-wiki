@@ -1,9 +1,9 @@
 ---
 created: 2026-04-20
 sources:
-- raw/papers/lopes-da-silva-1974.md
-- raw/papers/freeman-1975.md
-- raw/papers/jansen-rit-1995.md
+- [[fernando-lopes-da-silva]]
+
+- [[jansen-r]]
 - raw/papers/semanticscholar-cc2129666e15.md
 - raw/papers/potjans-diesmann-2014.md
 - raw/papers/semanticscholar-d759f2182295.md
@@ -16,7 +16,7 @@ tags:
 - brain-oscillations
 title: Fernando Lopes da Silva
 type: entity
-updated: '2026-05-14'
+updated: '2026-05-15'
 ---
 
 # Fernando Lopes da Silva

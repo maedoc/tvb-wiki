@@ -12,10 +12,10 @@ tags:
 - spiking-neural-networks
 - computational-neuroscience
 - model-validation
-- interoperability
+- reproducibility
 title: PyNeuroML
 type: entity
-updated: '2026-05-14'
+updated: '2026-05-15'
 
 # PyNeuroML
 
@@ -35,30 +35,30 @@ The library also includes **visualization tools** for generating plots of channe
 
 ## Relationship to TVB
 
-Within the landscape of whole-brain modeling, PyNeuroML serves a complementary role to [[the-virtual-brain]]. TVB operates primarily at the macroscopic scale, using [[neural-mass-model]] and [[mean-field-theory]] formulations to simulate large-scale [[brain-network]] dynamics across the [[connectome]]. PyNeuroML, by contrast, specializes in the microscopic scale: detailed neurons, synapses, and local circuit architectures. The connection between these scales is increasingly important for multi-scale brain modeling initiatives. PyNeuroML-defined microcircuits can inform the parameterization of neural mass models used in TVB, providing biologically-grounded estimates of excitation-inhibition balance, synaptic time constants, and population firing rates that are otherwise difficult to constrain from imaging data alone.
+Within the landscape of whole-brain modeling, PyNeuroML serves a complementary role to [[the-virtual-brain]]. TVB operates primarily at the macroscopic scale, using [[neural-mass-model]] and [[mean-field-theory]] formulations to simulate large-scale [[brain-network]] dynamics across the [[connectome]]. PyNeuroML, by contrast, specializes in the microscopic scale: detailed neurons, synapses, and local circuit architectures. The connection between these scales is increasingly important for multi-scale brain modeling initiatives. PyNeuroML-defined microcircuits can inform the parameterization of neural mass models used in TVB, providing biologically‑grounded estimates of excitation‑inhibition balance, synaptic time constants, and population firing rates that are otherwise difficult to constrain from imaging data alone.
 
-Furthermore, the convergence of TVB with detailed simulators is being actively explored through [[co-simulation]] frameworks that link macroscopic whole-[[brain-dynamics]] with microscopic neuronal detail Hater et al. (2026). PyNeuroML facilitates this integration by ensuring that the detailed models feeding into such hybrid frameworks are expressed in a standardized, validated format. The [[tvb-multiscale]] extension of TVB exemplifies this direction, enabling researchers to embed PyNeuroML-compatible circuit descriptions within TVB's regional node dynamics. In practice, this means that a researcher can define a custom thalamocortical circuit in NeuroML, validate it with PyNeuroML, and integrate it into a TVB simulation to study how detailed cellular properties shape large-scale phenomena such as seizure propagation or [[resting-state]] oscillations.
+Furthermore, the convergence of TVB with detailed simulators is being actively explored through [[co-simulation]] frameworks that link macroscopic whole‑[[brain-dynamics]] with microscopic neuronal detail Hater et al. (2026). PyNeuroML facilitates this integration by ensuring that the detailed models feeding into such hybrid frameworks are expressed in a standardized, validated format. The [[tvb-multiscale]] extension of TVB exemplifies this direction, enabling researchers to embed PyNeuroML‑compatible circuit descriptions within TVB's regional node dynamics. In practice, this means that a researcher can define a custom thalamocortical circuit in NeuroML, validate it with PyNeuroML, and integrate it into a TVB simulation to study how detailed cellular properties shape large‑scale phenomena such as seizure propagation or [[resting-state]] oscillations.
 
 ## Related Software
 
-PyNeuroML sits alongside several other tools in the NeuroML ecosystem. [[jneuroml]] remains the reference Java implementation and is indispensable for developers working in the JVM ecosystem. [[pynn]] offers a Python API for simulator-independent network construction but does not provide the declarative model-description format that NeuroML offers. [[nestml]] represents an alternative domain-specific language focused on code generation for spiking network simulators. For whole-brain modeling specifically, tools like [[neurolib]] and [[tvb-library]] provide higher-level abstractions for connectome-based simulation, while PyNeuroML handles the lower-level cellular and synaptic detail.
+PyNeuroML sits alongside several other tools in the NeuroML ecosystem. [[jneuroml]] remains the reference Java implementation and is indispensable for developers working in the JVM ecosystem. [[pynn]] offers a Python API for simulator‑independent network construction but does not provide the declarative model‑description format that NeuroML offers. [[nestml]] represents an alternative domain‑specific language focused on code generation for spiking network simulators. For whole‑brain modeling specifically, tools like [[neurolib]] and [[tvb-library]] provide higher‑level abstractions for connectome‑based simulation, while PyNeuroML handles the lower‑level cellular and synaptic detail.
 
 ## Related Concepts
 
-- [[neuroml]] — The declarative XML-based language for neural model description
+- [[neuroml]] — The declarative XML‑based language for neural model description
 - [[lems]] — The underlying mathematical framework for dynamical systems specification
 - [[model-validation]] — Ensuring simulation correctness across platforms
 - [[reproducibility]] — Exchanging models between diverse simulation engines
 - [[open-source-brain]] — Community repository for sharing NeuroML models
 - [[spiking-neural-networks]] — Detailed neuronal network simulations
-- [[whole-brain-modeling]] — Large-scale brain [[network-dynamics]]
+- [[whole-brain-modeling]] — Large‑scale brain [[network-dynamics]]
 - [[connectome]] — Structural brain connectivity as a scaffold for simulation
 - [[structural-connectivity]] — [[white-matter]] pathways linking brain regions
 
 ## References
 
-1. Sotirios Panagiotou, Rene Miedema, Dimitrios Soudris, Christos Strydis. (2025). *Decoupling model descriptions from execution: a modular paradigm for extensible neurosimulation with [[eden]]*. Frontiers Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2025.1572782))
-2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *[[arbor]]-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and [[whole-brain]] propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
-4. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2025.1544143))
-5. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+1. Sotirios Panagiotou, Rene Miedema, Dimitrios Soudris, Christos Strydis. (2025). *Decoupling model descriptions from execution: a modular paradigm for extensible neurosimulation with [[eden]]*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1572782))
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010))
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *[[arbor]]‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and [[whole‑brain]] propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161))
+4. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143))
+5. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz‑Pier, Thanos Manos. *Arbor‑TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and Whole‑Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861))

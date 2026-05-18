@@ -1,7 +1,7 @@
 ---
 title: Structural Connectivity
 created: 2026-04-20
-updated: 2026-04-27
+updated: 2026-05-15
 type: concept
 tags: [structural-connectivity, connectomics, neuroimaging-dti, diffusion-imaging, tractography, network-dynamics, whole-brain-modeling]
 sources: [raw/papers/basser-1994.md, raw/papers/mori-1999.md, raw/papers/jones-2010.md]
@@ -77,3 +77,5 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 - [[whole-brain]] – Whole-brain modeling framework
 - [[connectome-mapper-3]] – Connectivity pipeline software
 - [[brain-connectivity-toolbox]] – Network analysis software
+
+[[scona]]

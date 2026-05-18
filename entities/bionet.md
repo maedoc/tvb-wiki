@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: BioNet
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 # BioNet
@@ -33,7 +33,7 @@ The framework emphasizes "mass action" in neural systems—how populations of ne
 - **Continuous dynamics**: Differential equation-based simulation emphasizing temporal evolution
 
 ## K-Set Hierarchy
-The K-set hierarchy, introduced in Freeman's 1975 monograph, provides a systematic taxonomy of neural populations ordered by increasing structural complexity and dynamical richness [[raw/papers/freeman-1975.md|Freeman (1975)]]. At the base level, K0 denotes isolated non-interactive neurons whose dynamics reduce to linear point processes with passive decay, whereas KI assemblies introduce recurrent excitatory feedback that yields nonlinear amplification and multiple steady states [[raw/papers/freeman-1975.md|Freeman (1975)]]. The transition to KII marks the coupling of excitatory and inhibitory populations through recurrent [[connectivity]], producing the collective nonlinear dynamics that Freeman applied to olfactory bulb and EEG analysis [[raw/papers/freeman-1975.md|Freeman (1975)]]. KIII networks extend this architecture by assembling multiple interacting KII sets into distributed systems that Freeman developed for multisensory integration through collective neural activity [[raw/papers/freeman-1975.md|Freeman (1975)]].
+The K-set hierarchy, introduced in Freeman's 1975 monograph, provides a systematic taxonomy of neural populations ordered by increasing structural complexity and dynamical richness Freeman (1975). At the base level, K0 denotes isolated non-interactive neurons whose dynamics reduce to linear point processes with passive decay, whereas KI assemblies introduce recurrent excitatory feedback that yields nonlinear amplification and multiple steady states Freeman (1975). The transition to KII marks the coupling of excitatory and inhibitory populations through recurrent [[connectivity]], producing the collective nonlinear dynamics that Freeman applied to olfactory bulb and EEG analysis Freeman (1975). KIII networks extend this architecture by assembling multiple interacting KII sets into distributed systems that Freeman developed for multisensory integration through collective neural activity Freeman (1975).
 
 | Level | Description | Dynamics |
 |-------|-------------|----------|
@@ -42,7 +42,8 @@ The K-set hierarchy, introduced in Freeman's 1975 monograph, provides a systemat
 | **KII** | Coupled excitatory-inhibitory populations | Oscillations, limit cycles |
 | **KIII** | Interacting KII sets forming distributed networks | Chaotic dynamics, attractor landscapes |
 
-This hierarchical framework furnished an early mesoscopic bridge between single-neuron biophysics and population-level brain modeling, directly motivating applications to the olfactory bulb and [[electrophysiology|EEG generation]] [[raw/papers/freeman-1975.md|Freeman (1975)]]. By introducing collective nonlinear dynamics at each successive level, Freeman established how coupled mass action could generate complex temporal patterns characteristic of population recordings [[raw/papers/freeman-1975.md|Freeman (1975)]]. These constructs subsequently influenced later neural mass formulations, including the [[wilson-cowan-model|Wilson–Cowan]] and [[jansen-rit-model|Jansen–Rit]] equations now embedded in [[tvb-library|whole-brain simulation toolkits]] [[raw/papers/freeman-1975.md|Freeman (1975)]]; [[raw/papers/destexhe-sejnowski-2009.md|Destexhe & Sejnowski (2009)]].
+This hierarchical framework furnished an early mesoscopic bridge between single-neuron biophysics and population-level brain modeling, directly motivating applications to the olfactory bulb and [[electrophysiology|EEG generation]] Freeman (1975). By introducing collective nonlinear dynamics at each successive level, Freeman established how coupled mass action could generate complex temporal patterns characteristic of population recordings Freeman (1975). These constructs subsequently influenced later neural mass formulations, including the [[wilson-cowan-model|Wilson–Cowan]] and [[jansen-rit-model|Jansen–Rit]] equations now embedded in [[tvb-library|whole-brain simulation toolkits]] Freeman (1975); Destexhe & Sejnowski (2009).
+
 ## Core Methodology
 
 BioNet implements neural population dynamics through coupled nonlinear differential equations:
@@ -69,7 +70,7 @@ Freeman's K-set framework influenced subsequent neural mass formulations, includ
 
 ## Historical Context
 
-Walter Freeman (1927–2016) pursued this work at the University of California, Berkeley, where he developed the K-set framework through decades of research on the olfactory system and cortical dynamics Freeman (2000)Kozma et al. (2012). His mesoscopic approach emphasized that EEG and [[local-field-potentials]] reflect cooperative activity of neural populations rather than single-neuron spiking.
+Walter Freeman (1927–2016) pursued this work at the University of California, Berkeley, where he developed the K-set framework through decades of research on the olfactory system and cortical dynamics Freeman (2000)Kozma et al. (2012). His mesoscopic approach emphasizes that EEG and [[local-field-potentials]] reflect cooperative activity of neural populations rather than single-neuron spiking.
 
 Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual transitions influenced later [[whole-brain|whole-brain modeling]] approaches, demonstrating how structured neural population dynamics support cognitive function.
 

@@ -64,3 +64,23 @@ updated: '2026-05-05'
 ---
 
 The [[allen-sdk]] is a software development kit produced by the Allen Institute for Brain Science that provides programmatic access to the institute's brain mapping datasets, particularly the Allen Mouse Brain
+
+## ORPHAN PAGE CONTEXT ( Allen SDK)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/ritter-2013.md
+tags:
+- software
+- connectomics
+- structural-connectivity
+- diffusion-imaging
+- neuroimaging-dti
+title: Allen SDK
+type: entity
+updated: '2026-05-05'
+---
+
+The [[allen-sdk]] is a software development kit produced by the Allen Institute for Brain Science that provides programmatic access to the institute's brain mapping datasets, particularly the Allen Mouse Brain

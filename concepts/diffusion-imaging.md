@@ -9,7 +9,7 @@ tags:
 - diffusion-imaging
 title: Diffusion Imaging
 type: concept
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], as well as frameworks like [[c302]] and tools like [[hnn]]. The techniques are also integral to the [[ramais]] platform for medical image segmentation.

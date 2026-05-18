@@ -1,9 +1,9 @@
 ---
 created: 2026-05-06
 sources:
-- raw/papers/migliore-2006.md
-- raw/papers/potjans-diesmann-2014.md
-- raw/papers/semanticscholar-9afbfd2d37be.md
+
+
+
 tags:
 - databse
 - computational-neuroscience
@@ -11,7 +11,7 @@ tags:
 - models
 title: ModelDB
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-15'
 ---
 
 # ModelDB
@@ -34,10 +34,13 @@ ModelDB provides reference implementations of neural dynamics models that inform
 - The database serves as a ground-truth source for comparing TVB model predictions against validated published models
 
 ## Related
-ModelDB is embedded in a broader ecosystem of simulation platforms and research infrastructure for [[computational-neuroscience]]. The repository originally concentrated on [[neuron|NEURON]]-based simulations, but has since expanded to host thousands of models implemented across multiple simulator platforms, reflecting the field's methodological diversity and the growing need for cross-platform [[reproducibility]] [[raw/papers/migliore-2006.md|Migliore et al. 2006]]. This heterogeneity is exemplified by data-driven [[spiking-neural-networks|spiking network]] models such as the Potjans-Diesmann cortical microcircuit, which has been widely adopted as a benchmark for validating simulators including [[nest|NEST]] and serves as a foundational building block for mesoscale [[brain-network|brain network]] architectures [[raw/papers/potjans-diesmann-2014.md|Potjans & Diesmann 2014]]. At the whole-brain scale, [[the-virtual-brain]] and its associated Ontology framework address complementary reproducibility challenges by curating published models, generating executable code for multiple backends, and exporting FAIR metadata with provenance-aware reports that link simulations to their empirical foundations [[raw/papers/semanticscholar-9afbfd2d37be.md|Martin et al. 2025]]. Together, these resources form a layered infrastructure that advances reproducibility across scales, from validated single-neuron dynamics to [[whole-brain-modeling|whole-brain simulations]], each contributing to the standardization and portability of computational models across the neuroscience community.
+
+- [[neuroml]] — standardized model description format used in ModelDB
+- [[the-virtual-brain]] — [[whole-brain]] simulation framework
+- osb — Open Source Brain integration with ModelDB
 
 ## References
 
-1. Migliore et al. (2006). *ModelDB: making models publicly accessible to support computational neuroscience*. Neuroinformatics. [DOI](](https://doi.org/10.1007/s12021-006-0002-7))
-2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](](https://doi.org/10.1093/cercor/bhs358))
-3. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *[[tvb|The Virtual Brain]] Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.11.19.689211))
+1. Migliore et al. (2006). *ModelDB: making models publicly accessible to support [[computational-neuroscience]]*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-006-0002-7))
+2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358))
+3. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *[[tvb|The Virtual Brain]] Ontology: A Digital Knowledge Framework for Reproducible [[brain-network]] Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211))

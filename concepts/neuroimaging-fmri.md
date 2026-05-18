@@ -11,7 +11,7 @@ tags:
 - resting-state
 title: Functional MRI
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-15'
 ---
 
 # Functional MRI
@@ -37,6 +37,8 @@ fMRI is the primary empirical constraint for TVB [[whole-brain]] models:
 - TVB predicts task-evoked BOLD changes that can be validated against task fMRI
 - TVB models [[effective-connectivity]] via DCM and compare to fMRI-derived [[connectivity]]
 
+[[sbi]]
+
 ## Related
 
 - [[bold-signal]] — BOLD signal modeling and hemodynamics
@@ -49,3 +51,29 @@ fMRI is the primary empirical constraint for TVB [[whole-brain]] models:
 1. Mennahtullah Mabrouk, Reem Reda, Hana Hisham, Abdelrahman Hazem, Bola Hosny, Hossam Elsawaf, Saif Elaswad, Sameh Sherif. (2025). *A Hybrid Learning Approach for Detection of Autism Spectrum Disorder Using fMRI Data*. 2025 13th International Japan-Africa Conference on Electronics, Communications, and Computations (JAC-ECC). [DOI](https://doi.org/10.1109/JAC-ECC67970.2025.11417627))
 2. L. Raimondo, Jurjen Heij, Tomas Knapen, Jeroen C. W. Siero, W. van der Zwaag, Serge O. Dumoulin. (2025). *Does the Cortical-Depth Dependence of the [[hemodynamic-response-function]] Differ Between Age Groups?*. Brain Topography. [DOI](https://doi.org/10.1007/s10548-025-01107-0))
 3. N. J. Fesharaki, Artemy Vinogradov, David Ress, Jung Hwan Kim. (2026). *Spatial evolution in temporal dynamics of hemodynamic response function in human superior colliculi with ultra-high-resolution MRI at 9.4T*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2026.1741923))
+
+## ORPHAN PAGE CONTEXT (sbi)
+---
+created: 2024-01-15
+sources:
+- raw/papers/arxiv-2510.22651.md
+- raw/papers/arxiv-2601.22367.md
+- raw/papers/arxiv-2506.04558.md
+- raw/papers/semanticscholar-8133a79e2e93.md
+- raw/papers/arxiv-2505.22685.md
+- raw/papers/semanticscholar-2df7f31d5f27.md
+tags:
+- parameter-estimation
+- machine-learning
+- whole-brain-modeling
+- variational-bayes
+- dynamical-systems-theory
+title: Simulation-Based Inference
+type: concept
+updated: '2026-05-15'
+---
+
+# Simulation-Based Inference
+
+## Overview
+Simulation

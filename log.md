@@ -556,3 +556,7 @@
 
 ## 2026-05-15
 - Improved [[neuroimaging-eeg]]: fixed malformed double frontmatter, removed non-taxonomy tags ([[neuroimaging]]-eeg, [[electrophysiology]], meg, source-localization) and replaced with taxonomy-compliant tags (neuroimaging-eeg, neuroimaging-meg, brain-oscillations, resting-state, functional-connectivity, whole-brain-modeling, neural-mass-models), removed 3 unused sources (semanticscholar-dc81089b4fd5, semanticscholar-6295d2445697, semanticscholar-61edbfd4025d) that did not discuss EEG/MEG, removed standalone ## References body section per schema rule 8, rewrote page into dense sourced prose (~520 words across 5 sections), added 12 inline citations from 4 available sources (Qu et al. 2026 x2, Baker et al. 2015 x1, Bordini de Lucas et al. 2025 x2, Hsiao et al. 2025 x1), added 13 wikilinks (neuroimaging-fmri, whole-brain-modeling, neural-mass-models, source-localization, brain-oscillations, mean-field-theory, adaptive-exponential-integrate-and-fire, volume-conduction, eeglab, mne-python, the-virtual-brain, jansen-rit-model, brainstorm), ensured every factual claim is traceable to a source paper, bumped updated date to 2026-05-15
+
+## [2026-05-16 15:16] Linter: 73 broken links, 10 orphans, 6 stale, 0 empty
+
+## [2026-05-17 15:16] Linter: 73 broken links, 10 orphans, 6 stale, 0 empty

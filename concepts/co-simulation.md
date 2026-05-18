@@ -14,7 +14,7 @@ tags:
 - software-neuron
 title: Co-Simulation
 type: concept
-updated: '2026-05-11'
+updated: '2026-05-15'
 ---
 
 **Co-simulation** is a computational strategy that couples multiple simulation engines to model phenomena across different spatial and temporal scales simultaneously. In [[computational-neuroscience]], co-simulation bridges the gap between detailed cellular-level [[spiking-neural-networks]] and population-level [[neural-mass-models]], enabling researchers to investigate how microscale neuronal dynamics give rise to meso- and macroscale brain activity observable in [[neuroimaging]] modalities such as [[eeg]], [[meg]], and [[fmri]].
@@ -33,7 +33,7 @@ Time synchronization represents a critical technical challenge in co‑simulatio
 
 ## Implementation in The Virtual Brain
 
-[[the-virtual-brain]] implements co‑simulation through specialized adapters that interface its macroscale neural mass models with external spiking simulators. The TVB‑NEST interface provides bidirectional coupling between TVB and the Neural Simulation Tool (NEST), allowing whole‑brain models to incorporate detailed microcircuit simulations from NEST in specified brain regions while retaining tractable neural mass dynamics across the remainder of the connectome Sanz Leon et al. (2013). Similar interfaces exist for Brian2, NEURON, [[spice]], and also [[simbrain]], providing flexibility in modeling choices.
+[[the-virtual-brain]] implements co‑simulation through specialized adapters that interface its macroscale neural mass models with external spiking simulators. The TVB‑NEST interface provides bidirectional coupling between TVB and the Neural Simulation Tool (NEST), allowing whole‑brain models to incorporate detailed microcircuit simulations from NEST in specified brain regions while retaining tractable neural mass dynamics across the remainder of the connectome Sanz Leon et al. (2013). Similar interfaces exist for Brian2, NEURON, [[spice]], [[simbrain]], and [[neuromllite]], providing flexibility in modeling choices.
 
 This architecture enables several important use cases. First, researchers can investigate how specific cortical microcircuit configurations (such as alterations in [[excitation-inhibition-balance]]) propagate through the large‑scale brain network to produce observable changes in [[functional-connectivity]] patterns. Second, computational studies of [[epilepsy-modeling]] can embed detailed epileptor‑like spiking dynamics in specific regions while observing how these seizures spread through the white‑matter [[structural-connectivity]] backbone Ritter et al. (2013).
 
@@ -94,3 +94,25 @@ updated: '2026-05-11'
 ---
 
 Brain-Score is an open-source benchmarking platform designed to systematically evaluate computational brain models against empirical neural data. The pl
+
+## ORPHAN PAGE CONTEXT (neuromllite)
+---
+created: 2026-05-13
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software-neuroml
+- software-brain-modeling
+- spiking-neural-networks
+- reproducibility
+- connectomics
+- whole-brain-modeling
+- network-dynamics
+title: NeuroMLlite
+type: entity
+updated: '2026-05-15'
+---
+
+NeuroMLlite is a lightweight Python library that enables researchers to define [[computational-neuroscience]] models using native Python syntax and

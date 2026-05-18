@@ -16,7 +16,7 @@ tags:
 - neuroimaging-meg
 title: Connectome
 type: concept
-updated: '2026-05-12'
+updated: '2026-05-15'
 ---
 
 The connectome represents a comprehensive structural description of the network of neural elements and connections forming the brain. Introduced as a formal concept by olaf-sporns|Giulio Tononi and rolf-kotter|Rolf Kötter in their seminal 2005 paper, the connectome encompasses the complete mapping of neural pathways—both structural and functional—that underlie brain organization. This concept has fundamentally transformed how neuroscientists conceptualize the brain, shifting from a collection of isolated regions to a network‑centric view emphasizing the integration of information across distributed neural systems.
@@ -37,7 +37,7 @@ Measurement of structural connectivity relies primarily on [[diffusion-mri|diffu
 
 The functional connectome captures statistical dependencies between neural elements, reflecting coordinated activity across brain regions. Unlike structural connectivity, which represents fixed anatomical pathways, functional connectivity is dynamic and task‑dependent. Time‑varying correlations in [[bold-signal|BOLD]] activity measured via [[fmri|fMRI]], or electromagnetic fluctuations captured by [[eeg|EEG]] and [[meg|MEG]], constitute the empirical basis for functional connectivity mapping.
 
-power‑2011|Power et al. (2011) provided a comprehensive characterization of functional network organization in the human brain, identifying major resting‑state networks including the [[default-mode-network|default mode network]], attention systems, sensorimotor networks, and visual cortex Organization. These [[intrinsic‑connectivity‑networks]] emerge from spontaneous coherent activity in the [[resting‑state|resting state]], revealing the underlying functional architecture that supports both task performance and intrinsic brain function.
+power‑2011|Power et al. (2011) provided a comprehensive characterization of functional network organization in the human brain, identifying major resting‑state networks including the [[default‑mode‑network|default mode network]], attention systems, sensorimotor networks, and visual cortex Organization. These [[intrinsic‑connectivity‑networks]] emerge from spontaneous coherent activity in the [[resting‑state|resting state]], revealing the underlying functional architecture that supports both task performance and intrinsic brain function.
 
 ## Network Analysis and Graph Theory
 
@@ -49,7 +49,7 @@ Several canonical network organization patterns have been identified in brain ne
 
 ## Major Mapping Initiatives
 
-The [[human-connectome-project]] (HCP), launched in 2010, represents the most ambitious effort to map human brain connectivity. The WU‑Minn consortium has acquired multimodal imaging data from over 1200 healthy young adults, including high‑resolution structural MRI,_task‑free [[fmri|fMRI]], diffusion imaging, and MEG recordings. The project has pioneered open data sharing, making processed datasets freely available to the neuroscience community and enabling thousands of subsequent studies.
+The [[human‑connectome‑project]] (HCP), launched in 2010, represents the most ambitious effort to map human brain connectivity. The WU‑Minn consortium has acquired multimodal imaging data from over 1200 healthy young adults, including high‑resolution structural MRI,_task‑free [[fmri|fMRI]], diffusion imaging, and MEG recordings. The project has pioneered open data sharing, making processed datasets freely available to the neuroscience community and enabling thousands of subsequent studies.
 
 Other species have served as important targets for complete connectome reconstruction. The C. elegans nervous system was the first to achieve a complete connectome through electron microscopy of serial sections, providing a blueprint for understanding nervous system organization at cellular resolution. Ongoing efforts target the Drosophila melanogaster (fruit fly) and mouse brains, leveraging advances in electron microscopy, AI‑assisted reconstruction, and large‑scale histology.
 
@@ -70,6 +70,8 @@ The connectome provides the anatomical scaffold upon which brain dynamics unfold
 - [[human‑connectome‑project]] – Major initiative mapping human brain connectivity
 - [[structural‑core]] – Densely interconnected central hub regions of the brain
 - [[voxelmorph]]
+
+[[brainnetcnn]]
 
 ## References
 
@@ -108,13 +110,12 @@ sources:
 - raw/papers/arxiv-2601.13935.md
 - raw/papers/semanticscholar-63826766eb8e.md
 - raw/papers/arxiv-2508.04568.md
-- raw/papers/schirner-2018.md
+- raw/papers/schirner-2013.md
 - raw/papers/arxiv-2503.02481.md
 tags:
 - software-brain-modeling
 title: XTRACT
 type: entity
 updated: '2026-05-11'
----
 
-XTRACT (Cross-species [[tractography]] Analysis) is a standardized, fully automated tractography pipeline developed within the [FSL](](/fsl)) (FMRIB Software Library) framework
+XTRACT (Cross-species [[tractography]] Analysis) is a standardized, fully automated tractography pipeline developed within the [FSL](/fsl) (FMRIB Software Library) framework

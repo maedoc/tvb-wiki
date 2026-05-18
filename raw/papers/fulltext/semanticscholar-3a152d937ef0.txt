@@ -1,0 +1,303 @@
+   RESEARCH ARTICLE
+
+                                                             International Research Journal on Advanced Science Hub
+                                                                                                         2582-4376
+                                                                                                www.rspsciencehub.com
+                                                                                             Vol. 08, Issue 02 February
+
+
+   RSP Science Hub                                                            http://dx.doi.org/10.47392/IRJASH.2026.010
+
+
+
+ Design and Simulation Model of Implantable Wireless Neural Stimulator
+ Pooja Arunkumar Bini1, Aravinth VK2, Kezia Susan Mathew3, Rosmy Francis4, Jithin Krishnan5, Vishnu D6,
+ Anu Assis7, Sajeena8
+ 1,2,3,4
+         UG - Electronics and Communication Engineering, TKM College of Engineering, Kollam, Kerala
+ 5
+   Sree Chitra Tirunal Institute for Medical Sciences and Technology, Trivandrum
+ 6,7,8
+       Associate Professor, Electronics and Communication Engineering, TKM College of Engineering, Kollam,
+ Kerala
+ Emails:          abpooja85@gmail.com1,            vk.aravi3@gmail.com2,       kzsusanmathew@gmail.com3,
+                                 4                                      5
+ rosmyfrancis369@gmail.com ,                jithinkrishnan@sctimst.ac.in ,        vishnud2118@gmail.com6,
+ anuassis@tkmce.ac.in7 sajeena@tkmce.ac.in 8
+
+  Article history               Abstract
+  Received: 05 December 2025    Implantable wireless neural stimulators have emerged as a critical technology in
+  Accepted: 24 December 2025    modern biomedical engineering due to their ability to eliminate battery dependency
+  Published: 04 February 2026   and repeated surgical procedures. This paper presents the detailed design and
+                                LTspice simulation of an implantable wireless neural stimulator powered using
+  Keywords:                     magnetic resonant inductive wireless power transfer. Remotely powered IMDs that
+  Implantable medical           enable safer and smaller neural interfaces are especially useful to freely moving
+  devices, Wireless power       animals and human subjects. Even more so for chronic applications, since rigid
+                                tethered electrodes suffer from micromotion, which results in tissue inflammation
+  transfer, Class-E inverter,
+                                and scar formation around the electrodes. The simulation model is tailored for the
+  Neural stimulation,
+                                development of neurostimulators characterized by swift settling times, intended for
+  LTspice simulation.           applications in the treatment of conditions such as Parkinson's disease, chronic
+                                pain, epilepsy, etc. The proposed system integrates a high-efficiency buck converter,
+                                Class-E inverter, four-coil resonant wireless power transfer link, Class-E rectifier,
+                                and a monostable multivibrator-based pulse generator. The system is designed to
+                                operate at 150 kHz to achieve optimal power transfer efficiency while maintaining
+                                safe operating conditions for biological tissues. Simulation results demonstrate
+                                stable voltage regulation, efficient wireless power delivery, and reliable generation
+                                of neural stimulation pulses with a pulse width of 50 ms and amplitude of 4.77 V.
+                                The results validate the feasibility of the proposed architecture for long-term
+                                implantable neural stimulation applications.
+
+
+  1. Introduction
+Neural stimulation using implantable medical               internal batteries, which have limited lifespans and
+devices has significantly advanced the treatment of        necessitate repeated surgical replacement, increasing
+neurological disorders such as Parkinson’s disease,        both patient risk and healthcare costs [3], [4]. These
+epilepsy, spinal cord injuries, and chronic pain [1],      limitations have driven extensive research into
+[2]. Conventional implantable stimulators rely on          battery-less implantable systems powered wirelessly.
+
+  OPEN ACCESS                                                                                                    98
+Pooja Arunkumar Bini et al                                                           2026, Vol. 08, Issue 02 February
+For vagus nerve stimulators that are currently
+implanted in patients, the pulse generator contains a
+battery that powers the system. With typical
+stimulator settings, the battery life range may be as
+long as 6.6 to 10 years, but maybe as short as less
+than two years. Eventually the battery must be
+surgically replaced when it is at or near the limit of
+its lifetime. To avoid periodical surgeries, the need
+for wirelessly powered IMDs arises [5]. The various
+wireless power transfer methods include the
+inductive wireless link, capacitive wireless link,
+ultrasonic wireless link and the magnetoelectric
+wireless link [6], [7]. Each type of wireless link is
+detailed in Figure 1.                                                  Figure 1 Types of Wireless Link
+
+
+
+
+                                             Figure 2 Block Diagram
+
+Wireless power transfer (WPT) technologies                     shaping circuit and a feedback data path section.
+provide a promising solution by enabling                       This paper focuses on the complete design and
+continuous power delivery without physical                     simulation of an implantable wireless neural
+connectors. Among various WPT techniques,                      stimulator that combines efficient power conversion
+magnetic resonant inductive coupling offers high               with precise neural pulse generation. The system is
+efficiency, tolerance to misalignment, and improved            modeled and validated using LTspice, ensuring
+safety, making it highly suitable for biomedical               practical feasibility for future hardware
+implants [8]. The integration of high-efficiency               implementation.
+power electronic converters with resonant WPT                  2. Proposed System Architecture
+links further enhances system performance [9]. Fig             The proposed implantable wireless neural
+1.2 details the proposed block diagram. The                    stimulation system consists of two major units: an
+intended topology consists of an external                      external power transmission unit and an implanted
+controlling unit and an implanted functional unit.             functional unit. The external unit includes a buck
+The external controlling unit has a controller that            converter that steps down the input DC voltage and
+controls the implanted functional unit and a power             a Class-E inverter that converts the regulated DC
+unit that transmits the required power to the                  into high-frequency AC power [9],[10]. This AC
+implanted unit. The controller contains the user               power is transmitted wirelessly using a four-coil
+interface and the display unit section. The functional         magnetic resonant coupling structure. This
+unit consists of a pulse-generating circuit or a wave-         conversion is controlled by the switching period of
+
+
+ International Research Journal on Advanced Science Hub (IRJASH)                                                 99
+Design and Simulation Model of Implantable Wireless Neural Stimulator               2026, Vol. 08, Issue 02 February
+
+NMOS and the resonant circuit. The buck converter             down power transfer mechanism is taken into
+mainly consists of two parts. The primary section             account. The number of turns, the inductance value,
+comprises essential converter elements, including a           and the corresponding voltage value are related to
+switch, inductor, capacitor, and resistor. The                the below equation.
+secondary part involves the controller, which
+oversees and regulates the operation of the                   L1/L2 = (N1/N2)2 = V1/V2
+switching device. Designing of Buck converter
+includes specifying the duty cycle, the inductor              Here L1, N1 and V1 correspond to the transmitter
+value in corresponding to the inductor ripple current         side inductance, number of turns, and the voltage
+value, and finally the design of output capacitance.          across it respectively. Similarly, L2, N2 and V2
+The formulation of the design adheres to the                  correspond to the receiver side inductance, number
+following equations.                                          of turns, and the voltage value respectively.
+
+Duty cycle of switching device, 𝐷 = 𝑉 𝑜𝑢𝑡/𝑉𝑖𝑛×𝜂               The wave-shaping circuit outputs a signal that is
+Inductor Ripple Current, 𝛥𝐼𝐿 = (0.2 𝑡𝑜0.4)𝐼𝑜𝑢𝑡                used to excite the target neuron based on the
+Inductor, 𝐿 =𝑉 𝑜𝑢𝑡×(𝑉𝑖𝑛−𝑉 𝑜𝑢𝑡 )/𝛥𝐼𝐿×𝑓 𝑠×𝑉𝑖𝑛                   required specification. The shape of the signal can
+Output Capacitance, 𝐶𝑜𝑢𝑡 =𝛥𝐼𝐿/8×𝑓 𝑠×𝛥𝑉 𝑜𝑢𝑡                    be of any form, it can be sinusoidal, pulse form,
+                                                              triangular, or even impulse signal. The excitation of
+The implanted unit comprises a Class-E rectifier              neurons was primitively done by varying the
+that efficiently converts the received AC signal into         amplitude level of the output signal. Here, the pulse
+DC voltage [11] and a monostable multivibrator                shape is obtained from a monostable multivibrator,
+circuit that generates controlled stimulation pulses.         wherein the required pulse width is wirelessly
+Designing this class power converter is based on the          transmitted from the controller to the waveshaping
+desired quality factor and the frequency of operation         circuit through the inbuilt control circuit. The pulse
+or the resonant frequency.                                    width determines the triggering behavior of neurons
+                                                              and is designed based on application-specific neural
+Quality Factor, 𝑄 =𝜔𝐿/𝑅                                       excitation requirements [1], [12].
+                                                              The design equations for the monostable
+Resonant Frequency, 𝑓𝑟 = 1/2𝜋√𝐿𝐶                              multivibrator are discussed below.
+
+ The four-coil resonant structure enhances power              Pulse Width, 𝑇𝑃 = 0.693𝑅𝑇𝐶𝑇
+transfer efficiency while minimizing losses due to            𝑅4𝐶1 ≤ 0.016𝑇
+misalignment and tissue separation. In the design             𝑋𝑐 ≥ 10𝑅4
+phase of a two-coil inductive link the coupling               Base Current value, 𝐼𝐵 = (𝑉 𝑐𝑐− 𝑉 𝐵𝐸) 𝑅𝑇
+coefficient, the quality factor of the coil, and the
+load resistance need to be kept in mind. Here a step-
+
+
+
+
+                                     Figure 3 LT Spice Simulation Model
+
+
+International Research Journal on Advanced Science Hub (IRJASH)                                                 100
+Pooja Arunkumar Bini et al                                                           2026, Vol. 08, Issue 02 February
+3. Results and Discussion
+The complete system was simulated using LTspice,               simulation capabilities, and extensive library of
+a widely used electronic circuit simulation tool for           electronic components. Simulation results confirm
+analyzing power electronic and biomedical circuits             stable operation and efficient power transfer
+[13]. LTspice is a popular and widely used                     throughout the system. LTspice is widely used in
+electronic circuit simulation software developed by            academia, industry, and hobbyist communities for
+Linear Technology (now part of Analog Devices). It             circuit design, analysis, and educational purposes.
+allows engineers, researchers, and students to                 Its intuitive interface, powerful simulation
+design, simulate, and analyse electronic circuits              capabilities, and extensive documentation make it a
+before building physical prototypes. LTspice is                valuable tool for both beginners and experienced
+known for its user-friendly interface, powerful                engineers.
+
+
+
+
+                                               Figure 4 LTspice GUI
+
+The buck converter successfully reduces the input voltage from 30 V to approximately 13.95 V DC with
+minimal ripple voltage of around 6 mV [10], [14]. This stable output ensures reliable operation of the inverter
+stage.
+
+
+
+
+                                        Figure 5 Buck Converter Output
+
+
+ International Research Journal on Advanced Science Hub (IRJASH)                                               101
+Design and Simulation Model of Implantable Wireless Neural Stimulator            2026, Vol. 08, Issue 02 February
+
+The Class-E inverter operates at 150 kHz and generates a high-frequency AC output with a peak amplitude of
+13.2 V. Zero-voltage switching behavior significantly reduces switching losses, improving overall system
+efficiency [9].
+
+
+
+
+                                        Figure 6 Class E Inverter Output
+
+Figure 7, shows the wireless power transfer through the four-coil resonant link demonstrates effective energy
+delivery to the implanted receiver coil, even under moderate coupling conditions [6], [8]. The Class-E rectifier
+provides a stable DC output of 5.17 V with low ripple and fast settling time [11]. Figure 8, shows the output
+waveform generated at the receiver coil placed within the implanted unit. It was designed to reduce the voltage
+range by a factor of 3. The obtained waveform has the voltage range from 0 to 11.67 volts and frequency of
+150KHz.
+
+
+
+
+                          Figure 8 Class E Rectifier Output Receiver Coil Output
+
+Finally, the monostable multivibrator generates a stimulation pulse with a width of 50 ms and amplitude of
+4.77 V shown in Fig 1.8, which falls within acceptable neural excitation limits [1], [12], [2].
+
+
+
+
+                                     Figure 9 Multivibrator Stable Output
+
+ International Research Journal on Advanced Science Hub (IRJASH)                                             102
+Pooja Arunkumar Bini et al                                                               2026, Vol. 08, Issue 02 February
+Conclusion                                                               vol. 52, no. 4, pp. 740-743, April 2005, doi:
+This paper presented a comprehensive design and                          10.1109/TBME.2005.844050.
+simulation of an implantable wireless neural                        [3]. United States Patent Simon et al . Patent No .
+stimulator powered using magnetic resonant                               : US 10 , 363 , 419 B2 ( 45 ) ,Date ofPatent :
+inductive wireless power transfer. In this project, an                   * Jul . 30 , 2019
+effective, and thoroughly integrated system for nerve               [4]. X. Li et al., "System Design of a Closed-Loop
+stimulation is designed and simulated that                               Vagus Nerve Stimulator Comprising a
+incorporates diverse power converters, including the                     Wearable EEG Recorder and an Implantable
+Buck Converter, Class E inverter, rectifier, and a                       Pulse Generator," in IEEE Circuits and
+pulse shaping circuit. The integration of high-                          Systems Magazine, vol. 22, no. 3, pp. 22-40,
+efficiency Class-E power converters [9] and a four-                      2022
+coil resonant coupling structure enables reliable                   [5]. A. Khalifa et al., "The Microbead: A Highly
+wireless power delivery without batteries.                               Miniaturized                        Wirelessly
+Simulation results validate stable voltage regulation,                   PoweredImplantable Neural Stimulating
+efficient power transfer, and precise neural pulse                       System," in IEEE Transactions on
+generation. The proposed system demonstrates                             Biomedical Circuits and Systems, vol. 12,
+strong potential for long-term implantable                               June 2018.
+biomedical applications [15], [16].                                 [6]. Ajay Kumar Sah, “Design of Wireless Power
+ Future Scope                                                            Transfer System via Magnetic Resonant
+Future work will focus on CMOS-based                                     Coupling at 13.56MHz”, in IOE-GC
+miniaturization of the proposed system to achieve a                      Conference of Kathmandu, November –
+fully implantable microscale device [15].                                2013
+Experimental validation using tissue-equivalent                     [7]. M. Kiani, "Wireless Power Transfer and
+phantoms and in-vivo testing will be conducted to                        Management for Medical Applications," in
+assess safety and performance [7]. Further                               IEEE Solid-State Circuits Magazine, vol. 14,
+enhancements include the development of closed-                          no.         3,       pp.       41-52,Summer
+loop neural stimulation with real-time feedback [4],                     2022,doi:10.1109/MSSC.2022.3178671.
+optimization of coil geometry, and adaptive power                   [8]. Q. Wang, W. Che, M. Mongiardo and G.
+control techniques to improve efficiency while                           Monti, "Wireless Power Transfer System
+minimizing tissue heating [8]. Finally, in order to                      With High Misalignment Tolerance for Bio-
+realize truly implantable devices, wireless power                        Medical Implants," in IEEE Transactions on
+transfer is crucial to prevent repeated surgeries,                       Circuits and Systems II: Express Briefs, vol.
+disturbing the device and its surrounding tissues, and                   67, no. 12, pp. 3023-3027, Dec. 2020,
+move past the reliance on battery powered medical                        doi:10.1109/TCSII.2020.2985056.
+implants. With daily advances in research, there is                 [9]. Ratil H. Ashique 1, “An Analysis and
+potential for these novel, sophisticated implants to be                  Modeling of the Class-E Inverter for
+implemented for clinical application, to treat patients                  ZVS/ZVDS at Any Duty Ratio with High
+with neurological diseases, and provide better                           Input Ripple Current”, in Electronics, pp. 2-
+alternatives for the future [16].                                        12,         2021       ,      10,       1312;
+References                                                               https://doi.org/10.3390/electronics10111312
+   [1]. Brocker DT, Grill WM,"Principles of                        [10]. M. Gupta and S. P. Phulambrikar, “Design
+        electrical stimulation of neural tissue, " in                    and Analysis of Buck Converter”, in
+        Handbook        of     Clinical    Neurology,                    International Journal of Engineering
+        Elsevier,Volume 116,pp.3-18,2013, doi:                           Research & Technology (IJERT) IJERT
+        10.1016/B978-0-444-53497-2.00001-2.                              ISSN: 2278-0181 IJERTV3IS031844, Vol. 3
+        PMID: 24112880.                                                  Issue 3, pp. 2345-2348, March – 2014
+   [2]. S. Jezernik and M. Morari, "Energy-optimal                 [11]. Krystian Rybicki∗ , Rafa l M.
+        electrical excitation of nerve fibers," inIEEE                   Wojciechowski∗∗, “Class E current-driven
+        Transactions on Biomedical Engineering,                          rectifier for 1MHz wireless power transfer
+
+
+
+ International Research Journal on Advanced Science Hub (IRJASH)                                                   103
+Design and Simulation Model of Implantable Wireless Neural Stimulator   2026, Vol. 08, Issue 02 February
+
+       system",       Journal     of       Electrical
+       Engineering,Vol 70 , No1,58–63,2019
+ [12]. A. Wongsarnpigoon, J. P. Woock and W. M.
+       Grill, "Efficiency Analysis of Waveform
+       Shape for Electrical Excitation of Nerve
+       Fibers," in IEEE Transactions on Neural
+       Systems and Rehabilitation Engineering, vol.
+       18, no. 3, pp. 319-328, June 2010, doi:
+       10.1109/TNSRE.2010.2047610.
+ [13]. Barry W Williams, “Principles and Elements
+       of Power Electronics”, Published by Barry W
+       Williams ISBN 978-0-9553384-0-3, pp. 509-
+       575, 2006.
+ [14]. Brigitte Hauke., “Basic Calculation of a Buck
+       Converter's      Power     Stage,”      Texas
+       Instruments–December           2011–Revised
+       August 2015
+ [15]. M. N. van Dongen and W. A. Serdijn, "A
+       Power-Efficient     Multichannel       Neural
+       Stimulator Using High-Frequency Pulsed
+       Excitation from an Unfiltered Dynamic
+       Supply," in IEEE Transactions on
+       Biomedical Circuits and Systems, vol. 10, no.
+       1,    pp.    61-71,    Feb.     2016,     doi:
+       10.1109/TBCAS.2014.2363736.
+ [16]. Eve McGlynn, Vahid Nabaei, Elisa Ren,
+       Gabriel Galeote-Checa, Rupam Das, Giulia
+       Curia, Hadi Heidari “The Future of
+       Neuroscience: Flexible and Wireless
+       Implantable Neural Electronics” in advanced
+       science, Vol.8, ISSN 2198-3844, July. 2021.
+
+
+
+
+International Research Journal on Advanced Science Hub (IRJASH)                                     104
+

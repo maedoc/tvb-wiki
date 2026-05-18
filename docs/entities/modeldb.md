@@ -1,9 +1,9 @@
 ---
 created: 2026-05-06
 sources:
-- raw/papers/migliore-2006.md
-- raw/papers/potjans-diesmann-2014.md
-- raw/papers/semanticscholar-9afbfd2d37be.md
+
+
+
 tags:
 - databse
 - computational-neuroscience
@@ -11,7 +11,7 @@ tags:
 - models
 title: ModelDB
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-15'
 ---
 
 # ModelDB

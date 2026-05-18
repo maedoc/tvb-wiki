@@ -1,7 +1,7 @@
 ---
 title: Model Validation
 created: 2026-04-20
-updated: 2026-05-06
+updated: 2026-05-15
 type: concept
 tags: [whole-brain-modeling, computational-neuroscience, parameter-estimation, reproducibility, neural-mass-models, spiking-neural-networks, bifurcation-analysis]
 sources: [raw/papers/potjans-diesmann-2014.md, raw/papers/markram-2015.md]
@@ -17,7 +17,7 @@ The technical repertoire of model validation encompasses both forward validation
 
 ## Validation in the Context of Whole-Brain Simulators
 
-Several software platforms used in whole-brain modeling provide built-in or integrated validation capabilities. [[The Virtual Brain]] (TVB) includes workflows for comparing simulated regional activity patterns with empirical neuroimaging data, allowing researchers to validate whole-brain models against empirical fMRI, EEG, or MEG recordings. The [[NEST]] simulator, widely used for building spiking neural network models, has been validated against the canonical Potjans-Diesmann cortical microcircuit as a benchmark, ensuring that simulator implementations correctly reproduce expected neural dynamics[1]. Similarly, [[NEURON]] and [[Brian]] simulators have been validated against established benchmarks to ensure numerical accuracy and biophysical fidelity[2]. These validations are essential for establishing confidence that observed model behaviors arise from the model architecture rather than implementation artifacts—an important consideration given the complexity of simulating millions of coupled differential equations. Platforms like [[sciunit]] further support validation by providing automated testing frameworks for computational models in neuroscience.
+Several software platforms used in whole-brain modeling provide built-in or integrated validation capabilities. [[The Virtual Brain]] (TVB) includes workflows for comparing simulated regional activity patterns with empirical neuroimaging data, allowing researchers to validate whole-brain models against empirical fMRI, EEG, or MEG recordings. The [[NEST]] simulator, widely used for building spiking neural network models, has been validated against the canonical Potjans-Diesmann cortical microcircuit as a benchmark, ensuring that simulator implementations correctly reproduce expected neural dynamics[1]. Similarly, [[NEURON]] and [[Brian]] simulators have been validated against established benchmarks to ensure numerical accuracy and biophysical fidelity[2]. The [[teneto]] package also provides validation tools for temporal network analyses, enabling assessment of dynamic connectivity patterns. These validations are essential for establishing confidence that observed model behaviors arise from the model architecture rather than implementation artifacts—an important consideration given the complexity of simulating millions of coupled differential equations. Platforms like [[sciunit]] further support validation by providing automated testing frameworks for computational models in neuroscience.
 
 ## Open Questions and Challenges
 

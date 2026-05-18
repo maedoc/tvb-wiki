@@ -15,7 +15,7 @@ tags:
 - neuroimaging-fmri
 title: fMRI
 type: concept
-updated: '2026-05-11'
+updated: '2026-05-15'
 ---
 
 # fMRI
@@ -58,6 +58,8 @@ Several methodological challenges affect fMRI interpretation and its use in [[mo
 - [[fmri-vs-eeg|Fmri Vs Eeg]] – Comparison of fMRI and EEG methodologies
 - [[connectome]] – [[structural-connectivity]] infrastructure
 - [[whole-brain]] – Large‑scale brain modeling approaches
+
+[[gat]]
 
 ## References
 
