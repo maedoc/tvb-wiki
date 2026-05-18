@@ -13,10 +13,12 @@ tags:
 - whole-brain-modeling
 title: MOOSE
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-18'
 ---
 
 # MOOSE
+
+Linking synaptic-level perturbations to distributed brain-network dynamics remains a central challenge in [[computational-neuroscience]] and [[whole-brain-modeling]], motivating the development of intervention-capable simulation platforms that integrate individual neuroanatomy with task-evoked dynamics at neuronal scales [[raw/papers/semanticscholar-ff8218c1e55e.md|Xia et al. (2026)]]. The relationship between [[structural-connectivity]] and [[functional-connectivity]] is non-linear and organized over nested modular hierarchies, making multiscale integration difficult and driving interest in hierarchical coupling frameworks that can operate across scales simultaneously [[raw/papers/arxiv-2603.20680.md|Chen et al. (2026)]]. Bibliometric analyses of computational neuroscience research document substantial growth in publications and citations over the past two decades, with enduring themes such as neuroimaging, [[machine-learning]], and functional connectivity underscoring the field's reliance on computational methods to address brain organization [[raw/papers/semanticscholar-92f4183665f3.md|Guillén-Pujadas et al. (2025)]]. Within this multiscale modeling landscape, MOOSE (Multiscale Object-Oriented Simulation Environment) provides an open-source computational framework designed to span the spatial and temporal scales of neuronal function, from molecular signaling and cellular electrophysiology to large-scale [[network-dynamics]] and [[spiking-neural-networks|spiking network]] activity.
 
 ## Overview
 **MOOSE** (Multiscale Object-Oriented Simulation Environment) is an open-source software framework for simulating neuronal and sub-neuronal processes across multiple scales[^1]. Developed primarily at the National Centre for Biological Sciences (NCBS) in Bangalore, India[^4], MOOSE is designed to bridge spatial and temporal scales from molecular reactions to large-scale neural networks, enabling integrative simulations of brain function.
