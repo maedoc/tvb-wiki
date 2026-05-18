@@ -1,10 +1,21 @@
 ---
-title: RABIES
 created: 2026-04-20
-updated: 2026-05-18
+sources:
+- raw/papers/ritter-2013.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/huntenburg-2018.md
+tags:
+- software-brain-modeling
+- connectomics
+- structural-connectivity
+- neuroimaging-dti
+- whole-brain-modeling
+- diffusion-imaging
+- tractography
+- personalized-brain-modeling
+title: RABIES
 type: entity
-tags: [software-brain-modeling, connectomics, structural-connectivity, neuroimaging-dti, whole-brain-modeling, diffusion-imaging, tractography, personalized-brain-modeling]
-sources: [raw/papers/ritter-2013.md, raw/papers/sanz-leon-2013.md, raw/papers/huntenburg-2018.md]
+updated: '2026-05-18'
 ---
 
 RABIES (Robust Astute Segmentation of Images) is an open-source neuroimaging software for automated segmentation of brain structures from magnetic resonance imaging data. In connectome-based whole-brain-modeling workflows, tissue classifications and region-of-interest maps produced by segmentation tools serve as anatomical foundations for constructing the parcellated structural data that large-scale brain network models require [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
@@ -22,3 +33,9 @@ RABIES is not natively integrated into the TVB platform as a preprocessing adapt
 ## Related Tools
 
 RABIES occupies a methodological niche alongside tools that translate raw MRI data into segmented formats for whole-brain simulators. The [[nighres]] package provides complementary high-resolution segmentation capabilities, including the MGDM algorithm for tissue classification and the CRUISE method for extracting topologically correct cortical surfaces [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]]. Both tools output data in formats compatible with [[connectivity]] analysis packages and TVB model construction workflows [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. While Nighres targets laminar-resolution analysis and depth-dependent cortical profiling, robust automated segmentation more broadly addresses the challenge of preprocessing heterogeneous neuroimaging datasets for whole-brain modeling workflows [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]]. The availability of multiple segmentation tools facilitates downstream integration with atlases for constructing subject-specific structural connectivity matrices that parameterize personalized brain models.
+
+## References
+
+1. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.

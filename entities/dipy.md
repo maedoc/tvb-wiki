@@ -14,6 +14,7 @@ title: Dipy
 type: entity
 updated: '2026-05-18'
 ---
+
 # Dipy
 
 **Dipy** ([[diffusion-imaging]] in Python) is an open-source Python library for the analysis of [[diffusion-mri]] data. It provides tools for preprocessing, reconstruction, [[tractography]], and statistical analysis of diffusion-weighted imaging (DWI).
@@ -41,3 +42,9 @@ Dipy is a critical preprocessing tool for TVB [[connectome]] construction:
 - [[fsl]] — FSL's BEDPOSTX/PROBTRACKX is an alternative DTI pipeline
 - [[nibabel]] — Dipy depends on nibabel for [[nifti]]/[[cifti]] handling
 - [[tvb]] — imports Dipy-generated connectivity matrices
+
+## References
+
+1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+2. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+3. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)

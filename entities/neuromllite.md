@@ -1,10 +1,19 @@
 ---
-title: NeuroMLlite
 created: 2026-04-20
-updated: 2026-05-18
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software-neuroml
+- software-brain-modeling
+- spiking-neural-networks
+- whole-brain-modeling
+- connectomics
+- reproducibility
+title: NeuroMLlite
 type: entity
-tags: [software-neuroml, software-brain-modeling, spiking-neural-networks, whole-brain-modeling, connectomics, reproducibility]
-sources: [raw/papers/sanz-leon-2013.md, raw/papers/arxiv-2505.16861.md, raw/papers/semanticscholar-eb704b6f5462.md]
+updated: '2026-05-18'
 ---
 
 NeuroMLlite is a lightweight Python library that enables researchers to define [[computational-neuroscience]] models using native Python syntax and export them to the full [[neuroml2]] XML standard. It serves as a high-level, programmatic front-end to the NeuroML ecosystem, allowing users to specify [[ion-channel]] kinetics, cell membrane properties, synaptic mechanisms, and network architectures in concise Python code rather than writing verbose XML by hand. The library bridges the gap between rapid prototyping workflows familiar to Python-based neuroscientists and the standardized, simulator-independent model exchange format that [[neuroml]] provides.
@@ -22,3 +31,9 @@ Computational neuroscience has traditionally focused on such isolated scales, li
 ## Ecosystem Position
 
 NeuroMLlite sits alongside [[pyneuroml]] and [[jneuroml]] as part of the core NeuroML toolchain. Where jNeuroML serves as the Java-based reference implementation and pyNeuroML focuses on parsing and simulation, NeuroMLlite acts as a front-end compiler that converts Python model definitions into standards-compliant NeuroML 2 for consumption by downstream tools and simulators such as [[neuron]], [[nest]], and [[brian2]]. This construction-oriented workflow supports [[reproducibility]] in [[spiking-neural-networks]] research and enables sharing via community platforms such as [[open-source-brain]], while providing the cellular-level detail that enriches [[connectome]]-based simulations and multiscale modeling pipelines.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

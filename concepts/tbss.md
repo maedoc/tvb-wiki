@@ -15,6 +15,7 @@ title: TBSS
 type: concept
 updated: '2026-05-18'
 ---
+
 # TBSS (Tract-Based Spatial Statistics)
 
 **TBSS** is a voxel-wise analysis pipeline for [[diffusion-mri]] data that projects [[fractional-anisotropy]] (FA) and other DTI-derived metrics onto a common “skeleton” of white-matter tracts, enabling robust cross-subject statistical comparison without full [[tractography]].
@@ -77,3 +78,10 @@ Done. Here's what changed:
 - Added 10 wikilinks to existing pages: `diffusion-mri`, `tractography`, `hcp-dataset`, `fractional-anisotropy`, `fsl`, `fsl-randomise`, `palm`, `neuroimaging`, `white-matter`, `structural-connectivity`
 - Bumped `updated` date to `2026-05-18` in YAML frontmatter
 - Logged the action in `log.md`
+
+## References
+
+1. Chunxia Yang, Jiaxin Han, N. Sun, Penghong Liu, Kerang Zhang, Aixia Zhang, Zhifen Liu. (2025). *Identifying neurobiological markers as predictors of antidepressant treatment using diffusion tensor imaging: A tract-based spatial statistical analysis of cingulate bundle*. CNS Spectrums. [DOI](https://doi.org/10.1017/S1092852925000252)
+2. (authors unknown). *Permutation inference for the general linear model*.
+3. Fan Zhang, Jarrett Rushmore, Yijie Li, S. Cetin-Karayumak, Yang Song, Weidong Cai, C. Westin, J. Levitt, N. Makris, Y. Rathi, Lauren J. O’Donnell. (2025). *Study of Sex Differences in the Whole Brain White Matter Using Diffusion MRI Tractography and Suprathreshold Fiber Cluster Statistics*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.27.679006)
+4. Nina Baldy, P. Triebkorn, S. Petkoski, Meysam Hashemi, V. Jirsa. (2026). *Normative Modeling of Static and Dynamic Functional Connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.04.03.716292)

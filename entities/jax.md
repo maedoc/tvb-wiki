@@ -16,6 +16,7 @@ title: JAX
 type: entity
 updated: '2026-05-18'
 ---
+
 # JAX
 
 **JAX** is a high-performance numerical computing library that combines Autograd (automatic differentiation) and XLA (Accelerated [[linear]] Algebra). Developed by Google, JAX enables composable transformations of Python/NumPy functions: automatic differentiation, vectorisation via `vmap`, parallelisation via `pmap`, and just-in-time compilation to GPU/TPU via `jit`.
@@ -52,3 +53,11 @@ The Virtual Brain Ontology (TVB-O) treats JAX as a simulation platform alongside
 - [[brainpy]] — [[brain-dynamics]] simulation framework built on JAX
 - [[open-source-brain]] — TVB platform (future JAX integration planned)
 - [[machine-learning]] — general ML concepts and tools
+
+## References
+
+1. Alexander Reeves, Pierre Zhang, Henry Zheng. (2025). *PyBird-JAX: Accelerated inference in large-scale structure with model-independent emulation of one-loop galaxy power spectra*. Journal of Cosmology and Astroparticle Physics. [DOI](https://doi.org/10.1088/1475-7516/2026/02/016)
+2. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+3. Yongjian Wang, Ching‐Yao Lai. (2025). *DIFFICE-jax: Differentiable neural-network solver for data assimilation of ice shelves in JAX*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.07254)
+4. Eric C. Cyr, Jens Hahne, Nicholas S. Moore, Jacob B. Schroder, Ben S. Southworth, David A. Vargas. (2025). *TorchBraid: High-Performance Layer-Parallel Training of Deep Neural Networks with MPI and GPU Acceleration*. ACM Transactions on Mathematical Software. [DOI](https://doi.org/10.1145/3759244)
+5. Deistler, Michael and Kadhim, Kyra L and Pals, Matthijs and Beck, Jonas and Huang, Ziwei and Gloeckler, Manuel and Lappalainen, Janne K and Schröder, Cornelius and Berens, Philipp and Goncalves, Pedro J and Macke, Jakob H. *Jaxley: differentiable simulation enables large-scale training of detailed biophysical models of neural dynamics*. Nature Methods. [DOI](https://doi.org/10.1038/s41592-025-02895-w)

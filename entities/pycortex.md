@@ -1,18 +1,18 @@
 ---
-title: PyCortex
 created: 2026-04-20
-updated: 2026-05-18
-type: entity
-tags:
-  - software-visualization
-  - neuroimaging-fmri
-  - connectomics
-  - functional-connectivity
-  - structural-connectivity
-  - whole-brain-modeling
 sources:
-  - raw/papers/sanz-leon-2013.md
-  - raw/papers/ritter-2013.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+tags:
+- software-visualization
+- neuroimaging-fmri
+- connectomics
+- functional-connectivity
+- structural-connectivity
+- whole-brain-modeling
+title: PyCortex
+type: entity
+updated: '2026-05-18'
 ---
 
 PyCortex is a Python library for the visualization and manipulation of cortical surface data in human [[neuroimaging]]. It renders statistical maps, time series, and parcellated results directly on inflated or flattened cortical meshes, emphasizing vertex-level spatial precision over volume-based resampling. The library is designed for researchers who require pixel-accurate, publication-quality surface figures that retain the topological geometry of the cortical sheet.
@@ -28,3 +28,8 @@ TVB integrates computational modeling and multimodal neuroimaging by translating
 ## Position in the Visualization Ecosystem
 
 PyCortex occupies a specialized niche alongside broader neuroimaging visualization tools. For volume-based inspection, [[fsl]] remains the standard; for alternative surface exploration, [[pysurfer]] provides comparable vertex-level rendering with a different API philosophy; and [[connectome-workbench]] serves as the official HCP viewer with native CIFTI interaction. PyCortex distinguishes itself through programmatic Python-level control and superior static figure generation, making it particularly valuable when reproducible publication-ready surface maps are required. It is commonly used to display high-resolution [[resting-state]] functional connectivity patterns, task-based statistical contrasts, and simulation-derived activity on the cortical surface within whole-brain modeling pipelines.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

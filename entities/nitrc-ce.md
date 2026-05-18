@@ -14,8 +14,9 @@ tags:
 - neuroimaging-dti
 title: NITRC-CE
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
+
 NITRC-CE ([[neuroimaging]] Tools and Resources Collaboratory – Computational Environment) was a cloud-based computing platform developed to address the computational challenges faced by neuroimaging researchers. It provided a web-based interface through which users could execute neuroimaging analysis pipelines without requiring extensive local computational resources or technical expertise in high-performance computing. The platform was offered as part of the broader NITRC ecosystem, which also includes the NITRC resource repository and [[nitrc]] itself as the original resource discovery platform.
 
 ## Motivation and Context
@@ -38,3 +39,9 @@ NITRC-CE existed within an ecosystem of cloud-based neuroimaging solutions, each
 Neuroimaging analysis increasingly relies on unified software environments that integrate diverse tools into accessible, pre-configured systems. The community-oriented, open-source Neurodesk platform provides a browser-accessible virtual desktop together with command-line and computational notebook interfaces, giving users access to over one hundred neuroimaging tools—including FSL, [[freesurfer]], [[afni]], [[mrtrix3-connectome|MRtrix3]], and [[eeg]]-oriented analysis suites—through containerized deployment that eliminates differences across computing environments. [[raw/papers/Renton2024.md|Renton et al. (2024)]] Because neuroimaging research requires purpose-built analysis software that is challenging to install and may produce different results across computing environments, such unified platforms have become essential for reproducible science. [[raw/papers/Renton2024.md|Renton et al. (2024)]] Empirical benchmarking has demonstrated that containerized analysis produces consistent results across personal workstations, high-performance clusters, and cloud infrastructure, whereas locally installed versions of the same tools can yield meaningful differences in outputs such as [[fMRI]] preprocessing pipelines. [[raw/papers/Renton2024.md|Renton et al. (2024)]]
 
 Beyond general-purpose suites, specialized pipelines have adopted analogous integration strategies for targeted applications. The open-source TI-Toolbox for temporal interference stimulation research unifies established neuroimaging packages—specifically [[freesurfer]], SimNIBS, and dcm2niix—into an end-to-end workflow spanning structural MRI preprocessing, volume conduction modeling, montage optimization, electric field simulation, and region-of-interest analysis. [[raw/papers/semanticscholar-f45e6044c92f.md|Haber et al. (2026)]] Like broader containerized platforms, this toolset employs Docker to ensure cross-platform compatibility and reproducibility across operating systems, and it provides both graphical and command-line interfaces so that standardized workflows remain accessible across user expertise levels. [[raw/papers/semanticscholar-a324c47ea982.md|Haber et al. (2025)]] Its empirical validation further supports the utility of integrated software environments for individualized modeling and exposure assessment in [[brain-stimulation]] research. [[raw/papers/semanticscholar-f45e6044c92f.md|Haber et al. (2026)]]
+
+## References
+
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

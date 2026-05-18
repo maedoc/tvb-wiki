@@ -1,10 +1,20 @@
 ---
-title: dcm2niix
 created: 2026-04-28
-updated: 2026-05-18
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/basser-1994.md
+tags:
+- software-brain-modeling
+- neuroimaging-dti
+- neuroimaging-fmri
+- diffusion-imaging
+- tractography
+- structural-connectivity
+- whole-brain-modeling
+title: dcm2niix
 type: entity
-tags: [software-brain-modeling, neuroimaging-dti, neuroimaging-fmri, diffusion-imaging, tractography, structural-connectivity, whole-brain-modeling]
-sources: [raw/papers/sanz-leon-2013.md, raw/papers/semanticscholar-f45e6044c92f.md, raw/papers/basser-1994.md]
+updated: '2026-05-18'
 ---
 
 dcm2niix is an open-source command-line utility for converting medical imaging data from DICOM format to NIfTI. In the computational neuroscience ecosystem, it functions as an established neuroimaging tool that performs the DICOM conversion step required for downstream preprocessing pipelines. [[raw/papers/semanticscholar-f45e6044c92f|Haber et al. (2026)]] describe how TI-Toolbox integrates dcm2niix alongside SimNIBS and FreeSurfer within an end-to-end workflow that encompasses structural MRI preprocessing, volume conduction modeling, and analysis, illustrating its role as a foundational component in research pipelines for neuroimaging and non-invasive brain stimulation studies.
@@ -24,3 +34,9 @@ Although dcm2niix is not specific to [[the-virtual-brain]], it occupies a critic
 ## Ecosystem Integration
 
 dcm2niix integrates with the broader [[bids]] data organization ecosystem and is employed by conversion utilities that structure scanner output into standardized layouts. For quality assessment, researchers apply tools such as [[mriqc]] to the converted volumes, while subsequent functional preprocessing may be performed by platforms like [[fsl-melodic]]. Visualization of converted data can be carried out using [[3d-slicer]] or related viewers. For diffusion acquisitions specifically, the converted NIfTI files feed tractography pipelines such as [[mrtrix3-connectome]], whose outputs directly inform the anatomical connectivity constraints used in [[the-virtual-brain]] and related whole-brain modeling frameworks.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+3. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.

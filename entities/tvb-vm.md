@@ -12,8 +12,9 @@ tags:
 - software-modeling
 title: TVB-VM
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-18'
 ---
+
 TVB-VM (The Virtual Brain Virtual Machine) is a pre-configured virtual appliance that packages the complete [[the-virtual-brain]] software stack along with all necessary [[neuroimaging]] preprocessing dependencies in a single, ready-to-run environment. Originally developed to lower the barrier to entry for new users, TVB-VM provides a turnkey solution for [[whole-brain|whole-brain modeling]] that eliminates the complex software installation process traditionally associated with [[computational-neuroscience]] toolkits.
 
 ## Overview
@@ -43,3 +44,9 @@ The static, all-in-one bundling strategy that gives TVB-VM its turnkey reliabili
 TVB-VM relates to several other software deployment approaches in the TVB ecosystem. The [[tvb]] project provides containerized deployments offering similar convenience with reduced resource overhead. For users preferring native installations, [[tvb-library]] and [[tvb-rest]] provide programmatic APIs. The virtual machine also complements [[tvb-adapters]] by providing the execution environment needed to run simulations with various neural simulator backends including [[nest]] and [[brian2]].
 
 TVB-VM integrates with the broader neuroimaging ecosystem through its bundled tools. [[connectome-workbench]] enables visualization of connectivity data in CIFTI format, while [[freesurfer]] provides the cortical segmentation needed for many TVB parcellation workflows. The combination of these tools within a single environment makes TVB-VM particularly valuable for researchers working across multiple neuroimaging modalities including [[neuroimaging-fmri]], [[neuroimaging-meg]], and [[neuroimaging-eeg]].
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)
+3. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

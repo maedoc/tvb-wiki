@@ -1,8 +1,10 @@
 ---
-title: Clinica
 created: 2024-01-15
-updated: 2026-05-18
-type: entity
+sources:
+- raw/papers/schirner-2018.md
+- raw/papers/glasser-2013.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-d6e43299345d.md
 tags:
 - software-brain-modeling
 - whole-brain-modeling
@@ -17,11 +19,9 @@ tags:
 - database-hcp
 - database-uk-biobank
 - connectomics
-sources:
-- raw/papers/schirner-2018.md
-- raw/papers/glasser-2013.md
-- raw/papers/semanticscholar-4d73a30d5c84.md
-- raw/papers/semanticscholar-d6e43299345d.md
+title: Clinica
+type: entity
+updated: '2026-05-18'
 ---
 
 Clinica is an open-source software platform developed by the Aramis team at Inria for clinical neuroimaging data processing and analysis. The platform integrates established neuroimaging processing tools into standardized, reproducible pipelines that adhere to the [[bids]] specification, providing researchers with a unified command-line interface for processing structural, functional, and molecular imaging data consistently across studies.
@@ -41,3 +41,10 @@ Although Clinica focuses on preprocessing and biomarker extraction rather than b
 ## Related Software
 
 Clinica occupies a specialized position in the neuroimaging software ecosystem alongside workflow engines such as [[nipype]] and graph-theoretic analysis tools such as the [[brain-connectivity-toolbox]]. Unlike general-purpose pipeline managers, Clinica emphasizes clinical study requirements and tight BIDS integration. [[raw/papers/semanticscholar-d6e43299345d.md|Dehsarvi et al. (2025)]] described ADprep as a similar containerized, fully automated neuroimaging toolbox that works on BIDS-formatted data and was developed in Nipype, generating standardized outputs for multimodal MRI and PET analyses. [[raw/papers/glasser-2013.md|Glasser et al. (2013)]] established the HCP minimal preprocessing pipelines that similarly emphasize standardization across large cohorts. [[raw/papers/semanticscholar-4d73a30d5c84.md|Wang et al. (2026)]] further advanced multi-echo fMRI preprocessing frameworks that complement the broader landscape of standardized neuroimaging pipelines. Its outputs interface with specialized clinical software such as [[lead-dbs]] for deep brain stimulation planning, and the processed connectomes it generates complement these broader preprocessing landscapes established by large-scale neuroimaging initiatives.
+
+## References
+
+1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+2. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
+3. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
+4. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

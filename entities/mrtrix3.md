@@ -11,8 +11,9 @@ tags:
 - image-processing
 title: MRtrix3
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
+
 # MRtrix3
 
 **MRtrix3** is an open-source software suite for [[diffusion-mri]] analysis, with particular emphasis on [[tractography]] and [[connectome]] construction. It provides a comprehensive set of tools for processing, analyzing, and visualizing diffusion-weighted imaging data.
@@ -44,3 +45,9 @@ MRtrix3 is a premier tool for TVB [[connectivity]] preparation:
 - [[dipy]] — Python-based alternative with complementary algorithms
 - [[freesurfer]] — parcellation input for MRtrix3 connectomes
 - [[tvb]] — uses MRtrix3 connectomes for [[whole-brain]] simulation
+
+## References
+
+1. Quynh Lê, Arichena Manmatharayan, Mashaal Syed, Ki-Sang Kang, Tsao‐Wei Liang, Mahdi Alizadeh, Chengyuan Wu. (2026). *Structural and Functional Connectivity in Parkinson's Disease Patients With Freezing of Gait and Other Gait Disturbances*. Clinical Neuroimaging. [DOI](https://doi.org/10.1002/neo2.70042)
+2. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.

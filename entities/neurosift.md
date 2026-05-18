@@ -13,8 +13,9 @@ tags:
 - database-neurovault
 title: Neurosift
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
+
 Neurosift is a web-based [[neuroimaging]] data visualization and analysis platform that runs directly in modern web browsers without requiring local software installation. Originally developed by Jeremy Moreau with ongoing support from the NeuroVault team, Neurosift provides interactive exploration of volumetric ([[nifti]]), surface-based ([[cifti]]/Gifti), and dense [[connectivity]] data, making it particularly valuable for [[whole-brain|whole-brain modeling]] workflows where researchers need to inspect structural connectivity matrices, functional connectivity maps, and simulation outputs.
 
 ## Overview
@@ -45,3 +46,9 @@ Neurosift occupies a specific niche in the neuroimaging visualization landscape,
 Neurosift was formally introduced by [[raw/papers/joss-06590.md|Magland et al. (2024)]] in the *Journal of Open Source Software* as a browser-based tool for the visualization of neuroscience data, with a focus on NWB (Neurodata Without Borders) files and [[dandi]] archive exploration. [[raw/papers/joss-06590.md|Magland et al. (2024)]] published the work in volume 9, issue 97 of JOSS, documenting the software's architecture and its application to neurophysiological dataset visualization. The title and abstract of [[raw/papers/joss-06590.md|Magland et al. (2024)]] emphasize that the tool renders complex datasets within standard web browsers.
 
 This tool occupies a complementary position alongside established platforms in the whole-brain modeling and connectivity analysis literature. [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] presented [[the-virtual-brain|TVB]] as a simulator of primate brain network dynamics, and [[raw/papers/mijalkov-2017-braph.md|Mijalkov et al. (2017)]] developed BRAPH as a pipeline for brain connectivity analysis. [[raw/papers/joss-06590.md|Magland et al. (2024)]] designed Neurosift for interactive, browser-based visualization of neuroscience datasets, complementing these simulation and analysis platforms.
+
+## References
+
+1. (authors unknown). *Neurosift: DANDI exploration and NWB visualization in the browser*.
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.

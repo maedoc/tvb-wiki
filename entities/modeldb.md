@@ -1,8 +1,7 @@
 ---
-title: ModelDB
 created: 2026-05-06
-updated: 2026-05-18
-type: entity
+sources:
+- raw/papers/migliore-2006.md
 tags:
 - software-modeldb
 - reproducibility
@@ -13,8 +12,9 @@ tags:
 - software-brian
 - software-neuroml
 - connectomics
-sources:
-- raw/papers/migliore-2006.md
+title: ModelDB
+type: entity
+updated: '2026-05-18'
 ---
 
 # ModelDB
@@ -28,3 +28,7 @@ Each model entry carries structured metadata describing the model architecture, 
 ModelDB occupies a central node in the broader ecosystem of neuroscience simulators and standards. The repository leverages [[neuroml]] as a standardized model description format that promotes interoperability across disparate simulation environments, while its cross-referencing with PubMed establishes a bibliographic layer anchoring validated biophysical implementations within the literature. Detailed circuit models archived in the database demonstrate parameter ranges for equations that are later simplified in population-level formulations, while documented parameters from [[spiking-neural-networks]] constrain the derivation of mean-field approximations used in [[whole-brain-modeling]] simulations. Within the broader [[connectomics]] landscape, ModelDB serves as a foundational layer for comparing large-scale predictions against independently verified network architectures.
 
 For [[the-virtual-brain]] (TVB), ModelDB provides a bridge between microscale biophysics and macroscale [[brain-network]] dynamics. Implementations of the [[jansen-rit-model|Jansen-Rit model]] available through ModelDB establish biophysically grounded parameter ranges that inform TVB's [[neural-mass-models|neural mass model]] formulations, while documented spiking network parameters constrain the derivation of population-level equations employed in TVB simulations. Because ModelDB entries preserve the exact code and parameters from peer-reviewed publications, TVB researchers can validate whole-brain predictions against independently verified network architectures and trace the biophysical origins of the simplified dynamical systems that drive connectome-based simulations.
+
+## References
+
+1. Migliore et al. (2006). *ModelDB: making models publicly accessible to support computational neuroscience*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-006-0002-7)
