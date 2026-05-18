@@ -16,7 +16,6 @@ title: JAX
 type: entity
 updated: '2026-05-18'
 ---
-
 # JAX
 
 **JAX** is a high-performance numerical computing library that combines Autograd (automatic differentiation) and XLA (Accelerated [[linear]] Algebra). Developed by Google, JAX enables composable transformations of Python/NumPy functions: automatic differentiation, vectorisation via `vmap`, parallelisation via `pmap`, and just-in-time compilation to GPU/TPU via `jit`.
@@ -47,17 +46,9 @@ JAX intersects with TVB in three main ways:
 | **`pmap`** | Parallel evaluation across multiple devices |
 
 ## Software
-
-- Website: https://github.com/google/jax
-- Documentation: https://jax.readthedocs.io/
-- Install: `pip install jax jaxlib` (CPU); follow Google Cloud TPU or NVIDIA GPU instructions for accelerators
-
+The Virtual Brain Ontology (TVB-O) treats JAX as a simulation platform alongside [[the-virtual-brain]] and Julia, generating executable simulation code and exporting FAIR metadata and provenance-aware reports from model specifications [[raw/papers/semanticscholar-9afbfd2d37be.md|Martin et al. (2025)]]. [[raw/papers/semanticscholar-39decd6e7d9f.md|Wang & Lai (2025)]] distribute DIFFICE-jax as a user-friendly [[python]] library written in JAX, providing tutorial examples with Colab notebooks so users at different levels can reproduce the results and modify the code for their specific problems of interest [[raw/papers/semanticscholar-39decd6e7d9f.md|Wang & Lai (2025)]]. [[raw/papers/arxiv-2507.20990.md|Reeves et al. (2025)]] distribute PyBird-JAX as a differentiable implementation that supports Fisher forecasting, Taylor expansion of model predictions, and gradient-based searches through automatic differentiation, interfacing with a variety of samplers and Boltzmann solvers to provide a high-performance inference pipeline that achieves one-loop galaxy power spectrum predictions in 1.2 ms on CPU and 0.2 ms on GPU—three to four orders of magnitude faster than the original PyBird [[raw/papers/arxiv-2507.20990.md|Reeves et al. (2025)]]. Taken together, these three projects demonstrate that JAX supports differentiable, high-performance computing across cosmology, glaciology, and brain network modeling alike [[raw/papers/arxiv-2507.20990.md|Reeves et al. (2025)]][[raw/papers/semanticscholar-39decd6e7d9f.md|Wang & Lai (2025)]][[raw/papers/semanticscholar-9afbfd2d37be.md|Martin et al. (2025)]].
 ## Related
 
 - [[brainpy]] — [[brain-dynamics]] simulation framework built on JAX
 - [[open-source-brain]] — TVB platform (future JAX integration planned)
 - [[machine-learning]] — general ML concepts and tools
-
-## References
-
-- Bradbury et al. (2018) — JAX: composable transformations of Python+NumPy programs. https://github.com/google/jax

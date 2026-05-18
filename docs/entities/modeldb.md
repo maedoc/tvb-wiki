@@ -1,46 +1,30 @@
 ---
-created: 2026-05-06
-sources:
-
-
-
-tags:
-- databse
-- computational-neuroscience
-- spiking-neural-networks
-- models
 title: ModelDB
+created: 2026-05-06
+updated: 2026-05-18
 type: entity
-updated: '2026-05-15'
+tags:
+- software-modeldb
+- reproducibility
+- spiking-neural-networks
+- whole-brain-modeling
+- neural-mass-models
+- software-neuron
+- software-brian
+- software-neuroml
+- connectomics
+sources:
+- raw/papers/migliore-2006.md
 ---
 
 # ModelDB
 
-**ModelDB** is a curated, web-accessible repository for computational neuroscience models, established to address the growing need for reproducible, shareable model implementations in the field. Originally focused on [[neuron|NEURON]]-based simulations, the database has expanded to host models across multiple simulators including [[brian2]], [[genesis]], and [[netm]], making it a heterogeneous archive of neural dynamics implementations. Each model entry in ModelDB is linked to its corresponding peer-reviewed publication, providing runnable source code alongside metadata that describes the model's architecture, parameters, and computational requirements. The database provides a submission interface accessible to non-programmers, lowering barriers for authors to share their computational work, and integrates with PubMed and other bibliographic resources to establish clear provenance chains from code to citation. Over the years, ModelDB has grown to host thousands of models spanning single-neuron biophysics, network-level simulations, and simplified population models, becoming an essential infrastructure for reproducibility in [[computational-neuroscience]]. The database also integrates with [[open-source-brain]] (OSB) to provide web-based simulation capabilities, allowing researchers to run models directly in the browser without local software installation.
+**ModelDB** is a curated, web-accessible repository for computational neuroscience models that links published, peer-reviewed research to its corresponding runnable source code. Originally launched with a focus on [[neuron|NEURON]] simulations, the database has since grown into a heterogeneous archive spanning multiple platforms including [[brian2]], [[genesis]], and [[nest]], hosting thousands of models that range from detailed single-neuron biophysics to network-level dynamics and simplified population representations. [[raw/papers/migliore-2006.md|Migliore et al. (2003)]]
 
-## Overview
+The need for ModelDB arose from a growing recognition within the computational neuroscience community that reproducibility depends on whether other researchers can execute, inspect, and extend a model after publication. Before curated repositories became common, model implementations were typically distributed through personal websites or lost entirely after a paper appeared, creating a widening gap between published scientific claims and verifiable code. ModelDB addresses this by requiring that every deposited model be tied directly to its originating peer-reviewed publication, thereby establishing an unbroken provenance chain from citation to executable source. [[raw/papers/migliore-2006.md|Migliore et al. (2003)]] The repository integrates with PubMed and other bibliographic databases so users can navigate between a paper's description of model behavior and the underlying implementation files, while a submission interface designed for non-programmers lowers the barrier for authors to archive their work without requiring expertise in version control or web deployment.
 
-ModelDB hosts thousands of models with:
-- Source code (often in multiple languages)
-- Model metadata and descriptions
-- Links to original publications
-- Web-based simulation via OSB ([[open-source-brain]]) integration
+Each model entry carries structured metadata describing the model architecture, parameter sets, and computational requirements, alongside source code that is typically packaged to run with minimal configuration. Over time the collection has expanded to encompass implementations expressed in hoc, Python, C++, and Matlab, reflecting the diverse tooling landscape of the field. The database also integrates with [[open-source-brain]] (OSB) to furnish web-based simulation capabilities, enabling researchers to execute certain models directly in a browser without local installation—an arrangement that supports reproducible modeling independent of any single software stack. [[raw/papers/migliore-2006.md|Migliore et al. (2003)]]
 
-## Relationship to TVB
+ModelDB occupies a central node in the broader ecosystem of neuroscience simulators and standards. The repository leverages [[neuroml]] as a standardized model description format that promotes interoperability across disparate simulation environments, while its cross-referencing with PubMed establishes a bibliographic layer anchoring validated biophysical implementations within the literature. Detailed circuit models archived in the database demonstrate parameter ranges for equations that are later simplified in population-level formulations, while documented parameters from [[spiking-neural-networks]] constrain the derivation of mean-field approximations used in [[whole-brain-modeling]] simulations. Within the broader [[connectomics]] landscape, ModelDB serves as a foundational layer for comparing large-scale predictions against independently verified network architectures.
 
-ModelDB provides reference implementations of neural dynamics models that inform TVB's [[neural-mass-models|neural mass model]] choices:
-- [[Jansen-Rit model|[[jansen-rit]]-model]] implementations on ModelDB demonstrate biophysical parameter ranges
-- Spiking model parameters in ModelDB constrain the derivation of TVB's population-level equations
-- The database serves as a ground-truth source for comparing TVB model predictions against validated published models
-
-## Related
-
-- [[neuroml]] — standardized model description format used in ModelDB
-- [[the-virtual-brain]] — [[whole-brain]] simulation framework
-- osb — Open Source Brain integration with ModelDB
-
-## References
-
-1. Migliore et al. (2006). *ModelDB: making models publicly accessible to support [[computational-neuroscience]]*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-006-0002-7))
-2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358))
-3. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *[[tvb|The Virtual Brain]] Ontology: A Digital Knowledge Framework for Reproducible [[brain-network]] Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211))
+For [[the-virtual-brain]] (TVB), ModelDB provides a bridge between microscale biophysics and macroscale [[brain-network]] dynamics. Implementations of the [[jansen-rit-model|Jansen-Rit model]] available through ModelDB establish biophysically grounded parameter ranges that inform TVB's [[neural-mass-models|neural mass model]] formulations, while documented spiking network parameters constrain the derivation of population-level equations employed in TVB simulations. Because ModelDB entries preserve the exact code and parameters from peer-reviewed publications, TVB researchers can validate whole-brain predictions against independently verified network architectures and trace the biophysical origins of the simplified dynamical systems that drive connectome-based simulations.

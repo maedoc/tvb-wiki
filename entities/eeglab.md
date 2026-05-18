@@ -11,10 +11,10 @@ tags:
 - software-eeglab
 title: EEGLAB
 type: entity
-updated: '2026-05-07'
+updated: '2026-05-18'
 ---
 
-EEGLAB (eeglab) is a open-source MATLAB environment for processing and analyzing electroencephalographic (EEG) and magnetoencephalographic (MEG) data.
+EEGLAB is a neuroimaging platform for electroencephalography (EEG) and magnetoencephalography (MEG) data analysis, interoperating with Brainstorm and FieldTrip within the [[neuroimaging-eeg]] and [[neuroimaging-meg]] software ecosystem [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. As a cornerstone environment in [[computational-neuroscience]] workflows, it processes empirical electrophysiological recordings that serve as inputs to larger modeling and simulation frameworks. MLE-Toolbox, a comprehensive open-source MATLAB toolbox for end-to-end MEG/EEG analysis inspired by widely used neuroimaging platforms, provides native interoperability with EEGLAB alongside Brainstorm and FieldTrip, allowing researchers to build on established workflows while incorporating automated artifact rejection, source localization, and network analysis methods [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. In [[connectome]]-based whole-brain modeling, EEG and MEG signals furnish the empirical data that simulation platforms such as [[the-virtual-brain]] seek to reproduce through forward models, enabling direct comparison between simulated and observed brain activity [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. This interplay between empirical electrophysiological analysis and computational simulation positions EEGLAB as a node in the toolchain linking recorded brain dynamics to network-level modeling.
 
 ## Key Features
 

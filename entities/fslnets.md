@@ -1,9 +1,6 @@
 ---
 created: 2026-05-13
 sources:
-- raw/papers/smith2011nets.md
-- raw/papers/smith2012future.md
-- raw/papers/smith2013connectomics.md
 - raw/papers/anticevic-2012.md
 tags:
 - software-brain-modeling

@@ -360,7 +360,32 @@
 - [[Xtract]] – XTRACT (Cross-species [[tractography]] Analysis) is a standardized, fully automated tractography pipeline developed with...
 - [[Yasa]] – YASA (Yet Another Spindle Algorithm) is an open-source Python toolbox designed for automated analysis of polysomnographi...
 - [[Yeo Atlas]] – The Yeo Atlas is a widely-used whole-cortex [[parcellation]] derived from resting-state functional [[connectivity]] MRI ...
-
+- [[ Allen SDK| Allen Sdk]]
+- [[afni|Afni]]
+- [[bids-derivatives|Bids Derivatives]]
+- [[bidskit|Bidskit]]
+- [[bluepyopt|Bluepyopt]]
+- [[brainstat|Brainstat]]
+- [[connectome-mapper-3|Connectome Mapper 3]]
+- [[cosmomvpa|Cosmomvpa]]
+- [[dipy|Dipy]]
+- [[flax|Flax]]
+- [[hcp-dataset|Hcp Dataset]]
+- [[hd-bet|Hd Bet]]
+- [[limo|Limo]]
+- [[mne-python|Mne Python]]
+- [[neuroconv|Neuroconv]]
+- [[neurodata-without-borders|Neurodata Without Borders]]
+- [[opencortex|Opencortex]]
+- [[pycelosim|Pycelosim]]
+- [[pydstool|Pydstool]]
+- [[surfstat|Surfstat]]
+- [[teneto|Teneto]]
+- [[the-virtual-epileptic-brain|The Virtual Epileptic Brain]]
+- [[tractoflow|Tractoflow]]
+- [[tvb-library|Tvb Library]]
+- [[tvb-multiscale|Tvb Multiscale]]
+- [[tvb-webui|Tvb Webui]]
 ## Concepts
 <!-- concepts -->
 - [[Adaptive Exponential Integrate And Fire]] – The Adaptive Exponential Integrate-and-Fire (AdEx) model is a [[spiking-neural-networks]] that combines a membrane poten...
@@ -522,7 +547,13 @@
 - [[Wong Wang]] – The **Wong-Wang model** is a reduced [[neural-mass-models|neural mass model]] that describes the dynamics of recurrent c...
 - [[Xcos]] – XCOS (Extended COrdinate System) refers to a standardized framework for representing and transforming electroencephalogr...
 - [[Zerlaut]] – The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective act...
-
+- [[andronov-hopf-bifurcation|Andronov Hopf Bifurcation]]
+- [[ion-channel|Ion Channel]]
+- [[karl-j-friston|Karl J Friston]]
+- [[scale-free-networks|Scale Free Networks]]
+- [[small-world-networks|Small World Networks]]
+- [[tournier19|Tournier19]]
+- [[variational-bayes|Variational Bayes]]
 ## Comparisons
 <!-- comparisons -->
 - [[Connectivity Types]] – Three distinct but related concepts for describing brain [[connectivity]], each capturing different aspects of how brain...
@@ -533,3 +564,4 @@
 - [[Resting State Vs Task Fmri]] – [[resting-state]] and task-based [[fmri]] are the two dominant paradigms for studying brain function with [[bold-signal|...
 - [[Tvb Vs Nest Vs Neuron]] – Comparison of major [[neural-simulation]] platforms for [[whole-brain]] modeling and spiking network simulations.
 - [[Whole Brain Simulators]] – Landscape of computational tools for simulating whole-[[brain-dynamics]] at scale, serving computational neuroscience re...
+- [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]

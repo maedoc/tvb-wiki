@@ -1,7 +1,6 @@
 ---
 created: 2025-07-20
 sources:
-- raw/papers/hebart-2015-decoding-toolbox.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/winkler-2014-palm.md

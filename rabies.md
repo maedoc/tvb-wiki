@@ -1,7 +1,7 @@
 ---
 title: RABIES
 created: 2025-01-15
-updated: 2026-05-13
+updated: 2026-05-18
 type: entity
 tags: [software-brain-modeling, neuroimaging-fmri, structural-connectivity, personalized-brain-modeling, alzheimers-modeling]
 sources: [raw/papers/ritter-2013.md, raw/papers/sanz-leon-2013.md, raw/papers/huntenburg-2018.md]
@@ -21,10 +21,10 @@ RABIES outputs results in standard NIfTI format, facilitating integration with d
 
 ## Relationship to TVB
 
-RABIES is not directly integrated into [[the-virtual-brain]] (TVB), but it occupies a complementary position in the TVB ecosystem. TVB constructs personalized [[whole-brain-modeling]] simulations by coupling [[neural-mass-models]] with subject-specific [[structural-connectivity]] data derived from diffusion MRI tractography [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The integration of multimodal neuroimaging data — spanning structural, functional, and diffusion modalities — is central to TVB's methodology for translating clinical imaging into mechanistic, simulation-ready brain models [[raw/papers/ritter-2013.md|Ritter et al. (2013)]].
+RABIES is not directly integrated into [[the-virtual-brain]] (TVB), but it occupies a complementary position in the TVB ecosystem. TVB constructs personalized [[whole-brain-modeling]] simulations by coupling [[neural-mass-models]] with subject-specific [[structural-connectivity]] data derived from diffusion MRI tractography Sanz Leon et al. (2013). The integration of multimodal neuroimaging data — spanning structural, functional, and diffusion modalities — is central to TVB's methodology for translating clinical imaging into mechanistic, simulation-ready brain models Ritter et al. (2013).
 
 Segmentation outputs from tools like RABIES — particularly white matter parcellations and lesion maps — can serve as anatomical constraints for these personalized brain models. In [[personalized-brain-modeling]] workflows, individual patient segmentations define region-of-interest boundaries and inform the spatial embedding of TVB's [[neural-mass-model]] populations. This is especially relevant for clinical applications in [[epilepsy-modeling]] and neurodegenerative disease, where accurate anatomical personalization is critical for capturing pathology-specific [[network-dynamics]].
 
 ## Related Software
 
-RABIES occupies a niche alongside other brain segmentation tools. [[nighres]] provides processing tools for high-resolution neuroimaging including brain extraction, segmentation, and cortex reconstruction, making specialized CBS High-Res Brain Processing Tools accessible through a documented Python interface [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]]. The closest functional equivalents for structural segmentation include [[ants]], which provides the Atropos segmentation module, and [[brainvisa]], which offers cortical reconstruction through probabilistic labeling based on Bayesian inference combined with anatomical constraints. For whole-brain parcellation, RABIES outputs can be combined with established atlases such as the [[schaefer-atlas]], [[glasser-atlas]], or [[desikan-killiany-atlas]] to produce study-specific parcellations that incorporate lesion information.
+RABIES occupies a niche alongside other brain segmentation tools. [[nighres]] provides processing tools for high-resolution neuroimaging including brain extraction, segmentation, and cortex reconstruction, making specialized CBS High-Res Brain Processing Tools accessible through a documented Python interface Huntenburg et al. (2018). The closest functional equivalents for structural segmentation include [[ants]], which provides the Atropos segmentation module, and [[brainvisa]], which offers cortical reconstruction through probabilistic labeling based on Bayesian inference combined with anatomical constraints. For whole-brain parcellation, RABIES outputs can be combined with established atlases such as the [[schaefer-atlas]], [[glasser-atlas]], or [[desikan-killiany-atlas]] to produce study-specific parcellations that incorporate lesion information.

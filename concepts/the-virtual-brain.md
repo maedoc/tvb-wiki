@@ -11,7 +11,9 @@ type: concept
 updated: '2026-05-18'
 ---
 
-[[tvb|The Virtual Brain]] (TVB) is an open-source neuroinformatics platform for simulating large-scale primate brain [[network-dynamics]]. It enables researchers to construct personalized [[whole-brain]] models by combining empirical structural [[connectivity]] data—typically derived from [[diffusion-mri]] [[tractography]]—with biologically realistic [[neural-mass-models]]. TVB provides forward models for electroencephalography (EEG), magnetoencephalography (MEG), and functional magnetic resonance imaging (fMRI), allowing simulated brain activity to be compared directly against empirical [[neuroimaging]] recordings. The platform has become a cornerstone tool in [[computational-neuroscience]] for studying [[brain-dynamics]], disease mechanisms, and individualized virtual brain models (Sanz Leon et al., 2013).
+[[tvb|The Virtual Brain]] (TVB) is an open-source neuroinformatics platform for simulating large-scale primate brain [[network-dynamics]]. It enables researchers to construct personalized [[whole-brain]] models by combining empirical structural [[connectivity]] data—typically derived from [[diffusion-mri]] [[tractography]]—with biologically realistic [[neural-mass-models]]. TVB provides forward models for electroencephalography (EEG), magnetoencephalography (MEG), and functional magnetic resonance imaging (fMRI), allowing simulated brain activity to be compared directly against empirical [[neuroimaging]] recordings. The platform has become a cornerstone tool in [[computational-neuroscience]] for studying [[brain-dynamics]], disease mechanisms, and individualized virtual brain models (Sanz Leon al, 2013). For an overview of whole-brain modeling, see [[wholebrain]].
+
+[[tvb-data]]
 
 ## Motivation and Historical Context
 
@@ -23,15 +25,17 @@ The Virtual Brain emerged to address this gap. Developed by an international con
 
 TVB employs a modular architecture that separates scientific computation from user interaction. At its core lies the simulation engine, written in Python, which solves large systems of coupled differential equations representing the dynamics of interconnected brain regions. Each region is modeled using a neural mass model—typically variants of the [[jansen-rit-model]] ([[jansen-rit]]) or the [[epileptor]] model for epilepsy studies—which captures the average activity of neuronal populations within that region (Sanz Leon et al., 2013).
 
-The structural connectivity matrix, derived from diffusion tensor imaging (DTI) or high-angular-resolution [[diffusion-imaging]] (HARDI) tractography, defines the coupling between regions (Ritter et al., 2013). This matrix represents the density and strength of [[white-matter]] tracts connecting different brain areas, providing the anatomical skeleton on which dynamic activity unfolds. Time delays arising from finite conduction velocities are explicitly modeled, creating the characteristic wave-like patterns of brain activity observed in empirical data.
+The structural connectivity matrix, derived from diffusion tensor imaging (DTI) or high-angular-resolution [[diffusion-imaging]] (HARDI) tractography, defines the coupling between regions (Ritter et al., 2013). This matrix represents the density and strength of [[white-matter]] tracts connecting different brain areas, providing the anatomical skeleton on which dynamic activity unfolds.  
+[[von-economo-atlas]]
+Time delays arising from finite conduction velocities are explicitly modeled, creating the characteristic wave-like patterns of brain activity observed in empirical data.
 
 TVB provides multiple user interfaces to accommodate different use cases. A web-based HTML5/JavaScript interface with WebGL visualization enables remote access through a client-server configuration, allowing users to run simulations without local installation. For advanced modeling and customization, a Python scripting interface provides direct access to the scientific kernel, enabling integration with other libraries in the Python scientific ecosystem.
 
 ## Forward Modeling and Data Integration
 
-One of TVB's key strengths lies in its ability to generate synthetic neuroimaging signals from underlying neural dynamics. The forward modeling pipeline transforms region-level neural activity into observable signals corresponding to different modalities. For [[neuroimaging-eeg]] and [[neuroimaging-meg]], the platform implements volume conduction models that account for the conductive properties of the head tissue to compute scalp potentials and magnetic fields. For [[neuroimaging-fmri]], a hemodynamic model—typically based on the Balloon model—transforms the fast neural dynamics into the slower blood-oxygen-level-dependent (BOLD) signal measured by fMRI (Ritter et al., 2013).
+One of TVB's key strengths lies in its ability to generate synthetic neuroimaging signals from underlying neural dynamics. The forward modeling pipeline transforms region-level neural activity into observable signals corresponding to different modalities. For [[neuroimaging-eeg]] and [[neuroimaging-meg]], including tools like [[nutmeg]], the platform implements volume conduction models that account for the conductive properties of the head tissue to compute scalp potentials and magnetic fields. For [[neuroimaging-fmri]], a hemodynamic model—typically based on the Balloon model—is used to translate fast neural dynamics into the slower blood-oxygen-level-dependent (BOLD) signal measured by fMRI (Ritter et al., 2013).
 
-This multimodal forward modeling capability enables direct comparison between simulated and empirical data. Researchers can fit model parameters to individual subject data by minimizing the discrepancy between simulated and observed [[functional-connectivity]] patterns, [[resting-state]] networks, or event-related responses (Ritter et al., 2013). This personalization framework has proven particularly valuable for clinical applications, where individual variations in brain structure may underlie differences in disease progression and treatment response.
+This multimodal forward modeling capability enables direct comparison between simulated and empirical data. Researchers can fit model parameters to individual subject data by minimizing the discrepancy between simulated and observed [[functional-connectivity]] patterns, [[resting-state]] networks, or event-related responses (Ritter et al., 2013). this personalization framework has proven particularly valuable for clinical applications, where individual variations in brain structure may underlie differences in disease progression and treatment response.
 
 ## Relationship to Other Tools
 
@@ -39,7 +43,7 @@ TVB occupies a unique position in the ecosystem of neural simulation software. U
 
 TVB complements [[dynamic-causal-modeling]] (DCM) approaches, which also integrate neuroimaging data with computational models but typically operate on much smaller sets of regions (10–50) using [[variational-bayes]] inference. TVB's whole-brain approach enables exploration of network-level phenomena such as [[brain-oscillations]], criticality, and traveling waves that emerge from the interaction of distributed brain regions (Breakspear, 2017). Additionally, the Graph Analysis Toolbox [[gat]] can be used to further analyse the structural connectivity matrices generated by TVB.
 
-The platform integrates with data management tools such as [[datalad]] and the broader [[bids]] ecosystem for handling neuroimaging datasets. For visualization, TVB interfaces with tools like [[brainnet-viewer]], [[brainnetcnn]], and the [[brain-connectivity-toolbox]] to enable rich display of connectivity matrices and simulation results. TVB also works well with preprocessing pipelines from [[Brainsuite]] for cortical surface analysis, and can be deployed within containerized environments via [[datalad-containers]] for reproducible workflows (Sanz Leon et al., 2013). Additionally, TVB can import datasets via the [[ Allen SDK]] for mouse brain resources. It can also import models defined with the lightweight [[neuromllite]] library.
+The platform integrates with data management tools such as [[datalad]] and the broader [[bids]] ecosystem for handling neuroimaging datasets. For visualization, TVB interfaces with tools like [[brainnet-viewer]], [[brainnetcnn]], and the [[brain-connectivity-toolbox]] to enable rich display of connectivity matrices and simulation results. It also supports analysis with [[brainconn]] for graph-theoretical metrics on brain connectivity. TVB also works well with preprocessing pipelines from [[Brainsuite]] for cortical surface analysis, and can be deployed within containerized environments via [[datalad-containers]] for reproducible workflows (Sanz Leon et al., 2013). Additionally, TVB can import datasets via the [[Allen SDK]] for mouse brain resources. It can also import models defined with the lightweight [[neuromllite]] library.
 
 ## Applications and Clinical Translation
 
@@ -119,7 +123,7 @@ updated: '2026-05-15'
 
 # GAT (Graph Analysis Toolbox)
 
-The **Graph Analysis Toolbox** (GAT) is a MATLAB-based software package that provides a graphical user interface for performing graph-theoretical analyses on structural and fun
+The **Graph Analysis Toolbox** (GAT) is a MATLAB-based software
 
 ## ORPHAN PAGE CONTEXT (neuromllite)
 ---
@@ -141,7 +145,7 @@ type: entity
 updated: '2026-05-18'
 ---
 
-NeuroMLlite is a lightweight Python library that enables researchers to define [[computational-neuroscience]] models using native Python syntax and
+NeuroMLlite is a lightweight Python library
 
 ## ORPHAN PAGE CONTEXT (teneto)
 ---
@@ -167,4 +171,24 @@ updated: '2026-05-18'
 
 ## Overview
 
-Teneto is an open-source Python package for the analysis of **temporal networks** — networks whose edges and topology change as a function of time. In computational neuroscience, T
+Teneto is an open-source Python package for the analysis of **temporal networks** — networks whose edges and topology change as a time.
+
+## ORPHAN PAGE CONTEXT (von-economo-atlas)
+---
+created: 2025-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/breakspear-2017.md
+tags:
+- brain-parcellation
+- structural-connectivity
+- neuroimaging-fmri
+- neuroimaging-meg
+- parcellation
+title: Von Economo Atlas
+type: entity
+updated: '2026-05-12'
+---
+
+The von Economo atlas, also known as the cytoarchitectonic map of the cerebral cortex, is a systematic classification of cortical areas based on their histological characteristics. Developed by the Austri

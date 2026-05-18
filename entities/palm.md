@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
-sources:
-- doi:10.1016/j.neuroimage.2014.06.007
-- doi:10.1109/IEEESTD.2014.6884100
-- doi:10.1073/pnas.1208412109
-- doi:10.1016/j.neuroimage.2007.02.022
+sources: []
 tags:
 - neuroimaging
 - software-fsl

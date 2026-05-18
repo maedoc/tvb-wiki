@@ -89,6 +89,8 @@ TVB combines:
 - [[eden]]
 - [[loris]]
 
+- [[cosmomvpa]]
+
 ## Related Concepts
 
 - [[whole brain]] - Whole-brain modeling approach
@@ -112,7 +114,7 @@ TVB combines:
 2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120))
 3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040))
 4. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002))
-5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4))
+5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience ( Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4))
 6. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211))
 7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861))
 8. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873))
@@ -200,3 +202,30 @@ updated: '2026-05-18'
 ---
 
 PyCeLoSim (Python Cell and Local-circuit Simulator) is a Python-based computational framework for simulating cellular-level neural dynamics and local microcircuit activity. It operates at the microscopic scale — modeling in
+
+## ORPHAN PAGE CONTEXT (cosmomvpa)
+---
+created: 2026-05-13
+sources:
+- raw/papers/woodman-2014.md
+- raw/papers/semanticscholar-db98f2ae6803.md
+- raw/papers/arxiv-2507.09747.md
+tags:
+- software-brain-modeling
+- machine-learning
+- brain-decoding
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- classification
+- representational-similarity-analysis
+title: CoSMoMVPA
+type: entity
+updated: '2026-05-18'
+---
+
+# CoSMoMVPA
+
+## Overview
+
+CoSMoMVPA (Connectome-based Similarity — Multi-Variate Pattern Analysis) is an open-source MATL

@@ -16,7 +16,6 @@ title: CITItools
 type: entity
 updated: '2026-05-06'
 ---
-
 CITItools (ciftiTools) is an R package for reading, writing, visualizing, and manipulating CIFTI ([[connectivity]] Informatics Technology Initiative) format files in [[neuroimaging]] workflows. The package provides a unified environment for working with grayordinate-based brain imaging data, combining cortical surface vertices with subcortical voxel data in a single file format pioneered by the [[human-connectome-project]]. Originally developed by Amanda Mejia, Damon Pham, and John Muschelli, ciftiTools is available on CRAN and has become a standard tool for R-based neuroimaging analysis pipelines [1][2].
 
 ## Technical Background
@@ -49,11 +48,4 @@ The package integrates with the broader neuroimaging ecosystem: it depends on [[
 | hcp-utils | Python | ✓ | ✗ | ✓ | nilearn, NiBabel |
 
 ## Key Papers
-
-1. Pham, D. D., Muschelli, J., & Mejia, A. F. (2022). ciftiTools: A package for reading, writing, visualizing, and manipulating CIFTI files in R. NeuroImage, 250, 118877.
-
-## References
-
-1. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.04.16.649072))
-2. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))
-3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
+The principal methodological reference for ciftiTools remains the NeuroImage paper by Pham, Muschelli, and Mejia (2022), which established the package as a dedicated R environment for CIFTI-format manipulation. The broader neuroimaging workflow spans cortical surface reconstruction, data standardization, and graph-theoretic connectivity analysis. [[raw/papers/semanticscholar-97e6ff441097.md|Benn et al. (2025)]] developed Precon_all, a species-agnostic automated pipeline for non-human cortical surface reconstruction that addresses the foundational challenge of generating cortical mesh representations underlying grayordinate-based data formats. Once data are organized in CIFTI structure, they frequently proceed to network analysis, as demonstrated by [[raw/papers/woodman-2014.md|Kruschwitz et al. (2015)]], who introduced [[graphvar|GraphVar]], a user-friendly MATLAB toolbox for comprehensive graph analyses of functional brain connectivity, and by [[raw/papers/mijalkov-2017-braph.md|Mijalkov et al. (2017)]], who presented [[braph|BRAPH]], a dedicated pipeline for brain connectivity analysis using graph theory. Together, these contributions delineate the methodological landscape in which ciftiTools serves as critical middleware—bridging surface-based data representation with the connectivity and network analyses enabled by specialized graph-theoretic packages.

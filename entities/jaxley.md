@@ -11,14 +11,14 @@ tags:
 - computational-neuroscience
 title: Jaxley
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # Jaxley
 
-Jaxley is a differentiable simulator for biophysical neuron models written in JAX, designed to enable gradient-based optimization of detailed neuronal dynamics alongside large-scale network simulation [[raw/papers/deistler-2025-jaxley.md|Deistler et al. (2025)]]. The framework exposes all internal variables to automatic differentiation, permitting gradient-based optimization of thousands of parameters in detailed [[ion-channel]] models and multicompartment neurons [[jaxley]]. This capability is particularly significant for fitting complex biophysical models—such as variants of the [[hodgkin-huxley-model]] formalism—to empirical [[electrophysiology]] data, where high-dimensional parameter landscapes render traditional search methods prohibitively expensive [[jaxley]].
+Jaxley is a differentiable simulator for biophysical neuron models written in JAX, designed to enable gradient-based optimization of detailed neuronal dynamics alongside large-scale network simulation Deistler et al. (2025). The framework exposes all internal variables to automatic differentiation, permitting gradient-based optimization of thousands of parameters in detailed [[ion-channel]] models and multicompartment neurons [[jaxley]]. This capability is particularly significant for fitting complex biophysical models—such as variants of the [[hodgkin-huxley-model]] formalism—to empirical [[electrophysiology]] data, where high-dimensional parameter landscapes render traditional search methods prohibitively expensive [[jaxley]].
 
-Jaxley compiles model definitions via JAX's just-in-time compiler, permitting identical code to run on CPU, GPU, or TPU without modification while achieving performance competitive with established simulators [[raw/papers/deistler-2025-jaxley.md|Deistler et al. (2025)]]. The library supports elegant parameter sharing mechanisms across cell populations and scales from single neurons to networks comprising thousands of neurons and millions of synaptic connections [[jaxley]]. Deistler et al. demonstrate its utility by fitting detailed biophysical models to intracellular recordings, optimizing [[ion-channel]] conductances across heterogeneous cell populations, and training extensively connected networks that push the boundaries of differentiable neural simulation [[jaxley]].
+Jaxley compiles model definitions via JAX's just-in-time compiler, permitting identical code to run on CPU, GPU, or TPU without modification while achieving performance competitive with established simulators Deistler et al. (2025). The library supports elegant parameter sharing mechanisms across cell populations and scales from single neurons to networks comprising thousands of neurons and millions of synaptic connections [[jaxley]]. Deistler et al. demonstrate its utility by fitting detailed biophysical models to intracellular recordings, optimizing [[ion-channel]] conductances across heterogeneous cell populations, and training extensively connected networks that push the boundaries of differentiable neural simulation [[jaxley]].
 
 ## Overview
 

@@ -1,7 +1,6 @@
 ---
 created: 2026-05-13
 sources:
-- raw/papers/kawahara-2017-brainnetcnn.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/semanticscholar-bc3fb1518d09.md

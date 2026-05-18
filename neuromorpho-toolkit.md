@@ -1,7 +1,7 @@
 ---
 title: NeuroMorpho.org Toolkit
 created: 2024-01-15
-updated: 2026-05-13
+updated: 2026-05-18
 type: entity
 tags: [software-neuromorpho, database-neuromorpho, computational-neuroscience, morphometry, neuronal-morphology, software-visualization, tool-morphology-analysis, dataset-neurons]
 sources:
@@ -13,7 +13,7 @@ sources:
 
 # NeuroMorpho.org Toolkit
 
-The construction of realistic computational brain models increasingly depends on the integration of multi-scale empirical constraints, from macroscopic neuroimaging to cellular-level anatomical data. Platforms such as [[the-virtual-brain]] synthesize structural connectivity with [[neural-mass-models]] to simulate large-scale primate brain network dynamics, leveraging forward models that bridge simulated activity and empirical recordings of [[fmri]], [[eeg]], and [[meg]] signals [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. These whole-brain modeling frameworks underscore the importance of grounding abstract mathematical representations in biological structure, linking network topology and time delays to emergent functional patterns across scales [[raw/papers/breakspear-2017.md|Breakspear (2017)]]. The NeuroMorpho.org Toolkit occupies a complementary position within this ecosystem by providing a curated, open-access repository of digitally reconstructed neuronal morphologies that researchers use to parameterize and validate the cellular architecture underlying macroscopic simulations. Its standardized reconstructions and support for exchange formats such as [[neuroml]] enable interoperability with [[connectomics]] pipelines, [[spiking-neural-networks]] simulators, and broader [[whole-brain-modeling]] workflows, helping to close the gap between microscale dendritic geometry and mesoscale [[brain-dynamics]].
+The construction of realistic computational brain models depends on integrating structural and functional empirical constraints. Platforms such as [[the-virtual-brain]] synthesize diffusion-MRI-derived structural connectivity with [[neural-mass-models]] to simulate large-scale primate brain network dynamics, leveraging forward models that translate simulated population activity into [[fmri]], [[eeg]], and [[meg]] signals for direct comparison with empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Subject-specific connectivity matrices enable personalized brain models that reproduce individual resting-state functional connectivity patterns, establishing a methodology for translating clinical neuroimaging data into mechanistic, simulation-ready frameworks [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. These whole-brain modeling approaches exemplify a broader taxonomy—spanning mass, network, and neural field formulations—that links structural topology and transmission delays to emergent oscillatory dynamics and functional patterns [[raw/papers/breakspear-2017.md|Breakspear (2017)]]. Within this ecosystem, the NeuroMorpho.org Toolkit occupies a complementary position by providing curated neuronal morphology data and analysis tools that connect cellular architecture to macroscopic [[whole-brain-modeling]] and [[connectomics]] workflows.
 
 ## Overview
 
