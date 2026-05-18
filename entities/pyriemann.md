@@ -18,7 +18,6 @@ title: pyRiemann
 type: entity
 updated: '2026-05-06'
 ---
-
 pyRiemann is an open-source Python library that implements [[machine-learning]] algorithms for electrophysiological brain signals (EEG and MEG) based on Riemannian geometry. The library provides tools for classifying brain states, particularly in the context of brain-computer interfaces (BCIs), by treating covariance matrices as points on a Riemannian manifold rather than as vectors in Euclidean space. This approach has proven particularly effective for handling the high-dimensional, noisy nature of electrophysiological recordings where the second-order statistics (covariance) of signals carry discriminative information about underlying brain states [@pyRiemannGitHub].
 
 ## Motivation and Context
@@ -40,13 +39,4 @@ While pyRiemann is primarily oriented toward single-trial classification for bra
 pyRiemann integrates with the broader Python scientific computing ecosystem, particularly Mne Python for EEG/MEG data handling and preprocessing. It is often used alongside [[eeglab]] (via Python bridges) and Fieldtrip for data collection and initial preprocessing. For brain-computer interface development, researchers may combine pyRiemann with [[bcilab]] or Bci2000 experimental paradigms. The classification pipeline builds upon Nilearn (scikit-learn) estimators, making it accessible to practitioners familiar with standard machine learning workflows. Related approaches include Brainiak for RSA and encoding models and [[PyMVPA]] for multivariate pattern analysis of neuroimaging data.
 
 ## Key Papers
-
-- **Congedo, M.** (2017). pyRiemann-qiskit: A Python library for quantum machine learning on quantum devices. *IEEE Access*. This paper introduces the pyRiemann library and its extension to quantum machine learning[@pyRiemannQuantum].
-- **Barachant, A., et al.** (2012). Classification of covariance matrices using Riemannian geometry applied to SSVEP-based BCI. *IEEE Transactions on Biomedical Engineering*. This foundational work demonstrates the effectiveness of MDM classifier for BCI applications[@MDMPaper].
-- **Barachant, A., et al.** (2013). Multi-session P300-based brain-computer interface with Riemannian geometry. *PLOS ONE*. This paper extends the Riemannian approach to multi-session BCI paradigms[@P300Paper].
-
-## References
-
-1. Anderson Fernandes P. Santos. (2026). *QRC-Lab: An Educational Toolbox for Quantum Reservoir Computing*. [Link](](https://www.semanticscholar.org/paper/dc8f7606dbf698ecf8a7e148e55adcea2ff0ad69))
-2. Sumitro Barua, Dipon Deb Dipu, Tanjila Broti. (2025). *A Hybrid Classical-Quantum Deep Learning Framework for MRI-Guided Alzheimer’s Disease Classification, Comparative Analysis & Explainable AI for Medical Interpretation*. 2025 IEEE 6th India Council International Subsections Conference (INDISCON). [DOI](](https://doi.org/10.1109/INDISCON66021.2025.11252366))
-3. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+Santos (2026) introduced QRC-Lab, an open-source, modular Python framework for quantum reservoir computing designed to bridge theoretical quantum dynamics and applied [[machine-learning]] workflows, providing a configurable gate-based laboratory validated through educational case studies including short-term memory reconstruction, temporal parity (XOR), and NARMA10 forecasting as a deliberate stress test [[raw/papers/arxiv-2602.03522.md|Santos (2026)]]. Barua et al. (2025) presented a hybrid classical-quantum deep learning framework leveraging the PennyLane library for [[alzheimers-modeling|Alzheimer's disease classification]] from brain MRI images, achieving 96.26% accuracy across four disease stages while utilizing substantially fewer parameters than classical deep learning models, with Grad-CAM employed to validate attention on relevant brain regions through clinical consultation [[raw/papers/semanticscholar-ce476d60fac5.md|Barua et al. (2025)]]. Baker et al. (2015) developed GLEAN, a MATLAB toolbox for group-level exploratory analysis of networks from [[neuroimaging-eeg]] and [[neuroimaging-meg]] band-limited power using Hidden Markov Models or Independent Component Analysis, operating on source-reconstructed data to enable comparative analysis between clinical populations and healthy controls [[raw/papers/glean-github.md|Baker et al. (2015)]].

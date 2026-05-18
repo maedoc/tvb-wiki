@@ -17,12 +17,14 @@ tags:
 - neuroimaging-dti
 title: Human Connectome Project
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
 # Human Connectome Project (HCP)
 
-Major NIH-funded initiative to map human brain [[connectivity]] using advanced [[neuroimaging]].
+The Human Connectome Project (HCP) is a major initiative to map human brain [[connectivity]] in unprecedented detail. Led by the WU-Minn consortium, the project was designed to characterize [[structural-connectivity|structural]] and [[functional-connectivity|functional]] brain connectivity in 1,200 healthy young adults using optimized [[neuroimaging-fmri|functional MRI]], [[diffusion-mri|diffusion MRI]], and structural MRI protocols at both 3T and 7T field strengths [[raw/papers/van-essen-2013.md|Van Essen et al. (2013)]]. To achieve this goal, the HCP developed customized 3T and 7T MRI systems, optimized pulse sequences, and rigorous quality assurance procedures that together established a new technical foundation for multimodal neuroimaging [[raw/papers/van-essen-2012.md|Van Essen et al. (2012)]]. The resulting datasets are openly shared with the scientific community and have enabled thousands of studies of human [[connectomics]] worldwide [[raw/papers/van-essen-2013.md|Van Essen et al. (2013)]].
+
+Beyond data acquisition, the HCP introduced standardized minimal preprocessing pipelines that emphasize [[cortical-surface|surface-based analysis]], cross-modal alignment, and minimal yet effective processing to preserve data quality while enabling comparison across subjects [[raw/papers/glasser-2013.md|Glasser et al. (2013)]]. These open-source pipelines implement a surface-based framework for cortical mapping and have become a standard reference for processing multimodal neuroimaging data [[raw/papers/glasser-2013.md|Glasser et al. (2013)]]. By integrating optimized acquisition with standardized preprocessing and open data sharing, the HCP provides a comprehensive resource for studying human brain connectivity in unprecedented detail [[raw/papers/van-essen-2013.md|Van Essen et al. (2013)]].
 
 ## Overview
 

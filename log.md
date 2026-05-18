@@ -708,3 +708,6 @@ Rewrote _preamble section of [[dynet]] with sourced prose (~170 words, single pa
 - Improved [[crcns]] _preamble section: rewrote bare 2-word heading into dense sourced prose (~165 words across 1 paragraph), added 3 inline citations from 3 available sources (Breakspear 2017 x1 via breakspear-2017.md, Zenari et al. 2026 x1 via arxiv-2603.04149.md, Betteti et al. 2025 x1 via arxiv-2512.05252.md), added 9 wikilinks (computational-neuroscience, neural-mass-models, structural-connectivity, functional-connectivity, epilepsy-modeling, schizophrenia-models, consciousness-models, excitation-inhibition-balance, the-virtual-brain), ensured all factual claims strictly traceable to available sources (whole-brain model taxonomy and clinical applications from Breakspear 2017, connectome-topology/timescale mechanisms from Zenari et al. 2026, energy-based/game-theoretic E-I stability from Betteti et al. 2025), preserved existing [^1] reference for NIH program description, bumped updated date to 2026-05-18
 
 ## [2026-05-18 18:45] Improve: 1 pages improved (mne-python)
+
+## [2026-05-18 19:31] Improve: 2 pages improved (scirun, brainnet-viewer)
+- 2026-05-18: Updated preamble of [[human-connectome-project]] with sourced content from Van Essen et al. (2012, 2013) and Glasser et al. (2013).
