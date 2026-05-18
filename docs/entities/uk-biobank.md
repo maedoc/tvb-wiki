@@ -13,12 +13,14 @@ tags:
 - aging-brain
 title: UK Biobank
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-19'
 ---
 
 # UK Biobank
 
-The world's largest multimodal brain imaging study, collecting data from 100,000+ participants.
+The UK Biobank Imaging Study is the largest brain imaging study ever conducted, designed to acquire multimodal [[neuroimaging-fmri|MRI]] from 100,000 existing UK Biobank participants and merge these scans with the project's extensive phenotypic and genetic data [[raw/papers/miller-2016.md|Miller et al. (2016)]]. The protocol captures [[neuroimaging-fmri|functional MRI]], [[diffusion-mri|diffusion MRI]], and structural scans, enabling population-level investigations of [[brain-network|brain structure]] and [[functional-connectivity|function]] that are impossible in smaller cohorts [[raw/papers/miller-2016.md|Miller et al. (2016)]]. By imaging a broad age range within a single standardized framework, the study creates an unprecedented resource for understanding how the [[aging-brain|brain changes across the lifespan]] at the population level [[raw/papers/miller-2016.md|Miller et al. (2016)]].
+
+To manage this scale, dedicated processing pipelines were developed to automatically preprocess structural, functional, and diffusion data for the full 100,000-participant target, with extensive quality metrics and standardized procedures released alongside the raw images [[raw/papers/alfaro-almagro-2018.md|Alfaro-Almagro et al. (2018)]]. These pipelines established the processing standards for the world's largest brain imaging dataset and have enabled thousands of researchers to use the data reliably [[raw/papers/alfaro-almagro-2018.md|Alfaro-Almagro et al. (2018)]]. Integrating the resulting imaging phenotypes with genome-wide genotyping has already yielded the first large-scale genome-wide association studies of brain imaging traits, identifying novel genetic loci associated with [[structural-connectivity|brain structure]], [[white-matter|white matter integrity]], and [[resting-state|resting-state]] connectivity [[raw/papers/elliott-2018.md|Elliott et al. (2018)]]. This convergence of massive sample size, multimodal [[connectomics]], and genetic depth makes UK Biobank a cornerstone resource for population-level analyses of the [[aging-brain|aging brain]] and [[brain-dynamics|brain dynamics]] [[raw/papers/elliott-2018.md|Elliott et al. (2018)]].
 
 ## Overview
 
@@ -124,8 +126,10 @@ UK Biobank is a large-scale biomedical database and research resource containing
 - big-data-neuroscience – Large-scale data resources
 
 ## Key People
-- patricia miller|Karla Miller – Imaging lead
-- fidel alfaro-almagro – Processing pipelines
+
+[[karla-miller|Karla L. Miller]] leads the UK Biobank imaging study and served as first author on the foundational protocol paper that introduced the multimodal MRI framework designed for 100,000 participants [[raw/papers/miller-2016.md|Miller et al. (2016)]]. Working closely with her, [[fidel-alfaro-almagro|Fidel Alfaro-Almagro]] co-authored that protocol description and subsequently led the development of automated preprocessing and quality-control pipelines that handle structural, functional, and diffusion data at population scale [[raw/papers/alfaro-almagro-2018.md|Alfaro-Almagro et al. (2018)]]. Their combined work established both the acquisition parameters and the processing standards that have enabled the worldwide research community to draw reliable inferences from the world's largest brain imaging dataset [[raw/papers/miller-2016.md|Miller et al. (2016)]].
+
+[[mark-jenkinson|Mark Jenkinson]] co-authored the pipeline paper and contributed to the rigorous quality-control procedures that filter artifact and standardize outputs across all modalities [[raw/papers/alfaro-almagro-2018.md|Alfaro-Almagro et al. (2018)]]. On the genetics side, [[lloyd-elliott|Lloyd T. Elliott]] and [[luca-tallavaara|Luca T. Tallavaara]] led the first large-scale genome-wide association studies of brain imaging phenotypes, integrating the processed multimodal phenotypes with genome-wide genotyping to identify novel loci associated with brain structure, white matter integrity, and resting-state connectivity [[raw/papers/elliott-2018.md|Elliott et al. (2018)]]. This convergence of imaging leadership, computational infrastructure, and genetic analysis demonstrates how population-scale neuroscience depends on tightly coordinated interdisciplinary teams [[raw/papers/elliott-2018.md|Elliott et al. (2018)]].
 
 ## References
 

@@ -1,7 +1,7 @@
 ---
 title: CIFTI Tools
 created: 2025-01-15
-updated: 2026-05-03
+updated: 2026-05-19
 type: entity
 tags: [software-neuroimaging, neuroimaging-fmri, functional-connectivity, structural-connectivity, connectomics, hcp-dataset, grayordinates]
 sources: [https://www.humanconnectome.org/storage/app/media/documentation/s1200/HCP_S1200_Release_Reference_Manual.pdf, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3856481/, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3698085/]
@@ -56,17 +56,9 @@ The following specific software packages provide CIFTI functionality:
 
 The foundational description of CIFTI appears in the Human Connectome Project's methodology papers. Glasser et al. (2013) detailed the HCP pipeline including surface registration and the specification of grayordinate files, establishing the technical foundation. Smith et al. (2013) described the resting-state fMRI analysis approaches and the generation of CIFTI-format connectivity outputs. These papers establish not only the format definition but also the preprocessing pipelines that produce CIFTI-ready outputs from raw fMRI data.
 
-## Related Entities
+## Related Software
 
-- [[connectome-workbench]] — the primary tool suite for viewing and manipulating CIFTI files
-- [[ciftify]] — a Python package for processing CIFTI data with integration to fMRIPrep
-- [[nilearn]] — Python library that can fetch and manipulate CIFTI datasets
-- [[nibabel]] — Python library providing low-level CIFTI reading and writing
-- [[hcp-dataset]] — the primary dataset for which CIFTI was developed
-- [[human-connectome-project]] — the initiative that created and maintains the format
-- [[cifti]] — the file format specification itself
-- [[grayordinates]] — the hybrid surface-volume representation that CIFTI uses
-- [[glasser-atlas]] — the HCP Multi-Modal Parcellation used for parcel-based CIFTI files
+The CIFTI format and its associated utilities developed within the broader informatics infrastructure of the [[human-connectome-project]]. Marcus et al. (2011) described the data mining and informatics strategies required to manage HCP's large-scale multimodal datasets [[raw/papers/doi-10-3389-fninf-2011-00004.md|Marcus et al. (2011)]], establishing early frameworks for unified neuroimaging data handling that the CIFTI ecosystem later extended. The structural, functional, and diffusion MRI data processed by these tools are acquired through the customized protocols detailed by Van Essen et al. (2012) [[raw/papers/van-essen-2012.md|Van Essen et al. (2012)]], which emphasize high-resolution multimodal imaging and cross-modal alignment. At the structural connectivity end, the diffusion tensor methods introduced by Basser et al. (1994) provide the mathematical foundation for [[white-matter]] tractography data that feeds into connectivity pipelines managed by this software family [[raw/papers/basser-1994.md|Basser et al. (1994)]]. Within this landscape, CIFTI outputs interface with a network of related platforms: [[the-virtual-brain]] for whole-brain network modeling, [[connectome-workbench]] for surface-based visualization and analysis, [[nipype]]-based workflow engines such as [[ciftify]] for preprocessing orchestration, and [[nibabel]] for programmatic access to [[dti]]-derived and [[fmri]]-based connectivity data.
 
 ## References
 
