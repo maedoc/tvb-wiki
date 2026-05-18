@@ -14,10 +14,12 @@ tags:
 - software-visualization
 title: Root
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
 # ROOT
+
+Computational neuroscience operates at the intersection of large-scale brain simulation, multimodal neuroimaging analysis, and statistical inference, demanding robust software infrastructures that can manage complex workflows across diverse data types. [[TVB|The Virtual Brain]] addresses this need by providing an open-source neuroinformatics platform that constructs personalized [[whole-brain-modeling|whole-brain models]] from empirical [[structural-connectivity|structural connectivity]] and [[neural-mass-models|neural mass models]], with integrated forward models for [[fmri|fMRI]], [[eeg|EEG]], and [[meg|MEG]] that allow direct comparison against empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Complementing simulation environments, automated analysis toolboxes such as OPETIA implement [[fsl|FSL]]-based pipelines for multimodal [[neuroimaging-pet|PET]] and MRI processing, calculating standardized uptake values and ratios across anatomical volumes of interest to support differential diagnosis and personalized treatment evaluation [[raw/papers/semanticscholar-0aeca1b592e6.md|Parsayan et al. (2025)]]. Statistical modeling frameworks further link [[neural-mass-models|neural mass model]] dynamics to observed neuroimaging signals through [[dynamic-causal-modeling|Dynamic Causal Modelling]], which couples neural population models to Bayesian inversion schemes in order to infer [[effective-connectivity|effective connectivity]] from empirical time series [[raw/papers/david-friston-2003.md|David and Friston (2003)]]. These convergent requirements for large-scale data management, automated pipeline execution, and rigorous statistical validation establish the functional niche examined in the following sections through the lens of ROOT.
 
 ## Overview
 

@@ -16,10 +16,14 @@ tags:
 - dataset-neurons
 title: NeuroMorpho.org Toolkit
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-18'
 ---
 
 # NeuroMorpho.org Toolkit
+
+Whole-brain platforms such as [[the-virtual-brain|The Virtual Brain]] synthesize empirical [[structural-connectivity]] from [[diffusion-imaging|diffusion imaging]] with [[neural-mass-models]] to simulate large-scale primate brain [[network-dynamics]] [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Forward models embedded within these simulators translate population-level activity into synthetic [[fmri]], [[eeg]], and [[meg]] signals, enabling direct quantitative comparison between simulated output and empirical neuroimaging recordings [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. [[raw/papers/breakspear-2017.md|Breakspear (2017)]] situates such approaches within a broader taxonomy of brain models—spanning mass, network, and neural field formulations—that mathematically links structural topology and time delays to emergent functional macrostates.
+
+[[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] emphasize that TVB supports [[personalized-brain-modeling|personalized brain modeling]] by combining individual neuroimaging data with neural mass dynamics. [[raw/papers/ritter-2013.md|Ritter et al. (2013)]] demonstrate that subject-specific structural connectivity matrices derived from [[dti|DTI]] reproduce individual resting-state [[functional-connectivity]] patterns, establishing a pipeline for translating clinical data into mechanistic, simulation-ready models. [[raw/papers/breakspear-2017.md|Breakspear (2017)]] extends this framework by identifying how network topology and time delays govern [[brain-oscillations]] and macroscopic functional patterns. Within this multiscale landscape, the NeuroMorpho.org Toolkit supplies curated three-dimensional neuronal reconstructions and analysis utilities that bridge microscale cellular architecture with macroscopic [[whole-brain-modeling]] and [[connectomics]] workflows.
 
 ## Overview
 

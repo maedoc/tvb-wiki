@@ -14,7 +14,6 @@ title: NEURON
 type: entity
 updated: '2026-05-18'
 ---
-
 # NEURON
 
 NEURON is a simulation environment for building and simulating biophysically detailed models of individual neurons and networks of neurons using multi-compartment cable theory. Introduced by Hines and Carnevale, it provides the NMODL language for specifying arbitrary [[ion-channel]] kinetics and mechanisms, allowing researchers to construct models directly from experimental electrophysiological and anatomical data Hines & Carnevale (1997). The software employs efficient implicit numerical methods to handle the stiff differential equations that arise when complex dendritic morphologies are represented as interconnected compartments, making it computationally tractable to explore realistic neuronal geometries alongside active membrane properties Hines & Carnevale (1997). Over the decades since its release, NEURON has become one of the most widely adopted platforms in [[computational-neuroscience]], hosting thousands of published models that span diverse cell types and brain regions Hines & Carnevale (1997).
@@ -35,12 +34,9 @@ NEURON provides tools for building and simulating biophysically detailed models 
 - **[[ModelDB]] integration**: Direct sharing and access to published models
 
 ## Applications
+At the single-cell level, NEURON has served as the primary environment for constructing biophysically detailed models of individual neurons from experimental data, allowing researchers to examine how realistic dendritic architectures govern neuronal computation [[raw/papers/hines-carnevale-1997.md|Hines & Carnevale (1997)]]. Its multi-compartment cable theory framework and specialized implicit numerical methods handle the stiff differential equations that arise from complex dendritic morphologies with active [[ion-channel]] properties specified via NMODL [[raw/papers/hines-carnevale-1997.md|Hines & Carnevale (1997)]]. [[raw/papers/hay-2011.md|Hay et al. (2011)]] demonstrated the platform's explanatory power by developing detailed models of neocortical layer 5b pyramidal cells, applying a genetic algorithm to optimize ion channel densities across morphological reconstructions so that the models reproduced dendritic calcium spikes and backpropagating action potentials, with predictions validated against independent experimental recordings.
 
-- Single neuron biophysical modeling
-- Complex dendritic computation studies
-- Network simulations with realistic cell types
-- Educational and research tutorials (The NEURON Book)
-
+The environment also scales to network-level studies, supporting the assembly of large heterogeneous networks equipped with realistic synaptic dynamics and [[plasticity]] [[raw/papers/carnevale-hines-2006.md|Carnevale & Hines (2006)]]. The NEURON Book provides the standard tutorial progression, guiding users from simple single-compartment prototypes to complex circuits and offering best-practice guidance for validating and sharing simulations within the [[computational-neuroscience]] community [[raw/papers/carnevale-hines-2006.md|Carnevale & Hines (2006)]]. These rigorously validated single-cell models have become reusable components that are widely incorporated into [[spiking-neural-networks]] simulations spanning diverse cell types and brain regions [[raw/papers/hay-2011.md|Hay et al. (2011)]][[raw/papers/hines-carnevale-1997.md|Hines & Carnevale (1997)]].
 ## Key Publications
 
 - Hines & Carnevale (1997) — NEURON simulation environment hines-carnevale-1997
@@ -72,11 +68,3 @@ NEURON provides tools for building and simulating biophysically detailed models 
 - Dendritic integration and computation
 - Pathological neuron modeling
 - Educational neuroscience simulation
-
-## References
-
-1. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179))
-2. Carnevale & Hines (2006). *The NEURON Book*.
-3. Hay et al. (2011). *Models of neocortical layer 5b pyramidal cells capturing a wide range of dendritic and perisomatic active properties*. PLOS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1002107))
-4. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](https://doi.org/10.1016/j.cell.2015.09.029))
-5. Gewaltig & Diesmann (2007). *NEST ([[neural-simulation]] Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430))

@@ -17,7 +17,6 @@ title: CIFTI Tools
 type: entity
 updated: '2026-05-07'
 ---
-
 CIFTI ([[connectivity]] InFormatics Initiative) tools encompass a family of software utilities designed to work with the CIFTI data format, a specialized file format developed by the [[human-connectome-project]] (HCP) for storing dense connectivity data from [[neuroimaging]] studies [@GlasserEtAl2013]. The format addresses fundamental limitations of older neuroimaging formats by enabling representation of both surface-based (cortical) and volumetric (subcortical) data within a single file, making it particularly well-suited for [[whole-brain]] connectivity analyses central to [[whole-brain-modeling]] approaches.
 
 ## Motivation and Context
@@ -51,7 +50,3 @@ The Virtual Brain integrates with CIFTI tools primarily through its connectivity
 - [[cifti]] — CIFTI format specification
 - [[connectome-workbench]] — Primary visualization environment
 - [[nipype]] — Python workflow framework used by [[ciftify]]
-
-## References
-
-1. (authors unknown). *Informatics and Data Mining Tools and Strategies for the Human Connectome Project*.
