@@ -208,13 +208,18 @@ def _maybe_git_push(cwd: str):
     log = get_logger("git")
     with GIT_LOCK:
         try:
-            now = datetime.datetime.now()
+            now = datetime.datetime.utcnow()
             # read last push time if present
             last_push = None
             if os.path.exists(LAST_PUSH_FILE):
                 with open(LAST_PUSH_FILE, "r", encoding="utf-8") as f:
                     txt = f.read().strip()
                     if txt:
+                        # Strip timezone info (may be naive or aware from manual date cmd)
+                        if '+' in txt:
+                            txt = txt.rsplit('+', 1)[0]
+                        elif txt.endswith('Z'):
+                            txt = txt[:-1]
                         last_push = datetime.datetime.fromisoformat(txt)
             if last_push is None or (now - last_push).total_seconds() >= PUSH_INTERVAL:
                 log.info("Pushing to remote (last push was %s)", last_push.isoformat() if last_push else 'never')
