@@ -1,0 +1,13 @@
+# FRESH: Information-Geometric Calibration of Patient-Level Models to Aggregate Evidence
+
+**Source**: arxiv
+**ID**: 2605.16246
+**URL**: https://arxiv.org/abs/2605.16246
+**Date**: 2026-05-15
+**Year**: 2026
+**Authors**: Franklin Fuller, Daniele Bertolini, Samantha Liang, Jason Christopher, Aaron M. Smith
+**Categories**: stat.ME, stat.ML
+
+## Abstract
+
+This note introduces FRESH (Fusion of Recent Evidence and Subject Histories), a method for incorporating population-level summary results -- published clinical trials, registry summaries,   prior natural-history studies, and peer-reviewed indirect comparisons -- into predictive models trained on patient-level data. This method provides a principled means of combining both   patient-level and aggregate-level data types into a unified data-efficient model for clinical decision making.   FRESH assumes access to a generative model trained on patient-level data sources (e.g. clinical trial or real-world data). The method produces patient-level predictions from a re-calibrated   model that matches a set of specified aggregate statistics for a target population. This can be understood as a patient-level recapitulation of the aggregate source -- with the key property   that the recalibration is a minimal perturbation of the original joint distribution in a specific information-geometric sense. The resulting samples can be analyzed directly or combined into a   post-training procedure to update the original generative model.   This approach enables several applications where rigorously incorporating patient-level data with summary information is valuable, including (i) contextualizing single-arm trial results with   respect to recent standard-of-care, (ii) clinical-trial simulations for design and probability-of-technical-success estimation, and (iii) comparative-effectiveness analyses of on-market   therapies.

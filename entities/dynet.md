@@ -8,10 +8,12 @@ tags:
 - machine-learning
 title: Dynet
 type: entity
-updated: '2026-05-12'
+updated: '2026-05-18'
 ---
 
 # Dynet
+
+DyNet is a [[neural-network]] toolkit whose defining architectural commitment is the **dynamic computation graph** — a design in which the network's topology and operations are not pre-declared as a fixed structure but are instead assembled at runtime in response to each individual input sample [[raw/papers/neubig-2017.md|Neubig et al. (2017)]]. Developed by Graham Neubig, Chris Dyer, Yoav Goldberg, Andreas Zeldovich, Jaime García González, and Dzmitry Bahdanau and released as a C++ core with Python bindings for computational efficiency, the library targets the class of [[machine-learning]] problems — prevalent in [[natural-language-processing]] — where variable-length sequences, recursive tree structures, or input-dependent connectivity make static-graph frameworks awkward [[raw/papers/neubig-2017.md|Neubig et al. (2017)]]. Because the computational graph is rebuilt for every forward pass, researchers can express models using ordinary imperative control flow rather than first compiling a static specification, which substantially simplifies the implementation of architectures such as tree-structured [[neural-network]]s, variable-depth recursive networks, and sequence-to-sequence models with dynamically varying input lengths [[raw/papers/neubig-2017.md|Neubig et al. (2017)]]. The framework additionally achieves memory efficiency through lazy computation graph construction, while explicit memory management gives fine-grained control over computational resources, a design choice suited to environments with limited memory or models with large, irregular intermediate representations [[raw/papers/neubig-2017.md|Neubig et al. (2017)]].
 
 ## Overview
 

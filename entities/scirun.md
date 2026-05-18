@@ -1,13 +1,15 @@
 ---
 title: SCIRun
-created: 2026-04-20
+created: 2026-05-18
 updated: 2026-05-18
 type: entity
-tags: [software-brain-modeling, software-visualization, neuroimaging-eeg, neuroimaging-meg, whole-brain-modeling, structural-connectivity, brain-oscillations, epilepsy-modeling]
+tags: [software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, whole-brain-modeling, network-dynamics]
 sources: []
 ---
 
-SCIRun is a modular problem-solving environment developed at the University of Utah that enables researchers to assemble computational workflows through a visual dataflow programming interface. First released in the late 1990s by the Scientific Computing and Imaging Institute, the software treats computational modules as typed nodes that users wire together in a directed graph editor. Within [[computational-neuroscience]], it is best known for validated biophysical forward solvers that compute how neural currents propagate through realistic head geometries to produce measurable electromagnetic signals.
+SCIRun is a modular problem-solving environment developed at the University of Utah's Scientific Computing and Imaging Institute that enables researchers to assemble computational workflows through a visual dataflow programming interface. First released in the late 1990s, the software treats computational modules as typed nodes that users wire together in a directed graph editor. Within [[computational-neuroscience]], it is best known for validated biophysical forward solvers that compute how neural currents propagate through realistic head geometries to produce measurable electromagnetic signals.
+
+## Motivation and Design Philosophy
 
 The development of SCIRun was motivated by the persistent gap between low-level numerical libraries and the high-level tools domain scientists require. Traditional scientific software forces researchers to write custom scripts for each new problem configuration, making parameter sweeps and pipeline sharing cumbersome. SCIRun addresses this limitation by exposing modules with typed input and output ports; users build analysis pipelines by dragging components into a network editor and drawing connections between ports. This paradigm supports rapid iteration on model parameters and anatomical geometries while preserving the flexibility to substitute custom solvers or integrate external data formats. For whole-brain modeling, this visual dataflow approach is valuable because it allows researchers to interleave subject-specific anatomical processing with biophysical simulation steps. Rather than chaining rigid preprocessing scripts, investigators can modify mesh resolutions, tissue conductivities, or solver types within the same environment that generates the forward solution, reducing the friction between structural imaging and sensor-level signal simulation.
 
@@ -23,7 +25,7 @@ SCIRun originated in the 1990s at the University of Utah's Scientific Computing 
 | Implementation | C++ with Python bindings |
 | Primary domain | Scientific computing, neuroimaging forward modeling |
 
-## Key Features and Technical Capabilities
+## Forward Modeling Capabilities
 
 For neuroimaging applications, SCIRun includes solvers for the boundary element method (BEM) and finite element method (FEM) that compute [[volume-conduction]] effects in realistic head models. These forward solvers construct the lead field matrix mapping neural current sources to scalp-level electromagnetic potentials, incorporating tissue conductivity inhomogeneities across skin, skull, cerebrospinal fluid, and brain compartments. When head geometries are segmented into accurate boundary or volume meshes, the resulting forward solutions supply the physical foundation for inverse algorithms that estimate source distributions from measured [[eeg]] or [[meg]] recordings. The environment additionally supports mesh generation and interactive three-dimensional visualization.
 
