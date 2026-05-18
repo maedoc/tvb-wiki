@@ -3,7 +3,6 @@ created: 2024-01-15
 sources:
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/arxiv-2604.16463.md
-- raw/papers/woodman-2014.md
 tags:
 - neuroimaging
 - machine-learning
@@ -12,7 +11,7 @@ tags:
 - resting-state
 title: Nilearn
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-18'
 ---
 
 **Nilearn** is a Python library for fast and easy statistical learning on [[neuroimaging]] data. It provides tools for decoding, predictive modeling, [[connectivity]] analysis, and visualization of functional MRI data, making a bridge between the broader [[machine-learning]] ecosystem and the specific data structures used in neuroscience research.
@@ -38,5 +37,5 @@ Nilearn complements [[the-virtual-brain]] in several important ways in the [[who
 ## References
 
 1. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
-2. Xiaobo Liu. (2026). *MLE‑Toolbox: An Open‑Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f))
-3. Woodman et al. (2014). *GraphVar: A user‑friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))
+2. Xiaobo Liu. (2026). *MLE‑Toolbox: An Open‑Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+3. Woodman et al. (2014). *GraphVar: A user‑friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)

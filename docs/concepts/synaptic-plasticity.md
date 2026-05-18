@@ -1,29 +1,35 @@
 ---
-created: 2026-04-27
-sources:
-- raw/papers/strogatz-1994.md
-- raw/papers/hagmann-2008.md
-- raw/papers/izhikevich-2007.md
-- raw/papers/power-2011.md
-- raw/papers/semanticscholar-ff8218c1e55e.md
-- raw/papers/semanticscholar-eadc34d87ac8.md
-tags:
-- synaptic-plasticity
 title: Synaptic Plasticity
+created: 2026-04-27
+updated: 2026-05-18
 type: concept
-updated: '2026-05-04'
+tags: [whole-brain-modeling, network-dynamics, functional-connectivity, structural-connectivity, neuroimaging-fmri, resting-state, task-based, personalized-brain-modeling]
+sources:
+  - raw/papers/power-2011.md
+  - raw/papers/semanticscholar-ff8218c1e55e.md
+  - raw/papers/semanticscholar-eadc34d87ac8.md
 ---
 
-Synaptic [[plasticity]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+Synaptic [[plasticity]] is the capacity of neuronal connections to strengthen or weaken as a function of ongoing activity. This microscopic mechanism provides the physiological basis for adaptive behaviour, learning, and recovery from injury, and its aggregate effects propagate upward to reshape the large-scale patterns of [[functional-connectivity]] observed in [[neuroimaging-fmri|functional magnetic resonance imaging]] and electrophysiology. Bridging these synaptic-level perturbations to distributed [[network-dynamics]] remains one of the central challenges in [[whole-brain-modeling]] and [[computational-neuroscience]].
 
-## Related Concepts
-* [[carlsim]]
+## Motivation and Context
 
-## References
+In [[whole-brain-modeling]], conventional simulation frameworks can reproduce participant-specific brain activity patterns, yet they often function as descriptive simulators rather than as mechanistic, intervention-capable systems [[raw/papers/semanticscholar-ff8218c1e55e.md|Xia et al. (2026)]]. Descriptive fidelity alone does not expose how synaptic weight changes alter effective coupling between regions or differentiate individual trajectories of symptom change. Consequently, there is growing emphasis on embedding plasticity explicitly within personalized digital brain frameworks so that researchers can perform in silico perturbations and observe the consequent network reconfigurations. Understanding this link is particularly urgent for precision neuroscience and psychiatry, where targeted modulation of excitatory or inhibitory transmission is hypothesized to rescue pathological circuit dynamics [[raw/papers/semanticscholar-ff8218c1e55e.md|Xia et al. (2026)]].
 
-1. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-2. (authors unknown). *Mapping the [[structural-core]] of Human Cerebral Cortex*.
-3. Eugene M. [[izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
-4. (authors unknown). *Functional Network Organization of the Human Brain*.
-5. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional [[brain-network]] underlying mental illness*. bioRxiv. [DOI](](https://doi.org/10.64898/2026.03.06.710030))
-6. Lizhe Sun, Xiao-Feng Han, Aiying Zhang. (2026). *Joint estimation of multiple graphical models for an [[fmri]] study of brain [[connectivity]] networks*. Statistical Methods in Medical Research. [DOI](](https://doi.org/10.1177/09622802261432804))
+To evaluate plasticity empirically, investigators require both a baseline map of intrinsic functional architecture and statistical tools sensitive to task-driven connectivity changes. Power and colleagues provided a comprehensive characterization of human resting-state functional networks, identifying systems such as the default mode, attention, sensorimotor, and visual circuits that are consistently recovered across participants and acquisition protocols [[raw/papers/power-2011.md|Power et al. (2011)]]. These networks furnish the macroscopic scaffold against which plasticity-induced deviations can be measured. Complementing this descriptive foundation, joint graphical-model estimation offers a principled way to detect subtle, condition-dependent connectivity shifts that may reflect underlying plastic processes [[raw/papers/semanticscholar-eadc34d87ac8.md|Sun et al. (2026)]].
+
+## Mechanistic Perturbation in Digital Brain Models
+
+A recent intervention-capable digital twin of the human brain integrates individual neuroanatomy and task-evoked dynamics within a neuronal-scale framework to address the gap between description and mechanism [[raw/papers/semanticscholar-ff8218c1e55e.md|Xia et al. (2026)]]. By embedding a participant’s structural connectivity into the model and then systematically modulating excitatory and inhibitory synaptic conductance, the framework produces bidirectional, heterogeneous network responses that are unique to each individual. Population-scale simulations further demonstrate that these response profiles can stratify individuals and predict longitudinal symptom trajectories, suggesting that plasticity-induced variation in circuit excitability carries clinically actionable information. Critically, the predicted baseline-dependent network responses receive independent validation from pharmacological functional MRI data, establishing the digital twin as an experimental platform for mechanistic perturbation and behavioural prediction [[raw/papers/semanticscholar-ff8218c1e55e.md|Xia et al. (2026)]].
+
+At the statistical level, detecting plasticity requires methods that go beyond static connectivity matrices. Sun and co-workers proposed a hybrid Bayesian integration technique for jointly estimating multiple graphical models from high-dimensional neuroimaging data [[raw/papers/semanticscholar-eadc34d87ac8.md|Sun et al. (2026)]]. Applied to an emotion-processing task, the approach reveals that inter- and intra-module interactions involving the subcortical–cerebellum circuit are attenuated during emotion processing relative to shape processing, illustrating how task demands can reconfigure network topology. Such frameworks provide the inferential machinery needed to distinguish true plasticity-related connectivity changes from measurement noise, especially when the same set of regions is scanned under multiple experimental conditions.
+
+## Relationships to Network Organization and Structure
+
+Plasticity operates on the anatomical substrate of the [[connectome]], yet its observable signatures appear in functional connectivity. The tension between stable [[structural-connectivity|structural pathways]] and adaptive functional weights is what makes plasticity both difficult to isolate and essential for realistic modeling. Resting-state functional networks delineated by Power et al. offer a relatively stable reference [[raw/papers/power-2011.md|Power et al. (2011)]], whereas the task-dependent connectivity changes captured by joint graphical-model estimation reflect the dynamic reconfigurations that plasticity mechanisms generate [[raw/papers/semanticscholar-eadc34d87ac8.md|Sun et al. (2026)]]. Together, these complementary perspectives constrain the space of candidate plasticity effects within a given individual’s anatomy.
+
+The digital twin approach aligns closely with the goals of [[the-virtual-brain|TVB]]-style [[personalized-brain-modeling]]: both begin with an individual’s anatomical connectivity and simulate population-level dynamics. Where conventional TVB simulations often treat synaptic coupling parameters as fixed or group-averaged, the intervention-capable digital twin demonstrates that making these parameters dynamically mutable—and perturbing them systematically—enables prediction of clinical trajectories and stratification of patient subgroups. Integrating such mechanistic perturbation protocols into TVB pipelines would move the platform from descriptive simulation toward an experimental testbed for precision psychiatry.
+
+## Biological Grounding
+
+The in silico modulation of excitatory and inhibitory synaptic conductance instantiated in the digital twin framework maps directly onto real pharmacological manipulations that alter receptor-mediated postsynaptic currents [[raw/papers/semanticscholar-ff8218c1e55e.md|Xia et al. (2026)]]. Because individuals exhibit heterogeneous network responses to identical synaptic perturbations, the framework implicitly captures biological variability in local excitation–inhibition balance and structural backbone geometry. This biological grounding transforms abstract weight updates in a simulation into testable predictions about how specific synaptic interventions will propagate through a patient’s unique [[connectome]].
