@@ -1,14 +1,14 @@
 ---
-title: SpikeInterface
 created: 2026-04-29
-updated: 2026-05-18
-type: entity
-tags:
-  - software-brain-modeling
-  - spiking-neural-networks
-  - reproducibility
 sources:
-  - raw/papers/arxiv-2601.09912.md
+- raw/papers/arxiv-2601.09912.md
+tags:
+- software-brain-modeling
+- spiking-neural-networks
+- reproducibility
+title: SpikeInterface
+type: entity
+updated: '2026-05-18'
 ---
 
 ## Overview
@@ -32,3 +32,7 @@ SpikeInterface and [[the-virtual-brain]] occupy complementary positions within t
 ## Related Software and Ecosystem
 
 SpikeInterface sits within a tightly integrated Python ecosystem for electrophysiology analysis. The [[neo]] library provides the foundational data model and I/O layer upon which SpikeInterface builds its preprocessing and sorting pipelines. Manual curation of sorted clusters typically employs [[phy]], an interactive graphical interface for inspecting waveforms and correcting merge or split errors. Biophysical forward modeling of extracellular potentials is handled by [[lfpy]] and [[lfpykit]], which simulate local field potentials from morphologically detailed neurons. Comparison between experimentally observed spike trains and simulated activity benefits from integration with [[nest]], [[neuron]], and [[brian]], while [[elephant]] offers population-level spike train analysis within the same object model. Data conversion and standardization are supported by [[neuroconv]], completing a cohesive pipeline from acquisition to archived [[reproducibility|reproducible]] analysis.
+
+## References
+
+1. Daril E. Brown, Elizaveta Okorokova, Carrina Iacobacci, Brian Coughlin, Orin Bloch, Eric M. Trautmann, Sydney S. Cash, Angelique C. Paulk, Sergey D. Stavisky, David M. Brandman. (2026). *High-Density Multi-Depth Human Recordings Using 45 mm Long Neuropixels Probes*. [Link](https://arxiv.org/abs/2601.09912)

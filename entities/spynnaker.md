@@ -1,13 +1,5 @@
 ---
-title: sPyNNaker
 created: 2024-01-15
-updated: 2026-05-18
-type: entity
-tags:
-- software-brain-modeling
-- spiking-neural-networks
-- whole-brain-modeling
-- network-dynamics
 sources:
 - raw/papers/semanticscholar-de2622579d45.md
 - raw/papers/semanticscholar-23faea8464f1.md
@@ -16,6 +8,14 @@ sources:
 - raw/papers/semanticscholar-5c84b271b035.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2505.16861.md
+tags:
+- software-brain-modeling
+- spiking-neural-networks
+- whole-brain-modeling
+- network-dynamics
+title: sPyNNaker
+type: entity
+updated: '2026-05-18'
 ---
 
 sPyNNaker is a software platform that maps descriptions of [[spiking-neural-networks]] onto the SpiNNaker neuromorphic hardware architecture, enabling large-scale simulations of biologically inspired neuronal circuits at comparatively efficient compute power [[raw/papers/semanticscholar-de2622579d45.md|Panagiotou et al. (2025)]][[raw/papers/arxiv-2507.07284.md|Fan & Levy (2025)]]. Developed within the SpiNNaker project, it translates high-level network specifications into executable configurations for a many-core digital system that emulates brain-like computation through parallel, event-driven processing [[raw/papers/semanticscholar-23faea8464f1.md|Chen et al. (2026)]]. By targeting custom hardware rather than conventional CPUs or GPUs, sPyNNaker addresses the demand for energy-efficient neural simulation at scales that would be computationally prohibitive on standard architectures.
@@ -35,3 +35,13 @@ Comparative analyses of neuromorphic hardware place SpiNNaker alongside [[brains
 ## Relationship to TVB
 
 Whole-brain modeling platforms such as [[the-virtual-brain]] simulate primate brain network dynamics by coupling empirical [[structural-connectivity]] to region-level [[neural-mass-models]], operating at scales where individual spikes are averaged into population firing rates [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. sPyNNaker operates at the complementary microscopic extreme, resolving single-neuron spike times and synaptic events on neuromorphic hardware. Recent [[co-simulation]] frameworks illustrate how spiking simulators can be coupled with TVB to bridge microscopic and macroscopic scales, replacing mass-model nodes with detailed neuron populations to study phenomena such as seizure propagation [[raw/papers/arxiv-2505.16861.md|Hater et al. (2025)]]. This partitioning—using TVB for macroscopic [[network-dynamics]] and sPyNNaker for cellular-level detail—mirrors the broader strategy of balancing biological realism against computational tractability in [[whole-brain-modeling]].
+
+## References
+
+1. Sotirios Panagiotou, Rene Miedema, Dimitrios Soudris, Christos Strydis. (2025). *Decoupling model descriptions from execution: a modular paradigm for extensible neurosimulation with EDEN*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1572782)
+2. Guang Chen, Meng Xu, Yuying Chen, F. Yuan, Lanqi Qin, Jian Ren. (2026). *A New Era in Computing: A Review of Neuromorphic Computing Chip Architecture and Applications*. Chips. [DOI](https://doi.org/10.3390/chips5010003)
+3. Sai Deepa Kadaru, Rohit Buccapatnam, Chang Liu. (2026). *Exploring Neuromorphic Computing for Reinforcement Learning: A Survey and Review*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2026.3654549)
+4. Andrew Fan, Simon D. Levy. (2025). *A Robust, Open-Source Framework for Spiking Neural Networks on Low-End FPGAs*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2507.07284)
+5. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+6. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)

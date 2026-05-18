@@ -1,21 +1,21 @@
 ---
-title: NeuroDebian
 created: 2024-01-15
-updated: 2026-05-18
-type: entity
-tags:
-  - software-brain-modeling
-  - reproducibility
-  - neuroimaging-fmri
-  - neuroimaging-dti
-  - tractography
-  - structural-connectivity
-  - functional-connectivity
-  - software-visualization
 sources:
-  - raw/papers/Renton2024.md
-  - raw/papers/schirner-2018.md
-  - raw/papers/sanz-leon-2013.md
+- raw/papers/Renton2024.md
+- raw/papers/schirner-2018.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-brain-modeling
+- reproducibility
+- neuroimaging-fmri
+- neuroimaging-dti
+- tractography
+- structural-connectivity
+- functional-connectivity
+- software-visualization
+title: NeuroDebian
+type: entity
+updated: '2026-05-18'
 ---
 
 NeuroDebian is a Debian-based software repository that packages neuroscience research tools for installation through native Linux package management. It addresses the fundamental challenge that neuroimaging research requires purpose-built analysis software, which is challenging to install and may produce different results across computing environments [[raw/papers/Renton2024.md|Renton et al. (2024)]]. By providing curated, pre-packaged versions of major neuroimaging platforms, NeuroDebian lowers the logistical barriers to deploying the preprocessing and analysis pipelines that underpin [[whole-brain-modeling]] and [[computational-neuroscience]] workflows.
@@ -35,3 +35,9 @@ NeuroDebian serves as essential infrastructure for [[whole-brain-modeling]] work
 ## Related Software and Alternatives
 
 NeuroDebian shares conceptual territory with [[neurodesk]], a containerized platform that distributes neuroimaging software through Docker and Singularity containers [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Neurodesk demonstrated empirically that containerized analysis eliminates inter-computer differences that occur with locally installed software, while offering greater flexibility for users who cannot adopt Debian-based systems. Unlike Neurodesk's container-native model, NeuroDebian integrates directly with the host operating system via native package management, making it particularly well-suited for high-performance computing clusters. This distinction reflects an ongoing evolution in [[computational-neuroscience]] tooling toward more portable deployment models that nevertheless depend on the same underlying neuroimaging preprocessing ecosystem.
+
+## References
+
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

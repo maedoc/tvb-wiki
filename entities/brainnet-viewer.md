@@ -15,8 +15,9 @@ tags:
 - brain-parcellations
 title: BrainNet Viewer
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-18'
 ---
+
 ## Overview
 
 BrainNet Viewer is a MATLAB-based software package for visualizing three-dimensional brain networks and [[connectivity]] data derived from various [[neuroimaging]] modalities. Developed primarily for the visualization of [[structural-connectivity]] from diffusion tensor imaging (DTI) and [[tractography]], as well as [[functional-connectivity]] from functional magnetic resonance imaging ([[fmri]]), electroencephalography (EEG), and magnetoencephalography (MEG), the tool enables researchers to render [[brain-network]] graphs overlaid on anatomical brain surfaces. The software was developed by the Brainnetome Lab at the University of Chinese Academy of Sciences and has become a widely used resource in the [[connectomics]] community for both exploratory data analysis and publication-quality figures [xia2013brainnet].
@@ -54,3 +55,9 @@ See also: [[nilearn]] for Python-based brain visualization, [[brainvoyager]] for
 
 ## ORPHAN PAGE CONTEXT (tractseg)
 ---
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

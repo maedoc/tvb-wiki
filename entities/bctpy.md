@@ -1,13 +1,19 @@
 ---
-title: BCTpy
 created: 2025-01-15
-updated: 2026-05-18
-type: entity
-tags: [software-brain-modeling, connectomics, network-dynamics, structural-connectivity, functional-connectivity, whole-brain-modeling]
 sources:
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
+tags:
+- software-brain-modeling
+- connectomics
+- network-dynamics
+- structural-connectivity
+- functional-connectivity
+- whole-brain-modeling
+title: BCTpy
+type: entity
+updated: '2026-05-18'
 ---
 
 BCTpy is the Python implementation of the Brain Connectivity Toolbox, a library for analyzing structural and functional brain networks using graph-theoretic measures originally developed by Mikail Rubinov and Olaf Sporns. It enables researchers to compute topological metrics on connectivity matrices derived from neuroimaging data, including modalities such as [[fmri]], [[eeg]], [[meg]], and [[dti]] [[tractography]] that are commonly used in whole-brain studies. The toolbox implements the comprehensive network analysis functions reviewed by [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]], supporting weighted, binary, directed, and undirected graph representations that capture diverse connectivity patterns observed in empirical [[connectomics]] research, consistent with the multimodal integration frameworks for diffusion MRI, fMRI, and EEG described by [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] and [[raw/papers/ritter-2013.md|Ritter et al. (2013)]].
@@ -17,3 +23,9 @@ The Python port addresses the need for scriptable network analysis tools that in
 BCTpy implements graph-theoretic metrics spanning node centrality, path-based characterization, and community detection, drawing on the comprehensive review of complex network measures presented by [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. Node-level functions identify influential regions and [[network-hubs]], path-based metrics quantify global integration, and modular decomposition algorithms detect community structure within [[brain-parcellations]]. The library supports weighted and directed networks that preserve the continuous connection strengths obtained from [[diffusion-imaging]] tractography, aligning with the graph representation principles discussed by [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. These same graph-theoretic principles apply to the structural and functional connectivity matrices that constrain whole-brain simulations, as shown by [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]], who used diffusion MRI tractography to build anatomical scaffolds for personalized models, and by [[raw/papers/ritter-2013.md|Ritter et al. (2013)]], who linked structural connectivity parameterizations to emergent functional dynamics.
 
 In whole-brain modeling workflows, BCTpy serves as a topological analysis complement to simulation platforms. [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] showed that [[the-virtual-brain]] constructs personalized models by combining empirical [[structural-connectivity]] matrices—typically derived from diffusion MRI [[tractography]]—with [[neural-mass-models]] to simulate large-scale brain dynamics. [[raw/papers/ritter-2013.md|Ritter et al. (2013)]] further demonstrated that subject-specific structural connectivity parameterizations can reproduce individual [[resting-state]] functional connectivity patterns, thereby bridging anatomical structure and emergent functional dynamics. Because BCTpy handles both binary and weighted graph representations, it accommodates the full range of connectivity data produced by neuroimaging pipelines, from thresholded tractography streamlines to continuous functional correlation matrices, aligning with the multimodal integration framework described by [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. Researchers can thus use BCTpy to quantify [[small-world-networks]] topology and [[modularity]] in both the empirical structural matrices that constrain TVB simulations and the simulated functional connectivity outputs that provide objective benchmarks for model validation, grounded in the network measure interpretations established by [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]].
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

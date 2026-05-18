@@ -10,89 +10,85 @@ tags:
 - eeg
 title: ICLabel
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
-**ICLabel** is an [[eeglab]] plugin that uses a deep [[neural-network]] to automatically classify independent components (ICs) derived from EEG recordings arxiv-1903.06496. It categorizes ICs into six main types: brain (cortical), muscle (EMG), eye (EOG), heart (ECG), line noise (powerline interference), and channel noise (sensor artifacts) arxiv-1903.06496. This automated classification addresses a major bottleneck in EEG preprocessing: the traditionally manual and time‑consistent process of identifying and removing artifacts from ICA‑decomposed data.  
+**ICLabel** is an [[eeglab]] plugin that uses a deep [[neural-network]] to automatically classify independent components (ICs) derived from EEG recordings arxiv-1903.06496. It categorizes ICs into six main types: brain (cortical), muscle (EMG), eye (EOG), heart (ECG), line noise (powerline interference), and channel noise (sensor artifacts) arxiv-1903.06496. This automated classification addresses a major bottleneck in EEG preprocessing: the traditionally manual and time‑consistent process of identifying and removing artifacts from ICA‑decomposed data.
 
-## Background  
+## Background
 
-### Independent Component Analysis in EEG  
+### Independent Component Analysis in EEG
 
-Independent Component Analysis (ICA) is a blind [[source-separation]] technique widely used in EEG preprocessing to decompose multichannel EEG recordings into statistically independent sources arxiv-1903.06496. While ICA effectively separates genuine neural activity from various artifacts, it produces a set of components whose biological origin must be determined through expert review—a process that is subjective, labor‑intensive, and scales poorly with large datasets.  
+Independent Component Analysis (ICA) is a blind [[source-separation]] technique widely used in EEG preprocessing to decompose multichannel EEG recordings into statistically independent sources arxiv-1903.06496. While ICA effectively separates genuine neural activity from various artifacts, it produces a set of components whose biological origin must be determined through expert review—a process that is subjective, labor‑intensive, and scales poorly with large datasets.
 
-### The Need for Automated Classification  
+### The Need for Automated Classification
 
-Manual IC classification requires expertise and can take hours for a single recording session. As EEGdatasets grow larger ([[resting-state]] recordings, task‑based experiments, sleep studies), the manual approach becomes impractical. ICLabel addresses this by providing a data‑driven, reproducible alternative that assigns probability scores to each IC category arxiv-1903.06496.  
+Manual IC classification requires expertise and can take hours for a single recording session. As EEGdatasets grow larger ([[resting-state]] recordings, task‑based experiments, sleep studies), the manual approach becomes impractical. ICLabel addresses this by providing a data‑driven, reproducible alternative that assigns probability scores to each IC category arxiv-1903.06496.
 
-## Technical Description  
+## Technical Description
 
-### Deep Neural Network Architecture  
+### Deep Neural Network Architecture
 
-ICLabel employs a convolutional neural network (CNN) trained on thousands of manually labeled ICs from the EEGLAB community arxiv-1903.06496. The network learns spatial and spectral features that distinguish neural sources from various artifact categories. Each IC receives a probability vector indicating likelihood of belonging to each category, allowing researchers to set thresholds for inclusion or exclusion based on their specific requirements.  
+ICLabel employs a convolutional neural network (CNN) trained on thousands of manually labeled ICs from the EEGLAB community arxiv-1903.06496. The network learns spatial and spectral features that distinguish neural sources from various artifact categories. Each IC receives a probability vector indicating likelihood of belonging to each category, allowing researchers to set thresholds for inclusion or exclusion based on their specific requirements.
 
-### Component Categories  
+### Component Categories
 
-| Category | Description |  
-|----------|-------------|  
-| Brain (cortical) | Genuine neural activity from cortical sources |  
-| Muscle (EMG) | Electromyographic activity from head and neck muscles |  
-| Eye (EOG) | Electrooculographic activity from eye movements and blinks |  
-| Heart (ECG) | Electrocardiographic activity from cardiac sources |  
-| Line noise | Powerline interference (50/60 Hz) and harmonics |  
-| Channel noise | Sensor artifacts, electrode pops, bad channels |  
+| Category | Description |
+|----------|-------------|
+| Brain (cortical) | Genuine neural activity from cortical sources |
+| Muscle (EMG) | Electromyographic activity from head and neck muscles |
+| Eye (EOG) | Electrooculographic activity from eye movements and blinks |
+| Heart (ECG) | Electrocardiographic activity from cardiac sources |
+| Line noise | Powerline interference (50/60 Hz) and harmonics |
+| Channel noise | Sensor artifacts, electrode pops, bad channels |
 
-### Integration with EEGLAB  
+### Integration with EEGLAB
 
-As an EEGLAB plugin, ICLabel integrates seamlessly into existing EEG preprocessing pipelines. After running ICA decomposition, users can invoke ICLabel to obtain probability scores for all components. The plugin provides visualization tools for inspecting ICs and their classifications, facilitating rapid review and cleaning arxiv-1903.06496.  
+As an EEGLAB plugin, ICLabel integrates seamlessly into existing EEG preprocessing pipelines. After running ICA decomposition, users can invoke ICLabel to obtain probability scores for all components. The plugin provides visualization tools for inspecting ICs and their classifications, facilitating rapid review and cleaning arxiv-1903.06496.
 
-## Applications  
+## Applications
 
-### Preprocessing Pipeline  
+### Preprocessing Pipeline
 
-ICLabel is typically applied after ICA decomposition in standard EEG preprocessing workflows:  
+ICLabel is typically applied after ICA decomposition in standard EEG preprocessing workflows:
 
-1. Preprocess raw EEG (filtering, epoching, artifact rejection)  
-2. Run ICA decomposition  
-3. Apply ICLabel to classify all components  
-4. Remove components exceeding threshold for artifact categories  
-5. Reconstruct cleaned EEG data  
+1. Preprocess raw EEG (filtering, epoching, artifact rejection)
+2. Run ICA decomposition
+3. Apply ICLabel to classify all components
+4. Remove components exceeding threshold for artifact categories
+5. Reconstruct cleaned EEG data
 
-### Research Applications  
+### Research Applications
 
-The plugin has enabled large‑scale analyses that would be prohibitively time‑consistent with manual classification, including population‑level studies of resting‑state networks, developmental research tracking changes in artifact patterns across age groups, and clinical applications requiring rapid artifact rejection arxiv-1903.06496.  
+The plugin has enabled large‑scale analyses that would be prohibitively time‑consistent with manual classification, including population‑level studies of resting‑state networks, developmental research tracking changes in artifact patterns across age groups, and clinical applications requiring rapid artifact rejection arxiv-1903.06496.
 
-## Relationship to TVB  
+## Relationship to TVB
 
-ICLabel operates at the preprocessing stage, upstream of [[the-virtual-brain]] (TVB) pipeline. Its role is limited to identifying and removing artifact components from EEG data before it is used as input for brain modeling.  
+ICLabel operates at the preprocessing stage, upstream of [[the-virtual-brain]] (TVB) pipeline. Its role is limited to identifying and removing artifact components from EEG data before it is used as input for brain modeling.
 
-### Data Preparation for Connectivity Analysis  
+### Data Preparation for Connectivity Analysis
 
-Clean EEG data processed through ICLabel can be used as basis for constructing [[functional-connectivity]] matrices. However, this involves additional pipeline Steps (source reconstruction, [[connectivity]] estimation) that are external to ICLabel's core functionality. The classification of ICs merely ensures that the cleaned data better reflects genuine neural activity rather than artifacts that could distort connectivity estimates.  
+Clean EEG data processed through ICLabel can be used as basis for constructing [[functional-connectivity]] matrices. However, this involves additional pipeline Steps (source reconstruction, [[connectivity]] estimation) that are external to ICLabel's core functionality. The classification of ICs merely ensures that the cleaned data better reflects genuine neural activity rather than artifacts that could distort connectivity estimates.
 
-### Volume Conduction and Forward Modeling  
+### Volume Conduction and Forward Modeling
 
-When EEG data is used in TVB simulations, [[volume-conduction]] models are required to [[forward-model]] the electrical potentials generated by neural sources [[volume-conduction]]. ICLabel itself does not participate in forward modeling; it simply provides cleaner input data.  
+When EEG data is used in TVB simulations, [[volume-conduction]] models are required to [[forward-model]] the electrical potentials generated by neural sources [[volume-conduction]]. ICLabel itself does not participate in forward modeling; it simply provides cleaner input data.
 
-### Connectome‑Based Analyses  
+### Connectome‑Based Analyses
 
-Researchers may use ICLabel‑cleaned EEG data in [[connectome]]‑based investigations, though such analyses are distinct from TVB's whole‑brain simulation framework [[mrtrix3-connectome]]. The preprocessing step is peripheral to TVB core functionality rather than integral to it.  
+Researchers may use ICLabel‑cleaned EEG data in [[connectome]]‑based investigations, though such analyses are distinct from TVB's whole‑brain simulation framework [[mrtrix3-connectome]]. The preprocessing step is peripheral to TVB core functionality rather than integral to it.
 
-### Electrophysiology Integration  
+### Electrophysiology Integration
 
-ICLabel contributes to electrophysiology preprocessing workflows that may feed into TVB's [[neural-mass-models]] [[electrophysiology]]. The relationship is one of data preparation rather than direct model integration.  
+ICLabel contributes to electrophysiology preprocessing workflows that may feed into TVB's [[neural-mass-models]] [[electrophysiology]]. The relationship is one of data preparation rather than direct model integration.
 
-## See Also  
+## See Also
+ICLabel belongs to the broader family of blind source-separation methods for neurophysiological data. The foundational demonstration that Independent Component Analysis (ICA) could decompose EEG and MEG recordings into physiologically meaningful sources—while simultaneously removing ocular and muscular artifacts—was provided by [[raw/papers/makeig-1996.md|Makeig et al. (1996)]], establishing the component-based paradigm that ICLabel now automates [[raw/papers/makeig-1996.md|Makeig et al. (1996)]]. In contemporary workflows, ICA decomposition is embedded in preprocessing environments such as [[eeglab]] and [[mne-python]]-based pipelines; for instance, EEG-Pype provides an open-source graphical interface that guides users through frequency filtering, independent component analysis, and atlas-based beamforming for resting-state recordings [[raw/papers/semanticscholar-9e42d6a25d21.md|Lodema et al. (2026)]]. Because ICLabel only assigns probability scores to components, it is typically followed by downstream steps that compute [[functional-connectivity]] or perform source-level analysis on the cleaned data [[raw/papers/semanticscholar-9e42d6a25d21.md|Lodema et al. (2026)]], placing the plugin upstream of [[electrophysiology]]-based modeling and [[resting-state]] network studies.
 
-- [[eeglab]]  
-- [[principal-component-analysis]]  
-- [[eeg]]  
-- [[volume-conduction]]  
-- [[mrtrix3-connectome]]  
-- [[electrophysiology]]
+Automated ICA classification is not limited to electrophysiology. The MEPrep pipeline for multi-echo fMRI integrates a preICA denoising stage and multi-echo ICA (ME-ICA) into [[fmriprep]] to disentangle BOLD-related signals from TE-independent noise, thereby improving [[functional-connectivity]] reliability [[raw/papers/semanticscholar-4d73a30d5c84.md|Wang et al. (2026)]]. By automating multi-echo preprocessing within a robust pipeline, MEPrep achieves substantial performance enhancements over traditional echo-combination methods while preserving the neurobiological complexity of denoised BOLD signals [[raw/papers/semanticscholar-4d73a30d5c84.md|Wang et al. (2026)]]. Researchers interested in cross-modal preprocessing may therefore compare [[fmri-vs-eeg|fMRI and EEG denoising strategies]], or explore how cleaned signals from both [[neuroimaging-fmri]] and [[neuroimaging-eeg]] modalities feed into downstream [[connectivity]] analyses and whole-brain network models [[raw/papers/semanticscholar-4d73a30d5c84.md|Wang et al. (2026)]].
 
 ## References
 
-1. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible [[mne-python]] pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1014043))
-2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo [[fmri]] denoising and preprocessing*. Imaging Neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.1198))
+1. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible MNE-Python pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
+2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
 3. (authors unknown). *Independent component analysis of electroencephalographic data*.

@@ -1,19 +1,19 @@
 ---
-title: MRtrix3
 created: 2026-05-06
-updated: 2026-05-18
-type: entity
-tags:
-  - software-brain-modeling
-  - neuroimaging-dti
-  - tractography
-  - structural-connectivity
-  - connectomics
-  - whole-brain-modeling
-  - reproducibility
 sources:
-  - raw/papers/semanticscholar-a6b8919e7fe8.md
-  - raw/papers/Renton2024.md
+- raw/papers/semanticscholar-a6b8919e7fe8.md
+- raw/papers/Renton2024.md
+tags:
+- software-brain-modeling
+- neuroimaging-dti
+- tractography
+- structural-connectivity
+- connectomics
+- whole-brain-modeling
+- reproducibility
+title: MRtrix3
+type: entity
+updated: '2026-05-18'
 ---
 
 MRtrix3 is an open-source software suite for [[diffusion-mri]] analysis, with particular emphasis on [[tractography]] and [[connectome]] construction. It provides tools for processing, analyzing, and visualizing diffusion-weighted imaging data to generate [[structural-connectivity]] matrices used in network neuroscience and [[whole-brain-modeling]] workflows [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Researchers employ MRtrix3 within containerized neuroimaging environments alongside complementary tools for preprocessing and statistical analysis, ensuring consistent tractography outputs across heterogeneous computing systems and supporting end-to-end brain connectivity pipelines [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Its inclusion in reproducible analysis platforms reflects the importance of standardized diffusion MRI processing for both clinical research and computational modeling [[raw/papers/Renton2024.md|Renton et al. (2024)]].
@@ -33,3 +33,8 @@ MRtrix3 serves as a critical preprocessing component in [[the-virtual-brain]] wo
 ## Related Software
 
 MRtrix3 functions within a broader ecosystem of neuroimaging and network-analysis software. In containerized distributions it is packaged alongside complementary diffusion analysis tools, structural MRI processors such as [[freesurfer]], and functional MRI pipelines. Researchers may combine MRtrix3 outputs with graph-theoretic analysis platforms or import connectivity matrices into simulation environments such as [[the-virtual-brain]] or [[dipy]]-based pipelines for downstream [[network-dynamics]] modeling.
+
+## References
+
+1. Quynh Lê, Arichena Manmatharayan, Mashaal Syed, Ki-Sang Kang, Tsao‐Wei Liang, Mahdi Alizadeh, Chengyuan Wu. (2026). *Structural and Functional Connectivity in Parkinson's Disease Patients With Freezing of Gait and Other Gait Disturbances*. Clinical Neuroimaging. [DOI](https://doi.org/10.1002/neo2.70042)
+2. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

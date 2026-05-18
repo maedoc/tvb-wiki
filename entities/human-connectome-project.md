@@ -19,6 +19,7 @@ title: Human Connectome Project
 type: entity
 updated: '2026-05-18'
 ---
+
 # Human Connectome Project (HCP)
 
 The Human Connectome Project (HCP) is a major initiative to map human brain [[connectivity]] in unprecedented detail. Led by the WU-Minn consortium, the project was designed to characterize [[structural-connectivity|structural]] and [[functional-connectivity|functional]] brain connectivity in 1,200 healthy young adults using optimized [[neuroimaging-fmri|functional MRI]], [[diffusion-mri|diffusion MRI]], and structural MRI protocols at both 3T and 7T field strengths [[raw/papers/van-essen-2013.md|Van Essen et al. (2013)]]. To achieve this goal, the HCP developed customized 3T and 7T MRI systems, optimized pulse sequences, and rigorous quality assurance procedures that together established a new technical foundation for multimodal neuroimaging [[raw/papers/van-essen-2012.md|Van Essen et al. (2012)]]. The resulting datasets are openly shared with the scientific community and have enabled thousands of studies of human [[connectomics]] worldwide [[raw/papers/van-essen-2013.md|Van Essen et al. (2013)]].
@@ -120,3 +121,15 @@ Seven cognitive domains assessed:
 
 ## Key People
 [[david-van-essen|David C. Van Essen]] led the WU-Minn consortium's scientific direction, first-authoring the project's foundational overview and the detailed data-acquisition strategy that established the HCP's technical scope [[raw/papers/van-essen-2013.md|Van Essen et al. (2013)]][[raw/papers/van-essen-2012.md|Van Essen et al. (2012)]]. [[kamil-ugurbil|Kamil Ugurbil]] co-authored these same overview papers and directed the development of customized 3T and 7T MRI systems, optimized pulse sequences, and quality assurance procedures that underpinned the HCP's multimodal imaging foundation [[raw/papers/van-essen-2013.md|Van Essen et al. (2013)]][[raw/papers/van-essen-2012.md|Van Essen et al. (2012)]]. On the analysis side, [[matthew-glasser|Matthew F. Glasser]] and [[steven-smith|Stephen M. Smith]] jointly developed the minimal preprocessing pipelines that introduced a surface-based framework and cross-modal alignment, setting a standard for the field [[raw/papers/glasser-2013.md|Glasser et al. (2013)]]. Smith also first-authored the high-resolution resting-state functional connectivity study that characterized major intrinsic networks across the cohort [[raw/papers/smith-2013-hcp.md|Smith et al. (2013)]], while [[deanna-barch|Deanna M. Barch]] designed the seven-domain task-fMRI battery used to assess cognitive and affective function at scale [[raw/papers/barch-2013.md|Barch et al. (2013)]].
+
+## References
+
+1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+3. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
+4. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+5. (authors unknown). *Pushing Spatial and Temporal Resolution for Functional and Diffusion MRI in the Human Connectome Project*.
+6. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+7. (authors unknown). *Functional Network Organization of the Human Brain*.
+8. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
+9. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
