@@ -67,6 +67,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Neurodesk](neurodesk.md) — Containerized neuroimaging analysis environment with 100+ tools
 - [PopEye](popeye.md) — Python toolbox for estimating population receptive fields from fMRI data
 - [PALM](palm.md) — Parametric Analysis of Linear Models for neuroimaging statistical inference
+- [PRoNTo](pronto.md) — MATLAB toolbox for multivariate pattern analysis of neuroimaging data
 - [FSL Randomise](fsl-randomise.md) — Non-parametric permutation testing with TFCE for neuroimaging statistical inference
 - [FoVD](fovd.md) — Field of View Diameter, a critical MRI imaging parameter for whole-brain modeling
 - [PyDICOM](pydicom.md) — Pure Python library for reading and writing DICOM medical imaging files
@@ -78,6 +79,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [LEMS](lems.md) — Low-level Entity Meta-Schema for neural model specification and simulator interoperability
 - [LORIS](loris.md) — Web-based data management and processing platform for large-scale neuroimaging datasets
 - [COINS](coins.md) — Collaborative Informatics and Neuroimaging Suite, web-based platform for multi-site neuroimaging data management and sharing
+- [dcm2niix](dcm2niix.md) — Open-source DICOM-to-NIfTI converter and foundational preprocessing utility for neuroimaging pipelines
 
 ## Research Projects & Datasets
 
