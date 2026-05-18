@@ -560,3 +560,7 @@
 ## [2026-05-16 15:16] Linter: 73 broken links, 10 orphans, 6 stale, 0 empty
 
 ## [2026-05-17 15:16] Linter: 73 broken links, 10 orphans, 6 stale, 0 empty
+
+## [2026-05-18 09:53] LinkRepair: fixed 24 files (9 wikilink-in-URL, 15 abs-path)
+
+## [2026-05-18 09:53] Linter: 73 broken links, 10 orphans, 6 stale, 0 empty
