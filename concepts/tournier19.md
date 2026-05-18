@@ -1,14 +1,24 @@
 ---
-title: Tournier et al. 2019
 created: 2026-05-06
-updated: 2026-05-18
-type: entity
-tags: [whole-brain-modeling, structural-connectivity, connectomics, diffusion-imaging, tractography, neuroimaging-dti, software-brain-modeling, software-visualization, reproducibility, paper-methods]
 sources:
 - raw/papers/Renton2024.md
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/arxiv-2511.04871.md
 - raw/papers/semanticscholar-1d74a8be554f.md
+tags:
+- whole-brain-modeling
+- structural-connectivity
+- connectomics
+- diffusion-imaging
+- tractography
+- neuroimaging-dti
+- software-brain-modeling
+- software-visualization
+- reproducibility
+- paper-methods
+title: Tournier et al. 2019
+type: entity
+updated: '2026-05-18'
 ---
 
 Tournier et al. (2019) is the foundational software paper introducing MRtrix3, an open-source framework for diffusion-weighted magnetic resonance imaging analysis and [[tractography]]. Published in *NeuroImage*, the article presented MRtrix3 as a fast, flexible, and open software framework for medical image processing and visualisation, consolidating tools that have become integral to [[neuroimaging]] pipelines and [[whole-brain-modeling]] workflows.
@@ -22,3 +32,10 @@ MRtrix3 occupies a distinct position in the diffusion MRI software landscape. Wh
 The outputs of MRtrix3 diffusion MRI and tractography constitute a critical upstream stage for [[whole-brain-modeling]] workflows in [[the-virtual-brain|The Virtual Brain]] and comparable simulators [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Tractography-derived streamline [[connectivity]] matrices furnish the weighted [[structural-connectivity]] substrate that constrains large-scale neural dynamics simulations, enabling subject-specific network models. By integrating diffusion-based fiber trajectory estimation with connectome generation within a single framework, Tournier et al. (2019) established a processing backbone whose downstream products directly feed into [[personalized-brain-modeling]] pipelines that require accurate, biologically plausible estimates of inter-regional anatomical coupling.
 
 The biological relevance of MRtrix3 derives from the capacity of diffusion MRI to probe the microstructural organization of [[white-matter]] in vivo. Tractography algorithms reconstruct macroscopic white matter pathways by following water diffusion anisotropy, generating trajectories that correspond to functionally relevant neural tracts [[raw/papers/semanticscholar-1d74a8be554f.md|Guberman et al. (2025)]]. Concurrently, diffusion-derived scalar metrics capture tissue microstructure pertinent to neurodegenerative diseases and large-scale brain conditions [[raw/papers/arxiv-2511.04871.md|Girard et al. (2025)]]. MRtrix3 translates these biophysical measurements into structural network representations, approximating the brain's physical wiring architecture and thereby furnishing the anatomical constraints required for computational models of neural activity and disease propagation.
+
+## References
+
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+3. Gabriel Girard, Manon Edde, F'elix Dumais, Yoan David, M. Dumont, Guillaume Théaud, Jean-Christophe Houde, Arnaud Bor'e, Maxime Descoteaux, Pierre-Marc Jodoin. (2025). *Clinical-ComBAT: a diffusion-weighted MRI harmonization method for clinical applications*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2511.04871)
+4. Guido I. Guberman, N. Balasubramaniam, L. Wilson, Etienne J. P. Maes, Judy Chen, M. Luigi, Guillaume Théaud, F. Rheault, Elie Bou Assi, H. Zaveri, H. Westwick, D. K. Nguyen, A. Bouthillier, M. Bojanowski, Alexander G. Weil, Roy W R Dudley, Boris C. Bernhardt, Joseph Yuan-Mou Yang, Maxime Descoteaux, E. Damisah, George M. Ibrahim, Dennis D. Spencer, Silvio Sarubbo, Sami Obaid. (2025). *Diffusion MRI Tractography to Reduce Risks of Postoperative Neurologic Deficits: A Systematic Review and Meta-Analysis.*. Neurology. [DOI](https://doi.org/10.1212/WNL.0000000000214145)

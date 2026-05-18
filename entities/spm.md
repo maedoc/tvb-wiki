@@ -13,8 +13,9 @@ tags:
 - image-processing
 title: SPM
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
+
 # SPM
 
 **SPM** (Statistical Parametric Mapping) is a software suite for the analysis of brain imaging data sequences ([[fmri]], PET, SPECT, EEG, MEG). Developed at the Wellcome Centre for Human [[neuroimaging]] at University College London, SPM is one of the most influential neuroimaging analysis packages.
@@ -60,3 +61,9 @@ SPM's DCM is particularly relevant to TVB:
 SPM sits at the center of a broader neuroimaging analysis stack that ranges from preprocessing and source reconstruction to whole-brain simulation. The GLEAN toolbox, for example, is built directly on top of the SPM12 framework because SPM already provides validated source reconstruction and preprocessing pipelines for MEG and EEG data [[raw/papers/glean-github.md|Baker et al. (2015)]]. GLEAN leverages SPM's beamforming capabilities for source localization and its established routines for filtering and artifact rejection, as documented in SPM's own EEG-MEG analysis literature [[raw/papers/glean-github.md|Litvak et al. (2011)]], then adds group-level Hidden Markov Model and Independent Component Analysis decompositions on band-limited power time courses extracted from source-reconstructed data [[raw/papers/glean-github.md|Baker et al. (2015)]]. Because GLEAN operates on SPM-processed electrophysiology, improvements in SPM's preprocessing or beamforming propagate into downstream group-level [[connectivity]] analyses, creating a dependency chain from raw sensor data to network estimates.
 
 At the simulation end of the pipeline, [[the-virtual-brain]] complements SPM by turning empirically derived connectivity estimates into large-scale dynamical models. TVB combines structural connectivity from diffusion MRI with [[neural-mass-models]] to generate simulated EEG, MEG, and fMRI signals that can be compared directly against empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The theoretical continuity with SPM is explicit: SPM's Dynamic Causal Modeling couples neural mass models to neuroimaging forward models and inverts them using Bayesian inference, separating neural state dynamics from observation equations [[raw/papers/david-friston-2003.md|David and Friston (2003)]]. TVB uses the same class of neural mass models to simulate [[connectivity]] across the whole brain [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]], so researchers frequently move from SPM-derived [[effective-connectivity]] estimates into TVB simulations, closing the loop between inference and prediction.
+
+## References
+
+1. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+2. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

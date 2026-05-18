@@ -572,3 +572,7 @@
 
 ## 2026-05-18
 - Improved [[tvb-library]] Key Features section: rewrote sparse 22-word bullet list into dense sourced prose (~150 words across 2 paragraphs), added 7 inline citations from all 3 available sources (Sanz Leon et al. 2013 x3, Gaglioti et al. 2025 x1, Martin et al. 2025 x2), added 14 wikilinks (brain-network, structural-connectivity, diffusion-imaging, tractography, neural-mass-model, personalized-brain-modeling, eeg, meg, fmri, neuroimaging, connectome, functional-connectivity, jax, julia, reproducibility), replaced unsupported placeholder bullets with source-backed discussion of forward-model infrastructure for EEG/MEG/fMRI, personalized whole-brain simulation, quantitative calibration via analysis-tool pipelines, TVB Ontology cross-platform code generation, and FAIR metadata provenance reporting, bumped updated date to 2026-05-18
+
+## [2026-05-18 10:01] Librarian: catalog rebuilt, 10716 asymmetric links noted
+
+## [2026-05-18 10:01] Linter: 89 broken links, 10 orphans, 7 stale, 0 empty
