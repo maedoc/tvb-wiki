@@ -14,7 +14,7 @@ tags:
 - neuroimaging-meg
 title: Teneto
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # Teneto
@@ -52,3 +52,7 @@ The foundational reference for the application of temporal network theory to neu
 ## Related Software
 
 Teneto occupies a distinct niche complementing existing neuroimaging analysis tools. [[bctpy]] and the [[brain-connectivity-toolbox]] provide comprehensive static graph measures but do not model temporal network structure. [[graphvar]] extends graph-theoretic analysis to dynamic connectivity but operates primarily in MATLAB and emphasizes brain-behavior correlations rather than native temporal network measures. [[mne-connectivity]] computes time-resolved connectivity from [[mne-python]] data structures, generating the time series that can subsequently be analyzed by Teneto. [[brainspace]] implements gradient-based dimensionality reduction of connectivity patterns, complementary to Teneto's network-science approach. The general-purpose Python network analysis library provides lower-level graph manipulation but lacks neuroscience-specific temporal constructs.
+
+## References
+
+1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)

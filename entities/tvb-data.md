@@ -11,7 +11,7 @@ tags:
 - software-brain-modeling
 title: tvb-data
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # tvb-data
@@ -48,3 +48,9 @@ The package is organized into several categories of data, each supporting a dist
 - [[tvb-diffusion]] — Companion data package for diffusion-weighted imaging and tractography datasets
 - [[tvb-rest]] — [[rest]] API for programmatic access to TVB simulations
 - [[human-connectome-project]] — Major source of the structural and functional data distributed in the package
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Gorgolewski et al. (2016). *The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments*. Scientific Data. [DOI](https://doi.org/10.1038/sdata.2016.44)

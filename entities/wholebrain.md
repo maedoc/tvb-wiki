@@ -15,7 +15,7 @@ tags:
 - personalized-brain-modeling
 title: Whole-Brain Modeling
 type: concept
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # Whole-Brain Modeling
@@ -53,3 +53,7 @@ Fitting to [[functional-connectivity]] alone can produce models that reproduce s
 ## Open Questions
 
 Several challenges remain active areas of investigation. The inference of [[structural-connectivity]] from [[tractography]] introduces biases — including a tendency to over-represent short-range connections and under-represent inter-hemispheric projections — that propagate into model predictions. The appropriate level of biophysical detail in the local node model is debated: simpler models often fit [[functional-connectivity]] comparably to more complex ones, raising questions of model identifiability. Finally, standard whole-brain models are deterministic, yet empirical brain dynamics exhibit substantial variability across time and individuals, motivating the development of stochastic and [[personalized-brain-modeling]] approaches that incorporate subject-specific parameter estimates and noise models.
+
+## References
+
+1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)

@@ -10,7 +10,7 @@ tags:
 - neuroimaging
 title: ANTsR
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 **ANTsR** provides R language bindings to the [[ants]] (Advanced Normalization Tools) C++ library, enabling R users to access current [[neuroimaging]] registration, segmentation, and preprocessing algorithms within the R statistical computing environment. Developed primarily by [[brian]] Avants and Nick Tustison, ANTsR extends the powerful image analysis capabilities of ANTs to the R ecosystem, facilitating reproducible research workflows in brain imaging studies. The package serves as a critical bridge between R-based statistical analysis pipelines and the advanced registration techniques developed within the ANTs community.
@@ -37,7 +37,7 @@ For [[structural-connectivity]] analysis, ANTsR's tractography tools can produce
 
 ANTsR exists within a broader ecosystem of ANTs-derived tools. [ANTsPy](](/docs/software/Antspy)) provides Python bindings to the same underlying C++ library, offering similar functionality in the Python ecosystem. ANTsR can interoperate with Python-based workflows through tools like reticulate, and both packages share the same underlying registration and segmentation engines. The template registration workflows benefit from integration with [[templateflow]], which provides a library of harmonized neuroimaging templates.
 
-For comparison and validation, ANTsR segmentations can be assessed against those produced by [FreeSurfer](](/docs/software/freesurfer)) and [FSL](/docs/software/fsl), while the Python ecosystem offers alternative solutions through [nilearn](](/docs/software/nilearn)) and [[nibabel]] for image I/O. The [[brainglobe]] initiative provides additional tooling for atlas-based analysis that complements ANTsR workflows.
+For comparison and validation, ANTsR segmentations can be assessed against those produced by [FreeSurfer](](/docs/software/[[freesurfer]])) and [FSL](/docs/software/fsl), while the Python ecosystem offers alternative solutions through [nilearn](](/docs/software/[[nilearn]])) and [[nibabel]] for image I/O. The [[brainglobe]] initiative provides additional tooling for atlas-based analysis that complements ANTsR workflows.
 
 ## Key Researchers
 
