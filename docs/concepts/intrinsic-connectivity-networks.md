@@ -12,7 +12,7 @@ tags:
 - brain-networks
 title: Intrinsic Connectivity Networks
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
 # Intrinsic Connectivity Networks
@@ -42,10 +42,9 @@ ICNs provide empirical validation targets for TVB:
 
 ## Related
 
-- [[resting-state-vs-task-fmri]] — paradigms for studying ICNs
-- [[hcp-dataset]] — provides high-quality resting-state data for ICN analysis
-- [[functional-connectivity]] — mathematical definition
-- [[connectome]] — structural basis of ICNs
+ICNs are fundamentally defined by patterns of [[functional-connectivity]] measured during [[resting-state]] conditions, and their relationship to task-evoked brain activity has anchored much of network neuroscience. [[raw/papers/smith-2009.md|Smith et al. (2009)]] showed that task-evoked activation maps correlate strongly with resting-state functional connectivity patterns, demonstrating that intrinsic connectivity networks reflect the brain's functional architecture for task execution rather than mere idling dynamics. [[raw/papers/power-2011.md|Power et al. (2011)]] extended this perspective through a comprehensive mapping of functional network organization, identifying major systems—including the [[default-mode-network]], attention, sensorimotor, and visual networks—and characterizing their spatial organization across scales. [[raw/papers/arxiv-2501.07394.md|Hu et al. (2025)]] further demonstrated that resting-state networks provide essential foundations for decoding intrinsic neural information and can be characterized across neuroimaging modalities, reinforcing the view that ICNs are robust features of brain organization rather than imaging-specific artifacts.
+
+Because ICNs capture the brain's intrinsic functional architecture, they serve as empirical targets for computational models that seek to relate spontaneous activity to task-evoked cognition. [[raw/papers/smith-2009.md|Smith et al. (2009)]] argued that the correspondence between resting-state connectivity and task activation supports using resting-state data to parameterize models that simulate task states, a strategy that bridges the divide between [[resting-state-vs-task-fmri|resting-state and task-based paradigms]] in whole-brain modeling. [[raw/papers/power-2011.md|Power et al. (2011)]] emphasized that the spatial organization of functional networks can be identified reliably from [[resting-state-fmri]], and the resulting network definitions have been widely adopted for mapping ICNs across studies. [[raw/papers/arxiv-2501.07394.md|Hu et al. (2025)]] also showed that functional connectivity weights exhibit a characteristic right-skewed distribution that is robust to channel density and coupling measure, suggesting that certain distributional properties of [[brain-network]] connectivity may generalize across recording configurations.
 
 ## References
 

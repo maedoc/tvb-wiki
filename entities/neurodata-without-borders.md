@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: Neurodata Without Borders
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 ## Overview
@@ -32,7 +32,7 @@ The NWB schema has evolved through several versions, with NWB 2.x representing a
 
 One of NWB's most important features is its **extensibility** through custom **extensions** that allow researchers to represent data types not covered by the core schema without breaking compatibility with standard tools [7]. This design principle acknowledges that neuroscience data collection methods continue to evolve rapidly, and the standard must accommodate novel experimental paradigms. The NWB ecosystem includes the **nwb-schema** library for validating files against the specification, the **PyNWB** Python API for programmatic file creation and reading [10], and the **MATLAB** SDK for users in that environment [11].
 
-The standard also provides built-in support for **data provenance** tracking, allowing researchers to document the origin of each data element and any transformations applied. This provenance information is essential for reproducible research and enables downstream users to understand exactly what processing has been applied to "raw" data [9]. NWB files can include **metadata about electrode placement** using standardized coordinate systems, which facilitates integration with anatomical atlases like the Desikan-Killiany atlas [[desikan-killiany-atlas]] and [FreeSurfer](](freesurfer)) parcellations [7]. Additional features include support for parallel HDF5 storage for extremely large datasets, integration with the NIX format for enhanced data model coverage [5], and a growing ecosystem of tools including **[[spikeinterface]]** for electrophysiology analysis [12].
+The standard also provides built-in support for **data provenance** tracking, allowing researchers to document the origin of each data element and any transformations applied. This provenance information is essential for reproducible research and enables downstream users to understand exactly what processing has been applied to "raw" data [9]. NWB files can include **metadata about electrode placement** using standardized coordinate systems, which facilitates integration with anatomical atlases like the Desikan-Killiany atlas [[desikan-killiany-atlas]] and [FreeSurfer](]([[freesurfer]])) parcellations [7]. Additional features include support for parallel HDF5 storage for extremely large datasets, integration with the NIX format for enhanced data model coverage [5], and a growing ecosystem of tools including **[[spikeinterface]]** for electrophysiology analysis [12].
 
 ## Relationship to TVB
 

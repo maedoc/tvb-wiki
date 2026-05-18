@@ -13,7 +13,6 @@ title: MRtrix3
 type: entity
 updated: '2026-05-06'
 ---
-
 # MRtrix3
 
 **MRtrix3** is an open-source software suite for [[diffusion-mri]] analysis, with particular emphasis on [[tractography]] and [[connectome]] construction. It provides a comprehensive set of tools for processing, analyzing, and visualizing diffusion-weighted imaging data.
@@ -29,18 +28,7 @@ MRtrix3 provides:
 - Scripting interfaces for reproducible pipelines
 
 ## Key Commands
-
-| Command | Purpose |
-|---------|---------|
-| **dwidenoise** | MP-PCA denoising of DWI data |
-| **mrdegibbs** | Gibbs ringing removal |
-| **dwipreproc** | Preprocessing (motion/distortion correction) |
-| **dwi2response** | Response function estimation |
-| **dwi2fod** | Fiber orientation distribution estimation |
-| **tckgen** | Tractography generation |
-| **tck2connectome** | Connectome matrix generation |
-| **SIFT/SIFT2** | Streamline filtering by density matching |
-
+MRtrix3 provides a comprehensive command-line environment for [[diffusion-imaging]] analysis, with its processing pipeline spanning from raw data preprocessing through [[connectome]] construction. In clinical neuroimaging studies, researchers employ MRtrix3 specifically for diffusion-based [[tractography]] and subsequent connectome reconstructions. For instance, in a study of Parkinson's disease patients with freezing of gait, investigators acquired diffusion-weighted MRI and used MRtrix3 for structural connectivity analysis alongside resting-state fMRI processed with the CONN toolbox, revealing alterations in limbic, putaminal, parietal, and cerebellar connectivity patterns [[raw/papers/semanticscholar-a6b8919e7fe8.md|Lê et al. (2026)]]. The diffusion MRI analysis workflow generally encompasses sequential stages including preprocessing operations such as denoising and registration, local fiber reconstruction from diffusion data, tractography generation, and post-processing of tractograms including connectivity and bundle analyses [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]]. Within the broader neuroimaging software ecosystem, graph-theoretical analysis platforms such as BRAPH complement tractography tools by providing standardized pipelines for constructing and analyzing brain networks from connectivity data [[raw/papers/mijalkov-2017-braph.md|Mijalkov et al. (2017)]].
 ## Relationship to TVB
 
 MRtrix3 is a premier tool for TVB [[connectivity]] preparation:
@@ -56,10 +44,3 @@ MRtrix3 is a premier tool for TVB [[connectivity]] preparation:
 - [[dipy]] — Python-based alternative with complementary algorithms
 - [[freesurfer]] — parcellation input for MRtrix3 connectomes
 - [[tvb]] — uses MRtrix3 connectomes for [[whole-brain]] simulation
-
-## References
-
-- MRtrix3 website: https://www.mrtrix.org/
-- Tournier et al. (2019) — MRtrix3: A fast, flexible and open software framework for medical image processing and visualisation
-- Smith et al. (2012) — Anatomically-constrained tractography
-- [[sift]]: Smith et al. (2013) — SIFT: Spherical-deconvolution informed filtering of tractograms

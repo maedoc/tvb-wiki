@@ -16,7 +16,7 @@ tags:
 - reproducibility
 title: Schaefer Atlas
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 The Schaefer atlas comprises a family of functional brain [[parcellation|parcellations]] employed as spatial templates in [[resting-state]] [[neuroimaging-fmri|functional MRI]] [[functional-connectivity|connectivity]] analyses Wu et al. (2025). Within the broader ecosystem of brain atlases, these parcellations represent functional delineations of cerebral organization that are evaluated alongside structural and alternative functional schemes for their capacity to reveal reproducible [[brain-network|network]] alterations in clinical and population neuroscience.
@@ -31,7 +31,7 @@ In [[computational-neuroscience]], functional parcellations furnish the spatial 
 
 ## Relationship to TVB
 
-The Schaefer atlas contributes to [[the-virtual‑brain|TVB]] workflows by supplying functional node definitions that connect empirical resting‑state connectivity to [[network‑dynamics|network simulation]]. As noted by Kohnen et al. (2025), digital brain atlases facilitate direct interfacing with simulation environments for structural exploration and connectome simulation. In the context of intervention‑capable brain modeling described by Xia et al. (2026), atlas‑based cortico‑subcortical networks enable the integration of individual neuroanatomy into in silico perturbation studies, providing a bridge between empirical functional connectivity phenotypes and computational predictions of network dynamics.
+The Schaefer atlas contributes to [[the-virtual‑brain|TVB]] workflows by supplying functional node definitions that connect empirical resting‑state connectivity to [[network‑dynamics|network simulation]]. As noted by Kohnen et al. (2025), digital brain atlases facilitate direct interfacing with simulation environments for structural exploration and connectome simulation. In the context of intervention‑capable brain modeling described by Xia et al. (2026), atlas‑based cortico‑subcortical networks enable the integration of individual neuroanatomy into in silico perturbation studies, providing a bridge between empirical functional connectivity phenotypes and computational predictions of [[network-dynamics]].
 
 ## Comparison to Related Atlases
 

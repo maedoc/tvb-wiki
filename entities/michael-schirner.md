@@ -11,23 +11,23 @@ tags:
 - personalized-brain-modeling
 title: Michael Schirner
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # Michael Schirner
 
-Michael Schirner is a computational neuroscientist whose research focuses on developing automated methods for translating multimodal [[neuroimaging]] data into personalized, simulation-ready whole-brain models. In early work within [[TVB]], he co-authored a foundational study demonstrating that subject-specific [[structural-connectivity]] matrices derived from [[diffusion-mri|diffusion-weighted imaging]] and [[tractography]] could parameterize individualized [[neural-mass-models]] capable of reproducing empirical [[resting-state]] [[functional-connectivity]] patterns Ritter et al. (2013). Schirner subsequently led the development of an end-to-end automated pipeline, described in Schirner et al. (2018), that constructs TVB-ready personalized virtual brains directly from individual structural MRI and diffusion-weighted imaging data. By unifying [[brain-parcellation|brain parcellation]], [[tractography]], and [[connectivity|connectivity estimation]] within a single computational workflow, the pipeline minimizes manual intervention and substantially lowers the technical barrier for deploying personalized brain simulations in large cohort studies and clinical settings. More recently, he has contributed to large-scale empirical and modeling initiatives, including a comprehensive dataset of simultaneous [[neuroimaging-eeg|EEG]]-[[neuroimaging-fmri|fMRI]] resting-state recordings from fifty healthy subjects alongside TVB-derived simulation results optimized to predict individual empirical features such as dynamic functional connectivity and alpha-band bimodality Meier et al. (2025), and to the development of intervention-capable brain simulation frameworks for precision psychiatry applications Xia et al. (2026). Across these contributions, Schirner's work consistently advances the transition from descriptive brain mapping to predictive, subject-specific computational neuroscience.
+Michael Schirner is a computational neuroscientist whose research focuses on developing automated methods for translating multimodal [[neuroimaging]] data into personalized, simulation-ready whole-brain models. In early work within [[TVB]], he co-authored a foundational study demonstrating that subject-specific [[structural-connectivity]] matrices derived from [[diffusion-mri|diffusion-weighted imaging]] and [[tractography]] could parameterize individualized [[neural-mass-models]] capable of reproducing empirical [[resting-state]] [[functional-connectivity]] patterns Ritter et al. (2013). Schirner subsequently led the development of an end-to-end automated pipeline, described in Schirner et al. (2018), that constructs TVB-ready personalized virtual brains directly from individual structural MRI and diffusion-weighted imaging data. By unifying [[brain-parcellation|brain parcellation]], [[tractography]], and [[connectivity|connectivity estimation]] within a single computational workflow, the pipeline minimizes manual intervention and substantially lowers the technical barrier for deploying personalized brain simulations in large cohort studies and clinical settings. More recently, he has contributed to large-scale empirical and modeling initiatives, including a comprehensive dataset of simultaneous [[neuroimaging-eeg|EEG]]-[[neuroimaging-fmri|fMRI]] resting-state recordings from fifty healthy subjects alongside TVB-derived simulation results optimized to predict individual empirical features such as dynamic functional connectivity and alpha-band bimodality Meier et al. (2025), and to the development of intervention-capable brain simulation frameworks for precision psychiatry applications Xia et al. (2026). Across these contributions, Schirner's work consistently advance the transition from descriptive brain mapping to predictive, subject‑specific computational neuroscience.
 
 ## Research Focus
 
 - Automated pipelines for personalized virtual brain construction
-- Integration of [[neuroimaging]] data into whole-brain models
+- Integration of [[neuroimaging]] data into whole‑brain models
 - TVB workflow development and validation
 
 ## Key Publication
 
 - Schirner et al. (2018) — Automated pipeline for personalized virtual brains schirner-2018
-  - Automated end-to-end pipeline from MRI/DWI to TVB models
+  - Automated end‑to‑end pipeline from MRI/DWI to TVB models
   - [[parcellation]], [[tractography]], and [[connectivity]] estimation
   - Validation across multiple datasets
   - Lowered barrier for large cohort studies
@@ -36,12 +36,12 @@ Michael Schirner is a computational neuroscientist whose research focuses on dev
 
 - [[TVB]] — Platform for personalized brain modeling
 - [[personalized brain modeling]] — Research domain
-- [[whole brain]] — Whole-brain simulation approach
+- [[whole brain]] — Whole‑brain simulation approach
 
 ## References
 
 1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040))
-2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010))
+2. Sanz Leon et al. (2013). *[[the-virtual‑brain]]: a simulator of primate brain [[network‑dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010))
 3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120))
-4. J. Meier, P. Triebkorn, M. Schirner, [[petra-ritter]]. (2025). *Connectomes, simultaneous EEG-[[fmri]] [[resting-state]] data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718))
-5. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional [[brain-network]] underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030))
+4. J. Meier, P. Triebkorn, M. Schirner, [[petra‑ritter]]. (2025). *Connectomes, simultaneous EEG‑[[fmri]] [[resting‑state]] data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718))
+5. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Z. Li, J. F. Hipp, S. Muthukumaraswamy, A. Forsyth, T. Jia, N. Vaidya, T. Lett, L. Qian, X. Chang, Y. Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, H. Flor, P. Gowland, A. Grigis, A. Heinz, H. Lemaître, F. Nees, D. Orfanos, L. Poustka, M. Smolka, S. Hohmann, H. Walter, R. Whelan, P. Wirsching, Z. Zhang, L. Robinson, J. Winterer, Y. Zhang, H. Kebir, U. Schmidt, J. Sinclair, Y. Liu, J. Wang, F. Dai, L. Zeng, Y. Hou, H. Wang, L. Ye, C. Li, Q. Zheng, A. Marquand, C. Zhou, V. Jirsa, J. Feng, W. Lu, G. Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional [[brain‑network]] underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030))

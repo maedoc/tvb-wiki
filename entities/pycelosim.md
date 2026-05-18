@@ -40,5 +40,5 @@ PyCeLoSim sits alongside several established tools in the cellular-to-network mo
 ## References
 
 1. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](](https://doi.org/10.21203/rs.3.rs-9306977/v1))
-2. A. Herrera, H. Shaheen. (2025). *Computational modelling of Parkinson’s disease: A multiscale approach with deep brain stimulation and stochastic noise*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2026.110752))
+2. A. Herrera, H. Shaheen. (2025). *Computational modelling of Parkinson’s disease: A multiscale approach with deep [[brain-stimulation]] and stochastic noise*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2026.110752))
 3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886))

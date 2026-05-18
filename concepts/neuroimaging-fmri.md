@@ -11,7 +11,7 @@ tags:
 - resting-state
 title: Functional MRI
 type: concept
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # Functional MRI
@@ -63,11 +63,11 @@ sources:
 - raw/papers/arxiv-2505.22685.md
 - raw/papers/semanticscholar-2df7f31d5f27.md
 tags:
-- parameter-estimation
-- machine-learning
-- whole-brain-modeling
-- variational-bayes
-- dynamical-systems-theory
+- [[parameter-estimation]]
+- [[machine-learning]]
+- [[whole-brain-modeling]]
+- [[variational-bayes]]
+- [[dynamical-systems-theory]]
 title: Simulation-Based Inference
 type: concept
 updated: '2026-05-15'

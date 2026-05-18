@@ -17,7 +17,6 @@ title: GraphVar
 type: entity
 updated: '2026-05-15'
 ---
-
 # GraphVar
 
 GraphVar is a user-friendly MATLAB toolbox for comprehensive graph-theoretical analyses of functional brain [[connectivity]].
@@ -44,9 +43,7 @@ GraphVar provides a graphical user interface (GUI) for performing graph-theoreti
 - Small-worldness indices
 
 ## Key Publications
-
-- Woodman et al. (2014) — GraphVar toolbox introduction woodman-2014
-
+The foundational publication introducing GraphVar is the 2015 paper by Kruschwitz and colleagues in the Journal of Neuroscience Methods, which presents the toolbox as a MATLAB-based graphical interface designed to make graph-theoretical analysis of functional brain connectivity accessible to researchers without programming expertise [[raw/papers/woodman-2014.md|Kruschwitz et al. (2015)]]. The paper demonstrates that GraphVar supports both seed-based and parcellation-based [[functional connectivity]] matrices derived from [[fmri]], [[eeg]], and [[meg]] data, and it includes built-in statistical group comparisons with corrections for multiple comparisons, thereby addressing a major barrier to reproducible [[connectomics]] research [[raw/papers/woodman-2014.md|Kruschwitz et al. (2015)]]. Because GraphVar implements standard graph measures such as clustering coefficient, path length, and [[modularity]], its methodological foundations are closely tied to the broader literature on complex network analysis of the brain. In particular, Rubinov and Sporns established the theoretical framework for interpreting these network measures in neuroscience contexts in their comprehensive 2010 review in NeuroImage, which introduced the [[brain-connectivity-toolbox]] and provided guidelines for applying graph-theory to brain networks while distinguishing weighted from binary and directed from undirected representations [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. The convergence between the measures discussed in that review and the functionality later packaged into GraphVar underscores how the toolbox translates established [[network-dynamics]] methods into an interface suitable for clinical and cognitive neuroscience applications [[raw/papers/woodman-2014.md|Kruschwitz et al. (2015)]][[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. Together, these publications form the canonical reference pair for researchers seeking to understand both the software architecture of GraphVar and the graph-theoretical principles it operationalizes.
 ## Related Software
 
 - [[ANTs]] — Image preprocessing for connectivity analysis
@@ -66,35 +63,5 @@ GraphVar provides a graphical user interface (GUI) for performing graph-theoreti
 - [[resting-state]] network analysis
 - Cognitive neuroscience graph analysis
 
-## References
-
-1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))
-2. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f))
-3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-4. (authors unknown). *Networks of the Brain*.
-5. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121278))
-6. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
-
 ## ORPHAN PAGE CONTEXT (scona)
 ---
-created: 2024-01-15
-sources:
-- raw/papers/wang-etal-2015-gretna.md
-- raw/papers/woodman-2014.md
-- raw/papers/rubinov-sporns-2010.md
-tags:
-- software
-- connectomics
-- [[structural-connectivity]]
-- network-dynamics
-- python
-title: Scona
-type: entity
-updated: '2026-05-12'
----
-
-# Scona
-
-## Overview
-
-**Scona** (Structural COvariability Network Analysis) is a Python-based software toolbox designed for the analysis of structural covariance networks derived from [[neuroimaging]] data, particularly gray

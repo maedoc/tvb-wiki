@@ -14,8 +14,9 @@ tags:
 - whole-brain-modeling
 title: neurodevelopment
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-18'
 ---
+
 # Neurodevelopment
 
 Neurodevelopment refers to the processes by which the nervous system grows and develops from embryonic stages through adulthood. It encompasses structural and functional changes in the brain across the lifespan.
@@ -75,7 +76,7 @@ Developmental trajectories diverge across individuals even when the same hierarc
 ## Related Concepts
 - [[developmental-trajectories]] – Patterns of brain change over time
 - [[aging]] – Changes in the opposite direction (later life)
-- plasticity – Experience-dependent changes
+- [[plasticity]] – Experience-dependent changes
 - [[functional-connectivity]] – Network organization
 - [[structural-connectivity]] – [[white-matter]] development
 - [[personalized-brain-modeling]] – Subject-specific models
