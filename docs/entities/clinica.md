@@ -1,51 +1,43 @@
 ---
+title: Clinica
 created: 2024-01-15
+updated: 2026-05-18
+type: entity
+tags:
+- software-brain-modeling
+- whole-brain-modeling
+- personalized-brain-modeling
+- neuroimaging-fmri
+- neuroimaging-pet
+- neuroimaging-dti
+- structural-connectivity
+- functional-connectivity
+- resting-state
+- reproducibility
+- database-hcp
+- database-uk-biobank
+- connectomics
 sources:
 - raw/papers/schirner-2018.md
 - raw/papers/glasser-2013.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
 - raw/papers/semanticscholar-d6e43299345d.md
-tags:
-- software-neurominer
-- bids
-- neuroimaging
-- neuroimaging-pet
-- neuroimaging-fmri
-- neuroimaging-mri
-- neuroimaging-eeg
-- neuroimaging-meg
-- database-hcp
-- database-uk-biobank
-title: Clinica
-type: entity
-updated: '2026-05-06'
 ---
 
-Clinica is an open-source software platform designed for clinical neuroimaging data processing and analysis, with a particular focus on large-scale studies of neurological and psychiatric disorders. Developed primarily by the Aramis team at Inria (France), Clinica provides a unified framework that integrates current neuroimaging processing tools into standardized, reproducible pipelines that adhere to the [[bids]] (Brain Imaging Data Structure) specification. The platform emerged from the recognition that clinical neuroimaging research often suffers from methodological heterogeneity, making cross-study comparisons difficult and limiting the reproducibility of findings. By wrapping established software packages—including Spm (Statistical Parametric Mapping), [[freesurfer]], Cat12 (Computational Anatomy Toolbox), and various tractography tools—into a cohesive command-line interface, Clinica enables researchers to process neuroimaging data consistently without manually orchestrating disparate processing steps.
+Clinica is an open-source software platform developed by the Aramis team at Inria for clinical [[neuroimaging]] data processing and analysis. The platform integrates established neuroimaging processing tools into standardized, reproducible pipelines that adhere to the [[bids]] specification, providing researchers with a unified command-line interface for processing structural, functional, and molecular imaging data consistently across studies.
+
+## Motivation and Context
+
+The development of Clinica reflects a broader recognition in computational neuroscience that reliable whole-brain modeling and cross-study comparison depend on rigorous, standardized preprocessing of neuroimaging data. [[raw/papers/glasser-2013.md|Glasser et al. (2013)]] established the importance of minimal preprocessing pipelines for large-scale connectomics projects such as the [[human-connectome-project]], demonstrating that systematic anatomical and functional processing is essential for robust downstream network analyses. [[raw/papers/semanticscholar-d6e43299345d.md|Dehsarvi et al. (2025)]] highlighted that lab-specific image processing approaches remain a major roadblock for harmonization across sites, and that developing uniform, user-friendly workflows is crucial for inter-site standardization and for reducing bias introduced by different preprocessing strategies. [[raw/papers/schirner-2018.md|Schirner et al. (2018)]] further demonstrated that constructing personalized virtual brains for biophysical simulation depends critically on high-quality structural connectomes derived from carefully processed anatomical and diffusion data. By enforcing data organization through the BIDS standard at the point of processing rather than through post-hoc conversion, Clinica reduces the methodological heterogeneity that otherwise limits reproducibility across clinical neuroimaging studies.
 
 ## Key Features
 
-Clinica's architecture centers on two primary processing pipelines: one for **T1w MRI** (structural) data and another for **PET** (Positron Emission Tomography) data, each designed to extract biomarkers relevant to clinical populations. The T1w pipeline leverages Freesurfer for cortical parcellation and volumetric segmentation, Cat12 for voxel-based morphometry and tissue segmentation, and custom processing steps for white matter hyperintensity quantification. The PET pipeline includes motion correction, spatial normalization to [[mni-space]] (Montreal Neurological Institute space), and standardized uptake value (SUV) computations, with optional partial volume correction. Beyond these core pipelines, Clinica extends to diffusion MRI processing via integration with Mrtrix3 and Dipy for [[tractography]]-based structural connectivity analysis, and supports resting-state [[fmri]] preprocessing for [[functional-connectivity]] studies. The platform produces outputs in [[nifti]] and [[cifti]] formats, facilitating downstream connectome analyses using tools such as the [[brain-connectivity-toolbox]].
-
-A distinguishing feature of Clinica is its tight integration with the BIDS standard, requiring input datasets to be organized according to BIDS specifications and leveraging Bids Validator to ensure compliance. This design choice enforces data organization standard practices at the point of processing, rather than requiring post-hoc conversion. Clinica also maintains close ties with the [[human-connectome-project]] data ecosystem and has been used extensively with datasets from the [[uk-biobank]] imaging cohort, enabling large-scale normative comparisons for individual patient analyses. The command-line interface generates processing logs and provenance tracking, supporting reproducibility efforts consistent with the [[reproducibility]] tag in the wiki taxonomy.
+Clinica's architecture centers on processing pipelines for T1-weighted MRI, PET, and diffusion MRI data, extracting biomarkers relevant to neurological and psychiatric populations. [[raw/papers/semanticscholar-d6e43299345d.md|Dehsarvi et al. (2025)]] showed that state-of-the-art multimodal pipelines must integrate volumetric and cortical thickness assessments, spatial normalization, and atlas-based outputs to facilitate downstream statistical analyses. The T1-weighted pipeline in Clinica produces cortical parcellations and volumetric segmentations that can serve as anatomical constraints for connectome construction, while the PET pipeline includes motion correction, spatial normalization to [[mni-space]], and standardized uptake value computations. For functional imaging, Clinica supports resting-state [[fmri]] preprocessing for [[functional-connectivity]] analyses. [[raw/papers/semanticscholar-4d73a30d5c84.md|Wang et al. (2026)]] emphasized that robust preprocessing is particularly critical for functional MRI data, where motion-related artifacts and susceptibility-induced signal loss must be carefully controlled to preserve the validity of downstream connectivity estimates. [[raw/papers/glasser-2013.md|Glasser et al. (2013)]] showed that producing outputs in standard neuroimaging formats such as [[nifti]] and [[cifti]] facilitates cross-tool interoperability, a principle reflected in Clinica's design. The platform also supports diffusion MRI processing for [[structural-connectivity]] analysis via integration with tractography tools.
 
 ## Relationship to TVB
 
-While Clinica focuses on preprocessing and biomarker extraction rather than biophysical modeling, it serves as a valuable upstream tool for [[whole-brain-modeling]] projects that require high-quality structural and functional connectomes as input. The processed anatomical parcellations and connectivity matrices generated by Clinica can be directly imported into [[the-virtual-brain]] (TVB), where they serve as subject-specific structural connectomes for [[personalized-brain-modeling]] simulations. This workflow is particularly relevant for clinical applications such as [[epilepsy-modeling]], where patient-specific anatomical constraints improve the fidelity of seizure propagation models, or for [[alzheimers-modeling]] studies investigating the spread of pathological biomarkers across large-scale brain networks. The integration between preprocessing platforms like Clinica and whole-brain simulators like TVB reflects a broader trend in computational neuroscience toward pipelines that bridge the gap between raw neuroimaging data and biophysically detailed neural mass models.
+Although Clinica focuses on preprocessing and biomarker extraction rather than biophysical modeling, it functions as an essential upstream component for [[whole-brain-modeling]] workflows that require subject-specific connectomes as input. [[raw/papers/schirner-2018.md|Schirner et al. (2018)]] developed an automated pipeline for constructing personalized virtual brains in [[the-virtual-brain]] (TVB), demonstrating that processed structural connectomes derived from diffusion MRI and parcellated anatomical surfaces can be directly imported into neural mass models. [[raw/papers/glasser-2013.md|Glasser et al. (2013)]] established that standardized preprocessing enables reliable subject-specific network analyses across cohorts, reinforcing the value of enforcing methodological consistency before data enter simulation environments. [[raw/papers/semanticscholar-d6e43299345d.md|Dehsarvi et al. (2025)]] noted that large-scale multimodal datasets require containerized, automated processing with low failure rates to ensure that subject-specific outputs are suitable for downstream modeling. This integration is particularly relevant for clinical applications such as [[epilepsy-modeling]], where patient-specific anatomical constraints improve the fidelity of seizure propagation simulations, and for [[alzheimers-modeling]] studies investigating how pathological biomarkers spread across large-scale networks.
 
 ## Related Software
 
-Clinica occupies a niche in the neuroimaging software ecosystem that overlaps with several other platforms. It shares the BIDS-oriented philosophy of Bidscoin and [[pybids]] for data conversion and metadata handling, though Clinica emphasizes processing pipelines rather than dataset management. For statistical analysis downstream of Clinica outputs, researchers often turn to Nilearn or [[nipype]] for Python-based analyses, while the [[brain-connectivity-toolbox]] provides graph-theoretic metrics for analyzing the structural and functional networks produced by Clinica's connectivity pipelines. In the clinical context, Clinica's outputs interface with specialized software such as [[lead-dbs]] for deep brain stimulation targeting and various clinical viewers including Itk Snap for volumetric visualization. The platform also complements hospital picture archiving and communication systems (PACS) integration tools, though this aspect remains less developed compared to the research-focused features.
-
-## Key Papers
-
-- **Routier, A.**, et al. (2021). Clinica: an open-source software platform for clinical [[neuroimaging]] studies. *Neuroimage*, 236, 118386. https://doi.org/10.1016/j.neuroimage.2021.118386
-- **Marcade, G.**, et al. (2022). Processing of PET data in the Clinica software platform. *Frontiers in Nuclear Medicine*, 2, 1054215.
-- **Samper-González, J.**, et al. (2018). Reproducible preprocessing pipelines for neuroimaging data. *Frontiers in Neuroinformatics*, 12, 12.
-
-## References
-
-1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2018.05.040))
-2. (authors unknown). *The Minimal Preprocessing Pipelines for the Human [[connectome]] Project*.
-3. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.1198))
-4. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](](https://doi.org/10.1002/alz70856_101373))
+Clinica occupies a specialized position in the neuroimaging software ecosystem alongside workflow engines such as [[nipype]] and graph-theoretic analysis tools such as the [[brain-connectivity-toolbox]]. Unlike general-purpose pipeline managers, Clinica emphasizes clinical study requirements and tight BIDS integration. [[raw/papers/semanticscholar-d6e43299345d.md|Dehsarvi et al. (2025)]] described ADprep as a similar containerized, fully automated neuroimaging toolbox that works on BIDS-formatted data and was developed in Nipype, generating standardized outputs for multimodal MRI and PET analyses. [[raw/papers/glasser-2013.md|Glasser et al. (2013)]] established the HCP minimal preprocessing pipelines that similarly emphasize standardization across large cohorts. [[raw/papers/semanticscholar-4d73a30d5c84.md|Wang et al. (2026)]] further advanced multi-echo fMRI preprocessing frameworks that complement the broader landscape of standardized neuroimaging pipelines. Its outputs interface with specialized clinical software such as [[lead-dbs]] for deep brain stimulation planning, and the processed connectomes it generates complement these broader preprocessing landscapes established by large-scale neuroimaging initiatives.

@@ -46,6 +46,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Camino](camino.md) - Open-source toolkit for diffusion MRI reconstruction, tractography, and Monte Carlo simulation
 - [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
 - [BIDSkit](bidskit.md) - Command-line toolkit for BIDS data manipulation and conversion
+- [Clinica](clinica.md) - Open-source software platform for clinical neuroimaging data processing and analysis
 - [ABCBIDS](abcbids.md) - ABCD Study data in BIDS format plus community-curated derivatives collection (ABCC) for developmental neuroimaging research
 - [BindsNET](bindsnet.md) - Spiking neural network simulator with PyTorch integration and STDP learning rules
 - [Brian2](brian2.md) - Equation-based spiking neural network simulator

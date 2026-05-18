@@ -3,8 +3,19 @@ title: NeuroDebian
 created: 2024-01-15
 updated: 2026-05-18
 type: entity
-tags: [software-brain-modeling, reproducibility, computational-neuroscience]
-sources: [raw/papers/Renton2024.md, raw/papers/schirner-2018.md, raw/papers/sanz-leon-2013.md]
+tags:
+  - software-brain-modeling
+  - reproducibility
+  - neuroimaging-fmri
+  - neuroimaging-dti
+  - tractography
+  - structural-connectivity
+  - functional-connectivity
+  - software-visualization
+sources:
+  - raw/papers/Renton2024.md
+  - raw/papers/schirner-2018.md
+  - raw/papers/sanz-leon-2013.md
 ---
 
 NeuroDebian is a Debian-based software repository that packages neuroscience research tools for installation through native Linux package management. It addresses the fundamental challenge that neuroimaging research requires purpose-built analysis software, which is challenging to install and may produce different results across computing environments [[raw/papers/Renton2024.md|Renton et al. (2024)]]. By providing curated, pre-packaged versions of major neuroimaging platforms, NeuroDebian lowers the logistical barriers to deploying the preprocessing and analysis pipelines that underpin [[whole-brain-modeling]] and [[computational-neuroscience]] workflows.
@@ -19,7 +30,7 @@ NeuroDebian distributes a curated collection of neuroscience packages through th
 
 ## Relationship to TVB
 
-NeuroDebian serves as essential infrastructure for [[whole-brain-modeling]] workflows in [[the-virtual-brain]] (TVB), providing the packaged preprocessing software required to generate empirical data for parameterizing brain network models. Automated pipelines for constructing personalized virtual brains integrate structural MRI processing, parcellation, tractography, and connectivity estimation to produce simulation-ready model inputs [[raw/papers/schirner-2018.md|Schirner et al. (2018)]]. TVB simulates large-scale primate brain network dynamics by combining empirical structural connectivity with [[neural-mass-models]], supporting forward models for [[eeg]], [[meg]], and [[neuroimaging-fmri]] that allow simulated signals to be compared directly against empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The tools packaged in NeuroDebian perform the diffusion MRI tractography and functional MRI preprocessing steps that extract [[structural-connectivity]] matrices and [[functional-connectivity]] estimates from [[resting-state]] recordings, transforming raw neuroimaging data into TVB-ready [[connectome]] inputs.
+NeuroDebian serves as essential infrastructure for [[whole-brain-modeling]] workflows in [[the-virtual-brain]] (TVB), providing the packaged preprocessing software required to generate empirical data for parameterizing brain network models. Automated pipelines for constructing personalized virtual brains integrate structural MRI processing, parcellation, tractography, and connectivity estimation to produce simulation-ready model inputs [[raw/papers/schirner-2018.md|Schirner et al. (2015)]]. TVB simulates large-scale primate brain network dynamics by combining empirical structural connectivity with [[neural-mass-models]], supporting forward models for [[eeg]], [[meg]], and [[neuroimaging-fmri]] that allow simulated signals to be compared directly against empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The tools packaged in NeuroDebian perform the diffusion MRI tractography and functional MRI preprocessing steps that extract [[structural-connectivity]] matrices and [[functional-connectivity]] estimates from [[resting-state]] recordings, transforming raw neuroimaging data into TVB-ready [[connectome]] inputs.
 
 ## Related Software and Alternatives
 

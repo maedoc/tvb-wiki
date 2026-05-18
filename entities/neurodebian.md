@@ -1,16 +1,21 @@
 ---
-created: 2024-01-15
-sources:
-- raw/papers/Renton2024.md
-- raw/papers/schirner-2018.md
-- raw/papers/sanz-leon-2013.md
-tags:
-- software-brain-modeling
-- reproducibility
-- computational-neuroscience
 title: NeuroDebian
+created: 2024-01-15
+updated: 2026-05-18
 type: entity
-updated: '2026-05-18'
+tags:
+  - software-brain-modeling
+  - reproducibility
+  - neuroimaging-fmri
+  - neuroimaging-dti
+  - tractography
+  - structural-connectivity
+  - functional-connectivity
+  - software-visualization
+sources:
+  - raw/papers/Renton2024.md
+  - raw/papers/schirner-2018.md
+  - raw/papers/sanz-leon-2013.md
 ---
 
 NeuroDebian is a Debian-based software repository that packages neuroscience research tools for installation through native Linux package management. It addresses the fundamental challenge that neuroimaging research requires purpose-built analysis software, which is challenging to install and may produce different results across computing environments [[raw/papers/Renton2024.md|Renton et al. (2024)]]. By providing curated, pre-packaged versions of major neuroimaging platforms, NeuroDebian lowers the logistical barriers to deploying the preprocessing and analysis pipelines that underpin [[whole-brain-modeling]] and [[computational-neuroscience]] workflows.
@@ -25,14 +30,8 @@ NeuroDebian distributes a curated collection of neuroscience packages through th
 
 ## Relationship to TVB
 
-NeuroDebian serves as essential infrastructure for [[whole-brain-modeling]] workflows in [[the-virtual-brain]] (TVB), providing the packaged preprocessing software required to generate empirical data for parameterizing brain network models. Automated pipelines for constructing personalized virtual brains integrate structural MRI processing, parcellation, tractography, and connectivity estimation to produce simulation-ready model inputs [[raw/papers/schirner-2018.md|Schirner et al. (2018)]]. TVB simulates large-scale primate brain network dynamics by combining empirical structural connectivity with [[neural-mass-models]], supporting forward models for [[eeg]], [[meg]], and [[neuroimaging-fmri]] that allow simulated signals to be compared directly against empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The tools packaged in NeuroDebian perform the diffusion MRI tractography and functional MRI preprocessing steps that extract [[structural-connectivity]] matrices and [[functional-connectivity]] estimates from [[resting-state]] recordings, transforming raw neuroimaging data into TVB-ready [[connectome]] inputs.
+NeuroDebian serves as essential infrastructure for [[whole-brain-modeling]] workflows in [[the-virtual-brain]] (TVB), providing the packaged preprocessing software required to generate empirical data for parameterizing brain network models. Automated pipelines for constructing personalized virtual brains integrate structural MRI processing, parcellation, tractography, and connectivity estimation to produce simulation-ready model inputs [[raw/papers/schirner-2018.md|Schirner et al. (2015)]]. TVB simulates large-scale primate brain network dynamics by combining empirical structural connectivity with [[neural-mass-models]], supporting forward models for [[eeg]], [[meg]], and [[neuroimaging-fmri]] that allow simulated signals to be compared directly against empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The tools packaged in NeuroDebian perform the diffusion MRI tractography and functional MRI preprocessing steps that extract [[structural-connectivity]] matrices and [[functional-connectivity]] estimates from [[resting-state]] recordings, transforming raw neuroimaging data into TVB-ready [[connectome]] inputs.
 
 ## Related Software and Alternatives
 
 NeuroDebian shares conceptual territory with [[neurodesk]], a containerized platform that distributes neuroimaging software through Docker and Singularity containers [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Neurodesk demonstrated empirically that containerized analysis eliminates inter-computer differences that occur with locally installed software, while offering greater flexibility for users who cannot adopt Debian-based systems. Unlike Neurodesk's container-native model, NeuroDebian integrates directly with the host operating system via native package management, making it particularly well-suited for high-performance computing clusters. This distinction reflects an ongoing evolution in [[computational-neuroscience]] tooling toward more portable deployment models that nevertheless depend on the same underlying neuroimaging preprocessing ecosystem.
-
-## References
-
-1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible [[neuroimaging]]*.
-2. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

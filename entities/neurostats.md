@@ -11,7 +11,6 @@ title: NeuroStats
 type: software
 updated: '2026-05-18'
 ---
-
 ## Overview
 
 NeuroStats is a statistical analysis toolbox designed for the analysis of neuroimaging data, with particular emphasis on [[resting-state]] [[functional connectivity]] analysis in [[fMRI]] datasets. The software provides a comprehensive suite of statistical methods for characterizing brain network properties, including measures of [[functional connectivity]], [[structural connectivity]], and [[effective connectivity]]. Originally developed to address the need for rigorous statistical frameworks in [[connectomics]] research, NeuroStats has become a widely used tool in the neuroimaging community for both hypothesis-driven and exploratory analyses of brain imaging data.
@@ -43,7 +42,3 @@ Furthermore, NeuroStats can be used to analyze the **parameter sensitivity** of 
 ## Related Software
 
 NeuroStats shares conceptual overlap with several other neuroimaging analysis platforms. [[brainstat]] provides similar statistical functionality with a focus on surface-based neuroimaging analysis, while [[nilearn]] offers machine learning tools for neuroimaging data in Python. The [[brain-connectivity-toolbox]] (BCT) provides graph-theoretic network analysis functions, and [[bctpy]] offers a Python implementation of the same functionality. For connectivity analysis in Python, [[mne-connectivity]] provides complementary tools for [[eeg]] and [[meg]] data, and [[brainpy]] offers neural simulation and analysis capabilities.
-
-## References
-
-1. (authors unknown). *NeuroStatX*.
