@@ -576,3 +576,5 @@
 ## [2026-05-18 10:01] Librarian: catalog rebuilt, 10716 asymmetric links noted
 
 ## [2026-05-18 10:01] Linter: 89 broken links, 10 orphans, 7 stale, 0 empty
+
+## [2026-05-18 10:01] RefFormatter: formatted references on 5 pages
