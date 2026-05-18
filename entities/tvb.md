@@ -195,7 +195,7 @@ sources:
 tags:
 - software-brain-modeling
 - neural-mass-models
-- whole-brain-modeling
+- [[whole-brain-modeling]]
 title: PyCeLoSim
 type: entity
 updated: '2026-05-18'
@@ -212,11 +212,11 @@ sources:
 - raw/papers/arxiv-2507.09747.md
 tags:
 - software-brain-modeling
-- machine-learning
-- brain-decoding
+- [[machine-learning]]
+- [[brain-decoding]]
 - neuroimaging-fmri
-- neuroimaging-eeg
-- neuroimaging-meg
+- [[neuroimaging-eeg]]
+- [[neuroimaging-meg]]
 - classification
 - representational-similarity-analysis
 title: CoSMoMVPA
@@ -228,4 +228,4 @@ updated: '2026-05-18'
 
 ## Overview
 
-CoSMoMVPA (Connectome-based Similarity — Multi-Variate Pattern Analysis) is an open-source MATL
+CoSMoMVPA ([[connectome]]-based Similarity — Multi-Variate Pattern Analysis) is an open-source MATL

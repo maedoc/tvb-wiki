@@ -17,7 +17,7 @@ type: entity
 updated: '2026-05-18'
 ---
 
-dcm2niix is an open-source command-line utility for converting medical imaging data from DICOM format to NIfTI. In the computational neuroscience ecosystem, it functions as an established neuroimaging tool that performs the DICOM conversion step required for downstream preprocessing pipelines. [[raw/papers/semanticscholar-f45e6044c92f|Haber et al. (2026)]] describe how TI-Toolbox integrates dcm2niix alongside SimNIBS and FreeSurfer within an end-to-end workflow that encompasses structural MRI preprocessing, volume conduction modeling, and analysis, illustrating its role as a foundational component in research pipelines for neuroimaging and non-invasive brain stimulation studies.
+dcm2niix is an open-source command-line utility for converting medical imaging data from DICOM format to [[nifti]]. In the [[computational-neuroscience]] ecosystem, it functions as an established [[neuroimaging]] tool that performs the DICOM conversion step required for downstream preprocessing pipelines. [[raw/papers/semanticscholar-f45e6044c92f|Haber et al. (2026)]] describe how TI-Toolbox integrates dcm2niix alongside SimNIBS and [[freesurfer]] within an end-to-end workflow that encompasses structural MRI preprocessing, [[volume-conduction]] modeling, and analysis, illustrating its role as a foundational component in research pipelines for neuroimaging and non-invasive [[brain-stimulation]] studies.
 
 ## Motivation and Context
 
@@ -37,6 +37,6 @@ dcm2niix integrates with the broader [[bids]] data organization ecosystem and is
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
 3. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.

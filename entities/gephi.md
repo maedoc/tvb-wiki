@@ -40,6 +40,6 @@ Multiple toolboxes support brain connectivity analysis alongside interactive vis
 
 ## References
 
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.

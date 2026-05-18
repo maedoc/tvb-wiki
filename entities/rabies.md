@@ -18,7 +18,7 @@ type: entity
 updated: '2026-05-18'
 ---
 
-RABIES (Robust Astute Segmentation of Images) is an open-source neuroimaging software for automated segmentation of brain structures from magnetic resonance imaging data. In connectome-based whole-brain-modeling workflows, tissue classifications and region-of-interest maps produced by segmentation tools serve as anatomical foundations for constructing the parcellated structural data that large-scale brain network models require [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
+RABIES (Robust Astute Segmentation of Images) is an open-source [[neuroimaging]] software for automated segmentation of brain structures from magnetic resonance imaging data. In [[connectome]]-based [[whole-brain-modeling]] workflows, tissue classifications and region-of-interest maps produced by segmentation tools serve as anatomical foundations for constructing the parcellated structural data that large-scale [[brain-network]] models require [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
 
 ## Motivation and Context
 
@@ -36,6 +36,6 @@ RABIES occupies a methodological niche alongside tools that translate raw MRI da
 
 ## References
 
-1. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+1. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 3. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.

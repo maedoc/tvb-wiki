@@ -75,6 +75,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [PyDICOM](pydicom.md) — Pure Python library for reading and writing DICOM medical imaging files
 - [Pydra](pydra.md) — Lightweight dataflow engine for scientific workflow construction and execution
 - [PySurfer](pysurfer.md) — Python library for cortical surface visualization and analysis of FreeSurfer outputs
+- [PyCeLoSim](pycelosim.md) - Python-based cellular-level neural simulator bridging microscopic dynamics to whole-brain models
 - [PyCortex](pycortex.md) — Python library for cortical surface visualization and manipulation with emphasis on CIFTI-native data and publication-quality surface figures
 - [DDE-Biftool](dde-biftool.md) — MATLAB toolbox for bifurcation analysis of delay differential equations, used for neural mass models
 - [LabStreamingLayer](labstreaminglayer.md) — Real-time data acquisition and synchronization framework for multimodal neuroimaging

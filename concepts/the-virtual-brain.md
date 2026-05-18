@@ -66,7 +66,7 @@ sources:
 - raw/papers/ritter-2013.md
 tags:
 - software
-- connectomics
+- [[connectomics]]
 - structural-connectivity
 - diffusion-imaging
 - neuroimaging-dti
@@ -87,13 +87,13 @@ sources:
 - raw/papers/semanticscholar-bc3fb1518d09.md
 tags:
 - software-brain-modeling
-- machine-learning
+- [[machine-learning]]
 - connectomics
 - structural-connectivity
-- whole-brain-modeling
-- neurodevelopment
+- [[whole-brain-modeling]]
+- [[neurodevelopment]]
 - diffusion-imaging
-- graph-theory
+- [[graph-theory]]
 title: BrainNetCNN
 type: entity
 updated: '2026-05-18'
@@ -133,10 +133,10 @@ sources:
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/semanticscholar-eb704b6f5462.md
 tags:
-- software-neuroml
+- software-[[neuroml]]
 - software-brain-modeling
-- spiking-neural-networks
-- reproducibility
+- [[spiking-neural-networks]]
+- [[reproducibility]]
 - connectomics
 - whole-brain-modeling
 - network-dynamics
@@ -159,7 +159,7 @@ tags:
 - connectomics
 - graph-theory
 - resting-state
-- neuroimaging-fmri
+- neuroimaging-[[fmri]]
 - neuroimaging-eeg
 - neuroimaging-meg
 title: Teneto
@@ -181,7 +181,7 @@ sources:
 - raw/papers/ritter-2013.md
 - raw/papers/breakspear-2017.md
 tags:
-- brain-parcellation
+- [[brain-parcellation]]
 - structural-connectivity
 - neuroimaging-fmri
 - neuroimaging-meg

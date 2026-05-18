@@ -52,6 +52,6 @@ PyNN and TVB operate at different scales but are complementary:
 
 ## References
 
-1. Eppler et al. (2009). *PyNEST: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/neuro.11.012.2008)
+1. Eppler et al. (2009). *[[pynest]]: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/neuro.11.012.2008)
 2. Gwenevere Frank, Gopabandhu Hota, Keli Wang, C. Deng, Krish Arora, Diana Vins, Abhinav Uppal, Omowuyi Olajide, Kenneth Yoshimoto, Qingbo Wang, Mariko Yamaoka, Johannes Leugering, S. Deiss, Leif Gibb, Gert Cauwenberghs. (2026). *HiAER-Spike Software-Hardware Reconfigurable Platform for Event-Driven Neuromorphic Computing at Scale*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2602.18072)
 3. Sarah Johari, Arghavan Mohammadhassani, Anup Das. (2025). *A Framework for Automatic Synthesis of Neuromorphic Architectures with Heterogeneous Integration of CMOS and Memristors*. International Symposium on Circuits and Systems. [DOI](https://doi.org/10.1109/ISCAS56072.2025.11043873)

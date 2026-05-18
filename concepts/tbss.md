@@ -22,7 +22,7 @@ updated: '2026-05-18'
 
 ## Overview
 
-TBSS addresses a key problem in voxel-wise DTI analysis: alignment of white-matter tracts across subjects is much harder than grey-matter alignment because tract shapes vary substantially. TBSS solves this by:
+TBSS addresses a key problem in voxel-wise DTI analysis: alignment of [[white-matter]] tracts across subjects is much harder than grey-matter alignment because tract shapes vary substantially. TBSS solves this by:
 1. **Non-[[linear]] registration** of all subjects’ FA maps to a common target (usually FMRIB58_FA)
 2. **White-matter tract skeleton creation** — derived from the mean FA image, representing centres of all tracts common to the group
 3. **Projection** of each subject’s highest local FA values onto the skeleton
@@ -74,8 +74,8 @@ Done. Here's what changed:
 - Added 3 inline citations from all 3 available sources:
   - `[[raw/papers/semanticscholar-50e828bd956a.md|Zhang et al. (2025)]]` — tractography complement in HCP sex-differences study
   - `[[raw/papers/semanticscholar-c893f42e33a6.md|Yang et al. (2025)]]` — clinical TBSS application in depression treatment prediction
-  - `[[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]]` — permutation inference foundations for FSL `randomise` and PALM
-- Added 10 wikilinks to existing pages: `diffusion-mri`, `tractography`, `hcp-dataset`, `fractional-anisotropy`, `fsl`, `fsl-randomise`, `palm`, `neuroimaging`, `white-matter`, `structural-connectivity`
+  - `[[raw/papers/winkler-2014-[[palm]].md|Winkler et al. (2014)]]` — permutation inference foundations for FSL `randomise` and PALM
+- Added 10 wikilinks to existing pages: `diffusion-mri`, `tractography`, `[[hcp-dataset]]`, `fractional-anisotropy`, `fsl`, `[[fsl-randomise]]`, `palm`, `[[neuroimaging]]`, `white-matter`, `structural-connectivity`
 - Bumped `updated` date to `2026-05-18` in YAML frontmatter
 - Logged the action in `log.md`
 
@@ -83,5 +83,5 @@ Done. Here's what changed:
 
 1. Chunxia Yang, Jiaxin Han, N. Sun, Penghong Liu, Kerang Zhang, Aixia Zhang, Zhifen Liu. (2025). *Identifying neurobiological markers as predictors of antidepressant treatment using diffusion tensor imaging: A tract-based spatial statistical analysis of cingulate bundle*. CNS Spectrums. [DOI](https://doi.org/10.1017/S1092852925000252)
 2. (authors unknown). *Permutation inference for the general linear model*.
-3. Fan Zhang, Jarrett Rushmore, Yijie Li, S. Cetin-Karayumak, Yang Song, Weidong Cai, C. Westin, J. Levitt, N. Makris, Y. Rathi, Lauren J. O’Donnell. (2025). *Study of Sex Differences in the Whole Brain White Matter Using Diffusion MRI Tractography and Suprathreshold Fiber Cluster Statistics*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.27.679006)
-4. Nina Baldy, P. Triebkorn, S. Petkoski, Meysam Hashemi, V. Jirsa. (2026). *Normative Modeling of Static and Dynamic Functional Connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.04.03.716292)
+3. Fan Zhang, Jarrett Rushmore, Yijie Li, S. Cetin-Karayumak, Yang Song, Weidong Cai, C. Westin, J. Levitt, N. Makris, Y. Rathi, Lauren J. O’Donnell. (2025). *Study of Sex Differences in the [[whole-brain]] White Matter Using Diffusion MRI Tractography and Suprathreshold Fiber Cluster Statistics*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.27.679006)
+4. Nina Baldy, P. Triebkorn, S. Petkoski, Meysam Hashemi, V. Jirsa. (2026). *Normative Modeling of Static and Dynamic [[functional-connectivity]]*. bioRxiv. [DOI](https://doi.org/10.64898/2026.04.03.716292)

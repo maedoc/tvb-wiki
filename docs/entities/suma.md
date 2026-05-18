@@ -23,10 +23,10 @@ tags:
 - neuroimaging-meg
 title: SUMA
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
-# SUMA (Surface Modeling System)
+SUMA (Surface Modeling System) is a neuroimaging visualization environment developed by the National Institute of Mental Health (NIMH) for examining surface-based and volumetric brain data within the broader computational neuroscience software ecosystem. Whole-brain simulation platforms such as [[the-virtual-brain|TVB]] construct personalized brain models by combining empirical [[structural-connectivity]]—typically derived from diffusion MRI tractography—with [[neural-mass-models]], and they provide forward models for [[eeg]], [[meg]], and [[fmri]] that yield synthetic signals directly comparable to empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. TVB has since become a cornerstone tool in the computational neuroscience community for [[whole-brain-modeling]] and clinical brain simulation, enabling researchers to generate synthetic neuroimaging signals that must subsequently be mapped onto anatomical models for meaningful interpretation [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Complementing this simulation layer, modern electrophysiology pipelines such as MLE-Toolbox emphasize end-to-end MEG and EEG analysis with multi-atlas parcellation, anatomical visualization, and native interoperability with [[freesurfer|FreeSurfer]] and [[brainstorm|Brainstorm]] to lower barriers to reproducible research [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. Within this increasingly modular landscape, SUMA occupies a complementary position bridging volumetric simulation and empirical neuroimaging outputs with anatomically realistic cortical surfaces, thereby enabling the surface-based inspection of brain data across species and imaging modalities.
 
 ## Overview
 
