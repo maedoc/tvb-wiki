@@ -13,7 +13,6 @@ title: Nilearn
 type: entity
 updated: '2026-05-18'
 ---
-
 **Nilearn** is a Python library for fast and easy statistical learning on [[neuroimaging]] data. It provides tools for decoding, predictive modeling, [[connectivity]] analysis, and visualization of functional MRI data, making a bridge between the broader [[machine-learning]] ecosystem and the specific data structures used in neuroscience research.
 
 ## Overview
@@ -32,10 +31,4 @@ The decoding capabilities in nilearn support both classification and regression 
 Nilearn complements [[the-virtual-brain]] in several important ways in the [[whole-brain|whole‑brain modeling]] pipeline. First, nilearn is frequently used to estimate functional connectivity matrices from [[resting‑state|resting‑state fMRI]] data, which serve as empirical targets for TVB model fitting or as initialization for model coupling parameters. Second, machine learning decoding approaches in nilearn can identify brain regions and networks relevant for validating TVB model predictions against experimental data— researchers can decode cognitive states from simulated TVB activity and compare to actual fMRI patterns. Third, nilearn's visualization routines produce figures of brain networks and connectivity matrices that mirror TVB output, facilitating comparison between empirical and simulated connectomes. Both nilearn and TVB are Python‑based tools that integrate with the broader neuroimaging ecosystem, and nilearn‑derived connectivity matrices commonly seed TVB neural mass model parameters in [[personalized‑brain‑modeling]] workflows. Additionally, nilearn's atlas handling and parcellation tools ([[brain‑parcellations]]) can generate region definitions used to configure TVB brain network simulations.
 
 ## ORPHAN PAGE CONTEXT (suit)
----
-
-## References
-
-1. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
-2. Xiaobo Liu. (2026). *MLE‑Toolbox: An Open‑Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
-3. Woodman et al. (2014). *GraphVar: A user‑friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+SUIT (Spatial Unbiased Infratentorial Template) is a [[neuroimaging]] software toolkit specialized for analyzing the human cerebellum and brainstem. The cerebellum is increasingly recognized as a key component of large‑scale [[brain-network|brain networks]] implicated in conditions such as epilepsy, yet its characterization remains challenging because anatomical depth, complex folding, and unfavorable source orientations relative to standard neuroimaging sensors consistently limit detectability. SUIT addresses these challenges by providing spatial normalization and anatomical template procedures targeted specifically at infratentorial structures, enabling more precise alignment and region definition than conventional whole‑brain templates typically afford. By furnishing dedicated coordinate frameworks for cerebellar and brainstem anatomy, SUIT supports the broader effort to map [[functional-connectivity|functional network]] organization across the entire brain. Within the Python neuroimaging ecosystem, nilearn can be combined with SUIT for specialized cerebellar analyses, enabling workflows where nilearn‑derived connectivity matrices and [[brain-parcellations]] are complemented by SUIT‑derived infratentorial coordinates. This integration is particularly relevant in [[whole-brain|whole‑brain modeling]] and [[personalized-brain-modeling]] pipelines where precise cerebellar node definitions can improve the fidelity of [[the-virtual-brain]] simulations and other large‑scale network models.

@@ -1,54 +1,30 @@
 ---
-created: 2025-01-15
-sources:
-- 2009
-- 2019
-- 2014
-- raw/papers/rubinov-sporns-2010.md
-- raw/papers/sanz-leon-2013.md
-- raw/papers/mijalkov-2017-braph.md
-tags:
-- software-visualization
-- software-graphvar
-- connectomics
-- graph-theory
-- network-dynamics
-- community-detection
 title: Gephi
+created: 2025-01-15
+updated: 2026-05-18
 type: entity
-updated: '2026-05-04'
+tags: [software-visualization, connectomics, software-brain-modeling, structural-connectivity, functional-connectivity, network-dynamics]
+sources: [raw/papers/rubinov-sporns-2010.md, raw/papers/sanz-leon-2013.md, raw/papers/mijalkov-2017-braph.md]
 ---
 
 ## Overview
 
-Gephi is an open-source network visualization and analysis platform written in Java, originally developed at École Polytechnique de Montréal and now maintained by the Gephi Consortium. It provides interactive tools for exploring, analyzing, and visualizing graphs and networks across many domains, from social media analysis to biological networks. In computational neuroscience, Gephi has become a standard tool for visualizing Brainsuite datasets, particularly [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and [[tractography]], as well as [[functional-connectivity]] networks from [[fmri]] or [[eeg]] data [Bastian et al., 2009]. The platform runs on Windows, macOS, and Linux, and is distributed under the terms of the GNU General Public License.
+Gephi is an open-source network visualization platform used across domains to explore graph-structured data. In computational neuroscience, interactive visualization tools are essential within connectomics pipelines that construct and render brain networks from multimodal neuroimaging data [[raw/papers/mijalkov-2017-braph.md|Mijalkov et al. (2017)]]. Such platforms complement the graph-theoretic measures used to characterize structural and functional connectivity, where interpretation depends on whether networks are treated as weighted or binary, directed or undirected [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. Researchers employing whole-brain models generate adjacency matrices encoding connection strengths between parcellated regions, and these outputs require visual inspection alongside quantitative summaries to verify that topology aligns with biological expectations [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
 
-## Key Features
+## Motivation and Context
 
-Gephi's core strength lies in its ability to handle large-scale networks with millions of nodes and edges while maintaining real-time interactivity. The platform implements the ForceAtlas2 layout algorithm, a force-directed method developed specifically for Gephi by Mathieu Jacomy, which positions nodes spatially such that connected nodes cluster together while repelling unconnected nodes, revealing community structure visually [Jacomy et al., 2014]. Users can manipulate the layout parameters in real-time, adjusting forces, speeds, and convergence thresholds to explore different organizational principles within the same dataset. Alternative force-directed layouts, including the classic Fruchterman-Reingold algorithm, are also available in the software.
+Whole-brain modeling and empirical neuroimaging produce high-dimensional connectivity data that resist interpretation from numerical matrices alone. As connectomics has matured, the need for accessible visualization has grown alongside formal graph-theoretic methods, because measures such as modularity, clustering, and path length must be evaluated with attention to whether graphs are weighted or binary, directed or undirected [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. The [[brain-connectivity-toolbox]] implements these metrics computationally, yet detecting hub regions or community structure often benefits from spatial layouts that allow interactive filtering [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. Visualization platforms address this gap by rendering nodes and edges as manipulable objects, enabling researchers to discover patterns that summary statistics obscure and to compare simulated results against empirical connectomes [[raw/papers/mijalkov-2017-braph.md|Mijalkov et al. (2017)]].
 
-The software includes a comprehensive suite of [[graph-theory]] metrics that can be computed on the fly. Network analysis features include degree distribution, [[network-hubs]] identification, [[modularity]] calculation, path length analysis, clustering coefficients, and betweenness centrality. For [[community-detection]], Gephi implements the Louvain algorithm, which efficiently partitions networks into modules by optimizing modularity, making it particularly useful for identifying functional subsystems in [[brain-network]] data [Griffa et al., 2019].
+## Brain Network Visualization and Analysis
 
-Gephi supports multiple data formats including GraphML, GEXF (Gephi Exchange Format), CSV, and edge lists, facilitating integration with various neuroscience workflows. It can import connectivity matrices exported from tools like the [[brain-connectivity-toolbox]], [[graphvar]], or custom analysis pipelines. The platform also offers dynamic graph visualization, allowing users to visualize how networks change over time—a feature relevant for studying [[brain-dynamics]] or developmental trajectories.
+The study of brain connectivity relies on graph-theoretic measures that characterize network organization and guide the interpretation of connectivity data [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. Review work has emphasized that choices between weighted and binary formulations, as well as directed and undirected structures, fundamentally determine how connectivity patterns are interpreted [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. Adjacency matrices from diffusion MRI or functional neuroimaging are exported from analysis libraries for visual exploration, integrating computational metrics with interactive layout algorithms [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]].
+
+[[Structural-connectivity]] matrices derived from [[diffusion-imaging]] and [[tractography]], as well as [[functional-connectivity]] networks from modalities such as [[fmri]] or [[eeg]], can be represented as weighted or binary, directed or undirected graphs depending on experimental design [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. The [[brain-connectivity-toolbox]] provides computational implementations that integrate with visualization workflows [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. Together, these resources enable detection of [[small-world-networks]] properties, [[rich-club]] organization, and modular community structure in empirical and simulated brain networks [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]].
 
 ## Relationship to TVB
 
-Gephi serves as a complementary visualization tool for outputs generated by [[the-virtual-brain]] (TVB), a whole-brain modeling platform. TVB simulates large-scale brain dynamics using [[neural-mass-models]] and produces structural and functional connectivity data that often require external visualization and analysis. Researchers using TVB frequently export the estimated [[structural-connectivity]] matrices—typically representing white-matter tract strengths between brain regions—and visualize them in Gephi to inspect the underlying anatomical scaffold. Similarly, simulated [[functional-connectivity]] time series can be analyzed in Gephi to compare modular organization between simulated and empirical data.
-
-The combination of TVB simulation outputs with Gephi's network metrics enables researchers to validate brain models by comparing topological properties of simulated networks against established findings from [[connectomics]] literature. For example, the presence of [[small-world-networks]] properties, [[rich-club]] organization, and modular structure can be verified using Gephi's built-in analytics. This workflow represents a key step in the [[model-validation]] pipeline for [[whole-brain-modeling]] projects.
-
-## Key Papers
-
-The foundational paper describing Gephi is M. Bastian, S. Heymann, and M. Jacomy's "Gephi: an open source software for exploring and manipulating networks" (2009), published in the ICWSM conference proceedings, which established the tool's place in the network science ecosystem [Bastian et al., 2009]. For neuroscience applications, a particularly influential review is "Graph-theoretical metrics of the brain network: a review" by F. Griffa and colleagues, which demonstrates how Gephi can be used to analyze [[structural-connectivity]] derived from [[diffusion-imaging]] data [Griffa et al., 2019]. The tool is also frequently cited in studies employing [[community-detection]] to parcellate the cortex into functional systems.
-
-The ForceAtlas2 layout algorithm itself is described in "ForceAtlas2, a Continuous Graph Layout Algorithm for Handy Network Visualization" by M. Jacomy and colleagues (2014), which provides the technical details behind Gephi's default visualization approach [Jacomy et al., 2014].
+Gephi functions as a complementary visualization tool for outputs generated by [[the-virtual-brain]] (TVB), an open-source platform for simulating primate brain network dynamics [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. TVB constructs personalized whole-brain models by integrating empirical [[structural-connectivity]] from diffusion MRI tractography with [[neural-mass-models]], producing simulated neural activity compared against empirical recordings through forward models for [[fmri]], [[meg]], and [[eeg]] [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. TVB outputs include anatomical connectivity weights and dynamic correlations; exporting these to visualization tools enables researchers to verify that simulated networks recapitulate known topological features such as densely interconnected hubs and modular community structure [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. This qualitative inspection is an important sanity check before quantitative statistical comparisons, representing a critical step in the [[model-validation]] pipeline for [[whole-brain-modeling]] studies.
 
 ## Related Software
 
-Several alternatives and complements to Gephi exist for network visualization and analysis in neuroscience. [[cytoscape]] offers similar visualization capabilities with strong integration into biological pathway databases. [[graph-tool]] provides optimized C++ implementations of graph algorithms for large-scale analysis, though with a steeper learning curve. The [[brain-connectivity-toolbox]] (BCT) is a MATLAB library specifically designed for brain network analysis and integrates well with Gephi through standard graph file formats. For web-based visualization, [[brainnet-viewer]] offers a Three.js-based viewer optimized for brain surfaces. For Python-centric workflows, the NetworkX library combined with matplotlib or pyvis provides programmatic network visualization with greater automation potential.
-
-## References
-
-1. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.
-2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
+Multiple toolboxes support brain connectivity analysis alongside interactive visualization platforms. [[braph]] provides an open-source MATLAB pipeline for constructing, analyzing, and visualizing brain networks from multimodal neuroimaging data including [[fmri]], structural MRI, [[eeg]], and PET [[raw/papers/mijalkov-2017-braph.md|Mijalkov et al. (2017)]]. The [[brain-connectivity-toolbox]] remains a widely used MATLAB resource for computing graph-theoretic metrics that can be exported for subsequent visualization [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. While specialized visualization platforms focus on interactive network exploration, comprehensive pipelines such as [[braph]] orient toward statistical analysis across groups and conditions, reflecting the diversity of approaches in the connectomics community [[raw/papers/mijalkov-2017-braph.md|Mijalkov et al. (2017)]].
