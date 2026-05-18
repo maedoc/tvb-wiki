@@ -16,7 +16,6 @@ title: neurodevelopment
 type: concept
 updated: '2026-05-04'
 ---
-
 # Neurodevelopment
 
 Neurodevelopment refers to the processes by which the nervous system grows and develops from embryonic stages through adulthood. It encompasses structural and functional changes in the brain across the lifespan.
@@ -72,13 +71,7 @@ This "back-to-front" gradient mirrors evolutionary cortical development.
 - Studying atypical trajectories
 
 ## Individual Differences
-
-Development varies across individuals due to:
-- Genetic factors
-- Environmental influences
-- Experience-dependent [[plasticity]]
-- Sensitive periods for specific functions
-
+Developmental trajectories diverge across individuals even when the same hierarchical maturation sequence is preserved. Gogtay et al. tracked 13 children with repeated MRI scans between ages 4 and 21, documenting how cortical thinning—reflecting synaptic pruning and myelination—follows a back-to-front gradient at the individual level [[raw/papers/gogtay-2004.md|Gogtay et al. (2004)]]. Fair et al. surveyed 210 participants aged 7–31 and showed that [[functional-connectivity]] networks reorganize from local to distributed configurations across a broad age span, explicitly linking these connectivity changes to behavioral improvements [[raw/papers/fair-2009.md|Fair et al. (2009)]]. Because structural and functional measures such as [[white-matter]] integrity, cortical thickness, and [[functional-connectivity]] patterns underlie cognitive maturation, Tau and Peterson argue that distinguishing typical variation from atypical development requires grounding each individual's profile in age-appropriate [[developmental-trajectories]] [[raw/papers/tau-peterson-2010.md|Tau & Peterson (2010)]]. These findings underscore that whole-brain models built for developmental populations must accommodate inter-individual variability in the timing and extent of network reorganization.
 ## Related Concepts
 - [[developmental-trajectories]] – Patterns of brain change over time
 - [[aging]] – Changes in the opposite direction (later life)
@@ -86,13 +79,3 @@ Development varies across individuals due to:
 - [[functional-connectivity]] – Network organization
 - [[structural-connectivity]] – [[white-matter]] development
 - [[personalized-brain-modeling]] – Subject-specific models
-
-## References
-
-1. (authors unknown). *Normal Development of Brain Circuits*.
-2. (authors unknown). *Dynamic Mapping of Human Cortical Development During Childhood Through Early Adulthood*.
-3. (authors unknown). *Functional Brain Networks Develop from a 'Local to Distributed' Organization*.
-4. (authors unknown). *The Development of Human Functional Brain Networks*.
-5. (authors unknown). *The Basics of Brain Development*.
-6. Fatemeh Mahani, Aref Kalantari, M. Diedenhofen, Claudia Green, Dirk Wiedermann, G.R. Fink, Mathias Hoehn, M. Aswendt. (2026). *Dynamic structural connectivity changes in cortical and cortico-striatal strokes in mice.*. Neural Regeneration Research. [DOI](](https://doi.org/10.4103/NRR.NRR-D-25-00491))
-7. (authors unknown). *[[uk-biobank]] Brain Imaging: Structural MRI in a Massive Population Resource*.

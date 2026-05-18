@@ -14,7 +14,7 @@ tags:
 - software-neuron
 title: Co-Simulation
 type: concept
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 **Co-simulation** is a computational strategy that couples multiple simulation engines to model phenomena across different spatial and temporal scales simultaneously. In [[computational-neuroscience]], co-simulation bridges the gap between detailed cellular-level [[spiking-neural-networks]] and population-level [[neural-mass-models]], enabling researchers to investigate how microscale neuronal dynamics give rise to meso- and macroscale brain activity observable in [[neuroimaging]] modalities such as [[eeg]], [[meg]], and [[fmri]].
@@ -103,12 +103,12 @@ sources:
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/semanticscholar-eb704b6f5462.md
 tags:
-- software-neuroml
+- software-[[neuroml]]
 - software-brain-modeling
 - spiking-neural-networks
-- reproducibility
-- connectomics
-- whole-brain-modeling
+- [[reproducibility]]
+- [[connectomics]]
+- [[whole-brain-modeling]]
 - network-dynamics
 title: NeuroMLlite
 type: entity

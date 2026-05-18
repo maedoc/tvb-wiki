@@ -10,10 +10,12 @@ tags:
 - software-brain-modeling
 title: popeye
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
-The wiki page is now complete. Here's a summary of what I've done:
+**popeye** operates within the landscape of [[fmri]] data analysis and [[neuroimaging]] research. Functional magnetic resonance imaging is widely used for studying and diagnosing brain disorders, providing high-resolution cortical representations that form a strong basis for characterizing fine-grained brain activity patterns [[raw/papers/arxiv-2604.14259.md|Chen & Yu (2026)]][[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]]. The high acquisition cost of fMRI limits large-scale applications, placing strong pressure on analysis pipelines to reconstruct maximal information from each scan while maintaining temporal coherence and spatial accuracy across whole-brain and functionally specific regions [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]]. Capturing dynamic spatiotemporal neural activity is essential for understanding large-scale brain mechanisms, and methods that preserve cortical-vertex-level detail across continuous neural sequences are increasingly demanded in multimodal neuroimaging toward more dynamic brain activity modeling [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]].
+
+This demand for precision exists alongside broader reproducibility challenges in network neuroscience. Because there is no ground truth for the validity of specific analytical steps, researchers face a multitude of arbitrary yet defensible choices when moving from raw BOLD signals to interpretable models, raising concerns about the robustness and generalizability of results across pipelines and studies [[raw/papers/semanticscholar-cb501cd33451.md|Burkhardt & Gießing (2025)]]. [[Functional-connectivity]] matrices derived from fMRI provide powerful representations of large-scale neural interactions that support both basic research and clinical applications including brain disorder diagnosis, yet downstream inferences remain vulnerable to methodological variability and site-specific effects, underscoring the need for transparent, well-validated estimation frameworks [[raw/papers/arxiv-2604.14259.md|Chen & Yu (2026)]]. Within this landscape, popeye contributes to community efforts to advance reproducible [[computational-neuroscience]] and robust [[brain-dynamics]] research through accessible, modular analysis tools.
 
 ## Summary of Changes to popeye.md
 

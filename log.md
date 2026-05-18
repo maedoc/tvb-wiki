@@ -578,3 +578,9 @@
 ## [2026-05-18 10:01] Linter: 89 broken links, 10 orphans, 7 stale, 0 empty
 
 ## [2026-05-18 10:01] RefFormatter: formatted references on 5 pages
+
+## [2026-05-18 10:01] LinkRepair: fixed 18 files (4 wikilink-in-URL, 14 abs-path)
+
+## [2026-05-18] Updated arbor.md Key Features section with sourced content from Hater et al. (2025, 2026)
+
+## [2026-05-18 10:08] Audit: 880 issues (89 broken links, 10 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 100 citation-verify, 39 opaque-refs, 11 thin, 489 missing-links)
