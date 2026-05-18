@@ -1,0 +1,14 @@
+# Real-Time Thought-to-Vision Generation Using Low-Channel EEG and Feature-Fusion Learning
+
+**Source**: semantic-scholar
+**ID**: 87182f674286d0f97c2381e726da04d06c684ff1
+**DOI**: 10.14569/ijacsa.2026.0170469
+**URL**: https://www.semanticscholar.org/paper/87182f674286d0f97c2381e726da04d06c684ff1
+**Year**: 2026
+**Authors**: Abha Marathe, Medha Wyawahare, Milind Rane, Vrinda Parkhi
+**Venue**: International Journal of Advanced Computer Science and Applications
+**Citations**: 0
+
+## Abstract
+
+Severe motor disabilities and paralysis make it hard for individuals to communicate their thoughts and express their imagination using standard interfaces. Recent methods that convert EEG signals into images, using diffusion models, have shown superior results. However, these methods usually depend on high-density EEG systems with 32 to 128 channels, deep neural EEG encoders, and large datasets. This leads to high computational costs, poor real-time performance, and limits their use in assistive settings. To address these problems, this paper proposes a Thought-to-Vision system that is lightweight and real-time. In this work, Thought refers specifically to the imagination of simple geometric shapes (circle, square, and triangle) under controlled experimental conditions. This Thought-to-Vision system can decode the imagined geometric shapes from a low-channel EEG system that only requires 2 channels and then produce visual images based on a diffusion model. The EEG signal was recorded at 250 Hz with 150 trials per session, consisting of 50 trials for each circle, square, and triangle shape. The signal was filtered using artifact rejection, 50 Hz notch filtering, and bandpass filtering between 1 and 40 Hz. A Tri-Domain EEG feature fusion (TDEF) that combines spectral features (FFT band power), Time-Frequency features (Daubechies-4 wavelet coefficients), and statistical features was developed and tested against several benchmarks. These included feedforward networks, CNNs, LSTM/GRU-based time-series encoders, CNN-Transformer models, and EEG-CLIP alignment. Evaluation is measured using classification accuracy, precision, recall, and F1 score, along with embedding consistency for semantic alignment. The experimental results indicate that the TDEF with the XGBoost classifier reaches around 94% for classification accuracy, precision, recall, and F1-score. This performance surpasses deep time-series encoders, which achieved up to 39.09% accuracy, and contrastive EEG-CLIP models, which had 82.97% accuracy. The classified EEG embeddings were then used to guide a latent diffusion model, enabling coherent and semantically consistent image generation. These findings confirm that feature-fusion learning with XGBoost can outperform deep EEG encoders in low-channel situations. This offers a solid, efficient, and practical solution for real-time assistive brain-computer interfaces.
