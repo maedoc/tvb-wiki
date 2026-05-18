@@ -18,10 +18,12 @@ tags:
 - bids-validator
 title: PyBIDS
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
 # PyBIDS
+
+PyBIDS is a Python library for querying, manipulating, and accessing neuroimaging datasets organized according to the Brain Imaging Data Structure ([[bids|BIDS]]) specification. Within the ecosystem of [[whole-brain-modeling|whole-brain modeling]], BIDS-compliant data organization has become especially consequential for platforms such as [[the-virtual-brain|The Virtual Brain (TVB)]], which integrate computational simulations with empirical [[fmri|fMRI]], [[eeg|EEG]], and [[dti|diffusion-weighted imaging]] data. [[raw/papers/ritter-2013.md|Ritter et al. (2013)]] established TVB as a framework that couples large-scale network models with multimodal neuroimaging, demonstrating that subject-specific [[structural-connectivity|structural connectivity]] matrices can parameterize personalized simulations capable of reproducing individual [[resting-state|resting-state]] [[functional-connectivity|functional connectivity]] patterns. [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] further described TVB's architecture as an open-source simulator of primate brain [[network-dynamics|network dynamics]], combining empirical [[tractography|tractography]]-derived connectivity with [[neural-mass-models|neural mass models]] and forward models for EEG, [[meg|MEG]], and fMRI signals. More recently, [[raw/papers/semanticscholar-adcab180dcd3.md|Meier et al. (2025)]] annotated a large multimodal dataset—encompassing simultaneous EEG-fMRI resting-state recordings, diffusion-weighted MRI, and structural MRI for fifty healthy subjects—according to BIDS standards to support TVB-based simulations. This convergence underscores the value of programmatic BIDS interfaces for whole-brain modeling pipelines that must reliably access heterogeneous neuroimaging data across large cohorts.
 
 ## Overview
 
