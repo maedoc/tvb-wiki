@@ -1,7 +1,7 @@
 ---
 title: CRCNS
 created: 2024-01-15
-updated: 2026-05-07
+updated: 2026-05-18
 type: entity
 tags: [funding-project, computational-neuroscience, reproducibility, people-researcher, lab-institute]
 sources:
@@ -11,6 +11,8 @@ sources:
 ---
 
 # CRCNS
+
+CRCNS (Collaborative Research in [[computational-neuroscience]]) is a multi-institutional funding program established by the National Institutes of Health (NIH) to accelerate the integration of computational and experimental approaches in neuroscience research[^1]. The program emerged as the field was coalescing around unified frameworks that classify large-scale brain dynamics into [[neural-mass-models]], network, and neural field formalisms, explicitly linking [[structural-connectivity]] to emergent [[functional-connectivity]] and clinical applications such as [[epilepsy-modeling]], [[schizophrenia-models]], and [[consciousness-models]][[raw/papers/breakspear-2017.md|Breakspear (2017)]]. At the circuit level, mechanistic links between connectivity heterogeneity and functional diversity have been established through heterogeneous dynamical mean-field theory, showing that degree heterogeneity in cortical networks induces non-Markovian memory terms and timescale diversity localized onto hub neurons[[raw/papers/arxiv-2603.04149.md|Zenari et al. (2026)]]. Parallel advances in asymmetric firing-rate networks have extended energy-based models beyond symmetry constraints, revealing game-theoretic structures in which stability arises from local energy minimization in [[excitation-inhibition-balance]] circuits[[raw/papers/arxiv-2512.05252.md|Betteti et al. (2025)]]. By mandating genuine collaboration between experimentalists and theorists, CRCNS supports the iterative refinement of such quantitative models against empirical data, fostering the infrastructure required to advance from single-laboratory studies to platform-scale simulations such as [[the-virtual-brain]].
 
 ## Overview
 CRCNS (Collaborative Research in Computational Neuroscience) is a multi-institutional funding program established by the National Institutes of Health (NIH) to accelerate the integration of computational and experimental approaches in neuroscience research. The program, originally launched through the National Center for Research Resources (NCRR) and now administered through various NIH institutes, supports collaborative projects that pair experimentalists with computational theorists to develop quantitative models of neural systems[^1]. Unlike traditional neuroscience funding that often separates theoretical and empirical work, CRCNS explicitly requires genuine collaboration between researchers with complementary expertise—one group providing experimental data and the other contributing mathematical or computational modeling expertise.

@@ -44,6 +44,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [OpenCortex](opencortex.md) - Framework for building cortical network models in NeuroML format
 - [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
 - [Camino](camino.md) - Open-source toolkit for diffusion MRI reconstruction, tractography, and Monte Carlo simulation
+- [MRtrix3](mrtrix3.md) - Open-source software suite for diffusion MRI analysis, tractography, and connectome construction
 - [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
 - [BIDSkit](bidskit.md) - Command-line toolkit for BIDS data manipulation and conversion
 - [Clinica](clinica.md) - Open-source software platform for clinical neuroimaging data processing and analysis
@@ -59,7 +60,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [SimBrain](simbrain.md) - Interactive neural network simulator focused on emergent behaviors and learning
 - [SpikeInterface](spikeinterface.md) — Unified Python framework for standardized spike sorting, preprocessing, and quality assessment of extracellular electrophysiology data
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
-- [RABIES](rabies.md) - Robust Astute Segmentation of Images for automated brain structure segmentation
+- [RABIES](rabies.md) - Rodent Automated Bold Improvement of EPI Sequences pipeline for rodent fMRI preprocessing, confound correction, and quality control
 - [NNU-Net](nnu-net.md) - Self-configuring deep learning framework for biomedical image segmentation
 - [NiftyReg](niftyreg.md) - Open-source medical image registration toolkit for neuroimaging
 - [MedPy](medpy.md) - Python library for medical image processing and analysis

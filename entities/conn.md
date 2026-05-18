@@ -17,10 +17,12 @@ tags:
 - connectomics
 title: CONN
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
 # CONN
+
+CONN is a software toolbox used for the pre-processing and analysis of [[resting-state]] [[neuroimaging-fmri|functional MRI]] data, enabling seed-to-voxel correlation analyses that map inter-regional [[functional-connectivity|functional coupling]] across large-scale [[brain-network|brain networks]]. Empirical studies demonstrate its typical role in clinical pipelines: [[raw/papers/semanticscholar-7b51fe740684.md|Issa et al. (2026)]] performed all rs-fMRI pre-processing and group-level analysis with CONN to extract Local Coherence and Intrinsic Connectivity Contrast parameters for Alzheimer’s disease classification, while [[raw/papers/semanticscholar-6f3539cb8f1c.md|Caramia et al. (2026)]] used the toolbox to compute seed-based functional connectivity in frontal regions for cluster headache research. Within the broader methodological landscape surveyed by [[raw/papers/smith-2013-connectomics.md|Smith et al. (2013)]], such resting-state functional connectivity analyses constitute a central window into the brain’s [[connectomics|network-level organization]]. Graph-theoretical characterization of the resulting connectivity matrices is supported by complementary toolboxes, including the Brain Connectivity Toolbox introduced by [[raw/papers/rubinov-sporns-2010.md|Rubinov and Sporns (2010)]] for complex [[network-dynamics|network measures]] and the GraphVar interface described by [[raw/papers/woodman-2014.md|Kruschwitz et al. (2015)]] for user-friendly graph analyses. Together, these resources position CONN as a practical preprocessing and connectivity-estimation engine within the connectomics ecosystem.
 
 ## Overview
 
