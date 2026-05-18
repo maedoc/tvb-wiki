@@ -17,7 +17,6 @@ title: BrainNet Viewer
 type: entity
 updated: '2026-05-18'
 ---
-
 ## Overview
 
 BrainNet Viewer is a MATLAB-based software package for visualizing three-dimensional brain networks and [[connectivity]] data derived from various [[neuroimaging]] modalities. Developed primarily for the visualization of [[structural-connectivity]] from diffusion tensor imaging (DTI) and [[tractography]], as well as [[functional-connectivity]] from functional magnetic resonance imaging ([[fmri]]), electroencephalography (EEG), and magnetoencephalography (MEG), the tool enables researchers to render [[brain-network]] graphs overlaid on anatomical brain surfaces. The software was developed by the Brainnetome Lab at the University of Chinese Academy of Sciences and has become a widely used resource in the [[connectomics]] community for both exploratory data analysis and publication-quality figures [xia2013brainnet].
@@ -54,10 +53,6 @@ See also: [[nilearn]] for Python-based brain visualization, [[brainvoyager]] for
 - **Theis, M., et al.** (2016). Human [[connectome]] Project: The importance of being exchangeable. *Neuroinformatics*, 14(2), 157-166. [theis2016human]
 
 ## ORPHAN PAGE CONTEXT (tractseg)
----
+The anatomical substrate of large-scale [[brain-network]] models depends on reconstructions of white matter pathways derived from [[neuroimaging-dti|diffusion imaging]] and [[tractography]]. Tools such as BrainNet Viewer render these [[structural-connectivity]] matrices as network graphs mapped onto cortical surfaces, transforming tractography outputs into spatially grounded representations. [[raw/papers/bullmore-sporns-2009.md|Bullmore and Sporns (2009)]] review how graph theoretical analysis applies to both structural and functional brain systems, establishing the mathematical framework through which tractography-derived adjacency matrices are analyzed and visualized. The quantitative characterization of these networks—measuring clustering, path length, and centrality—draws on complex network measures surveyed by [[raw/papers/rubinov-sporns-2010.md|Rubinov and Sporns (2010)]], who outline how such metrics can be computed from structural connectivity matrices and interpreted in the context of [[connectomics]].
 
-## References
-
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+[[raw/papers/bullmore-sporns-2009.md|Bullmore and Sporns (2009)]] review the application of graph theoretical analysis to both structural and functional brain systems. [[raw/papers/smith-2013-connectomics.md|Smith et al. (2013)]] review functional connectomics methods based on [[resting-state]] [[neuroimaging-fmri|fMRI]], providing a functional counterpart to anatomical connectivity measures. This pipeline—from diffusion acquisition through network construction to interactive three-dimensional visualization—bridges the output of tractography processing tools to the graphical capabilities of brain network viewers, a connection grounded in the complex network measures surveyed by [[raw/papers/rubinov-sporns-2010.md|Rubinov and Sporns (2010)]].

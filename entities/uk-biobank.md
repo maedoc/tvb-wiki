@@ -13,12 +13,14 @@ tags:
 - aging-brain
 title: UK Biobank
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
 # UK Biobank
 
-The world's largest multimodal brain imaging study, collecting data from 100,000+ participants.
+The UK Biobank Imaging Study is the largest brain imaging study ever conducted, designed to acquire multimodal [[neuroimaging-fmri|MRI]] from 100,000 existing UK Biobank participants and merge these scans with the project's extensive phenotypic and genetic data [[raw/papers/miller-2016.md|Miller et al. (2016)]]. The protocol captures [[neuroimaging-fmri|functional MRI]], [[diffusion-mri|diffusion MRI]], and structural scans, enabling population-level investigations of [[brain-network|brain structure]] and [[functional-connectivity|function]] that are impossible in smaller cohorts [[raw/papers/miller-2016.md|Miller et al. (2016)]]. By imaging a broad age range within a single standardized framework, the study creates an unprecedented resource for understanding how the [[aging-brain|brain changes across the lifespan]] at the population level [[raw/papers/miller-2016.md|Miller et al. (2016)]].
+
+To manage this scale, dedicated processing pipelines were developed to automatically preprocess structural, functional, and diffusion data for the full 100,000-participant target, with extensive quality metrics and standardized procedures released alongside the raw images [[raw/papers/alfaro-almagro-2018.md|Alfaro-Almagro et al. (2018)]]. These pipelines established the processing standards for the world's largest brain imaging dataset and have enabled thousands of researchers to use the data reliably [[raw/papers/alfaro-almagro-2018.md|Alfaro-Almagro et al. (2018)]]. Integrating the resulting imaging phenotypes with genome-wide genotyping has already yielded the first large-scale genome-wide association studies of brain imaging traits, identifying novel genetic loci associated with [[structural-connectivity|brain structure]], [[white-matter|white matter integrity]], and [[resting-state|resting-state]] connectivity [[raw/papers/elliott-2018.md|Elliott et al. (2018)]]. This convergence of massive sample size, multimodal [[connectomics]], and genetic depth makes UK Biobank a cornerstone resource for population-level analyses of the [[aging-brain|aging brain]] and [[brain-dynamics|brain dynamics]] [[raw/papers/elliott-2018.md|Elliott et al. (2018)]].
 
 ## Overview
 

@@ -44,6 +44,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [OpenCortex](opencortex.md) - Framework for building cortical network models in NeuroML format
 - [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
 - [Camino](camino.md) - Open-source toolkit for diffusion MRI reconstruction, tractography, and Monte Carlo simulation
+- [MRtrix3](mrtrix3.md) - Comprehensive diffusion MRI analysis suite for tractography and connectome construction used in whole-brain modeling workflows
 - [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
 - [BIDSkit](bidskit.md) - Command-line toolkit for BIDS data manipulation and conversion
 - [ABCBIDS](abcbids.md) - ABCD Study data in BIDS format plus community-curated derivatives collection (ABCC) for developmental neuroimaging research
@@ -83,6 +84,8 @@ A collection of people, software platforms, datasets, and research groups releva
 - [LORIS](loris.md) — Web-based data management and processing platform for large-scale neuroimaging datasets
 - [COINS](coins.md) — Collaborative Informatics and Neuroimaging Suite, web-based platform for multi-site neuroimaging data management and sharing
 - [dcm2niix](dcm2niix.md) — Open-source DICOM-to-NIfTI converter and foundational preprocessing utility for neuroimaging pipelines
+- [nxviz](nxviz.md) — Python library for network visualization of brain connectivity graphs and adjacency matrices
+- [SPM](spm.md) — Statistical Parametric Mapping software suite with Dynamic Causal Modeling for effective connectivity and neuroimaging forward models
 
 ## Research Projects & Datasets
 

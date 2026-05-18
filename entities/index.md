@@ -64,6 +64,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [NNU-Net](nnu-net.md) - Self-configuring deep learning framework for biomedical image segmentation
 - [NiftyReg](niftyreg.md) - Open-source medical image registration toolkit for neuroimaging
 - [MedPy](medpy.md) - Python library for medical image processing and analysis
+- [MNE-Python](mne-python.md) - Open-source Python library for MEG/EEG analysis, source localization, and connectivity estimation
 - [Nengo](nengo.md) - Neural Engineering Framework simulator for building spiking neural networks
 - [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
 - [Neurosift](neurosift.md) - Browser-based NWB visualization and cloud archive exploration tool
@@ -88,6 +89,8 @@ A collection of people, software platforms, datasets, and research groups releva
 - [LORIS](loris.md) — Web-based data management and processing platform for large-scale neuroimaging datasets
 - [COINS](coins.md) — Collaborative Informatics and Neuroimaging Suite, web-based platform for multi-site neuroimaging data management and sharing
 - [dcm2niix](dcm2niix.md) — Open-source DICOM-to-NIfTI converter and foundational preprocessing utility for neuroimaging pipelines
+- [nxviz](nxviz.md) — Python library for network visualization of brain connectivity graphs and adjacency matrices
+- [SPM](spm.md) — Statistical Parametric Mapping software suite with Dynamic Causal Modeling for effective connectivity and neuroimaging forward models
 
 ## Research Projects & Datasets
 

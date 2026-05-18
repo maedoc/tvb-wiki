@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: TVB-WebUI
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-18'
 ---
 
 **TVB-WebUI** is the web-based user interface for [The Virtual Brain](/tvb), an open-source [[neuroimaging]] simulation platform. It provides a graphical environment for configuring, running, and visualizing [[brain-network]] simulations through a modern web browser.
@@ -49,10 +49,9 @@ The WebUI can be run as a standalone service that connects to a TVB instance, or
 
 ## Related Software
 
-- [TVB](](/tvb)) — Core simulation engine and Python library
-- [TVB-Explorer](](/tvb-explorer)) — Visualization toolkit for connectivity and imaging data
-- [TVB-NEURO](](/tvb-neuro)) — Clinical neuroscience extensions
-- [TVB-GUI](](/tvbgui)) — Legacy desktop GUI (deprecated)
+TVB-WebUI operates within a modular software ecosystem whose two principal components—a Python scientific computing core and a supporting framework with its graphical user interface—communicate through a middleware layer of annotated data structures called TVB-Datatypes [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. This architectural separation allows the WebUI to serve as the graphical frontend while the scientific kernel handles the numerical integration of [[neural-mass-model]] simulations across large-scale [[brain-network]] models, generating simulated macroscopic signals directly comparable to empirical [[neuroimaging-eeg|EEG]], [[neuroimaging-meg|MEG]], and [[neuroimaging-fmri|fMRI]] recordings [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. TVB maintains explicit interoperability with external analysis environments: the framework supports interaction with MATLAB and Octave to leverage the [[bctpy|Brain Connectivity Toolbox]] for graph-theoretical analysis of [[structural-connectivity]] matrices, and it integrates [[openmeeg|OpenMEEG]] to compute the lead-field matrices required for EEG and MEG forward solutions [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
+
+From a comparative modeling perspective, TVB exemplifies the integration of empirical structural connectivity with neural mass dynamics for personalized brain simulation, occupying a distinct niche alongside spiking-network simulators [[raw/papers/breakspear-2017.md|Breakspear (2017)]]. Performance benchmarks in the TVB literature have directly compared the platform against the [[brian2|Brian]] simulator, demonstrating that while Brian excels at detailed spike-based dynamics, TVB is optimized for the delayed-coupled [[network-dynamics]] characteristic of full-brain [[connectome]] models [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The ecosystem further extends to clinical pipelines through the integration of subject-specific [[diffusion-mri]] tractography, enabling the WebUI to bridge raw neuroimaging data and simulated fMRI, EEG, and MEG signals within the same collaborative environment [[raw/papers/ritter-2013.md|Ritter et al. (2013)]].
 
 ## References
 

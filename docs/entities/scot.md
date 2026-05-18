@@ -1,48 +1,22 @@
 ---
-created: 2025-01-15
-sources:
-- raw/papers/rubinov-sporns-2010.md
-- raw/papers/sanz-leon-2013.md
-- raw/papers/wang-etal-2015-gretna.md
-tags:
-- software
-- structural-connectivity
-- connectomics
-- software-visualization
 title: SCOT
+created: 2026-04-20
+updated: 2026-05-18
 type: entity
-updated: '2026-05-05'
+tags: [software-brain-modeling, connectomics, structural-connectivity, tractography, software-tvb, whole-brain-modeling, open-question]
+sources: [raw/papers/rubinov-sporns-2010.md, raw/papers/sanz-leon-2013.md, raw/papers/wang-etal-2015-gretna.md]
 ---
 
-SCOT ([[structural-connectivity]] Toolbox) is a proposed or lessestablished software package designed for the analysis and visualization of structural brain [[connectivity]] data derived from diffusion tensor imaging (DTI) and probabilistic tractography. The toolbox provides a unified interface for computing connectivity matrices, extracting network metrics, and performing comparative analysis across subject groups, making it particularly valuable for [[whole-brain|whole-brain modeling]] workflows that require robust structural connectivity estimates as the anatomical backbone for [[neural-mass-model]] simulations rubinov2010complex. *Note: This entry requires verification as SCOT may not be a widely documented or established tool in the [[neuroimaging]] ecosystem.*
+SCOT is a reportedly proposed software package for processing, analyzing, and visualizing structural brain [[connectivity]] data derived from diffusion-weighted imaging and probabilistic [[tractography]]. Its existence, feature set, and documentation status remain unverified: none of the structural-connectivity or whole-brain-modeling source papers currently held in this wiki explicitly describe or cite SCOT as an established tool in the neuroimaging ecosystem.
 
-## Overview
+## Motivation and Context
 
-SCOT was developed to address the fragmentation of structural connectivity analysis across multiple disconnected tools in the neuroimaging ecosystem. In [[whole-brain-modeling]], the structural connectivity matrix—typically derived from [[tractography]] of diffusion MRI data—serves as the weight matrix that defines coupling strengths between brain regions in [[neural-mass Models]] such as the [[jansen-rit-model]] or [[wong-wang-model]] [[bold-model]]. However, researchers often lacked standardized pipelines for converting raw diffusion data into connectivity matrices suitable for simulation, forcing them to stitch together disparate tools from Fsl, Mrtrix3, and custom scripts. SCOT consolidates these steps into a coherent workflow, handling parcellation-based region definition, tractogram processing, matrix normalization, and export to formats compatible with [[the-virtual-brain]] and other whole-brain simulators.
-
-The toolbox operates on parcellated brain volumes, where each parcel represents a region of interest (ROI) defined by a [[brain-parcellations]] such as the [[desikan-killiany-atlas]], [[destrieux-atlas]], or [[schaefer-atlas]]. It computes connectivity as the number of streamlines or probabilistic tractography values connecting each pair of regions, producing a symmetric connectivity matrix that can be thresholded to remove spurious connections . SCOT supports multiple normalization strategies, including gross-connectivity scaling, density-based thresholding, and proportional scaling to account for differences in tractography quality across subjects.
-
-## Key Features
-
-SCOT provides several features relevant to computational neuroscience research. First, it implements automated tractogram filtering using machine learning classifiers trained to remove false-positive connections, improving the fidelity of connectivity estimates for [[personalized-brain-modeling]] applications. Second, the toolbox includes a suite of [[graph-theory]] metrics computed directly on the connectivity matrices, including [[modularity]] [[principal-component-analysis]], [[small-world-networks]] properties [[nonlinear-dynamics]], [[rich-club]] coefficients, and [[network-hubs]] identification. Third, SCOT supports group-level statistical comparison, enabling researchers to test hypotheses about structural connectivity differences between clinical populations—such as patients with [[schizophrenia-models]] or [[alzheimers-disease]]—and healthy controls. Fourth, the toolbox includes visualization capabilities for rendering connectivity matrices as circular graphs, 3D brain network displays, and region-level heatmaps, facilitating communication of results in scientific publications.
+Structural connectivity matrices derived from diffusion-weighted imaging and probabilistic [[tractography]] serve as the anatomical scaffold for large-scale [[whole-brain-modeling]] simulations [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. These matrices define coupling strengths between brain regions, and their fidelity directly constrains the quality of simulated dynamics generated by [[neural-mass-models]] coupled across the connectome. Constructing these matrices requires processing raw tractography data through parcellation, thresholding, and normalization before the resulting weights can drive network simulations. The research community has developed well-documented packages for analyzing connectivity data once matrices are built. The [[brain-connectivity-toolbox]] is a widely-used software package that implements complex network measures derived from graph theory for analyzing brain connectivity data, with discussion of weighted versus binary networks and directed versus undirected graphs, alongside guidelines for interpreting these measures in neuroscience contexts [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]]. GRETNA provides a MATLAB-based toolbox for graph-theoretic analysis of brain connectivity networks, supporting multiple [[brain-parcellations|parcellation schemes]], various thresholding approaches, and network construction pipelines, with both graphical-user-interface and command-line functionality, including built-in statistical testing for group comparisons [[raw/papers/wang-etal-2015-gretna.md|Wang et al. (2015)]]. These tools address critical analysis steps in the connectome pipeline, though an integrated package that unifies raw tractogram processing, matrix construction, and graph-theoretic analysis in the manner SCOT's description implies is not documented in the held sources.
 
 ## Relationship to TVB
 
-In the [[the-virtual-brain]] ecosystem, SCOT serves as a preprocessing tool for generating the structural connectivity matrices that TVB requires as input for simulations. TVB's native connectivity processing pipeline handles basic tractogram-to-matrix conversion, but SCOT offers advanced filtering and normalization capabilities that can improve the quality of connectivity estimates before they enter the TVB simulation environment. Researchers working with patient populations where standard tractography produces noisy connectivity estimates may use SCOT's filtering capabilities to clean the tractogram, then export the resulting matrix to TVB's CMTK format for simulation. The [[brain-connectivity-toolbox]] (BCT) provides overlapping functionality for graph-theoretic analysis, but SCOT's integration of preprocessing and analysis into a single pipeline addresses a different workflow need. Additionally, SCOT's compatibility with [[bids]] data organization facilitates integration with TVB's [[tvb-adapters]] for BIDS-compatible datasets.
+Within the [[tvb|The Virtual Brain]] ecosystem, structural connectivity matrices are required inputs for coupling [[neural-mass-models]] across brain regions to produce simulated [[bold-model|BOLD]], [[neuroimaging-eeg|EEG]], and [[neuroimaging-meg|MEG]] signals [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. TVB is an open-source platform that integrates empirical structural connectivity from diffusion MRI tractography with neural mass models, enabling personalized whole-brain simulation through forward models that allow direct comparison of simulated signals against empirical recordings. The quality of these simulations depends on high-fidelity connectivity matrices to drive region-to-region coupling, making preprocessing tools that generate cleaned, thresholded, and normalized matrices essential upstream components of any TVB workflow. If SCOT were validated, its proposed role in converting parcellated diffusion data into simulation-ready structural matrices would align with this preprocessing need. Without confirmed documentation or source-backed evidence of SCOT's capabilities and output formats, however, the specific nature of any integration with TVB remains speculative.
 
-## Related Software
+## Verification Status
 
-The closest competitors to SCOT are the [[brain-connectivity-toolbox]] (BCT), which focuses on graph-theoretic network analysis rather than tractogram processing, and [[mrtrix3-connectome]], which provides connectivity matrix computation but lacks SCOT's statistical comparison and filtering features. SCOT also complements Dipy for low-level diffusion processing and tools in the [[dcan-tools]] ecosystem for tractogram analysis. For visualization specifically, researchers often combine SCOT output with [[brainnet-viewer]] or [[connectome-workbench]] for publication-quality renderings.
-
-## Key Papers
-
-- Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: uses and interpretations. *Current Opinion in Neurobiology*, 20(3), 262-267.
-- Tournier, J. D., et al. (2012). MRtrix: [[diffusion-imaging]], diffusion spectroscopy, and FAQ. Proc. ISMRM.
-- Sanz-Leon, P., et al. (2015). [[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]. *NeuroImage*, 111, 385-410.
-- Zalesky, A., et al. (2010). Whole-brain anatomical networks: Does the choice of nodes and edges matter? *NeuroImage*, 50(3), 970-983.
-
-## References
-
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-3. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2015.04.016))
+The source holdings currently available do not independently confirm SCOT as an established, documented tool. The [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]] source describes the Brain Connectivity Toolbox for network analysis with graph-theoretic measures on weighted and binary networks; the [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] source describes TVB architecture, neural mass model integration, and forward modeling for neuroimaging signals; and the [[raw/papers/wang-etal-2015-gretna.md|Wang et al. (2015)]] source describes GRETNA for graph-theoretic analysis with multiple parcellation and thresholding options. Any claims about SCOT's specific feature set, output formats, compatibility with [[dynamic-causal-modeling]] workflows, or integration with specific simulators should be treated as unverified pending the addition of primary documentation to the wiki source holdings.

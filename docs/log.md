@@ -271,3 +271,4 @@
 
 ## 2026-05-18
 - Improved [[modeldb]] page: rewrote Related section with full prose (cited Migliore et al. 2006 and Potjans & Diesmann 2014), replaced bullet list with dense explanatory paragraphs, added cross-links to neuron, nest, brian2, genesis, netm, neuroml, open-source-brain, the-virtual-brain, neural-mass-models, whole-brain-modeling, and jansen-rit-model.
+- Improved [[mrtrix3]] page: removed broken [[neurodesk]] link, grounded all claims in Renton et al. (2024) and Lê et al. (2026), expanded Motivation and Context with clinical connectomics findings from Parkinson's freezing-of-gait study, added Deployment and Reproducibility section emphasizing containerized standardization, strengthened Relationship to TVB with explicit preprocessing role and forward-model linkage, added 18 wikilinks including qsiprep, dsi-studio, dipy, freesurfer, parcellation, and neuroimaging modalities, added page to entities index.
