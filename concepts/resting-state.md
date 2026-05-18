@@ -14,7 +14,7 @@ tags:
 - paper-methods
 title: Resting-State fMRI
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
 Resting-state functional magnetic resonance imaging (rs-fMRI) is a neuroimaging technique that measures spontaneous low-frequency (<0.1 Hz) fluctuations in the blood-oxygen-level-dependent (BOLD) signal during task‑free conditions. By correlating these intrinsic fluctuations across brain regions, researchers can map the brain's [[functional-connectivity]]—the statistical dependencies between regional time series that reveal the organization of coherent neural networks in the absence of explicit cognitive demands. This approach, pioneered by Bharat Biswal in 1995, has become a cornerstone of modern neuroscience for understanding the brain's intrinsic functional architecture and serves as the primary empirical target for [[whole-brain]] computational models. Common preprocessing pipelines often employ tools such as [[ciftify]] (available via [[neurodebian]]) to convert volumetric fMRI data into surface‑based CIFTI format for subsequent connectivity analyses.
@@ -65,6 +65,7 @@ A persistent controversy in the field concerns global signal regression—a prep
 - [[connectomics]] – The study of the brain's connectome
 - [[spontaneous‑activity]] – Ongoing neural dynamics in the absence of tasks
 - Mark Newman
+[[fslnets]]
 [[brainsmash]]
 
 ## References

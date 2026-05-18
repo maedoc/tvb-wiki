@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # TVB (The Virtual Brain)
@@ -64,6 +64,7 @@ TVB combines:
 - [[brainscales]]
 - [[powermap]]
 - [[geppetto]]
+- [[pycelosim]]
 - [[gift]]
 - [[amico]]
 - [[brainglobe]]
@@ -181,3 +182,21 @@ updated: '2026-05-04'
 ## Overview
 
 DPABI (Data Processing Assistant for Brain Imaging) is a MATLAB-based toolbox that provides graphical user interface (GUI) and batch processing capabilities for analyzing neuroimaging data, with a primary focus on [[resting-state]] functional magnetic resonance i
+
+## ORPHAN PAGE CONTEXT (pycelosim)
+---
+created: 2026-05-13
+sources:
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/arxiv-2509.08179.md
+- raw/papers/arxiv-2509.02799.md
+tags:
+- software-brain-modeling
+- neural-mass-models
+- whole-brain-modeling
+title: PyCeLoSim
+type: entity
+updated: '2026-05-18'
+---
+
+PyCeLoSim (Python Cell and Local-circuit Simulator) is a Python-based computational framework for simulating cellular-level neural dynamics and local microcircuit activity. It operates at the microscopic scale — modeling in

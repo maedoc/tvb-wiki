@@ -12,7 +12,7 @@ tags:
 - neuroimaging-dti
 title: Allen SDK
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-18'
 ---
 
 The [[allen-sdk]] is a software development kit produced by the Allen Institute for Brain Science that provides programmatic access to the institute's brain mapping datasets, particularly the Allen Mouse Brain [[connectivity]] Atlas. It enables researchers to download, analyze, and visualize detailed anatomical and connectivity data from the mouse brain, serving as a critical resource for constructing data-driven [[structural-connectivity]] matrices in [[whole-brain|whole-brain modeling]] workflows.
@@ -35,7 +35,7 @@ Third, the SDK supports generation of connectivity matrices at multiple scales, 
 
 The Allen SDK connects to [[The Virtual Brain]] primarily through its utility in generating high-quality structural connectivity matrices for whole-brain simulations. [[Whole-brain modeling]] frameworks like [[TVB]] require anatomical connectivity data to define the structural skeleton upon which dynamical simulations unfold. While many TVB workflows rely on [[diffusion-imaging]] and [[tractography]] to estimate human structural connectivity, the mouse brain modeling community increasingly uses Allen SDK connectivity data as a gold-standard alternative that offers cellular-level anatomical fidelity [@allen-sdk-documentation].
 
-The Allen SDK's compliance with the [[Common Coordinate Framework]] facilitates integration with mouse brain parcellation schemes, including those compatible with [[brain-parcellations]] used in TVB mouse brain simulations. Researchers building computational models of mouse brain dynamics can use the SDK to extract directed connectivity weights between regions of interest, then import these matrices directly into [[TVB]] through standard [[TVB-adapters]]. This combination enables biologically constrained simulations that reflect the actual anatomical projection patterns documented in experimental tracing studies, potentially offering improved correspondence to empirical functional dynamics compared to connectivity estimates derived purely from [[DTI]] methodology.
+The Allen SDK's compliance with the Common Coordinate Framework facilitates integration with mouse brain parcellation schemes, including those compatible with [[brain-parcellations]] used in TVB mouse brain simulations. Researchers building computational models of mouse brain dynamics can use the SDK to extract directed connectivity weights between regions of interest, then import these matrices directly into [[TVB]] through standard [[TVB-adapters]]. This combination enables biologically constrained simulations that reflect the actual anatomical projection patterns documented in experimental tracing studies, potentially offering improved correspondence to empirical functional dynamics compared to connectivity estimates derived purely from [[DTI]] methodology.
 
 Beyond connectivity matrices, the Allen SDK also provides gene expression data that can inform [[personalized-brain-modeling]] efforts seeking to incorporate molecular-level variation into whole-brain models. Recent work has explored combining Allen Institute gene expression maps with TVB simulations to model neurotransmitter receptor distributions across brain regions, though such integrated frameworks remain an active area of development [@allen-mouse-connectivity-atlas].
 

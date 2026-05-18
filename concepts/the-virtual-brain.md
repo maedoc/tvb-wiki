@@ -8,7 +8,7 @@ tags:
 - the-virtual-brain
 title: The Virtual Brain
 type: concept
-updated: '2026-05-07'
+updated: '2026-05-18'
 ---
 
 [[tvb|The Virtual Brain]] (TVB) is an open-source neuroinformatics platform for simulating large-scale primate brain [[network-dynamics]]. It enables researchers to construct personalized [[whole-brain]] models by combining empirical structural [[connectivity]] data—typically derived from [[diffusion-mri]] [[tractography]]—with biologically realistic [[neural-mass-models]]. TVB provides forward models for electroencephalography (EEG), magnetoencephalography (MEG), and functional magnetic resonance imaging (fMRI), allowing simulated brain activity to be compared directly against empirical [[neuroimaging]] recordings. The platform has become a cornerstone tool in [[computational-neuroscience]] for studying [[brain-dynamics]], disease mechanisms, and individualized virtual brain models (Sanz Leon et al., 2013).
@@ -23,7 +23,7 @@ The Virtual Brain emerged to address this gap. Developed by an international con
 
 TVB employs a modular architecture that separates scientific computation from user interaction. At its core lies the simulation engine, written in Python, which solves large systems of coupled differential equations representing the dynamics of interconnected brain regions. Each region is modeled using a neural mass model—typically variants of the [[jansen-rit-model]] ([[jansen-rit]]) or the [[epileptor]] model for epilepsy studies—which captures the average activity of neuronal populations within that region (Sanz Leon et al., 2013).
 
-The structural connectivity matrix, derived from diffusion tensor imaging (DTI) or high-angular-resolution [[diffusion-imaging]] (HARDI) tractography, defines the coupling between regions (Ritter et al., 2013). This matrix represents the density and strength of [[white-matter]] tracts connecting different brain areas, providing the anatomical skeleton upon which dynamic activity unfolds. Time delays arising from finite conduction velocities are explicitly modeled, creating the characteristic wave-like patterns of brain activity observed in empirical data.
+The structural connectivity matrix, derived from diffusion tensor imaging (DTI) or high-angular-resolution [[diffusion-imaging]] (HARDI) tractography, defines the coupling between regions (Ritter et al., 2013). This matrix represents the density and strength of [[white-matter]] tracts connecting different brain areas, providing the anatomical skeleton on which dynamic activity unfolds. Time delays arising from finite conduction velocities are explicitly modeled, creating the characteristic wave-like patterns of brain activity observed in empirical data.
 
 TVB provides multiple user interfaces to accommodate different use cases. A web-based HTML5/JavaScript interface with WebGL visualization enables remote access through a client-server configuration, allowing users to run simulations without local installation. For advanced modeling and customization, a Python scripting interface provides direct access to the scientific kernel, enabling integration with other libraries in the Python scientific ecosystem.
 
@@ -35,20 +35,136 @@ This multimodal forward modeling capability enables direct comparison between si
 
 ## Relationship to Other Tools
 
-TVB occupies a unique position in the ecosystem of neural simulation software. Unlike [[brian]] or [[brian2]], which focus on detailed single-neuron and small-network simulations, or [[nest]] and [[neuron]], which emphasize large-scale spiking network simulations, TVB operates at the macroscopic whole-brain level using neural mass approximations. This abstraction enables simulation of the entire brain at tractable computational cost while retaining biologically meaningful dynamics.
+TVB occupies a unique position in the ecosystem of neural simulation software. Unlike [[brian]] or [[brian2]], which focus on detailed single-neuron and small-network simulations, or [[nest]] and [[neuron]], which emphasize large-scale spiking network simulations, TVB operates at the macroscopic whole-brain level using neural mass approximations. This abstraction enables simulation of the entire brain at tractable computational cost while retaining biologically meaningful dynamics. For analyses focusing on temporal network dynamics, researchers also use tools like [[teneto]]. 
 
-TVB complements [[dynamic-causal-modeling]] (DCM) approaches, which also integrate neuroimaging data with computational models but typically operate on much smaller sets of regions (10–50) using [[variational-bayes]] inference. TVB's whole-brain approach enables exploration of network-level phenomena such as [[brain-oscillations]], criticality, and traveling waves that emerge from the interaction of distributed brain regions (Breakspear, 2017).
+TVB complements [[dynamic-causal-modeling]] (DCM) approaches, which also integrate neuroimaging data with computational models but typically operate on much smaller sets of regions (10–50) using [[variational-bayes]] inference. TVB's whole-brain approach enables exploration of network-level phenomena such as [[brain-oscillations]], criticality, and traveling waves that emerge from the interaction of distributed brain regions (Breakspear, 2017). Additionally, the Graph Analysis Toolbox [[gat]] can be used to further analyse the structural connectivity matrices generated by TVB.
 
-The platform integrates with data management tools such as [[datalad]] and the broader [[bids]] ecosystem for handling neuroimaging datasets. For visualization, TVB interfaces with tools like [[brainnet-viewer]] and the [[brain-connectivity-toolbox]] to enable rich display of connectivity matrices and simulation results. TVB also works well with preprocessing pipelines from [[Brainsuite]] for cortical surface analysis, and can be deployed within containerized environments via [[datalad-containers]] for reproducible workflows (Sanz Leon et al., 2013).
+The platform integrates with data management tools such as [[datalad]] and the broader [[bids]] ecosystem for handling neuroimaging datasets. For visualization, TVB interfaces with tools like [[brainnet-viewer]], [[brainnetcnn]], and the [[brain-connectivity-toolbox]] to enable rich display of connectivity matrices and simulation results. TVB also works well with preprocessing pipelines from [[Brainsuite]] for cortical surface analysis, and can be deployed within containerized environments via [[datalad-containers]] for reproducible workflows (Sanz Leon et al., 2013). Additionally, TVB can import datasets via the [[ Allen SDK]] for mouse brain resources. It can also import models defined with the lightweight [[neuromllite]] library.
 
 ## Applications and Clinical Translation
 
 TVB has been applied extensively in computational psychiatry and neurology research. Personalized whole-brain models have been used to study [[epilepsy-modeling]], where the [[epileptor]] model can capture seizure dynamics and evaluate stimulation interventions. The platform supports investigation of [[schizophrenia-models]] and [[alzheimers-modeling]] by exploring how structural connectivity alterations propagate through large-scale networks to produce functional abnormalities.
 
-The [[personalized-brain-modeling]] framework enables the construction of virtual patient models from individual neuroimaging data. This approach holds promise for clinical translation, potentially allowing clinicians to simulate the effects of stimulation interventions (e.g., transcranial magnetic stimulation or deep brain stimulation) before surgical planning, or to predict disease progression based on individual connectome profiles. By combining [[structural-connectivity]] information with dynamic models, TVB provides a mechanistic bridge between anatomical structure and functional dynamics that is essential for understanding both healthy brain function and the pathophysiology of neurological disorders. Integration with clinical platforms such as [[clinica]] enables seamless processing of clinical neuroimaging data into TVB-compatible formats.
+The [[personalized-brain-modeling]] framework enables the construction of virtual patient models from individual neuroimaging data. This approach holds promise for clinical translation, potentially allowing clinicians to simulate the effects of stimulation interventions (e.g., transcranial magnetic stimulation or deep brain stimulation) before surgical planning, or to predict disease progression based on individual connectome profiles. By combining [[structural-connectivity]] information with dynamic models, TVB provides a mechanistic bridge between anatomical structure and functional dynamics that is essential for understanding both healthy brain function and the pathophysiology of neurological disorders. Integration with clinical platforms such as [[clinica]] enables seamless processing of clinical neuroimaging data into TVB‑compatible formats.
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
-3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](](https://doi.org/10.1038/s41593-017-0015-4))
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010))
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120))
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience ( Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4))
+
+## ORPHAN PAGE CONTEXT ( Allen SDK)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/ritter-2013.md
+tags:
+- software
+- connectomics
+- structural-connectivity
+- diffusion-imaging
+- neuroimaging-dti
+title: Allen SDK
+type: entity
+updated: '2026-05-18'
+---
+
+The [[allen-sdk]] is a software development kit produced by the Allen Institute for Brain Science that provides programmatic access to the institute's brain mapping datasets, particularly the Allen Mouse Brain
+
+## ORPHAN PAGE CONTEXT (brainnetcnn)
+---
+created: 2026-05-13
+sources:
+- raw/papers/kawahara-2017-brainnetcnn.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-bc3fb1518d09.md
+tags:
+- software-brain-modeling
+- machine-learning
+- connectomics
+- structural-connectivity
+- whole-brain-modeling
+- neurodevelopment
+- diffusion-imaging
+- graph-theory
+title: BrainNetCNN
+type: entity
+updated: '2026-05-18'
+---
+
+# BrainNetCNN
+
+BrainNetCNN is a deep convolutional [[neural-network]] framework specifically
+
+## ORPHAN PAGE CONTEXT (gat)
+---
+created: 2026-05-13
+sources:
+- raw/papers/hosseini-2012-gat.md
+tags:
+- software-brain-modeling
+- graph-theory
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- network-dynamics
+- resting-state
+title: GAT (Graph Analysis Toolbox)
+type: entity
+updated: '2026-05-15'
+---
+
+# GAT (Graph Analysis Toolbox)
+
+The **Graph Analysis Toolbox** (GAT) is a MATLAB-based software package that provides a graphical user interface for performing graph-theoretical analyses on structural and fun
+
+## ORPHAN PAGE CONTEXT (neuromllite)
+---
+created: 2026-05-13
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software-neuroml
+- software-brain-modeling
+- spiking-neural-networks
+- reproducibility
+- connectomics
+- whole-brain-modeling
+- network-dynamics
+title: NeuroMLlite
+type: entity
+updated: '2026-05-18'
+---
+
+NeuroMLlite is a lightweight Python library that enables researchers to define [[computational-neuroscience]] models using native Python syntax and
+
+## ORPHAN PAGE CONTEXT (teneto)
+---
+created: 2026-05-13
+sources:
+- raw/papers/woodman-2014.md
+tags:
+- software-brain-modeling
+- network-dynamics
+- functional-connectivity
+- connectomics
+- graph-theory
+- resting-state
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+title: Teneto
+type: entity
+updated: '2026-05-18'
+---
+
+# Teneto
+
+## Overview
+
+Teneto is an open-source Python package for the analysis of **temporal networks** — networks whose edges and topology change as a function of time. In computational neuroscience, T
