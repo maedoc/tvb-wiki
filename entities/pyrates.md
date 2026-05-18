@@ -14,7 +14,7 @@ tags:
 - bifurcation-analysis
 title: PyRates
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # PyRates
@@ -65,3 +65,9 @@ PyRates occupies a distinct and complementary niche within the broader landscape
 - [[neurolib]] — Python whole-brain modeling library with emphasis on empirical fitting
 - [[tvb-library]] — Core TVB library containing reference neural mass model implementations
 - [[nest]] — Large-scale point-neuron simulator for spiking networks
+
+## References
+
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+3. Sotirios Panagiotou, Rene Miedema, Dimitrios Soudris, Christos Strydis. (2025). *Decoupling model descriptions from execution: a modular paradigm for extensible neurosimulation with EDEN*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1572782)

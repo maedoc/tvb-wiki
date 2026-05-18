@@ -15,7 +15,7 @@ tags:
 - representational-similarity-analysis
 title: CoSMoMVPA
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # CoSMoMVPA
@@ -49,3 +49,9 @@ This approach enables a form of [[model-validation]] that goes beyond univariate
 CoSMoMVPA is the MATLAB counterpart to [[pymvpa]], with both toolboxes sharing a similar conceptual architecture while differing in implementation language and ecosystem integration. The [[the-decoding-toolbox]] offers additional MATLAB-based MVPA functionality with a focus on fMRI decoding studies. For researchers preferring Python, [[nilearn]] provides higher-level machine learning interfaces built on scikit-learn, with native support for neuroimaging data formats. Compared to these alternatives, CoSMoMVPA distinguishes itself through its deep integration with representational similarity analysis and its emphasis on permutation-based statistical inference.
 
 Preprocessing of fMRI data for CoSMoMVPA is typically performed in [[spm]] or [[afni]], after which the toolbox reads resulting statistical maps or preprocessed volumes for classification. The toolbox also interoperates with [[neuroml]] representations of brain structure, enabling connectivity-informed MVPA that incorporates anatomical priors into the classification framework.
+
+## References
+
+1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+2. Daniel Haenelt, D. Chaimow, M. E. Schmidt, S. Nasr, N. Weiskopf, R. Trampel. (2025). *Decoding of columnar-level organization across cortical depth using BOLD- and CBV-fMRI at 7 T*. bioRxiv. [DOI](https://doi.org/10.1101/2023.09.28.560016)
+3. Dongyang Li, Haoyang Qin, Mingyang Wu, Chen Wei, Quanying Liu. (2025). *BrainFLORA: Uncovering Brain Concept Representation via Multimodal Neural Embeddings*. ACM Multimedia. [DOI](https://doi.org/10.1145/3746027.3754996)

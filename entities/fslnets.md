@@ -15,7 +15,7 @@ tags:
 - whole-brain-modeling
 title: FSLNets
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # FSLNets
@@ -86,3 +86,7 @@ Several methodological considerations constrain the interpretation of FSLNets re
 - [[connectome-workbench]] — visualization and analysis platform
 - [[brain-connectivity-toolbox]] — network analysis in MATLAB
 - [[graphvar]] — graph-theoretic analysis of brain networks
+
+## References
+
+1. Anticevic et al. (2012). *Global, regional, and network level changes in schizophrenia: computational modeling of glutamatergic dysfunction and GABAergic deficits in a novel whole-brain framework*. Proceedings of the National Academy of Sciences (PNAS). [DOI](https://doi.org/10.1073/pnas.1114858109)

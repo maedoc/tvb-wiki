@@ -99,21 +99,21 @@ Simulations produce:
 - **Intracellular voltages**: Voltage traces for modeled neurons
 - **Local field potentials**: LFPs at each cortical layer
 - **Current source densities**: CSDs indicating current flow patterns
-- ** scalp EEG/MEG**: Forward-modeled signals using dipole or boundary element methods (can be compared to [[neuroimaging]]-eeg](]([[neuroimaging-eeg]].html)) and [[neuroimaging]]-meg](]([[neuroimaging-meg]].html)) data)
+- ** scalp EEG/MEG**: Forward-modeled signals using dipole or boundary element methods (can be compared to [[neuroimaging]]-eeg](](neuroimaging-eeg.html)) and [[neuroimaging]]-meg](](neuroimaging-meg.html)) data)
 
 ## See Also
 
 - [TVB](](TVB)) — [[tvb|The Virtual Brain]] platform
 - [Neural-mass-models](](neural-mass-models)) — Macroscale population models
-- [Jansen-Rit-model](]([[jansen-rit-model]])) — Three-population neural mass model
+- [Jansen-Rit-model](](jansen-rit-model)) — Three-population neural mass model
 - [Neuron](](neuron)) — Simulator for biophysical neurons
 - [MNE](](MNE)) — Software for processing EEG/MEG data
 - [Brain-oscillations](](brain-oscillations)) — Rhythmic neural activity
 - [[neuroimaging]]-EEG](](neuroimaging-eeg)) — Electroencephalography
 - [Neuroimaging-MEG](](neuroimaging-meg)) — Magnetoencephalography
 - [Local-field-potentials](](local-field-potentials)) — Microscale electrical fields
-- [Source-localization](]([[source-localization]])) — Estimating brain activity sources
-- [Excitation-inhibition-balance](]([[excitation-inhibition-balance]])) — E/I ratio in neural circuits
+- [Source-localization](](source-localization)) — Estimating brain activity sources
+- [Excitation-inhibition-balance](](excitation-inhibition-balance)) — E/I ratio in neural circuits
 - [Structural-connectivity](](structural-connectivity)) — Anatomical brain wiring
 
 ## References

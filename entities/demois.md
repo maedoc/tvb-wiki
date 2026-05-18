@@ -45,7 +45,7 @@ If Demois represents a specific demonstration framework or validation tool withi
 
 Since the entity cannot be verified, no key features can be documented. Users seeking demonstration or validation capabilities within TVB should consult:
 
-- The official TVB documentation at [docs.thevirtualbrain.org](http://docs.thevirtualbrain.org)
+- The official TVB documentation at [docs.thevirtualbrain.org](](http://docs.thevirtualbrain.org))
 - TVB's collection of Jupyter notebooks and tutorial materials
 - EduCases available through the TVB platform
 

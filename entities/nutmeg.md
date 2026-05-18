@@ -19,7 +19,7 @@ tags:
 - task-based
 title: NUTMEG
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 **NUTMEG** (Neurodynamic Utility Toolbox for Magnetoencephalography/Electroencephalography) is an open-source MATLAB toolbox for spatiotemporal source reconstruction, functional [[connectivity]] estimation, and statistical mapping of [[meg]] and [[eeg]] data. It combines adaptive spatial filtering (beamforming) with dynamic statistical parametric mapping (dSPM) and functional connectivity analysis within a unified graphical interface, making it a practical bridge between sensor-level electromagnetic recordings and source-space [[whole-brain]] analyses.
@@ -64,3 +64,9 @@ NUTMEG was developed at the University of California, San Francisco (UCSF), with
 - [[source-reconstruction]]
 - [[beamforming]]
 - [[resting-state]]
+
+## References
+
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

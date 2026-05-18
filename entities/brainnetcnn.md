@@ -16,7 +16,7 @@ tags:
 - graph-theory
 title: BrainNetCNN
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # BrainNetCNN
@@ -60,3 +60,9 @@ More broadly, BrainNetCNN established the principle that convolutional architect
 - [[graphvar]] — Graph-theoretical analysis of brain connectivity
 - [[brain-connectivity-toolbox]] — MATLAB toolbox for connectome analysis
 - [[pytorch-geometric]] — General-purpose library for geometric deep learning on graphs
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Reza Nazari, Mostafa Salehi, Afshin Shoeibi. (2025). *An Explainable Connectome Convolutional Transformer for Multimodal Autism Spectrum Disorder Classification*. International Journal of Neural Systems. [DOI](https://doi.org/10.1142/s0129065725500431)

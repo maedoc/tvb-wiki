@@ -118,4 +118,4 @@ title: XTRACT
 type: entity
 updated: '2026-05-11'
 
-XTRACT (Cross-species [[tractography]] Analysis) is a standardized, fully automated tractography pipeline developed within the [FSL](/fsl) (FMRIB Software Library) framework
+XTRACT (Cross-species [[tractography]] Analysis) is a standardized, fully automated tractography pipeline developed within the [FSL](](/fsl)) (FMRIB Software Library) framework

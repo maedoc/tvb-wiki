@@ -11,7 +11,7 @@ tags:
 - functional-connectivity
 title: Brainconn
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 **Brainconn** is an open-source Python package for graph-theoretical analysis of brain connectivity data. It provides a comprehensive suite of algorithms for computing network metrics on anatomical and functional brain networks, porting the widely-used [[brain-connectivity-toolbox]] (BCT) from MATLAB into idiomatic Python with NumPy and SciPy integration. The package enables researchers to characterize the topological organization of brain [[connectome]] data across scales, from single-subject [[structural-connectivity]] matrices to group-level [[functional-connectivity]] networks.
@@ -37,3 +37,7 @@ After simulation, TVB outputs time series of regional neural activity. These can
 ## Comparison to Related Tools
 
 Brainconn sits amid a growing ecosystem of Python tools for brain network analysis. The original [[brain-connectivity-toolbox]] remains the gold standard for MATLAB users, and [[bctpy]] provides a direct Python port of that codebase, but both retain design decisions tied to the original MATLAB implementation. [[braph]] offers a MATLAB-based alternative with a graphical user interface and additional features for multilayer and temporal networks, but is tightly coupled to its own data structures. The [[graphvar]] toolbox extends graph-theoretic analysis into the domain of brain-behaviour correlations and dynamic connectivity, providing statistical frameworks that complement Brainconn's library-style approach. For large-scale networks exceeding ~10,000 nodes, general-purpose graph libraries such as [[igraph]] and [[graph-tool]] offer C++-backed performance, though they lack the domain-specific normalisation and null-model construction designed specifically for neuroimaging data. Brainconn's niche is its balance of domain specificity, Python-native design, and easy interoperability with the broader [[whole-brain-modeling]] software stack.
+
+## References
+
+1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)

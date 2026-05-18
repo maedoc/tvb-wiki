@@ -10,7 +10,7 @@ tags:
 - whole-brain-modeling
 title: PyCeLoSim
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 PyCeLoSim (Python Cell and Local-circuit Simulator) is a Python-based computational framework for simulating cellular-level neural dynamics and local microcircuit activity. It operates at the microscopic scale — modeling individual neurons and small populations — and can serve as a bridge between single-neuron [[neuron-models|neuron models]] and the mesoscopic [[neural-mass-models]] used in large-scale platforms like [[TVB]].
@@ -36,3 +36,9 @@ PyCeLoSim's output can also serve as validation targets. Local field potential p
 ## Related Software
 
 PyCeLoSim sits alongside several established tools in the cellular-to-network modeling ecosystem. [[software-nest|NEST]] offers high-performance, large-scale spiking network simulations with a focus on scalability, while [[software-brian|Brian]] emphasizes rapid prototyping and pedagogically clear model specification. [[software-neuron|NEURON]] provides detailed multi-compartmental modeling well-suited to dendritic and synaptic biophysics. PyCeLoSim differentiates itself through its Python-native, parameter-exploration-oriented design, making it a natural companion to the Python-centric analysis pipelines common in [[TVB]] workflows.
+
+## References
+
+1. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
+2. A. Herrera, H. Shaheen. (2025). *Computational modelling of Parkinson’s disease: A multiscale approach with deep brain stimulation and stochastic noise*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2026.110752)
+3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

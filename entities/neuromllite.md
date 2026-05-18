@@ -14,7 +14,7 @@ tags:
 - network-dynamics
 title: NeuroMLlite
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 NeuroMLlite is a lightweight Python library that enables researchers to define [[computational-neuroscience]] models using native Python syntax and export them to the full [[neuroml2]] XML standard. It serves as a high-level, programmatic front-end to the NeuroML ecosystem, allowing users to specify [[ion-channel]] kinetics, cell membrane properties, synaptic mechanisms, and network architectures in concise Python code rather than writing verbose XML by hand. The library bridges the gap between the rapid prototyping workflows familiar to Python-based neuroscientists and the standardized, simulator-independent model exchange format that NeuroML provides.
@@ -43,3 +43,9 @@ NeuroMLlite sits alongside [[pyneuroml]] and [[jneuroml]] as part of the core Ne
 - [[co-simulation]] — Multiscale coupling strategy in which NeuroMLlite-defined microcircuits interface with TVB's regional dynamics
 - [[connectome]] — The [[structural-connectivity]] backbone that constrains [[whole-brain]] models; NeuroMLlite provides the cellular-level detail that enriches connectome-based simulations
 - [[bifurcation-analysis]] — Analysis of qualitative changes in model dynamics, applicable to the ion channel and network models defined through NeuroMLlite
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

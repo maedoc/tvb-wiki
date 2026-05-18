@@ -17,7 +17,7 @@ tags:
 - source-localization
 title: eConnectome
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 eConnectome is an open-source MATLAB toolbox for mapping, imaging, and analyzing brain [[functional-connectivity]] and [[effective-connectivity]] from electrophysiological signals including scalp electroencephalography ([[eeg]]), electrocorticography (ECoG), and magnetoencephalography ([[meg]]). Developed at the University of Minnesota and first described by He et al. (2011), the toolbox provides an integrated workflow that spans from cortical source imaging through connectivity estimation to graph-theoretic network analysis and three-dimensional visualization. eConnectome was among the earliest comprehensive software packages to bring the full [[connectomics]] analysis pipeline to the electrophysiology domain, offering both a graphical user interface and a scriptable command-line environment.
@@ -59,3 +59,9 @@ eConnectome operates within a rich ecosystem of [[electrophysiology]] and connec
 - **[[brain-connectivity-toolbox]]**: The foundational MATLAB toolbox for graph-theoretic network analysis; its measures are complementary to eConnectome's, which focuses upstream on constructing the connectivity matrices that BCT then analyzes
 - **[[braph]]**: A MATLAB package for graph-theoretic brain connectivity analysis with longitudinal comparison support; shares eConnectome's goal of GUI-accessible connectivity analysis but emphasizes MRI modalities and multilayer graphs
 - **[[the-virtual-brain]]**: The [[whole-brain]] simulation platform against which eConnectome-derived empirical connectivity patterns can be validated
+
+## References
+
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.

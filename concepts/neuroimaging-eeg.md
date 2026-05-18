@@ -15,7 +15,7 @@ tags:
 - neural-mass-models
 title: EEG / MEG
 type: concept
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # EEG / MEG
@@ -29,3 +29,10 @@ Intracranial EEG (iEEG), which encompasses electrocorticography and depth record
 Despite their exquisite temporal resolution, EEG and MEG face fundamental constraints. Both modalities suffer from an ill-posed inverse problem: scalp potentials and extracranial magnetic fields are blurred by [[volume-conduction]] and source mixing, so reconstructing the underlying cortical generators requires regularized inverse solutions that trade spatial precision for numerical stability. Spatial resolution therefore remains substantially coarser than fMRI, and sensor-level signals are easily contaminated by physiological artifacts—eye blinks, muscle activity, and head movement. These limitations motivate rigorous preprocessing and artifact rejection, typically performed in specialized toolboxes such as [[eeglab|EEGLAB]] or [[mne-python|MNE-Python]], before the data are projected into source space for network-level analysis.
 
 Within the [[the-virtual-brain]] ecosystem, EEG and MEG serve as critical validation bridges between simulation and empirical neurophysiology. TVB generates source-localized EEG/MEG time series through forward models that map regional activity to sensor space, enabling direct quantitative comparison with empirical recordings. The [[jansen-rit-model]] and related [[neural-mass-models]] in TVB produce oscillatory dynamics—delta, theta, alpha, beta, and gamma rhythms—that can be benchmarked against empirical [[brain-oscillations]] spectra, while integrations with analysis libraries such as [[mne-python]] and [[brainstorm]] streamline the pipeline from preprocessing to model validation. Taken together, these capabilities position EEG and MEG as indispensable modalities for linking biophysical [[whole-brain-modeling]] to clinically relevant electrophysiological phenotypes.
+
+## References
+
+1. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+2. Helena Bordini de Lucas, Leonardo Dalla Porta, Alain Destexhe, Maria V. Sanchez-Vives, Osvaldo A. Rosso, Cláudio R. Mirasso, Fernanda Selingardi Matias. (2025). *Characterizing sleep stages through the complexity-entropy plane in human intracranial data and in a whole-brain model*. [Link](https://arxiv.org/abs/2511.09243)
+3. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+4. F. Hsiao, Wei-Ta Chen, Shih-Pin Chen, Yen-Feng Wang, K. Lai, Gianluca Coppola, Shuu-Jiun Wang. (2025). *Temporal stability and neural complexity in resting-state MEG predict migraine phenotypes*. The Journal of Headache and Pain. [DOI](https://doi.org/10.1186/s10194-025-02169-y)
