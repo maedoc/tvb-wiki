@@ -681,3 +681,5 @@ Rewrote Key Papers section (~53 words of unsupported Peixoto citations) into den
 ## [2026-05-18] Improve: dynet _preamble
 
 Rewrote _preamble section of [[dynet]] with sourced prose (~170 words, single paragraph), grounded every claim in raw/papers/neubig-2017.md, added 4 inline citations (Neubig et al. 2017 x4), added 3 wikilinks (neural-network, machine-learning, natural-language-processing), bumped updated date to 2026-05-18.
+
+## [2026-05-18 17:17] DeepResearch: 10 papers added via focused research
