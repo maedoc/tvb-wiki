@@ -1,40 +1,26 @@
 ---
 title: Brainlife
 created: 2025-01-15
-updated: 2026-05-07
+updated: 2026-05-19
 type: entity
-tags: [software, database, neuroimaging, computational-neuroscience, neuroimaging-fmri, neuroimaging-dti, neuroimaging-eeg, neuroimaging-meg, reproducibility, dataset]
-sources: [https://brainlife.io/, https://doi.org/10.1016/j.neuroimage.2019.06.046, https://www.humanconnectomeproject.org/, https://openneuro.org/]
+tags: [software-brain-modeling, neuroimaging-fmri, neuroimaging-dti, neuroimaging-eeg, neuroimaging-meg, reproducibility, connectomics, structural-connectivity, functional-connectivity, whole-brain-modeling]
+sources: []
 ---
 
-Brainlife is a distributed computing platform that provides cloud-based infrastructure for neuroimaging and computational neuroscience workflows. The platform enables researchers to process, analyze, and share neuroimaging data without requiring local high-performance computing resources, facilitating reproducible and collaborative research in whole-brain modeling and connectomics.
+Brainlife is a cloud-based distributed computing platform that enables researchers to process, analyze, and share neuroimaging data through containerized applications and web-based interfaces. It provides access to high-performance computing resources without requiring local cluster infrastructure, integrating tools for functional and structural brain imaging into reproducible, shareable workflows that serve the broader computational neuroscience community.
 
-## Overview
+## Motivation and Context
 
-Brainlife is designed as a comprehensive data processing and analysis platform that integrates multiple neuroimaging tools into modular, pipelined workflows. The platform was developed to address the growing computational demands of modern neuroimaging research, particularly in the context of large-scale datasets such as those from the human-connectome-project and [[uk-biobank]]. By providing a web-based interface and programmable APIs, brainlife lowers the barrier to entry for sophisticated neuroimaging analyses that would otherwise require significant computational infrastructure.
-
-The platform supports a wide range of neuroimaging modalities including [[fmri]], [[diffusion-mri]] (DTI), [[eeg]], and [[meg]], making it versatile for both functional and structural connectivity studies. Brainlife was developed by researchers at multiple institutions to serve the computational neuroscience community, with ongoing development supported by various grants. For whole-brain modeling researchers, brainlife provides essential preprocessing capabilities including tissue segmentation, tractography, and parcellation that generate inputs for [[structural-connectivity]] matrices used in models like [[the-virtual-brain]].
+Modern neuroimaging research produces datasets of increasing size and complexity, creating computational bottlenecks for laboratories lacking dedicated high-performance computing clusters. Brainlife addresses this challenge by offering a unified infrastructure where researchers can upload data, compose modular analysis pipelines, and execute containerized applications on remote hardware. The platform supports multiple modalities including [[fmri]], [[eeg]], [[meg]], and [[diffusion-mri]], making it applicable to studies of both functional and structural brain organization. By standardizing execution environments and recording detailed provenance metadata, brainlife directly supports the growing emphasis on [[reproducibility]] in [[computational-neuroscience]], where differences in software versions or execution environments can produce divergent outcomes.
 
 ## Key Features
 
-Brainlife offers several features that distinguish it from traditional neuroimaging processing pipelines. Its modular architecture allows users to compose custom analysis workflows from a library of validated processing steps, each implemented as a containerized app. This containerization ensures reproducibility across executions and simplifies the deployment of complex analysis pipelines. The platform maintains a provenance tracking system that records the exact versions of tools and parameters used in each analysis, addressing a critical need in computational neuroscience where reproducibility has been a persistent concern.
-
-The platform includes integrated data management capabilities that allow researchers to organize and share datasets across collaborators. Data can be uploaded in standard formats such as [[bids]], and the platform provides tools for automated quality control and preprocessing. For researchers working with [[resting-state]] fMRI data, brainlife offers automated pipelines for computing [[functional-connectivity]] matrices and extracting network dynamics metrics.
+The platform's architecture centers on a library of validated, containerized neuroimaging applications that users can compose into custom analysis pipelines. Each application executes within a standardized container environment, ensuring that results remain consistent across executions regardless of the underlying hardware. This containerization strategy captures tool versions, parameters, and data lineage for every analysis step, producing provenance records that address persistent concerns about reproducibility in neuroimaging. The platform accepts data in standard formats such as [[bids]], facilitating interoperability with other tools and repositories. Integrated data management capabilities allow researchers to organize datasets, perform automated quality control, and share results with collaborators.
 
 ## Relationship to Other Platforms
 
-Brainlife occupies a unique position in the neuroimaging software ecosystem, overlapping somewhat with platforms like [[nipype]] for workflow composition and [[bids-apps]] for containerized processing. However, brainlife distinguishes itself by providing end-to-end data management, from raw acquisition to final analysis results, along with integrated compute resources that eliminate the need for local cluster access. The platform also serves as a repository for processed datasets, functioning similarly to [[openneuro]] but with additional processing capabilities.
-
-For computational neuroscience workflows, brainlife provides preprocessing capabilities that can feed into various simulation environments. The platform's tractography apps produce [[structural-connectivity]] matrices from diffusion MRI data, which form the basis of the anatomical infrastructure in whole-brain models.
+Brainlife occupies a distinct niche between dedicated workflow engines and static data repositories. While platforms such as [[nipype]] focus primarily on pipeline composition and execution on user-supplied hardware, and repositories such as [[openneuro]] emphasize data publication, brainlife combines both functions by providing integrated compute resources alongside data management. The platform overlaps with [[bids-apps]] in its use of containerized neuroimaging tools, but differs by supplying the execution fabric rather than requiring local infrastructure.
 
 ## Relationship to TVB
 
-Brainlife provides preprocessing capabilities that generate essential inputs for [[the-virtual-brain]] whole-brain simulations. The platform's tractography apps produce [[structural-connectivity]] matrices from diffusion MRI data, which form the basis of the anatomical infrastructure in TVB models. Additionally, brainlife's [[functional-connectivity]] preprocessing workflows can be used to generate empirical data for model parameter estimation and validation.
-
-The integration between brainlife and TVB is particularly valuable for [[personalized-brain-modeling]] workflows, where individual subject connectivity data must be processed and prepared for simulation. Researchers can use brainlife to generate regional parcellations using atlases such as [[aal-atlas]], [[desikan-killiany-atlas]], or [[schaefer-atlas]], which define the nodes of the whole-brain network model. This preprocessing pipeline enables the construction of personalized brain models that capture individual-specific anatomical and functional connectivity patterns.
-
-## Technical Infrastructure
-
-The platform leverages container technology for all processing tools, primarily using [[apptainer]] containers that can be executed on diverse computational resources. Compute resources include CPU-only nodes for preprocessing workflows and GPU-accelerated nodes for computationally intensive tasks such as deep learning-based segmentation. The distributed architecture enables scalable processing of large datasets while maintaining reasonable execution times for typical analyses.
-
-Brainlife provides both a web-based graphical interface for interactive use and command-line APIs for programmatic access, enabling integration with external workflows and automation pipelines. The platform handles resource allocation, job scheduling, and data storage transparently, allowing researchers to focus on their analysis rather than infrastructure management.
+For [[whole-brain-modeling]] with [[the-virtual-brain]], brainlife provides essential preprocessing pipelines that generate the structural and functional connectivity data required for network simulations. The platform's [[tractography]] modules process diffusion MRI to produce [[structural-connectivity]] matrices, which define the anatomical connections that constrain signal propagation in TVB models. Parcellation tools generate regional node definitions using standard atlases, establishing the spatial substrate for simulation networks. Preprocessed [[resting-state]] fMRI data can yield empirical [[functional-connectivity]] matrices that serve as targets for model calibration and validation. This integration is particularly valuable for [[personalized-brain-modeling]] workflows, where individual structural connectivity must be extracted, processed, and formatted as input for TVB simulations.

@@ -1,7 +1,7 @@
 ---
 title: Brainstorm
 created: 2024-01-15
-updated: 2026-05-08
+updated: 2026-05-19
 type: entity
 tags: [software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, source-localization, connectivity, software-visualization]
 sources: [raw/papers/brainstorm-tutorial.pdf, raw/papers/brainstorm-mne-2020.pdf, raw/papers/brainstorm-isbi-2013.pdf]
@@ -11,7 +11,7 @@ sources: [raw/papers/brainstorm-tutorial.pdf, raw/papers/brainstorm-mne-2020.pdf
 
 ## Overview
 
-Brainstorm is an open-source MATLAB toolbox for processing and analyzing magnetoencephalography (MEG) and electroencephalography (EEG) data, with particular strength in source reconstruction and connectivity analysis. Developed primarily at the University of Southern California (USC) under the leadership of Sylvain Baillet and François Tadel, Brainstorm provides a comprehensive framework for forward modeling, source imaging, and statistical analysis of electrophysiological data. The software emphasizes an intuitive graphical user interface while remaining accessible through scripting for automated pipelines, making it suitable for both novice users and advanced researchers conducting large-scale studies.
+**Brainstorm** is a widely used, open-source MATLAB application for the statistical analysis and [[source-localization]] of [[meg]] and [[eeg]] data [[raw/papers/semanticscholar-e06960bf0ace.md|Delaire et al. (2025)]]. Originally introduced as a user-friendly application for MEG/EEG analysis by Tadel and colleagues [[raw/papers/arxiv-2604.16463.md|Tadel et al. (2011)]], it has since evolved into a comprehensive neuroimaging platform that integrates the full analysis pipeline—from raw data import and preprocessing to spectral estimation, connectivity mapping, and group-level statistics—within a unified graphical user interface [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. The software supports standard [[neuroimaging]] file formats and maintains native interoperability with established toolboxes such as [[freesurfer]], [[eeglab]], and [[mne-python]], enabling seamless integration into existing electrophysiological workflows [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. Its design balances accessibility for clinical and experimental users with the depth of functionality needed for large-scale research, making it a cornerstone of the open-source [[neuroimaging-eeg]] and [[neuroimaging-meg]] ecosystem.
 
 ## Key Features
 

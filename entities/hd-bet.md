@@ -9,10 +9,12 @@ tags:
 - software-neuroimaging
 title: HD-BET
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-19'
 ---
 
 # HD-BET
+
+Accurate preprocessing of structural neuroimaging data constitutes a foundational prerequisite for building the personalized whole-brain models that drive modern computational neuroscience. [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] introduced The Virtual Brain (TVB), an open-source platform that enables researchers to construct personalized whole-brain models by combining empirical structural connectivity from diffusion MRI tractography with neural mass models. [[raw/papers/schirner-2018.md|Schirner et al. (2015)]] automated this modeling pipeline end-to-end, integrating parcellation, tractography, and connectivity estimation to produce TVB-ready model inputs with minimal manual intervention, an advance that substantially lowers the barrier for applying personalized brain simulation in large cohorts. The specific challenge of skull-stripping has also shifted toward deep learning: [[raw/papers/semanticscholar-109de470e443.md|Soltanpour et al. (2025)]] validated a fully automated preprocessing pipeline in which a Transformer-based skull-stripping module outperforms classical methods, achieving higher Dice similarity coefficients by capturing both local and global spatial misalignments. Automated brain extraction tools therefore occupy a critical position in the preprocessing stack that feeds [[whole-brain-modeling]] platforms, bridging raw scanner output and the quantitative neuroimage analyses on which network simulations depend.
 
 ## Overview
 

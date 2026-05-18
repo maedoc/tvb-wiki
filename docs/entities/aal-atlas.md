@@ -21,10 +21,14 @@ tags:
 - brain-parcellations
 title: AAL Atlas
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-19'
 ---
 
 # AAL Atlas
+
+The **AAL (Automated Anatomical Labeling) Atlas** is one of the most widely used anatomical [[parcellation|parcellations]] in [[neuroimaging]] and connectomics research. Originally developed to standardize anatomical nomenclature for human brain imaging, the atlas is registered to [[mni-space|MNI coordinate space]] and has become a foundational reference for constructing brain networks from both structural and functional data. In empirical studies, researchers routinely use the AAL atlas as a node definition scheme to derive [[structural-connectivity|structural connectivity]] from diffusion tensor imaging and [[functional-connectivity|functional connectivity]] from resting-state [[fmri|fMRI]], feeding these networks into graph-theoretic analyses of topological properties and structural–functional coupling [[raw/papers/semanticscholar-e923a3372ab2.md|Yu et al. (2026)]].
+
+Beyond empirical neuroimaging, the AAL atlas serves as a default anatomical framework in computational whole-brain modeling. In [[tvb|The Virtual Brain (TVB)]], the AAL [[brain-parcellations|parcellation]] is integrated as a standard means to import structural [[connectivity]] matrices from [[tractography|diffusion tractography]] pipelines and to project simulated neural activity onto anatomical locations, directly linking empirical data to large-scale [[neural-mass-models|neural mass model]] simulations [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. At the same time, the atlas's ubiquity has underscored the broader challenge of atlas dependency in computational neuroscience: recent multi-view brain network foundation models note that existing approaches are often limited by their reliance on specific parcellations and by weak incorporation of anatomical priors, motivating frameworks that learn generalizable representations across arbitrary atlas configurations while preserving anatomical distance information [[raw/papers/arxiv-2603.20348.md|Xu et al. (2026)]]. In this way, the AAL atlas remains both a practical standard for [[whole-brain-modeling|whole-brain modeling]] and a benchmark against which more flexible, atlas-agnostic methods are evaluated.
 
 ## Overview
 The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical [[parcellation]] of the human brain into 116 regions, first published in 2002. It was developed by Tzourio-Mazoyer and colleagues to provide a standardized anatomical nomenclature for [[neuroimaging]] studies. The atlas is defined in [[mni-space]] (Montreal Neurological Institute) coordinate space and labels cortical and subcortical structures using anatomical criteria from the MNI single-subject brain template.
