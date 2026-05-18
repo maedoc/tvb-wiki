@@ -653,3 +653,5 @@ Rewrote Key Papers section (~53 words of unsupported Peixoto citations) into den
 ## [2026-05-18 15:01] DeepResearch: 5 papers added via focused research
 
 ## [2026-05-18 15:09] Audit: 947 issues (190 broken links, 6 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 101 citation-verify, 36 opaque-refs, 13 thin, 493 missing-links)
+
+## [2026-05-18 15:14] Improve: 2 pages improved (scirun, spikeinterface)
