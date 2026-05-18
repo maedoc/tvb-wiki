@@ -3,11 +3,13 @@ title: NeuroMLlite
 created: 2026-04-20
 updated: 2026-05-18
 type: entity
-tags: [software-brain-modeling, spiking-neural-networks, whole-brain-modeling, connectomics, network-dynamics, reproducibility]
+tags: [software-neuroml, software-brain-modeling, spiking-neural-networks, whole-brain-modeling, connectomics, reproducibility]
 sources: [raw/papers/sanz-leon-2013.md, raw/papers/arxiv-2505.16861.md, raw/papers/semanticscholar-eb704b6f5462.md]
 ---
 
 NeuroMLlite is a lightweight Python library that enables researchers to define [[computational-neuroscience]] models using native Python syntax and export them to the full [[neuroml2]] XML standard. It serves as a high-level, programmatic front-end to the NeuroML ecosystem, allowing users to specify [[ion-channel]] kinetics, cell membrane properties, synaptic mechanisms, and network architectures in concise Python code rather than writing verbose XML by hand. The library bridges the gap between rapid prototyping workflows familiar to Python-based neuroscientists and the standardized, simulator-independent model exchange format that [[neuroml]] provides.
+
+## Motivation and Context
 
 The [[neuroml2]] specification is a powerful standard for expressing biophysically detailed neuronal models in a declarative, simulator-independent format, yet its XML syntax can be unwieldy for iterative model construction. While [[pyneuroml]] provides Python utilities for parsing and simulating existing NeuroML documents, it does not offer a native Python API for building models from the ground up. NeuroMLlite fills this gap by exposing Python classes that map directly onto NeuroML 2 components—from [[hodgkin-huxley-model]] ion channels to cell models and network populations—generating the underlying XML automatically while preserving mathematical consistency through integration with the [[lems]] framework.
 

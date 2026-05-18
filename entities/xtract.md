@@ -13,7 +13,6 @@ title: XTRACT
 type: entity
 updated: '2026-05-11'
 ---
-
 XTRACT (Cross-species [[tractography]] Analysis) is a standardized, fully automated tractography pipeline developed within the [FSL](](/fsl)) (FMRIB Software Library) framework for extracting major [[white-matter]] tracts from [[diffusion-mri]] data[^1]. The tool implements a protocol-based approach in which user-defined inclusion and exclusion criteria—defined in both diffusion and anatomical spaces—steer probabilistic streamline tractography to isolate specific fiber bundles with high [[reproducibility]] across subjects and scanner platforms[^2]. XTRACT was designed to address a long-standing challenge in [[connectomics]]: the lack of standardized, reproducible methods for delineating white matter anatomy, which has historically relied on labor-intensive manual dissection by expert neuroanatomists[^3].
 
 The primary innovation of XTRACT lies in its library of standardized tract protocols, which provide pre-configured parameter sets for extracting 42 major white matter tracts in the human brain[^1]. Each protocol specifies spatial probability maps in both diffusion and standard (MNI) spaces that define the expected pathway of a given tract, along with exclusion zones to prevent contamination from adjacent fiber populations. These protocols were derived from a combination of anatomical knowledge, published tractography literature, and empirical refinement across multiple dataset[^2]. The tool supports both group-level analysis (generating average tract masks across populations) and individual subject extraction, making it suitable for both clinical applications and large-scale research studies[^4].
@@ -48,7 +47,3 @@ The development of XTRACT addresses a critical gap in [[neuroimaging]] methodolo
 [^5]: Ritter, K., et al. (2013). [[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]. *NeuroImage*, 80, 248-262.
 [^6]: Deco, G., et al. (2013). [[resting-state]] [[functional-connectivity]] emerges from structurally and dynamically coupled neural assemblies. *Human Brain Mapping*, 34(6), 1448-1461.
 [^7]: Smith, R. E., et al. (2004). Advances in functional and structural MR image analysis and implementation as FSL. *NeuroImage*, 23(S1), S208-S219.
-
-## References
-
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
