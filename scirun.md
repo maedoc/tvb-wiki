@@ -4,7 +4,7 @@ created: 2026-04-20
 updated: 2026-05-18
 type: entity
 tags: [software-brain-modeling, software-visualization, neuroimaging-eeg, neuroimaging-meg, whole-brain-modeling, structural-connectivity, brain-oscillations, epilepsy-modeling]
-sources: []
+sources: [raw/articles/scirun-github.md, raw/articles/scirun-sci-website.md]
 ---
 
 SCIRun is a modular problem-solving environment developed at the University of Utah's Scientific Computing and Imaging Institute. First released in the late 1990s, it enables researchers to assemble computational workflows through a visual dataflow programming interface in which typed modules are wired together in a directed graph editor. Within [[computational-neuroscience]], it is best known for validated biophysical forward solvers that compute how neural currents propagate through realistic head geometries to produce measurable electromagnetic signals.
