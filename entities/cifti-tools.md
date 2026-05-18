@@ -57,5 +57,5 @@ The Virtual Brain integrates with CIFTI tools primarily through its connectivity
 1. (authors unknown). *Informatics and Data Mining Tools and Strategies for the Human Connectome Project*.
 2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
 3. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
-4. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+4. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.
 5. Gorgolewski et al. (2016). *The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments*. Scientific Data. [DOI](https://doi.org/10.1038/sdata.2016.44)

@@ -76,4 +76,4 @@ The environment also scales to network-level studies, supporting the assembly of
 2. Carnevale & Hines (2006). *The NEURON Book*.
 3. Hay et al. (2011). *Models of neocortical layer 5b pyramidal cells capturing a wide range of dendritic and perisomatic active properties*. PLOS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1002107)
 4. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](https://doi.org/10.1016/j.cell.2015.09.029)
-5. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+5. Gewaltig & Diesmann (2007). *NEST ([[neural-simulation]] Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)

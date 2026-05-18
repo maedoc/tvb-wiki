@@ -734,3 +734,5 @@ Rewrote _preamble section of [[dynet]] with sourced prose (~170 words, single pa
 
 - Added ~180-word _preamble (lead paragraph) to [[moose]] grounded in 3 available source papers: Xia et al. 2026 (digital twin brain / multiscale simulation), Chen et al. 2026 (hierarchical structure-function coupling), Guillén-Pujadas et al. 2025 (neuroinformatics bibliometrics)
 - Includes 3 inline citations, 7 wikilinks to existing pages (computational-neuroscience, whole-brain-modeling, structural-connectivity, functional-connectivity, machine-learning, network-dynamics, spiking-neural-networks), bumped updated date to 2026-05-18
+
+## [2026-05-18 22:22] FullTextFetcher: fetched 2 new full texts (342 total in corpus)

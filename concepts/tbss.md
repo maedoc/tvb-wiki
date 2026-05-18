@@ -74,7 +74,7 @@ Done. Here's what changed:
 - Added 3 inline citations from all 3 available sources:
   - `[[raw/papers/semanticscholar-50e828bd956a.md|Zhang et al. (2025)]]` — tractography complement in HCP sex-differences study
   - `[[raw/papers/semanticscholar-c893f42e33a6.md|Yang et al. (2025)]]` — clinical TBSS application in depression treatment prediction
-  - `[[raw/papers/winkler-2014-[[palm]].md|Winkler et al. (2014)]]` — permutation inference foundations for FSL `randomise` and PALM
+  - `[[raw/papers/winkler-2014-[[palm]].md|Winkler et al. (2014)]]` — permutation inference foundations for FSL `randomise` and [[palm]]
 - Added 10 wikilinks to existing pages: `diffusion-mri`, `tractography`, `[[hcp-dataset]]`, `fractional-anisotropy`, `fsl`, `[[fsl-randomise]]`, `palm`, `[[neuroimaging]]`, `white-matter`, `structural-connectivity`
 - Bumped `updated` date to `2026-05-18` in YAML frontmatter
 - Logged the action in `log.md`

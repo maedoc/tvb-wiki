@@ -38,10 +38,10 @@ Whole-brain modeling platforms such as [[the-virtual-brain]] simulate primate br
 
 ## References
 
-1. Sotirios Panagiotou, Rene Miedema, Dimitrios Soudris, Christos Strydis. (2025). *Decoupling model descriptions from execution: a modular paradigm for extensible neurosimulation with EDEN*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1572782)
-2. Guang Chen, Meng Xu, Yuying Chen, F. Yuan, Lanqi Qin, Jian Ren. (2026). *A New Era in Computing: A Review of Neuromorphic Computing Chip Architecture and Applications*. Chips. [DOI](https://doi.org/10.3390/chips5010003)
+1. Sotirios Panagiotou, Rene Miedema, Dimitrios Soudris, Christos Strydis. (2025). *Decoupling model descriptions from execution: a modular paradigm for extensible neurosimulation with [[eden]]*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1572782)
+2. Guang Chen, Meng Xu, Yuying Chen, F. Yuan, Lanqi Qin, Jian Ren. (2026). *A New Era in Computing: A Review of [[neuromorphic-computing]] Chip Architecture and Applications*. Chips. [DOI](https://doi.org/10.3390/chips5010003)
 3. Sai Deepa Kadaru, Rohit Buccapatnam, Chang Liu. (2026). *Exploring Neuromorphic Computing for Reinforcement Learning: A Survey and Review*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2026.3654549)
 4. Andrew Fan, Simon D. Levy. (2025). *A Robust, Open-Source Framework for Spiking Neural Networks on Low-End FPGAs*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2507.07284)
-5. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
-6. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+5. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *[[nestml]]: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+6. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)

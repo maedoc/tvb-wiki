@@ -21,11 +21,11 @@ The need for precise pRF estimation arises from fundamental challenges in fMRI a
 
 ## What is a Population Receptive Field?
 
-A population receptive field describes the region of visual space that influences the BOLD response of a neuronal population at a given cortical location. Rather than characterizing individual neurons, pRF modeling estimates the aggregate receptive field properties of local populations by fitting a forward model that predicts the fMRI time series from a known stimulus sequence. This approach recovers spatial tuning parameters—typically including the center position, preferred eccentricity, polar angle, and spatial spread—thereby mapping functional topography across visual areas with sub-voxel precision.
+A population receptive field describes the region of visual space that influences the [[bold-signal|BOLD]] response of a neuronal population at a given cortical location. Rather than characterizing individual neurons, pRF modeling estimates the aggregate receptive field properties of local populations by fitting a [[forward-model]] that predicts the fMRI time series from a known stimulus sequence. This approach recovers spatial tuning parameters—typically including the center position, preferred eccentricity, polar angle, and spatial spread—thereby mapping functional topography across visual areas with sub-voxel precision.
 
 ## Key Features
 
-Popeye implements several pRF models commonly encountered in the neuroimaging literature. The Gaussian pRF model assumes a circular receptive field profile described by a two-dimensional Gaussian function, parameterizing each cortical vertex by its preferred visual field coordinates and size. The Difference-of-Gaussians (DoG) model extends this framework by adding a surround suppression term, capturing antagonistic center-surround organization observed in early visual cortex. The Compressive Spatial Summation (CSS) model further introduces an exponent parameter that compresses the pRF profile, accounting for subadditive spatial summation effects in higher-tier visual areas. Popeye's architecture separates stimulus generation, forward-model convolution, hemodynamic response function specification, and nonlinear optimization, allowing individual components to be swapped or extended independently.
+Popeye implements several pRF models commonly encountered in the neuroimaging literature. The Gaussian pRF model assumes a circular receptive field profile described by a two-dimensional Gaussian function, parameterizing each cortical vertex by its preferred visual field coordinates and size. The Difference-of-Gaussians (DoG) model extends this framework by adding a surround suppression term, capturing antagonistic center-surround organization observed in early visual cortex. The Compressive Spatial Summation (CSS) model further introduces an exponent parameter that compresses the pRF profile, accounting for subadditive spatial summation effects in higher-tier visual areas. Popeye's architecture separates stimulus generation, forward-model convolution, [[hemodynamic-response-function]] specification, and nonlinear optimization, allowing individual components to be swapped or extended independently.
 
 ## Relationship to The Virtual Brain
 
@@ -33,10 +33,10 @@ Population receptive field estimates produce individual-specific maps of functio
 
 ## Related Software
 
-Several alternatives exist for pRF analysis. mrVista and analyzePRF are MATLAB-based tools widely used in the vision neuroscience community. The AFNI suite includes 3dRetinoFit for pRF estimation within broader [[fmri]] workflows. In Python, popeye offers a lighter, focused alternative that integrates with standard scientific stacks and neuroimaging libraries, contributing to reproducible [[computational-neuroscience]] research through accessible, modular analysis tools.
+Several alternatives exist for pRF analysis. mrVista and analyzePRF are MATLAB-based tools widely used in the vision neuroscience community. The [[afni]] suite includes 3dRetinoFit for pRF estimation within broader [[fmri]] workflows. In Python, popeye offers a lighter, focused alternative that integrates with standard scientific stacks and neuroimaging libraries, contributing to reproducible [[computational-neuroscience]] research through accessible, modular analysis tools.
 
 ## References
 
 1. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-2. Qianyu Chen, Shujian Yu. (2026). *Continual Learning for fMRI-Based Brain Disorder Diagnosis via Functional Connectivity Matrices Generative Replay*. [Link](https://arxiv.org/abs/2604.14259)
-3. Micha Burkhardt, Carsten Gießing. (2025). *The Comet Toolbox: Improving robustness in network neuroscience through multiverse analysis*. bioRxiv. [DOI](https://doi.org/10.1101/2024.01.21.576546)
+2. Qianyu Chen, Shujian Yu. (2026). *Continual Learning for fMRI-Based Brain Disorder Diagnosis via Functional [[connectivity]] Matrices Generative Replay*. [Link](https://arxiv.org/abs/2604.14259)
+3. Micha Burkhardt, Carsten Gießing. (2025). *The Comet Toolbox: Improving robustness in [[netneuroscience|network neuroscience]] through multiverse analysis*. bioRxiv. [DOI](https://doi.org/10.1101/2024.01.21.576546)

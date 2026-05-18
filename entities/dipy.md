@@ -12,14 +12,13 @@ title: Dipy
 type: entity
 updated: '2026-05-18'
 ---
-
-**DIPY** (**Di**ffusion imaging in **Py**thon) is an open-source Python library for the analysis of [[diffusion-mri]] data. It serves as a computational foundation for the neuroimaging software ecosystem, providing the core algorithms that downstream toolboxes leverage to transform raw diffusion-weighted acquisitions into reconstructed fiber representations suitable for [[tractography]] and connectivity analysis.
+**DIPY** (**Di**ffusion imaging in **Py**thon) is an open-source Python library for the analysis of [[diffusion-mri]] data. It serves as a computational foundation for the [[neuroimaging]] software ecosystem, providing the core algorithms that downstream toolboxes leverage to transform raw diffusion-weighted acquisitions into reconstructed fiber representations suitable for [[tractography]] and connectivity analysis.
 
 ## Role in the dMRI Processing Pipeline
 
 [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]] describe how scilpy, a downstream dMRI toolbox, builds upon DIPY's strengths to implement processing workflows spanning nearly every stage of the diffusion pipeline. These workflows begin with preprocessing operations such as denoising, registration, and local fiber reconstruction, which transform raw diffusion-weighted acquisitions in preparation for subsequent tracking and connectivity analyses. [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]] By furnishing the computational primitives for noise suppression, spatial alignment, and local fiber orientation recovery, DIPY enables the early-stage transformations upon which all downstream tractography depends.
 
-The same source notes that the pipeline extends from these initial preprocessing stages to tractography generation and post-processing of tractograms, including connectivity and bundle analyses. [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]] These capabilities allow researchers to move from reconstructed diffusion data to tractogram representations that support assessments of [[structural-connectivity]] and white-matter bundle organization, providing a comprehensive framework for analyzing brain fiber architectures.
+The same source notes that the pipeline extends from these initial preprocessing stages to tractography generation and post-processing of tractograms, including connectivity and bundle analyses. [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]] These capabilities allow researchers to move from reconstructed diffusion data to tractogram representations that support assessments of [[structural-connectivity]] and [[white-matter]] bundle organization, providing a comprehensive framework for analyzing brain fiber architectures.
 
 ## Capabilities
 
@@ -32,7 +31,3 @@ DIPY is a critical preprocessing component in [[tvb]] connectome construction wo
 ## Software Ecosystem
 
 DIPY occupies a central position among open-source neuroimaging tools. [[mrtrix3]] offers an alternative tractography suite with complementary algorithms, while [[fsl]] provides the BEDPOSTX/PROBTRACKX pipeline as another DTI analysis stream. [[nibabel]] handles the I/O layer for neuroimaging data formats that DIPY depends upon. For TVB-centric workflows, outputs from DIPY or DIPY-dependent toolboxes supply the anatomical [[connectivity]] matrices that constrain [[network-dynamics]] in whole-brain simulations.
-
-## References
-
-1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)

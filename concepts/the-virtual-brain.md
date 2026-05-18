@@ -185,7 +185,7 @@ tags:
 - structural-connectivity
 - neuroimaging-fmri
 - neuroimaging-meg
-- parcellation
+- [[parcellation]]
 title: Von Economo Atlas
 type: entity
 updated: '2026-05-12'
