@@ -11,10 +11,12 @@ tags:
 - database-neurodebian
 title: NeuroDebian
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-18'
 ---
 
 # NeuroDebian
+
+NeuroDebian is a Debian-based software repository that distributes neuroscience research tools through native package management. Neuroimaging research requires purpose-built analysis software that is challenging to install and may produce different results across computing environments [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Automated pipelines for [[whole-brain-modeling]]—such as those that construct personalized virtual brains in [[the-virtual-brain]] (TVB)—integrate structural MRI processing, parcellation, tractography, and connectivity estimation to generate simulation-ready model inputs [[raw/papers/schirner-2018.md|Schirner et al. (2018)]]. TVB simulates large-scale primate brain network dynamics by combining empirical structural connectivity with [[neural-mass-models]], supporting forward models for [[neuroimaging-eeg]], [[neuroimaging-meg]], and [[neuroimaging-fmri]] that allow simulated signals to be compared directly against empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. NeuroDebian provides the packaged preprocessing and analysis software required by these [[computational-neuroscience]] workflows.
 
 ## Overview
 

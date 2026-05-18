@@ -56,6 +56,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
 - [Neuromorphic Computing](neuromorphic-computing.md) - Computing architectures and algorithms inspired by biological neural systems
 - [SimBrain](simbrain.md) - Interactive neural network simulator focused on emergent behaviors and learning
+- [SpikeInterface](spikeinterface.md) — Unified Python framework for standardized spike sorting, preprocessing, and quality assessment of extracellular electrophysiology data
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
 - [NNU-Net](nnu-net.md) - Self-configuring deep learning framework for biomedical image segmentation
 - [NiftyReg](niftyreg.md) - Open-source medical image registration toolkit for neuroimaging
@@ -74,6 +75,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [PyDICOM](pydicom.md) — Pure Python library for reading and writing DICOM medical imaging files
 - [Pydra](pydra.md) — Lightweight dataflow engine for scientific workflow construction and execution
 - [PySurfer](pysurfer.md) — Python library for cortical surface visualization and analysis of FreeSurfer outputs
+- [PyCortex](pycortex.md) — Python library for cortical surface visualization and manipulation with emphasis on CIFTI-native data and publication-quality surface figures
 - [DDE-Biftool](dde-biftool.md) — MATLAB toolbox for bifurcation analysis of delay differential equations, used for neural mass models
 - [LabStreamingLayer](labstreaminglayer.md) — Real-time data acquisition and synchronization framework for multimodal neuroimaging
 - [LFPykit](lfpykit.md) — Python toolkit for computing extracellular potentials (LFP) from spiking neural network simulations
@@ -146,4 +148,4 @@ A collection of people, software platforms, datasets, and research groups releva
 
 ---
 
-Total: ~54 entities
+Total: ~55 entities

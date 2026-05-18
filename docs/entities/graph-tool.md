@@ -13,7 +13,7 @@ tags:
 - connectomics
 title: Graph-tool
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-18'
 ---
 
 Graph-tool is a Python library for the efficient analysis and manipulation of network structures (graphs). It provides a comprehensive set of algorithms for [[graph-theory|graph-theoretic]] analysis, including community detection, network statistics, flow optimization, and spectral methods. Written in C++ with Python bindings using Boost, graph-tool offers performance comparable to compiled languages while maintaining the accessibility of a Python interface peixoto2014. The library was developed and is maintained by Tiago de Paula Peixoto and has been a widely used tool in [[computational-neuroscience]], particularly for analyzing [[brain-connectivity-toolbox|brain connectivity networks]] derived from [[neuroimaging]] data.
@@ -40,9 +40,7 @@ The library is frequently used in conjunction with [[brain‑connectivity‑tool
 
 ## Key Papers
 
-- **Peixoto, T. P. (2014).** “The graph‑tool python library.” figshare. Dataset.
-- **Peixoto, T. P. (2017).** “Uncovering the structure of sparse graphs via stochastic block models.” *Journal of Physics: Conference Series*, 760(1), 012001.
-- **Peixoto, T. P. (2014).** “Hierarchical block structures and high‑resolution model selection in large networks.” *Physical Review X*, 4(1), 011047.
+The application of graph-theoretic methods to brain connectivity analysis rests on foundational methodological reviews and tool papers that established standardized metrics and software architectures for the field. Rubinov and Sporns [[raw/papers/rubinov-sporns-2010.md|(2010)]] published a comprehensive review of complex network measures for brain connectivity analysis [[raw/papers/rubinov-sporns-2010.md]] and introduced the Brain Connectivity Toolbox (BCT), which has become one of the most widely used software packages for brain network analysis and serves as both a methodological guide and a reference for interpreting network measures in neuroscience contexts [[raw/papers/rubinov-sporns-2010.md]]. Wang et al. [[raw/papers/wang-etal-2015-gretna.md|(2015)]] introduced GRETNA, a MATLAB-based toolbox for graph-theoretic analysis of brain connectivity networks [[raw/papers/wang-etal-2015-gretna.md]], providing comprehensive implementations of global and regional network metrics while supporting various parcellation schemes and thresholding strategies to address the need for standardized, reproducible [[connectomics]] analysis [[raw/papers/wang-etal-2015-gretna.md]]. Mijalkov et al. [[raw/papers/mijalkov-2017-braph.md|(2017)]] developed BRAPH, an open-source MATLAB toolbox providing a comprehensive pipeline for constructing, analyzing, and visualizing brain networks derived from multimodal neuroimaging data [[raw/papers/mijalkov-2017-braph.md]], with support for [[fmri|fMRI]], structural MRI, [[eeg|EEG]], and [[neuroimaging-pet|PET]] modalities that enables graph-theoretic analysis of both [[functional-connectivity|functional]] and [[structural-connectivity|structural]] brain networks [[raw/papers/mijalkov-2017-braph.md]]. Together, these papers provide the methodological foundation for graph-theoretic brain connectivity analysis, establishing both the network metrics and the software toolboxes through which they are implemented.
 
 ## Related Software
 

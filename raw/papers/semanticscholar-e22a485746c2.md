@@ -1,0 +1,15 @@
+# Voxel- and surface-based morphometry in the cortical thickness and cortical and subcortical gray matter volume in patients with mild-to-moderate Alzheimer’s disease
+
+**Source**: semantic-scholar
+**ID**: e22a485746c233a278009bfdcac86e677d022c25
+**DOI**: 10.3389/fnagi.2025.1546977
+**URL**: https://www.semanticscholar.org/paper/e22a485746c233a278009bfdcac86e677d022c25
+**Date**: 2025-06-25
+**Year**: 2025
+**Authors**: K. Li, Dingling Xie, Zheng Zhang, Chunyu Fu, Chunyang Li
+**Venue**: Frontiers in Aging Neuroscience
+**Citations**: 1
+
+## Abstract
+
+Aim This study aimed to investigate alterations in whole-brain cortical thickness (CT) and cortical and subcortical gray matter volume (GMV) in patients with Alzheimer’s disease (AD) compared with healthy controls (HC) using voxel-based morphometry (VBM) and surface-based morphometry (SBM). Furthermore, we sought to develop a combined predictive model based on these neuroimaging markers and assess their potential clinical utility for the early detection and diagnosis of AD. Methods A total of 42 patients diagnosed with mild-to-moderate AD and 49 demographically matched HC were recruited for this study. VBM and SBM analyses were performed on three-dimensional T1-weighted magnetization-prepared rapid gradient echo (3D T1-MPRAGE) imaging sequences to identify brain regions that exhibited statistically significant differences between the AD and HC groups. Brain regions showing significant group differences were selected as the regions of interest (ROIs). Pearson’s correlation analysis was used to assess the relationship between extracted neuroimaging metrics (CT, cortical GMV, and subcortical GMV) and cognitive performance. Predictive models were constructed using CT (from SBM), cortical GMV, and subcortical GMV (from VBM) metrics derived from ROIs, both individually and in combination. Model performance in discriminating between patients with AD and HCs was evaluated using a receiver operating characteristic (ROC) curve analysis. Results Compared to HCs, patients with AD exhibited significant CT reductions primarily in the transverse temporal gyrus, superior temporal gyrus, supramarginal gyrus, insula, temporal pole, entorhinal cortex, and fusiform gyrus. Significant GMV reductions in patients with AD were observed predominantly in the hippocampus, parahippocampal gyrus, posterior temporal lobe, inferior temporal gyrus, middle temporal gyrus, limbic lobe structures, fusiform gyrus, amygdala, and thalamus, as detected by VBM analysis. Extracted CT, cortical GMV, and subcortical GMV measurements from the ROIs demonstrated significant positive correlations with both MMSE and MoCA scores. Conclusion In patients with AD, VBM and SBM showed overlapping cortical GMV and CT reductions. Volume/thickness reduction was correlated with lower MMSE/MoCA scores, confirming functional relevance. ROC analysis revealed that combining CT and GMV improved cognitive impairment prediction compared to single measures. This integrated approach may enhance clinical diagnosis and early risk identification of AD.
