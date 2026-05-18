@@ -15,7 +15,7 @@ tags:
 - cortical-surface
 title: FreeSurfer
 type: entity
-updated: '2026-05-13'
+updated: '2026-05-18'
 ---
 
 # FreeSurfer
@@ -63,6 +63,6 @@ FreeSurfer implements several standard parcellations:
 
 ## References
 
-- FreeSurfer website: https://surfer.nmr.mgh.harvard.edu/
-- Dale et al. (1999) — Cortical surface-based analysis
-- Fischl et al. (2004) — Automatically parcellating the human cerebral cortex
+FreeSurfer is a widely used program for segmenting cortical and subcortical regions of interest from MRI scans, with regional volumetric measures routinely calculated from these segmentations and employed by other imaging modalities for quantification [[raw/papers/semanticscholar-182202db91fa.md|Rizzo et al. (2025)]]. Because FreeSurfer has recently undergone several updates to improve segmentation performance, comparative studies have begun systematically evaluating how volumetric measures vary across different software versions [[raw/papers/semanticscholar-182202db91fa.md|Rizzo et al. (2025)]]. These segmentation-derived volumetrics therefore remain central to the broader neuroimaging pipeline, even as researchers scrutinize the consistency of regional measures across software updates [[raw/papers/semanticscholar-182202db91fa.md|Rizzo et al. (2025)]].
+
+For ultra-high-field acquisitions (7T and above), traditional processing pipelines developed for standard-resolution 3T data often fail to preserve the detailed anatomical information required for fine-grained laminar analysis, motivating the development of complementary high-resolution toolkits that provide specialized functions for cortical depth estimation and tissue segmentation [[raw/papers/cbs-tools.md|Bazin et al. (2012)]]. In that regime, the Nighres Python package complements standard neuroimaging processing pipelines like FreeSurfer, [[fsl]], and [[ants]] by translating the earlier CBS Tools algorithms into an accessible Python interface with modules for brain processing, cortex extraction, volumetric layering, and surface visualization [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]]. Because Nighres integrates with nibabel and nilearn for NIfTI handling and downstream visualization, these laminar-analysis capabilities extend FreeSurfer's foundational outputs rather than replacing them [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]].

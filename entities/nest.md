@@ -13,7 +13,7 @@ tags:
 - brain-network
 title: NEST
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-18'
 ---
 
 # NEST (NEural Simulation Tool)
@@ -64,9 +64,9 @@ Jordan et al. (2018) demonstrated NEST's near-perfect weak scaling:
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 - [[tvb-multiscale|Tvb Multiscale]]
 ## Key Researchers
+Markus Diesmann has been the central architect and lead researcher behind NEST since its inception, co-authoring the original simulator introduction alongside Marc-Oliver Gewaltig [[raw/papers/gewaltig-diesmann-2007.md|Gewaltig & Diesmann (2007)]] and guiding its evolution toward large-scale [[spiking-neural-networks|spiking network]] simulations. Diesmann's leadership spans the core kernel design, the canonical data-driven cortical microcircuit model developed with Tobias C. Potjans [[raw/papers/potjans-diesmann-2014.md|Potjans & Diesmann (2014)]], and strategic high-performance computing benchmarking alongside Moritz Helias and Susanne Kunkel that established NEST as a discovery tool for [[computational-neuroscience]] [[raw/papers/helias-2012.md|Helias et al. (2012)]]. This sustained, multi-decade involvement across foundational publications makes him the single most consistent scientific voice in NEST's development.
 
-- Markus Diesmann — Core NEST developer and lead researcher
-
+The simulator's technical capabilities reflect parallel advances by researchers who targeted distinct scaling and usability bottlenecks. Jakob Jordan spearheaded the exascale communication architecture, implementing the five-step communication scheme that enabled near-perfect weak scaling from laptops to petascale systems containing up to 10^11 synapses [[raw/papers/jordan-2018.md|Jordan et al. (2018)]]. Jochen Martin Eppler created the [[pynest]] Python interface, lowering the programming barrier and broadening NEST's integration with the broader scientific Python ecosystem [[raw/papers/eppler-2009.md|Eppler (2009)]]. Helias and Kunkel further cemented NEST's high-performance computing credentials by benchmarking the simulator across leadership-class facilities and identifying the hardware requirements necessary for brain-scale [[brain-network]] simulations [[raw/papers/helias-2012.md|Helias et al. (2012)]]. Through these complementary contributions, the NEST team transformed a specialized kernel into a comprehensive platform spanning rapid model prototyping, canonical circuit validation, and exascale whole-brain simulation.
 ## Use Cases
 
 - Cortical microcircuit simulations
@@ -76,9 +76,9 @@ Jordan et al. (2018) demonstrated NEST's near-perfect weak scaling:
 
 ## References
 
-1. Gewaltig & Diesmann (2007). *NEST ([[neural-simulation]] Tool)*. Scholarpedia. [DOI](](https://doi.org/10.4249/scholarpedia.1430))
-2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](](https://doi.org/10.1093/cercor/bhs358))
-3. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2018.00002))
-4. Eppler et al. (2009). *PyNEST: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/neuro.11.012.2008))
-5. Helias et al. (2012). *Supercomputers ready for use as discovery machines for neuroscience*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2012.00026))
-6. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+1. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+3. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+4. Eppler et al. (2009). *PyNEST: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/neuro.11.012.2008)
+5. Helias et al. (2012). *Supercomputers ready for use as discovery machines for neuroscience*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2012.00026)
+6. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

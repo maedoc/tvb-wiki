@@ -14,7 +14,7 @@ tags:
 - numerical-computing
 title: JAX
 type: entity
-updated: '2026-05-15'
+updated: '2026-05-18'
 ---
 
 # JAX

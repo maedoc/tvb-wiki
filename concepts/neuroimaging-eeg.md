@@ -32,7 +32,7 @@ Within the [[the-virtual-brain]] ecosystem, EEG and MEG serve as critical valida
 
 ## References
 
-1. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-2. Helena Bordini de Lucas, Leonardo Dalla Porta, Alain Destexhe, Maria V. Sanchez-Vives, Osvaldo A. Rosso, Cláudio R. Mirasso, Fernanda Selingardi Matias. (2025). *Characterizing sleep stages through the complexity-entropy plane in human intracranial data and in a whole-brain model*. [Link](https://arxiv.org/abs/2511.09243)
+1. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](](https://arxiv.org/abs/2603.24176))
+2. Helena Bordini de Lucas, Leonardo Dalla Porta, Alain Destexhe, Maria V. Sanchez-Vives, Osvaldo A. Rosso, Cláudio R. Mirasso, Fernanda Selingardi Matias. (2025). *Characterizing sleep stages through the complexity-entropy plane in human intracranial data and in a whole-brain model*. [Link](](https://arxiv.org/abs/2511.09243))
 3. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
-4. F. Hsiao, Wei-Ta Chen, Shih-Pin Chen, Yen-Feng Wang, K. Lai, Gianluca Coppola, Shuu-Jiun Wang. (2025). *Temporal stability and neural complexity in resting-state MEG predict migraine phenotypes*. The Journal of Headache and Pain. [DOI](https://doi.org/10.1186/s10194-025-02169-y)
+4. F. Hsiao, Wei-Ta Chen, Shih-Pin Chen, Yen-Feng Wang, K. Lai, Gianluca Coppola, Shuu-Jiun Wang. (2025). *Temporal stability and neural complexity in resting-state MEG predict migraine phenotypes*. The Journal of Headache and Pain. [DOI](](https://doi.org/10.1186/s10194-025-02169-y))

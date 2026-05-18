@@ -89,4 +89,4 @@ Several methodological considerations constrain the interpretation of FSLNets re
 
 ## References
 
-1. Anticevic et al. (2012). *Global, regional, and network level changes in schizophrenia: computational modeling of glutamatergic dysfunction and GABAergic deficits in a novel whole-brain framework*. Proceedings of the National Academy of Sciences (PNAS). [DOI](https://doi.org/10.1073/pnas.1114858109)
+1. Anticevic et al. (2012). *Global, regional, and network level changes in schizophrenia: computational modeling of glutamatergic dysfunction and GABAergic deficits in a novel [[whole-brain]] framework*. Proceedings of the National Academy of Sciences (PNAS). [DOI](](https://doi.org/10.1073/pnas.1114858109))

@@ -1,29 +1,24 @@
 ---
+title: Tournier et al. 2019
 created: 2026-05-06
+updated: 2026-05-18
+type: entity
+tags: [whole-brain-modeling, structural-connectivity, connectomics, diffusion-imaging, tractography, neuroimaging-dti, software-brain-modeling, software-visualization, reproducibility, paper-methods]
 sources:
 - raw/papers/Renton2024.md
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/arxiv-2511.04871.md
-- raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/semanticscholar-1d74a8be554f.md
-tags:
-- references
-- mrtrix3
-- diffusion-mri
-- tractography
-title: Tournier et al. 2019
-type: concept
-updated: '2026-05-11'
 ---
 
-# Tournier et al. 2019
+Tournier et al. (2019) is the foundational software paper introducing MRtrix3, an open-source framework for diffusion-weighted magnetic resonance imaging analysis and [[tractography]]. Published in *NeuroImage*, the article presented MRtrix3 as a fast, flexible, and open software framework for medical image processing and visualisation, consolidating tools that have become integral to [[neuroimaging]] pipelines and [[whole-brain-modeling]] workflows.
 
-Reference to:
-- Tournier JD, Smith R, Raffelt D, et al. (2019) MRtrix3: A fast, flexible and open software framework for medical image processing and visualisation. NeuroImage 202: 116137. https://doi.org/10.1016/j.neuroimage.2019.116137
+Neuroimaging research depends on purpose-built analysis software that is challenging to install and may produce inconsistent results across computing environments [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Diffusion MRI and tractography are particularly consequential because they provide the [[white-matter]] connectivity estimates that undergird [[connectomics]] and computational brain modeling. Tournier et al. (2019) situated MRtrix3 within this landscape by offering a unified, computationally efficient architecture for processing, analyzing, and visualizing diffusion-weighted data. The clinical stakes for robust tractography were underscored by a meta-analysis of intracranial resective surgeries, which found that incorporating tractography reduced the risk of postoperative neurologic deficits by approximately fifty-five percent compared with non-tractography approaches [[raw/papers/semanticscholar-1d74a8be554f.md|Guberman et al. (2025)]], underscoring the need for reliable software frameworks in both research and surgical planning.
 
-Used as a citation key in [[mrtrix3]] and other pages.
+The paper described MRtrix3 as a comprehensive framework rather than a single-purpose tool, spanning medical image processing and visualisation with particular emphasis on [[diffusion-mri]] analysis. In subsequent deployment within reproducible neuroimaging environments, MRtrix3 has been categorized alongside other diffusion MRI and tractography packages such as qsiprep and dsi-studio as core infrastructure for generating [[structural-connectivity]] data [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Alongside MRtrix3, the scilpy toolbox provides a complementary Python-based library targeting overlapping dMRI pipelines—from preprocessing and local fiber reconstruction to tractogram post-processing—reflecting a broader ecosystem of open-source diffusion imaging software [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]]. Additionally, harmonization methods such as Clinical-ComBAT address scanner-specific biases in multi-site diffusion acquisitions, constituting a preprocessing layer compatible with but distinct from the reconstruction and tractography functions central to MRtrix3 [[raw/papers/arxiv-2511.04871.md|Girard et al. (2025)]].
 
-## References
+MRtrix3 occupies a distinct position in the diffusion MRI software landscape. While scilpy emphasizes a modular Python scripting interface, MRtrix3 offers an integrated framework with built-in visualisation capabilities oriented toward performance and unified workflow management [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]]. Both toolkits ultimately serve the same scientific goal of translating raw diffusion acquisitions into tractograms and [[connectome]] representations, and they are frequently deployed within reproducible environments alongside structural MRI tools such as [[freesurfer]] and [[fsl]] to ensure cross-platform consistency [[raw/papers/Renton2024.md|Renton et al. (2024)]]. The emergence of complementary harmonization methods further illustrates the maturation of the diffusion MRI pipeline, in which preprocessing, reconstruction, and tractography are increasingly treated as modular yet interoperable stages [[raw/papers/arxiv-2511.04871.md|Girard et al. (2025)]].
 
-1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible [[neuroimaging]]*.
-2. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *[[tractography]] analysis with the scilpy toolbox*. Aperture Neuro. [DOI](](https://doi.org/10.52294/001c.154022))
+The outputs of MRtrix3 diffusion MRI and tractography constitute a critical upstream stage for [[whole-brain-modeling]] workflows in [[the-virtual-brain|The Virtual Brain]] and comparable simulators [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Tractography-derived streamline [[connectivity]] matrices furnish the weighted [[structural-connectivity]] substrate that constrains large-scale neural dynamics simulations, enabling subject-specific network models. By integrating diffusion-based fiber trajectory estimation with connectome generation within a single framework, Tournier et al. (2019) established a processing backbone whose downstream products directly feed into [[personalized-brain-modeling]] pipelines that require accurate, biologically plausible estimates of inter-regional anatomical coupling.
+
+The biological relevance of MRtrix3 derives from the capacity of diffusion MRI to probe the microstructural organization of [[white-matter]] in vivo. Tractography algorithms reconstruct macroscopic white matter pathways by following water diffusion anisotropy, generating trajectories that correspond to functionally relevant neural tracts [[raw/papers/semanticscholar-1d74a8be554f.md|Guberman et al. (2025)]]. Concurrently, diffusion-derived scalar metrics capture tissue microstructure pertinent to neurodegenerative diseases and large-scale brain conditions [[raw/papers/arxiv-2511.04871.md|Girard et al. (2025)]]. MRtrix3 translates these biophysical measurements into structural network representations, approximating the brain's physical wiring architecture and thereby furnishing the anatomical constraints required for computational models of neural activity and disease propagation.

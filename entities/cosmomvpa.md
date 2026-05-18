@@ -52,6 +52,6 @@ Preprocessing of fMRI data for CoSMoMVPA is typically performed in [[spm]] or [[
 
 ## References
 
-1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
-2. Daniel Haenelt, D. Chaimow, M. E. Schmidt, S. Nasr, N. Weiskopf, R. Trampel. (2025). *Decoding of columnar-level organization across cortical depth using BOLD- and CBV-fMRI at 7 T*. bioRxiv. [DOI](https://doi.org/10.1101/2023.09.28.560016)
-3. Dongyang Li, Haoyang Qin, Mingyang Wu, Chen Wei, Quanying Liu. (2025). *BrainFLORA: Uncovering Brain Concept Representation via Multimodal Neural Embeddings*. ACM Multimedia. [DOI](https://doi.org/10.1145/3746027.3754996)
+1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))
+2. Daniel Haenelt, D. Chaimow, M. E. Schmidt, S. Nasr, N. Weiskopf, R. Trampel. (2025). *Decoding of columnar-level organization across cortical depth using BOLD- and CBV-fMRI at 7 T*. bioRxiv. [DOI](](https://doi.org/10.1101/2023.09.28.560016))
+3. Dongyang Li, Haoyang Qin, Mingyang Wu, Chen Wei, Quanying Liu. (2025). *BrainFLORA: Uncovering Brain Concept Representation via Multimodal Neural Embeddings*. ACM Multimedia. [DOI](](https://doi.org/10.1145/3746027.3754996))
