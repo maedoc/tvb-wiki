@@ -635,3 +635,8 @@
 ## [2026-05-18 12:44] DeepResearch: 2 papers added via focused research
 
 ## [2026-05-18 13:00] Improve: 1 pages improved (nengo)
+
+## [2026-05-18 13:30] Improve: 1 pages improved (nilearn)
+
+2026-05-18
+- Improved [[michael-schirner]] page: rewrote sparse Research Focus placeholder bullets (~22 words) into dense sourced prose (~210 words across 2 paragraphs), added 4 inline citations from all 3 available sources (Ritter et al. 2013 x1 via ritter-2013, Schirner et al. 2018 x2 via schirner-2018, Sanz Leon et al. 2013 x1 via sanz-leon-2013), added 13 wikilinks (neuroimaging, whole-brain-modeling, diffusion-mri, neural-mass-model, structural-connectivity, tractography, resting-state, functional-connectivity, brain-parcellation, connectivity, personalized-brain-modeling, network-dynamics, TVB), grounded claims about subject-specific structural-connectivity parameterizing neural mass models and reproducing empirical resting-state functional-connectivity in Ritter et al. (2013), grounded automated pipeline claims (parcellation, tractography, connectivity estimation in single workflow) and validation across datasets in Schirner et al. (2018), grounded TVB large-scale network dynamics platform context in Sanz Leon et al. (2013)
