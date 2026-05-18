@@ -1,13 +1,15 @@
 ---
 title: 3D Slicer
 created: 2026-05-07
-updated: 2026-05-07
+updated: 2026-05-19
 type: entity
 tags: [software-brain-modeling, software-visualization, neuroimaging-dti, neuroimaging-fmri, diffusion-imaging, tractography]
 sources: [raw/papers/tustison-2010.md, raw/papers/alfaro-almagro-2018.md, raw/papers/semanticscholar-301489ffb9de.md]
 ---
 
 # 3D Slicer
+
+3D Slicer is an open-source software platform for medical image visualization, processing, and analysis that operates within the broader ecosystem of neuroimaging toolkits built upon the Insight Toolkit ([[itk]]). [[raw/papers/tustison-2010.md|Tustison et al. (2010)]] reimplemented the N3 bias correction algorithm as N4ITK within this ITK framework, demonstrating how foundational open-source libraries furnish image-processing routines used by downstream platforms such as Slicer. Contemporary large-scale neuroimaging initiatives have adopted comparable modular philosophies: [[raw/papers/semanticscholar-301489ffb9de.md|Yasinzai et al. (2025)]] constructed BrainScape as a plugin-based Python framework that aggregates 160 heterogeneous anatomical MRI datasets through distinct preprocessing modules, and Slicer’s own extensible architecture reflects this same principle of transparent, reproducible data integration. At the population scale, [[raw/papers/alfaro-almagro-2018.md|Alfaro-Almagro et al. (2018)]] established rigorous image-processing and quality-control procedures for the first 100,000 brain imaging datasets from UK Biobank, underscoring the practical need for flexible platforms capable of supporting reproducible preprocessing across structural, functional, and [[diffusion-imaging]] modalities.
 
 ## Overview
 
