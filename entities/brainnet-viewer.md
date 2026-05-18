@@ -17,7 +17,6 @@ title: BrainNet Viewer
 type: entity
 updated: '2026-05-11'
 ---
-
 ## Overview
 
 BrainNet Viewer is a MATLAB-based software package for visualizing three-dimensional brain networks and [[connectivity]] data derived from various [[neuroimaging]] modalities. Developed primarily for the visualization of [[structural-connectivity]] from diffusion tensor imaging (DTI) and [[tractography]], as well as [[functional-connectivity]] from functional magnetic resonance imaging ([[fmri]]), electroencephalography (EEG), and magnetoencephalography (MEG), the tool enables researchers to render [[brain-network]] graphs overlaid on anatomical brain surfaces. The software was developed by the Brainnetome Lab at the University of Chinese Academy of Sciences and has become a widely used resource in the [[connectomics]] community for both exploratory data analysis and publication-quality figures [xia2013brainnet].
@@ -53,30 +52,5 @@ See also: [[nilearn]] for Python-based brain visualization, [[brainvoyager]] for
 - **Rubinov, M., & Sporns, O.** (2010). Complex network measures of brain connectivity: Uses and interpretations. *Current Opinion in Neurobiology*, 20(3), 663-670. [rubinov2010complex]
 - **Theis, M., et al.** (2016). Human [[connectome]] Project: The importance of being exchangeable. *Neuroinformatics*, 14(2), 157-166. [theis2016human]
 
-## References
-
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
-
 ## ORPHAN PAGE CONTEXT (tractseg)
 ---
-created: 2024-01-15
-sources:
-- raw/papers/van-essen-2012.md
-- raw/papers/sanz-leon-2013.md
-- raw/papers/mijalkov-2017-[[braph]].md
-- raw/papers/arxiv-2503.07263.md
-tags:
-- software-tractography
-- software-[[mrtrix3]]
-- [[diffusion-imaging]]
-- structural-connectivity
-- white-matter
-- tractography
-title: TractSeg
-type: entity
-updated: '2026-05-07'
----
-
-TractSeg is an open-source software tool for the automated segmentation of [[white-matter]] tracts from diffusion magnetic resonance imaging (dMRI) data. D

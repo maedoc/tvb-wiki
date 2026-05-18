@@ -80,6 +80,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [PySurfer](pysurfer.md) — Python library for cortical surface visualization and analysis of FreeSurfer outputs
 - [PyCeLoSim](pycelosim.md) - Python-based cellular-level neural simulator bridging microscopic dynamics to whole-brain models
 - [PyCortex](pycortex.md) — Python library for cortical surface visualization and manipulation with emphasis on CIFTI-native data and publication-quality surface figures
+- [PyNN](pynn.md) — Python API for simulator-independent specification of neuronal network models across spiking simulators and neuromorphic hardware
 - [DDE-Biftool](dde-biftool.md) — MATLAB toolbox for bifurcation analysis of delay differential equations, used for neural mass models
 - [LabStreamingLayer](labstreaminglayer.md) — Real-time data acquisition and synchronization framework for multimodal neuroimaging
 - [LFPykit](lfpykit.md) — Python toolkit for computing extracellular potentials (LFP) from spiking neural network simulations
