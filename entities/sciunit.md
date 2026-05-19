@@ -14,10 +14,12 @@ tags:
 - validation
 title: SciUnit
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-19'
 ---
 
-# SciUnit  
+# SciUnit
+
+SciUnit is an open-source framework for test-driven validation of scientific models, providing a standardized methodology for ensuring that computational simulations reproduce the empirical phenomena they aim to explain. In whole-brain modeling, platforms such as [[TVB|The Virtual Brain]] simulate large-scale primate brain network dynamics by integrating [[neural-mass-models|neural mass models]] with subject-specific [[structural-connectivity|structural connectivity]] derived from [[diffusion-imaging|diffusion imaging]] [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]], and support forward models that translate simulated activity into measurable [[fmri|fMRI]], [[eeg|EEG]], and [[meg|MEG]] signals [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. TVB further bridges computational modeling and multimodal neuroimaging by coupling large-scale brain network models with empirical data from [[dti|DTI]], [[fmri|fMRI]], and [[eeg|EEG]] [[raw/papers/ritter-2013.md|Ritter et al. (2013)]], constructing [[personalized-brain-modeling|personalized virtual brains]] capable of reproducing individual [[resting-state|resting-state]] [[functional-connectivity|functional connectivity]] patterns [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. As the field advances toward neural dynamics-informed frameworks that extract personalized representations of brain activity across heterogeneous scenarios [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]], rigorous quantitative validation of simulation outputs against empirical recordings becomes essential. SciUnit addresses this need through an object-oriented architecture in which models, tests, and scores are first-class entities, enabling systematic, reproducible evaluation of complex brain simulations.
 
 ## Overview  
 

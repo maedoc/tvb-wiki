@@ -1,42 +1,26 @@
 ---
-created: 2026-04-23
-sources:
-- raw/papers/sanz-leon-2013.md
-- raw/papers/arxiv-2603.24176.md
-- raw/papers/arxiv-2603.07524.md
-tags:
-- software-brain-modeling
 title: NeuSIGHT
+created: 2026-04-23
+updated: 2026-05-19
 type: entity
-updated: '2026-05-04'
+tags: [software-brain-modeling, whole-brain-modeling, personalized-brain-modeling, functional-connectivity, neuroimaging-fmri, neuroimaging-eeg, structural-connectivity, neural-mass-models, connectomics, machine-learning]
+sources: [raw/papers/sanz-leon-2013.md, raw/papers/arxiv-2603.24176.md, raw/papers/arxiv-2603.07524.md]
 ---
 
 ## Overview
 
-NeuSIGHT (Neural Simulation and Imaging for Hemodynamic Tracking) is an open-source software platform for personalized whole-brain modeling that integrates neuroimaging data with neural mass models to simulate brain dynamics. Developed as a complement to [[the-virtual-brain]], NeuSIGHT focuses on the estimation of neural parameters from multimodal neuroimaging data, enabling the construction of patient-specific brain models for clinical and research applications. The software provides a pipeline for converting [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and [[tractography]] into biologically realistic neural mass models that can reproduce observed [[functional-connectivity]] patterns measured by [[fmri]] or [[eeg]].
+NeuSIGHT (Neural Simulation and Imaging for Hemodynamic Tracking) is a software framework for personalized [[whole-brain-modeling]]. It operates at the intersection of multimodal neuroimaging and [[personalized-brain-modeling]], serving as a computational bridge between empirical imaging data and large-scale dynamical brain models.
 
-## Relationship to TVB
+## Context and Motivation
 
-NeuSIGHT shares a close conceptual relationship with [[the-virtual-brain]] (TVB), another leading whole-brain modeling platform. While TVB provides a comprehensive simulator with multiple neural mass model options including the [[jansen-rit-model]], [[wong-wang-model]], and [[epileptor]], NeuSIGHT emphasizes parameter estimation and model fitting rather than simulation itself. The software operates as a preprocessing and estimation layer that can feed optimized parameters into TVB for forward simulation, creating a complementary workflow where NeuSIGHT handles the inverse problem of inferring neural parameters from empirical data, and TVB handles the forward problem of generating synthetic data from known parameters. This division of labor reflects the broader separation between [[parameter-estimation]] and simulation in computational neuroscience.
+Recent research has established that brain activity is intrinsically a dynamic process constrained by anatomical structure, producing significant variation in spatial distribution and correlation patterns across subjects and scenarios [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]]. Dominant methods for constructing [[functional-connectivity]] networks still rely on pre-defined brain atlases and linear assumptions, limiting their ability to capture individualized neural dynamics and reducing consistency across heterogeneous conditions [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]]. Consequently, the field has shifted toward frameworks that extract personalized representations of neural activity directly from individual neuroimaging data, rather than imposing generic parcellations onto every brain [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]].
+
+Multimodal imaging supplies the empirical substrate for this individualized approach. Functional magnetic resonance imaging ([[fmri]]) offers high-resolution cortical representations suited to fine-grained spatial characterization, while electroencephalography ([[eeg]]) provides millisecond-level temporal cues essential for resolving rapid neural dynamics [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]]. Because these modalities capture fundamentally different aspects of brain activity, integrating them into a coherent subject-specific model requires reconciling well-known trade-offs between spatial fidelity and temporal precision [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]]. Together, these complementary streams create the multimodal foundation that informs modern personalized modeling workflows [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]].
 
 ## Key Features
 
-NeuSIGHT implements a variational Bayesian framework for estimating the parameters of neural mass models from observed brain dynamics. The software supports multiple neuroimaging modalities including [[fmri]] blood-oxygen-level-dependent signals, [[eeg]] power spectra, and [[meg]] field distributions, allowing users to fit models to the data type most appropriate for their research question. The parameter estimation employs [[variational-bayes]] methods to infer both point estimates and uncertainty bounds on model parameters, addressing the well-known non-identifiability problems that plague whole-brain model fitting. Additionally, NeuSIGHT provides tools for [[structural-connectivity]] processing from [[diffusion-imaging]] data, including options for multiple [[tractography]] algorithms and fiber count thresholding.
+The research domain in which NeuSIGHT operates has recently produced two advances that define its functional niche. First, neural dynamics-informed [[machine-learning]] pre-training can guide brain parcellation and correlation estimation to construct personalized [[functional-connectivity]] networks, with systematic evaluation across eighteen datasets demonstrating superior performance under heterogeneous [[task-based]] conditions such as virtual neural modulation and abnormal circuit identification [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]]. These subject-specific connectivity estimates provide individualized inputs for large-scale simulation engines, closing the loop between empirical neuroimaging and [[connectome]]-based whole-brain dynamical models [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]]. Second, EEG-conditioned frameworks reconstruct dynamic fMRI as continuous neural sequences with cortical-vertex-level spatial fidelity and robust temporal coherence, addressing sampling irregularities through null-space intermediate-frame completion [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]]. The reconstructed dynamics preserve essential functional information and support downstream visual decoding, indicating that cross-modal fusion pipelines can generate validated inputs for simulation and model comparison [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]].
 
-## Technical Approach
+## Relationship to TVB
 
-The software implements a mean-field approach to neural mass modeling, where each brain region is represented as a population of excitatory and inhibitory neurons interacting through [[excitation-inhibition-balance]] mechanisms. The dynamical equations follow [[stochastic-differential-equations]] driven by noise terms that capture the inherent variability in neural activity. The observation model links latent neural states to observed neuroimaging signals through biophysically motivated forward models: for [[fmri]], this includes the [[hemodynamic-response-function]] that transforms neural activity into the BOLD signal; for [[eeg]] and [[meg]], it uses simplified [[volume-conduction]] models that map cortical currents to sensor space. The estimation procedure optimizes a variational lower bound on the model evidence, balancing fit quality against model complexity through automatic relevance determination.
-
-## Key Papers
-
-NeuSIGHT has been discussed primarily in conference presentations and technical reports rather than peer-reviewed publications, representing an approach to personalized brain modeling that aligns with the broader movement toward [[personalized-brain-modeling]] in [[computational-psychiatry]] and neurology. The software draws on methodological foundations established in [[dynamic-causal-modeling]] for neural parameter estimation and extends these ideas to whole-brain models with multiple interacting regions.
-
-## Related Software
-
-NeuSIGHT interacts with several established tools in the neuroimaging and computational neuroscience ecosystem. As a complement to [[the-virtual-brain]], it can export estimated parameters for use in TVB simulations. For [[structural-connectivity]] estimation, it can utilize Mrtrix3 or Dipy for tractography. For neuroimaging preprocessing, the software integrates with standard pipelines including Fsl and Spm, and can accept preprocessed data from tools like [[fmriprep]]. The parameter estimation framework shares conceptual foundations with other Bayesian estimation tools in the field, though NeuSIGHT is specialized for whole-brain neural mass models rather than single-region or DCM-style models. NeuSIGHT can also interface with tools like Brainstorm and Fieldtrip for advanced source reconstruction and connectivity analysis, providing users with a flexible ecosystem for multimodal brain modeling research.
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](](https://arxiv.org/abs/2603.24176))
-3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](](https://arxiv.org/abs/2603.07524))
+The open-source platform [[the-virtual-brain]] provides the foundational architecture for whole-brain simulation, combining empirical [[structural-connectivity]]—derived from [[diffusion-imaging]] and [[tractography]]—with [[neural-mass-models]] to simulate primate [[network-dynamics]] at large scale [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. TVB also integrates forward models for [[eeg]], [[meg]], and [[fmri]], enabling direct comparison between simulated and empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Within this ecosystem, complementary tools typically specialize in preprocessing, multimodal fusion, and parameter estimation rather than replacing TVB's core simulation engine. A standard workflow therefore treats the inference of subject-specific connectivity as an inverse problem distinct from the forward generation of synthetic time series, with TVB handling the latter through its integrated simulation engine [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].

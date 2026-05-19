@@ -1,79 +1,26 @@
 ---
 title: NeuSIGHT
-created: 2024-01-15
-updated: 2026-05-03
+created: 2026-04-23
+updated: 2026-05-19
 type: entity
-tags: [software-tvb, gpu-performance, deep-learning, machine-learning, ml-for-systems, performance-modeling, performance-prediction, training-optimization, inference-optimization]
-sources:
-  - https://dl.acm.org/doi/10.1145/3669940.3707265
-  - https://github.com/sitar-lab/NeuSight
-  - https://arxiv.org/abs/2407.13853
+tags: [software-brain-modeling, whole-brain-modeling, personalized-brain-modeling, functional-connectivity, neuroimaging-fmri, neuroimaging-eeg, structural-connectivity, neural-mass-models, connectomics, machine-learning]
+sources: [raw/papers/sanz-leon-2013.md, raw/papers/arxiv-2603.24176.md, raw/papers/arxiv-2603.07524.md]
 ---
 
 ## Overview
 
-NeuSIGHT (Neural Unified System for GPU Performance Forecasting) is an open-source framework designed to predict the performance of deep learning training and inference workloads on various graphics processing units (GPUs) without requiring actual execution on the target hardware [#lee2025forecasting]. Developed by researchers at Georgia Institute of Technology and Meta, NeuSIGHT was introduced in 2025 as a solution to the growing challenge of estimating deep learning model performance across rapidly evolving model architectures and GPU hardware generations. The framework addresses a critical pain point in machine learning systems: the inability to benchmark new models on unavailable or prohibitively expensive GPUs, such as the NVIDIA H100 which experienced lead times of up to 52 weeks [#forbes2024].
+NeuSIGHT (Neural Simulation and Imaging for Hemodynamic Tracking) is a software framework for personalized [[whole-brain-modeling]]. It operates at the intersection of multimodal neuroimaging and [[personalized-brain-modeling]], serving as a computational bridge between empirical imaging data and large-scale dynamical brain models.
 
-## Motivation
+## Context and Motivation
 
-The deep learning community faces a perpetual challenge: new model architectures emerge continuously, but access to the latest GPU hardware remains constrained by long procurement lead times and high costs [#forbes2024]. This creates significant uncertainty about whether a given model architecture can meet performance requirements on available or upcoming hardware. Traditional approaches to performance prediction—cycle-accurate GPU simulators—require extensive modeling effort for each new GPU architecture and can take hours to simulate even relatively small models like ResNet-50 [#li2023path].
+Recent research has established that brain activity is intrinsically a dynamic process constrained by anatomical structure, producing significant variation in spatial distribution and correlation patterns across subjects and scenarios [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]]. Dominant methods for constructing [[functional-connectivity]] networks still rely on pre-defined brain atlases and linear assumptions, limiting their ability to capture individualized neural dynamics and reducing consistency across heterogeneous conditions [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]]. Consequently, the field has shifted toward frameworks that extract personalized representations of neural activity directly from individual neuroimaging data, rather than imposing generic parcellations onto every brain [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]].
 
-Prior works in GPU performance prediction suffered from high error rates when forecasting performance on unseen models and new GPUs [#yu2021habitat]. Methods like Habitat, which uses multi-layer perceptrons to predict kernel latency directly, showed percentage errors exceeding 120% on out-of-distribution hardware like the NVIDIA A100. Similarly, linear regression-based approaches [#li2023path] failed to capture the non-linear relationship between kernel characteristics and actual GPU performance, particularly for small matrix dimensions where GPU utilization remains low.
+Multimodal imaging supplies the empirical substrate for this individualized approach. Functional magnetic resonance imaging ([[fmri]]) offers high-resolution cortical representations suited to fine-grained spatial characterization, while electroencephalography ([[eeg]]) provides millisecond-level temporal cues essential for resolving rapid neural dynamics [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]]. Because these modalities capture fundamentally different aspects of brain activity, integrating them into a coherent subject-specific model requires reconciling well-known trade-offs between spatial fidelity and temporal precision [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]]. Together, these complementary streams create the multimodal foundation that informs modern personalized modeling workflows [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]].
 
-## Technical Approach
+## Key Features
 
-NeuSIGHT introduces a novel decomposition approach that breaks the complex problem of latency prediction into smaller, more manageable sub-problems. Rather than predicting the latency of an entire deep learning kernel directly using machine learning, NeuSIGHT exploits the tile-based execution strategy employed by modern GPU libraries.
-
-### Tiled Execution Model
-
-Modern GPU libraries for deep learning, such as cuDNN and CUTLASS, execute General Matrix Multiplication (GEMM) operations by partitioning output matrices into smaller working sets called tiles. Each tile represents a segment of the output matrix, loads the corresponding input operands, and computes the associated output elements. These tiles are then dispatched to individual Streaming Multiprocessors (SMs) on the GPU and executed concurrently. The number of tiles that can execute concurrently is limited by the number of SMs, and the entire kernel executes in multiple waves of tile groups.
-
-This tiling strategy enables scalable execution of matrix operations by decomposing them into multiple smaller, independent workloads. NeuSIGHT leverages this observation to make predictions at tile granularity, where the problem is more tractable for machine learning models to solve accurately.
-
-### Performance Bounding with Fundamental Laws
-
-NeuSIGHT constrains its predictions using fundamental GPU performance laws, most notably the Roofline model [#williams2009roofline]. The Roofline bandwidth represents the maximum achievable throughput of a kernel on a GPU, computed as the minimum of the kernel's arithmetic intensity multiplied by peak memory bandwidth and the GPU's peak FLOPs. This provides a physical lower bound on tile latency that cannot be exceeded.
-
-The framework employs multi-layer perceptrons (MLPs) to predict the utilization coefficient for each kernel type. Specifically, NeuSIGHT uses five specialized MLPs tailored for different operator categories: batched matrix multiplication, fully-connected layers, element-wise operators, softmax, and layer normalization. Each MLP has 8 fully connected layers with 512 hidden units and uses ReLU activations. The input features include GPU hardware specifications normalized per SM, such as memory size, bandwidth, peak FLOPs, and L2 cache size, expressed as resource utilization ratios.
-
-### Distributed Execution Support
-
-Beyond single-GPU prediction, NeuSIGHT extends its forecasting to distributed training scenarios across multiple GPUs within a server. The framework augments the deep learning computation graph with communication operators based on the specified parallelism strategy: pipeline parallelism, tensor parallelism, or data parallelism. For pipeline parallelism, NeuSIGHT estimates bubble overheads based on microbatch size and send/receive operation latency. For tensor model and data parallelism, it inserts all-reduce operators to synchronize activations or gradients across GPUs, combining communication and compute latencies to forecast end-to-end performance.
-
-## Key Results
-
-NeuSIGHT demonstrates significantly improved prediction accuracy compared to prior approaches. Across diverse GPUs (NVIDIA P4, P100, V100, T4, A100, L4, H100, and AMD MI100, MI210, MI250) and deep learning workloads (BERT, GPT-2, GPT-3, OPT, Switch Transformer), NeuSIGHT achieves a mean absolute percentage error of 8.9% for inference and 7.3% for training, compared to 140% for the MLP-based Habitat approach and 60.8% for linear regression-based methods.
-
-Particularly notable is NeuSIGHT's performance on out-of-distribution hardware. When predicting latency on the NVIDIA H100—a GPU not included in the training set—the framework achieves a prediction error of just 2.3% for GPT-3 training and inference, compared to 121.4% and 30.8% respectively for prior state-of-the-art methods.
-
-## Implementation
-
-NeuSIGHT is implemented in Python and integrates with PyTorch for model graph extraction using the Torch.fx library. The framework requires two input files: a device configuration file specifying GPU architectural parameters (memory size, memory bandwidth, number of SMs, cores per SM, compute frequency, peak FLOPs, and L2 cache size), and a deep learning model configuration file describing the model architecture in Hugging Face format.
-
-The software includes pre-trained MLP predictors for common operator types and provides scripts for both prediction and retraining with custom datasets. Installation is available via pip from the GitHub repository, with tested support for Python 3.9 and PyTorch 2.1.0.
+The research domain in which NeuSIGHT operates has recently produced two advances that define its functional niche. First, neural dynamics-informed [[machine-learning]] pre-training can guide brain parcellation and correlation estimation to construct personalized [[functional-connectivity]] networks, with systematic evaluation across eighteen datasets demonstrating superior performance under heterogeneous [[task-based]] conditions such as virtual neural modulation and abnormal circuit identification [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]]. These subject-specific connectivity estimates provide individualized inputs for large-scale simulation engines, closing the loop between empirical neuroimaging and [[connectome]]-based whole-brain dynamical models [[raw/papers/arxiv-2603.07524.md|Jiang et al. (2026)]]. Second, EEG-conditioned frameworks reconstruct dynamic fMRI as continuous neural sequences with cortical-vertex-level spatial fidelity and robust temporal coherence, addressing sampling irregularities through null-space intermediate-frame completion [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]]. The reconstructed dynamics preserve essential functional information and support downstream visual decoding, indicating that cross-modal fusion pipelines can generate validated inputs for simulation and model comparison [[raw/papers/arxiv-2603.24176.md|Qu et al. (2026)]].
 
 ## Relationship to TVB
 
-While NeuSIGHT bears no direct relationship to The Virtual Brain, it represents a complementary category of computational neuroscience infrastructure tools: both address challenges in model validation when empirical measurement is impractical. TVB enables simulation of brain dynamics when direct neural measurement is infeasible, while NeuSIGHT enables performance forecasting when hardware execution is impractical. Users building computational pipelines that involve both brain simulation and machine learning inference may find NeuSIGHT valuable for resource planning in hybrid workflows.
-
-## Related Software
-
-NeuSIGHT operates within the machine learning systems ecosystem and relates to several established tools. For deep learning framework compilation and optimization, it can be used alongside TVM and PyTorch. For performance modeling and simulation, it complements analytical tools like Roofline analysis utilities and cycle-accurate GPU simulators such as Accel-Sim. The framework's prediction workflow integrates with profiling tools including PyTorch Profiler for extracting kernel metadata and nvprof for performance analysis. Additionally, NeuSIGHT's distributed training predictions can be combined with network simulation tools like ASTRA-Sim for multi-node forecasting.
-
-## References
-
-1. Lee, S., Phanishayee, A., & Mahajan, D. (2025). Forecasting GPU Performance for Deep Learning Training and Inference. *Proceedings of the 30th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '25)*, 493-508. https://doi.org/10.1145/3669940.3707265
-
-2. NeuSight GitHub Repository. (2024). SCAI-Tech/NeuSight. https://github.com/sitar-lab/NeuSight
-
-3. Williams, S., Waterman, A., & Patterson, D. (2009). Roofline: An insightful visual performance model for multicore architectures. *Communications of the ACM*, 52(4), 65-76.
-
-4. Yu, G. X., Gao, Y., Golikov, P., & Pekhimenko, G. (2021). Habitat: A Runtime-Based Computational Performance Predictor for Deep Neural Network Training. *USENIX Annual Technical Conference (ATC '21)*.
-
-5. Li, Y., Sun, Y., & Jog, A. (2023). Path Forward Beyond Simulators: Fast and Accurate GPU Execution Time Prediction for DNN Workloads. *International Symposium on Microarchitecture (MICRO '23)*.
-
-[#lee2025forecasting]: https://dl.acm.org/doi/10.1145/3669940.3707265
-[#forbes2024]: https://www.forbes.com/sites/jasonblewis/2024/02/05/nvidia-face-52-week-lead-time-for-h100-gpus-as-demand-skyrockets/
-[#li2023path]: https://doi.org/10.1145/3617238.3620129
-[#yu2021habitat]: https://www.usenix.org/system/files/atc21_yu.pdf
-[#williams2009roofline]: https://doi.org/10.1145/1498765.1498785
+The open-source platform [[the-virtual-brain]] provides the foundational architecture for whole-brain simulation, combining empirical [[structural-connectivity]]—derived from [[diffusion-imaging]] and [[tractography]]—with [[neural-mass-models]] to simulate primate [[network-dynamics]] at large scale [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. TVB also integrates forward models for [[eeg]], [[meg]], and [[fmri]], enabling direct comparison between simulated and empirical recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Within this ecosystem, complementary tools typically specialize in preprocessing, multimodal fusion, and parameter estimation rather than replacing TVB's core simulation engine. A standard workflow therefore treats the inference of subject-specific connectivity as an inverse problem distinct from the forward generation of synthetic time series, with TVB handling the latter through its integrated simulation engine [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].

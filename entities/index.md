@@ -44,6 +44,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [OpenWorm](openworm.md) — Whole-organism simulation project for the *C. elegans* nervous system
 - [OpenCortex](opencortex.md) - Framework for building cortical network models in NeuroML format
 - [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
+- [DWItoolbox](dwi-toolbox.md) - MATLAB processing environment for DW-MRI tractography and structural connectivity estimation
 - [Camino](camino.md) - Open-source toolkit for diffusion MRI reconstruction, tractography, and Monte Carlo simulation
 - [MRtrix3](mrtrix3.md) - Open-source software suite for diffusion MRI analysis, tractography, and connectome construction
 - [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
@@ -91,6 +92,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [COINS](coins.md) — Collaborative Informatics and Neuroimaging Suite, web-based platform for multi-site neuroimaging data management and sharing
 - [dcm2niix](dcm2niix.md) — Open-source DICOM-to-NIfTI converter and foundational preprocessing utility for neuroimaging pipelines
 - [nxviz](nxviz.md) — Python library for network visualization of brain connectivity graphs and adjacency matrices
+- [NeuSIGHT](neusight.md) — Software framework for personalized whole-brain modeling via multimodal neuroimaging integration
 - [SPM](spm.md) — Statistical Parametric Mapping software suite with Dynamic Causal Modeling for effective connectivity and neuroimaging forward models
 
 ## Research Projects & Datasets

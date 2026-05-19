@@ -44,6 +44,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [OpenWorm](openworm.md) — Whole-organism simulation project for the *C. elegans* nervous system
 - [OpenCortex](opencortex.md) - Framework for building cortical network models in NeuroML format
 - [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
+- [DWItoolbox](dwi-toolbox.md) - MATLAB processing environment for DW-MRI tractography and structural connectivity estimation
 - [Camino](camino.md) - Open-source toolkit for diffusion MRI reconstruction, tractography, and Monte Carlo simulation
 - [MRtrix3](mrtrix3.md) - Comprehensive diffusion MRI analysis suite for tractography and connectome construction used in whole-brain modeling workflows
 - [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
