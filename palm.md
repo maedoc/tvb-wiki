@@ -1,7 +1,7 @@
 ---
 title: PALM
 created: 2024-01-15
-updated: 2026-05-15
+updated: 2026-05-19
 type: entity
 tags: [neuroimaging, software-fsl, neuroimaging-fmri, bayes-factors, variational-bayes, parameter-estimation]
 sources:
@@ -12,6 +12,10 @@ sources:
 ---
 
 # PALM
+
+PALM (Parametric Analysis of Linear Models) is a statistical inference tool developed within the [[fsl]] ecosystem for analyzing high-dimensional [[neuroimaging]] data. Its foundational framework, presented by Winkler and colleagues, addresses the multiple comparisons problem that pervades whole-brain [[fmri]] analyses by combining permutation tests with the general linear model [[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]]. Rather than relying on asymptotic normality assumptions, PALM constructs empirical null distributions through permutation, yielding valid inferential procedures even when sample sizes are small and data distributions depart from Gaussianity [[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]]. The method is particularly well suited to the thousands of simultaneous tests required when mapping activation or [[functional-connectivity]] patterns across voxels or vertices [[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]].
+
+A distinctive contribution of the approach is the generalized statistic *G*, designed to remain robust under heteroscedasticity, together with flexible permutation strategies—including exchangeability blocks—that accommodate complex experimental designs with nuisance variables [[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]]. These features make PALM an integral component of [[whole-brain-modeling]] pipelines, where rigorous statistical validation of simulated dynamics against empirical measurements is essential [[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]]. By providing principled control of family-wise error rates without parametric assumptions, PALM enables researchers to test hypotheses about [[brain-network]] structure and [[parameter-estimation]] with high-dimensional imaging data [[raw/papers/winkler-2014-palm.md|Winkler et al. (2014)]].
 
 ## Overview
 

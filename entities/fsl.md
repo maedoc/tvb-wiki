@@ -1,23 +1,23 @@
 ---
-title: FSL
 created: 2026-05-06
-updated: 2026-05-18
-type: entity
-tags:
-  - software-brain-modeling
-  - neuroimaging-fmri
-  - neuroimaging-dti
-  - tractography
-  - structural-connectivity
-  - reproducibility
-  - connectomics
-  - resting-state
-  - functional-connectivity
-  - neuroimaging-pet
 sources:
-  - raw/papers/semanticscholar-0aeca1b592e6.md
-  - raw/papers/Renton2024.md
-  - raw/papers/huntenburg-2018.md
+- raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/Renton2024.md
+- raw/papers/huntenburg-2018.md
+tags:
+- software-brain-modeling
+- neuroimaging-fmri
+- neuroimaging-dti
+- tractography
+- structural-connectivity
+- reproducibility
+- connectomics
+- resting-state
+- functional-connectivity
+- neuroimaging-pet
+title: FSL
+type: entity
+updated: '2026-05-19'
 ---
 
 # FSL
@@ -39,3 +39,9 @@ FSL operates alongside a broad neuroimaging toolchain. [[freesurfer]] provides c
 ## Relationship to TVB
 
 FSL outputs feed directly into [[the-virtual-brain]] simulation workflows. Brain extraction via BET generates cortical surface masks, while FAST segmentation produces grey matter, [[white-matter]], and CSF probability maps that inform region definition for neural mass models. Registration tools align subject anatomy to standard parcellations such as the [[aal-atlas]] or [[desikan-killiany-atlas]], ensuring consistent node definitions across subjects, and tractography modules yield [[structural-connectivity]] matrices that constrain [[neural-mass-models]] dynamics in [[whole-brain-modeling]] simulations. [[raw/papers/Renton2024.md|Renton et al. (2024)]] emphasize that containerized distribution of FSL through platforms like [[neurodesk]] supports reproducible [[connectome]] construction for whole-brain modeling, ensuring that preprocessing differences do not propagate into downstream simulation results. [[raw/papers/semanticscholar-0aeca1b592e6.md|Parsayan et al. (2025)]] extend the FSL ecosystem into multimodal PET-MR analysis, demonstrating that FSL-derived pipelines achieve high reproducibility (Cronbach's alpha > 0.9) and thus provide trustworthy quantitative inputs for personalized brain models. [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]] note that complementary high-resolution tools can refine cortical surface extraction beyond standard FSL outputs, improving anatomical fidelity for TVB surface-based simulations when needed.
+
+## References
+
+1. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
+2. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+3. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.

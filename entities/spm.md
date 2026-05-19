@@ -1,10 +1,21 @@
 ---
-title: SPM
 created: 2026-04-20
-updated: 2026-05-19
+sources:
+- raw/papers/david-friston-2003.md
+- raw/papers/glean-github.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-brain-modeling
+- dynamic-causal-modeling
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- effective-connectivity
+- neural-mass-models
+- whole-brain-modeling
+title: SPM
 type: entity
-tags: [software-brain-modeling, dynamic-causal-modeling, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, effective-connectivity, neural-mass-models, whole-brain-modeling]
-sources: [raw/papers/david-friston-2003.md, raw/papers/glean-github.md, raw/papers/sanz-leon-2013.md]
+updated: '2026-05-19'
 ---
 
 # SPM
@@ -26,3 +37,9 @@ SPM and [[the-virtual-brain]] are complementary tools operating at different sta
 ## Research Ecosystem
 
 SPM sits within a broader neuroimaging analysis ecosystem that connects data preprocessing to network estimation and whole-brain simulation. Toolboxes such as GLEAN illustrate the extension of SPM-derived data into group-level network analyses that inform downstream computational modeling [[raw/papers/glean-github.md|Baker et al. (2015)]]. Because structural and functional [[connectivity]] estimates derived from SPM pipelines feed into [[the-virtual-brain]] simulations, improvements in SPM preprocessing propagate through the entire modeling chain from raw sensor data to large-scale [[network-dynamics]] [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. These dependencies underscore how SPM-derived empirical estimates serve as a foundation for computational workflows that span from statistical inference to mechanistic prediction.
+
+## References
+
+1. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+2. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

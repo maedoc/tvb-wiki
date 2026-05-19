@@ -1,77 +1,39 @@
 ---
-created: 2025-01-15
-sources: []
-tags:
-- software-tvb
-- whole-brain-modeling
-- computational-neuroscience
-- controversy
 title: Demois
+created: 2024-01-15
+updated: 2026-05-19
 type: entity
-updated: '2026-05-15'
+tags: [software-tvb, whole-brain-modeling, software-brain-modeling]
+sources: []
 ---
 
 # Demois
 
-Despite appearing as a related software entry in the [[tvb]] entity registry, the name **Demois** is not documented in any of the primary sources reviewed for this wiki. The Virtual Brain (TVB) is described as an open-source platform for constructing and simulating personalized brain-network models, used to build patient-specific digital brain twins for clinical applications such as [[epilepsy-modeling]] Movahedin et al. (2025). The TVB Ontology provides a curated database of published models, brain networks, and study configurations alongside software that generates executable code for various simulation platforms, thereby lowering technical barriers to [[whole-brain-modeling]] Martin et al. (2025). Complementing these frameworks, multimodal empirical datasets—including simultaneous [[eeg]]-[[fmri]] [[resting-state]] data and diffusion-weighted imaging from fifty healthy subjects—have been released with annotated simulation results to support reproducible research Meier et al. (2025). Because none of these sources identify an entity named Demois, its status remains unverified; researchers seeking validated TVB tutorials or executable examples should consult the official [[the-virtual-brain]] documentation and the [[tvb-library]] scripting interface.
+**Demois** is an unverified software entity that appears as a related entry in registry files associated with [[the-virtual-brain]] but lacks documentation in peer-reviewed literature, official software repositories, or public release channels. Its name suggests a possible connection to demonstration, validation, or tutorial tools within the TVB ecosystem, yet no primary source confirms its existence as a distinct software package, library, or formal project. Consequently, the entity cannot be described with the confidence typically afforded to documented tools in the [[whole-brain-modeling]] domain.
 
-## Overview
+## Context and Verification Status
 
-**Unverified Entity — Caution Advised**
-
-Extensive searches of TVB documentation, GitHub repositories, academic publications, and related resources have yielded **no verifiable information** regarding an entity named "Demois" in the [[computational-neuroscience]] or [[whole-brain|whole-brain modeling]] domains. The TVB ecosystem contains numerous demonstration resources, tutorials, and example workflows, but none are identified by this specific name.
-
-This page exists in the wiki because Demois appears as a related software entry in the [[tvb]] entity file, suggesting it may have been:
-- A proposed or internal project that was never publicly released
-- A misattribution or confusion with TVB's demonstration resources ("demos")
-- A placeholder incorrectly added during wiki construction
-- An obsolete or abandoned component
-
-**Status**: This entity requires verification from primary sources before content can be reliably documented.
+References to Demois have been encountered solely in internal or derived entity registries linked to [[tvb]] and have not been located in the platform's official documentation, the TVB Ontology, or published methodological papers describing TVB's demonstration resources. The Virtual Brain distributes validated tutorials, Jupyter notebook workflows, graphical user interface demonstration cases, and educational scenarios through its website and curated repositories; these are catalogued under established names such as EduCases and official TVB demos rather than the identifier Demois. The absence of version history, source code, bibliographic citation, or installer artifacts further supports the assessment that Demois is not a publicly released tool. Without traceable provenance in publicly accessible materials, Demois cannot presently be classified as a recognized component of the TVB software stack or the broader [[computational-neuroscience]] tooling landscape.
 
 ## Relationship to TVB
 
-The reference to Demois in the [[tvb]] entity suggests a potential relationship with The Virtual Brain platform, likely as a demonstration, validation, or utility component. However, without verifiable sources, the nature of this relationship cannot be established.
-
-TVB does maintain extensive demonstration resources including:
-- GUI-based demos showcasing specific modeling capabilities
-- Jupyter notebook tutorials for various use cases
-- Example workflows for epilepsy modeling, resting-state dynamics, and [[brain-stimulation]]
-- Educational cases ("EduCases") available through the TVB website
-
-If Demois represents a specific demonstration framework or validation tool within TVB, it has not been documented in publicly accessible resources as of 2026.
+If Demois corresponds to a genuine project, it most likely represents an internal prototype, deprecated utility, placeholder label, or misattributed reference to TVB's demonstration infrastructure. The core TVB distribution already provides extensive, well-documented demonstration resources for [[neural-mass-models]]-based simulation, including executable pipelines for [[epilepsy-modeling]], [[resting-state]] dynamics, and [[brain-stimulation]] paradigms. These validated resources support reproducible research with patient-specific digital brain twins and connectome-based network simulations. Users seeking executable examples are therefore directed to the official [[the-virtual-brain]] documentation, the [[tvb-library]] scripting interface, and the curated model collections maintained by the TVB Ontology. Researchers constructing [[structural-connectivity]] matrices from diffusion-weighted imaging or comparing simulated and empirical [[functional-connectivity]] patterns may additionally draw on standardized datasets such as the [[hcp-dataset]] and validated neuroimaging atlases.
 
 ## Key Features
 
-Since the entity cannot be verified, no key features can be documented. Users seeking demonstration or validation capabilities within TVB should consult:
-
-- The official TVB documentation at [docs.thevirtualbrain.org](](http://docs.thevirtualbrain.org))
-- TVB's collection of Jupyter notebooks and tutorial materials
-- EduCases available through the TVB platform
-
-## Related Concepts and Software
-
-Due to the unverified status of this entity, the following related pages from the TVB wiki may be more useful for research purposes:
-
-- [[the-virtual-brain]] — The main simulation platform
-- [[tvb-library]] — TVB's scientific Python library
-- [[epileptor]] — Neural mass model commonly used in TVB demonstrations
-- [[whole-brain-modeling]] — The broader modeling approach
-- [[neural-mass-models]] — Population-level dynamics models
-- [[structural-connectivity]] — Anatomical [[connectivity]] in whole-brain models
-- [[functional-connectivity]] — Dynamic correlation patterns
-- [[hcp-dataset]] — Source of empirical connectivity data
+Because no primary source describes Demois as a standalone product, enumerating specific features, application programming interfaces, or software architectures would be speculative. The present guidance is to treat the name as an artifact of incomplete registry provenance rather than an endorsed tool. Investigators should rely on documented TVB utilities for simulation configuration, model validation, parameter estimation, and multimodal integration with empirical [[eeg]] or [[fmri]] data.
 
 ## See Also
 
-- [[the-virtual-brain]] — Core whole-brain simulation engine
-- [[tvb-library]] — TVB's scientific library for custom model development
-- [[epileptor]] — Neural mass model for epilepsy simulation
-- [[whole-brain-modeling]] — Field that demonstration platforms support
-- [[neural-mass-models]] — Local dynamics models
-- [[structural-connectivity]] — Anatomical connectivity
-- [[functional-connectivity]] — Dynamic correlation patterns
-
-## References
-
-*No verifiable sources available for this entity.*
+- [[the-virtual-brain]]
+- [[tvb-library]]
+- [[epileptor]]
+- [[whole-brain-modeling]]
+- [[neural-mass-models]]
+- [[structural-connectivity]]
+- [[functional-connectivity]]
+- [[brain-stimulation]]
+- [[resting-state]]
+- [[hcp-dataset]]
+- [[epilepsy-modeling]]
+- [[computational-neuroscience]]

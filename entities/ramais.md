@@ -14,6 +14,7 @@ title: RAMAIS (RAMIS)
 type: entity
 updated: '2026-05-19'
 ---
+
 # RAMAIS (RAMIS)
 
 Whole-brain segmentation constitutes a foundational task in medical image analysis, providing quantitative assessment of fine-grained brain regions and serving as a cornerstone for both clinical practice and neuroscience research [[raw/papers/semanticscholar-b76b57eda5f0.md|Zhang et al., 2026]]. The anatomical parcellations derived from such segmentation enable the construction of subject-specific [[structural-connectivity]] matrices that parameterize [[whole-brain-modeling]] simulations. [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] describe how platforms such as [[the-virtual-brain]] integrate empirical structural connectivity—derived from diffusion MRI [[tractography]]—with [[neural-mass-models]] to construct [[personalized-brain-modeling|personalized brain models]]. [[raw/papers/ritter-2013.md|Ritter et al. (2013)]] further demonstrate that when subject-specific connectivity matrices are coupled with large-scale [[brain-network]] dynamics, the resulting simulations can reproduce individual [[resting-state]] [[functional-connectivity]] patterns, establishing a direct pipeline from anatomical parcellation to mechanistic model predictions. This page surveys RAMAIS and related segmentation approaches that supply the precise anatomical parcellations required for such [[connectome]]-based modeling workflows, bridging the gap between raw neuroimaging data and simulation-ready brain network models.
@@ -65,3 +66,10 @@ The significance of such segmentation advances lies in their downstream integrat
 - [[diffusion-imaging]] — MRI technique for tracking white matter tracts
 - [[tractography]] — Reconstruction of white matter pathways
 - [[neuroimaging]] — Magnetic resonance imaging methodology
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Wanting Zhang, Jinhua Yue, Bo Liu, Fugen Zhou. (2026). *MSCMH-Net: A multi-scale channel-mixing hybrid network for whole-brain segmentation.*. Neuroscience. [DOI](https://doi.org/10.1016/j.neuroscience.2026.03.022)
+4. Maya Iratni, Amirali Abdullah, Mariam Aldhaheri, Omar Elharrouss, Alaa A. Abd-alrazaq, Zahiriddin Rustamov, Nazar Zaki, Rafat Damseh. (2025). *Transformers for Neuroimage Segmentation: Scoping Review*. Journal of Medical Internet Research. [DOI](https://doi.org/10.2196/57723)

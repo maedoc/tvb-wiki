@@ -1,22 +1,22 @@
 ---
-title: Michael Schirner
 created: 2026-04-20
-updated: 2026-05-18
-type: entity
-tags:
-  - people-researcher
-  - software-tvb
-  - whole-brain-modeling
-  - personalized-brain-modeling
-  - neuroimaging-dti
-  - neuroimaging-fmri
-  - neuroimaging-eeg
-  - connectomics
 sources:
-  - raw/papers/schirner-2018.md
-  - raw/papers/ritter-2013.md
-  - raw/papers/sanz-leon-2013.md
-  - raw/papers/semanticscholar-adcab180dcd3.md
+- raw/papers/schirner-2018.md
+- raw/papers/ritter-2013.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-adcab180dcd3.md
+tags:
+- people-researcher
+- software-tvb
+- whole-brain-modeling
+- personalized-brain-modeling
+- neuroimaging-dti
+- neuroimaging-fmri
+- neuroimaging-eeg
+- connectomics
+title: Michael Schirner
+type: entity
+updated: '2026-05-19'
 ---
 
 Michael Schirner is a computational neuroscientist whose research centers on automating the translation of multimodal [[neuroimaging]] data into personalized, simulation-ready [[whole-brain-modeling|whole-brain models]]. His work systematically reduces the manual effort required to build subject-specific virtual brains, thereby lowering the technical barrier for deploying large-scale brain simulations in both research cohorts and clinical contexts [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Across his contributions, Schirner has advanced the transition from descriptive brain mapping to predictive, subject-specific computational neuroscience by unifying [[structural-connectivity|structural connectivity]] reconstruction, [[brain-parcellation|brain parcellation]], and model parameterization within automated computational workflows [[raw/papers/ritter-2013.md|Ritter et al. (2013)]][[raw/papers/schirner-2018.md|Schirner et al. (2018)]].
@@ -30,3 +30,10 @@ More recently, Schirner has extended this agenda to multimodal empirical validat
 Schirner's research is tightly coupled to the TVB ecosystem. His automated pipeline directly generates the parcellated surfaces and [[structural-connectivity]] matrices that TVB requires for large-scale [[network-dynamics|network dynamics]] simulations [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]], while his multimodal datasets provide validated benchmarks for comparing simulated and empirical [[eeg]] and [[fmri]] signals against individual recordings [[raw/papers/ritter-2013.md|Ritter et al. (2013)]][[raw/papers/semanticscholar-adcab180dcd3.md|Meier et al. (2025)]]. These contributions position his work as a critical bridge between neuroimaging preprocessing and mechanistic whole-brain modeling [[raw/papers/schirner-2018.md|Schirner et al. (2018)]][[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
 
 His research intersects with the broader agendas of [[personalized-brain-modeling|personalized brain modeling]], [[connectomics]], and [[computational-neuroscience|computational neuroscience]], reflecting a sustained effort to make whole-brain simulation reproducible, scalable, and ultimately clinically actionable [[raw/papers/schirner-2018.md|Schirner et al. (2018)]][[raw/papers/ritter-2013.md|Ritter et al. (2013)]][[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
+
+## References
+
+1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+4. J. Meier, P. Triebkorn, M. Schirner, Petra Ritter. (2025). *Connectomes, simultaneous EEG-fMRI resting-state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718)

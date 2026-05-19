@@ -1,19 +1,19 @@
 ---
-title: MRtrix3
 created: 2026-05-06
-updated: 2026-05-18
-type: entity
-tags:
-  - software-brain-modeling
-  - neuroimaging-dti
-  - tractography
-  - structural-connectivity
-  - connectomics
-  - whole-brain-modeling
-  - reproducibility
 sources:
-  - raw/papers/semanticscholar-a6b8919e7fe8.md
-  - raw/papers/Renton2024.md
+- raw/papers/semanticscholar-a6b8919e7fe8.md
+- raw/papers/Renton2024.md
+tags:
+- software-brain-modeling
+- neuroimaging-dti
+- tractography
+- structural-connectivity
+- connectomics
+- whole-brain-modeling
+- reproducibility
+title: MRtrix3
+type: entity
+updated: '2026-05-19'
 ---
 
 MRtrix3 is a [[diffusion-mri]] analysis tool for [[tractography]] and [[connectome]] reconstruction. It provides command-line utilities for processing, analyzing, and visualizing diffusion-weighted imaging data to generate [[structural-connectivity]] matrices that serve as anatomical scaffolds for network neuroscience and [[whole-brain-modeling]] workflows [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Within integrated neuroimaging platforms such as [[neurodesk]], MRtrix3 is distributed alongside complementary preprocessing and statistical tools to ensure consistent tractography outputs across heterogeneous computing systems and to support end-to-end [[connectomics]] pipelines [[raw/papers/Renton2024.md|Renton et al. (2024)]].
@@ -33,3 +33,8 @@ MRtrix3 serves as a critical preprocessing component in [[the-virtual-brain]] wo
 ## Related Software
 
 Within the broader neuroimaging ecosystem, MRtrix3 functions alongside structural MRI processors such as [[freesurfer]] and functional MRI pipelines within integrated containerized distributions [[raw/papers/Renton2024.md|Renton et al. (2024)]]. Researchers may combine MRtrix3 outputs with graph-theoretic analysis platforms or import connectivity matrices into simulation environments such as [[the-virtual-brain]] or [[dipy]]-based pipelines for downstream [[network-dynamics]] modeling.
+
+## References
+
+1. Quynh Lê, Arichena Manmatharayan, Mashaal Syed, Ki-Sang Kang, Tsao‐Wei Liang, Mahdi Alizadeh, Chengyuan Wu. (2026). *Structural and Functional Connectivity in Parkinson's Disease Patients With Freezing of Gait and Other Gait Disturbances*. Clinical Neuroimaging. [DOI](https://doi.org/10.1002/neo2.70042)
+2. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

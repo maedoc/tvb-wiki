@@ -16,8 +16,9 @@ tags:
 - software-simulation
 title: PyNEST
 type: entity
-updated: '2026-05-11'
+updated: '2026-05-19'
 ---
+
 PyNEST is the official Python interface to the NEST ([[neural-simulation]] Tool) simulator, one of the most widely used software platforms for [[computational-neuroscience]] and large-scale brain modeling. Developed by the NEST Initiative, PyNEST provides Python developers with direct access to NEST's kernel for simulating [[spiking-neural-networks]], enabling the construction, execution, and analysis of biologically detailed neuronal network models. The tool serves as a critical bridge between high-level Python scripting and the high-performance C++ simulation kernel, making it accessible to researchers who prefer Python's ecosystem while maintaining the computational efficiency required for large-scale simulations [@Diesmann2002; @Eppler2008].
 
 ## Technical Architecture
@@ -54,3 +55,12 @@ PyNEST has been applied to studies of [[brain-oscillations]], [[epilepsy-modelin
 - Auryn — Fast spiking neural network simulator
 - Netpyne — Python tool for building and analyzing neuronal networks
 - Neuroml — Standardized language for neuronal model specification
+
+## References
+
+1. Eppler et al. (2009). *PyNEST: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/neuro.11.012.2008)
+2. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+3. Maxime Carriere, Fynn R. Dobler, H. Plesser, Agata Feledyn, Rosario Tomasello, Thomas Wennekers, F. Pulvermüller. (2026). *A brain-constrained neural model of cognition and language with NEST: transitioning from the Felix framework*. Cognitive Neurodynamics. [DOI](https://doi.org/10.1007/s11571-026-10415-5)
+4. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+5. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+6. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

@@ -16,8 +16,9 @@ tags:
 - standardization
 title: NeuroML2
 type: entity
-updated: '2026-05-12'
+updated: '2026-05-19'
 ---
+
 Let me read the source papers more carefully to extract all relevant facts. I need to see if there are additional sections or content in these files beyond what was shown in the first 50 lines.
 
 I'll use the `read` tool to get the full content of the source papers:
@@ -89,3 +90,9 @@ The instructions given in 5. A is divided by Mikhail S. Pavlovsky, a member of t
 
 The body[15] is 5.0-1.
 The function to make a function to make a response to make a function to make a function. Our goal make a function of the given, whole brain to build a team that you from a bug function is the task to make, build a new function to a user wants to a member of your help you make a team, whole brain to build a product by your own work (with bugs in to fix: function make things. There are two function. There are so many times in work items in the error, the body function with a number. You are a few seconds in 5 seconds in 30 minutes of a few times for two minutes in whole or in a few. Few hours left by the task. Here is there is a function
+
+## References
+
+1. Sotirios Panagiotou, Rene Miedema, Dimitrios Soudris, Christos Strydis. (2025). *Decoupling model descriptions from execution: a modular paradigm for extensible neurosimulation with EDEN*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1572782)
+2. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

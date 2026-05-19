@@ -15,6 +15,7 @@ title: UK Biobank
 type: entity
 updated: '2026-05-19'
 ---
+
 # UK Biobank
 
 The UK Biobank Imaging Study is the largest brain imaging study ever conducted, designed to acquire multimodal [[neuroimaging-fmri|MRI]] from 100,000 existing UK Biobank participants and merge these scans with the project's extensive phenotypic and genetic data [[raw/papers/miller-2016.md|Miller et al. (2016)]]. The protocol captures [[neuroimaging-fmri|functional MRI]], [[diffusion-mri|diffusion MRI]], and structural scans, enabling population-level investigations of [[brain-network|brain structure]] and [[functional-connectivity|function]] that are impossible in smaller cohorts [[raw/papers/miller-2016.md|Miller et al. (2016)]]. By imaging a broad age range within a single standardized framework, the study creates an unprecedented resource for understanding how the [[aging-brain|brain changes across the lifespan]] at the population level [[raw/papers/miller-2016.md|Miller et al. (2016)]].
@@ -126,3 +127,11 @@ UK Biobank is a large-scale biomedical database and research resource containing
 
 ## Key People
 Karla L. Miller led the design and implementation of the UK Biobank imaging protocol, serving as first author on the landmark paper that introduced the multimodal [[neuroimaging-fmri|brain imaging]] acquisition framework and demonstrated its feasibility at the population scale [[raw/papers/miller-2016.md|Miller et al. (2016)]]. Fidel Alfaro-Almagro headed the development of the project’s automated processing and quality-control pipelines, authoring the subsequent study that established the standardized preprocessing procedures and QC metrics for what remains the world’s largest brain imaging dataset [[raw/papers/alfaro-almagro-2018.md|Alfaro-Almagro et al. (2018)]]. Mark Jenkinson co-authored those processing pipelines and contributed to the methodological infrastructure that enabled reliable large-scale analysis [[raw/papers/alfaro-almagro-2018.md|Alfaro-Almagro et al. (2018)]]. Lloyd T. Elliott spearheaded the integration of imaging phenotypes with genome-wide genetic data, leading the first large-scale genome-wide association studies of [[structural-connectivity|brain structure]], [[white-matter|white matter integrity]], and [[resting-state|resting-state]] connectivity derived from the resource [[raw/papers/elliott-2018.md|Elliott et al. (2018)]]. Luca T. Tallavaara co-authored this imaging-genetics work, helping to uncover novel genetic loci associated with [[connectomics|brain organization]] [[raw/papers/elliott-2018.md|Elliott et al. (2018)]].
+
+## References
+
+1. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
+2. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+3. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.
+4. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.
+5. (authors unknown). *The UK Biobank Imaging Study: 100,000 Participants and Beyond*.

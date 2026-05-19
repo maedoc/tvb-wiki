@@ -17,6 +17,7 @@ title: FreeSurfer
 type: entity
 updated: '2026-05-19'
 ---
+
 # FreeSurfer
 
 **FreeSurfer** is a [[neuroimaging]] software suite for MRI brain image analysis and visualization. Developed at the Martinos Center for Biomedical Imaging at Massachusetts General Hospital, it specializes in cortical surface reconstruction and [[parcellation]].
@@ -63,3 +64,12 @@ FreeSurfer implements several standard parcellations:
 - [[tvb]]
 - [[petsurfer]] — imports FreeSurfer surfaces and parcellations directly
 - [[spinal-cord-toolbox]]
+
+## References
+
+1. Jacqueline Rizzo, Hope Shimony, Charles D. Chen, S. Keefe, Kristine E. Shady, R. Feldman, Jalen Scott, T. Smith, Kaitlyn Dombrowski, A. Simmons, J. Morris, David M. Holtzman, B. Gordon, T. Benzinger, Shaney Flores. (2025). *Variability in Volumetric Measures Between Different Versions of FreeSurfer*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70862_110299)
+2. (authors unknown). *CBS Tools: High-Resolution Brain Processing Tools*.
+3. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+4. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+5. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
+6. Lin Teng, Shen Zhao, Jiadong Zhang, Feng Shi, Dinggang Shen. (2026). *uBrainSurf: Unified Curvature-aware Deformation Framework for Lifespan Brain Cortical Surface Reconstruction.*. IEEE Transactions on Medical Imaging. [DOI](https://doi.org/10.1109/TMI.2026.3672432)

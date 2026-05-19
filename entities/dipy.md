@@ -1,10 +1,17 @@
 ---
-title: DIPY
 created: 2026-01-08
-updated: 2026-05-19
+sources:
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/semanticscholar-dbcf1892f89e.md
+tags:
+- software-brain-modeling
+- diffusion-imaging
+- tractography
+- structural-connectivity
+- connectomics
+title: DIPY
 type: entity
-tags: [software-brain-modeling, diffusion-imaging, tractography, structural-connectivity, connectomics]
-sources: [raw/papers/semanticscholar-380768cf42a8.md, raw/papers/semanticscholar-dbcf1892f89e.md]
+updated: '2026-05-19'
 ---
 
 **DIPY** (**Di**ffusion imaging in **Py**thon) is an open-source Python library for the analysis of [[diffusion-mri]] data. It furnishes the core signal-processing and reconstruction algorithms that downstream toolboxes exploit to transform raw diffusion-weighted acquisitions into local fiber representations suitable for [[tractography]] and connectivity analysis.
@@ -28,3 +35,8 @@ DIPY functions as a critical preprocessing component in [[tvb]] connectome const
 ## Software Ecosystem
 
 DIPY occupies a central position among open-source neuroimaging tools. [[mrtrix3]] offers an alternative tractography suite with complementary algorithms, while [[fsl]] provides the BEDPOSTX/PROBTRACKX pipeline as another DTI analysis stream. [[nibabel]] handles the I/O layer for neuroimaging data formats that DIPY depends upon. For TVB-centric workflows, outputs from DIPY or DIPY-dependent toolboxes supply the anatomical [[connectivity]] matrices that constrain [[network-dynamics]] in whole-brain simulations.
+
+## References
+
+1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+2. Paul-Noel Rousseau, P.-L. Bazin, C. Steele. (2025). *Multiscale gradients of corticopontine structural connectivity*. Scientific Reports. [DOI](https://doi.org/10.1038/s41598-025-00886-7)

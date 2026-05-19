@@ -1,10 +1,25 @@
 ---
-title: CIFTI
 created: 2026-04-27
-updated: 2026-05-18
+sources:
+- raw/papers/doi-10-3389-fninf-2011-00004.md
+- raw/papers/friston-1993.md
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2603.29176.md
+tags:
+- neuroimaging-fmri
+- neuroimaging-dti
+- resting-state
+- functional-connectivity
+- structural-connectivity
+- connectomics
+- whole-brain-modeling
+- software-brain-modeling
+- database-hcp
+- reproducibility
+title: CIFTI
 type: entity
-tags: [neuroimaging-fmri, neuroimaging-dti, resting-state, functional-connectivity, structural-connectivity, connectomics, whole-brain-modeling, software-brain-modeling, database-hcp, reproducibility]
-sources: [raw/papers/doi-10-3389-fninf-2011-00004.md, raw/papers/friston-1993.md, raw/papers/sporns-tononi-kotter-2005.md, raw/papers/arxiv-2601.03796.md, raw/papers/arxiv-2603.29176.md]
+updated: '2026-05-19'
 ---
 
 CIFTI (Connectivity Informatics Technology Initiative) is a [[neuroimaging]] data format developed by the [[human-connectome-project]] to store dense whole-brain connectivity data by unifying surface-based cortical representations with volumetric subcortical structures within a single coherent anatomical framework [[raw/papers/doi-10-3389-fninf-2011-00004.md|Marcus et al. (2011)]]. The format addresses a fundamental limitation of traditional volumetric standards such as [[nifti]] by representing gray matter data as "grayordinates" — a combined set of cortical surface vertices and subcortical voxels — enabling researchers to work with complete brain coverage without reducing data to [[brain-parcellations|parcel-based]] summaries [[raw/papers/doi-10-3389-fninf-2011-00004.md|Marcus et al. (2011)]]. CIFTI files build on the NIfTI-2 header structure and support metadata that map matrix rows and columns to brainordinates, parcels, or time points in conformance with NIfTI conventions for header extensions [[raw/papers/doi-10-3389-fninf-2011-00004.md|Marcus et al. (2011)]].
@@ -26,3 +41,11 @@ In standard HCP implementations, grayordinate representations commonly encompass
 ## Relationship to TVB
 
 Dense grayordinate-level representations supply the empirical substrate for [[whole-brain-modeling]] approaches that bridge anatomical structure and functional dynamics. [[raw/papers/arxiv-2603.29176.md|Du et al. (2026)]] utilized preprocessed CIFTI data in grayordinate space from the Human Connectome Project to instantiate individualized virtual brain models for Parkinson's disease neuromodulation outcome prediction, illustrating how standardized grayordinate representations enable personalized computational neuroscience pipelines [[raw/papers/arxiv-2603.29176.md|Du et al. (2026)]]. [[raw/papers/arxiv-2601.03796.md|Gabaldon et al. (2026)]] applied numerical simulations of a whole-brain model to resting-state fMRI data converted to CIFTI surface space, demonstrating how the format's dense coordinate system supports mechanistic investigations of collective brain dynamics [[raw/papers/arxiv-2601.03796.md|Gabaldon et al. (2026)]]. By preserving complete connectivity matrices between all grayordinates rather than reducing data to parcel-based summaries, CIFTI maintains the spatial resolution necessary for constructing detailed [[connectome]]-based models that integrate [[functional-connectivity]] from [[fmri]] with [[structural-connectivity]] estimates [[raw/papers/doi-10-3389-fninf-2011-00004.md|Marcus et al. (2011)]]. Related software infrastructure includes [[connectome-workbench]] for visualization, [[ciftify]] for conversion pipelines, [[hcp-pipelines]] for standardized preprocessing, and the [[hcp-dataset]] as the primary source of CIFTI-distributed neuroimaging data, alongside dedicated toolboxes such as [[cifti-tools]].
+
+## References
+
+1. (authors unknown). *Informatics and Data Mining Tools and Strategies for the Human Connectome Project*.
+2. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+3. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+4. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)
+5. Siyuan Du, Siyi Li, Shuwei Bai, Ang Li, Haolin Li, Mingqing Xiao, Yang Pan, Dongsheng Li, Weidi Xie, Yanfeng Wang, Ya Zhang, Chencheng Zhang, Jiangchao Yao. *Predicting Neuromodulation Outcome for Parkinson's Disease with Generative Virtual Brain Model*. [Link](https://arxiv.org/abs/2603.29176)

@@ -796,3 +796,6 @@ Rewrote _preamble section of [[dynet]] with sourced prose (~170 words, single pa
 
 ## 2026-05-19
 - Improved [[brain-life]]: added missing [[reproducibility]] wikilink on first mention in Motivation and Context section per cross-linking conventions ("first mention of any concept that appears in the page inventory should be a [[wikilink]]"), increasing unique outbound wikilinks from 19 to 20, preserved ~553 words within 400–600 threshold, maintained empty sources list per no available source papers, ensured no fabricated citations, preserved all schema-taxonomy tags (software-brain-modeling, neuroimaging-fmri, neuroimaging-dti, neuroimaging-eeg, neuroimaging-meg, reproducibility, connectomics, structural-connectivity, functional-connectivity, whole-brain-modeling), synced brain-life.md, entities/brain-life.md, and docs/entities/brain-life.md copies
+
+## [2026-05-19 03:48] Improve: 2 pages improved (pynest, brain-life)
+- 2026-05-19: Updated [[palm]] _preamble section with sourced content grounded in Winkler et al. (2014).
