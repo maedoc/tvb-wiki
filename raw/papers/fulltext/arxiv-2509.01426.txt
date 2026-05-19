@@ -1,0 +1,1928 @@
+                                            DCA: Graph-Guided Deep Embedding Clustering for
+                                                            Brain Atlases
+
+
+                                                               Mo WANG∗                                  Kaining PENG∗             Jingsheng TANG∗
+                                                      SUSTech & University of Warwick                      SUSTech                     SUSTech
+arXiv:2509.01426v2 [q-bio.NC] 20 Sep 2025
+
+
+
+
+                                                                    Hongkai WEN†                                     Quanying LIU†
+                                                                 University of Warwick                                 SUSTech
+                                                             hongkai.wen@warwick.ac.uk                           liuqy@sustech.edu.cn
+
+
+
+                                                                                            Abstract
+                                                         Brain atlases are essential for reducing the dimensionality of neuroimaging data
+                                                         and enabling interpretable analysis. However, most existing atlases are predefined,
+                                                         group-level templates with limited flexibility and resolution. We present Deep
+                                                         Cluster Atlas (DCA), a graph-guided deep embedding clustering framework for gen-
+                                                         erating individualized, voxel-wise brain parcellations. DCA combines a pretrained
+                                                         autoencoder with spatially regularized deep clustering to produce functionally co-
+                                                         herent and spatially contiguous regions. Our method supports flexible control over
+                                                         resolution and anatomical scope, and generalizes to arbitrary brain structures. We
+                                                         further introduce a standardized benchmarking platform for atlas evaluation, using
+                                                         multiple large-scale fMRI datasets. Across multiple datasets and scales, DCA out-
+                                                         performs state-of-the-art atlases, improving functional homogeneity by 98.8% and
+                                                         silhouette coefficient by 29%, and achieves superior performance in downstream
+                                                         tasks such as autism diagnosis and cognitive decoding. We also observe that a
+                                                         fine-tuned pretrained model achieves superior results on corresponding task. Codes
+                                                         and models are available at https://github.com/ncclab-sustech/DCA.
+
+
+                                            1       Introduction                                              Traditional method
+
+
+                                                                                               fMRI
+
+                                            Brain atlases, as predefined parcella-                               Surface origin
+                                                                                                                                   Average FC
+                                                                                                                                                      surface-level
+                                            tions that group voxel-wise fMRI sig-                                   signals                            group atlas
+                                                                                           Sub 01
+
+                                            nals into regions, are essential tools for                        Ours
+                                            reducing data dimensionality and im-
+                                                                                           Sub 02                                        Sub 01
+                                            proving interpretability in neuroimaging
+                                                                                                   ···
+
+
+
+
+                                            studies. Over the decades, hundreds of                             𝒇(∙)                      Sub 02
+                                                                                                                                                  &
+                                                                                                                                         ···
+
+
+
+
+                                            atlases have been proposed, based on
+                                                                                                                                         Sub N
+                                            anatomical [1, 2, 3], functional [4, 5, 6],    Sub N
+                                                                                                                  Voxel-level      personalized       Voxel-level
+                                            and cytoarchitectonic [7] criteria. These                            embeddings          atlases          group atlas
+                                            atlases vary widely in spatial resolution
+                                            (from fewer than 10 to over 1000 re-
+                                            gions) and anatomical coverage (e.g.,         Figure 1: Motivation. (top) Traditional atlases cluster
+                                            cortical vs. subcortical), and have be-       coarse, group-averaged functional connectivity (FC), lim-
+                                            come foundational resources in neuro-         iting resolution and individual specificity. (bottom) DCA
+                                            science.                                      learns voxel-wise embeddings for personalized parcella-
+                                                ∗
+                                                    Equal contribution                    tions, enabling flexible, high-resolution group atlases.
+                                                †
+                                                    Corresponding author
+
+
+                                            39th Conference on Neural Information Processing Systems (NeurIPS 2025).
+Despite their ubiquity, existing brain atlases suffer from several key limitations that hinder their
+adaptability and performance in data-driven analysis pipelines. Most atlases are built on cortical
+surfaces, neglecting subcortical and white-matter structures. However, growing evidence suggests
+that large-scale brain function emerges from interactions across the whole brain, motivating the
+need for voxel-based, full-brain parcellations (Fig.1). Atlas granularity is often fixed and predefined,
+forcing users to compromise between anatomical coverage and resolution. For example, the cortical
+mask in Yeo[1] spans 33k voxels per hemisphere, whereas MMP[8] covers 58k—despite nominally
+referring to similar regions. A more flexible framework should support arbitrary region-of-interest
+(ROI) selection and user-specified parcel counts. In addition, most atlases are constructed as group-
+level templates derived from averaged data or majority vote, which, while generalizable, overlook
+substantial inter-individual variability in brain function and structure. Recent studies have emphasized
+the value of subject-specific models in enhancing reproducibility and precision [9].
+Clustering is a cornerstone of brain atlas construction, but off-the-shelf algorithms—such as K-
+Means [10], hierarchical clustering [11], and vanilla spectral methods [12]—are ill-suited to the
+characteristics of fMRI data. First, the inherently low signal-to-noise ratio of fMRI hampers these
+methods’ ability to recover clear boundaries as the number of parcels grows. Second, even a gray-
+matter mask may contain tens of thousands of voxels, making the computation and storage of a full
+functional-connectivity matrix prohibitive. Finally, standard clustering optimizes only functional
+similarity and lacks any notion of spatial continuity, yielding fragmented or anatomically implausible
+parcels. Although one can incorporate distance-based penalties to encourage spatial contiguity, such
+strategies demand careful tuning lest they compromise the atlas’s functional coherence.
+To overcome these limitations, we introduce Deep Cluster Atlas (DCA), a graph-guided deep em-
+bedding clustering framework for constructing both individualized and group-level voxel-wise brain
+parcellations (Fig. 1). DCA leverages a pretrained Swin-UNETR encoder to extract spatiotemporal
+embeddings from fMRI data and employs a spatially-regularized deep clustering module guided by
+a voxel-wise k-nearest-neighbor (KNN) graph. This design ensures that resulting parcels are not
+only functionally coherent in embedding space but also anatomically contiguous in voxel space. To
+systematically assess performance, we introduce a benchmarking platform (Table 8) that evaluates
+any input atlas using standardized internal metrics (e.g., homogeneity, silhouette coefficient) and
+external metrics from downstream tasks (e.g., autism diagnosis, cognitive state decoding). Across
+datasets and resolutions, DCA achieves 98.8% improvement in homogeneity and 29% in silhouette
+coefficient over existing atlases, while outperforming them in multiple classification tasks.
+Our key contributions are:
+
+       • We propose a scalable deep clustering framework that integrates Swin-UNETR embeddings
+         and spatial graph regularization to generate voxel-wise brain atlases.
+       • DCA enables flexible control over parcellation granularity and anatomical scope, supporting
+         both personalized and group-level atlas construction.
+       • We release a standardized benchmarking platform to evaluate atlas quality via internal
+         metrics and downstream tasks such as cognitive task decoding and disease diagnosis.
+
+2   Related work
+MRI based brain atlas Atlas generation based on magnetic resonance imaging (MRI) is the pre-
+dominant approach for constructing parcellations. Widely adopted algorithms include k-means [10],
+hierarchical clustering [11], spectral clustering [12], community detection [13], normalized cuts [14],
+and statistical learning methods[15]. These techniques aim to maximize within-parcel homogeneity
+and minimize between-parcel similarity. However, functionally similar voxels are not always spatially
+contiguous, so enforcing spatial coherence remains challenging. To address this, spatial regularization
+strategies—such as Markov random field priors [2], spatially weighted clustering [14], and deep
+Boltzmann machine frameworks [15]—have been introduced to ensure that resulting parcels are both
+functionally coherent and anatomically contiguous.
+
+Deep clustering Traditional clustering methods measure similarity directly in the original data
+space, and even when manifold-based techniques are employed, feature extraction and clustering
+remain two disjointed stages[16, 17, 18, 19]. Deep clustering, by contrast, integrates these steps. It
+
+
+                                                   2
+A. Group Pretraining on voxel-level fMRI
+
+
+             …
+
+      1000 subjects                masked fMRI               autoencoder              reconstructed
+
+B. Personalized Clustering with Spatial Constraints
+                                                  embedded point                 soft assignment
+                                                        ��
+
+                                                                                                 ℒ��
+
+individual fMRI
+                                    embeddings           learnable centroids      auxiliary target
+
+
+
+
+  vertex of graph guide          update edge weights          graph cut            personalized atlas
+
+
+Figure 2: (A) Self-supervised pretraining of Swin-UNETR on group fMRI data: 80% of each volume
+is Random continuous masked in space and time and reconstructed across 1,000 resting-state trials.
+Fire icon denotes trainable encoder–decoder weights. (B) Personalized atlas generation at voxel
+resolution. Individual fMRI volumes are passed through a pretrained encoder to extract both local
+and global embeddings. Each voxel (red cube) is softly assigned to one of K learnable centroids
+by measuring its distance to every centroid (top row). Simultaneously, a given ROI mask defines
+the nodes of a 26-neighborhood graph, whose edge weights are set to the cosine similarity between
+adjacent embeddings. Sparse spectral clustering on this graph produces hard auxiliary labels (bottom
+row). A KL-divergence loss then aligns the soft assignments with these auxiliary targets, updating
+both the centroids and the encoder’s final projection layer. By iterating between refining embeddings,
+re-weighting graph edges, and updating cluster centers, the method converges to spatially contiguous,
+functionally coherent parcellations.
+
+
+jointly refines encoder parameters and cluster centers through an auxiliary target distribution derived
+from the current soft assignments [20, 21]. Beyond its success in image clustering, deep clustering
+has proven effective for time-series segmentation [22], cell detection [23], and disease discovery [24].
+When constructing a brain atlas, both functional similarity and spatial continuity must be preserved.
+In our framework, each voxel of a single subject serves as an individual sample for deep clustering,
+and we incorporate a graph-guided spatial prior to ensure contiguous parcels. To our knowledge, this
+is the first use of deep clustering for generating a fully continuous, voxel-level brain atlas.
+
+Brain segmentation To some extent, brain atlas construction shares conceptual similarities with
+semantic segmentation of brain [25, 26, 27], as both aim to partition the brain into meaningful
+regions. However, key differences distinguish the two tasks. First, they differ in granularity and
+objective: brain segmentation typically categorizes voxels based on tissue types—such as whole
+tumor, tumor core, and enhancing tumor—whereas brain atlases delineate functionally relevant areas,
+such as precental gyrus, thalamus, hippocampus. Second, semantic segmentation is generally a
+supervised learning task with well-defined ground truth labels, while atlas construction is inherently
+unsupervised and must be evaluated using more complex criteria, such as functional or structural
+homogeneity. Although segmentation techniques have been employed to map existing atlases, they
+rely heavily on predefined templates and primarily serve to replicate rather than discover novel
+parcellations. For example, DDparcel assigns voxel-wise labels for 101 anatomical regions based on
+the Desikan–Killiany atlas, effectively reconstructing rather than redefining an atlas [28].
+
+
+                                                   3
+3     Methods
+3.1   Data and preprocessing
+
+Atlas construction data We use resting-state fMRI data from 1000 subjects in the Human Con-
+nectome Project (HCP) [29] for atlas construction. All data were processed using the HCP minimal
+preprocessing pipeline [30], which includes gradient distortion correction, motion correction, EPI
+distortion correction, registration to T1-weighted images, and spatial normalization to MNI152 space.
+The preprocessed volumetric images were resampled to 2 mm isotropic resolution. To improve signal
+quality and spatial coherence, we applied spatial smoothing using AFNI’s 3dBlurToFWHM [31],
+targeting a 3 mm FWHM. The ablation study on smoothing levels is provided in Appendix.
+
+Downstream task data For downstream evaluation, we use three public datasets: HCP, ABIDE
+[32], and ADNI [33]. HCP provides both resting-state and task-based fMRI data, preprocessed using
+the minimal preprocessing pipeline. ABIDE data come from the ABIDE I dataset, using the version
+preprocessed by the Preprocessed Connectomes Project (PCP) [34]. ADNI resting-state fMRI is
+processed using the DPABI toolbox [35], including removal of the first 10 volumes, slice timing
+correction, spatial normalization to the MNI152 space, smoothing with a 4 mm FWHM Gaussian
+kernel, linear detrending, and nuisance signal regression.
+
+3.2   Personalized atlas generation
+
+We introduce DCA (Deep Clustering Atlas), a self-supervised framework that turns a pretrained 4D
+encoder into a spatially consistent whole-brain fMRI parcellator (Fig. 2). Firstly, we pretrain a Swin-
+UNETR autoencoder on masked 4D fMRI blocks (80% spatiotemporal masking), reconstructing
+the missing voxels. The encoder preserves the full spatial dimensions (H × W × D), producing
+voxel-level embeddings that capture both local and global context (Fig. 2A). The region of interest
+is defined by any ROI mask. From these embeddings belong to the mask, we maintain K cluster
+centroids. Each voxel’s embedding is converted into a soft assignment by measuring its distance
+to every centroid (top row, Fig. 2B). In parallel, we build a 26-nearest-neighbour graph over the
+ROI masked voxels, weighting edges by pairwise embedding correlations. A graph-cut then yields
+hard auxiliary targets that enforce spatial contiguity (bottom row, Fig. 2B). Finally, we minimize
+the KL divergence between the soft assignments and these hard targets, backpropagating through
+both the encoder’s final layers and the centroids. By alternating between updating embeddings
+and regenerating auxiliary targets, DCA converges to a voxel-level atlas that is both functionally
+meaningful and spatially contiguous.
+
+Voxel-level 4D fMRI pre-train To extract meaningful features from high-dimensional fMRI
+data, we adopt Swin-UNETR as the backbone for pretraining[26](Fig. 2A). Swin-UNETR is built
+upon the Swin Transformer architecture, which introduces a hierarchical structure with shifted
+windows to compute self-attention in a local and spatially-aware manner[36]. Unlike standard Vision
+Transformers (ViT) that operate on flattened global patches and often ignore local continuity[37],
+Swin Transformers preserve spatial hierarchies and are thus better suited for voxel-level modeling
+in neuroimaging. This property is particularly advantageous for fMRI, where fine-grained spatial
+relationships between voxels are critical.
+We perform self-supervised pretraining using a masked reconstruction objective. During pretraining,
+we randomly mask out contiguous blocks in both space and time. Specifically, we divide the fMRI
+volume into non-overlapping spatiotemporal patches and then zero out 80% of those patches along
+the chosen spatial or temporal axis (more details in Appendix). By forcing the encoder to reconstruct
+missing segments using information from the surrounding unmasked regions, the model learns
+representations that capture both local detail and long-range dependencies across space and time.
+Using Swin-UNETR’s encoder-decoder structure in this masked auto-encoding framework, we obtain
+strong voxel-wise embeddings that serve as the foundation for subsequent clustering and parcellation.
+
+Learnable cluster centres. Let M ∈ {0, 1}H×W ×D be a binary mask defining the region of
+interest, and let V = {i | Mi = 1} index the N = |V| non-background voxels. We parameterize
+K cluster centroids as a trainable matrix {µj }K       d
+                                               j=1 ⊂ R , initialized with orthogonal rows and
+L2 –normalized so that µ µ⊤ = I. During each forward pass, we extract the non–background voxel
+
+
+                                                  4
+embeddings {zi }i∈V from the Swin-UNETR encoder, compute their Euclidean distances to all
+centroids, and convert these distances into soft assignments:
+
+                                                         e ij , qi = Pwi ,
+                                                              
+                   ∆ij = ∥zi − µj ∥2 , wij = exp − ∆                                  (1)
+                                                                      j wij
+
+      e denotes min–max normalization and qi ∈ ∆K−1 .
+where ∆
+
+Voxel graph construction. The vertex V is defined by the binary mask M . We extract embeddings
+{zi ∈ Rd }i∈V from the pretrained, fine-tunable Swin-UNETR encoder. A 26-neighbourhood graph
+G = (V, E) , which includes all voxels in a 3×3×3 cube excluding the center, is then constructed by
+linking each i ∈ V to its up to 26 spatial neighbours j ∈ V, yielding an edge-index array E ∈ N2×|E| .
+Edge weights are given by the cosine similarity of demeaned embeddings:
+                                    aij = cos(zi − z̄i , zj − z̄j ),                                  (2)
+where z̄i is the mean of zi . This produces a sparse adjacency W with |E| ≈ 26N nonzero entries.
+
+Graph spectral clustering. On the weighted graph G, we compute hard auxiliary labels p ∈
+{1, . . . , K}|V| via sparse spectral clustering. We form the unnormalized Laplacian L = D − W ,
+extract the K eigenvectors corresponding to the smallest eigenvalues of L, and finally apply K-Means
+on the resulting N × K embedding to assign each voxel i its auxiliary label pi . To preserve cluster
+identity across iterations, we realign each new pi to the previous labels via the Hungarian algorithm,
+yielding an optimal one-to-one mapping. For each iteration, given the previous labels pprev and the
+newly obtained labels pnew , we first build a cost matrix C ∈ ZK×K where
+                                        N
+                                        X                               
+                              Ci,j =          I pprev,n = i ∧ pnew,n = j ,                            (3)
+                                        n=1
+
+i.e. the number of voxels assigned to cluster i previously and cluster j now. We then solve the linear
+assignment problem
+                                                 XK
+                                          max        Ci,π(i) ,                                     (4)
+                                              π
+                                                   i=1
+
+via the Hungarian algorithm [38] on −C, which yields an optimal one-to-one mapping π :
+{1, . . . , K} → {1, . . . , K}. Finally, we relabel the new clusters p̂i according to π by p̂i = π(pi ),
+thereby preserving label correspondence with earlier iterations.
+
+Objective. Let Q ∈ (0, 1)N ×K be the soft-assignment matrix whose ith row is qi , and let
+P ∈ {0, 1}N ×K be the one-hot encoding of the aligned auxiliary labels p̂i . We optimize the
+Kullback–Leibler divergence
+                                               N K
+                                           1 XX              pij
+                             L = KL P ∥ Q =           pij log     ,                                   (5)
+                                            N i=1 j=1         qij
+
+Gradients are back-propagated only to the centroids {µj } and the final projection block of Swin-
+UNETR; all other encoder weights remain fixed. This procedure jointly refines both the encoder’s
+output and the cluster centroids to produce functionally coherent, voxel-level parcellations.
+
+Group atlas generation. To facilitate downstream use and fair comparison, we also developed a
+streamlined procedure for deriving a group-level atlas from individual parcellations. We construct
+the group-level atlas in three steps as detailed in Appendix. First, we pick K template label vectors,
+each capturing the voxel assignments of one parcel in subjects. Next, we assign every gray-matter
+voxel to the template vector with which it has the highest label similarity. Finally, to guarantee spatial
+contiguity, we keep only each parcel’s largest connected component and reassign any smaller, isolated
+regions to adjacent parcels based on local similarity. This yields K contiguous, functionally coherent
+parcels.
+
+
+                                                     5
+3.3   Atlas evaluation
+
+To comprehensively assess the quality of any candidate atlas, we provide an interactive evaluation
+playground. Each input atlas is first spatially normalized to a common template space and resampled
+to match the reference resolution. We then perform a suite of quantitative tests, including intra-cluster
+similarity metrics and performance on downstream tasks. This framework enables researchers to
+compare and validate parcellations across multiple criteria in a standardized environment.
+
+Similarity metrics To assess the quality of brain parcellations, we adopt two evaluation metrics:
+global homogeneity [39, 40] and the silhouette coefficient [41]. Global homogeneity quantifies the
+functional coherence within each brain parcel. In our implementation, we use Pearson’s correlation
+coefficient R(vi , vj ) between the functional time series of two voxels vi and vj as the similarity
+metric. The global homogeneity score W eighted_H is computed as the weighted mean within-parcel
+correlation across all K parcels, with higher values indicating more functionally homogeneous and
+coherent parcellations, mk denotes the number of voxels in corresponding parcel Pk .
+                                                                             PK
+                          1                                                       k=1 (mk H)
+                                 X
+              H=                   R(vi , vj ),              W eighted_H =        PK                     (6)
+                     mk (mk − 1)                                                   k=1 mk
+                                   i,j∈Pk
+                                     i̸=j
+
+The silhouette coefficient measures the spatial separability and internal coherence of brain parcels.
+For each voxel, we compute the average dissimilarity to all other voxels within the same parcel wi ,
+and the average dissimilarity to voxels in adjacent parcels bi . The dissimilarity between two voxels is
+defined as 1 − R. The silhouette coefficient is then obtained by weighted averaging across all parcels,
+which ranges from −1 (poor separation) to +1 (excellent separation and cohesion).
+
+          1    X                                 1       X                             bi − w i
+ wi =            1 − R(vi , vj ) ,          bi =              1 − R(vi , vj ) ,    Si =                 , (7)
+        mk − 1                                     N                                      max(wi , bi )
+                 j∈Pk                                  j∈nb(Pk )
+                  j̸=i
+
+
+Downstream tasks To assess the utility of brain atlases in functional modeling, we evaluate six
+representative downstream classification tasks spanning trait prediction, cognitive decoding, and
+clinical diagnosis. We use a linear support vector classifier (SVC) based on region-level functional
+connectivity features. Among the 12 AtlaScore benchmarks (Table 12, we selected two resting-state
+traits (gender [42], fluid intelligence [43]), two task-based decoding tasks [44], and two clinical
+diagnoses (ASD from ABIDE, AD/MCI from ADNI), while excluding tasks heavily driven by
+subcortical features (e.g., crystallized/general intelligence, age). This choice ensures a fair evaluation
+of cortex-only atlases. DCA tends to yield stronger improvements on cortex-driven tasks such
+as cognitive decoding, while gains on benchmarks relying more on subcortical features are less
+pronounced, consistent with its cortical specialization.
+
+
+4     Implementation details
+
+We pretrain our model using a masked reconstruction objective on fMRI data blocks of size 96 ×
+96 × 96 × 300, representing 3D spatial volumes with 300 temporal frames. The model is trained
+for 8 epochs on 2 NVIDIA A100 GPUs using a batch size of 4. The optimizer and learning rate are
+Adam and 0.01 respectively for both pretraining and fine-tuning. During pretraining, we adopt a
+masking ratio of 0.8, randomly masking 80% of the input in both spatial and temporal dimensions.
+The temporal length of the internal representation of Swin-UNETR is downsampled to T = 48, and
+the encoder produces a feature map of shape 96 × 96 × 96 × 256 for clustering, d is 256.
+For all downstream evaluations, we use data from three public datasets: HCP, ABIDE, and ADNI.
+All fMRI time series are masked to brain regions, detrended, and z-scored. FC matrices are computed
+using Pearson correlation between voxel-wise time series, and the upper triangular entries are
+vectorized to form feature vectors. When the feature dimension exceeds 100, we apply PCA to reduce
+it to 100 dimensions, balancing model complexity and sample size to ensure fair comparison. To test
+the efficacy of the atlas, we use a simple linear SVC for the downstream classification task.
+
+
+                                                       6
+5      Experimental results
+
+To rigorously benchmark our method, we developed a comprehensive evaluation framework that
+assesses parcellation quality via intra- and inter-region fMRI signal correlations. Next, we apply each
+group atlas to a suite of real-world downstream tasks, such as cognitive task decoding to evaluate prac-
+tical utility. We compare DCA against several widely used atlases: Yeo et al. [1] parcellates cortex into
+seven large-scale functional networks derived from resting-state connectivity. Brodmann [7] defined
+cortical areas based on cytoarchitectonic boundaries. Schaefer et al. [2] published a multi-resolution
+functional atlas (100–1000 parcels) using gradient-informed clustering of functional connectivity.
+AAL (Automated Anatomical Labeling) [4, 45] and MUSE (MUlti-atlas region Segmentation utiliz-
+ing Ensembles) [46] divide the brain into hundreds of anatomy-based regions. MMP (Multi-Modal
+Parcellation) [8] integrates structural, functional, and connectivity data to define 360 cortical areas.
+GIANT (Genetically Informed brAiN aTlas) [47] achieves brain parcellation by genetically-driven
+integration of voxel-wise heritability and spatial proximity. Additionally, the Watershed Atlas and the
+Allen Human Reference Atlas-3D, 2020, were incorporated. To study the effect of granularity, we
+further generate DCA group atlases with K ∈ {41, 100, 200, 360, 400, 500, 800} parcels constrained
+to the FreeSurfer gray-matter mask. The mask is derived from the cortical gray matter regions in
+FreeSurfer’s aparc+aseg.mgz [48] and transformed into MNI152 space. In the following sections, we
+report correlation metrics and downstream task accuracies for each atlas configuration.
+
+
+5.1     Main results
+
+Fig. 3 summarizes clustering performance for several existing atlases alongside our DCA method,
+evaluated by Homogeneity (Fig. 3B) and Silhouette Coefficient (Fig. 3C). We sample 100 subjects
+from HCP randomly. Full quantitative results are given in Table 4. As the number of parcels increases
+from 7 to 1000, both metrics rise for all methods. To ensure a fair comparison, we match each atlas to
+DCA at the similar ROI numbers. Across every evaluated resolution, DCA consistently outperforms
+the best-performing baseline atlas, yielding higher homogeneity and silhouette scores at each scale.
+For example, at 200 parcels, DCA improves Homogeneity by 77.7% and Silhouette by 19.5% over the
+Schaefer baseline. On average, across 41 to 800 parcels, DCA improves Homogeneity by 98.8% and
+Silhouette by 29%, demonstrating consistent gains in functional homogeneity and spatial separation.
+This highlights that DCA provides a more refined and effective parcellation solution across various
+atlas configurations, regardless of the cluster count.
+
+    A. Visualization of atlases                                B. Homogeneity
+                                                                  0.20
+      DCA 100       DCA 200        DCA 360        DCA 500
+                                                                  0.16
+
+                                                                  0.12
+
+                                                                  0.08
+       AAL1          AAL 2           AAL 3        DCA 800
+                                                                  0.04
+
+                                                                  0.00
+
+                                                               C. Silhouette coefficient
+                                                                  0.10
+       Yeo 7         Yeo 17       Brodmann 41     MMP 360
+                                                                  0.08
+
+                                                                  0.06
+
+                                                                  0.04
+    Schaefer 100   Schaefer 200   Schaefer 500 Schaefer 1000                          Yeo7    Yeo17   Brodmann     AAL1   AAL2     AAL3     MMP
+                                                                  0.02
+                                                                                      GIANT    Watershed   Allen     MUSE        Schaefer   DCA
+
+                                                                  0.00
+                                                                         0   100 200 300 400       600                800          1000
+                                                                                        Number of Parcels
+
+
+Figure 3: (A) Surface renderings of our DCA group parcellations alongside 12 mainstream atlases.
+(B) Homogeneity measured over 100 HCP subjects at varying numbers of parcels. (C) Silhouette
+coefficients for the same 100 HCP subjects and resolutions.
+
+
+
+                                                                   7
+5.2         Downstream tasks
+We evaluate the utility of DCA atlases on six downstream classification tasks covering behavioral
+prediction, cognitive decoding, and clinical diagnosis on the same 100 subjects as in the previous
+section (Fig. 4). Across resolutions, DCA consistently matches or outperforms the strongest baseline
+within each group. Full results, including extended benchmarks on additional tasks, are reported in
+the Appendix (Table 8).
+At low resolution, DCA100 outperforms widely used atlases such as Yeo and Brodmann, which
+exhibit lower homogeneity and reduced classification accuracy across tasks. In medium and high
+resolutions, DCA200 and DCA360 achieve top performance on cognitive decoding and autism
+diagnosis tasks, suggesting that fine-grained voxel embeddings and spatial continuity contribute to
+better functional alignment than anatomically or connectivity-derived alternatives such as AAL or
+MMP. At ultra-high resolution (500 parcels), DCA maintains strong and stable performance across
+behavioral and clinical tasks. While some atlases (e.g., Schaefer500) marginally outperform DCA on
+individual tasks, DCA exhibits more consistent generalization across domains.
+
+               Low resolution                                 Medium resolution                                    High resolution                                 Ultra-high resolution
+
+              (3)                     (2)                      (3)                  (2)                           (3)                      (2)                       (3)                      (2)
+
+
+
+                                            0.9                                           0.9                                                    0.9                                                0.9
+                                      0.6                                           0.6                                                    0.6                                                0.6
+                                0.3                                           0.3                                                    0.3                                                0.3
+                          0.0                                           0.0                                                    0.0                                                0.0
+      (4)                                         (1)   (4)                                     (1)       (4)                                          (1)   (4)                                          (1)
+
+
+
+
+              (5)                     (6)                      (5)                  (6)                           (5)                      (6)                       (5)                      (6)
+
+            Yeo 7               Yeo 17                        AAL1            AAL2                              Schaefer 300         Schaefer 400                  Schaefer 500         DCA 500
+            Brodmann 41         Schaefer 100                  AAL3            Schaefer 200                      MMP 360              DCA 360
+            DCA 100                                           DCA 200
+
+
+Figure 4: Performance of DCA and baseline atlases across different spatial resolutions on six
+downstream tasks: (1) gender prediction from resting-state FC (HCP), (2) fluid intelligence prediction
+from resting-state FC (HCP), (3) classification of 7 cognitive tasks from task-based FC (HCP), (4)
+classification of 24 cognitive tasks from task-based FC (HCP), (5) ASD vs. control classification
+from resting-state FC (ABIDE), (6) AD/MCI/CN classification from resting-state FC (ADNI). DCA
+achieves competitive or superior performance at each resolution level. Values are linearly scaled per
+task with 0 and 1 corresponding to the lowest and highest performing atlases, respectively.
+
+
+5.3         Task-specific atlas
+
+We demonstrate that our framework can be readily adapted to task-specific settings, achieving
+substantial improvements on the corresponding evaluation metrics. Specifically, we replace the
+reconstruction self-supervised Swin-UNETR with a version fine-tuned for gender classification and
+use its encoder to derive a task-specific atlas, denoted DCAgender
+                                                            100 . We then aggregate fMRI signals
+into K = 100 ROIs for N = 200 subjects drawn from the Swin-UNETR fine-tuning test split to
+avoid data leakage and evaluated using two downstream classifiers:
+
+             • a compact 1-D CNN (two convolutional layers followed by two fully-connected layers),
+             • a graph-based k-GNN (k = 2), built from functional-connectivity graphs sparsified to the
+               top 30 % of edges.
+
+Both evaluations used a 70 / 10 / 20 subject split for train/validation/test, fully disjoint from fine-
+tuning subjects to avoid leakage. Tables S1 and S2 summarise the results. The task-adapted atlas
+yields consistent gains—up to +12 % with the CNN and +10 % with the k-GNN—while preserving
+spatial continuity (Table 1 and 2).
+
+5.4         Ablation study
+
+To quantify the contribution of each component, we conducted two ablation studies on 100 random
+subjects from HCP. First, we applied (1) K-Means clustering and (2) the same graph construction and
+
+
+                                                                                                      8
+                    Table 1: CNN-based gender classification (higher is better).
+
+               Atlas                     Accuracy ↑       F1 (Macro) ↑       F1 (Weighted) ↑
+               Watershed (100)               0.73                0.73              0.73
+               Schaefer100                   0.65                0.65              0.65
+               DCA100 (group)                0.70                0.70              0.70
+               DCA100 (individual)           0.70                0.69              0.70
+               DCAgender
+                    100 (group)              0.70                0.67              0.67
+               DCAgender
+                    100  (individual)        0.82                0.82              0.82
+
+
+                   Table 2: k-GNN-based gender classification (higher is better).
+
+               Atlas                     Accuracy ↑       F1 (Macro) ↑       F1 (Weighted) ↑
+               Watershed (100)              0.600                0.596             0.596
+               Schaefer100                  0.725                0.723             0.723
+               DCA100 (group)               0.650                0.650             0.650
+               DCA100 (individual)          0.725                0.716             0.716
+               DCAgender
+                    100 (group)             0.675                0.670             0.670
+               DCAgender
+                    100  (individual)       0.825                0.825             0.825
+
+
+
+
+graph-cut pipeline from our method directly to the raw fMRI time series. This baseline highlights
+the necessity of our pretrained encoder for extracting informative features. Second, we ran both (3)
+K-Means and (4) the same graph cut pipeline on the encoded embeddings without the KL-guided
+joint optimization of encoder parameters and centroids, isolating the impact of our graph-guided deep
+clustering mechanism. In both ablations, all similarity metrics (homogeneity and silhouette) drop
+noticeably below those of (5) the full DCA model (Fig. 5 and Table 3). Moreover, K-Means fails to
+produce spatially contiguous parcels. And graph-cut improves continuity, but it still yields isolated
+regions. In contrast, DCA’s iterative KL-driven refinement—which alternates updating graph weights,
+encoder parameters, and cluster centers—produces brain atlases that are highly homogeneous. We
+also tested the model reproducibility (Table 6 and 7), the effects of the loss (Table 15 and 20, Fig. 12)
+and normalization (Table 15), the smoothing (Table 16), graph cut method (Fig. 10 and Table 17),
+gray matter region (Table 18), number of neighbors (Table 19) and centroid initialization (Table 21)
+as detailed in Appendix.
+
+
+           Homogeneity             Silhouette coefficient
+
+
+                                                                         Figure 5: Directly applying K-
+                                                                         means or graph-cut method to the
+                                                                         raw fMRI time-series or embed-
+                                                                         dings produces parcellations with
+                                                                         substantially lower homogeneity
+                                                                         and silhouette scores than our itera-
+                                                                         tively optimized method. Moreover,
+                                                                         K-means on the unprocessed sig-
+                                                                         nals cannot guarantee spatially con-
+                                                                         tiguous regions, and while graph-
+                                                                         cut method can partially enforce
+     KMeans      Graph cut   KMeans on Graph cut on
+                                                          Ours
+                                                                         contiguity, it still fails to produce
+     on fMRI      on fMRI    embeddings embeddings                       fully continuous parcels.         Our
+                                                                         method yields brain atlases that are
+                                                                         both highly homogeneous and spa-
+                                                                         tially contiguous.
+
+
+
+                                                      9
+Table 3: Evaluation for fMRI and embedding-based clustering with K-Means, Graph Cut, and DCA.
+
+                                Homogeneity↑        Silhouette↑      Connected components per parcel↓
+                  K-Means       0.0740±0.0186     0.0061±0.0045                   447.90
+       fMRI
+                  Graph Cut     0.0860±0.0201     0.0179±0.0053                    8.92
+                  K-Means       0.0790±0.0203     0.0154±0.0073                   322.32
+    Embedding
+                  Graph Cut     0.0897±0.0210     0.0208±0.0061                    4.94
+              DCA               0.1004±0.0216     0.0304±0.0068                   1.0052
+
+
+
+6   Discussion & Conclusion
+
+In this study, we presented DCA, a unified framework for generating personalized and group-level
+voxel-wise brain parcellations. By combining a pretrained fMRI encoder with spatially regularized
+deep clustering on voxel embeddings, DCA produces anatomically contiguous and functionally
+meaningful atlases that capture local and global brain dynamics.
+
+Resolution Dependence of Downstream Tasks We further examined how downstream task perfor-
+mance varies with the number of parcels. Based on these trends, tasks can be broadly grouped into
+three categories: (i) resolution-optimal tasks, which peak at intermediate resolutions, (ii) resolution-
+insensitive tasks, which remain largely stable across scales, and (iii) size-driven tasks, which mono-
+tonically track parcel granularity (Table 13). Importantly, this pattern is consistently observed for
+both DCA and Schaefer atlases (Table 14), indicating that there is no universally optimal resolution.
+Instead, the choice of parcel count should be guided by the target application. In addition, DCA offers
+the flexibility to further optimize atlases for specific tasks at a given resolution, as demonstrated in our
+task-adapted atlas experiments (Table 1 and 2). What’s more, no single atlas generalizes optimally
+across tasks—different tasks favor different parcellations [49]—so developing task-specific atlases is
+warranted.
+
+Technical Impact Clustering is a core operation in brain atlas construction, transforming high-
+dimensional neural data into interpretable regional structures. However, conventional clustering
+algorithms are ill-suited for the spatial and functional constraints of brain organization—they often
+ignore anatomical continuity, rely on coarse-grained features, and lack individual specificity. DCA
+addresses these challenges with a deep clustering pipeline built on a Swin-UNETR encoder pretrained
+for spatiotemporal representation learning. The voxel-wise embeddings are clustered using a KNN
+graph prior that enforces spatial smoothness, enabling anatomically contiguous regions that better
+reflect functional topology. A KL-divergence loss between learnable centroids and graph-induced
+pseudo-labels allows joint refinement of both the embedding space and clustering assignments.
+This design ensures that the resulting parcels are not only functionally coherent but also spatially
+contiguous—a critical requirement for valid brain parcellation. Our evaluation platform confirms
+that DCA yields superior internal consistency and downstream utility, outperforming existing atlases
+on homogeneity, silhouette coefficient, and classification tasks such as autism diagnosis and task
+decoding.
+
+Limitations and future directions Despite its strengths, DCA has several limitations. First,
+voxel-wise representation learning and clustering incur substantial memory and computational costs,
+especially at whole-brain scales. Future work may explore region-specific parcellation or sparse
+embedding schemes to reduce overhead. Second, our reliance on fixed KNN graphs to enforce spatial
+continuity may inadvertently attenuate long-range functional relationships, which may suppress
+long-range functional relationships. Integrating adaptive or learned graphs could help balance spatial
+continuity with network-level functional coherence. Lastly, the current pipeline uses only single-
+modality fMRI data. Incorporating structural and diffusion imaging, or even electrophysiological
+data (e.g. sEEG), could further enhance the biological fidelity of parcellations [50, 8].Meanwhile,
+traditional atlas construction methods struggle to reconcile conflicting signals across modalities [51],
+motivating the development of a multimodal deep-clustering framework as a promising avenue for
+building richer, functionally and structurally grounded brain atlases.
+
+
+                                                    10
+References
+ [1] BT Thomas Yeo, Fenna M Krienen, Jorge Sepulcre, Mert R Sabuncu, Danial Lashkari, Marisa
+     Hollinshead, Joshua L Roffman, Jordan W Smoller, Lilla Zöllei, Jonathan R Polimeni, et al.
+     The organization of the human cerebral cortex estimated by intrinsic functional connectivity.
+     Journal of neurophysiology, 2011.
+ [2] Alexander Schaefer, Ru Kong, Evan M Gordon, Timothy O Laumann, Xi-Nian Zuo, Avram J
+     Holmes, Simon B Eickhoff, and BT Thomas Yeo. Local-global parcellation of the human
+     cerebral cortex from intrinsic functional connectivity mri. Cerebral cortex, 28(9):3095–3114,
+     2018.
+ [3] Xilin Shen, Fuyuze Tokoglu, Xenios Papademetris, and R Todd Constable. Groupwise whole-
+     brain parcellation from resting-state fmri data for network node identification. Neuroimage,
+     82:403–415, 2013.
+ [4] Nathalie Tzourio-Mazoyer, Brigitte Landeau, Dimitri Papathanassiou, Fabrice Crivello, Octave
+     Etard, Nicolas Delcroix, Bernard Mazoyer, and Marc Joliot. Automated anatomical labeling of
+     activations in spm using a macroscopic anatomical parcellation of the mni mri single-subject
+     brain. Neuroimage, 15(1):273–289, 2002.
+ [5] Rahul S Desikan, Florent Ségonne, Bruce Fischl, Brian T Quinn, Bradford C Dickerson,
+     Deborah Blacker, Randy L Buckner, Anders M Dale, R Paul Maguire, Bradley T Hyman, et al.
+     An automated labeling system for subdividing the human cerebral cortex on mri scans into gyral
+     based regions of interest. Neuroimage, 31(3):968–980, 2006.
+ [6] Bruce Fischl, André Van Der Kouwe, Christophe Destrieux, Eric Halgren, Florent Ségonne,
+     David H Salat, Evelina Busa, Larry J Seidman, Jill Goldstein, David Kennedy, et al. Automati-
+     cally parcellating the human cerebral cortex. Cerebral cortex, 14(1):11–22, 2004.
+ [7] Korbinian Brodmann. Vergleichende Lokalisationslehre der Grosshirnrinde in ihren Prinzipien
+     dargestellt auf Grund des Zellenbaues. Barth, 1909.
+ [8] Matthew F Glasser, Timothy S Coalson, Emma C Robinson, Carl D Hacker, John Harwell, Essa
+     Yacoub, Kamil Ugurbil, Jesper Andersson, Christian F Beckmann, Mark Jenkinson, et al. A
+     multi-modal parcellation of human cerebral cortex. Nature, 536(7615):171–178, 2016.
+ [9] Scott Marek, Brenden Tervo-Clemmens, Finnegan J Calabro, David F Montez, Benjamin P
+     Kay, Alexander S Hatoum, Meghan Rose Donohue, William Foran, Ryland L Miller, Timothy J
+     Hendrickson, et al. Reproducible brain-wide association studies require thousands of individuals.
+     Nature, 603(7902):654–660, 2022.
+[10] Lune P Bellec, Pedro Rosa-Neto, Oliver C. Lyttelton, Habib Benali, and Alan C. Evans. Multi-
+     level bootstrap analysis of stable clusters in resting-state fmri. NeuroImage, 51:1126–1139,
+     2009.
+[11] Daniel J Felleman and David C Van Essen. Distributed hierarchical processing in the primate
+     cerebral cortex. Cerebral cortex (New York, NY: 1991), 1(1):1–47, 1991.
+[12] Salim Arslan, Sarah Parisot, and Daniel Rueckert. Joint spectral decomposition for the parcel-
+     lation of the human cerebral cortex using resting-state fmri. In International Conference on
+     Information Processing in Medical Imaging, pages 85–97. Springer, 2015.
+[13] Evan M Gordon, Timothy O Laumann, Babatunde Adeyemo, Adrian W Gilmore, Steven M
+     Nelson, Nico UF Dosenbach, and Steven E Petersen. Individual-specific features of brain
+     systems identified with resting state functional correlations. Neuroimage, 146:918–939, 2017.
+[14] Richard Cameron Craddock, George Andrew James, Paul E. Holtzheimer, Xiaoping Hu, and
+     Helen S. Mayberg. A whole brain fmri atlas generated via spatially constrained spectral
+     clustering. Human Brain Mapping, 33, 2012.
+[15] Da Zhi, Ladan Shahshahani, Caroline Nettekoven, Ana Luísa Pinho, Danilo Bzdok, and Jörn
+     Diedrichsen. A hierarchical bayesian brain parcellation framework for fusion of functional
+     imaging datasets. bioRxiv, 2023.
+
+
+                                                 11
+[16] Pang-Ning Tan, Michael Steinbach, and Vipin Kumar. Introduction to data mining. Pearson
+     Education India, 2016.
+[17] Stephen C Johnson. Hierarchical clustering schemes. Psychometrika, 32(3):241–254, 1967.
+[18] Ulrike Von Luxburg. A tutorial on spectral clustering. Statistics and computing, 17:395–416,
+     2007.
+[19] Santo Fortunato and Darko Hric. Community detection in networks: A user guide. Physics
+     reports, 659:1–44, 2016.
+[20] Junyuan Xie, Ross B. Girshick, and Ali Farhadi. Unsupervised deep embedding for clustering
+     analysis. ArXiv, abs/1511.06335, 2015.
+[21] Jinyu Cai, Jicong Fan, Wenzhong Guo, Shiping Wang, Yunhe Zhang, and Zhao Zhang. Efficient
+     deep embedded subspace clustering. 2022 IEEE/CVF Conference on Computer Vision and
+     Pattern Recognition (CVPR), pages 21–30, 2022.
+[22] Sangho Lee, Chihyeon Choi, and Youngdoo Son. Deep time-series clustering via latent
+     representation alignment. Knowl. Based Syst., 303:112434, 2024.
+[23] Shahira Abousamra, David Belinsky, John S. Van Arnam, Felicia D. Allard, Eric Yee, Rajarsi R.
+     Gupta, Tahsin M. Kurç, Dimitris Samaras, Joel H. Saltz, and Chao Chen. Multi-class cell
+     detection using spatial context representation. 2021 IEEE/CVF International Conference on
+     Computer Vision (ICCV), pages 3985–3994, 2021.
+[24] Zhijian Yang, Junhao Wen, Ahmed Abdulkadir, Yuhan Cui, Guray Erus, Elizabeth Mamourian,
+     Randa Melhem, Dhivya Srinivasan, Sindhuja Tirumalai Govindarajan, Jiong Chen, Mohamad
+     Habes, Colin L. Masters, Paul Maruff, Jurgen Fripp, Luigi Ferrucci, Marilyn S. Albert, Ster-
+     ling C. Johnson, John C. Morris, Pamela J. LaMontagne, Daniel S. Marcus, Tammie L.-S.
+     Benzinger, David A. Wolk, Li Shen, Jingxuan Bao, Susan M Resnick, Haochang Shou, Ilya M.
+     Nasrallah, and Christos Davatzikos. Gene-sgan: discovering disease subtypes with imaging and
+     genetic signatures via multi-view weakly-supervised deep clustering. Nature Communications,
+     15, 2024.
+[25] Abdelrahman M. Shaker, Muhammad Maaz, Hanoona Abdul Rasheed, Salman H. Khan, Ming
+     Yang, and Fahad Shahbaz Khan. Unetr++: Delving into efficient and accurate 3d medical image
+     segmentation. IEEE Transactions on Medical Imaging, 43:3377–3390, 2022.
+[26] Ali Hatamizadeh, Vishwesh Nath, Yucheng Tang, Dong Yang, Holger R Roth, and Daguang Xu.
+     Swin unetr: Swin transformers for semantic segmentation of brain tumors in mri images. In
+     International MICCAI brainlesion workshop, pages 272–284. Springer, 2021.
+[27] Yan Pang, Jiaming Liang, Teng Huang, Hao Chen, Yunhao Li, Dan Li, Lin Huang, and Qiong
+     Wang. Slim unetr: Scale hybrid transformers to efficient 3d medical image segmentation under
+     limited computational resources. IEEE Transactions on Medical Imaging, 43:994–1005, 2023.
+[28] Fan Zhang, Kang Ik K Cho, Johanna Seitz-Holland, Lipeng Ning, Jon Haitz Legarreta, Yogesh
+     Rathi, Carl-Fredrik Westin, Lauren J. O’Donnell, and Ofer Pasternak. Ddparcel: Deep learning
+     anatomical brain parcellation from diffusion mri. IEEE Transactions on Medical Imaging,
+     43:1191–1202, 2023.
+[29] David C Van Essen, Stephen M Smith, Deanna M Barch, Timothy EJ Behrens, Essa Yacoub,
+     Kamil Ugurbil, Wu-Minn HCP Consortium, et al. The wu-minn human connectome project: an
+     overview. Neuroimage, 80:62–79, 2013.
+[30] Matthew F Glasser, Stamatios N Sotiropoulos, J Anthony Wilson, Timothy S Coalson, Bruce
+     Fischl, Jesper L Andersson, Junqian Xu, Saad Jbabdi, Matthew Webster, Jonathan R Polimeni,
+     et al. The minimal preprocessing pipelines for the human connectome project. Neuroimage,
+     80:105–124, 2013.
+[31] Robert W Cox. Afni: software for analysis and visualization of functional magnetic resonance
+     neuroimages. Computers and Biomedical research, 29(3):162–173, 1996.
+
+
+                                               12
+[32] Adriana Di Martino, Chao-Gan Yan, Qingyang Li, Erin Denio, Francisco X Castellanos, Kaat
+     Alaerts, Jeffrey S Anderson, Michal Assaf, Susan Y Bookheimer, Mirella Dapretto, et al. The
+     autism brain imaging data exchange: towards a large-scale evaluation of the intrinsic brain
+     architecture in autism. Molecular psychiatry, 19(6):659–667, 2014.
+
+[33] Clifford R Jack Jr, Matt A Bernstein, Nick C Fox, Paul Thompson, Gene Alexander, Danielle
+     Harvey, Bret Borowski, Paula J Britson, Jennifer L. Whitwell, Chadwick Ward, et al. The
+     alzheimer’s disease neuroimaging initiative (adni): Mri methods. Journal of Magnetic Reso-
+     nance Imaging: An Official Journal of the International Society for Magnetic Resonance in
+     Medicine, 27(4):685–691, 2008.
+
+[34] Cameron Craddock, Yassine Benhajali, Carlton Chu, Francois Chouinard, Alan Evans, András
+     Jakab, Budhachandra Singh Khundrakpam, John David Lewis, Qingyang Li, Michael Milham,
+     et al. The neuro bureau preprocessing initiative: open sharing of preprocessed neuroimaging
+     data and derivatives. Frontiers in Neuroinformatics, 7(27):5, 2013.
+
+[35] Chao-Gan Yan, Xin-Di Wang, Xi-Nian Zuo, and Yu-Feng Zang. Dpabi: data processing &
+     analysis for (resting-state) brain imaging. Neuroinformatics, 14:339–351, 2016.
+
+[36] Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin, and Baining
+     Guo. Swin transformer: Hierarchical vision transformer using shifted windows. In Proceedings
+     of the IEEE/CVF international conference on computer vision, pages 10012–10022, 2021.
+
+[37] Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai,
+     Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, et al.
+     An image is worth 16x16 words: Transformers for image recognition at scale. arXiv preprint
+     arXiv:2010.11929, 2020.
+
+[38] Harold W Kuhn. The hungarian method for the assignment problem. Naval research logistics
+     quarterly, 2(1-2):83–97, 1955.
+
+[39] R Cameron Craddock, G Andrew James, Paul E Holtzheimer III, Xiaoping P Hu, and Helen S
+     Mayberg. A whole brain fmri atlas generated via spatially constrained spectral clustering.
+     Human brain mapping, 33(8):1914–1928, 2012.
+
+[40] Evan M Gordon, Timothy O Laumann, Babatunde Adeyemo, Jeremy F Huckins, William M
+     Kelley, and Steven E Petersen. Generation and evaluation of a cortical area parcellation from
+     resting-state correlations. Cerebral cortex, 26(1):288–303, 2016.
+
+[41] Peter J Rousseeuw. Silhouettes: a graphical aid to the interpretation and validation of cluster
+     analysis. Journal of computational and applied mathematics, 20:53–65, 1987.
+
+[42] Gengyan Zhao, Gyujoon Hwang, Cole J Cook, Fang Liu, Mary E Meyerand, and Rasmus M
+     Birn. Deep learning and bayesian deep learning based gender prediction in multi-scale brain
+     functional connectivity. arXiv preprint arXiv:2005.08431, 2020.
+
+[43] Bishal Thapaliya, Esra Akbas, Jiayu Chen, Ram Sapkota, Bhaskar Ray, Pranav Suresh, Vince D
+     Calhoun, and Jingyu Liu. Brain networks and intelligence: A graph neural network based
+     approach to resting state fmri data. Medical Image Analysis, 101:103433, 2025.
+
+[44] Maham Saeidi, Waldemar Karwowski, Farzad V Farahani, Krzysztof Fiok, PA Hancock, Ben D
+     Sawyer, Leonardo Christov-Moore, and Pamela K Douglas. Decoding task-based fmri data with
+     graph neural networks, considering individual differences. Brain Sciences, 12(8):1094, 2022.
+
+[45] Edmund T Rolls, Chu-Chung Huang, Ching-Po Lin, Jianfeng Feng, and Marc Joliot. Automated
+     anatomical labelling atlas 3. Neuroimage, 206:116189, 2020.
+
+[46] Jimit Doshi, Guray Erus, Yangming Ou, Susan M Resnick, Ruben C Gur, Raquel E Gur,
+     Theodore D Satterthwaite, Susan Furth, Christos Davatzikos, Alzheimer’s Neuroimaging Initia-
+     tive, et al. Muse: Multi-atlas region segmentation utilizing ensembles of registration algorithms
+     and parameters, and locally optimal atlas selection. Neuroimage, 127:186–195, 2016.
+
+
+                                                 13
+[47] Jingxuan Bao, Junhao Wen, Changgee Chang, Shizhuo Mu, Jiong Chen, Manu Shivakumar,
+     Yuhan Cui, Guray Erus, Zhijian Yang, Shu Yang, et al. A genetically informed brain atlas for
+     enhancing brain imaging genomics. Nature Communications, 16(1):3524, 2025.
+[48] Bruce Fischl. Freesurfer. Neuroimage, 62(2):774–781, 2012.
+[49] Mehraveh Salehi, Abigail S Greene, Amin Karbasi, Xilin Shen, Dustin Scheinost, and R Todd
+     Constable. There is no single functional atlas even for a single individual: Functional parcel
+     definitions change with task. NeuroImage, 208:116366, 2020.
+[50] Da Zhi, Maedbh King, Carlos R Hernandez-Castillo, and Jörn Diedrichsen. Evaluating brain
+     parcellations using the distance-controlled boundary coefficient. Human Brain Mapping,
+     43(12):3706–3720, 2022.
+[51] Xiaoxuan Yan, Ru Kong, Aihuiping Xue, Qing Yang, Csaba Orban, Lijun An, Avram J Holmes,
+     Xing Qian, Jianzhong Chen, Xi-Nian Zuo, et al. Homotopic local-global parcellation of the
+     human cerebral cortex from resting-state functional connectivity. NeuroImage, 273:120010,
+     2023.
+[52] Jianqiao Ge, Guoyuan Yang, Meizhen Han, Sizhong Zhou, Weiwei Men, Lang Qin, Bingjiang
+     Lyu, Hai Li, Haobo Wang, Hengyi Rao, et al. Increasing diversity in connectomics with the
+     chinese human connectome project. Nature Neuroscience, 26(1):163–172, 2023.
+[53] David C Van Essen, Matthew F Glasser, Donna L Dierker, John Harwell, and Timothy Coalson.
+     Parcellations and hemispheric asymmetries of human cerebral cortex analyzed on surface-based
+     atlases. Cerebral cortex, 22(10):2241–2262, 2012.
+[54] Stephanie Noble, Marisa N Spann, Fuyuze Tokoglu, Xilin Shen, R Todd Constable, and
+     Dustin Scheinost. Influences on the test–retest reliability of functional connectivity mri and its
+     relationship with behavioral utility. Cerebral cortex, 27(11):5415–5429, 2017.
+[55] Emily S Finn, Xilin Shen, Dustin Scheinost, Monica D Rosenberg, Jessica Huang, Marvin M
+     Chun, Xenophon Papademetris, and R Todd Constable. Functional connectome fingerprinting:
+     identifying individuals using patterns of brain connectivity. Nature neuroscience, 18(11):1664–
+     1671, 2015.
+[56] Anwar Said, Roza Bayrak, Tyler Derr, Mudassir Shabbir, Daniel Moyer, Catie Chang, and Xeno-
+     fon Koutsoukos. Neurograph: Benchmarks for graph machine learning in brain connectomics.
+     Advances in Neural Information Processing Systems, 36:6509–6531, 2023.
+[57] Zhenda Xie, Zheng Zhang, Yue Cao, Yutong Lin, Jianmin Bao, Zhuliang Yao, Qi Dai, and Han
+     Hu. Simmim: a simple framework for masked image modeling. 2022 IEEE/CVF Conference
+     on Computer Vision and Pattern Recognition (CVPR), pages 9643–9653, 2021.
+[58] Peter Kim, Junbeom Kwon, Sunghwan Joo, Sangyoon Bae, Donggyu Lee, Yoonho Jung, Shinjae
+     Yoo, Jiook Cha, and Taesup Moon. Swift: Swin 4d fmri transformer. Advances in Neural
+     Information Processing Systems, 36:42015–42037, 2023.
+
+
+
+
+                                                  14
+Appendix
+
+7       Evaluation of similarity metrics
+We evaluated several atlases—including Yeo, Brodmann, GIANT, Watershed, Schaefer, AAL, Allen,
+MUSE, and MMP—with parcel counts ranging from 7 to 1000, using both homogeneity and the
+silhouette coefficient as evaluation metrics (Table 4).
+
+Table 4: Evaluation of similarity metrics against DCA and other atlases. Values are shown as mean ±
+standard deviation.
+                  Atlas
+                                   Yeo              Brodmann     DCA(ours)       GIANT          Schaefer      Watershed     DCA(ours)                    AAL               Allen     MUSE       AAL
+     Metrics
+                             7           17            41            41               50           100             100             100             116          120           141      149       166
+                           0.0329     0.0392         0.0251        0.0892        0.0148          0.0527         0.0143           0.1004           0.0324     0.0326       0.0230     0.0208    0.0335
+      Homogeneity ↑        ±0.0174    ±0.0186        ±0.0120       ±0.0204       ±0.0073        ±0.0204        ±0.0070        ± 0.0216            ±0.0134    ±0.0134      ±0.0106    ±0.0080   ±0.0134
+        Silhouette ↑       0.0193     0.0228         0.0128        0.0198        0.0079          0.0290         0.0078           0.0304           0.0171     0.0173       0.0164     0.0149    0.0183
+                           ±0.0062    ±0.0066        ±0.0037       ±0.0054       ±0.0023        ±0.0067        ±0.0020        ± 0.0068            ±0.0038    ±0.0038      ±0.0056    ±0.0035   ±0.0037
+
+ Schaefer      DCA(ours)   Schaefer      MMP             DCA(ours)                   Schaefer            DCA(ours)                   Schaefer                     DCA(ours)              Schaefer
+     200          200        300           360          360        400         400           500             500           600            700          800              800           900       1000
+    0.0634      0.1127      0.0712       0.0706       0.1266     0.1294       0.0780       0.0834          0.1364         0.0880         0.0926      0.0966           0.1536        0.1006     0.1044
+    ±0.0213     ± 0.0225   ±0.0219       ± 0.0208     ± 0.0230   ± 0.0230    ± 0.0222      ± 0.0225        ± 0.0229      ± 0.0226    ± 0.0227        ± 0.0228         ± 0.0227      ± 0.0229   ± 0.0229
+    0.0349      0.0417      0.0404       0.0426       0.0545     0.0572       0.0454       0.0500          0.0644         0.0537         0.0577      0.0615           0.0866        0.0652     0.0683
+    ±0.0065     ± 0.0078   ±0.0066       ± 0.0060     ± 0.0080   ± 0.0082    ± 0.0066      ± 0.0067        ± 0.0086      ± 0.0065    ± 0.0065        ± 0.0065         ± 0.0114      ± 0.0065   ± 0.0064
+
+
+
+
+8       Cross-dataset generalization on CHCP
+We further assess our model’s cross-dataset generalization by applying the Swin-UNETR en-
+coder—pretrained on the HCP dataset—to individual atlas generation on the other independent
+dataset (Fig. 6 and Table 5). The Chinese Human Connectome Project (CHCP) dataset comprises
+high-resolution multimodal MRI—including structural, diffusion, and resting-state fMRI—from
+healthy Chinese adults, and uses the same acquisition parameters and HCP preprocessing pipeline [52].
+Our results demonstrate that, without any additional fine-tuning, DCA produces coherent, spatially
+contiguous parcellations on CHCP dataset that surpass other atlases in both metrics, underscoring the
+robustness of the learned voxel embeddings.
+
+
+     DCA 100                                           Homogeneity                                                                         Silhouette coefficient
+
+
+
+
+     DCA 200
+
+
+
+
+      DCA 360
+
+
+
+                                                                  Yeo7       Yeo17      Brodmann      AAL1      AAL2      AAL3      Schaefer        MMP         DCA
+
+
+
+
+Figure 6: Homogeneity and Silhouette coefficients measured over 100 CHCP subjects at varying
+numbers of parcels.
+
+
+9       Atlas of the subcortex and white matter
+Because our method learns voxel-level embeddings across the entire brain, it is applicable to any
+arbitrary brain structure. Given a region-of-interest (ROI) mask, our framework can generate par-
+cellations at a specified resolution. Here, we demonstrate two applications: atlas construction
+for the subcortex and white matter (Fig. 7). The corresponding ROI masks are extracted from
+
+
+                                                                                                15
+     Table 5: Evaluation of similarity metrics against DCA and other atlases on the CHCP dataset
+
+                  Atlas
+                                    Yeo              Brodmann       Schaefer     DCA                 AAL
+      Metrics
+                               7           17            41           100         100         116          120
+                            0.0413     0.0500          0.0324       0.6560      0.1162      0.0407       0.0409
+       Homogeneity ↑        ±0.0171   ±0.0179          ±0.0127      ±0.0188     ± 0.0205    ±0.0136      ±0.0136
+        Silhouette ↑        0.0255     0.0303          0.0169       0.0371      0.0382      0.0213       0.0215
+                            ±0.0069   ±0.0072          ±0.0038      ±0.0071     ± 0.0071    ±0.0038      ±0.0037
+
+
+
+                  Atlas
+                             AAL       Schaefer         DCA        Schaefer    MMP         DCA          Schaefer
+      Metrics
+                              166          200           200         300        360         360           400
+                            0.0418        0.0784       0.1300      0.0873      0.0848      0.1451       0.0948
+       Homogeneity ↑        ±0.0136       ±0.0195      ± 0.0211    ±0.0199     ±0.0187     ±0.0214      ±0.0201
+        Silhouette ↑        0.0224        0.0435       0.0506      0.0492      0.0501      0.0643       0.0542
+                            ±0.0037       ±0.0069      ± 0.0082    ±0.0071     ±0.0064     ±0.009       ±0.0072
+
+
+
+
+FreeSurfer’s aparc+aseg.mgz [48] and transformed into MNI152 space. We evaluate parcellations
+with {10, 20, 40, 50} clusters for the subcortex and {50, 100, 200, 400} clusters for the white matter.
+In future work, incorporating additional structural information, such as white matter fiber orientations,
+could further improve the quality of the parcellations.
+
+
+                                                     Subcortex
+
+
+
+
+            10                        20                               40                         50
+
+                                                    White Matter
+
+
+
+
+            50                        100                             200                         400
+
+
+Figure 7: Voxel-wise parcellations of subcortical and white matter regions under varying granularity
+levels.
+
+
+10     Model reproducibility
+To quantify variability across repeated executions, we ran the complete pipeline five times on the
+same fMRI segment and compared the resulting parcellations using Dice, intersection-over-union
+(IoU), voxel assignment consistency (VAC; the fraction of voxels that keep the same label after
+Hungarian alignment), adjusted Rand index (ARI), and normalized mutual information (NMI)
+(Table 6). Variability stems chiefly from (i) the random initialization of cluster centroids in the
+
+
+                                                       16
+spectral-graph step and (ii) the initialization of the model’s centroid matrix. With a fixed random
+seed, the atlas is perfectly deterministic. Because the loss contains a Kullback–Leibler (KL) term
+that aligns model assignments to graph-clustering assignments, reproducible results require fixing
+both seeds or fixing one seed and deriving the other from it (e.g., initializing the graph centroids
+with the model’s centroid matrix). Under realistic stochasticity from spectral clustering and model
+initialization, more than 80% of voxels retain their labels across runs; disagreements are typically
+confined to regions where a dominant parcel can be subdivided into finer clusters.
+Beyond seed control, stability can be boosted by seeding cluster centroids with an external prior—such
+as a population template—then allowing DCA to refine these priors into subject-specific atlases. This
+strategy preserves the anatomical grounding of established atlases while exploiting DCA’s capacity
+for individualized refinement.
+
+                            Table 6: Model reproducibility across five runs.
+
+                           Dice ↑            IoU ↑            VAC ↑            ARI ↑            NMI ↑
+  Both–Fixed           1.000 ± 0.000    1.000 ± 0.000     1.000 ± 0.000     1.000 ± 0.000    1.000 ± 0.000
+  Model seed–Fixed     0.809 ± 0.025    0.737 ± 0.031     0.809 ± 0.025     0.748 ± 0.030    0.904 ± 0.009
+  Graph seed–Fixed     0.832 ± 0.020    0.769 ± 0.027     0.845 ± 0.022     0.808 ± 0.027    0.921 ± 0.009
+  Both–Random          0.822 ± 0.023    0.753 ± 0.030     0.823 ± 0.021     0.768 ± 0.025    0.911 ± 0.009
+  Null                 0.500 ± 0.017    0.352 ± 0.016     0.500 ± 0.017     0.386 ± 0.011    0.747 ± 0.005
+
+
+While the method produces consistent atlases when run multiple times on the same fMRI segment
+with identical settings, we then evaluated cross-segment stability. To quantify consistency, we
+produced DCA100 atlases from ten non-overlapping fMRI segments for each of ten HCP participants,
+spanning multiple runs and both phase-encoding directions. Atlas similarity was measured with Dice
+and intersection-over-union (IoU). As summarised in Table 7, intra-subject similarity is markedly
+higher than both inter-subject similarity and a null baseline obtained by randomly partitioning the
+cortical mask into 100 spatially contiguous, equal-sized parcels (with parcel correspondence solved
+via the Hungarian algorithm). These results confirm that DCA yields reproducible atlases despite
+stochastic initialisation.
+
+                            Table 7: Intra- and inter-subject atlas similarity.
+
+                                                          Dice ↑    IoU ↑
+                                  Inter-subject (null)    0.497     0.349
+                                  Inter-subject           0.614     0.481
+                                  Intra-subject (null)    0.506     0.358
+                                  Intra-subject           0.789     0.707
+
+
+
+11    Group atlas generation
+
+To facilitate downstream use and fair comparison, we developed a streamlined procedure to construct
+a group-level atlas from individual parcellations (Algorithm 1). Given N subject-specific atlases with
+a common label system of K parcels, we generate a spatially contiguous group-level atlas through
+three steps:
+
+Step 1: Template label selection. We first identify a set of reliable voxels Vcore that are absent
+in at most α · N subjects (we use α = 0.2). For each voxel v ∈ Vcore , we form a label vector
+zv = [A(1) (v), A(2) (v), . . . , A(N ) (v)], where A(i) (v) denotes the label assigned to voxel v in subject
+i. We sort all such vectors by frequency of occurrence, and select the top K vectors that have pairwise
+Hamming distance less than β · N (we use β = 0.2) as the template label vectors {t1 , . . . , tK }.
+
+Step 2: Voxel-to-template assignment. We then identify Vassign , the set of voxels absent in at
+most γ · N subjects (with γ = 0.8), and assign each v ∈ Vassign to the template k that maximizes the
+
+
+                                                     17
+agreement:
+                                                  N
+                                                                     (i)
+                                                  X
+                                L(v) = arg max          I[A(i) (v) = tk ]
+                                              k
+                                                  i=1
+This results in a K-label volumetric map L that is not necessarily spatially contiguous.
+
+Step 3: Spatial contiguity enforcement. For each parcel k, we retain only its largest 6-connected
+component, and mark all other voxels in k as unlabeled. We then iteratively reassign these dropped
+voxels as follows: for each unlabeled voxel v with at least one labeled 6-connected neighbor, we
+compute the Hamming distance between zv and the label vectors {zu } of its labeled neighbors
+u ∈ N6 (v). The voxel v is then assigned the same label as the neighbor u∗ with the smallest distance,
+i.e., L(v) = L(u∗ ). This process repeats until all voxels are labeled, resulting in a group-level atlas
+with K spatially contiguous and functionally consistent regions.
+
+
+Algorithm 1 Group-level atlas generation from individual parcellations
+Require: Subject-wise atlases {A(1) , A(2) , . . . , A(N ) }, number of parcels K, thresholds α, β, γ
+Ensure: Group-level atlas L
+ 1: Identify Vcore ← {v : voxel absent in ≤ αN subjects}
+ 2: For each v ∈ Vcore , construct label vector zv = [A(1) (v), . . . , A(N ) (v)]
+ 3: Count frequency of each zv ; sort descending
+ 4: Select top K vectors {t1 , . . . , tK } with pairwise Hamming distance ≤ βN
+ 5: Identify Vassign ← {v : voxel absent in ≤ γN subjects}
+ 6: for all v ∈ Vassign do
+                                       PN                 (i)
+ 7:     Assign L(v) ← arg maxk i=1 I[A(i) (v) = tk ]
+ 8: end for
+ 9: for all label k = 1 to K do
+10:     Keep the largest 6-connected component of label k
+11:     Mark all other voxels in k as unlabeled
+12: end for
+13: while any voxel is unlabeled do
+14:     for all unlabeled voxel v do
+15:          if v has at least one labeled 6-neighbor then
+16:               Find u∗ = arg minu∈N6 (v), labeled Hamming(zv , zu )
+17:               Assign L(v) ← L(u∗ )
+18:          end if
+19:     end for
+20: end while
+
+
+
+12     AtlaScore: atlas evaluation platform
+Due to space constraints, we have omitted the full set of results from the main text. In the Supple-
+mentary Material, we present detailed experimental designs and complete outcomes for 3 similarity
+evaluations and 12 downstream tasks (Table 12).
+In addition to the 12 downstream tasks provided by AtlaScore, we further evaluated atlas utility using
+modern neural classifiers. Specifically, we trained a compact 1-D CNN on ROI-level time series
+(Table 1) and a graph-based k-GNN on FC graphs (Table 2). These models provide a complementary
+perspective by directly testing whether atlas parcellations facilitate feature extraction for nonlinear
+learning. These findings reinforce that DCA not only benefits classical SVC pipelines but also
+enhances performance in deep learning–based settings.
+
+12.1   Distance-controlled boundary coefficient (DCBC)
+
+In the main text, we have introduced Homogeneity and Silhouette in Section 3. Such conventional
+metrics overlook the intrinsic spatial smoothness of brain signals, often overestimating parcellation
+quality by conflating spatial proximity with functional similarity, especially in high-resolution
+
+
+                                                  18
+                         Table 8: Experiment index, name, and description.
+
+#    Name                                                        Description
+1    Similarity–Homogeneity                                      Measure mean intra-cluster correlation
+2    Similarity–Silhouette                                       Compute silhouette coefficient over vox-
+                                                                 els
+3    Similarity–DCBC 12.1                                        Evaluating brain parcellations using
+                                                                 the distance-controlled boundary coeffi-
+                                                                 cient [50]
+4    Downstream–Gender classification 12.2                       Predict biological sex using FC
+5    Downstream–Fluid Intelligence 12.3                          Predict fluid intelligence level using FC
+6    Downstream-Cognitive task (7-way) 12.4                      Classify 7 cognitive tasks using FC
+7    Downstream-Cognitive task (24-way) 12.4                     Classify 24 cognitive tasks using FC
+8    Downstream-Autism diagnosis 12.5                            Classify autism vs. healthy controls us-
+                                                                 ing FC
+ 9   Downstream-AD diagnosis 12.6                                Classify AD / MCI / CN using FC
+10   Downstream-FC stability 12.7                                Within-subject FC similarity
+11   Downstream-Fingerprinting 12.8                              Subject identification via FC matching
+12   Downstream-Age group classification 12.9                    Predict age group labels
+13   Downstream-Crystallized intelligence 12.3                   Predict crystallized intelligence level us-
+                                                                 ing FC
+14   Downstream-General intelligence 12.3                        Predict overall cognitive ability level us-
+                                                                 ing FC
+15   Downstream-Autism cross-site 12.5                           Cross-site classification of autism vs.
+                                                                 healthy controls using FC
+16   Downstream-Gender classification (CNN) 12.10                Predict biological sex using time series
+17   Downstream-Gender classification (k-GNN) 12.11              Predict biological sex using FC
+
+
+cortical data, where false boundaries may emerge due to smoothness rather than genuine functional
+distinctions [50]. To mitigate this bias, DCBC groups vertex pairs based on their spatial separation
+and evaluates functional similarity differences between within- and between-parcel pairs at each
+distance level. The DCBC metric is formally defined as follows:
+
+                                                    N
+                                                    X
+                                         DCBC =            wi di ,                                      (8)
+                                                     i=1
+
+where per-bin correlation difference di = corrwithin (i) and corrbetween (i) are the mean functional
+correlations of within-parcel and between-parcel vertex pairs in the i-th spatial distance bin, respec-
+tively; The variance var(di ) reflects how vertex pair counts (nw,i , nb,i ) affect the reliability of di
+in each spatial bin, while the precision weights wi subsequently compensate for this uncertainty by
+assigning higher influence to bins with lower variance during DCBC computation. var(di ) and wi
+take the following forms:
+                                                            nw,i nb,i
+                                      nw,i + nb,i          nw,i + nb,i
+                           var(di ) =             , wi = N                         .                    (9)
+                                       nw,i nb,i         X n n         w,j   b,j
+
+                                                             j=1
+                                                                     nw,j + nb,j
+
+By controlling for spatial distance in this way, DCBC disentangles true functional boundaries from
+artifacts of spatial smoothness, providing a more reliable parcellation assessment. In our evaluation
+process, all parameters followed the settings specified in [50]. However, we note that DCBC was
+mainly developed for surface-based parcellations and becomes computationally prohibitive at the
+fine voxel resolution employed by DCA. Therefore, we computed DCBC scores by projecting
+volumetric atlases onto the cortical surface (fsLR 32k template) [53], analyzing only data from the
+left hemisphere. This surface-based approach exceeds the scope of our native volumetric framework.
+
+
+                                                   19
+12.2   Gender classification
+
+We evaluated the ability of each atlas to support gender classification based on resting-state functional
+connectivity (FC). We used data from 100 unrelated subjects in the Human Connectome Project (HCP)
+[29], each contributing multiple FC samples constructed from 300 consecutive TRs of resting-state
+fMRI. For each atlas, FC matrices were computed and their upper-triangular entries were used as
+features.
+To ensure subject-level generalization, we performed 10-fold cross-validation across subjects: in
+each fold, 90 subjects were used for training and 10 for testing. A linear support vector classifier
+(SVC) was trained on the training set. If the FC dimensionality exceeded 100, we applied principal
+component analysis (PCA) to reduce dimensionality: features were projected onto the top 100
+principal components computed from the training data, and test samples were projected into the same
+subspace. Classification accuracy on the test subjects was recorded for each fold and averaged to
+obtain the final performance.
+
+12.3   Fluid, crystallized, and general intelligence level prediction
+
+We evaluated whether atlas-based FC features can predict individual differences in fluid, crystallized,
+and general intelligence. We used the corresponding HCP behavioral score (CogFluidComp_AgeAdj,
+CogCrystalComp_AgeAdj, and CogTotalComp_AgeAdj) to define three classes: low (<85), medium
+(85–115), and high (>115) intelligence. Each subject contributed multiple FC samples from resting-
+state fMRI (300 TRs per sample). 10-fold cross-validation was performed across subjects, using a
+linear SVC. When the number of FC features exceeded 100, PCA was applied to project the data
+onto the top 100 principal components computed from the training set.
+
+12.4   Cognitive task classification
+
+We assessed whether atlas-based FC can distinguish different cognitive states using task-fMRI data
+from 100 HCP subjects. For the 7-class classification, each subject completed seven tasks—working
+memory, gambling, motor, language, social, relational, and emotional—each contributing one FC
+matrix. For the 24-class classification, we further segmented each task into its constituent conditions
+(e.g., 0-back faces, math, fear), resulting in 24 fine-grained task labels. Each subject contributed one
+FC matrix per task condition.
+We trained a linear SVC to predict the task label from FC features using 10-fold cross-validation
+across subjects. When the number of FC features exceeded 100, PCA was applied to project the data
+onto the top 100 principal components computed from the training set.
+
+12.5   Autism diagnosis and cross-site generalization
+
+We evaluated whether FC features can distinguish individuals with autism spectrum disorder (ASD)
+from healthy controls using resting-state fMRI data from the ABIDE dataset (n = 871) [32]. For
+each subject, an FC matrix was computed and used to train a linear SVC for binary classification.
+We considered two evaluation settings. In the first, we performed 10-fold cross-validation at the
+subject level to assess within-dataset classification performance. In the second, we tested cross-site
+generalization by holding out one acquisition site for testing while training on subjects from all other
+sites, repeating this procedure across all sites. When the number of FC features exceeded 100, PCA
+was applied to project the data onto the top 100 principal components computed from the training set.
+
+12.6   AD diagnosis
+
+We evaluated the ability of FC features to classify individuals into Alzheimer’s disease (AD), mild
+cognitive impairment (MCI), or cognitively normal (CN) groups. We used resting-state fMRI data
+from 267 subjects in the ADNI dataset [33], each labeled as AD, MCI, or CN. FC matrices were
+computed for each subject and used to train a linear SVC for 3-class classification. 10-fold cross-
+validation was performed across subjects. When the number of FC features exceeded 100, PCA was
+applied to project the data onto the top 100 principal components computed from the training set.
+
+
+                                                   20
+12.7    FC stability
+
+We evaluated the within-subject stability of FC to assess how consistently an atlas captures individual
+functional architecture [54]. We used resting-state fMRI data from 100 HCP subjects. Each fMRI
+scan was segmented into multiple non-overlapping windows of 300 TRs, and an FC matrix was
+computed per window. For each subject, we calculated the Pearson correlation between the vectorized
+upper triangles of all FC matrix pairs and averaged the resulting values to obtain a single stability
+score. These scores were then aggregated across all subjects to evaluate the group-level FC stability
+supported by each atlas.
+
+12.8    Fingerprinting
+
+To evaluate how well an atlas captures individual-specific features in FC, we conducted a subject
+identification (fingerprinting) task [55]. We used resting-state fMRI data from 100 subjects, each
+providing multiple FC matrices. For each subject, one FC was randomly selected as the reference.
+The remaining FCs were matched to all reference FCs by computing the Pearson correlation between
+the vectorized upper triangle of each pair. A prediction was considered correct if the most highly
+correlated reference FC belonged to the same subject as the query FC. Each subject’s identification
+accuracy was computed, and group-level performance was obtained by averaging across subjects.
+
+12.9    Age group classification
+
+We evaluated whether atlas-based FC features can predict individual differences in age group. We
+used the HCP-provided Age variable to assign subjects into three age groups: 21–25, 26–30, and
+31 years or older. Each subject contributed multiple FC samples from resting-state fMRI (300 TRs
+per sample). 10-fold cross-validation was performed across subjects, using a linear SVC. When the
+number of FC features exceeded 100, PCA was applied to project the data onto the top 100 principal
+components computed from the training set.
+
+12.10    Gender classification (CNN)
+
+We further evaluated atlas performance on a CNN-based gender classification task. We used ROI-level
+resting-state fMRI time series from the HCP dataset. The classifier was a compact 1-D convolutional
+neural network, consisting of two convolutional layers followed by two fully connected layers, trained
+end-to-end to predict gender from the input time series. To avoid subject leakage, data were split at
+the subject level into separate train, validation, and test sets, and all atlases were evaluated under the
+same protocol.
+
+12.11    Gender classification (k-GNN)
+
+We also evaluated atlas performance on a graph-based gender classification task using a k-GNN
+classifier with k = 2. Following the protocol in [56], we constructed a base graph where each node
+corresponds to an ROI, and weighted edges were defined by functional connectivity (FC). The graph
+was sparsified by retaining the top 30% of edges by magnitude, and the resulting graph was fed to a
+standard 2-GNN with a readout operation to obtain subject-level embeddings, which were then passed
+to a linear classifier. Training used a 70/10/20 subject-level split for train/validation/test, ensuring no
+subject leakage. All atlases were evaluated under the same protocol.
+
+13      Complete DCA performance on AtlaScore
+13.1     Evaluation on different smoothing levels
+
+In the main text, we evaluated similarity-related metrics using data smoothed with a 3mm FWHM
+kernel. Here, we additionally report the results obtained with unsmoothed data and data smoothed
+with a 6mm FWHM kernel. The overall conclusions remain consistent across different smoothing
+levels (Fig. 8, Table 9, and Table 10).
+
+
+
+
+                                                    21
+                                                     No smoothing                                                                           FWHM 6mm
+
+
+
+ Homogeneity
+ Silhouette coefficient
+
+
+
+
+                                                                                  Yeo7     Yeo17   AAL1    AAL2   AAL3    Schaefer    MMP   DCA
+
+
+
+
+Figure 8: Homogeneity and silhouette were measured over 100 HCP subjects on different smoothing
+levels.
+
+
+                                                            Table 9: Evaluation on no smoothing data.
+                                      Atlas
+                                                      Yeo             Brodmann       Schaefer             DCA                        AAL                Schaefer   DCA       Schaefer
+                      Metrics
+                                                 7          17           41               100             100       116              120      166         200       200        300
+                                               0.0110     0.0133          -              0.0172       0.0669       0.0100        0.0101      0.0103     0.0206     0.0717    0.0231
+                          Homogeneity ↑        ±0.0058    ±0.0063         -              ±0.0068      ±0.0091      ±0.0043      ±0.0043      ±0.0043    ±0.0073    ±0.0095   ±0.0076
+                            Silhouette ↑       0.0067     0.0080          -              0.0099       0.0105       0.0057        0.0058      0.0062     0.0122     0.0148    0.0143
+                                               ±0.0023    ±0.0025         -              ±0.0025      ±0.0026      ±0.0014      ±0.0014      ±0.0014    ±0.0026    ±0.0032   ±0.0029
+
+                                       Atlas
+                                                 MMP         DCA              Schaefer                DCA                       Schaefer                  DCA           Schaefer
+                          Metrics
+                                                  360         360        400              500             500       600              700          800      800       900       1000
+
+                           Homogeneity ↑        0.0231      0.0774      0.0253       0.0270          0.0815       0.0285         0.0301       0.0314     0.0890    0.0327     0.0340
+                                                ±0.0074     ±0.0099     ±0.0079      ±0.0081         ±0.0099      ±0.0083        ±0.0085     ±0.0086     ±0.0103   ±0.0088    ±0.0089
+                            Silhouette ↑        0.0158      0.0200      0.0163       0.0182          0.0242       0.0200         0.0218       0.0235     0.0340    0.0253     0.0268
+                                                ±0.0028     ±0.0037     ±0.0031      ±0.0032         ±0.0041      ±0.0034        ±0.0035     ±0.0037     ±0.0063   ±0.0039    ±0.0041
+
+
+
+
+                                                     Table 10: Evaluation on 6mm FWHM smoothed data.
+                                      Atlas
+                                                      Yeo             Brodmann       Schaefer             DCA                        AAL                Schaefer   DCA       Schaefer
+                      Metrics
+                                                 7          17           41               100             100       116              120      166         200       200        300
+                                               0.1239     0.1472       0.1102            0.2102       0.2475       0.1434        0.1441      0.1476     0.2502     0.2909    0.2784
+                          Homogeneity ↑        ±0.0500    ±0.0512      ±0.0389           ±0.0537      ±0.0504      ±0.0413      ±0.0413      ±0.0411    ±0.0526    ±0.0503   ±0.0515
+                            Silhouette ↑       0.0727     0.0870       0.0560            0.1204       0.1203       0.0766        0.0773      0.0803     0.1439     0.1615    0.1639
+                                               ±0.0171    ±0.0180      ±0.0109           ±0.0177      ±0.0159      ±0.0109      ±0.0108      ±0.0106    ±0.0159    ±0.0168   ±0.0155
+
+                                       Atlas
+                                                 MMP         DCA              Schaefer                DCA                       Schaefer                  DCA           Schaefer
+                          Metrics
+                                                  360         360        400              500             500       600              700          800      800       900       1000
+
+                           Homogeneity ↑        0.2682      0.3368      0.3016       0.3198          0.3671       0.3332         0.3473       0.3587     0.4159    0.3705     0.3809
+                                                ±0.0491     ±0.0490     ±0.0504      ±0.0494         ±0.0472      ±0.0484        ±0.0476     ±0.0467     ±0.0441   ±0.0460    ±0.0451
+                            Silhouette ↑        0.1608      0.2041      0.1808       0.1956          0.2350       0.2054         0.2169       0.2265     0.2990    0.2361     0.2437
+                                                ±0.0132     ±0.0155     ±0.0149      ±0.0143         ±0.0168      ±0.0135        ±0.0130     ±0.0126     ±0.0238   ±0.0122    ±0.0117
+
+
+
+
+13.2                          DCBC performance across Atlases
+
+DCBC was mainly developed for surface-based parcellations and becomes computationally pro-
+hibitive at the fine voxel resolution employed by DCA. Therefore, we computed DCBC scores by
+projecting volumetric atlases onto the cortical surface (fsLR 32k template [53]), analyzing only data
+from the left hemisphere. This surface-based approach exceeds the scope of our native volumetric
+framework (Fig. 9 and Table 11 ).
+
+
+                                                                                                   22
+                                     Yeo7   Yeo17    Brodmann   AAL1   AAL2     AAL3   Schaefer   MMP   DCA
+
+
+
+
+        Figure 9: DCBC measured over 100 HCP subjects at varying numbers of parcels.
+
+                Table 11: DCBC values and standard deviations for various atlases.
+                             Atlas           #Parcels           mean          std.
+                             Yeo7                      7    0.0234      0.0127
+                             Yeo17                    17    0.0172      0.0116
+                             Brodmann                 41   -0.0019      0.0050
+                             Schaefer                100    0.0073      0.0051
+                             DCA                     100    0.0030      0.0055
+                             AAL 1                   116    0.0051      0.0043
+                             AAL 2                   120    0.0054      0.0043
+                             AAL 3                   166    0.0057      0.0045
+                             Schaefer                200    0.0045      0.0050
+                             DCA                     200    0.0023      0.0042
+                             Schaefer                300   -0.0000      0.0049
+                             MMP                     360    0.0127      0.0095
+                             DCA                     360    0.0039      0.0049
+                             Schaefer                400   -0.0021      0.0042
+                             Schaefer                500   -0.0024      0.0051
+                             DCA                     500    0.0052      0.0046
+                             Schaefer                600   -0.0018      0.0044
+                             Schaefer                700   -0.0038      0.0057
+                             Schaefer                800   -0.0046      0.0073
+                             DCA                     800    0.0075      0.0041
+                             Schaefer                900   -0.0064      0.0069
+                             Schaefer               1000   -0.0044      0.0065
+
+
+13.3   Downstream task performance across atlases
+
+Due to space constraints, only a subset of results was included in the main text. Here, we provide the
+complete evaluation on all 12 downstream tasks across 16 atlases (Table 12). Results are reported
+as mean ± standard deviation, averaged over 10-fold cross-validation or subject-level evaluation.
+Within each resolution group, the best-performing atlas for each task is highlighted in bold.
+
+
+
+
+                                                      23
+                                  Table 12: Evaluation of downstream task performance across atlases. Values are shown as mean ± standard deviation.
+
+                          Atlas
+                                          Yeo         Brodmann   Schaefer   DCA               AAL               Schaefer   DCA      Schaefer   MMP      DCA      Schaefer   Schaefer   DCA
+     Task
+                                      7         17       41        100       100      116      120      166       200       200       300       360      360       400        500       500
+                                     0.547   0.620     0.659      0.628     0.666    0.636    0.646    0.606     0.668     0.687     0.670     0.740    0.710     0.726      0.694     0.702
+     Gender classification          ±0.077   ±0.063    ±0.078     ±0.053    ±0.080   ±0.052   ±0.055   ±0.102    ±0.042    ±0.073    ±0.067    ±0.065   ±0.059    ±0.066     ±0.066    ±0.079
+                                     0.415   0.433     0.456      0.474     0.491    0.431    0.439    0.488     0.505     0.497     0.517     0.513    0.535     0.527      0.565     0.537
+     Fluid intelligence             ±0.032   ±0.072    ±0.046     ±0.080    ±0.082   ±0.052   ±0.065   ±0.081    ±0.078    ±0.074    ±0.082    ±0.087   ±0.084    ±0.089     ±0.065    ±0.088
+                                     0.686   0.796     0.727      0.879     0.869    0.783    0.783    0.740     0.885     0.900     0.888     0.859    0.887     0.893      0.876     0.895
+     Cognitive task (7-way)         ±0.042   ±0.052    ±0.058     ±0.042    ±0.062   ±0.078   ±0.063   ±0.060    ±0.038    ±0.044    ±0.049    ±0.063   ±0.042    ±0.051     ±0.058    ±0.054
+                                     0.237   0.373     0.315      0.469     0.452    0.322    0.308    0.243     0.459     0.479     0.469     0.427    0.469     0.462      0.456     0.459
+     Cognitive task (24-way)        ±0.022   ±0.019    ±0.026     ±0.030    ±0.030   ±0.024   ±0.028   ±0.029    ±0.031    ±0.031    ±0.026    ±0.018   ±0.037    ±0.031     ±0.033    ±0.025
+                                     0.598   0.589     0.609      0.643     0.655    0.656    0.660    0.632     0.660     0.663     0.661     0.663    0.680     0.668      0.653     0.661
+
+
+
+
+24
+     Autism diagnosis               ±0.030   ±0.071    ±0.055     ±0.051    ±0.054   ±0.087   ±0.074   ±0.065    ±0.047    ±0.040    ±0.040    ±0.035   ±0.044    ±0.045     ±0.043    ±0.060
+                                     0.363   0.367     0.410      0.451     0.387    0.413    0.410    0.405     0.418     0.456     0.485     0.395    0.448     0.444      0.440     0.459
+     AD diagnosis                   ±0.081   ±0.089    ±0.079     ±0.064    ±0.077   ±0.069   ±0.074   ±0.063    ±0.095    ±0.107    ±0.067    ±0.109   ±0.131    ±0.040     ±0.074    ±0.086
+                                     0.696   0.677     0.729      0.643     0.650    0.682    0.681    0.689     0.635     0.644     0.620     0.612    0.615     0.609      0.598     0.603
+     FC stability                   ±0.085   ±0.068    ±0.044     ±0.054    ±0.045   ±0.045   ±0.045   ±0.053    ±0.047    ±0.043    ±0.046    ±0.044   ±0.043    ±0.045     ±0.045    ±0.044
+                                     0.069   0.230     0.424      0.682     0.696    0.570    0.576    0.527     0.796     0.776     0.856     0.863    0.852     0.875      0.886     0.884
+     Fingerprinting                 ±0.083   ±0.166    ±0.206     ±0.217    ±0.201   ±0.216   ±0.221   ±0.220    ±0.194    ±0.172    ±0.156    ±0.150   ±0.164    ±0.151     ±0.145    ±0.148
+                                     0.260   0.386     0.413      0.455     0.452    0.411    0.402    0.328     0.478     0.473     0.480     0.515    0.433     0.497      0.477     0.475
+     Age group classification       ±0.047   ±0.077    ±0.093     ±0.120    ±0.136   ±0.054   ±0.059   ±0.059    ±0.105    ±0.048    ±0.112    ±0.075   ±0.079    ±0.104     ±0.096    ±0.096
+                                     0.376   0.454     0.490      0.530     0.472    0.501    0.507    0.483     0.526     0.505     0.497     0.542    0.516     0.525      0.516     0.515
+     Crystallized intelligence      ±0.040   ±0.072    ±0.075     ±0.078    ±0.095   ±0.086   ±0.089   ±0.082    ±0.097    ±0.082    ±0.100    ±0.092   ±0.117    ±0.101     ±0.102    ±0.114
+                                     0.396   0.418     0.442      0.469     0.442    0.445    0.448    0.439     0.467     0.461     0.463     0.417    0.446     0.458      0.428     0.459
+     General intelligence           ±0.080   ±0.064    ±0.079     ±0.098    ±0.104   ±0.102   ±0.094   ±0.082    ±0.104    ±0.108    ±0.098    ±0.099   ±0.085    ±0.121     ±0.122    ±0.112
+                                     0.560   0.608     0.620      0.640     0.662    0.679    0.680    0.662     0.662     0.635     0.667     0.655    0.696     0.640      0.638     0.638
+     Autism cross-site              ±0.118   ±0.069    ±0.113     ±0.067    ±0.068   ±0.083   ±0.080   ±0.112    ±0.086    ±0.091    ±0.061    ±0.092   ±0.136    ±0.110     ±0.144    ±0.166
+14    Effect of parcel number on downstream tasks
+To examine whether downstream tasks prefer specific spatial resolutions, we varied the number of
+parcels for both DCA (41, 100, 200, 360, 400, 500) and Schaefer (100, 200, 300, 400, 500) atlases.
+For each resolution, we performed subject-level cross-validation and report accuracies in Tables 13
+and 14. Across both atlas families, three consistent patterns emerge:
+       • Peak-shaped (resolution-optimal) tasks. Cognitive decoding shows a clear “rise-then-fall”
+         profile: performance increases from coarse to intermediate resolutions and declines when
+         parcels become excessively fine (e.g., DCA peaks around 200–360 parcels; Schaefer peaks
+         typically at 300–400 for 7-way decoding), indicating an optimal meso-scale. Intuitively,
+         coarse parcellations underfit task-relevant heterogeneity, whereas over-fragmentation re-
+         duces SNR per parcel, inflates inter-parcel edges, and amplifies misalignment across subjects,
+         all of which hurt generalization.
+       • Resolution-insensitive tasks. Several clinical endpoints (e.g., AD diagnosis) exhibit weak
+         or no monotonic trend across resolutions for both DCA and Schaefer. These tasks likely rely
+         on subcortical or global signals that cortex-only atlases do not explicitly model, so varying
+         cortical granularity alone has a limited effect. In such settings, choosing resolution can be
+         guided by computational cost or downstream interpretability rather than accuracy.
+       • Size-driven tasks. Metrics whose value is mechanically affected by parcel size show
+         systematic behavior: FC stability decreases beyond intermediate resolutions (consistent with
+         lower within-parcel SNR and shorter time series per parcel), whereas subject fingerprinting
+         improves with finer parcellations (more idiosyncratic, high-dimensional FC signatures),
+         with the same tendencies observed for both atlas families.
+
+              Table 13: Downstream task performance across atlas resolutions for DCA
+
+                                 DCA 41        DCA 100       DCA 200       DCA 360      DCA 400     DCA 500
+  Gender classification ↑         0.651         0.666          0.687           0.710      0.707       0.702
+  Fluid intelligence ↑            0.429         0.491          0.497           0.535      0.543       0.537
+  Cognitive task (7-way) ↑        0.842         0.869          0.900           0.887      0.882       0.895
+  Cognitive task (24-way) ↑       0.426         0.452          0.479           0.469      0.465       0.459
+  Autism diagnosis ↑              0.633         0.655          0.663           0.680      0.665       0.661
+  AD diagnosis ↑                  0.443         0.387          0.456           0.448      0.447       0.459
+  FC stability ↑                  0.642         0.650          0.644           0.615      0.609       0.603
+  Fingerprinting ↑                0.435         0.696          0.776           0.852      0.811       0.884
+  Age group classification ↑      0.408         0.452          0.473           0.433      0.512       0.475
+  Crystallized intelligence ↑     0.521         0.472          0.505           0.516      0.523       0.515
+  General intelligence ↑          0.439         0.442          0.461           0.446      0.448       0.459
+  Autism cross-site ↑             0.636         0.662          0.635           0.696      0.696       0.638
+
+
+            Table 14: Downstream task performance across atlas resolutions for Schaefer
+
+                                Schaefer 100    Schaefer 200     Schaefer 300      Schaefer 400   Schaefer 500
+  Gender classification ↑          0.628           0.668               0.670           0.726         0.694
+  Fluid intelligence ↑             0.474           0.505               0.517           0.527         0.565
+  Cognitive task (7-way) ↑         0.879           0.885               0.888           0.893         0.876
+  Cognitive task (24-way) ↑        0.469           0.459               0.469           0.462         0.456
+  Autism diagnosis ↑               0.643           0.660               0.661           0.668         0.653
+  AD diagnosis ↑                   0.451           0.418               0.485           0.444         0.440
+  FC stability ↑                   0.643           0.635               0.620           0.609         0.598
+  Fingerprinting ↑                 0.682           0.796               0.856           0.875         0.886
+  Age group classification ↑       0.455           0.478               0.480           0.497         0.477
+  Crystallized intelligence ↑      0.530           0.526               0.497           0.525         0.516
+  General intelligence ↑           0.469           0.467               0.463           0.458         0.428
+  Autism cross-site ↑              0.640           0.662               0.667           0.640         0.638
+
+
+Taken together, there is no universally optimal parcel count. Intermediate resolutions (roughly
+200–400 parcels) often strike a favorable trade-off for cortex-driven cognitive decoding, whereas
+
+
+                                                        25
+resolution-insensitive clinical tasks are robust across scales, and size-driven metrics move predictably
+with parcel granularity. These findings are consistent across DCA and Schaefer (Tables 13, 14) and
+provide practical guidance for selecting atlas resolution by task type rather than adopting a single
+fixed setting.
+
+15     Main task ablation
+15.1    Regularization and reconstruction loss
+
+We investigated whether incorporating an orthogonality regularizer or a reconstruction loss would
+further improve parcellation quality (Table 15). Applying these augmented objectives to the same
+100 subjects used in our main experiments yielded no statistically significant gains in homogeneity or
+silhouette coefficient for 100 parcels, indicating that the core KL-based clustering loss is sufficient to
+drive optimal voxel-level atlas generation.
+
+orthogonal loss The orthogonality regularizer is defined on the centroid matrix D ∈ RK×d (with
+unit-norm rows) as follows. Let
+                                       G = D D⊤         (∈ RK×K )
+be the Gram matrix of pairwise inner products. We zero out the diagonal to isolate off-diagonal
+similarities:
+                                       Goff = G − IK .
+The orthogonality loss then penalizes the mean absolute off-diagonal entry via
+                                          s
+                                                1      X        
+                              R⊥ (D) =                      Goff ij .
+                                            K(K − 1)
+                                                           i̸=j
+
+Minimizing R⊥ encourages the rows of D to remain mutually orthogonal.
+
+masked reconstructed loss   We only consider the reconstruction of non-background voxels.
+                             PN                     2
+                             i=1 (1 − mi ) x̂i − xi , if PN (1 − m ) > 0,
+                            
+                                   PN                            i=1       i
+              Lmasked_MSE =          i=1 (1 − mi )
+                            
+                            
+                              0,                           otherwise,
+
+where x̂i and xi are the predicted and target values at voxel i, respectively, and mi ∈ {0, 1} is the
+binary mask indicating background (mi = 1) or foreground (mi = 0).
+
+
+       Table 15: Ablation study on orthogonality and masked reconstruction loss components.
+
+                            Loss
+                                                          Homogeneity          Silhouette
+            KL     Orthogonality Reconstruction
+             ✓                                           0.1002±0.0214      0.0301±0.0066
+             ✓                              ✓            0.0890±0.0091      0.0267±0.0045
+             ✓           ✓                               0.1004±0.0215      0.0304±0.0067
+
+
+15.2    Clustering on different smoothing level
+
+To improve signal quality and spatial coherence, we applied spatial smoothing using AFNI’s
+3dBlurToFWHM [31], targeting a 3 mm full width at half maximum (FWHM). The preprocessed
+volumetric images were resampled to 2 mm isotropic resolution. This follows the common practice
+of setting the smoothing kernel to approximately 1.5 times the image resolution. For comparison, we
+also present results under two additional conditions: no smoothing and 6 mm FWHM smoothing.
+And there is no significant difference (Table 16).
+
+
+                                                   26
+       Table 16: Evaluation of similarity metrics across smoothing levels and parcel resolutions.
+
+                                      Raw
+                                                     100            200           360           500           800
+             Metrics
+                                                    0.1004         0.1127        0.1266        0.1363        0.1535
+                    Homogeneity ↑
+                                                 ± 0.0216         ± 0.0225    ± 0.0229      ± 0.0228      ± 0.0226
+                                                    0.0305         0.0422        0.0554        0.0647        0.0883
+                       Silhouette ↑
+                                                 ± 0.0068         ± 0.0094    ± 0.0085      ± 0.0090      ± 0.0114
+
+
+                              FWHM 3mm
+                                                       100           200           360           500           800
+             Metrics
+                                                    0.1004         0.1127        0.1266        0.1364        0.1536
+                    Homogeneity ↑
+                                                    ± 0.0216       ± 0.0225      ± 0.0230      ± 0.0229      ± 0.0227
+                                                    0.0304         0.0417        0.0545        0.0644        0.0866
+                       Silhouette ↑
+                                                    ± 0.0068       ± 0.0078      ± 0.0080      ± 0.0086      ± 0.0114
+
+
+                              FWHM 6mm
+                                                       100           200           360           500           800
+             Metrics
+                                                    0.1005         0.1128        0.1267        0.1364        0.1536
+                    Homogeneity ↑
+                                                    ± 0.0217       ± 0.0225      ± 0.0229      ± 0.0229      ± 0.0227
+                                                    0.0306         0.0419        0.0546        0.0642        0.0868
+                       Silhouette ↑
+                                                    ± 0.0069       ± 0.0078      ± 0.0081      ± 0.0083      ± 0.0102
+
+
+
+
+15.3    Choice of graph cut method
+
+In addition to spectral clustering, we evaluated several graph-cut algorithms (Fig. 10 and Table 17).
+However, most failed to guarantee that each resulting parcel forms a single connected subgraph,
+leading to fragmented regions. Here, we use a breadth-first search (BFS) based algorithm. The
+weighted BFS–connected clustering algorithm begins by converting the input edge list and weights
+into an undirected adjacency list, then randomly seeds k initial clusters by assigning one unique node
+to each cluster. Each cluster maintains a max-heap of its unassigned neighboring nodes, prioritized by
+edge weight. Clusters then grow in parallel: at each step, a cluster pops the highest-weight neighbor
+from its heap, claims that node (if unassigned), and pushes all of its unassigned neighbors onto the
+heap. To enforce roughly equal cluster sizes, each cluster stops growing once it reaches ⌈N/k⌉. If
+any nodes remain unassigned after this frontier-driven expansion, they are absorbed into the smallest
+adjacent cluster. By always selecting the strongest edges first and only adding connected nodes, this
+method produces contiguous clusters that respect the underlying graph’s weighted connectivity.
+
+    Table 17: Evaluation of similarity metrics across graph cut methods and parcel resolutions.
+
+                                graph
+                                              100            200           360           500           800
+                  Metrics
+                                            0.1004       0.1127         0.1266        0.1364        0.1536
+                    Homogeneity ↑
+                                            ± 0.0216     ± 0.0225       ± 0.0230      ± 0.0229      ± 0.0227
+                                            0.0304       0.0417         0.0545        0.0644        0.0866
+                       Silhouette ↑
+                                            ± 0.0068     ± 0.0078       ± 0.0080      ± 0.0086      ± 0.0114
+
+
+                                  mst
+                                              100            200           360           500           800
+                  Metrics
+                                            0.0930       0.1026         0.1134        0.1210        0.1341
+                    Homogeneity ↑
+                                            ± 0.0204     ± 0.0210       ± 0.0215      ± 0.0219      ± 0.0222
+                                            0.0223       0.0308         0.0407        0.0479        0.0607
+                       Silhouette ↑
+                                            ± 0.0052     ± 0.0061       ± 0.0065      ± 0.0069      ± 0.0072
+
+
+
+
+                                                             27
+                                                Homogeneity
+
+
+
+
+                                         Silhouette coefficient
+
+
+
+
+                     Yeo7   Yeo17   Brodmann    AAL1   AAL2   AAL3   Schaefer   MMP   BFS   DCA
+
+
+
+
+Figure 10: Homogeneity and Silhouette coefficients for weighted BFS–connected clustering and
+baselines, measured over 100 HCP subjects at varying numbers of parcels.
+
+
+15.4    Choice of gray matter mask
+
+In the main text, the corresponding ROI masks are extracted from FreeSurfer’s aparc+aseg.mgz [48].
+Here, we show the result (Table 18) by defining the ROI with the same mask to MMP [8]and Schaefer
+et al [2]. DCA still shows higher homogeneity and silhouette coefficients compared to corresponding
+atlas.
+Table 18: Evaluation of Similarity Metrics on Schaefer, DCA, MMP, and DCA360 with Gray Matter
+Masks
+                        Schaefer100              DCA100                    MMP                DCA360
+       Homogeneity    0.0885±0.0212            0.1004±0.0216         0.1212±0.0211          0.1266±0.0230
+        Silhouette    0.0191±0.0076            0.0304±0.0068         0.0470±0.0066          0.0545±0.0080
+
+
+15.5    Number of neighbours
+
+We adopt the standard 26-neighbourhood in 3-D, which encompasses all voxels in a 3 × 3 × 3 cube
+(excluding the centre) and thus captures both face- and diagonal interactions. To gauge its impact,
+we evaluated two reduced neighbourhoods—K = 6 (face-connected voxels only) and K = 18
+(face + edge voxels)—alongside the full K = 26 setting. Table 19 shows that K = 6 and K = 26
+yield nearly indistinguishable performance ( p > 0.05, t/U -test), whereas K = 18 produces a
+noticeably lower silhouette score ( p < 0.05 ). Overall, the full 26-neighbourhood provides stable
+and competitive results.
+
+15.6    Distribution-based loss
+
+We compared three common divergence objectives—Wasserstein distance, Jensen–Shannon diver-
+gence, and the KL divergence used in the main paper. Table 20 reveals virtually identical performance
+across all choices, with variations well within one standard deviation ( p > 0.05 ). This suggests
+
+
+                                                       28
+                            Table 19: Ablation on neighbourhood size.
+
+                             K      Homogeneity ↑       Silhouette ↑
+                             6      0.1005±0.0216     0.0313±0.0071
+                             18     0.1005±0.0310     0.0215±0.0068
+                             26     0.1004±0.0215     0.0304±0.0067
+
+
+that the framework is largely insensitive to the specific distribution-matching loss employed during
+clustering refinement.
+
+                   Table 20: Reliability across distribution-based loss functions.
+
+                   Loss                      Homogeneity ↑        Silhouette ↑
+                   Wasserstein               0.1003±0.0215      0.0306±0.0069
+                   JS divergence             0.1005±0.0216      0.0308±0.0069
+                   KL divergence (used)      0.1004±0.0216      0.0304±0.0068
+
+
+15.7   Centroid initialisation
+
+Finally, we evaluated four initialisation schemes for the clustering centroids: random, random+norm
+(unit-normalised centroids), xavier+norm, and orthogonal+norm. As shown in Table 21, orthogo-
+nal+norm markedly lowers the first-epoch loss, indicating faster early convergence, yet all methods
+converge to nearly identical homogeneity and silhouette scores once training completes ( p > 0.05 ).
+
+                            Table 21: Impact of centroid initialisation.
+
+           Initialisation         1st-epoch loss ↓    Homogeneity ↑         Silhouette ↑
+           random                  6.5578±0.0774      0.1010±0.0218        0.0312±0.0070
+           random+norm             4.6250±0.0151      0.1004±0.0215        0.0307±0.0068
+           xavier+norm             4.6185±0.0207      0.1004±0.0215        0.0307±0.0067
+           orthogonal+norm        4.6062±0.0027       0.1004±0.0216        0.0304±0.0068
+
+
+
+
+                                                 29
+     16     Group atlas generation analysis
+     We systematically examined how three key hyperparameters in group-level atlas generation—voxel reliability threshold α, template distinctiveness threshold β, and
+     voxel inclusion threshold γ—affect downstream task performance. The following four tables report performance across 12 tasks using atlases of increasing resolution
+     (100 to 500 parcels), under various parameter settings.
+
+                        Table 22: Effect of group atlas generation parameters on performance (100 regions). Values are shown as mean ± standard deviation.
+                 α                                                          0.2                                                                                       0.3
+                 β                                  0.2                                             0.3                                       0.2                                             0.3
+                 γ                    0.7           0.8           0.9                 0.7           0.8           0.9           0.7           0.8           0.9                 0.7           0.8           0.9
+      Gender classification       0.639±0.076   0.666±0.080   0.648±0.074         0.676±0.066   0.674±0.050   0.684±0.057   0.640±0.067   0.627±0.067   0.626±0.066         0.637±0.082   0.657±0.089   0.651±0.079
+      Fluid intelligence          0.477±0.080   0.491±0.082   0.486±0.084         0.508±0.089   0.508±0.078   0.516±0.066   0.473±0.095   0.475±0.094   0.496±0.102         0.520±0.090   0.519±0.086   0.510±0.093
+      Cognitive task (7-way)      0.863±0.056   0.869±0.062   0.867±0.060         0.872±0.050   0.866±0.058   0.864±0.053   0.877±0.064   0.877±0.050   0.882±0.041         0.863±0.045   0.873±0.054   0.868±0.042
+      Cognitive task (24-way)     0.463±0.027   0.452±0.030   0.440±0.033         0.458±0.020   0.450±0.024   0.459±0.024   0.458±0.025   0.457±0.031   0.446±0.030         0.456±0.019   0.451±0.018   0.435±0.029
+      Autism diagnosis            0.681±0.048   0.655±0.054   0.653±0.024         0.658±0.032   0.658±0.026   0.665±0.046   0.652±0.042   0.668±0.044   0.667±0.021         0.634±0.047   0.647±0.040   0.642±0.039
+      AD diagnosis                0.387±0.093   0.387±0.077   0.387±0.099         0.432±0.064   0.428±0.073   0.451±0.054   0.428±0.080   0.443±0.057   0.417±0.064         0.424±0.083   0.447±0.070   0.448±0.105
+      FC stability                0.650±0.045   0.650±0.045   0.649±0.045         0.656±0.045   0.656±0.045   0.654±0.045   0.649±0.045   0.649±0.045   0.648±0.045         0.659±0.045   0.659±0.046   0.659±0.046
+      Fingerprinting              0.700±0.202   0.696±0.201   0.694±0.202         0.691±0.204   0.689±0.205   0.690±0.210   0.704±0.196   0.699±0.196   0.698±0.200         0.689±0.209   0.693±0.208   0.697±0.211
+      Age group classification    0.447±0.110   0.452±0.136   0.446±0.118         0.419±0.127   0.425±0.113   0.424±0.100   0.407±0.102   0.412±0.108   0.423±0.101         0.387±0.088   0.424±0.089   0.437±0.084
+
+
+
+
+30
+      Crystallized intelligence   0.479±0.083   0.472±0.095   0.489±0.082         0.511±0.055   0.505±0.060   0.521±0.061   0.503±0.094   0.507±0.104   0.515±0.099         0.494±0.094   0.516±0.100   0.510±0.108
+      General intelligence        0.432±0.108   0.442±0.104   0.438±0.097         0.474±0.094   0.473±0.101   0.498±0.104   0.443±0.081   0.448±0.068   0.452±0.074         0.459±0.091   0.452±0.099   0.460±0.084
+      Autism cross-site           0.652±0.075   0.662±0.068   0.671±0.093         0.675±0.070   0.678±0.077   0.659±0.091   0.637±0.084   0.662±0.085   0.658±0.080         0.617±0.077   0.623±0.076   0.637±0.102
+
+
+
+                        Table 23: Effect of group atlas generation parameters on performance (200 regions). Values are shown as mean ± standard deviation.
+                 α                                                          0.2                                                                                       0.3
+                 β                                  0.2                                             0.3                                       0.2                                             0.3
+                 γ                    0.7           0.8           0.9                 0.7           0.8           0.9           0.7           0.8           0.9                 0.7           0.8           0.9
+      Gender classification       0.703±0.063   0.687±0.073   0.676±0.061         0.678±0.042   0.682±0.044   0.686±0.043   0.682±0.062   0.686±0.054   0.692±0.054         0.698±0.042   0.678±0.037   0.677±0.056
+      Fluid intelligence          0.524±0.065   0.497±0.074   0.518±0.063         0.521±0.083   0.525±0.078   0.502±0.067   0.539±0.089   0.539±0.083   0.545±0.092         0.501±0.091   0.491±0.105   0.493±0.105
+      Cognitive task (7-way)      0.897±0.041   0.900±0.044   0.895±0.043         0.888±0.045   0.877±0.046   0.879±0.050   0.893±0.035   0.878±0.046   0.861±0.046         0.896±0.057   0.896±0.055   0.886±0.057
+      Cognitive task (24-way)     0.480±0.022   0.479±0.031   0.469±0.032         0.466±0.043   0.465±0.045   0.461±0.033   0.470±0.031   0.473±0.038   0.463±0.042         0.472±0.043   0.463±0.053   0.461±0.036
+      Autism diagnosis            0.672±0.057   0.663±0.040   0.654±0.035         0.657±0.036   0.650±0.035   0.646±0.046   0.655±0.058   0.647±0.048   0.664±0.068         0.651±0.063   0.646±0.062   0.649±0.031
+      AD diagnosis                0.448±0.119   0.456±0.107   0.478±0.119         0.378±0.148   0.407±0.124   0.407±0.132   0.430±0.126   0.426±0.132   0.449±0.144         0.447±0.064   0.432±0.058   0.450±0.082
+      FC stability                0.644±0.043   0.644±0.043   0.642±0.043         0.651±0.044   0.652±0.044   0.652±0.043   0.640±0.044   0.640±0.044   0.639±0.044         0.655±0.044   0.655±0.044   0.654±0.043
+      Fingerprinting              0.777±0.171   0.776±0.172   0.767±0.177         0.750±0.188   0.743±0.193   0.739±0.199   0.763±0.185   0.759±0.182   0.762±0.181         0.769±0.189   0.771±0.191   0.768±0.188
+      Age group classification    0.474±0.065   0.473±0.048   0.450±0.065         0.455±0.098   0.442±0.097   0.472±0.099   0.450±0.089   0.422±0.085   0.436±0.086         0.436±0.079   0.450±0.084   0.445±0.076
+      Crystallized intelligence   0.509±0.097   0.505±0.082   0.521±0.083         0.524±0.084   0.532±0.087   0.506±0.084   0.538±0.087   0.542±0.094   0.522±0.093         0.466±0.072   0.474±0.075   0.464±0.068
+      General intelligence        0.453±0.114   0.461±0.108   0.460±0.112         0.443±0.105   0.423±0.120   0.426±0.109   0.469±0.088   0.457±0.080   0.457±0.073         0.441±0.137   0.435±0.141   0.421±0.129
+      Autism cross-site           0.636±0.139   0.635±0.091   0.667±0.111         0.656±0.125   0.660±0.115   0.657±0.064   0.672±0.092   0.657±0.108   0.645±0.073         0.634±0.089   0.648±0.091   0.657±0.069
+                        Table 24: Effect of group atlas generation parameters on performance (360 regions). Values are shown as mean ± standard deviation.
+                 α                                                          0.2                                                                                       0.3
+                 β                                  0.2                                             0.3                                       0.2                                             0.3
+                 γ                    0.7           0.8           0.9                 0.7           0.8           0.9           0.7           0.8           0.9                 0.7           0.8           0.9
+      Gender classification       0.705±0.050   0.710±0.059   0.715±0.064         0.692±0.064   0.701±0.060   0.681±0.054   0.685±0.055   0.683±0.058   0.683±0.049         0.688±0.094   0.682±0.084   0.691±0.087
+      Fluid intelligence          0.521±0.068   0.535±0.084   0.505±0.094         0.517±0.086   0.528±0.077   0.528±0.076   0.532±0.096   0.554±0.083   0.539±0.093         0.551±0.074   0.555±0.078   0.562±0.090
+      Cognitive task (7-way)      0.888±0.045   0.887±0.042   0.879±0.043         0.900±0.040   0.901±0.037   0.898±0.046   0.902±0.049   0.905±0.049   0.899±0.051         0.898±0.054   0.898±0.049   0.893±0.052
+      Cognitive task (24-way)     0.462±0.023   0.469±0.037   0.460±0.039         0.474±0.031   0.472±0.024   0.458±0.036   0.477±0.035   0.478±0.031   0.473±0.030         0.480±0.036   0.472±0.031   0.472±0.034
+      Autism diagnosis            0.673±0.043   0.680±0.044   0.658±0.058         0.688±0.025   0.677±0.056   0.685±0.055   0.654±0.049   0.658±0.058   0.653±0.046         0.660±0.065   0.661±0.050   0.670±0.059
+      AD diagnosis                0.463±0.118   0.448±0.131   0.463±0.117         0.458±0.083   0.462±0.080   0.432±0.082   0.432±0.121   0.402±0.119   0.452±0.113         0.474±0.133   0.459±0.110   0.455±0.104
+      FC stability                0.615±0.043   0.615±0.043   0.614±0.043         0.615±0.043   0.615±0.043   0.614±0.043   0.615±0.043   0.615±0.043   0.614±0.043         0.618±0.044   0.619±0.043   0.618±0.043
+      Fingerprinting              0.853±0.161   0.852±0.164   0.851±0.161         0.857±0.159   0.854±0.166   0.852±0.167   0.863±0.155   0.861±0.157   0.864±0.154         0.870±0.144   0.866±0.147   0.866±0.149
+      Age group classification    0.448±0.071   0.433±0.079   0.448±0.090         0.471±0.080   0.479±0.073   0.465±0.067   0.471±0.084   0.477±0.099   0.467±0.075         0.449±0.067   0.458±0.062   0.449±0.070
+      Crystallized intelligence   0.510±0.115   0.516±0.117   0.496±0.122         0.527±0.103   0.550±0.114   0.520±0.110   0.532±0.089   0.528±0.074   0.537±0.098         0.481±0.085   0.505±0.086   0.502±0.076
+      General intelligence        0.452±0.092   0.446±0.085   0.455±0.087         0.441±0.098   0.453±0.089   0.476±0.114   0.462±0.117   0.478±0.101   0.461±0.107         0.425±0.059   0.432±0.065   0.454±0.053
+      Autism cross-site           0.672±0.114   0.696±0.136   0.663±0.126         0.639±0.177   0.672±0.111   0.668±0.082   0.672±0.109   0.686±0.150   0.665±0.133         0.646±0.211   0.639±0.203   0.646±0.205
+
+
+                        Table 25: Effect of group atlas generation parameters on performance (500 regions). Values are shown as mean ± standard deviation.
+                 α                                                          0.2                                                                                       0.3
+
+
+
+
+31
+                 β                                  0.2                                             0.3                                       0.2                                             0.3
+                 γ                    0.7           0.8           0.9                 0.7           0.8           0.9           0.7           0.8           0.9                 0.7           0.8           0.9
+      Gender classification       0.711±0.081   0.702±0.079   0.707±0.056         0.708±0.057   0.710±0.057   0.719±0.041   0.742±0.056   0.728±0.067   0.714±0.069         0.703±0.051   0.702±0.060   0.700±0.062
+      Fluid intelligence          0.548±0.083   0.537±0.088   0.548±0.094         0.539±0.082   0.544±0.084   0.555±0.085   0.537±0.068   0.545±0.083   0.548±0.089         0.505±0.069   0.505±0.071   0.507±0.066
+      Cognitive task (7-way)      0.892±0.058   0.895±0.054   0.886±0.061         0.880±0.057   0.873±0.049   0.859±0.049   0.898±0.052   0.897±0.052   0.893±0.052         0.886±0.055   0.885±0.051   0.879±0.050
+      Cognitive task (24-way)     0.462±0.035   0.459±0.025   0.445±0.030         0.444±0.027   0.434±0.030   0.432±0.035   0.468±0.036   0.468±0.034   0.456±0.037         0.452±0.032   0.457±0.035   0.459±0.018
+      Autism diagnosis            0.649±0.070   0.661±0.060   0.647±0.047         0.633±0.089   0.590±0.051   0.635±0.050   0.655±0.059   0.667±0.040   0.640±0.063         0.575±0.070   0.580±0.109   0.572±0.085
+      AD diagnosis                0.448±0.092   0.459±0.086   0.455±0.094         0.455±0.095   0.429±0.092   0.474±0.093   0.504±0.105   0.489±0.113   0.497±0.114         0.448±0.101   0.471±0.107   0.478±0.077
+      FC stability                0.603±0.044   0.603±0.044   0.602±0.043         0.603±0.045   0.603±0.044   0.602±0.044   0.602±0.044   0.602±0.044   0.601±0.044         0.607±0.044   0.607±0.044   0.607±0.044
+      Fingerprinting              0.883±0.152   0.884±0.148   0.880±0.150         0.864±0.163   0.864±0.167   0.865±0.161   0.885±0.146   0.885±0.143   0.884±0.144         0.878±0.144   0.879±0.142   0.876±0.142
+      Age group classification    0.475±0.089   0.475±0.096   0.494±0.101         0.476±0.078   0.480±0.102   0.479±0.082   0.477±0.105   0.473±0.116   0.491±0.118         0.469±0.087   0.467±0.083   0.482±0.092
+      Crystallized intelligence   0.530±0.085   0.515±0.114   0.518±0.097         0.538±0.100   0.505±0.088   0.501±0.079   0.527±0.097   0.520±0.105   0.493±0.091         0.545±0.080   0.539±0.071   0.539±0.073
+      General intelligence        0.470±0.110   0.459±0.112   0.463±0.097         0.503±0.133   0.504±0.096   0.506±0.099   0.446±0.117   0.460±0.131   0.453±0.117         0.438±0.119   0.430±0.096   0.445±0.082
+      Autism cross-site           0.636±0.175   0.638±0.166   0.659±0.152         0.560±0.196   0.565±0.170   0.559±0.196   0.644±0.093   0.655±0.125   0.612±0.120         0.531±0.142   0.598±0.131   0.568±0.164
+
+
+
+     Our results reveal several trends. When the number of parcels is small (e.g., 100), using α = 0.2 yields better performance, while α = 0.3 becomes more
+     advantageous as the resolution increases, possibly because finer parcellations require more voxels to capture individual variability—even if some voxels are less
+     reliable. For β, a lower threshold (β = 0.2) tends to offer a marginal performance benefit, possibly due to increased distinctiveness between parcels. Although
+     γ = 0.7 yields slightly better performance overall, we choose γ = 0.8 for group-level atlas generation to match the voxel coverage of MMP [8] and ensure
+     comparability. Consequently, our final group atlas is generated using hyperparameters α = 0.2, β = 0.2, and γ = 0.8.
+17     Spatiotemporal masking strategy
+To ensure that masked regions form contiguous blocks in the high-resolution volume, we first spatially
+downsample the original 96 × 96 × 96 grid by a factor of 16 along each axis, yielding a coarse
+6 × 6 × 6 volume (time dimension T unchanged). We then sample two independent binary masks on
+this downsampled grid: a spatial mask with fraction xs of voxels set to zero, and a temporal mask
+with fraction xt of frames set to zero. We choose xs and xt so that the overall masking ratio satisfies
+                                                (1 − xs ) (1 − xt ) = 1 − r,                                 (10)
+where r is the desired fraction of masked spatiotemporal volume (e.g. r = 0.8 for 80% masking [57]).
+Finally, we upsample these binary masks back to the original resolution by expanding each down-
+sampled voxel mask to a 163 block in space and each temporal mask entry to the corresponding
+contiguous frames. Applying the resulting mask to the full-resolution data yields large, continuous
+spatiotemporal occlusions, encouraging the encoder to reconstruct missing patches using both local
+and long-range context.
+      Spatial mask rate xs
+
+
+
+
+                                 t=0              t=1                t=2                          t=n
+
+                                                      Spatial mask rate xt              fMRI        masked
+
+
+
+
+Figure 11: Illustration of the spatiotemporal masking scheme. We first select a fixed subset
+comprising xs of spatial voxels and mask them to zero across all time steps; additionally, we mask all
+voxels at a fraction xt of temporal frames to zero.
+
+
+18     Train and validation loss
+We select the encoder checkpoint at epoch 8 and visualize the training losses, whose trajectories
+closely match those of other volumetric methods [58].
+
+
+
+
+                             Figure 12: Training losses. We use the epoch-8 encoder checkpoint.
+
+
+                                                             32
+19     Data organization
+There are two parts in our repository, DCA and ATlaScore. Please follow https://github.com/
+ncclab-sustech/DCA for details.
+
+19.1   DCA
+
+The codes for pretraining and personalized clustering. One example subject is provided.
+  DCA/
+      data/
+          fmri/
+          mask/
+          sub_test.txt
+          data_preparation.ipynb
+      results/
+          demo/
+      ablation_fmri.py
+      main.py
+      utils.py
+      swin_unetr.py
+
+19.2   AtlaScore
+
+The codes for evaluating atlases. The volumetric Homogeneity and Silhouette evaluations, as well
+as the surface-based DCBC evaluation, are provided. All 12 downstream tasks are implemented in
+downstream/, with FC features for DCA100 provided as an example.
+   AtlaScore/
+        similarity/
+           compute_adj.py
+           eva.py
+           eva_DCBC.py
+        downstream/
+           docs/
+           fc_data/
+           nii_data/
+           downstream.py
+           demo.ipynb
+
+
+
+
+                                               33
+

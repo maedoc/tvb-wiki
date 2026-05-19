@@ -1,0 +1,1521 @@
+                                                  Temporal Functional Factor Analysis of Brain Connectivity
+                                                                  Kyle Stanley∗             Nicole Lazar†             Matthew Reimherr‡
+
+
+
+                                                                                                    Abstract
+arXiv:2510.15580v1 [stat.AP] 17 Oct 2025
+
+
+
+
+                                                     Many analyses of functional magnetic resonance imaging (fMRI) examine functional connectivity
+                                                 (FC), or the statistical dependencies among distant brain regions. These analyses are typically ex-
+                                                 ploratory, guiding future confirmatory research. In this work, we present an approach based on factor
+                                                 analysis (FA) that is well-suited to studying FC. FA is appealing in this context because its flexible model
+                                                 assumptions permit a guided investigation of its target subspace consistent with the exploratory role of
+                                                 connectivity analyses. However, applying FA to fMRI data poses three problems: (1) its target subspace
+                                                 captures short-range spatial dependencies that should be treated as noise, (2) it requires factorization of
+                                                 a massive spatial covariance, and (3) it overlooks temporal dependencies in the data. To address these
+                                                 limitations, we develop a factor model within the framework of functional data analysis–a field which
+                                                 views certain data as arising from smooth underlying curves. The proposed approach (1) uses matrix
+                                                 completion techniques to filter short-range spatial dependencies out of its target subspace, (2) employs
+                                                 a distributed algorithm for factorizing large-scale covariance matrices, and (3) leverages functional re-
+                                                 gression to exploit temporal dynamics. Together, these innovations yield a comprehensive and scalable
+                                                 method for studying FC.
+
+                                           Keywords: factor analysis, fMRI, functional connectivity, functional data analysis, matrix completion
+
+
+                                           1     Introduction
+                                           Functional magnetic resonance imaging (fMRI) is among the most widely used techniques for studying
+                                           brain function. It is based on the haemodynamic response, a phenomenon wherein oxygenated blood rushes
+                                           to active neuronal tissue. By measuring relative oxygenation levels across the brain, BOLD imaging allows
+                                           researchers to indirectly study brain activity. During an fMRI session, a subject lies in a scanner that collects
+                                           a temporal sequence of three-dimensional BOLD images, discretized by a grid of volume elements, called
+                                           voxels [Lazar, 2008, Lindquist, 2008]. The resulting data are both large and complex. Each brain image
+                                           contains more than 100 thousand voxels, each session includes hundreds of these images, and many modern
+                                           fMRI datasets contain hundreds of such sessions. Moreover, these data exhibit spatiotemporal dependencies
+                                           that complicate their study.
+                                               Analyses of fMRI data may be hypothesis- or data-driven. Hypothesis-driven studies aim to localize
+                                           regions of the brain activated by a certain stimulus. In such studies, the researcher constructs a hypothesized
+                                           time course for a voxel activated by the stimulus, then uses a statistical model to independently test whether
+                                           each voxel’s time course is related to the hypothesized one [Friston et al., 1995]. On the other hand, many
+                                           data-driven studies seek to characterize functional connectivity (FC), or the statistical dependencies among
+                                           distant brain regions [Friston, 2011]. The simplest FC approach is to create a spatial map that visualizes
+                                           correlations between the time course of a seed region and those of other regions [Biswal et al., 1995]. Other
+                                           approaches, like principal component analysis (PCA; Jolliffe, 1986) and independent component analysis
+                                           (ICA; Hyvärinen et al., 2004), are based on linear latent variable models (LLVMs) that represent an fMRI
+                                           scan as a set of spatial maps and their associated time courses. Data-driven approaches do not require
+                                           specification of hypothetical time courses, making them particularly useful in the analysis of resting-state
+                                              ∗ Department     of      Biostatistics,    Epidemiology,       and     Informatics,      University     of   Pennsylvania.
+                                           kyle.stanley2@pennmedicine.upenn.edu
+                                              † Department of Statistics and Huck Institutes of the Life Sciences, Pennsylvania State University. nfl5182@psu.edu
+                                              ‡ Department of Statistics, Pennsylvania State University, and Amazon Science. mlr36@psu.edu
+
+
+
+
+                                                                                                        1
+fMRI (rsfMRI), wherein subjects simply lie at rest in the scanner. Such methods play an exploratory role
+in brain science, aiding in the discovery of unanticipated connectivity that can inform hypothesis-driven
+confirmatory analyses. In this work, we develop a novel LLVM to study FC in resting-state data from
+the PIOP1 dataset of the Amsterdam Open MRI Collection (AOMIC; Snoek et al., 2021), which contain
+six-minute scans collected from 210 subjects at rest.
+    LLVMs describe an M -by-J fMRI data matrix X (M the number of voxels and J the number of time
+points) as the sum of a “signal” term Y having rank K < min{M, J} and a “noise” term ϵ:
+
+                                                 X = |{z}
+                                                     LF +ϵ,
+                                                       Y
+
+where the columns of L ∈ RM ×K contain K spatial maps and the rows of F ∈ RK×J contain their accompa-
+nying time courses. Simply put, LLVMs posit that the interesting behavior in an fMRI scan can be described
+by a few spatial maps that are activated according to their time courses. See Figure 1 for an illustration of
+this LLVM framework. Choosing from among the many possible (L, F ) reduces to answering the following
+questions:
+  1. What is the “target subspace” (fixes Y = span(L))?
+  2. How should the target subspace be “expressed” (fixes L)?
+In what follows, we critique how existing LLVMs answer these questions, and offer better calibrated responses
+that motivate development of our LLVM.
+
+
+
+
+Figure 1: A depiction of the LLVM framework when M = 3, J = 5, and K = 2 (e.g., five time points of a
+three-voxel brain image modeled by a two-component LLVM).
+
+    Fixing the target subspace is equivalent to specifying how noise contaminates the spatial covariance. To
+see this, let C = XX T = C Y + C ϵ be the decomposition of the spatial covariance into signal and noise
+covariances. Given the noise covariance C ϵ , the signal covariance C Y can be written as LLT for some
+M -by-K matrix L, thereby fixing Y = span(L). Noiseless PCA and ICA set C ϵ equal to the zero matrix
+(i.e., all variation is viewed as signal) while their noisy analogues [Tipping and Bishop, 1999, Beckmann and
+Smith, 2004] set C ϵ = σ 2 I for some σ > 0 (i.e., all variation except “background noise” is viewed as signal).
+This raises the question: is the noise structure specified by these models well-calibrated to the study of FC?
+Since it is unreasonable to expect the low-rank signal term of an LLVM to span variation at all spatial scales,
+a more suitable LLVM should absorb short-range spatial dependencies. Classifying such structure as noise
+is especially sensible in FC, where the aim is to describe long-range spatial dependencies.
+    Fixing Y does not uniquely identify an LLVM, as there exist numerous expressions of Y: span(LT ) =
+span(L) = Y for any invertible K-by-K matrix T . Many LLVMs fix L by imposing additional constraints.
+For instance, PCA assumes the columns of L are orthogonal and the rows of F are uncorrelated, while
+ICA assumes the rows of F are statistically independent. This leads to the question: in the study of
+FC, is it appropriate to limit oneself to a single expression of the target subspace? Given the exploratory
+nature of these studies, a more apt approach would permit a principled investigation of the target subspace,
+and might lead to the discovery of connectivity structures obscured by the unique representations of other
+LLVMs. Factor analysis (FA; Harman, 1976, Johnson and Wichern, 2002), a method rarely encountered
+
+
+                                                       2
+in FC research, provides a natural framework in which to conduct subspace exploration, and serves as the
+starting point in development of our approach.
+    FA posits that an observation vector X ∈ RM (e.g., BOLD observations of an M -voxel brain image
+at a fixed time point) having covariance C ∈ RM ×M is the sum of a common component, given by linear
+combinations of zero-mean factors F ∈ RK having covariance E[F F T ] = I, and a unique component, given
+by a vector of uncorrelated zero-mean errors ϵ ∈ RM :
+
+                                                 X = LF + ϵ,
+
+where L ∈ RM ×K is called the loading matrix. If D ∈ RM ×M denotes the diagonal covariance matrix of ϵ,
+then C decomposes as
+                                            C = LLT + D.                                           (1)
+Since D is diagonal, LLT must account for all variation off the diagonal of C. This observation sheds light on
+the named components of the model: the common component describes all between-variable variation while
+the unique component describes leftover within-variable variation. After fixing Y = span(L), FA explores
+this target subspace through through various factor rotations. In orthogonal rotation, one rotates the initial
+expression by an orthonormal matrix R ∈ RK×K to preserve Y and factor uncorrelatedness:
+
+                                           L∗ F ∗ = (LR)(RT F ) = LF
+                                      E[F ∗ F ∗T ] = RT E[F F T ]R = I.
+
+In oblique rotation, one rotates the initial expression by an invertible matrix T ∈ RK×K to preserve Y and
+induce correlations among the factors:
+
+                                         L∗ F ∗ = (LT −1 )(T F ) = LF
+                                     E[F ∗ F ∗T ] = T T E[F F T ]T = T T T .
+
+The matrices R and T are not chosen arbitrarily. Typically, one selects R or T to optimize some objective
+criterion–like varimax [Kaiser, 1958] or quartimin [Jennrich and Sampson, 1966]–that encourages a more
+interpretable simple loading structure, in which (loosely speaking) L contains a few high-magnitude weights
+and many near-zero weights. In this way, factor rotation enables a principled investigation of Y that lends
+itself to the inherently exploratory task of studying FC.
+     There are, however, three obstacles impeding application of FA to fMRI. First, the unique component
+fails to capture short-range spatial dependencies. As discussed, these dependencies ought to reside within
+the noise term since (a) such structure arises naturally in the residuals of low-rank LLVMs fit to fMRI
+data, and (b) FC is concerned only with long-range spatial dependencies. Second, model estimation requires
+factorization of a massive (voxel-by-voxel) spatial covariance. Other LLVMs, like PCA and ICA, circumvent
+this computational hurdle by transposing the problem, replacing X with X T , so that estimation is based
+on a much smaller temporal covariance [McKeown et al., 1998, Beckmann and Smith, 2004]. This strategy,
+however, prevents the decoupling of long- and short-range spatial variation, and is thus ineffectual for a
+model that addresses the first obstacle. Third, FA overlooks the temporal structure in fMRI data, treating
+the brain images X 1 , . . . , X J of an fMRI session as independent. A more appropriate approach would exploit
+this structure to improve estimation of temporal quantities.
+     To develop a better-suited factor model, we place fMRI within the framework of functional data analysis
+(FDA; Ramsay and Silverman, 2005, Wang et al., 2016, Kokoszka and Reimherr, 2017). Data are functional
+if it is natural to assume they arise from some smooth underlying curve. Since one may treat BOLD observa-
+tions of an fMRI scan as noisy realizations from some smooth function over a four-dimensional spatiotemporal
+domain, fMRI (and other spatiotemporal) data are an example of multidimensional functional data. Though
+used sparingly by the neuroimaging community, FDA tools occasionally appear in the literature: functional
+PCA (FPCA, Viviani et al., 2005), functional regression [Reiss et al., 2015, 2017], and functional graphical
+models [Li and Solea, 2018]. To tailor FA to fMRI data, we extend the FA model to this spatiotemporal
+functional setting.
+     This paper builds upon the work of and may be viewed as a sequel to Stanley et al. [2025]. Their key
+insight was to extend FA to discretely-observed functional data by replacing the common-unique decom-
+position of multivariate FA with a global-local decomposition that separates long- and short-range spatial
+
+
+                                                       3
+dependencies. Leveraging the work of Descary and Panaretos [2019], they show that if the global covari-
+ance is smooth with finite rank and the local covariance is banded, then this decomposition is identifiable.
+However, their approach, called functional FA (FFA), still requires factorization of a large spatial covariance
+and ignores the temporal dependencies in fMRI data. They accommodate these limitations by restricting
+analysis to a horizontal slice of the brain and prewhitening voxel time courses. This work addresses the
+shortcomings of Stanley et al. [2025]. First, it leverages the distributed algorithm of Stanley et al. [2025+]
+to enable full-brain model estimation. Second, it acknowledges the temporal structure of fMRI data via
+incorporation of temporal factors whose scores may be computed using techniques from functional regres-
+sion. The resulting approach, called temporal FFA (TFFA), represents a collection of fMRI scans as a set of
+common spatial maps and their affiliated subject-wise time courses.
+    We begin, in Section 2, by presenting the TFFA model at both infinite- and finite-resolution. Section 3
+develops estimation methods for the finite-resolution model, which are studied in the simulations of Section
+4. We then, in Section 5, use TFFA to analyze the AOMIC resting-state data. We conclude with some final
+remarks in Section 6.
+
+
+2     The Model and its Identification
+Since there are four dimensions in fMRI, three spatial and one temporal, there are actually several ways
+to view such data as functional–e.g., a collection of (i) spatial functions indexed over time, (ii) temporal
+functions indexed over space, or (iii) spatiotemporal functions indexed (in the multi-subject setting) over
+subjects. In this paper, we adopt view (iii).
+    We present our factor model for spatiotemporal functional data in two data observation paradigms, the
+first serving as a stepping stone to the second. The first assumes data are observed completely (e.g., a
+brain scan with infinite spatiotemporal resolution, making it a function), while the second assumes data are
+observed discretely on a grid (e.g., a brain scan with finite spatiotemporal resolution, making it a tensor).
+Unless coerced into some non-traditional format, fMRI data falls into this latter paradigm.
+
+2.1    Infinite Resolution
+Let Xi be the ith subject’s zero-mean spatiotemporal random function in L2 ([0, 1]D+1 ), which is endowed
+with the typical inner product and norm:
+                                   Z
+                                                                     2
+                        ⟨f, g⟩L2 =       f (s, t)g(s, t)dsdt and ∥f ∥L2 = ⟨f, f ⟩L2 .
+                                    [0,1]D+1
+
+In fMRI, D = 3 and Xi (s, t) is a scan whose BOLD observations are accessible at infinite spatial and temporal
+resolution. The covariance function of Xi is given by
+
+                                      ci (s, t, s′ , t′ ) = E[Xi (s, t)Xi (s′ , t′ )].
+
+We say Xi follows a temporal functional factor model (TFFM) with K factors if
+                                                    K
+                                                    X
+                                      Xi (s, t) =         lk (s)Fi,k (t) +ϵi (s, t),
+                                                    k=1
+                                                    |        {z        }
+                                                           Yi (s,t)
+
+where Yi and ϵi are the global and local components and, within the global component, lk and Fi,k are
+the kth loading function and functional factor. The model assumes the loadings lk are sufficiently smooth
+(in a senseRto be defined in Section 2.1.2), and that the local covariance is δ-banded when integrated over
+time, i.e., E[ϵi (s, t)ϵi (s′ , t)]dt = 0 when sd − s′d ≥ δd > 0 for some d = 1, . . . , D. We call Yi the global
+term since, as a finite separable sum with smooth spatial components, it contains all spatial variation in
+Xi that is sustained and long-range. On the other hand, we call ϵi the local term since its banded spatial
+covariance ensures it absorbs all sustained short-range spatial variation in the data that is not incidentally
+captured by Yi . That the two terms characterize “sustained” variation arises from the integral assumption
+
+
+                                                             4
+on the local covariance (see Remark 2.1 for details). In what follows, we often condense notation by writing
+l(s) = [l1 (s), . . . , lK (s)] and F (t) = [F1 (t), . . . , FK (t)].
+    Let gi and bi denote the covariance functions of Yi and ϵi , respectively. Assume the random subject-
+specific factors Fi,k and local term ϵi are mean-zero and satisfy
+                                                  Z
+                                                      E[F i (t)F Ti (t)]dt = I and                       (2)
+                                                 Z
+                                                     E[F i (t)ϵi (s, t)]dt = 0.                          (3)
+
+That is, the factors are uncorrelated with unit variance “on average”, and the factors and errors are uncorre-
+lated “on average”. If these conditions hold, then the marginal spatial covariance csi , obtained by integrating
+ci (s, t, s′ , t) over t, decomposes as
+                                              Z 1                           K
+                                                                            X
+                            csi (s, s′ ) :=                    ′
+                                                    ci (s, t, s , t)dt =          lk (s)lk (s′ ) +bsi (s, s),   (4)
+                                               0                            k=1
+                                                                            |        {z         }
+                                                                                  g s (s,s′ )
+
+where g s is the global spatial covariance common to all subjects, and bsi is the local spatial covariance for
+subject i. Note that, in the decomposition of (4), only g s does not depend on the subject. It turns out that
+the local spatial covariance need not be the same for every subject in order to identify g s . By fixing g s ,
+TFFA fixes its target subspace Y = span(l1 , . . . , lK ).
+    If λk and ηk are the kth eigenvalue and eigenfunction of g s , respectively, it is easy to show that one may
+rotate the scaled eigenfunctions η̃k = λ1/2 ηk by some orthonormal matrix R to recover the lk (see Section 2.1
+of the supplement). However, one does not know this rotation in practice. In fact, every rotation of the scaled
+eigenfunctions leads to a statistically equivalent model (i.e., each produces the global term and uncorrelated
+factors; see Section 2.1 of the supplement). In practice, we exploit this ambiguity by exploring the global
+subspace Y through simplicity-inducing orthogonal rotation procedures, which we review in Section 3.2.
+Remark 2.1 (Integrated vs. Pointwise Conditions). To guarantee the spatial covariance decomposition of
+(4), the TFFM imposes several conditions which involve integrating over time. A stronger set of assumptions
+leading to the same decomposition replaces these integral conditions with pointwise conditions (e.g., factors
+are pointwise uncorrelated with unit variance). Even in the resting-state setting, wherein the absence of
+stimuli might lead one to expect temporal uniformity, these pointwise assumptions are too restrictive. By
+instead constraining the integrals, we impose conditions on “average” behavior rather than pointwise behavior.
+This provides a great deal of flexibility. For instance, factors may be transiently correlated and have time-
+varying variance so long as they are uncorrelated with unit variance “on average”. This averaging does,
+however, admit a pathological peculiarity. Consider two distant spatial locations s and s′ whose BOLD
+observations have covariance a when 0 ≤ t < 1/2 and −a when 1/2 ≤ t ≤ 1. Though this contrived data
+contains pointwise global variation (i.e., g(s, t, s′ , t) ̸= 0 for all t), integration removes this structure from
+the global spatial covariance (i.e., g s (s, s′ ) = 0). Consequently, the TFFM may fail to detect transient global
+structure and is best understood as decomposing spatial variation into “sustained” global and local modes.
+
+2.1.1   Correlated Factors
+We refer to the model thus presented as the orthogonal TFFM, as its factors are (on average) uncorrelated.
+The oblique TFFM relaxes the assumption in (2), permitting sustained correlation among the factors:
+                                         Z
+                                           E[F i (t)F Ti (t)]dt = H,                                   (5)
+
+where H is some unknown covariance matrix constrained by diag(H) = I to fix the scale of factor variances.
+Under (5), the global component in the spatial covariance decomposition of (4) admits a decomposition
+different from that in the orthogonal model:
+                                                                   K
+                                                                   X
+                                                     s     ′
+                                                    g (s, s ) =          ˜lk (s)˜lk (s′ ),
+                                                                   k=1
+
+
+                                                                    5
+where ˜l(s) = l(s)V Λ1/2 and H = V ΛV T is the eigendecomposition of H. As we show in Section 2.2 of
+the supplement, one may recover the loadings lk by applying some unknown invertible transformation T
+to the scaled eigenfunctions η̃k . The oblique model is thus even more ambiguous than the orthogonal one.
+Rather than fixing R within the space of orthonormal matrices, we must now fix T within the much larger
+space of unit-diagonal invertible matrices. Though a theoretical inconvenience, this added indeterminacy
+has practical appeal: by expanding the space of transformations, one may discover simpler expressions of
+the spatial loadings than is possible in the orthogonal setting. This is accomplished via a suite of oblique
+rotation procedures, which we review in Section 3.2. Since the sole difference between the orthogonal and
+oblique models is the type of transformation applied to the scaled eigenfunctions we present our work in the
+orthogonal setting, highlighting any deviations that arise in the oblique setting.
+
+2.1.2   Global-Local Uniqueness
+Regardless of whether one assumes orthogonal or oblique factors, recovery of the loading functions requires
+knowledge of g s . It is thus critical that g s be uniquely determined by csi . The assumptions of the TFFM
+impose two conditions on the spatial covariance decomposition: g s has finite rank, and bsi is δ-banded. These
+restrictions, however, do not sufficiently constrain the problem. Given csi , we know g s off the band, but it is
+not clear how to uniquely extend g s onto the band. It turns out that a particular formulation of smoothness,
+called real analyticity, permits this unique extension. Guided by the work of Descary and Panaretos [2019],
+Theorem 1 from Section 3.1 of the supplement in Stanley et al. [2025] shows that if, in addition, the lk are
+real analytic, then g s is uniquely determined by csi . The proof exploits the so-called continuation property
+of analytic functions, which states that if a function is analytic over some domain, but is known only on an
+open subset of that domain, then the function extends uniquely to the rest of the domain.
+
+2.2     Finite Resolution
+In practice, we observe a spatiotemporal function Xi at finite spatial and temporal resolution. Let {Im }m∈NM
+be the partition of [0, 1]D into cells of size M1−1 ×· · ·×MD
+                                                            −1
+                                                               , where M = (M1 , . . . , MD ) is the spatial resolution
+and NM = NM1 × · · · × NMD is the set of all D-dimensional multi-indices with dth dimension no greater
+than Md (i.e., NMd = {1, . . . , Md }). Given that fMRI partitions three-dimensional space into a uniform grid
+of voxels, one can view Im as representing the voxel at grid coordinate m = (m1 , m2 , m3 ). We assume, as
+is true in multi-subject fMRI data, that spatial images are comprised of the same M = M1 . . . MD discrete
+points S = {sm ∈ Im : m ∈ NM } across subjects and time points. We also assume that each Xi is observed
+on the same evenly-spaced J-resolution temporal grid T = {tj : j ∈ NJ }. As detailed in Remark 2.2, we
+informally require this temporal grid to be sufficiently dense relative to the temporal smoothness of variation
+in the data. This scheme gives rise to the following observation model:
+                                           K
+                                           X
+                         Xi (sm , tj ) =         lk (sm )Fi,k (tj ) +ϵi (sm , tj ), m ∈ NM , j ∈ NJ .
+                                           k=1
+                                           |          {z          }
+                                                  Yi (sm ,tj )
+
+
+Summarizing the functional terms in the model with the tensors
+
+                  Xi (m, j) = Xi (sm , tj ),          Yi (m, j) = Yi (sm , tj ),         Ei (m, j) = ϵi (sm , tj ),
+
+                                      Lk (m) = lk (sm ),                Fi,k (j) = Fi,k (tj ),
+
+we can compactly write the (M , J)-resolution TFFM with K factors as
+                                                            K
+                                                            X
+                                                   Xi =          Lk ⊗ Fi,k +Ei ,
+                                                           k=1
+                                                           |      {z        }
+                                                                   Yi
+
+where ⊗ denotes the usual tensor product.
+
+
+                                                                   6
+Remark 2.2. (Integral Approximations) At finite resolution, we informally assume that T is dense relative
+to the smoothness of several covariances: E[ϵi (s, t)ϵi (s′ , t)], E[Fi,k (t)Fi,k′ (t)], and E[Fi,k (t)ϵi (s, t)]. This
+ensures discrete approximations to the integral conditions of Section 2.1 do not incur too much error:
+                         Z                                   X
+                            E[ϵi (s, t)ϵi (s′ , t)]dt ≈ J −1   E[ϵi (s, tj )ϵi (s′ , t′j )],
+                                                                     j
+                            Z                                       X
+                                                               −1
+                                 E[Fi,k (t)Fi,k′ (t)]dt ≈ J              E[Fi,k (tj )Fi,k′ (tj )], and
+                                                                     j
+                             Z                                      X
+                                 E[Fi,k (t)ϵi (s, t)]dt ≈ J −1           E[Fi,k (tj )ϵi (s, tj )].
+                                                                     j
+
+The decomposition of the spatial covariance in (7) depends on these high-fidelity approximations. Note that
+even if functional factors and error functions are themselves temporally rough, it is reasonable to assume
+that expectations among and between these functions are smooth.
+   Now, use the following M1 × · · · × MD × J × M1 × · · · × MD × J tensors to summarize discretizations of
+the model’s covariance functions:
+
+                                         Ci (m, j, m′ , j ′ ) = ci (sm , tj , sm′ , tj ′ ),
+                                         Gi (m, j, m′ , j ′ ) = gi (sm , tj , sm′ , tj ′ ),
+                                         Bi (m, j, m′ , j ′ ) = bi (sm , tj , sm′ , tj ′ ).
+
+
+Then the full covariance decomposes as
+                                                        Ci = Gi + Bi .                                             (6)
+In the orthogonal context, summing each tensor in (6) over j yields the following decomposition of the spatial
+covariance:
+                                                K
+                                                X
+                                          Cis =    Lk ⊗ Lk +Bis .                                         (7)
+                                                         k=1
+                                                         |      {z        }
+                                                                Gs
+
+Similar to the infinite-resolution setting, the Lk are equal to the scaled eigentensors, H̃ = λ1/2 Hk , of G s up
+to an orthogonal rotation, where λk and Hk are the kth eigenvalue and eigentensor of G s , respectively. Note
+also that since bi is δ-banded in space, the tensor Bis is banded. Moving forward, we declutter notation by
+replacing M1 × · · · × MD with M where appropriate.
+
+2.2.1    Identifiability
+Analogous to the problem posed at infinite resolution, we must uniquely identify G s from Cis . This, however,
+is not obviously possible since analyticity, used to establish uniqueness at infinite resolution, is a property
+of functions, not of tensors. It turns out that G s may still be identified from Cis and that analyticity plays
+a crucial role. Stanley et al. [2025], guided by Descary and Panaretos [2019], establish that G s is unique
+provided each δd is less than 1/2 and
+                                                         D
+                                                         Y
+                                         K ≤ K∗ =
+                                                                            
+                                                            (1/2 − δd )Md − 1 .                                    (8)
+                                                        d=1
+
+
+3       Estimation
+Estimation of quantities in the finite-resolution model proceeds in four stages: (i) subspace estimation, (ii)
+subspace exploration, (iii) postprocessing, and (iv) factor score estimation. In (i), we use low-rank covariance
+
+
+                                                                 7
+matrix completion to estimate the global spatial covariance and define an initial expression of the associated
+subspace using its scaled eigentensors. In (ii), we explore this global subspace via various orthogonal and
+oblique rotations that encourage a structure simpler than that of the eigentensors. In (iii), we sharpen our
+estimate of the global subspace and make its expression more interpretable through smoothing and shrinkage.
+Finally, in (iv), we treat the postprocessed loadings of (iii) as fixed within the TFFM then estimate scores
+for the random factors via function-on-scalar regression.
+
+3.1    Subspace Estimation
+Recall that when the data are observed at resolution (M , J) the spatial covariance for subject i decomposes
+as
+                                                K
+                                                X
+                                          Cis =    Lk ⊗ Lk +Bis .
+                                                    k=1
+                                                    |     {z    }
+                                                          Gs
+
+Averaging the subject-wise spatial covariances produces a structurally equivalent (smooth and low-rank, plus
+banded) decomposition of the average spatial covariance,
+                                                n          K
+                                      s   1X s X
+                                     C :=      C = Lk ⊗ L k + B s ,
+                                          n i=1 i
+                                                          k=1
+
+         s    −1       s
+                   P
+where B = n         i Bi . Given a finite-resolution sample of spatiotemporal functions summarized by the
+                          M×J                                                         s
+tensors X1 , . . . , Xn ∈ R  , our goal is to estimate the global spatial covariance G from the empirical
+average spatial covariance,
+                                               n   J
+                                          1 XX
+                                   Cˆs =             (Xi − X̄ )j ⊗ (Xi − X̄ )j ,
+                                         nJ i=1 j=1
+
+where X̄ = n−1 i Xi , and (Xi − X̄ )j denotes the jth time point of the ith subject’s centered observation.
+                     P
+
+    Our definition and implementation of Ĝ s is similar to that of the global covariance estimator in the FFM
+of Stanley et al. [2025]. The estimator Ĝ s is a low-rank covariance tensor that is a good approximation to
+Cˆs off the band:                              (                   )
+                                                              2
+                               Ĝ = arg min Z ◦ Cˆ − θ
+                                 s                      s
+                                                                     + τ rank(θ),                           (9)
+                                      θ∈ΘM                          F
+
+where ΘM is the space of M × M covariance tensors                                   ˆs
+                                               n with trace norm bounded by that of C , Z
+                                                                                        o is the M × M
+“band-deleting” tensor defined by Z(m, m′ ) = 1 md − m′d > ⌈Md /4⌉, for all d = 1, . . . , D , and τ > 0 is
+a rank parameter. The estimator for Ĝ s may then be used to define estimators for the number of factors K
+and initial loadings Lk :
+                                                                1/2
+                                  K̂ = rank(Ĝ s ) and L̂k = λ̂k Ĥk ,
+for k = 1, . . . , K, where λ̂k and Ĥk are the kth eigenvalue and eigentensor of Ĝ s , respectively. Stanley
+et al. [2025] encourage smoothness in their initial loading estimates by including a roughness penalty in their
+objective function. To achieve smoothness, we instead recommend smoothing the loadings as a postprocessing
+step (see Section 3.3.1). Though less streamlined than the penalization strategy of Stanley et al. [2025],
+postprocessed smoothing allows for finer control of loading-specific smoothness since each tensor is smoothed
+independently.
+    To describe how one performs the optimization in (9), let us first assume that we have already chosen a
+                                                                                    2
+rank parameter τ ∗ . Define the functional f : RM×M → R by f (θ) = Z ◦ Cˆs − θ          . We then estimate G s
+                                                                                       F
+as follows:
+ (a) Solve the optimization problem
+                                          min   f (θ)     subject to    rank(θ) ≤ j,
+                                    0⪯θ∈RM×M
+
+
+
+                                                          8
+      for j ∈ {1, . . . , K ∗ }, obtaining minimizers θ̂1 , . . . , θ̂K ∗ .
+
+ (b) Compute the quantities {f (θ̂j ) + τ ∗ j : j = 1, . . . , K ∗ } and determine the j furnishing the minimum
+     quantity. Declare the corresponding θ̂j to be the estimator Ĝ s .
+
+    In practice, we do not explicitly choose the rank parameter τ . Since each τ implies a choice of rank jτ ,
+and thus some f (θ̂jτ ), we use the nonincreasing function j 7→ f (θ̂j ) to implicitly select τ . Specifically, we
+find the smallest j such that f (θ̂j ) < c for some threshold c, then set Gˆs to the corresponding minimizer.
+The threshold c should be small enough for f evaluated at the estimator to be low, but not so small that the
+estimator has large rank. We thus select the rank of the estimator by identifying the elbow of the scree-type
+plot generated by the function j 7→ f (θ̂j ).
+
+
+
+
+                                                             (a) Small τ
+
+
+
+
+                                                             (b) Large τ
+
+Figure 2: An illustration of the scree plot approach for selecting the number of factors using (a) a small rank
+penalty τ1 and (b) a large rank penalty τ2 . Black circles represent the non-increasing function j 7→ f (θˆj ),
+orange squares represent the rank penalty τ j, and blue triangles represent their sum (the function to be
+minimized). The number cτ is one example of a threshold furnishing the rank jτ .
+
+   We solve the optimization problems in (a) by formulating them as low-rank covariance matrix completion
+(LRCMC) problems. Note that any rank-j covariance tensor θ ∈ RM×M has square matricization θsq ∈
+RM ×M , M = M1 × · · · × MD , that may be expressed as V V T , where V ∈ RM ×j . The optimization
+problems in (a) thus reduce to the factorized matrix completion problems
+                                                                           2
+                                                min       Z sq ◦ Cˆsq
+                                                                   s
+                                                                      −VVT     ,                             (10)
+                                              V ∈RM ×j                        F
+
+for j = 1, . . . , K ∗ . Although the problems in (10) are not convex in V , there is reason to trust that
+gradient-based algorithms will converge to “good” local minima. One reason is that closely related problems
+have no spurious local minima (i.e., all local minima are global; Ge et al., 2016). Other theory suggests
+that gradient-based routines converge to statistically useful solutions given high-quality initializations [Chen
+and Wainwright, 2015]. Bearing this in mind, Stanley et al. [2025] solved the problems in (10) using an
+implementation of the Broyden–Fletcher–Goldfarb–Shanno (BFGS; Broyden, 1970, Fletcher, 1970, Goldfarb,
+
+
+                                                                  9
+                                                                                       1/2
+1970, Shanno, 1970) algorithm, which they initialized with V 0 = U j Σj , where U j Σj U Tj is the rank-j
+truncated eigendecomposition of Cˆsq s
+                                       . Although this approach indeed discovers “good” local minima, its
+application does not scale to the full brain. Consider that the 300 thousand voxels in each AOMIC resting-
+state scan yield a spatial covariance that consumes 365 GB when stored as 32-bit floating points. One
+can shrink this problem by considering only those voxels that reside within the brain but even then the
+spatial covariance at hand is massive. To start, this means that the eigendecompositon of Cˆsqs
+                                                                                                required for
+initialization is prohibitively expensive. We work around this by applying a randomized SVD solver [Halko
+et al., 2011] to a subset of the original data that allows us to approximate the initialization of Stanley
+et al. [2025]. However, the central challenge in solving (10) remains: any single-machine algorithm that
+processes the full spatial covariance at once will suffer from slow iterations and, even worse, exceed the
+memory limits of many machines. We address this by invoking a distributed stochastic gradient descent
+(DSGD; Stanley et al., 2025) algorithm that solves a wide class of LRCMC problems, including the one in
+(10). This algorithm, which adapts the procedure of Gemulla et al. [2011] to covariance matrices, requires
+little inter-machine communication, and distributes the storage of large covariance matrices across multiple
+machines.
+
+3.2     Subspace Exploration
+After estimating the global subspace, the next task is to choose a representation of this subspace. Of course,
+we could always select the initial loadings L̂k , but these generally obscure interesting structure. This is
+because eigentensors tend to have many high-magnitude weights, which complicates their identification with
+parsimonious spatial maps that arise from neurological processes (e.g., visual processing). The problem
+is that eigentensors must be orthogonal, a restriction that often scrambles parsimonious structure hidden
+within the global subspace. Rotation can unscramble this structure, and produce interpretable loading
+estimates that greatly facilitate interpretation of the latent factors. Rotations may be orthogonal or oblique,
+the former preserving uncorrelated factors, and the latter inducing correlations among them. Below, we
+describe several tensorial rotation procedures whose implementation reduces to transforming the matricized
+tensors via a multivariate procedure. In these descriptions, let L̂ ∈ RM ×K̂ , M = M1 , . . . , MD , be the matrix
+representation of the loading tensors whose kth column is the vectorization of the initial estimate of the kth
+loading tensor.
+
+3.2.1   Orthogonal Rotation
+Orthogonal rotation is appropriate when one would like to study uncorrelated (on average) functional factors.
+There are numerous orthogonal rotation algorithms for multivariate data, each choosing some K̂-by-K̂
+orthonormal matrix R that rotates the initial loadings towards some optimal structure. Two of the most
+popular orthogonal rotation procedures are quartimax [Neuhaus and Wrigley, 1954] and varimax [Kaiser,
+                                                                                                ∗
+1958], which simplify the rows and columns, respectively, of the loading matrix. If we define L̂ (m) = L̂(m)R,
+then in the tensorial setting, quartimax maximizes
+                                                   K
+                                                   X
+                                                            (L̂∗k )4       ,                                 (11)
+                                                                       F
+                                                   k=1
+
+while varimax maximizes
+                                           K
+                                           X                                   2
+                                                 (L̂∗k )4        − (L̂∗k )2        ,                         (12)
+                                                             F                 F
+                                           k=1
+
+both with respect to R. Practically, maximizing (11) and (12) is equivalent to applying multivariate quar-
+timax and varimax to L̂, respectively.
+
+3.2.2   Oblique Rotation
+If one wishes to discover a structure simpler than that found by orthogonal rotation and is not constrained
+to studying uncorrelated (on average) functional factors, then one should use oblique rotation. Each oblique
+
+
+                                                             10
+rotation scheme identifies some K̂-by-K̂ invertible matrix T satisfying diag(T T T ) = I that rotates the
+loading matrix towards a structure amenable to interpretation. Among the most popular is direct oblimin
+rotation [Jennrich and Sampson, 1966] which encourages simplicity while controlling factor correlation. If
+we define L̂∗k (m) = L̂k (m)T −1 , then in the tensorial setting, direct oblimin minimizes
+                                 X
+                                       (L̂∗k )2 (L̂∗k )2       − α (L̂∗k )2       (L̂∗k )2        ,      (13)
+                                                           F                  F              F
+                                k<k′
+
+as a function of T , where α controls the degree to which factors are correlated. When α is zero, the factors
+are maximally correlated, and direct oblimin is called quartimin. As α takes on increasingly negative values,
+the factors become less correlated. Generally, one should avoid using positive values of α as this may produce
+degenerate solutions. In practice, we minimize (13) by applying multivariate direct oblimin rotation to L̂.
+
+3.3     Postprocessing
+After selecting a useful representation of the global subspace, we may (optionally) postprocess this repre-
+sentation via smoothing and shrinkage. These steps can refine the estimate of the global spatial covariance
+and lead to more interpretable representations.
+
+3.3.1   Smoothing
+Since the objective of (9) ignores contaminated on-band elements of the empirical covariance, its minimization
+implicitly smooths the initial L̂k . In practice, however, these estimates may still be too rough, and could
+benefit from explicit smoothing. Stanley et al. [2025] encourage such smoothness by adding a roughness
+penalty to their objective function. We instead recommend smoothing the rotated L̂∗k as a postprocessing
+step. Though less streamlined than the strategy of Stanley et al. [2025], postprocessed smoothing allows
+users to more easily achieve different levels of smoothness for each loading. We opt to smooth each loading
+independently with a Gaussian filter that applies one-dimensional convolutions along each spatial dimension.
+Component-wise smoothness is controlled by scale parameters σk that set the standard deviation of the
+Gaussian kernels used in each one-dimensional convolution. Section 3 of the supplement describes how to
+tune these σk via cross-validation. Henceforth, we let L̃k denote the kth rotated loading after smoothing.
+
+3.3.2   Shrinkage
+Rotation induces a “simple” loading structure which, roughly speaking, is achieved when there are many
+low-magnitude weights and relatively few high-magnitude weights. However, some applications call for a
+“sparse” loading structure in which many weights are not just low-magnitude, but are actually set to zero.
+This is arguably the case in FC wherein it is useful to know which brain regions are not activated by a latent
+factor. Our shrinkage procedure attains sparsity by adaptively soft-thresholding the smooth rotated L̃k :
+                                                                           
+                         L̄k (m) = sgn L̃k (m) max L̃k (m) − κk w L̃k (m) , 0 ,
+
+                                                                                             −2
+where w(·) is a weight function with positive support (e.g., w(x) = |x| ), and the κk > 0 are shrinkage
+parameters which may be tuned via cross-validation as described in Section 3 of the supplement.
+
+3.4     Factor Score Estimation
+Though the discretized factors F1 , . . . , FK̂ ∈ RJ are random, and not parameters in the usual sense, their
+estimates, called factor scores, can be quite informative. In fMRI, these estimates track the subject-specific
+activity of estimated spatial maps throughout a scan. They can also serve as inputs to diagnostic tests that
+evaluate the suitability of the assumption in (2), that the factors are uncorrelated with unit variance on
+average.
+    We use techniques from functional regression to compute factor scores. Let us temporarily return to the
+infinite-resolution TFFM, but fix the spatial location at one of the discrete spatial observation points sm
+
+
+                                                                11
+and swap out the true loadings lk evaluated at that point for the postprocessed estimates L̄k . The resulting
+model may be written as
+                                               XK̂
+                                      Xm (t) =     L̄k,m Fk (t) + ϵm (t),
+                                                  k=1
+
+where Xm (t) = X(sm , t), L̄k,m = L̄k (m), and ϵm (t) = ϵ(sm , t). That is, the infinite-resolution TFFM be-
+comes a function-on-scalar (F-on-S) regression model where Xm is the functional response indexed discretely
+over space, the L̄k,m are viewed as scalar predictors, and the Fk are the functional parameters to be esti-
+mated. In Section 4.1 of the supplement, we describe a F-on-S method for estimating these Fk that is similar
+to the one outlined in Section 13.4.5 of Ramsay and Silverman [2005]. We control the smoothness of the
+estimates via a component-wise tuning parameter γ that may be selected using the spatial cross-validation
+procedure described in Section 4.2 of the supplement. With these functional estimates at hand, one need
+only evaluate each F̂k on T to obtain estimates for the discrete Fk .
+
+3.4.1    A Diagnostic for the Orthogonal TFFM
+One may use factor score estimates F̂i ∈ RK̂×J , i = 1, . . . , n, to validate the assumption in (2) of the
+orthogonal model, that the factors are, on average, uncorrelated with unit variance. If this assumption
+holds, then one would expect
+                                             n
+                                          1 X
+                                                F̂i F̂iT ≈ I K̂×K̂ .
+                                         nJ i=1
+In Sections 5, we employ this diagnostic to assess the suitability of the orthogonal TFFM when applied to
+resting-state fMRI data.
+
+
+4       Simulation Studies
+We now investigate the efficacy of our methodology through three simulation studies. In the first, we compare
+the accuracy of our postprocessed estimator for the global spatial covariance to that of several competing
+estimators. In the second, we highlight the different ways in which select methods express the estimated
+global subspace via the empirical loadings. In the third, we study the performance of our methodology for
+factor score estimation in various settings. We begin, in Section 4.1, by outlining the data generating process
+used across these studies.
+
+4.1     Data Simulation
+For each study, we simulate data from a TFFM with spatial dimension equal to two, and simplify designs
+by setting M = M1 = M2 and δ = δ1 = δ2 . We simulate n i.i.d. mean-zero functions Yi (s, t) and n
+i.i.d. mean-zero functions ϵi (s, t) on an evenly spaced M × M × J lattice in [0, 1]3 , and summarize these
+discretizations with the order-3 tensors Y (i) and ϵ(i) , respectively. We sum these components to get the
+samples X (i) = Y (i) + ϵ(i) , then calculate the empirical spatial covariance tensor
+                                                     n   J
+                                                  1 X X (i)     (i)
+                                          Cˆns =           X ⊗ Xj ,
+                                                 nJ i=1 j=1 j
+
+         (i)
+where Xj ∈ RM ×M is the 2-dimensional spatial image at the jth time point.
+                                                            PK
+     To simulate the functions Yi , we set Yi (s, t) =        k=1 ck zk (s)fik (t), where the zk are (possibly non-
+orthogonal) functions scaled to unit norm, the ck are positive constants, and the fik are (in the orthogonal
+case) i.i.d. realizations of a zero-mean Gaussian process with squared exponential kernel having length
+parameter ωf (n.b., such factors will have pointwise unit variance). In the oblique case, we rotate f i =
+[fi,1 , . . . fi,K ] by some invertible matrix T satisfying diag(T T T ) = I to induce the covariance H = T T T
+among the factors. The kth loading function is decomposed into its normalization zk and a scaling constant
+ck to make some loadings functions more difficult to estimate than others. Moreover, the (ck , zk ) are not
+
+
+                                                         12
+necessarily equal to the eigen-pairs (λk , ηk ) of the global spatial covariance G , as we do not require that
+the zk are orthogonal. Throughout these studies, we consider the three loading schemes depicted in Figure
+3. In the first scheme (denoted by BI), each zk is defined piecewise with a bump function in two regions
+of its domain, and is zero elsewhere. Each zk in the second scheme (denoted by NET) is also defined by
+piecewise bump functions, but their arrangement mimics that of known resting-state networks (e.g., default
+mode, executive, right dorsal visual stream, left dorsal visual stream). In the third loading scheme (denoted
+by TRI), each zk is defined by three bump functions, one of which is larger than the others.
+
+
+
+
+                                (a) BI                                      (b) NET
+
+
+
+
+                                                     (c) TRI
+
+                  Figure 3: The three loading schemes used throughout simulation studies.
+                                                      PP
+    To simulate the functions ϵi , we set ϵi (s, t) = j=1 aij vij (s)uij (t), where the uij are i.i.d. realizations
+of a zero-mean Gaussian process with squared exponential kernel having length parameter ωu , the aij are
+positive constants, and P >> K. Furthermore, the (possibly non-orthogonal) vij are 2-dimensional bump
+functions scaled to unit norm with support contained by [(p − 1)δ, pδ] × [(q − 1)δ, qδ] where p and q are chosen
+so that the intersection of this product with [0, 1]2 is non-empty. Note that the local spatial covariance may
+be different for each subject.
+    In all simulations, we set the number of time points J = 500, a number close to that of the AOMIC
+resting-state data (where, after pre-processing, J = 470). Moreover, we set the length parameters ωf = 0.02
+and ωu = 0.002 as this results in relative global-local temporal smoothness that roughly mimics that of
+resting-state cognitive processes and low-frequency noise. Finally, the way in which we choose the loading
+coefficients ck and error coefficients aij determines the “regime” of a simulation and impacts the difficulty of
+estimation. Throughout these studies, we make use of two regimes, the second presenting a more challenging
+estimation problem than the first. In both regimes, the aij are distributed uniformly in [0.1, 1], while the ck
+are distributed uniformly in [2, 3] and [0.8, 1.8] in regimes one and two, respectively.
+
+
+
+                                                        13
+4.2    Study 1: Global Covariance Estimation
+The goal of our first study is to compare the accuracy of our postprocessed estimator (denoted by TFFA)
+to that of several other global covariance estimators:
+  1. TFFA without shrinkage (denoted by MCS, for marix completion with smoothing).
+
+  2. TFFA with neither smoothing nor shrinkage (denoted by MC, for matrix completion).
+  3. Independent component analysis with smoothing (denoted by ICAS): after pre-smoothing the data
+     using a Gaussian filter, we estimate G s by extracting from
+                                                             P the data an M × M × K tensor Ŝ of
+     independent components via MELODIC, then compute k Sˆk ⊗ Sˆk where the M × M matrix Sˆk is
+     the kth estimated independent component.
+
+  4. ICAS without pre-smoothing (denoted by ICA).
+     For TFFA, MCS and ICAS, we must select smoothing and (possibly) shrinkage parameters prior to
+model estimation. To accomplish this, we utilize the cross-validation procedures outlined in Section 3 of the
+supplement, setting the number of folds equal to three. We expedite tuning by replacing component-wise
+hyperparameters (e.g., σ and κ) with single parameters applied to each component (e.g., σ and κ). When
+estimating via TFFA, MCS, or MC, we set the bandwidth equal to 0.1, even when the true bandwidth is
+smaller.
+     The study evaluates each estimator in 48 scenarios, each defined by a loading scheme (BI or NET),
+number of factors (2 or 4), bandwidth (0.05 or 0.1), regime (1 or 2), and number of subjects (5, 10, or 20).
+For 100 repetitions of each scenario, we use each of the five estimators to compute an estimate x of the global
+spatial covariance G s then compute normalized errors E(x) = ∥G s − x∥F /∥G s ∥F . To quantify the relative
+performance of the TFFA estimator, we form relative errors by dividing the normalized errors for the MCS,
+MC, ICAS, and ICA estimators by that for the TFFA estimator. Figure 4 displays results for all scenarios.
+     In nearly every scenario, TFFA furnishes the most accurate global covariance estimates. The benefits of
+shrinkage and smoothing (quantified by the gaps between the dotted line and MCS errors, and MCS and
+MC errors, respectively) are consistently present in BI scenarios but more sporadic in NET scenarios. This
+is likely because the universal smoothing parameters used in this study are poorly suited to the NET scheme
+whose loadings display variable sparsity and smoothness. This suggests that practitioners should opt for
+component-wise tuning when compute time is not a concern.
+     The ICA-based estimators generally lag behind the others, although pre-smoothing (quantified by the
+difference between ICAS and ICA errors) is sometimes quite helpful, particularly in the second regime. In
+this regime, the benefits of pre-smoothing are most pronounced when δ = 0.05 but less so when δ = 0.1.
+This is because smoothing the data smears more unwanted local variation into the global covariance in
+high-bandwidth scenarios.
+
+4.3    Study 2: Global Covariance Expression
+In our second study, we examine how various methods express their target subspace and comment on the
+alignment of these expressions with the ground truth. To do so, we examine output from orthogonal TFFA,
+oblique TFFA, and ICAS when data arise from orthogonal and oblique TFFMs, and model dimension is
+correctly specified (i.e., K̂ = K). In Section 5.1 of the supplement, we explore the implications of dimension
+overspecification (i.e., K̂ > K). Throughout, we consider regime-two scenarios with loading scheme set to
+TRI, K set to 8, n set to 20, and δ set to 0.1.
+    When data arise from an orthogonal model, estimates from all three methods are in close alignment with
+the true loading functions, while those from both TFFA methods possess sparse structure that facilitates
+interpretation (see Figure 5). It is worth noting that despite employing an oblique rotation procedure, oblique
+TFFA is nonetheless able to recover the loadings of an orthogonal model since every orthogonal rotation is
+also a permissible oblique rotation. When data are generated from an oblique model, output from TFFA
+and ICAS is in reasonable alignment with the ground truth, but that from orthogonal TFFA is noticeably
+less simple than the true loadings (see Figure 6). In fact, since the space of orthogonal rotations is a strict
+(and comparatively tiny) subset of oblique rotations, oblique algorithms will, in general, discover simpler
+
+
+                                                      14
+Figure 4: Mean relative errors (with ±2-standard-deviation error bars) for all scenarios using the TFFA
+estimator as baseline.
+
+
+structure than orthogonal algorithms. It is thus advisable, at least when K is known, to favor oblique TFFA
+over orthogonal TFFA unless one wishes to study only uncorrelated factors.
+
+4.4    Study 3: Factor Score Estimation
+The third and final study evaluates the performance of our methodology for factor score estimation. Recall
+that to compute a subject’s factor scores, we treat the postprocessed loadings as fixed predictors, view
+the subject’s factors as functional parameters, then estimate these factors via function-on-scalar (F-on-S)
+regression. To ensure that error incurred during loading estimation does not contaminate this study, we
+replace the postprocessed loadings in the usual procedure with the true ones.
+    Throughout this section, we consider regime-one data simulated from an orthogonal TFFM on a 40-by-
+40 grid using the BI loading scheme with K = 2 and n = 20. We evaluate factor score estimation in six
+scenarios, each given by the height h (20, 30, or 40 pixels) of a square mask centered within the 40-by-40
+grid outside of which pixels are ignored, and a bandwidth δ (0.05 or 0.1).
+    To isolate the effect of smoothing, we compare our approach (denoted by FOSR, for F-on-S regression)
+to one that estimates the factors at each time point independently (denoted by PWLS, for pointwise least
+squares). For 10 repetitions of each (h, δ) combination, we estimate factor scores via FOSR and PWLS. We
+then compute nK reconstruction errors for each repetition by evaluating Eik (x) = ∥F ik − x∥F ∥F ik ∥F at
+the ith subject’s kth factor score estimate x, for i = 1, . . . , n and k = 1, . . . K. Figure 7 plots these errors
+
+
+
+                                                        15
+                                              (a) Orthogonal TFFA
+
+
+
+
+                                                (b) Oblique TFFA
+
+
+
+
+                                                    (c) ICAS
+
+Figure 5: Estimates for order-8 models when data are generated from an orthogonal model in scenario of
+Study 2.
+
+
+for each scenario and method.
+    In all scenarios, FOSR errors are substantially smaller than PWLS errors, providing clear evidence for the
+benefits of smoothing. Moreover, the estimates for both methods improve as h increases. In fMRI, increasing
+h is analogous to analyzing a larger region of the brain (i.e., expanding a study’s brain mask). Note that
+this is not equivalent to increasing the spatial resolution of a fixed region, which only slightly increases the
+effective sample size and thus has little effect on the quality of factor score estimates. However, estimates for
+both methods degrade as δ increases. This is because neither method accounts for spatial autocorrelation
+among the residuals. One could address this by instead minimizing some generalized least squares criterion,
+but this would necessitate the inversion of a large spatial error covariance, an intractable task in our fMRI
+
+
+                                                       16
+                                             (a) Orthogonal TFFA
+
+
+
+
+                                              (b) Oblique TFFA
+
+
+
+
+                                                   (c) ICAS
+
+Figure 6: Estimates for order-8 models when data are generated from an oblique model in scenario of Study
+2.
+
+
+application.
+
+
+5    AOMIC Analysis
+We now turn to the AOMIC-PIOP1 dataset which includes six-minute resting-state scans for 210 healthy
+university students. Before each subject’s resting-state session, a structural image was acquired at a resolu-
+tion of 1 mm isotropic. A functional image was then acquired at a spatial resolution of 3 mm isotropic and a
+temporal resolution of 0.75 seconds. Preprocessing of anatomical and functional MRI were performed using
+
+
+
+                                                     17
+Figure 7: Factor reconstruction errors for the FOSR and PWLS estimators for each combination of h and δ.
+
+
+a standard Fmriprep pipeline [Esteban et al., 2019], as detailed in Snoek et al. [2021].
+    We conducted three additional preprocessing steps to prepare these data for analysis via our method-
+ology. To start, we discarded the first ten volumes from each subject’s scan as these often contained large
+signal fluctuations due to scanner instability. Next, we used FMRIB’s ICA-based X-noiseifier (FIX; Salimi-
+Khorshidi et al., 2014, Griffanti et al., 2014) to remove lingering noise components (e.g., head movement,
+respiratory motion, and scanner artifacts) from each subject’s scan that remained after Fmriprep processing.
+This involved (i) performing single-subject ICA via MELODIC for all 210 subjects, (ii) manually labeling
+noise components for 10 subjects, (iii) training the FIX classifier on this hand-labeled data, (iv) automatically
+identifying noise components with this classifier for the remaining 200 subjects, then (v) regressing out noise
+components from each subject’s scan. When hand-labeling ICA components, we adhered to well-established
+criteria described in Griffanti et al. [2014]. FIX denoising is now a workhorse technique in the neuroimaging
+literature, and has been incorporated into several major data preparation pipelines, like those of the Hu-
+man Connectome Project [Glasser et al., 2016]. Finally, to prevent high-variation voxels from dominating
+analysis, we applied variance normalization to all voxels time courses.
+    This section presents an analysis of the full 210-subject dataset while Section 6.2 of the supplement con-
+siders only the first 20 subjects, a size typical of small-scale fMRI studies. We begin analysis by constructing
+a mask that contains only the roughly M = 54, 000 voxels that lie within the brain of all 210 subjects.
+Voxels outside this mask are henceforth ignored. We then compute only the entries of the empirical average
+spatial covariance Cˆs needed to fit the TFFM: entries for pairs of voxels that (i) lie within the brain mask,
+and (ii) are separated by a distance of δ = 0.1 following transformation of volume dimensions to [0, 1]3 .
+This covariance computation is performed in a batched and distributed manner to avoid memory limits
+and accelerate computation. Using the scree plot procedure, we then set the number of factors K̂ equal to
+nine (see Figure 7A of the supplement for scree and ratio plots) and estimate loadings via our distributed
+algorithm, storing these estimates as a matrix L̂ ∈ RM ×K̂ . After separately applying both orthogonal (vari-
+                                                                                                                ∗
+max) and oblique (quartimin) procedures, we smooth and shrink each column of the rotated matrices L̂
+independently–choosing σ and κ via 3-fold cross-validation–to obtain the final postprocessed estimators L̄
+(see Figure 8). Lastly, we compute factor scores for both models via our F-on-S approach–tuning γ via
+4-fold spatial cross-validation–then estimate “on average” factor covariances which we visualize as heatmaps
+in Figure 9.
+    Known resting-state networks are clearly present in the loading estimates of Figure 8. For instance,
+much of the oft-studied “default mode network” (see 420 of Figure 1 in Smith et al. [2009]) may be found in
+
+
+                                                       18
+                        (a) Orthogonal TFFA                           (b) Oblique TFFA
+
+Figure 8: Loading estimates for the orthogonal and oblique TFFMs fit to data from 210 AOMIC subjects.
+
+
+the second empirical loading tensor of both models. Other well-known networks, like those associated with
+visual (see 120 , 220 , and 320 of Figure 1 in Smith et al. [2009]) and auditory (720 ) processing are present in
+the first and fourth loading estimates, respectively, of both models.
+    Oblique rotation discovers noticeably simpler structures than does orthogonal rotation. For instance,
+the first loading in Figure 9a shares many of the structures found in the first loading of Figure 9b, yet the
+
+
+
+                                                       19
+                   (a) Orthogonal TFFA                                      (b) Oblique TFFA
+
+Figure 9: Diagnostic heatmaps displaying pairwise factor covariances for the 210-subject analysis. For the
+orthogonal diagnostic, an asterisk indicates that the covariance (or variance) differs significantly from zero (or
+one) at the 0.05 level without correcting for multiple testing. The two flagged comparisons are insignificant
+after application of a Bonferroni correction.
+
+
+latter has more regions that have been rotated towards zero. The same holds for many other loading pairs.
+This was expected as the much larger space of oblique rotations promotes discovery of simpler structures. In
+discovering such structure, the oblique rotation used in this analysis induced the factor correlations shown
+in Figure 9b. Meanwhile, Figure 9a suggests that orthogonal rotation largely preserved uncorrelated factors.
+    To provide a comparison, we present IC estimates for a 9-component ICA model fit to unsmoothed data
+from all 210 AOMIC subjects (see Figure 10). These estimates are remarkably similar to those of oblique
+TFFA, as was expected given our observations from the simulation study of Section 4.3 of the manuscript.
+Of course, the advantage of our framework is that, unlike ICA, we are free to entertain other representations
+of the target subspace.
+
+
+6    Discussion
+This paper builds upon Stanley et al. [2025], delivering a comprehensive new approach to studying FC. We
+began by updating the model of Stanley et al. [2025] to account for the temporal dependencies present in
+fMRI data. We then invoked the distributed LRCMC algorithm of Stanley et al. [2025+] to scale estimation
+of the global spatial covariance to the full brain. After exploring the global subspace via factor rotation and
+postprocessing the rotated loadings via smoothing and shrinkage, we computed factor scores using F-on-S
+regression techniques. The result is TFFA, an LLVM-based approach that (1) defines the target subspace
+as describing all sustained global spatial variation, then (2) rotates an initial expression of this subspace to
+optimize a user-specified criterion.
+    Users of our approach should follow a couple of practical guidelines. First, data smoothing should not
+precede our approach as it does for other FC methods. Pre-smoothing would smear local variation into the
+global signal, thereby corrupting subsequent attempts to estimate that signal. Second, when the number of
+factors is known (or can be reliably estimated), we recommend using oblique rotations unless there is one
+wishes to study only uncorrelated factors. Oblique rotations tend to discover simpler structure and, because
+they are a superset of orthogonal rotations, can still recover orthogonal factors.
+    Throughout this work, we have emphasized the utility of TFFA as an exploratory tool. By leveraging
+the vast suite of rotation algorithms developed for classical FA, TFFA enables investigation of its target
+subspace, and insights from such exploration may inform hypothesis-driven research. However, we placed
+less emphasis on TFFA as a dimension reduction tool, particularly one whose output could serve as input to
+
+
+                                                       20
+            Figure 10: IC estimates for the ICA model fit to data from 210 AOMIC subjects.
+
+
+other analyses. For example, one could use subject-wise factor scores as features in classification problems
+or as predictors in regression frameworks. The use of TFFA output in downstream analyses presents several
+potentially fruitful lines of research.
+    The main drawback of TFFA is that it relies on a massive voxel-by-voxel spatial covariance and thus
+requires access to a high-performance computing environment. While this may seem a reasonable prereq-
+uisite, its direct competitors–namely, ICA–are lightweight enough to run on personal computers. Lowering
+the computational overhead of TFFA may hasten its adoption among practitioners.
+
+
+                                                    21
+    Supplement: Temporal Functional Factor Analysis of
+                   Brain Connectivity
+
+
+1     Data Availability and Computer Code
+The links below may be used to access both the AOMIC-PIOP1 dataset which is publicly available on
+OpenNeuro and code for reproducing the results of this paper which is hosted on GitHub.
+
+      Data: https://openneuro.org/datasets/ds002785/versions/2.0.0
+      Code: https://github.com/kylestanley1313/ffa-p2
+
+
+2     Transformational Indeterminacy
+In this section, we describe why the orthogonal and oblique TFFMs are identifiable only up to orthonormal
+and invertible transformations, respectively. We present explanations in the infinite-resolution setting, omit-
+ting parallel finite-resolution discussions since the details are similar. In what follows, we condense notation
+by defining
+
+                                                l(s) = [l1 (s), . . . , lK (s)], and
+                                               F (t) = [F1 (t), . . . , FK (t)].
+
+Explanations in both settings will make use of the following spectral decomposition:
+                                                       K
+                                                       X
+                                      g s (s, s′ ) =         λk ηk (s)ηk (s′ ) = η̃(s)T η̃(s′ ),                            (1A)
+                                                       k=1
+
+               1/2
+where η̃k = λk ηk denotes the kth scaled eigenfunction of g s . If the global term Y (s, t) may be expressed
+using these scaled eigenfunctions,
+                                                   K
+                                                   X
+                                        Y (s, t) =   η̃k (s)ck (t),
+                                                                     k=1
+      s
+then g takes the form
+                        X Z                                              X Z                    
+                                                                                                     1/2 1/2
+                ′                                                ′
+           s
+          g (s, s ) =          E[c2k (t)]dt    λk ηk (s)ηk (s ) +                 E[ck (t)cj (t)]dt λk λj ηk (s)ηj (s′ ).
+                        k                                                  k̸=j
+
+For (1A) to hold, we require that
+                                                       Z
+                                                           E[c(t)c(t)T ]dt = I.
+
+Hence, the scaled eigenfunctions η̃k and the functional coefficients ck serve as the loadings and factors, re-
+spectively, in a valid orthogonal TFFM. We invoke this fact in our discussions of transformational ambiguities
+in Sections 2.1 and 2.2.
+
+2.1    The Orthogonal Model
+Recall that the global spatial covariance in the orthogonal TFFM decomposes as
+
+                                                       gs (s, s′ ) = l(s)T l(s′ ).                                          (2A)
+
+
+
+                                                                      22
+Upon examination of (1A) and (2A), it becomes clear that rotating the scaled eigenfunctions η̃k by some
+orthonormal matrix R recovers the loading functions lk :
+
+                                                   l(s) = η̃(s)R.
+
+However, any rotation of valid loadings (e.g., the scaled eigenfunctions) are equivalent under the model when
+paired with a corresponding rotation of the factors. To understand this ambiguity, suppose l(s) and F (t)
+jointly satisfy assumptions of the orthogonal TFFM. Let R be some K-by-K orthonormal matrix, and define
+rotations of the loadings and factors as follows: l∗ (s) = l(s)R and F ∗ (t) = F (t)R. First, rotation preserves
+the global component Y :
+                                      K
+                                      X
+                                            lk∗ (s)Fk∗ (t) = l∗ (s)[F ∗ (t)]T
+                                      k=1
+                                                         = l(s)R[f (t)R]T
+                                                         = l(s)RRT [F (t)]T
+                                                         = l(s)[F (t)]T
+                                                         = Y (s, t)
+
+Second, the rotated factors are still, on average, uncorrelated with unit variance:
+                  Z h                   i         Z h               i 
+                           ∗   T ∗              T
+                     E [F (t)] F (t) dt = R           E [F (t)] F (t) dt R = RT IR = I
+                                                               T
+
+
+
+Therefore, the model is preserved under orthogonal rotation of the factors and loadings.
+
+2.2    The Oblique Model
+Recall that in the oblique TFFM, the global spatial covariance decomposes as
+
+                                             gs (s, s′ ) = l(s)T Hl(s′ ).                                  (3A)
+
+Let H = V ΛV T be the eigendecomposition of H. It is easy to show that the ˜l = lV Λ1/2 and F̃ =
+Λ−1/2 V T F comprise the loadings and factors, respectively, of an orthogonal TFFM. As before, one may
+recover the loadings ˜lk of this orthogonal model by some orthogonal rotation R of the scaled eigenfunctions:
+                                                       ˜l = η̃R.                                           (4A)
+
+The true loadings lk of the oblique model may then be obtained by reversing the orthogonalizing transfor-
+mation:
+                                             l = ˜lΛ−1/2 V T                                        (5A)
+Combining (4A) and (5A) gives an invertible transformation T = V Λ1/2 RT whose inverse recovers the
+loadings from the scaled eigenfunctions:
+                                             l = η̃T −1 .
+It is easy to show that, given our constraint on the diagonal elements of H, this transformation T satisfies
+the constraint diag(T T T ) = I. As we note in the manuscript, the oblique model admits more ambiguity
+than the orthogonal one. Not only may R be replaced by any orthonormal matrix, but since H is unknown,
+we cannot use its eigendecomposition to fix the last two matrices in the expression for T .
+
+
+3     Postprocessing Tuning Procedures
+To postprocess the rotated loading estimates L̂∗k , we must select smoothing and shrinkage parameters: σ
+and κ. This is accomplished by separately applying one round of cross-validation to choose σ and another
+to choose κ. We recommend smoothing before shrinkage as this order generally leads to sparser estimates.
+
+
+                                                           23
+In what follows, suppose the data X1 , . . . , Xn have been partitioned into V folds of (nearly) equal size, and
+understand that a quantity with (v) (resp., (−v)) in its superscript denotes one computed using only data
+from fold v (resp., all data except those in fold v). Throughout, we will also assume that all fold-wise loading
+                    (−v)
+estimates (e.g., (L̂k )∗ ) have been properly aligned with their full data counterparts (e.g., L̂∗k ) so that
+component-wise tuning parameters are applied to the correct components across folds. In practice, one may
+need to use target rotations to achieve suitable alignment. Finally, we define the following error function
+                                                                                  2
+                                                                K̂
+                                                                  X
+                               Err v; {Lk }K̂
+                                           k=1 = Z ◦
+                                                     Cˆ(v) −           Lk ⊗ L k         ,
+                                                                  k=1
+                                                                                      F
+
+where we have dropped the s from the empirical spatial covariance for fold v to simplify notation.
+
+Tuning σ (orthogonal): Suppose that we have obtained the L̂∗k by applying an orthogonal rotation
+R ∈ RK̂×K̂ to the L̂k . We may use the following cross-validation procedure to choose σ ∗ :
+
+  1. For each candidate value of σ:
+                                        (−v)                             (−v) ∗
+      (a) For each v, shrink the (L̃k )∗ using σ to obtain the (L̃k          ) (σ).
+                                                             
+                                PV              (−v)
+      (b) Compute CV (σ) = V1 v=1 Err v; {(L̃k )∗ (σ)}K̂  k=1
+
+  2. Set σ ∗ = argmin CV (σ).
+                     σ
+
+
+Tuning σ (oblique): Suppose that we have obtained the L̂∗k by applying an oblique rotation T ∈ RK̂×K̂
+to the L̂k . To choose σ ∗ , we apply the following cross-validation procedure:
+  1. For each candidate value of σ:
+
+      (a) For each v:
+                               (−v) ∗                          (−v) ∗
+             i. Shrink the (L̃k    ) using σ to obtain the (L̃k    ) (σ).
+                               (−v)                                                  (−v)
+            ii.   Obtain the L̃k (σ) by applying the oblique rotation T −1 to the (L̃k )∗ (σ). This effectively
+             reverts the original oblique rotation, ensuring that the factors are (approximately) orthogonal
+             prior to computing the global spatial covariance in (b).
+                                                             
+                                PV               (−v)
+      (b) Compute CV (σ) = V1 v=1 Err v; {L̃k (σ)}K̂      k=1
+
+  2. Set σ ∗ = argmin CV (σ).
+                     σ
+
+
+Tuning κ (orthogonal): Suppose that we have obtained the L̃∗k by applying an orthogonal rotation
+R ∈ RK̂×K̂ to the L̂k then smoothing. We may use the following cross-validation procedure to choose κ∗ :
+
+  1. For each candidate value of κ:
+                                        (−v)                             (−v) ∗
+      (a) For each v, shrink the (L̃k )∗ using κ to obtain the (L̃k          ) (κ).
+                                                             
+                                PV              (−v)
+      (b) Compute CV (κ) = V1 v=1 Err v; {(L̃k )∗ (κ)}K̂  k=1
+
+  2. Set κ∗ = argmin CV (κ).
+                     κ
+
+
+
+
+                                                       24
+Tuning κ (oblique): Suppose that we have obtained the L̃∗k by applying an oblique rotation T ∈ RK̂×K̂
+to the L̂k then smoothing. To choose κ∗ , we apply the following cross-validation procedure:
+    1. For each candidate value of κ:
+       (a) For each v:
+                                (−v) ∗                          (−v) ∗
+             i. Shrink the (L̃k     ) using κ to obtain the (L̃k    ) (κ).
+                                (−v)                                                  (−v)
+             ii.   Obtain the L̃k (κ) by applying the oblique rotation T −1 to the (L̃k )∗ (κ). This effectively
+              reverts the original oblique rotation, ensuring that the factors are (approximately) orthogonal
+              prior to computing the global spatial covariance in (b).
+                                                              
+                                 PV               (−v)
+       (b) Compute CV (κ) = V1 v=1 Err v; {L̃k (κ)}K̂      k=1
+
+    2. Set κ∗ = argmin CV (κ).
+                      κ
+
+
+
+4     Factor Score Estimation
+Recall from the manuscript that factor scores are estimated by fixing the postprocessed loadings L̄k within
+the TFFM then invoking function-on-scalar (F-on-S) regression techniques. In this section, we derive the
+factor score estimator then present a technique for tuning its smoothness parameter. Throughout, we simplify
+notation by defining L ∈ RM ×K̂ to be the matrix whose kth column is the vectorization of L̄k .
+
+4.1     Derivation of Factor Score Estimator
+Let X ∈ RM ×J , M = M1 . . . MD , be the matrix of voxel time courses whose jth column is given by the
+vectorization of the brain volume at time point j. We assume each Fk (t) lies in the span of some truncated
+basis {e1 (t), . . . , eP (t)}:
+                                                    P
+                                                    X
+                                           Fk (t) =    akp ep (t).
+                                                       p=1
+
+Using matrix notation, we assume F (t) = Ae(t) where e(t) = [e1 (t), . . . , eP (t)]T and A ∈ AK̂×P is the
+matrix of basis coefficients given by (A)kp = akp . Estimating F (t) thus amounts to estimating A, which we
+accomplish via penalized least squares:
+                                                                         E 
+                                           1             2
+                                                               D
+                                 arg min     ∥X − LAE∥F + γ AT A, D                                    (6A)
+                                 A∈RK̂×P   2                               F
+
+where E ∈ RP ×J is the matrix of discretized basis functions      E (E)pj = ep (tj ), D ∈ R
+                                                          D given by
+                                                                                           P ×P
+                                                                                                is the matrix
+                                                               ′′   ′′
+of second derivative inner products given by (D)p1 ,p2 = ep1 , ep2           , and γ > 0 is a tuning parameter. The
+                                                                         2
+first term in the objective of (6A) quantifies the distance between the observations and global components,
+while the second penalizes roughness in the Fk . Differentiating both terms with respect to A gives
+                                 ∂L
+                                      = −LT XE T + LT LAEE T , and
+                                 ∂A
+                                ∂P
+                                      = AD.
+                                 ∂A
+The A minimizing (6A) is thus the solution to
+                                     0 = −LT XE T + LT LAEE T + γIAD.
+After rearranging terms, invoking the identity
+                            vec(A1 BC T1 + A2 BC T2 ) = (C 1 ⊗ A1 + C 2 ⊗ A2 )vec(B),
+then rearranging terms once more, one arrives at the estimate of A:
+                                                           −1               
+                       vec(Â) = EE T ⊗ (L̄)T L̄ + D ⊗ γI        vec (L̄)T XE T .                             (7A)
+
+
+                                                        25
+4.2      Tuning γ
+The estimator for A depends on a smoothing parameter γ (or γ for non-uniform smoothness) that must
+be tuned. To accomplish this, we use a spatial V -fold cross-validation procedure that selects an optimal
+parameter γ ∗ from a collection of candidates {γn }N
+                                                   n=1 . The basic idea is to create (nearly) independent folds
+by blocking space.
+
+    1. Partition the rows of X ∈ RM ×J (resp., L ∈ RM ×K̂ ) into V folds of (roughly) equal size so that
+       the rows in each fold correspond to voxels that are spatially contiguous. Let X (v) ∈ RMv ×J (resp.,
+       L(v) ∈ RMv ×K̂ ) be the data (resp., loading) matrix for the vth fold, and X (−v) ∈ R(M −Mv )×J (resp.,
+       L(−v) ∈ R(M −Mv )×K̂ ) be the data (resp., loading) matrix for all but the vth fold.
+    2. For n = 1, . . . , N :
+
+        (a) For v = 1, . . . , V :
+                                                                               (j,−v)          (j,−v)
+                i. Estimate factor scores using all but the vth fold: F̂                = Â            E where
+                                                             T                −1           T         
+                                (j,−v)
+                                                        
+                       vec(Â            )=       EE T ⊗ L(−v) L(−v) + D ⊗ γj I     vec    L(−v) X (−v) E T .
+
+                                                                                         (j,−v)
+               ii. Compute the reconstruction error for the vth fold using F̂                     :
+                                                                                              2
+                                                                                     (j,−v)
+                                                        ejv = Mv−1 X (v) − L(v) F̂                .
+                                                                                              F
+
+        (b) Compute ej = V −1
+                                         P
+                                          v ejv .
+
+    3. Set γ ∗ equal to the γj furnishing the minimum Ej .
+
+Throughout the manuscript, we tune γ using four-fold spatial cross-validation. When the data are comprised
+of spatial “volumes” that take values in [0, 1]2 (as in our simulation study) these four folds are demarcated
+by the lines x = 1/2 and y = 1/2. When volumes take values in [0, 1]3 (as in our data analysis) the four
+folds are delimited by the planes x = 1/2 and y = 1/2.
+
+
+5      Simulation Studies
+This section presents supplementary material from the simulation study of the manuscript.
+
+5.1      Study 2: Global Covariance Expression Under Dimension Overspecification
+In this section, we study subspace expression when model dimension is overspecified (i.e., K̂ > K). As
+in Section 4.3 of the manuscript, we consider regime-two scenarios with loading scheme set to TRI, K set
+to 8, n set to 20, and δ set to 0.1. This time, however, we set K̂ = 25. Figures 1A, 2A, and 3A present
+loading estimates for orthogonal TFFA, oblique TFFA, and ICAS, respectively, when data are generated from
+an orthogonal TFFM. The loadings estimated via orthogonal TFFA are most closely aligned to the truth,
+and include many trailing loadings that have been shrunk to zero. Although oblique TFFA captures much
+ground truth structure, its presentation is messier than that of orthogonal TFFA. This is because, in pursuit
+of simple structure, the more flexible oblique rotation algorithm splinters single-factor signals across multiple
+loadings (e.g., k = 5, 17, 21 and k = 6, 14). Moreover, subsequent postprocessing more cautiously smooths
+and shrinks trailing loadings that contain these signal fragments, which prevents the convenient zeroing out
+achieved by orthogonal TFFA. Thankfully, it is rather easy to spot this fragmentation of global structure
+since all non-global structure has been eliminated. The same cannot be said of ICAS which splinters global
+structure among local structure (which is included in the target subspace), resulting in an indecipherable
+soup of global-local variation.
+
+
+
+                                                                 26
+Figure 1A: Estimates for the order-25 orthogonal TFFA model when data are generated from an orthogonal
+model in scenario of Study 2.
+
+
+    The takeaways are similar when the data are generated from an oblique TFFM (see Figures 4A, 5A, and
+6A for loadings estimated by orthogonal TFFA, oblique TFFA, and ICAS, respectively). The main difference
+is that, as when K is correctly specified, orthogonal TFFA sometimes combines signals from multiple factors
+into a single loading (e.g., k = 1).
+    This study suggests that orthogonal TFFA is robust to dimension overspecification when the factors are,
+in fact, uncorrelated. However, if (i) factors are correlated and/or (ii) one uses an oblique TFFA, then model
+dimension should be chosen carefully.
+
+
+
+
+                                                     27
+Figure 2A: Estimates for the order-25 oblique TFFA model when data are generated from an orthogonal
+model in scenario of Study 2.
+
+
+
+
+                                                28
+Figure 3A: Estimates for the order-25 ICAS model when data are generated from an orthogonal model in
+scenario of Study 2.
+
+
+
+
+                                                29
+Figure 4A: Estimates for the order-25 orthogonal TFFA model when data are generated from an oblique
+model in scenario of Study 2.
+
+
+
+
+                                                30
+Figure 5A: Estimates for the order-25 oblique TFFA model when data are generated from an oblique model
+in scenario of Study 2.
+
+
+
+
+                                                 31
+Figure 6A: Estimates for the order-25 ICAS model when data are generated from an oblique model in scenario
+of Study 2.
+
+
+
+
+                                                   32
+6     AOMIC Analysis
+This section contains spillover content from the 210-subject analysis of Section 5 of the manuscript, as well
+as a 20-subject analysis whose size is closer to that of small-scale FC studies.
+
+6.1    210-Subject Analysis
+In the 210-subject analysis, we set the number of factors equal to nine, guided by the scree and ratio plots
+of Figure 7A.
+
+
+
+
+Figure 7A: The scree (left) and ratio (right) plot used to select the number of factors in the 210-subject
+TFFMs.
+
+
+
+6.2    20-Subject Analysis
+In this Section, we use TFFA to study resting-state data from the first 20 AOMIC subjects. Many results
+from this 20-subject analysis are in close alignment with those of the 210-subject analysis. We exclude
+discussion of these similar findings to avoid redundancy, but highlight any noteworthy differences between
+the two analyses.
+
+
+
+
+Figure 8A: The scree (left) and ratio (right) plot used to select the number of factors in the 20-subject
+TFFMs.
+
+    After setting the number of factors to seven using the scree-plot approach (see Figure 8A), we estimate and
+postprocess loadings for the orthogonal and oblique models (see Figure 9A). Though these loadings contain
+much of the structure found in the 210-subject loadings, smoothing and (especially) shrinkage clearly has
+a larger impact in the smaller study. This is, of course, not surprising. In most estimation problems, the
+effects of regularization are stronger as sample size decreases.
+    After obtaining the postprocessed loadings of Figure 9A, we compute factor scores for both models using
+the F-on-S regression method outlined in Section 3.4 of the manuscript. The heatmaps of Figure 10A depict
+empirical factor covariances for both models. As in the 210-subject study, oblique rotation clearly induces
+
+
+                                                      33
+                        (a) Orthogonal TFFA                          (b) Oblique TFFA
+
+Figure 9A: Loading estimates for the orthogonal and oblique TFFMs fit to data from 20 AOMIC subjects.
+
+
+correlation among the factors. However, the 20-subject orthogonal covariance seems to deviate more from
+the identity than than that of the 210-subject study (see Figure 9a of the manuscript): several off-diagonal
+elements are quite far from zero and the last diagonal element is nearly two. Yet the lack of asterisks in
+the heatmap of Figure 10Aa indicate that the orthogonal covariance does not, in fact, differ significantly
+from the identity. This initially counterintuitive result arises from the fact that there are fewer subjects in
+this analysis, leading to higher-variance empirical factor covariances. Practitioners should be mindful of the
+diminished sensitivity of diagnostic testing in such small studies.
+     As in the 210-subject study, we provide a comparison to TFFA by fitting a 7-component ICA model to
+the 20-subject data after smoothing each scan with a 1 mm Gaussian filter (see Figure 11A). The takeaway
+is similar to that of the 210-subject analysis: ICA estimates are similar to those of oblique TFFA, but TFFA
+allows users to more freely explore its target subspace.
+
+
+
+
+                                                      34
+                  (a) Orthogonal TFFA                                       (b) Oblique TFFA
+
+Figure 10A: Diagnostic heatmaps displaying pairwise factor covariances for the 20-subject analysis. For
+the orthogonal diagnostic, an asterisk (of which there are none) indicates that the covariance (or variance)
+differs significantly from zero (or one) at the 0.05 level after correcting for multiple testing via a Bonferroni
+adjustment.
+
+
+
+
+                                                       35
+Figure 11A: IC estimates for the ICA model fit to data from 20 AOMIC subjects.
+
+
+
+
+                                     36
+References
+Christian F Beckmann and Stephen M Smith. Probabilistic independent component analysis for functional
+  magnetic resonance imaging. IEEE transactions on medical imaging, 23(2):137–152, 2004.
+Bharat Biswal, F Zerrin Yetkin, Victor M Haughton, and James S Hyde. Functional connectivity in the
+  motor cortex of resting human brain using echo-planar mri. Magnetic resonance in medicine, 34(4):
+  537–541, 1995.
+Charles George Broyden. The convergence of a class of double-rank minimization algorithms 1. general
+  considerations. IMA Journal of Applied Mathematics, 6(1):76–90, 1970.
+Yudong Chen and Martin J Wainwright. Fast low-rank estimation by projected gradient descent: General
+  statistical and algorithmic guarantees. arXiv preprint arXiv:1509.03025, 2015.
+Marie-Hélène Descary and Victor M. Panaretos. Functional data analysis by matrix completion. The Annals
+ of Statistics, 47(1):1 – 38, 2019. doi: 10.1214/17-AOS1590. URL https://doi.org/10.1214/17-AOS1590.
+Oscar Esteban, Christopher J Markiewicz, Ross W Blair, Craig A Moodie, A Ilkay Isik, Asier Erramuzpe,
+  James D Kent, Mathias Goncalves, Elizabeth DuPre, Madeleine Snyder, et al. fmriprep: a robust prepro-
+  cessing pipeline for functional mri. Nature methods, 16(1):111–116, 2019.
+Roger Fletcher. A new approach to variable metric algorithms. The computer journal, 13(3):317–322, 1970.
+Karl J Friston. Functional and effective connectivity: a review. Brain connectivity, 1(1):13–36, 2011.
+Karl J Friston, Andrew P Holmes, JB Poline, PJ Grasby, SCR Williams, Richard SJ Frackowiak, and Robert
+ Turner. Analysis of fmri time-series revisited. Neuroimage, 2(1):45–53, 1995.
+Rong Ge, Jason D Lee, and Tengyu Ma. Matrix completion has no spurious local minimum. Advances in
+  neural information processing systems, 29, 2016.
+Rainer Gemulla, Erik Nijkamp, Peter J Haas, and Yannis Sismanis. Large-scale matrix factorization with
+  distributed stochastic gradient descent. In Proceedings of the 17th ACM SIGKDD international conference
+  on Knowledge discovery and data mining, pages 69–77, 2011.
+Matthew F Glasser, Stephen M Smith, Daniel S Marcus, Jesper LR Andersson, Edward J Auerbach, Timo-
+ thy EJ Behrens, Timothy S Coalson, Michael P Harms, Mark Jenkinson, Steen Moeller, et al. The human
+ connectome project’s neuroimaging approach. Nature neuroscience, 19(9):1175–1187, 2016.
+Donald Goldfarb. A family of variable-metric methods derived by variational means. Mathematics of com-
+ putation, 24(109):23–26, 1970.
+Ludovica Griffanti, Gholamreza Salimi-Khorshidi, Christian F Beckmann, Edward J Auerbach, Gwenaëlle
+  Douaud, Claire E Sexton, Enikő Zsoldos, Klaus P Ebmeier, Nicola Filippini, Clare E Mackay, et al.
+  Ica-based artefact removal and accelerated fmri acquisition for improved resting state network imaging.
+  Neuroimage, 95:232–247, 2014.
+Nathan Halko, Per-Gunnar Martinsson, and Joel A Tropp. Finding structure with randomness: Probabilistic
+  algorithms for constructing approximate matrix decompositions. SIAM review, 53(2):217–288, 2011.
+Harry H Harman. Modern factor analysis. University of Chicago press, 1976.
+A. Hyvärinen, J. Karhunen, and E. Oja. Independent Component Analysis. Adaptive and Cognitive Dynamic
+  Systems: Signal Processing, Learning, Communications and Control. Wiley, 2004. ISBN 9780471464198.
+  URL https://books.google.com/books?id=96D0ypDwAkkC.
+Robert I Jennrich and PF Sampson. Rotation for simple loadings. Psychometrika, 31(3):313–323, 1966.
+Wichern A Johnson and Dean W. Wichern. Applied Multivariate Statistical Analysis. Prentice Hall, Upper
+ Saddle River, 2002.
+
+
+                                                     37
+I.T. Jolliffe. Principal Component Analysis. Springer, 1986.
+Henry F Kaiser. The varimax criterion for analytic rotation in factor analysis. Psychometrika, 23(3):187–200,
+  1958.
+Piotr Kokoszka and Matthew Reimherr. Introduction to functional data analysis. CRC press, 2017.
+Nicole A Lazar. The statistical analysis of functional MRI data, volume 7. Springer, 2008.
+Bing Li and Eftychia Solea. A nonparametric graphical model for functional data with application to brain
+  networks based on fmri. Journal of the American Statistical Association, 113(524):1637–1655, 2018.
+Martin A Lindquist. The statistical analysis of fmri data. Statistical science, 23(4):439–464, 2008.
+Martin J McKeown, Scott Makeig, Greg G Brown, Tzyy-Ping Jung, Sandra S Kindermann, Anthony J Bell,
+ and Terrence J Sejnowski. Analysis of fmri data by blind separation into independent spatial components.
+ Human brain mapping, 6(3):160–188, 1998.
+Jack O Neuhaus and Charles Wrigley. The quartimax method: An analytic approach to orthogonal simple
+  structure 1. British Journal of Statistical Psychology, 7(2):81–91, 1954.
+J. O. Ramsay and B. W. Silverman. Functional Data Analysis. Springer, 2005. ISBN 9780387400808. URL
+   http://www.worldcat.org/isbn/9780387400808.
+Philip T Reiss, Lan Huo, Yihong Zhao, Clare Kelly, and R Todd Ogden. Wavelet-domain regression and
+  predictive inference in psychiatric neuroimaging. The annals of applied statistics, 9(2):1076, 2015.
+Philip T Reiss, Jeff Goldsmith, Han Lin Shang, and R Todd Ogden. Methods for scalar-on-function regres-
+  sion. International Statistical Review, 85(2):228–249, 2017.
+Gholamreza Salimi-Khorshidi, Gwenaëlle Douaud, Christian F Beckmann, Matthew F Glasser, Ludovica
+ Griffanti, and Stephen M Smith. Automatic denoising of functional mri data: combining independent
+ component analysis and hierarchical fusion of classifiers. Neuroimage, 90:449–468, 2014.
+David F Shanno. Conditioning of quasi-newton methods for function minimization. Mathematics of compu-
+  tation, 24(111):647–656, 1970.
+Stephen M Smith, Peter T Fox, Karla L Miller, David C Glahn, P Mickle Fox, Clare E Mackay, Nicola
+  Filippini, Kate E Watkins, Roberto Toro, Angela R Laird, et al. Correspondence of the brain’s functional
+  architecture during activation and rest. Proceedings of the national academy of sciences, 106(31):13040–
+  13045, 2009.
+Lukas Snoek, Maite M van der Miesen, Tinka Beemsterboer, Andries van der Leij, Annemarie Eigenhuis,
+  and H Steven Scholte. The amsterdam open mri collection, a set of multimodal mri datasets for individual
+  difference analyses. Scientific Data, 8(1):1–23, 2021.
+Kyle Stanley, Nicole Lazar, and Matthew Reimherr. Functional factor modeling of brain connectivity. The
+ Annals of Applied Statistics, 19(2):1553–1577, 2025.
+Kyle Stanley, Nicole Lazar, and Matthew Reimherr. Distributed stochastic gradient descent for large-scale
+ low-rank covariance matrix completion. In preparation, 2025+.
+Michael E Tipping and Christopher M Bishop. Probabilistic principal component analysis. Journal of the
+ Royal Statistical Society Series B: Statistical Methodology, 61(3):611–622, 1999.
+Roberto Viviani, Georg Grön, and Manfred Spitzer. Functional principal component analysis of fmri data.
+  Human brain mapping, 24(2):109–129, 2005.
+Jane-Ling Wang, Jeng-Min Chiou, and Hans-Georg Müller. Functional data analysis. Annual Review of
+  Statistics and Its Application, 3(1):257–295, 2016. doi: 10.1146/annurev-statistics-041715-033624. URL
+  https://doi.org/10.1146/annurev-statistics-041715-033624.
+
+
+                                                     38
+

@@ -1,0 +1,850 @@
+                                                                                                     www.nature.com/scientificreports
+
+
+
+
+                OPEN             Dynamics of brain connectivity
+                                 across the Alzheimer’s
+                                 disease spectrum through
+                                 magnetoencephalography
+                                 Martín Carrasco-Gómez1,2,3,7, Alejandra García-Colomo2,4, Jesús Cabrera-Álvarez2,4,
+                                 Ricardo Bruña2,5,6, Andrés Santos1,3 & Fernando Maestú2,4,5
+                                 Changes in static functional connectivity have been extensively linked to Alzheimer’s Disease (AD),
+                                 however, dynamic functional connectivity (dFC) across the AD continuum remains understudied.
+                                 The current investigation leverages the high temporal resolution of MEG to dissect the dynamics of
+                                 brain connectivity alterations across various stages of AD and their association with cognitive decline
+                                 and structural brain changes. 321 participants were included, categorized into healthy control,
+                                 subjective cognitive decline (SCD), and mild cognitive impairment (MCI) groups. Amplitude envelope
+                                 correlation with leakage correction was calculated over MEG signals using a sliding window, and the
+                                 correlation across epochs was studied to assess dFC. We explored dFC associations with cognitive
+                                 scores, grey matter volume, and white matter fractal anisotropy. Whole-brain dFC declined along
+                                 the AD continuum, especially in the alpha and beta bands, with pronounced reductions in the frontal
+                                 and temporal lobes and default mode network regions. Moreover, these dFC changes correlated with
+                                 cognitive decline and structural brain alterations. The present study underscores the relevance of dFC
+                                 in capturing early temporal dynamic alterations, linking high-frequency activity in association cortices
+                                 to white matter integrity and cognitive deterioration, thus highlighting the metric’s potential as a
+                                 sensitive marker of disease progression.
+
+                                 Keywords Dynamic functional connectivity, Magnetoencephalography, Alzheimer’s disease, White-matter
+                                 integrity, Amplitude envelope correlation
+
+                                 Alzheimer’s disease (AD) is the most common form of dementia1, affecting an estimated of 32 million people
+                                 worldwide. In AD, functional networks supporting cognition become altered, including activation and
+                                 deactivation deficits, abnormal oscillatory activity, and synaptic failure, and leading to impaired memory,
+                                 behavioral disorders, and emotional changes2.
+                                     One way to evaluate the integrity of neural communication in the brain is through functional connectivity
+                                 (FC), the statistical dependency of distant neural activity, which has been extensively used in the study of AD.
+                                 More specifically, FC changes have been described along the disease spectrum, including alterations among
+                                 individuals in the dementia phase of AD3; in participants with mild cognitive impairment (MCI)4,5; in subjective
+                                 cognitive decline (SCD)6,7, a preclinical asymptomatic stage in which participants already report a decrease
+                                 in their cognitive capabilities, prodromal to MCI; and even as early as in healthy adults at risk of developing
+                                 dementia8,9. Taken together, these studies show an inverted u-shape pattern of FC changes along the continuum
+                                 of AD, finding increased FC in the early stages, followed by a decrease in connectivity later on in the continuum10.
+                                 These changes have been previously associated with the underlying pathology hallmarks of AD11,12.
+
+
+
+                                 1Department of Electronic Engineering, ETSIT, Universidad Politécnica de Madrid, Madrid 28040, Spain. 2Center
+
+                                 for Cognitive and Computational Neuroscience, Complutense University of Madrid, Madrid 28223, Spain.
+                                 3Biomateriales y Nanomedicina (CIBER-BBN), CIBER de Bioingeniería, Instituto de Salud Carlos III, Madrid, Spain.
+                                 4Department of Experimental Psychology, Cognitive Psychology and Speech & Language Therapy, Complutense
+
+                                 University of Madrid, Madrid 28223, Spain. 5Health Research Institute of the Hospital Clínico San Carlos (IdISSC),
+                                 Madrid 28240, Spain. 6Department of Radiology, Universidad Complutense de Madrid, Madrid 28240, Spain. 7Calle
+                                 del Ministro Ibáñez Martín, 4, 2ºB, Madrid 28015, Spain. email: martin.carrasco@upm.es; andres@die.upm.es;
+                                 fmaestuu@ucm.es
+
+
+Scientific Reports |   (2026) 16:3905                | https://doi.org/10.1038/s41598-025-30718-7                                                  1
+www.nature.com/scientificreports/
+
+
+                                     Notably, studies on brain connectivity have assumed, until recently, the stationarity of FC. However,
+                                 the brain’s functional activity, far from being static, has been described as highly dynamic, forming various
+                                 functional networks that underlie complex cognition13. Consequently, by averaging over lengthy imaging
+                                 recordings, transient information may be lost, and what we interpreted as inter-subject variability might in fact
+                                 be averaged temporal variability. This perspective has brought attention to the field of spatiotemporal dynamics
+                                 of brain networks, also called “dynamic functional connectivity” (dFC), which studies how FC evolves over time
+                                 and what connectivity profiles arise. It has been proven that dFC changes dynamically in response to different
+                                 contexts or stimuli, even in the resting-state14.
+                                     Given the consistency of the changes in static FC (sFC) throughout the continuum of AD, a novel line of
+                                 research, focused on the possible dFC alterations underlying sFC changes, has become especially relevant for the
+                                 disease. Most investigations involving dFC in AD have been carried out using functional magnetic resonance
+                                 imaging (fMRI). A common finding in these studies is that dFC is reduced in AD, in key networks and regions
+                                 for the disease, such as the DMN15. Additionally, some studies have also reported such a decrease in dFC among
+                                 MCI participants in regions like the precuneus, which correlated with cognitive performance16–18. Likewise,
+                                 Jones et al.19. found a reduction of time spent in connectivity states with a high contribution of posterior DMN
+                                 areas among AD patients, and Schumacher et al.20. reported that AD patients spend more time in states of
+                                 sparse connectivity, an inability to switch between states of low inter-network connectivity, and more highly and
+                                 specifically connected network configurations than controls. For a review of fMRI findings about dFC in AD,
+                                 see Filippi et al.21. and Matsui et al.15.
+                                     However, the temporal resolution of fMRI is hampered by its low sampling frequency and the slow nature of
+                                 the hemodynamic responses recorded, and is consequently likely to miss relevant dFC changes in the sub-second
+                                 scale14. Electrophysiological techniques such as electroencephalography (EEG) and magnetoencephalography
+                                 (MEG) are able to overcome such difficulties, both because of their higher sampling frequency and the fact that
+                                 they measure the electrical activity of cortical neurons. While very scarce, electrophysiological studies point in the
+                                 same direction as those using fMRI, suggesting a decrease in dFC in the last stages of the AD continuum. Núñez
+                                 et al.14. found decreased variance when studying the leaked-corrected amplitude envelope (AEC-c) correlations
+                                 in sensor-space EEG in AD patients compared to the control group in both high alpha and low beta bands,
+                                 while no significant differences appeared in the MCI group. In a posterior work they applied hidden Markov
+                                 models to instantaneous FC in EEG sensor-space to study meta-states dynamics in AD and MCI, and found
+                                 a decrease in modularity of meta-states in both MCI and AD participants compared to controls in both alpha
+                                 and low beta bands22, meaning that their resting-state networks were less well defined, possibly contributing to
+                                 the shorter dwell times they also found in the pathological groups. In a functional near-infrared spectroscopy
+                                 (fNIRS) and EEG integrative investigation, Li et al.23. found weaker or suppressed dFC in the high alpha and
+                                 low beta bands of AD participants, reporting lower values for degree and clustering coefficient in the frontal
+                                 pole and medial orbital regions of AD-induced brain networks. On the other hand, while not centered in dFC,
+                                 other electrophysiological studies focused on other highly correlated parameters, such as entropy and dynamic
+                                 changes in power, report findings in the same direction. Sun et al.24. compile, in a review, reports on decreasing
+                                 complexity of the MEG/EEG signal in multiple entropy parameters in AD. Finally, Puttaert et al.25. applied
+                                 hidden Markov models to MEG power topographies of healthy individuals and SCD, MCI, and AD participants,
+                                 finding only differences in the dynamics of the control and AD groups. Similarly to the aforementioned fMRI
+                                 study by Jones et al.19, they found that AD participants spent less time in, and switched less frequently into, states
+                                 with a high contribution of the posterior DMN.
+                                     To the best of our knowledge, no electrophysiological studies exist on the whole pre-dementia spectrum of
+                                 AD that characterize the evolution of dFC in this population. Based on the presented premises, this study aims to
+                                 characterize the evolution of dFC in the AD spectrum by estimating connectivity through AEC-c and correlating
+                                 it over different segments of MEG data in a large cohort consisting of healthy controls, SCD participants, and
+                                 both stable and progressive MCI participants. Guided by the claims of previous research, we hypothesize we will
+                                 find the trend of dFC reduction earlier in the AD spectrum, as well as that these reductions to be predominant
+                                 in frontal and temporal regions and in the DMN. Lastly, to wrap the interpretation of our findings, we will also
+                                 study the correlation of dFC with cognitive scores, anatomical metrics, and white matter integrity markers,
+                                 which we hypothesize to decline along with dFC.
+
+                                 Results
+                                 Sample demographics and neuropsychological assessment
+                                 Sample demographics and neuropsychological test scores, as well as group-level differences, are shown in Table
+                                 1, and in Supplementary Table 1 for sMCI and pMCI groups.
+                                     The age of the MCI group was significantly higher than that of both SCD and HC groups, and while sex did
+                                 not significantly differ between any of the groups, p-values were close to significance. Consequently, in order
+                                 to statistically control for the age and sex-related effects, while maintaining a representative and sufficiently
+                                 powered sample, we included both variables as covariates in all subsequent regression and ANOVA analyses.
+                                 MCI performed significantly worse than both HC and SCD groups in all the neuropsychological tests.(Fig 1)
+
+                                 Whole-brain dFC is reduced along the AD spectrum
+                                 Whole-brain dFC was compared through dynamicity (Eq. 1) using a linear regression test between each pair
+                                 of groups, including sex and age as covariates, as shown in Fig. 2. Dynamicity values in the HC group were
+                                 significantly higher than those in the MCI group after FDR correction (q = 0.05) in both alpha (corrected
+                                 p-value = 0.0002, β-value = −0.0265, Cohen’s d = 0.474) and beta (corrected p-value = 0.0008, β-value = −0.0135,
+                                 Cohen’s d = 0.506). On the other hand, the SCD group lies in the middle, with nonsignificant differences with
+                                 neither the HC nor the MCI group (all corrected p-values and β-values can be found in Supplementary Table 2).
+
+Scientific Reports |   (2026) 16:3905                | https://doi.org/10.1038/s41598-025-30718-7                                                    2
+www.nature.com/scientificreports/
+
+
+                                                                            p-value
+                                                                            HC                SCD               MCI               HC vs. SCD   HC vs. MCI   SCD vs. MCI
+                               N                                            143               72                106
+                               Sex                                          55 M/92F          19 M/63F          38 M/68F          0.0620       0.8880       0.0925
+                               Age                                          71.5 ± 4.0        72.1 ± 5.4        74.4 ± 5.2        0.5924       4.66E-06*    0.0001*
+                               MMSE                                         28.8 ± 1.4        28.2 ± 1.9        26.6 ± 2.6        0.1591       5.07E-18*    4.04E-09*
+                               Delayed recall test                          22.2 ± 9.5        18.7 ± 8.7        5.0 ± 6.5         0.0759       1.94E-36*    1.82E-25*
+                               Total grey matter volume (eTIV normalized)   0.293 ± 0.017     0.292 ± 0.016     0.280 ± 0.022     0.4818       1.60E-7*     1.85E-4*
+                               Hippocampus volume (eTIV normalized)         0.005 ± 0.0005    0.0049 ± 0.0005   0.0045 ± 0.0007   0.0735       2.96E-11*    4.20E-5*
+                               Left Cingulum FA                             0.5359 ± 0.0326   0.5292 ± 0.0367   0.5194 ± 0.0336   0.1872       3.42E-04*    0.0847
+                               Right Cingulum FA                            0.4986 ± 0.0263   0.4951 ± 0.0290   0.4889 ± 0.0280   0.3828       0.0101*      0.1868
+                               Left Inferior Longitudinal Fasciculus FA     0.4752 ± 0.0883   0.4897 ± 0.0241   0.4834 ± 0.0584   0.1838       0.4470       0.3987
+                               Right Inferior Longitudinal Fasciculus FA    0.4781 ± 0.0892   0.4915 ± 0.0271   0.4874 ± 0.0599   0.2265       0.3915       0.6018
+
+
+                                   Table 1. Sample demographics, neuropsychological test scores, and anatomic and white matter parameters.
+                                   Pair-wise group-level differences are shown in the right columns, with significant results after FDR correction
+                                   (q = 0.05) with an asterisk. HC: healthy control; SCD: subjective cognitive decline; MCI: mild cognitive
+                                   impairment; MMSE: mini mental state Examination; FA: fractional anisotropy.
+
+
+
+
+                                   Fig. 1. Depiction of the methods used in this study. (A) Description of the procedure to calculate AEC,
+                                   including the signal filtering, envelope extraction through the Hilbert transform, correlation between
+                                   envelopes, and averaging over trials to obtain the static functional connectivity measure of AEC. (B) Whole
+                                   brain dynamicity calculation. Each of the AEC upper triangular matrices extracted from each signal segment
+                                   of four seconds is then correlated with each other, obtaining a “number of trials” by “number of trials”
+                                   recurrence matrices. The upper triangle of this matrix is then averaged to obtain a final dynamicity parameter
+                                   for each subject. (C) Seed-based dynamicity calculation. In this case, and for each source, the connectivity
+                                   of that source with the rest is extracted to obtain the recurrence matrices, obtaining a seed-based recurrence
+                                   matrix of dimensions number of sources x number of trials x number of trials. Later, the upper triangle of each
+                                   source recurrence matrix is averaged to get a dynamicity parameter for each of the sources, which enables us to
+                                   extract spatial comparisons between groups.
+
+
+
+                                   Post-hoc comparisons between sMCI and pMCI groups were all non-significant, as shown in Supplementary
+                                   Fig. 1 and Supplementary Table 3.
+
+
+
+
+Scientific Reports |   (2026) 16:3905                     | https://doi.org/10.1038/s41598-025-30718-7                                                                  3
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 2. Whole-brain dynamicity comparisons between healthy control (HC), subjective cognitive decline
+                                 (SCD) and mild cognitive impairment (MCI) groups. Significant differences were seen between the HC and
+                                 MCI groups in the alpha (corrected p-value = 0.00015, β-value = −0.0265, Cohen’s d = 0.474, q = 0.05) and beta
+                                 (corrected p-value = 0.00076, β-value = −0.0135, Cohen’s d = 0.506, q = 0.05). No differences were observed in the
+                                 theta band or between the SCD group and the rest in any frequency band.
+
+
+
+                                 Localization of dFC changes along the AD continuum
+                                 Seed-based dynamicity was compared through nonparametric CBPTs between those groups with significant
+                                 differences in whole-brain dFC, namely between the HC and MCI groups in the alpha and beta frequency bands.
+                                 Significant statistical differences were found in seed-based dynamicity between the HC and MCI groups in both
+                                 the alpha (p-value = 0.0288) and the beta (p-value = 0.009) bands.
+                                     The cluster showing the most notable differences in the alpha band (Fig. 3A) included the orbital and medial-
+                                 orbital areas of the frontal gyrus, the left hippocampus and parahippocampus, as well as the left temporal pole
+                                 and parts of the inferior and middle temporal gyrus. A post-hoc linear regression analysis found that MCI
+                                 participants showed a significant reduction in seed-based dynamicity compared to HC in this cluster (Fig. 3B;
+                                 p-value < 0.0001; β-value = −0.0506; Cohen’s d = 0.594). For a complete list of the AAL ROIs contained in the
+                                 cluster, please see Supplementary Table 4.
+                                     In the beta band, the cluster showing maximal differences (Fig. 3C) comprised the left orbital and right
+                                 superior frontal gyrus, left temporal pole, bilateral temporal gyrus, left hippocampus and parahippocampus,
+                                 the anterior, middle, and posterior cingulate gyrus, the precuneus, the left inferior parietal gyrus, and some
+                                 parts of the calcarine fissure, fusiform gyrus, and cuneus. Again, the post-hoc linear regression analysis found
+                                 a significant reduction in the MCI group compared to HC in the mentioned cluster (Fig. 3D; p-value < 0.0001;
+                                 β-value = −0.0297; Cohen’s d = 0.668). For a complete list of the AAL ROIs contained in the cluster, please see
+                                 Supplementary Table 5.
+
+                                 dFC correlates with cognitive performance along the AD continuum and in MCI
+                                 Finally, we investigated the correlation between dFC and cognition, brain volume and DTI parameters, both
+                                 considering the whole dataset and the individual groups. Figure 4 depicts correlations between dynamicity and
+                                 MMSE, eTIV-normalized hippocampal volume, and fractal anisotropy of the left cingulum.
+                                    Interestingly, the MCI group showed multiple significant positive correlations, including those between
+                                 dynamicity and MMSE scores, normalized hippocampus, and total grey matter volumes, and both left and right
+                                 ILF tract FA. While the cingulum tracts FA did not maintain significance after FDR, both right and left tracts
+                                 show a possible trend for a positive correlation with dynamicity.
+                                    At the same time, when calculating correlations with all the dataset, significant direct correlations between
+                                 dynamicity and MMSE score, delayed logic recall score, normalized hippocampus and total cortical grey matter
+                                 volume, and left cingulum FA were found. Both rhos and corrected p-values for all correlations calculated are
+                                 shown in Table 2, where correlations found significant after FDR are marked in bold and with an asterisk.
+
+                                 Discussion
+                                 In this pioneering study, we aimed to evaluate the evolution of dFC measured with electrophysiology over the
+                                 early AD spectrum. To this end, we performed the correlation of connectivity matrices over time, both globally
+                                 and at source-level, a metric simple to calculate and interpret, and that only imposes assumptions regarding the
+                                 size of the sliding window used for the calculations. Finally, we studied the relationship between this metric and
+
+Scientific Reports |   (2026) 16:3905                | https://doi.org/10.1038/s41598-025-30718-7                                                4
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 3. Results of the CBPT analyses for seed-based dynamicity. These comparisons were performed between
+                                 those groups with significant differences in whole-brain dynamicity. Thus, CBPT tests were performed
+                                 between the MCI and HC groups in the alpha and beta bands. (A) Significant cluster showing altered dynamic
+                                 functional connectivity (dFC) in the alpha band (p-value = 0.0285). (B) Linear regression test results for the
+                                 alpha band seed-based dynamicity values in the significant cluster depicted in A, showing a significant decrease
+                                 of dFC in the MCI group (Cohen’s d = 0.594). (C) Significant cluster showing altered dFC in the beta band
+                                 (p-value = 0.0089). (D) Linear regression test results for the alpha band seed-based dynamicity values in the
+                                 significant cluster depicted in C, showing a significant decrease of dFC in the MCI group (Cohen’s d = 0.668).
+
+
+
+                                 the cognitive and anatomical hallmarks of AD. Our findings suggest that AD progression involves a reduction
+                                 in dFC, mainly in the alpha and beta bands, which is especially pronounced over orbital and temporal areas and
+                                 in regions involving the DMN. In addition, the decrease in dFC is related to cognitive decline and anatomical
+                                 deterioration, both when considering data from all groups and, particularly, in the MCI group. These results
+                                 shed light towards the understanding of brain dynamics along the AD continuum.
+                                     Whole-brain dFC analyses displayed a reduction of dynamicity over the continuum of AD, with differences
+                                 of medium effect sizes between HCs and MCIs in the alpha (Cohen’s d = 0.474) and beta (Cohen’s d = 0.506)
+                                 frequency bands, as shown in Fig. 2. The SCD group did not show significant differences in their whole-brain
+                                 dFC in any frequency band when compared to HCs or MCIs, proving to be an intermediate state between both
+                                 conditions. This dFC decreases evidence that AD progression involves a reduction in connectivity profiles over
+                                 time or, in other words, an increase in the consistency of connectivity patterns. These findings are aligned with
+                                 previous literature on dFC, where a shrinkage in the dynamic repertoire of connectivity is observed through
+                                 electrophysiological measurements14,23 and fMRI-based metrics16,17,20. Additionally, studies focused on brain
+                                 activity entropy, which depict the quantity of information on individual nodes of activity, find a decrease in
+                                 signal complexity with the advance of the pathology24,26,27, as well as in consciousness disorders28. Remarkably,
+                                 significant decreases in dynamicity between HC and MCI groups were observed specifically in the alpha and beta
+                                 bands, agreeing with results in Núñez et al.14. and Li et al.23., even if they report differences between HCs and AD
+                                 participants, while we found those earlier in the AD continuum, between the HC and MCI groups. On a related
+                                 note, recent studies have observed a dilution of FC topologies in MCI and AD participants, with decreasing
+                                 modularity22, and a blurring of frequency-dependent connectivity structure29. This increase in frequency and
+                                 spatial network homogeneity is thought to underlie the loss of specialized and integrated networks observed
+                                 in these pathologic states and, in line with our results, could contribute to the decrease in temporal variability
+                                 observed in the present study.
+                                     What physiological alterations may explain these changes in dFC? Previous literature has already discussed the
+                                 reduction of the dynamic repertoire of connectivity along the spectrum of AD16, linking it to possible alterations
+                                 in white matter integrity. AD is associated with myelin aberrations both in animal models30 and in humans31,
+
+
+Scientific Reports |   (2026) 16:3905                | https://doi.org/10.1038/s41598-025-30718-7                                                  5
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 4. Correlations between whole-brain dynamicity and MMSE, eTIV-normalized hippocampal volume and
+                                 the left Cingulum fractal anisotropy. Green corresponds to the HC group, blue to the SCD group, and red to
+                                 the MCI group. The black line represents the correlation calculated when considering all subjects at the same
+                                 time.
+
+
+
+                                                                               HC                  SCD                MCI                All
+                                                                               R         P         R         P        R        P         R        P
+                                  Alpha
+                                  MMSE                                         0.053     0.6084    0.0868    0.6446   0.2664   0.0234*   0.2398   7.43E-6*
+                                  Delayed Logic Recall                         0.0247    0.7725    0.0333    0.723    0.0065   0.4756    0.1592   0.0088*
+                                  Hippocampus volume (eTIV-normalized)         −0.057    0.7947    −0.0297   0.837    0.2653   0.0234*   0.1378   0.0175*
+                                  Total grey matter volume (eTIV-normalized)   −0.0213   0.7947    0.0871    0.6446   0.2196   0.0356*   0.1452   0.0140*
+                                  Left Cingulum tract FA                       −0.0896   0.8457    −0.0409   0.837    0.1746   0.0748    0.0425   0.2531
+                                  Right Cingulum tract FA                      −0.0409   0.7947    −0.1058   0.8545   0.1818   0.0712    0.0394   0.2537
+                                  Left Inferior Longitudinal Fasciculus FA     0.088     0.4844    −0.0708   0.837    0.2047   0.0494*   0.1038   0.0583
+                                  Right Inferior Longitudinal tract FA         0.1043    0.4844    0.1039    0.6446   0.2296   0.0356*   0.1317   0.0233*
+                                  Beta
+                                  MMSE                                         0.2747    0.0078*   0.0147    0.723    0.255    0.0234*   0.2787   4.55E-06*
+                                  Delayed Logic Recall                         0.1129    0.4844    0.0497    0.723    0.0296   0.4164    0.1939   0.0018*
+                                  Hippocampus volume (eTIV-normalized)         −0.0487   0.7947    0.1093    0.6446   0.2457   0.0313*   0.1495   0.0132*
+                                  Total grey matter volume (eTIV-normalized)   −0.0514   0.7947    0.1704    0.6446   0.3043   0.0234*   0.1737   0.0054*
+                                  Left Cingulum tract FA                       −0.0281   0.7947    0.1388    0.6446   0.2307   0.0356*   0.1232   0.0301*
+                                  Right Cingulum tract FA                      −0.0429   0.7947    −0.0777   0.837    0.2246   0.0356*   0.0574   0.191
+                                  Left Inferior Longitudinal Fasciculus FA     0.0808    0.4844    −0.1519   0.8882   0.1193   0.1722    0.0832   0.0994
+                                  Right Inferior Longitudinal tract FA         0.0801    0.4844    0.028     0.723    0.0972   0.2165    0.0887   0.0901
+
+
+                                 Table 2. Correlation results between whole brain dynamicity and neuropsychological, anatomic and diffusion
+                                 tensor imaging (DTI) parameters. Correlations were calculated for each group individually and then using all
+                                 subjects in the sample (as indicated by the “All” column. Significant corrected p-values after FDR correction
+                                 (q = 0.05) are bolded and marked with an asterisk. Column colours correspond to those assigned to each group
+                                 in Fig. 4.
+
+
+
+
+Scientific Reports |   (2026) 16:3905                      | https://doi.org/10.1038/s41598-025-30718-7                                                       6
+www.nature.com/scientificreports/
+
+
+                                 which may occur as early as 20 years before the symptoms’ onset, and has been also been connected to β-amyloid
+                                 deposition32. At the same time, several studies have drawn a connection between myelin abnormalities and brain
+                                 connectivity, highlighting the importance of tract myelination, transmission speed, and the resulting coupling
+                                 and synchrony patterns observed in the brain33,34. More specifically, it has been observed that the relations
+                                 between structural and FC are spatial and frequency-dependent35,36 and varies with age37. Importantly, multiple
+                                 works, such as Karahan and colleagues35, have established a connection between the frequency bands affected
+                                 in this study and myelination distribution and white matter properties. In their work, they showed negative
+                                 correlations between beta sFC inter-subject variability (ISV) and myelination, with alpha sFC-ISV failing to
+                                 maintain significance due to statistical corrections, and significant negative correlations between alpha and
+                                 beta sFC-ISV and the hindrance of white matter pathways. Additionally, the temporal precision needed for the
+                                 oscillatory coupling and phase-locking increases with oscillation frequency, leading to enhanced susceptibility to
+                                 myelin degradation for higher frequency bands36. Our results are aligned with all their conclusions, as we found
+                                 increased effect sizes of differences over the whole-brain and source-level dFC and more widespread differences
+                                 between MCI and HC groups over the beta band than in the alpha band, while not finding any result in the theta
+                                 band. These events support the theory of increased vulnerability of brain coupling at higher frequencies. We also
+                                 discovered significant negative correlations between whole-brain beta and alpha dFC and FA in multiple tracts,
+                                 indicating a strong and important dependence between white matter degradation and network integrity in AD.
+                                      The relevance of the regions and brain networks found using seed-based dFC (including orbitofrontal and
+                                 temporal areas for both alpha and beta bands, and also precuneus, IFG, anterior and posterior cingulate gyrus,
+                                 and superior medial frontal gyrus for the latter) has been highlighted in former research on brain changes
+                                 throughout the AD continuum, such as functional alterations2,6,8,9,23, volumetric atrophy observed with MRI38,39,
+                                 and amyloid neuropathological disturbances measured with positron emission tomography40. Interestingly, the
+                                 distribution of the dFC changes found between MCI and HC correspond to multiple results in Karahan et al.35
+                                 Brain areas with decreased hindrance of white matter pathways display a similar distribution as the significant
+                                 cluster found in the alpha band, and the location of the areas with the lowest cortical R1, e.g., with the lowest
+                                 myelination, is alike the cluster found in the beta band. These areas are characterized by a lower neuronal density,
+                                 large dendritic arborization, more spine density, more synapses, and higher aerobic glycolysis, which may be
+                                 a neurobiological feature of the association cortices, enabling adaptable and plastic neural circuitry. These
+                                 attributes might, in turn, lead to more complex FC behaviors, highlighting the importance of loss of dynamic
+                                 activity in these areas along the AD continuum.
+                                      Finally, the potential of the proposed dFC marker is indicated by its significant correlations in alpha and beta
+                                 with the cognitive and anatomical parameters. It is worth highlighting that those trends were found both when
+                                 using the whole dataset and for the MCI group only. While correlations found in the whole dataset showcase the
+                                 value of dynamicity as a possible biomarker for AD progression, it includes groups with significantly different
+                                 cognitive and anatomical scores. On the other hand, MCI group correlations imply that lower dFC is related
+                                 to the severity of the signs these participants show, as well as showing the link between dFC and anatomical
+                                 damage due to the advance of the disease. Surprisingly, we can find studies describing significant relationships
+                                 between sFC and DTI measures41–43, and at the same time alternative sFC-based investigations that do not find
+                                 a relationship between these two markers44–46. Based on a relatively large sample, the correlations found in this
+                                 study between dFC and white matter degradation in the pre-dementia phase of the AD continuum contrast with
+                                 those reported using sFC and motivate further investigation to unveil the potential sensitivity of dFC to early
+                                 structural changes in the brain.
+                                      Nevertheless, some limitations need to be noted. Firstly, the use of a sliding-window technique does not come
+                                 without disadvantages. The size of the window used in this study (4 s) has been used in previous relevant studies
+                                 determining relevant FC features in AD for the frequency bands investigated here6,8–10,47, but it was not large
+                                 enough to capture sufficient oscillations in the delta band, and not small enough to capture dynamic patterns in
+                                 the gamma band. Future studies will address this limitation for the study of the latter frequency band, especially
+                                 relevant for AD, and according to our discussion particularly vulnerable to myelin damage. While based on a
+                                 large dataset, this study did not include any participant with AD, necessary to obtain a complete assessment
+                                 of the entire AD spectrum. Future studies should investigate the relation of dFC with white matter integrity,
+                                 sFC, and neural excitation/inhibition. Finally, it should be noted that fully connected unweighted adjacency
+                                 matrices were used in this study, which are vulnerable to spurious activity. While the application of frequency
+                                 filtering, signal orthogonalization, and cluster-based permutation testing reduced the likelihood for the results
+                                 to be explained by spurious activity, future studies will also apply graph filtering techniques48,49 to counter this
+                                 limitation.
+
+                                 Conclusion
+                                 In conclusion, our study offers compelling evidence that dFC declines across the AD spectrum, particularly
+                                 within the alpha and beta frequency bands, emphasizing its potential as a biomarker for early AD detection and
+                                 progression monitoring. This decline in dFC, especially pronounced in critical brain regions involved in the
+                                 default mode network, correlates with cognitive deterioration and structural brain changes, further indicating
+                                 the relevance of dFC in AD, and underpinning the interconnected nature of functional, cognitive, and anatomical
+                                 alterations in this disorder.
+
+                                 Materials and methods
+                                 Participants
+                                 The sample for the present study consisted of 321 individuals with valid MEG resting state recordings, T1-
+                                 weighted magnetic resonance imaging (MRI) scans, and a thorough neuropsychological evaluation. Of them,
+
+
+Scientific Reports |   (2026) 16:3905                | https://doi.org/10.1038/s41598-025-30718-7                                                   7
+www.nature.com/scientificreports/
+
+
+                                 143 were unimpaired older adults with no cognitive complaints, namely the healthy control (HC) group, 72 were
+                                 unimpaired individuals with SCD, and 106 presented MCI.
+                                     MCI patients were diagnosed according to the National Institute on Aging-Alzheimer Association (NIA-
+                                 AA) criteria50, based on their cognitive profile. Besides meeting the core clinical criteria for MCI, patients also
+                                 exhibited significant hippocampal atrophy according to the evaluation of an experienced neuroradiologist
+                                 who was blinded to the clinical outcome (see also below hippocampal volumes calculation). Consequently,
+                                 patients were categorized as “MCI due to AD with intermediate likelihood”50. MCI participants underwent
+                                 longitudinal assessment on their clinical progression after a mean of 2 (standard deviation of 0.5 years). They
+                                 were further subdivided into 64 stable MCI (sMCI) and 42 progressive MCI (pMCI) patients, depending on their
+                                 progression to probable AD in during the follow-up period51. The participants were recruited from different
+                                 Spanish institutions and associations; namely, the “Fulbright Alumni Association”, the “Asociación Española de
+                                 Ingenieros de Telecomunicación”, or the “Hospital Universitario Clínico San Carlos”, being the last one located
+                                 in Madrid.
+                                     To correctly characterize the SCD group, cognitive concerns were self-reported by the participants in an
+                                 interview with clinician experts. The final group assignment was made after neuropsychological evaluation
+                                 attending to a multidisciplinary consensus (by neuropsychologists, psychiatrists, and neurologists). To prevent
+                                 possible confounders of SCD, problematic medication, psycho-affective disorders or other relevant medical
+                                 conditions lead to the exclusion from the study. Following the recommendations made by the SCD-I-WG,
+                                 all subjects were older than 60 at onset of SCD, and this onset took place within the last 5 years prior to the
+                                 recruitment.
+                                     The exclusion criteria employed in this study were the followings: (1) history of psychiatric or neurological
+                                 disorders or drug consumption that could affect MEG activity, such as cholinesterase inhibitors; (2) evidence of
+                                 infection, infarction or focal lesions in a T2-weighted scan within 2 months before MEG acquisition; (3) history
+                                 of alcoholism, chronic use of anxiolytics, neuroleptics, narcotics, anticonvulsants or sedative hypnotics; and (4)
+                                 for the healthy individuals (HC and SCD groups), a score below 26 points in the MMSE. Besides, additional
+                                 analyses were conducted to rule out other possible causes of cognitive decline, such as B12 vitamin deficit,
+                                 diabetes mellitus, thyroid problems, syphilis, or infection by the human immunodeficiency virus (HIV).
+                                     All participants were native Spanish speakers and provided written informed consent. The Institutional
+                                 Review Board Ethics Committee at Hospital Universitario San Carlos approved the study protocol, and the
+                                 procedure was performed following the Helsinki Declaration and National and European Union regulations.
+                                 Table 1 summarizes relevant demographic and clinical information of the sample, and Table S1 compares
+                                 demographics from sMCI and pMCI groups.
+
+                                 Neuropsychological assessment
+                                 To assess the general cognitive and functional status of the participants, the following set of screening
+                                 questionnaires were used: The Mini Mental State Examination (MMSE)52; the Geriatric Depression Scale–Short
+                                 Form (GDS)53; the Hachinski Ischemic Score, (HIS)54; and the Functional Assessment Questionnaire (FAQ)55.
+                                 After the initial screening, all subjects underwent an exhaustive neuropsychological assessment including: Direct
+                                 and Inverse Digit Span tests (Wechsler Memory Scale, WMS-IV)56; Immediate and Delayed logic memory
+                                 component of the WMS-IV56; and Phonemic and Semantic Fluency (Controlled oral Word Association Test,
+                                 COWAT)57. From these measures, both MMSE scores and the Delayed logic memory component of the WMS-
+                                 IV were used in this study.
+
+                                 Magnetic resonance imaging
+                                 An individual T1-weighted MRI scan was acquired for each participant in a General Electric 1.5 T scan. A high-
+                                 resolution antenna was employed, together with a homogenization phased array uniformity enhancement filter
+                                 (fast spoiled gradient echo sequence, TR/TE/TI of 11.2/4.2/450 ms; flip angle of 12º; slice thickness of 1 mm,
+                                 256 × 256 matrix, and FOV of 25 cm. These images were processed using the FreeSurfer software (version 6.1.0)
+                                 for automated cortical and subcortical segmentation and volumetric parcellation58, based on the cortical and
+                                 subcortical atlas of Freesurfer.
+                                     Additionally, diffusion weighted imaging (DWI) scans were acquired using a single shot echo planar imaging
+                                 sequence with a TE of 96.1 ms, a TR of 12000ms; a NEX 3 for increasing the signal-to-noise ratio, a FOV of 30.7
+                                 cm (resolution of 128 × 128), and a 4 mm slice thickness. In the DWI sequence, one image had no diffusion
+                                 sensitization (i.e., T2-weighted b0 images), and 25 were DWI (b = 900 s/mm2). DWI images were processed with
+                                 AutoPtx for probabilistic tractography, as outlined in the paper of de Groot et al.59 Firstly, diffusion data were
+                                 preprocessed using the FDT toolbox within FSL60. The preprocessing pipeline included affine co-registration of
+                                 all acquired volumes to correct for subject motion and eddy current distortions. Non-brain tissue was removed
+                                 using the Brain Extraction Tool in FSL. A diffusion tensor was then fitted to the log-transformed data using a
+                                 linear least squares method. The resulting tensor image was upsampled to 1 mm³ resolution via cubic spline
+                                 interpolation of the tensor components, from which a high-resolution FA image was subsequently derived. In
+                                 parallel, after motion and eddy current correction, a voxel-wise probabilistic model of fiber orientations was
+                                 estimated with BEDPOSTX61, run with default parameters as a preprocessing step for probabilistic tractography.
+                                     Fiber tractography was performed using a Bayesian probabilistic approach implemented in PROBTRACKX,
+                                 included in FSL. Standard-space regions of interest (seed, target, stop, and exclusion masks) were adapted from
+                                 de Groot et al. 2013,59 and subsequently used to initiate and constrain tracking. Tractography was conducted
+                                 in native space with tract density recorded at 1 mm³ resolution, generating between 2,000 and 30,000 samples
+                                 per seed voxel depending on tract size and geometry. Resulting tract density maps were normalized by the total
+                                 number of propagated particles per structure. Streamline propagation was governed by posterior distributions
+                                 of fiber orientations estimated using BEDPOSTX, as mentioned in the last paragraph. For more details, see de
+
+Scientific Reports |   (2026) 16:3905                | https://doi.org/10.1038/s41598-025-30718-7                                                 8
+www.nature.com/scientificreports/
+
+
+                                 Groot, 201359. Finally, the procedure extracted the mean fractional anisotropy (FA) for each of the tracts of
+                                 interest (see next paragraph).
+                                     The volumetric and tractography measures that were included in further analyses were the total volumes
+                                 (mm3) of cortical gray matter and hippocampus (derived from Freesurfer’s automated global measures of volume
+                                 and Hippocampalsubfields module, respectively), normalized by the estimated intracranial volume (eTIV), and
+                                 the FA of the cingulate gyrus part of the cingulum (CGC) and the inferior longitudinal fasciculus (ILF), due to
+                                 their relevance in the early progression of the disease62.
+
+                                 MEG data acquisition
+                                 Each participant underwent a four-minute, eyes-closed, resting-state MEG scan at the Center for Biomedical
+                                 Technology in Madrid, Spain. This session used a 306-sensor Elekta Neuromag system (Elekta AB, Stockholm,
+                                 Sweden) to record brain activity. Additionally, ocular and cardiac activities were monitored using two sets of
+                                 bipolar electrodes. To track head position, four head position indication coils were placed on the participants’
+                                 scalp: two on the forehead and two on the mastoids. These coils, along with approximately 200 points of the
+                                 participant’s head shape, were digitized using the Fastrak 3D scan (Polhemus, Colchester, VT, USA). The coils
+                                 were actively used during the recording to continuously monitor the head’s position in relation to the MEG
+                                 helmet. The procedure was conducted in a magnetically shielded room, and participants were advised to remain
+                                 as motionless and relaxed as possible. The data were filtered in real time between 0.1 and 330 Hz and digitized
+                                 at a rate of 1000 Hz. For data processing, the spatiotemporal signal space separation method63, as implemented
+                                 in the Neuromag software (MaxFilter version 2.2, with a correlation of 0.90 and a time window of 10 s), was
+                                 employed to eliminate external noise and correct for any head movements during the MEG scan.
+
+                                 MEG preprocessing and source reconstruction
+                                 MEG data were blindly preprocessed by an electrophysiology expert using FieldTrip software64. This process
+                                 involved dividing the continuous data into non-overlapping, artifact-free 4-second segments, with an extra 2 s
+                                 of real data to each side for padding purposes. Participants who had at least 20 valid segments were selected for
+                                 further analysis. Due to the high redundancy in the data after applying the signal space separation method65,
+                                 analysis focused solely on data from the magnetometers.
+                                     Each participant’s T1-weighted MRI scan was used for individual source reconstruction. The source model
+                                 was established in MNI space using a uniform 3D grid with 10 mm spacing. Source positions were identified
+                                 based on the AAL atlas66, resulting in 1210 cortical sources distributed across 80 regions of interest. This source
+                                 model was then linearly transformed to each participant’s T1-weighted scan. The scans were segmented using
+                                 SPM12 software67, creating a brain mask. This mask aided in constructing the participants’ single-shell realistic
+                                 head models. These models, combined with the participants’ source models, facilitated the generation of a lead
+                                 field using a modified spherical solution68.
+                                     To derive time series data for each source location, a linearly constrained, minimum variance beamformer
+                                 was used as the inverse model. To this end, the beamformers were computed using the covariance matrix of the
+                                 data filtered between 2 and 45 Hz, with a regularization level set at 1% of the average sensor power.
+
+                                 Dynamic functional connectivity
+                                 dFC calculation
+                                 Source-space FC was estimated using the amplitude envelope correlation with leakage correction (AEC-c)69.
+                                 While the amplitude envelope correlation calculates the linear correlation of the envelopes of signals after a
+                                 band-pass filter and Hilbert transformation have been applied70, the AEC-c removes the zero-lag correlations
+                                 that could be the result of spurious signal coupling due to volume conduction (i.e. signal leakage in source-
+                                 space). In our case, data was filtered in the theta (4–8 Hz), alpha (8–12 Hz), and beta (12–30 Hz) frequency
+                                 bands through a finite impulse response filter with an order of 1800, designed with a hamming window. Next, a
+                                 symmetric pairwise orthogonalization of the signal was performed before the calculation of the AEC71. Multiple
+                                 studies have proven AEC-c as a reliable FC metric71,72, with an elevated within and between subject consistency73,
+                                 and highly sensitive to dFC in aforementioned literature with a similar objective14,22,74.
+                                     As a result, a 1210 by 1210 AEC-c adjacency matrix that contains the static FC values between all pairs of
+                                 cortical sources was obtained for each epoch of each subject in the three frequency bands under study (Fig.
+                                 1 A). In order to obtain a single, source-level connectivity matrix, epoch data was averaged per subject in each
+                                 frequency band. To obtain ROI-level connectivity matrices, the same procedure was repeated, also averaging
+                                 the connectivity values of the sources belonging to each of the 80 AAL regions, thus obtaining an 80 by 80
+                                 connectivity matrix.
+                                     Additionally, for the sake of studying dFC, we calculated the correlation between the connectivity matrices
+                                 corresponding to each segment. This is usually labeled in literature as the recurrence matrix (C)22,75, and
+                                 represents the similarity of connectivity distributions over time, as represented in Fig. 1B. To maintain a uniform
+                                 representation of the data of all subjects, the same number of segments were used for dFC calculations in all
+                                 subjects. Given that the minimum number of segments among the participants was 21, we just kept the first 21
+                                 clean segments of each participant.
+
+                                 Whole-brain dFC
+                                 Each of the Cij terms of the recurrence matrix represents the correlation of all connectivity terms of the
+                                 connectivity matrix of segment i with those of the connectivity matrix of segment j, resulting in a matrix of
+                                 dimensions number of segments × number of segments. Consequently, we obtained 321 21 × 21 recurrence
+                                 matrices, one for each subject, representing the consistency of connectivity profiles over time. The Fisher
+                                 Z-transformation was subsequently applied to these matrices, to prevent any possible skewness in the calculated
+
+Scientific Reports |   (2026) 16:3905                | https://doi.org/10.1038/s41598-025-30718-7                                                 9
+www.nature.com/scientificreports/
+
+
+                                 distribution76. In order to acquire a parameter representing the dynamic nature of the connectivity, we calculate
+                                 dynamicity as:
+                                                                                             −
+                                                                     triu (atanh (0.99)) − triu(atanh(C)) (1)
+                                                               Dyn =
+                                                                                 atanh (0.99))
+                                                                                                         −
+                                 Where the operator triu is the upper triangle selector, the operator x is the average of x, the operator atanh
+                                 is the inverse hyperbolic tangent, equivalent to the Fisher z-transform, and C is the recurrence matrix. This
+                                 parameter would range from 0 to 1, where 0 represents complete stationarity, while 1 would represent a complete
+                                 lack of temporal correlation among connectivity matrices. Note that we use the atanh of 0.99 instead of 1 for
+                                 normalization, since the inverse hyperbolic tangent of 1 is infinite.
+
+                                 Spatial dFC analysis
+                                 No spatial information can be derived from the previous recurrence matrix. To perform a data-driven analysis of
+                                 the spatial distribution of changes in dFC through recurrence matrices, we propose the methodology we called
+                                 “seed-based recurrence matrix”. While all sources are used to calculate the correlation of each segment with the
+                                 others in a recurrence matrix, the seed-based recurrence matrix separates that process for each of the sources,
+                                 as shown in Fig. 1C.
+                                     For each source, the connectivity values of that source with the remaining sources are extracted, and then
+                                 correlated along the different segments, obtaining a number of segments × number of segments recurrence
+                                 matrix for each of the original 1210 source positions. Consequently, the seed-based recurrence matrix has a
+                                 dimension of sources × number of segments × number of segments. Once again, the Fisher Z-transformation
+                                 was applied to the data to favor the normality of the distribution and the result was subtracted from the inverse
+                                 hyperbolic tangent of 0.99, and normalized by the same number, as in Eq. 1. Given the number of sources
+                                 used for the source reconstruction, we obtained 321 1210 × 21 × 21 seed-based recurrence matrices, one for each
+                                 participant. Equally as before, we averaged the upper triangle values of the recurrence matrices of each source to
+                                 finally obtain 1210 values per subject.
+
+                                 Statistical analyses
+                                 Initially, demographic characteristics were evaluated, using an independent samples t-test to compare age and
+                                 neuropsychological variables, as well as a chi-square test to compare sex proportion between each of the groups.
+
+                                 Whole-brain dFC
+                                 Statistical analyses were carried out in a stepwise manner. Firstly, we studied whole-brain dFC across the different
+                                 groups in our sample, to study whether global dFC diminishes along the AD continuum. To this end, we firstly
+                                 compared the dynamicity values (Eq. 1), between groups in each frequency band (theta, alpha and beta) through
+                                 a regression analysis, introducing sex and age as covariates. FDR correction was applied to each frequency band
+                                 set of comparisons through the Benjamini-Hochberg procedure77, with a q of 0.05. Any p-values surviving FDR
+                                 were considered statistically significant, and β-values were used for interpreting the directionality of results.
+                                     Given that we also had the information on the progression towards AD of the participants in the MCI group,
+                                 we also carried out an additional test comparing the whole-brain dFC of the participants in the sMCI and pMCI
+                                 groups.
+
+                                 Spatial dFC analysis
+                                 The second step of our analysis aimed to study the spatial distribution of dFC changes between groups. For that
+                                 purpose, the aforementioned seed-based recurrence matrices (Fig. 1 C) of each subject were used. To account
+                                 for multiple comparisons, we conducted two-sided nonparametric cluster-based permutation tests, using a
+                                 Montecarlo approach and an independent samples F-statistic ANOVA in each sample, including sex and age as
+                                 covariates. The source-level and cluster-level significance thresholds were set to 0.05. Significant sources were
+                                 grouped based on spatial contiguity, obtaining a cluster statistic defined as the sum of the individual statistics
+                                 of each source in it. We conducted 10,000 permutations on the original data to create a surrogate distribution
+                                 of random cluster statistics to compare with our original result. As this test was a pos-hoc analysis, it was only
+                                 performed between groups that showed significant differences in global dFC (i.e., in the previous analysis).
+                                 Subsequently, a post-hoc linear regression analysis comparing the seed-based dynamicity between groups at the
+                                 found cluster was performed to check for the directionality of the results.
+
+                                 Neuropsychological, volumetric and DTI FA correlations
+                                 Finally, we investigated whether the observed changes in dFC were related to changes in cognition, brain
+                                 volumetrics, and white matter integrity. To do so, we calculated Pearson’s partial correlation of the dynamicity
+                                 with the previously mentioned neuropsychological test scores, volumetry parameters, and tract FA in the
+                                 frequency bands where statistical differences in global dFC were detected. We performed these tests both using
+                                 the data from all groups as well as only from the individual groups, including sex and age as covariate in all cases.
+                                 FDR correction was again applied to each frequency band set of comparisons, with a q of 0.05.
+
+                                 Data availability
+                                 The data and the algorithms that support the findings of this study are available from the corresponding author,
+                                 upon reasonable request.
+
+
+
+Scientific Reports |   (2026) 16:3905                | https://doi.org/10.1038/s41598-025-30718-7                                                 10
+www.nature.com/scientificreports/
+
+
+                                 Received: 30 April 2025; Accepted: 26 November 2025
+
+
+                                 References
+                                  1. Alzheimer’s disease facts and figures. Alzheimer’s & Dementia. 2023;19(4):1598–1695. (2023). https://doi.org/10.1002/alz.13016
+                                  2. Maestú, F., de Haan, W., Busche, M. A. & DeFelipe, J. Neuronal excitation/inhibition imbalance: core element of a translational
+                                     perspective on alzheimer pathophysiology. Ageing Res. Rev. 69, 101372. https://doi.org/10.1016/j.arr.2021.101372 (2021).
+                                  3. Koelewijn, L. et al. Alzheimer’s disease disrupts alpha and beta-band resting-state oscillatory network connectivity. Clin.
+                                     Neurophysiol. 128 (11), 2347–2357. https://doi.org/10.1016/j.clinph.2017.04.018 (2017).
+                                  4. Bajo, R. et al. Functional connectivity in mild cognitive impairment during a memory task: implications for the Disconnection
+                                     hypothesis. JAD 22 (1), 183–193. https://doi.org/10.3233/JAD-2010-100177 (2010).
+                                  5. Mao, Y. et al. Disrupted balance of long and short-range functional connectivity density in alzheimer’s disease (AD) and mild
+                                     cognitive impairment (MCI) patients: a resting-state fMRI study. Ann. Transl Med. 9 (1), 65–65. ​h​t​t​p​s​:​/​/​d​o​i.​ ​o​r​g​/​1​0​.​2​10​ ​3​7​/​a​t​m​-​2​
+                                     0​-​7​0​1​9​​​​ (2021).
+                                  6. López-Sanz, D. et al. Functional connectivity disruption in subjective cognitive decline and mild cognitive impairment: A common
+                                     pattern of alterations. Front. Aging Neurosci. 9, 109. https://doi.org/10.3389/fnagi.2017.00109 (2017).
+                                  7. Viviano, R. P. & Damoiseaux, J. S. Functional neuroimaging in subjective cognitive decline: current status and a research path
+                                     forward. Alz Res. Therapy. 12 (1), 23. https://doi.org/10.1186/s13195-020-00591-9 (2020).
+                                  8. Ramírez-Toraño, F. et al. Functional connectivity hypersynchronization in relatives of alzheimer’s disease patients: an early E/I
+                                     balance dysfunction? Cereb. Cortex. 31 (2), 1201–1210. https://doi.org/10.1093/cercor/bhaa286 (2021).
+                                  9. García-Colomo, A. et al. Longitudinal changes in the functional connectivity of individuals at risk of Alzheimer’s disease.
+                                     GeroScience Published online January https://doi.org/10.1007/s11357-023-01036-5 (2024).
+                                 10. Pusil, S. et al. Hypersynchronization in mild cognitive impairment: the ‘X’ model. Brain 142 (12), 3936–3950. ​h​t​t​p​s​:​//​ ​d​o​i​.​o​r​g​/​10​ ​.​1​
+                                     0​9​3​/​b​r​ai​ ​n​/​a​w​z​3​2​0​​​​ (2019).
+                                 11. Sepulcre, J. et al. Tau and amyloid β proteins distinctively associate to functional network changes in the aging brain. Alzheimer’s
+                                     Dement. 13 (11), 1261–1269. https://doi.org/10.1016/j.jalz.2017.02.011 (2017).
+                                 12. Franzmeier, N. et al. Functional connectivity associated with Tau levels in ageing, Alzheimer’s, and small vessel disease. Brain 142
+                                     (4), 1093–1107. https://doi.org/10.1093/brain/awz026 (2019).
+                                 13. Bola, M. & Sabel, B. A. Dynamic reorganization of brain functional networks during cognition. NeuroImage 114, 398–413. ​h​t​t​p​s​:​/​
+                                     /​d​o​i​.​o​r​g​/​1​0.​ ​1​0​1​6​/​j​.​n​eu ​ ​r​o​i​m​a​g​e​.​20​ ​1​5​.​0​3​.​0​5​7​​​​ (2015).
+                                 14. Núñez, P. et al. Characterizing the fluctuations of dynamic resting-state electrophysiological functional connectivity: reduced
+                                     neuronal coupling variability in mild cognitive impairment and dementia due to alzheimer’s disease. J. Neural Eng. 16 (5), 056030.
+                                     https://doi.org/10.1088/1741-2552/ab234b (2019).
+                                 15. Matsui, T. & Yamashita, K. Static and dynamic functional connectivity alterations in alzheimer’s disease and neuropsychiatric
+                                     diseases. Brain Connect. 13 (5), 307–314. https://doi.org/10.1089/brain.2022.0044 (2023).
+                                 16. Córdova-Palomera, A. et al. Disrupted global metastability and static and dynamic brain connectivity across individuals in the
+                                     alzheimer’s disease continuum. Sci. Rep. 7 (1), 40268. https://doi.org/10.1038/srep40268 (2017).
+                                 17. Gu, Y. et al. Abnormal dynamic functional connectivity in alzheimer’s disease. CNS Neurosci. Ther. 26 (9), 962–971. ​h​t​t​p​s​:/​ ​/​d​o​i​.​o​r​
+                                     g​/1​ ​0​.​1​1​1​1​/​c​ns​ ​.​1​3​3​8​7​​​​ (2020).
+                                 18. Zhao, C. et al. Abnormal characterization of dynamic functional connectivity in alzheimer’s disease. Neural Regen Res. 17 (9), 2014.
+                                     https://doi.org/10.4103/1673-5374.332161 (2022).
+                                 19. Jones, D. T. et al. Non-Stationarity in the Resting Brain’s Modular Architecture. He Y, ed. PLoS ONE. ;7(6):e39731. (2012). ​h​t​t​p​s​:​/​/​
+                                     d​o​i.​ ​o​r​g​/​1​0​.​1​37​ ​1​/​j​o​u​r​n​a​l.​ ​p​o​n​e​.​0​0​3​9​7​3​1​​​​
+                                 20. Schumacher, J. et al. Dynamic functional connectivity changes in dementia with lewy bodies and alzheimer’s disease. NeuroImage:
+                                     Clin. 22, 101812. https://doi.org/10.1016/j.nicl.2019.101812 (2019).
+                                 21. Filippi, M., Spinelli, E. G., Cividini, C. & Agosta, F. Resting state dynamic functional connectivity in neurodegenerative conditions:
+                                     A review of magnetic resonance imaging findings. Front. Neurosci. 13, 657. https://doi.org/10.3389/fnins.2019.00657 (2019).
+                                 22. Núñez, P. et al. Abnormal meta-state activation of dynamic brain networks across the alzheimer spectrum. NeuroImage 232,
+                                     117898. https://doi.org/10.1016/j.neuroimage.2021.117898 (2021).
+                                 23. Li, R., Nguyen, T., Potter, T. & Zhang, Y. Dynamic cortical connectivity alterations associated with alzheimer’s disease: an EEG and
+                                     fNIRS integration study. NeuroImage: Clin. 21, 101622. https://doi.org/10.1016/j.nicl.2018.101622 (2019).
+                                 24. Sun, J. et al. Complexity analysis of EEG, MEG, and fMRI in mild cognitive impairment and alzheimer’s disease: A review. Entropy
+                                     22 (2), 239. https://doi.org/10.3390/e22020239 (2020).
+                                 25. Puttaert, D. et al. Alterations in resting-state network dynamics along the alzheimer’s disease continuum. Sci. Rep. 10 (1), 21990.
+                                     https://doi.org/10.1038/s41598-020-76201-3 (2020).
+                                 26. Bruña, R. et al. Analysis of spontaneous MEG activity in mild cognitive impairment and alzheimer’s disease using spectral
+                                     entropies and statistical complexity measures. J. Neural Eng. 9 (3), 036007. https://doi.org/10.1088/1741-2560/9/3/036007 (2012).
+                                 27. Cao, Y. et al. Characterization of complexity in the electroencephalograph activity of alzheimer’s disease based on fuzzy entropy.
+                                     Chaos: Interdisciplinary J. Nonlinear Sci. 25 (8), 083116. https://doi.org/10.1063/1.4929148 (2015).
+                                 28. Ballanti, S. et al. EEG-based methods for recovery prognosis of patients with disorders of consciousness: A systematic review. Clin.
+                                     Neurophysiol. 144, 98–114. https://doi.org/10.1016/j.clinph.2022.09.017 (2022).
+                                 29. Rodríguez-González, V. et al. Unveiling the alterations in the frequency-dependent connectivity structure of MEG signals in mild
+                                     cognitive impairment and alzheimer’s disease. Biomed. Signal Process. Control. 87, 105512. ​h​t​t​p​s​:​/​/​d​o​i.​ ​o​r​g​/​1​0​.​1​01​ ​6​/​j​.​b​s​p​c​.2​ ​0​2​3​.​1​0​
+                                     5​5​1​2​​​​ (2024).
+                                 30. Desai, M. K. et al. Triple-transgenic alzheimer’s disease mice exhibit region‐specific abnormalities in brain myelination patterns
+                                     prior to appearance of amyloid and Tau pathology. Glia 57 (1), 54–65. https://doi.org/10.1002/glia.20734 (2009).
+                                 31. Nasrabady, S. E., Rizvi, B., Goldman, J. E. & Brickman, A. M. White matter changes in alzheimer’s disease: a focus on Myelin and
+                                     oligodendrocytes. Acta neuropathol. commun. 6 (1), 22. https://doi.org/10.1186/s40478-018-0515-3 (2018).
+                                 32. Dean, D. C. et al. Association of amyloid pathology with Myelin alteration in preclinical alzheimer disease. JAMA Neurol. 74 (1),
+                                     41. https://doi.org/10.1001/jamaneurol.2016.3232 (2017).
+                                 33. Babaeeghazvini, P., Rueda-Delgado, L. M., Gooijers, J., Swinnen, S. P. & Daffertshofer, A. Brain structural and functional
+                                     connectivity: A review of combined works of diffusion magnetic resonance imaging and Electro-Encephalography. Front. Hum.
+                                     Neurosci. 15, 721206. https://doi.org/10.3389/fnhum.2021.721206 (2021).
+                                 34. Hunt, B. A. E. et al. Relationships between cortical myeloarchitecture and electrophysiological networks. Proc. Natl. Acad. Sci.
+                                     USA. 113 (47), 13510–13515. https://doi.org/10.1073/pnas.1608587113 (2016).
+                                 35. Karahan, E. et al. The interindividual variability of multimodal brain connectivity maintains Spatial heterogeneity and relates to
+                                     tissue microstructure. Commun. Biol. 5 (1), 1007. https://doi.org/10.1038/s42003-022-03974-w (2022).
+                                 36. Pajevic, S., Basser, P. J. & Fields, R. D. Role of Myelin plasticity in oscillations and synchrony of neuronal activity. Neuroscience 276,
+                                     135–147. https://doi.org/10.1016/j.neuroscience.2013.11.007 (2014).
+                                 37. Vandewouw, M. M., Hunt, B. A. E., Ziolkowski, J. & Taylor, M. J. The developing relations between networks of cortical Myelin and
+                                     neurophysiological connectivity. NeuroImage 237, 118142. https://doi.org/10.1016/j.neuroimage.2021.118142 (2021).
+
+
+Scientific Reports |   (2026) 16:3905                          | https://doi.org/10.1038/s41598-025-30718-7                                                                                                11
+www.nature.com/scientificreports/
+
+
+                                 38. Pini, L. et al. Brain atrophy in alzheimer’s disease and aging. Ageing Res. Rev. 30, 25–48. https://doi.org/10.1016/j.arr.2016.01.002
+                                     (2016).
+                                 39. Blinkouskaya, Y. & Weickenmeier, J. Brain shape changes associated with cerebral atrophy in healthy aging and alzheimer’s disease.
+                                     Front. Mech. Eng. 7, 705653. https://doi.org/10.3389/fmech.2021.705653 (2021).
+                                 40. Mattsson, N., Palmqvist, S., Stomrud, E., Vogel, J. & Hansson, O. Staging β -Amyloid pathology with amyloid positron emission
+                                     tomography. JAMA Neurol. 76 (11), 1319. https://doi.org/10.1001/jamaneurol.2019.2214 (2019).
+                                 41. Fodor, Z. et al. EEG alpha and beta band functional connectivity and network structure mark hub overload in mild cognitive
+                                     impairment during memory maintenance. Front. Aging Neurosci. 13, 680200. https://doi.org/10.3389/fnagi.2021.680200 (2021).
+                                 42. Zhou, Y., Yu, F., Duong, T. Q. & for the Alzheimer’s Disease Neuroimaging Initiative. White matter lesion load is associated with
+                                     resting state functional MRI activity and amyloid pet but not FDG in mild cognitive impairment and early alzheimer’s disease
+                                     patients. Magn. Reson. Imaging. 41 (1), 102–109. https://doi.org/10.1002/jmri.24550 (2015).
+                                 43. Vecchio, F. et al. Cortical brain connectivity evaluated by graph theory in dementia: A correlation study between functional and
+                                     structural data. JAD 45 (3), 745–756. https://doi.org/10.3233/JAD-142484 (2015).
+                                 44. Nakamura, A. et al. Early functional network alterations in asymptomatic elders at risk for alzheimer’s disease. Sci. Rep. 7 (1), 6517.
+                                     https://doi.org/10.1038/s41598-017-06876-8 (2017).
+                                 45. Garcés, P. et al. The default mode network is functionally and structurally disrupted in amnestic mild cognitive impairment — A
+                                     bimodal MEG–DTI study. NeuroImage: Clin. 6, 214–221. https://doi.org/10.1016/j.nicl.2014.09.004 (2014).
+                                 46. Gilligan, T. M. et al. No relationship between fornix and cingulum degradation and within-network decreases in functional
+                                     connectivity in prodromal Alzheimer’s disease. Zhang H, ed. PLoS ONE. ;14(10):e0222977. (2019). ​ht​ ​t​p​s​:​/​/​d​o​i.​ ​o​r​g​/​1​0​.​1​37​ ​1​/​j​o​u​r​n​a​
+                                     l​.​p​o​n​e​.​0​2​2​2​9​7​7​​​​
+                                 47. Lopez, M. E. et al. Alpha-Band hypersynchronization in progressive mild cognitive impairment: A magnetoencephalography
+                                     study. J. Neurosci. 34 (44), 14551–14559. https://doi.org/10.1523/JNEUROSCI.0964-14.2014 (2014).
+                                 48. Dimitriadis, S. I., Antonakakis, M., Simos, P., Fletcher, J. M. & Papanicolaou, A. C. Data-Driven topological filtering based on
+                                     orthogonal minimal spanning trees: application to multigroup magnetoencephalography Resting-State connectivity. Brain
+                                     Connect. 7 (10), 661–670. https://doi.org/10.1089/brain.2017.0512 (2017).
+                                 49. Luppi, A. I. & Stamatakis, E. A. Combining network topology and information theory to construct representative brain networks.
+                                     Netw. Neurosci. 5 (1), 96–124. https://doi.org/10.1162/netn_a_00170 (2021).
+                                 50. Albert, M. S. et al. The diagnosis of mild cognitive impairment due to alzheimer’s disease: recommendations from the National
+                                     Institute on Aging-Alzheimer’s association workgroups on diagnostic guidelines for alzheimer’s disease. FOC 11 (1), 96–106.
+                                     https://doi.org/10.1176/appi.focus.11.1.96 (2013).
+                                 51. McKhann, G. M. et al. The diagnosis of dementia due to alzheimer’s disease: recommendations from the National Institute on
+                                     Aging-Alzheimer’s association workgroups on diagnostic guidelines for alzheimer’s disease. Alzheimer’s Dement. 7 (3), 263–269.
+                                     https://doi.org/10.1016/j.jalz.2011.03.005 (2011).
+                                 52. Lobo, A. et al. [Revalidation and standardization of the cognition mini-exam (first Spanish version of the Mini-Mental status
+                                     Examination) in the general geriatric population]. Med. Clin. (Barc). 112 (20), 767–774 (1999).
+                                 53. Yesavage, J. A. Geriatric depression scale. Psychopharmacol. Bull. 24 (4), 709–711 (1988).
+                                 54. Rosen, W. G., Terry, R. D., Fuld, P. A., Katzman, R. & Peck, A. Pathological verification of ischemic score in differentiation of
+                                     dementias. Ann. Neurol. 7 (5), 486–488. https://doi.org/10.1002/ana.410070516 (1980).
+                                 55. Pfeffer, R. I., Kurosaki, T. T., Harrah, C. H., Chance, J. M. & Filos, S. Measurement of functional activities in older adults in the
+                                     community. J. Gerontol. 37 (3), 323–329. https://doi.org/10.1093/geronj/37.3.323 (1982).
+                                 56. Wechsler Memory Scale–Fourth Edition. Published Online November 12, doi:https://doi.org/10.1037/t15175-000 (2012).
+                                 57. Benton, A. L., Hamsher de, S. K. & Sivan, A. B. Controlled oral word association test. Published Online March. 13 ​h​t​t​p​s​:​/​/​d​oi​ ​.​o​r​g​/​
+                                     1​0​.​10​ ​3​7​/​t​1​0​1​3​2​-​0​0​0​​​​ (2017).
+                                 58. Fischl, B. & FreeSurfer NeuroImage ;62(2):774–781. doi:https://doi.org/10.1016/j.neuroimage.2012.01.021 (2012).
+                                 59. de Groot, M. et al. Improving alignment in Tract-based Spatial statistics: evaluation and optimization of image registration.
+                                     NeuroImage 76, 400–411. https://doi.org/10.1016/j.neuroimage.2013.03.015 (2013).
+                                 60. Jenkinson, M., Beckmann, C. F., Behrens, T. E. J., Woolrich, M. W. & Smith, S. M. FSL NeuroImage ;62(2):782–790. ​d​o​i​:​​ht​ ​t​p​s​:​/​/​d​o​i​
+                                     .​o​r​g​/​1​0​.​1​01​ ​6​/​j​.​n​e​u​r​oi​ ​m​a​g​e​.​2​0​1​1​.​0​9​.​0​1​5​​​​ (2012).
+                                 61. Behrens, T. E. J., Berg, H. J., Jbabdi, S., Rushworth, M. F. S. & Woolrich, M. W. Probabilistic diffusion tractography with multiple
+                                     fibre orientations: what can we gain? NeuroImage 34 (1), 144–155. https://doi.org/10.1016/j.neuroimage.2006.09.018 (2007).
+                                 62. Lo Buono, V. et al. Diffusion tensor imaging of white matter degeneration in early stage of alzheimer’s disease: a review. Int. J.
+                                     Neurosci. 130 (3), 243–250. https://doi.org/10.1080/00207454.2019.1667798 (2020).
+                                 63. Taulu, S. & Simola, J. Spatiotemporal signal space separation method for rejecting nearby interference in MEG measurements.
+                                     Phys. Med. Biol. 51 (7), 1759–1768. https://doi.org/10.1088/0031-9155/51/7/008 (2006).
+                                 64. Oostenveld, R., Fries, P., Maris, E. & Schoffelen, J. M. FieldTrip: open source software for advanced analysis of MEG, EEG, and
+                                     invasive electrophysiological data. Comput. Intell. Neurosci. 2011, 1–9. https://doi.org/10.1155/2011/156869 (2011).
+                                 65. Garcés, P., López-Sanz, D., Maestú, F. & Pereda, E. Choice of magnetometers and gradiometers after signal space separation.
+                                     Sensors 17 (12), 2926. https://doi.org/10.3390/s17122926 (2017).
+                                 66. Tzourio-Mazoyer, N. et al. Automated anatomical labeling of activations in SPM using a macroscopic anatomical parcellation of
+                                     the MNI MRI Single-Subject brain. NeuroImage 15 (1), 273–289. https://doi.org/10.1006/nimg.2001.0978 (2002).
+                                 67. Statistical Parametric Mapping. Elsevier; (2007). https://doi.org/10.1016/B978-0-12-372560-8.X5000-1
+                                 68. Nolte, G. The magnetic lead field theorem in the quasi-static approximation and its use for magnetoencephalography forward
+                                     calculation in realistic volume conductors. Phys. Med. Biol. 48 (22), 3637–3652. https://doi.org/10.1088/0031-9155/48/22/002
+                                     (2003).
+                                 69. O’Neill, G. C., Barratt, E. L., Hunt, B. A. E., Tewarie, P. K. & Brookes, M. J. Measuring electrophysiological connectivity by power
+                                     envelope correlation: a technical review on MEG methods. Phys. Med. Biol. 60 (21), R271–R295. ​h​t​t​p​s:​ ​/​/​d​o​i​.​o​r​g/​ ​1​0​.​1​0​8​8​/​00​ ​3​1​-​9​1​
+                                     5​5​/​60​ ​/​2​1​/​R​2​7​1​​​​ (2015).
+                                 70. Hipp, J. F., Hawellek, D. J., Corbetta, M., Siegel, M. & Engel, A. K. Large-scale cortical correlation structure of spontaneous
+                                     oscillatory activity. Nat. Neurosci. 15 (6), 884–890. https://doi.org/10.1038/nn.3101 (2012).
+                                 71. Schoonhoven, D. N. et al. Sensitive and reproducible MEG resting-state metrics of functional connectivity in alzheimer’s disease.
+                                     Alz Res. Therapy. 14 (1), 38. https://doi.org/10.1186/s13195-022-00970-4 (2022).
+                                 72. Nunez, P. L. & Srinivasan, R. Electric Fields of the Brain: the Neurophysics of EEG 2nd edn (Oxford University Press, 2006).
+                                 73. Colclough, G. L. et al. How reliable are MEG resting-state connectivity metrics? NeuroImage 138, 284–293. ​h​t​t​p​s:​ ​/​/​d​o​i​.​o​r​g/​ ​1​0​.​1​0​1​
+                                     6​/​j.​ ​n​e​u​r​o​i​m​a​ge​ ​.​2​0​1​6​.​0​5​.​0​7​0​​​​ (2016).
+                                 74. Briels, C. T. et al. Reproducibility of EEG functional connectivity in alzheimer’s disease. Alz Res. Therapy. 12 (1), 68. ​h​t​t​p​s​:​/​/​d​o​i​.o         ​ ​r​
+                                     g​/​1​0​.​1​1​86​ ​/​s​1​3​1​9​5​-​02​ ​0​-​0​0​6​3​2​-​3​​​​ (2020).
+                                 75. Tewarie, P. et al. Tracking dynamic brain networks using high Temporal resolution MEG measures of functional connectivity.
+                                     NeuroImage 200, 38–50. https://doi.org/10.1016/j.neuroimage.2019.06.006 (2019).
+                                 76. Hotelling, H. New light on the correlation coefficient and its transforms. J. Roy. Stat. Soc.: Ser. B (Methodol.). 15 (2), 193–225.
+                                     https://doi.org/10.1111/j.2517-6161.1953.tb00135.x (1953).
+                                 77. Benjamini, Y. & Hochberg, Y. Controlling the false discovery rate: A practical and powerful approach to multiple testing. J. Roy.
+                                     Stat. Soc.: Ser. B (Methodol.). 57 (1), 289–300. https://doi.org/10.1111/j.2517-6161.1995.tb02031.x (1995).
+
+
+Scientific Reports |   (2026) 16:3905                        | https://doi.org/10.1038/s41598-025-30718-7                                                                                        12
+www.nature.com/scientificreports/
+
+
+                                 Acknowledgements
+                                 We would like to thank all participants that were included in this study for their selfless contribution to science,
+                                 making this work possible.
+
+                                 Author contributions
+                                 FM, MCG, and ACL designed and conducted the study, including participant recruitment, data collection, and
+                                 data preprocessing. MCG, AGC and JCA performed the data analysis and statistical assessment of the present
+                                 study and prepared the manuscript draft with important intellectual input from RB, FM and AS. AS and FM
+                                 reviewed and aided in the final preparation of this manuscript.
+
+                                 Funding
+                                 This study was funded by the Spanish Ministry of Economy and Competitiveness (Projects SI2009-14415-C03-01,
+                                 PSI2012-38375-C03-0, PSI2015-68793-C3-1-R, PSI2015-68793-C3-2-R, PSI2015-68793-C3-3-R, and RTI2018-
+                                 098762-B-C3), and the project Neurocentro (B2017/BMD-3760), funded by the Community of Madrid. Com-
+                                 plimentary, it was supported by predoctoral grants by the Spanish Ministry of Universities (FPU18/00517) to
+                                 MC-G, (PRE2019-087612) to AG-C, and (FPU2019-04251) to JC-Á.
+
+                                 Declarations
+
+                                 Competing interests
+                                 The authors declare no competing interests.
+
+                                 IRB statement
+                                 The “Hospital Clínico San Carlos” Ethics Committee approved this study, and the procedure was performed
+                                 following internationally accepted guidelines and regulations. Moreover, signed consent was obtained from all
+                                 participants.
+
+                                 Additional information
+                                 Supplementary Information The online version contains supplementary material available at ​h​t​t​p​s​:​/​/​d​o​i.​ ​o​r​g​/​1​
+                                 0​.​1​03​ ​8​/​s​4​1​5​9​8​-0​ ​2​5​-​3​0​7​1​8​-​7​​​​.​​
+                                 Correspondence and requests for materials should be addressed to M.C.-G., A.S. or F.M.
+                                 Reprints and permissions information is available at www.nature.com/reprints.
+                                 Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in published maps and
+                                 institutional affiliations.
+                                 Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives
+                                 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in
+                                 any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide
+                                 a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have
+                                 permission under this licence to share adapted material derived from this article or parts of it. The images or
+                                 other third party material in this article are included in the article’s Creative Commons licence, unless indicated
+                                 otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence
+                                 and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to
+                                 obtain permission directly from the copyright holder. To view a copy of this licence, visit ​h​t​t​p​:​//​ ​c​r​e​a​t​i​v​e​co
+                                                                                                                                                              ​ ​m​m​o​
+                                 n​s​.​o​r​g/​ ​l​i​c​e​n​s​e​s​/b
+                                                                 ​ ​y​-​n​c​-​n​d​/​4​.​0​/​​​​.​​
+
+                                 © The Author(s) 2026
+
+
+
+
+Scientific Reports |   (2026) 16:3905                   | https://doi.org/10.1038/s41598-025-30718-7                                                               13
+

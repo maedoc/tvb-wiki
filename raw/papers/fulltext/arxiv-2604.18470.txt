@@ -1,0 +1,1488 @@
+                                                High-fidelity and Network-based Spatio-temporal Mathematical
+                                                Models of Alzheimer’s Disease Progression and their Validation
+                                                               Against PET-SUVR Imaging Data∗
+                                               Beatrice Caon†           Mattia Corti ‡,             Francesca Bonizzoni §,                Paola F. Antonietti ¶,
+arXiv:2604.18470v1 [math.NA] 20 Apr 2026
+
+
+
+
+                                                                                                      Abstract
+                                                     Alzheimer’s disease is the most common neurodegenerative disorder. Its pathological development is
+                                                 connected with the misfolding and accumulation of two toxic proteins: amyloid-β and tau proteins. Math-
+                                                 ematical models provide a valuable quantitative tool for monitoring disease progression. In this work, we
+                                                 proposed and compare a novel framework where the spatio-temporal dynamics of amyloid-β and tau pro-
+                                                 teins is modeled based on employing either three-dimensional patient-specific geometries or through reduced
+                                                 network-based models defined on the brain connectome. More specifically, a high-fidelity biophysical model
+                                                 is proposed on three-dimensional brain geometries reconstructed from magnetic resonance imaging, whereas
+                                                 a network-based reduced formulation is defined on the brain connectome. For both approaches, a suitable
+                                                 numerical discretisation is proposed. A sensitivity analysis is presented to quantify the influence of model
+                                                 parameters on protein concentration patterns as well as compare the quality of the predictions. For both
+                                                 approaches, the results are validated against PET-SUVR clinical data using [18 F]AZD4694 for amyloid-β
+                                                 and [18 F]MK6240 for tau protein. The results indicate that the three-dimensional model provides the most
+                                                 accurate and biologically consistent description of the disease progression, but remains computationally de-
+                                                 manding. On the other hand, the reduced graph-based model is cheaper, but it is not always able to achieve
+                                                 reliable results.
+
+
+                                           1     Introduction
+                                           Neurodegenerative diseases represent one of the major medical and societal challenges of our time. Advances
+                                           in medicine have significantly reduced mortality at younger ages, contributing to increased life expectancy and
+                                           shifting the societal burden of disease to older ages [1]. Some neurodegenerative pathologies are referred to
+                                           as proteinopathies because they are driven by misfolded proteins that propagate via a prion-like mechanism.
+                                           Proteins are essential for cellular function and structure. However, when proteins misfold and escape normal
+                                           degradation processes, they can assemble into pathological aggregates that proliferate and spread within the
+                                           nervous system [1,2]. The most common proteinopathy is Alzheimer’s disease (AD): its pathological development
+                                           is triggered and sustained by two proteins: amyloid-β (Aβ) and tau protein (τP) [3]. Aβ is a peptide that derives
+                                           from the proteolytic processing of amyloid precursor protein (APP), which is present in the brain in physiological
+                                           conditions. When APP is cleaved by α-secretase, the resulting fragments are non-toxic. In contrast, sequential
+                                               ∗ Funding: This work is partially funded by the European Union (ERC SyG, NEMESIS, project number 101115663). Views
+
+                                           and opinions expressed are, however, those of the authors only and do not necessarily reflect those of the European Union or the
+                                           European Research Council Executive Agency. Neither the European Union nor the granting authority can be held responsible
+                                           for them. PFA has been partially supported by ICSC—Centro Nazionale di Ricerca in High Performance Computing, Big Data,
+                                           and Quantum Computing, funded by the European Union—NextGeneration EU. The present research is part of the activities of
+                                           the Dipartimento di Eccellenza 2023-2027 grant, funded by MUR. The authors acknowledge the CINECA award under the ISCRA
+                                           initiative, for the availability of high-performance computing resources and support under the project IsCc9 NeuroDG, PI M. Corti,
+                                           2025–2026. FB is partially funded by “INdAM - GNCS Project”, codice CUP E53C24001950001. MC, FB, PFA are members of
+                                           INdAM-GNCS.
+                                               † MOX-Dipartimento di Matematica, Politecnico di Milano, Piazza Leonardo da Vinci 32, 20133, Milano, Italy (beat-
+
+                                           rice.caon@polimi.it)
+                                               ‡ MOX-Dipartimento di Matematica, Politecnico di Milano, Piazza Leonardo da Vinci 32, 20133, Milano, Italy (mat-
+
+                                           tia.corti@polimi.it)
+                                               § MOX-Dipartimento di Matematica, Politecnico di Milano, Piazza Leonardo da Vinci 32, 20133, Milano, Italy
+
+                                           (francesca.bonizzoni@polimi.it)
+                                              ¶ MOX-Dipartimento di Matematica, Politecnico di Milano, Piazza Leonardo da Vinci 32, 20133, Milano, Italy
+
+                                           (paola.antonietti@polimi.it)
+
+
+                                                                                                           1
+Figure 1: Comparison between healthy and AD brains showing APP processing pathways and τP alterations associated with Aβ
+and neurofibrillary tangles.
+
+
+
+cleavage by β-secretase followed by γ-secretase generates Aβ peptides prone to misfolding [4] (see Figure 1).
+Under physiological conditions, τP stabilizes microtubules, which are cytoskeletal structures responsible for
+maintaining neural integrity and supporting intracellular transport. As shown in Figure 1, when τP becomes
+hyperphosphorylated, it detaches from microtubules and accumulates in the cytoplasm, where it assembles
+into filamentous aggregates [5]. An amino terminus in the protein structure facilitates tau-tau interactions and
+polymer formation [6]. In AD, the activation of caspase enzymes triggers proteolytic cleavage of τP at its carboxy
+terminus, accelerating the assembly of τP into neurofibrillary tangles [6] (see Figure 1). At the earliest stages
+of the disease, the principal hallmark is the accumulation of Aβ that induces caspase activation leading to τP
+aggregation. These misfolded proteins promote neuronal death, leading to impairments in memory, cognition,
+behavior and/or motor function [7]. The diagnosis of AD remains highly challenging, and in most cases,
+the pathology is identified only at advanced stages. For this reason, identifying suitable biomarkers is a crucial
+objective in research, both for early diagnosis and longitudinal studies [8] and for evaluating therapeutic efficacy
+in clinical trials [9]. Biomarkers can be divided into neuroimaging and fluid-based. Among the former, magnetic
+resonance imaging (MRI) enables in vivo assessment of hippocampal and entorhinal cortical atrophy, which are
+considered characteristic structural alterations of AD [10]. Positron emission tomography (PET) has gained
+increasing relevance due to the development of radiotracers that enable in vivo monitoring of disease progression
+by quantifying misfolded protein accumulation. Therefore, PET provides direct insight into the pathological
+mechanisms underlying AD, although it is an invasive technique due to the use of radiopharmaceuticals, and it
+is also associated with high costs [11].
+    In this context, mathematical models based on partial differential equations (PDEs) serve as an important
+tool for the longitudinal monitoring of protein propagation. Among the various modeling approaches one of
+the simplest yet sufficiently descriptive is the heterodimer model, which focuses exclusively on the interaction
+between healthy and misfolded protein monomers [12]. Additionally, the heterodimer model can be further
+reduced to the Fisher-Kolmogorov (FK) equation [13, 14], widely used to describe biological dynamics. The FK
+model is particularly suitable under the initial assumption that the concentration of healthy proteins greatly
+exceeds that of misfolded ones, and its dynamic is negligible [15]. Different numerical strategies have been
+developed to approximate the FK model in the context of neurodegenerative diseases. Starting from the first
+works based on finite element methods [16, 17], recent works have focused on polytopal discontinuous Galerkin
+(PolyDG) methods [18–20], also employed in structure-preserving FK formulations to retain qualitative proper-
+ties of protein propagation dynamics [20–22]. Solving such models in three-dimensional geometry is, on the one
+hand, very informative, but, on the other hand, computationally demanding due to the cost of high spatial reso-
+
+
+                                                           2
+lution. To overcome this limitation, many studies in the literature either restrict the domain to two-dimensional
+brain sections [17, 19] or adopt reduced-order network-based models that represent the brain as a graph derived
+from the structural connectome [15, 23, 24], which reflects the preferential diffusion of proteins along axonal
+pathways. These models rely on several biophysical parameters whose values cannot be directly obtained from
+clinical data. Hence, parameter estimation has been addressed using inverse techniques and uncertainty quan-
+tification methodologies [25, 26].
+
+    In this work, we focus on the FK model to describe the dynamics of Aβ and τP in AD. We compare a
+high-fidelity discretisation strategy, namely the PolyDG method, defined on three-dimensional brain geometries
+(3D), with a geometrically reduced two-dimensional sagittal representation (2D) and a reduced-order graph-
+based formulation (0D) to assess the advantages and limitations of simplified geometric representations of disease
+progression. Additionally, we analyse the impact of model parameters on protein concentration patterns via a
+sensitivity analysis, extending the 2D study in [19] to the 3D setting and to graph-based models. Finally, we
+provide a quantitative validation of the 3D model using in vivo PET data from [27], to evaluate the relevance
+of physics-based approaches in a clinically oriented context. The measurements are expressed as standardized
+uptake value ratios (SUVRs) derived from PET imaging with [18 F]AZD4694 and [18 F]MK6240, which target
+Aβ and τP , respectively. Attention is also devoted to assessing the ability of the computational models to
+correctly reproduce the Braak stages of AD pathology [28]. Figure 2 summarizes the workflow of the proposed
+study, from clinical imaging data to computational modeling and validation against PET measurements.
+
+    The remaining part of the manuscript is structured as follows. In Section 2, we introduce the FK mathemat-
+ical model describing the spatio-temporal spreading of misfolded proteins. Section 3.1 presents the high-fidelity
+PolyDG discretisation method, and Section 3.2 describes the reduced-order graph-based approach. In Section 4,
+we outline the mapping strategy used to validate the numerical simulations against PET data. Section 5 reports
+the results of the sensitivity analysis and the validation study. The results and the limitations of the study are
+discussed in Section 6. Finally, Section 7 provides concluding remarks.
+
+
+
+2     A Biophysical Spatio-temporal Mathematical Model: the Fisher-
+      Kolmogorov Equation
+In this section, we introduce a biophysical, reaction-diffusion model to describe the production, misfolding,
+clearance, and spatial spreading of proteins associated with AD. In this work, we adopt the FK equation, as
+introduced in [15, 16], which can be derived from the heterodimer model [16], exploiting macroscopic considera-
+tions of conformational conversion and polymer fragmentation. The model is formulated at two different spatial
+resolutions: a physics-based formulation defined over the brain parenchyma (see Figure 3a), and a graph-based
+formulation defined over the brain connectome (see Figure 3b).
+
+
+
+2.1    Fisher-Kolmogorov equation on the brain parenchyma
+We consider the brain parenchyma as an open and bounded domain Ω ⊂ Rd with d ∈ {2, 3}. Given a final time
+T > 0, we seek for the unknown relative concentration of misfolded protein c = c(x, t) ∈ [0, 1] such that
+
+                                 ∂c
+                                    = ∇ · (D · ∇c) + αc (1 − c)    in Ω × (0, T ].                           (2.1)
+                                 ∂t
+
+Here, c ≡ 0 corresponds to the absence of misfolded proteins, whereas c ≡ 1 denotes a high prevalence of
+them. In equation (2.1), the diffusion tensor D = dext I + daxn ā ⊗ ā characterizes the protein spreading [16].
+Specifically, dext models the extracellular diffusion and the term daxn models the anisotropic diffusion along the
+axonal direction, denoted by the unit vector ā = ā(x). These directions can be derived from diffusion weighted
+images (DWI) [18]. The parameter α denotes the conversion rate of proteins from healthy to misfolded, and
+it represents the biological processes of production, misfolding, and clearance. To complete the mathematical
+model, we supplement the PDE (2.1) with suitable initial and boundary conditions, leading to the following
+
+
+                                                        3
+Figure 2: Pipeline from clinical imaging to computational modeling and model validation. Clinical images are used to construct
+patient-specific brain geometries that define the computational domains for high-fidelity and reduced-order models of protein
+propagation. Simulated protein concentrations are compared with PET data and Braak staging.
+
+
+
+boundary value problem in strong form: for all t ∈ (0, T ], find c = c(x, t) ∈ [0, 1] such that
+
+                                   ∂c
+                                 
+                                 
+                                     = ∇ · (D∇c) + αc(1 − c),              in Ω × (0, T ],
+                                  ∂t
+                                 
+                                 
+                                  (D∇c) · nΩ = 0,                         on ∂Ω × (0, T ],                              (2.2)
+                                 
+                                 
+                                 
+                                 
+                                  c(·, 0) = c0 ,                                      in Ω,
+                                 
+
+
+where nΩ denotes the outward normal at the boundary ∂Ω and c0 = c0 (x) denotes the initial condition. Due
+to the unstable nature of the equilibrium c = 0 and the stability of the equilibrium c = 1, any positive initial
+concentration c0 leads to progressive protein accumulation. The homogeneous Neumann boundary condition
+(D∇c) · nΩ = 0 reflects the assumption that the brain parenchyma does not exchange misfolded proteins with
+the surrounding cerebrospinal fluid.
+
+
+
+2.2     Fisher-Kolmogorov equation on the brain connectome
+
+In AD, misfolded proteins propagate from localized infection regions along axonal fiber tracts throughout the
+entire brain [16]. Since the spreading is constrained by the structural connectivity, the FK equation (2.1) can
+be projected onto the brainSconnectome, reducing the spatial complexity. We model the brain connectome as
+                              NΓ
+a connected network Γ = k=1      γk , where each γk represents the k-th axonal tract and NΓ denotes the total
+number of tracts. Fibers intersect only at their endpoints, which define the network nodes. The FK equation
+on the brain connectome reads: for all t ∈ (0, T ], find the relative concentration of misfolded protein along the
+
+
+                                                              4
+                             (a)                                                               (b)
+
+Figure 3: Spatial representations of the brain: the high-fidelity brain parenchyma geometry (a) and its reduced connectome-based
+counterpart (b). Colors represent different brain regions across both representations.
+
+
+
+k-th axonal tract ck (s, t) ∈ [0, 1] such that
+            
+              ∂ck (s, t)      ∂  ∂ck (s, t) 
+                          =       Dk           + αck (s, t)(1 − ck (s, t)),      in γk × (0, T ], k = 1, . . . NΓ ,
+            
+            
+                  ∂t         ∂s         ∂s
+            
+                                                                                                                          (2.3)
+            
+            
+            c (s, 0) = c (s)                                                             in γk , k = 1, . . . NΓ ,
+               k            0,k
+
+
+where s is the curvilinear coordinate along the axon, and Dk is the effective diffusivity along the k-th axonal
+tract. At each graph node, we assume continuity of the protein concentration and the conservation of the flux
+across connecting fibers.
+
+
+3     Numerical discretisation
+In this section, we first introduce a high-fidelity discretisation method for problem (2.2) (see Section 3.1), and
+then we discuss a graph-based discretisation method for problem (2.3) (see Section 3.2).
+
+
+3.1     High-fidelity discretisation: PolyDG method
+Here, we recall the PolyDG discretisation method introduced in [18]. First, we introduce a polytopal mesh
+partition Th of the domain Ω made of disjoint polygonal/polyhedral elements K, and we denote with FhI the
+set of (d − 1)–dimensional internal  faces. We define Pℓ (K) as the space of polynomials of degree ℓ ≥ 1 over the
+mesh element K and WhDG = w ∈ L2 (Ω) : w|K ∈ Pℓ (K) ∀K ∈ Th as the discontinuous finite element space.
+                                
+
+For each internal face F ∈ FhI shared by elements K ± , we denote by n± the outward unit normals of K ± on F .
+For sufficiently regular scalar-valued function v and a vector-valued function q, the trace operators are defined
+as [29]:
+
+                                   1 +
+                            {{v}} =  (v + v − ),       JvK = v + n+ + v − n− ,        on F ∈ FhI ,
+                                   2
+                                   1
+                            {{q}} = (q+ + q− ),        JqK = q+ · n+ + q− · n− ,      on F ∈ FhI .
+                                   2
+Here, the superscripts ± indicate the traces of functions on F taken from the interiors of K ± , respectively.
+   We define the bilinear form Ah : WhDG × WhDG → R as:
+               Z                    Z                                                             
+Ah (uh , vh ) = (D∇h uh ) · ∇h vh +      ηJuh K · Jvh K − {{D∇h uh }} · Jvh K − {{D∇h vh }} · Juh K , ∀uh , vh ∈ WhDG ,
+                 Ω                        FhI
+
+
+where ∇h denotes the elementwise gradient and η : FhI → R+ is the penalization function defined as in [18]:
+
+                                                      ℓ2
+                                                          η0 max {dK }H , α ,
+                                                                           
+                                                η=
+                                                     {h}H
+
+                                                               5
+                                          p        2
+with η0 being a constant, dK =              D|K and {·}H denotes the harmonic average operator, defined by {v}H =
+   + −
+2v v
+v + +v − , and ∥ · ∥ is the supremum norm. The semi-discrete PolyDG formulation of (2.2) reads: find ch = ch (t) ∈
+WhDG such that, for all t ∈ (0, T ], there holds
+                        (∂t ch , wh )Ω + Ah (ch , wh ) − (αch , wh )Ω + αc2h , wh Ω = 0, ∀ wh ∈ WhDG ,
+                     (                                                           
+                                                                                                              (3.1)
+                        ch (·, 0) = c0h ,                                                in Ω,
+
+where c0h ∈ WhDG is a suitable PolyDG approximation of the initial condition c0 . To derive the algebraic form
+of (3.1) we introduce a basis {φj }N        DG                     DG
+                                   j=1 of Wh , with N = dim(Wh ), and we express the solution as linear
+combination of basis functions {φj }j=1 with time dependent coefficients {Cj }N
+                                    N
+                                                                              j=1 :
+
+                                                           N
+                                                           X
+                                             ch (x, t) =         Cj (t)φj (x).                                (3.2)
+                                                           j=0
+
+Choosing the test function wh in (3.1) as a basis function φi and using (3.2), we derive:
+
+                       MĊ(t) + AC(t) − Mα C(t) + M
+                                                  f α (C(t))C(t) = 0,                  t ∈ (0, T ],
+                                                                       C(0) = C0 ,
+
+where M, A, Mα and M
+                   f α are square matrices of size N defined as:
+
+                               [M]ij = (φj , φi )Ω                   (Mass matrix)
+                                [A]ij = Ah (φj , φi )                (Stiffness matrix),
+                              [Mα ]ij = (αφj , φi )Ω                 (Linear reaction matrix)
+                       [M
+                        f α (C(t))]ij = (αch (t)φj , φi )Ω           (Nonlinear reaction matrix)
+and C0 is the vector of length N representing c0h .
+     To discretize in time, we introduce a uniform partition of [0, T ] in NT intervals In = (tn−1 , tn ] for n =
+1, . . . , NT with t0 = 0 and tn = t0 + n∆t. Applying the semi-implicit Euler method to (3.3), we get the
+following fully discrete formulation of (2.2): for n = 0, . . . , NT − 1, find C n+1 ≃ C(tn+1 ) such that
+                                                                   
+                                  M + ∆t A − Mα + M     f α (C n ) C n+1 = MC n ,
+
+where C 0 = C0 ∈ RN . A detailed discussion on the method presented here can be found in [18].
+
+3.2    Reduced-order discretisation: graph-based finite differences
+In this section, we propose a discretisation method for the connectome-based formulation (2.3) [15, 26, 30]. For
+                                                          SNΓ
+computational purposes, the brain connectome Γ = k=1            γk can be equivalently represented as a weighted
+graph G = (V, E), where E is the set of edges corresponding to the axonal tracts {γk }N                    M
+                                                                                         k=1 and V = {xj }j=1 is
+                                                                                           Γ
+
+
+the set of nodes being the endpoints of {γk }Nk=1 . Each edge connecting two nodes i and j is associated with a
+                                                Γ
+
+
+weight wij . Adopting the PDEs discretisation framework on graph [31], we obtain the following semi-discrete
+formulation: find {Cj (t)}M
+                          j=1 such that, for all t ∈ (0, T ] there holds
+                                            PM
+                                 Ċj (t) = − i=1 Lji Ci (t) + α Cj (t) (1 − Cj (t)),
+                                                                                                            (3.4)
+                                 Cj (0) = C0j ,
+where Cj (t) is the approximation of the solution in the j-th node xj at time t, namely Cj (t) ≃ c(xj , t), and
+C0j is the approximation of the initial condition in xj , namely C0j ≃ c0 (xj ). The matrix L ∈ RM ×M is the
+Laplacian matrix, representing the discrete analogue of the continuous Laplacian operator [31]. It is expressed
+as L = K − A, where K is the degree matrix - a diagonal matrix measuring the strength of each node - and A
+is the adjacency matrix of the graph weights {wi,j }M
+                                                    i,j=1 . More in details, the elements of the Laplacian matrix
+are:                                             
+                                                  −wij ,
+                                                 
+                                                 
+                                                               i ̸= j,
+                                           Lij = X    M
+                                                 
+                                                 
+                                                        wik , i = j.
+                                                        k=1
+
+
+                                                             6
+    To discretize in time, we apply a time stepping method to (3.4). In particular, we employ the Crank-Nicolson
+scheme with a semi-implicit treatment of the nonlinear reaction term using a second-order extrapolation as
+in [26]. Let 0 = t0 < t1 < · · · < tNT = T be a uniform partition of [0, T ] with time step size ∆t = T /NT . The
+fully discrete formulation of problem (2.3) reads: given the initial conditions C 0 = C0 and C −1 = C−1 , find
+          T −1
+{C n+1 }Nn=0 , such that:
+                                                                            
+                              n+1        n+1             1      n      n−1
+                                                                               ⊙ C n+1
+                                                                           
+                           2C     + ∆tLC      − α∆t 1 −      3C − C
+                                                         2
+                                                                                  
+                                       n         n             1     n       n−1
+                                                                                     ⊙ C n,
+                                                                                 
+                                  = 2C − ∆tLC − α∆t 1 −           3C − C
+                                                               2
+where 1 is a vector of ones, and the symbol ⊙ denotes the componentwise Hadamard product. In the adopted
+notation, C n+1 is a vector of M components {Cjn+1 }M
+                                                    j=1 , and its j-th element approximates the solution at node
+xj and time instance tn .
+
+3.3    Simulation setup
+In this section, we describe the simulation setup for both the high-fidelity and graph-based computations.
+
+High-fidelity simulations
+For the numerical simulations, we construct a 3D brain mesh from a structural MRI taken from the OASIS-3
+database [32]. The structural MRI is segmented using FreeSurfer [33] with the Desikan–Killiany atlas [34]. The
+resulting surfaces are processed with the SVMTK library to generate a volumetric unstructured mesh composed
+of 142 658 elements [35]. The axonal directions a to construct the diffusion tensor D are obtained from DWI data
+using FreeSurfer and the Nibabel library. Since the protein spreading predominantly occurs along the axonal
+directions, the axonal diffusion is set to be ten times faster than the isotropic diffusion, with dext = 8 mm2 /year
+and daxn = 80 mm2 /year [18]. Regarding the discretisation parameters, we fix the polynomial order ℓ = 2 in
+each mesh element and set the penalty parameter η0 = 10. Moreover, we adopt a uniform time step ∆t = 0.05
+years, and we simulate up to a final time T = 40 years. Concerning the initial conditions, Aβ and τP are
+initially located in the cerebral cortex and in the enthorinal cortex, respectively. Simulations were run on the
+GALILEO100 supercomputer (528 nodes, each with 2×Intel Cascade Lake 8260 CPUs, 24 cores, 2.4 GHz,
+384 GB RAM) at the CINECA supercomputing centre.
+
+Graph-based simulations
+The brain connectivity graph is derived from DWI data using DSI Studio tractography, which reconstructs the
+principal orientations of axonal fibres in the brain [36]. A weighted graph is then constructed, where nodes
+correspond to brain regions defined by the Brainnetome atlas [37]. The weights of the graph edges are computed
+as wij = knij /lij for i, j = 1, . . . , M , where nij denotes the number of tracts that connect two brain regions
+associated with different nodes i and j, while lij is the mean value length of these tracts. The coefficient k is a
+scaling factor calibrated to obtain consistent times with previous literature works [15, 26, 38]. In all numerical
+simulations, we adopt a uniform time step ∆t = 0.05 year and simulate up to a final time T = 40 years. Initial
+conditions are defined to reflect the characteristics of the pathology, namely, Aβ proteins are initially imposed
+in the cerebral cortex and τP seeding is assigned to nodes corresponding to the entorhinal cortex and the rostral
+portion of the parahippocampal gyrus.
+
+
+4     SUVR-FK mapping procedure
+In this section, we introduce a validation strategy to map and compare PET images data from [27] and the nu-
+merical results. In [27], Therriault et al. conducted a longitudinal in–vivo study involving a well–characterized
+cohort of participants, including cognitively unimpaired individuals (CU), patients with mild cognitive impair-
+ment (MCI), and those with AD. Each participant underwent baseline PET scans using [18 F]AZD4694 for Aβ,
+with SUVR values computed using the cerebellar crus I gray matter as the reference region. Additionally, a
+PET scan with [18 F]MK6240 for τP was performed, where SUVR was calculated using the whole cerebellar
+gray matter as reference. The results were summarized by plotting mean PET-SUVR values across anatomical
+regions as a function of Braak stages.
+
+
+                                                         7
+               Stage      Main functions of affected areas
+                I–II      Impairments in episodic memory, emotion regulation, and spatial orientation
+              III–IV      Decline in language abilities, semantic processing, and attentional control
+               V–VI       Loss of executive functions, visuospatial abilities, and visual processing
+
+                                       Table 1: Functional interpretation of Braak stages.
+
+
+
+
+Figure 4: Anatomical representation of the Braak stages used in this work for the left hemisphere of the brain. Each subfigure
+highlights the brain regions for the specific Braak stage (blue), overlaid on a three–dimensional geometry of the left hemisphere for
+anatomical reference.
+
+
+    To ensure consistency with the methodology used in [27], we adopt the same PET-based Braak stage
+classification in our validation analysis. The stages are qualitatively summarized in Table 1 in terms of the
+main affected functions. Braak stages were defined according to specific anatomical regions, grouped as follows:
+    • Braak I: transentorhinal cortex;
+    • Braak II: entorhinal cortex and hippocampus;
+    • Braak III: amygdala, parahippocampal gyrus, fusiform gyrus, and lingual gyrus;
+    • Braak IV: insula, inferior temporal, lateral temporal, posterior cingulate and inferior parietal cortices;
+    • Braak V: orbitofrontal, superior temporal, inferior frontal, cuneus, anterior cingulate, supramarginal
+      gyrus, lateral occipital, precuneus, superior frontal, and rostromedial frontal cortices;
+    • Braak VI: paracentral, postcentral, precentral, and pericalcarine cortices.
+We report in Figure 4, the corresponding anatomical representation of the stages, highlighting in blue the specific
+regions affected at each stage. The three-dimensional brain mesh was segmented in Freesurfer [33], using the
+Desikan-Killiany cortical atlas [34]. Because the available parcellation does not include the transentorhinal
+cortex, the validation analysis is restricted to Braak stages II-VI.
+    The misfolding proteins that are investigated exhibit distinct spatio-temporal evolution: Aβ remains pri-
+marily confined to the neocortex, whereas τP progressively invades different brain regions following specific
+spatial patterns [39]. Accordingly, different validation strategies are adopted for the two proteins, both based
+on identifying Braak macrostages over the simulation time interval and defining a normalisation function for
+clinical data.
+
+Mapping procedure for Aβ
+For Aβ , simulated concentrations do not permit the establishment of a temporal ordering of Braak macrostages.
+In the absence of longitudinal studies quantifying transition times between Braak stages with respect to Aβ
+accumulation, we proceed as follows. Temporal durations of Braak macrostages are anchored to two landmarks
+from [27]: Aβ positivity (cutoff = 1.55, as average on the neocortex, see [40]) from Braak stage II onward, and
+the onset of the saturation phase from Braak stage IV onward. The PET-SUVR original data s are mapped to
+the normalized variable ŝ ∈ [0, 1] through the following function:
+                                            
+                                             0,             s ≤ θlow ,
+                                             s−θ
+                                            
+                                                     low
+                                       ŝ =                , θlow < s < θhigh ,
+                                            
+                                             θhigh − θlow
+                                              1,             s ≥ θhigh ,
+                                            
+
+
+                                                                 8
+where we fix the lower and upper mapping thresholds θlow = 1.3 and θhigh = 2.2, respectively. Those values
+are computed as the minimum and maximum mean neocortical SUVR values reported in [27]. This choice
+allows for an accurate identification of the saturation phase, ensuring that it is neither excessively delayed nor
+inconsistent with the expected steepness of the sigmoidal curve.
+   The linear mapping adopted in the activation phase of the protein is consistent with the observation that
+the Aβ evolution is well described by a logistic function, due to the minor role of diffusion mechanism in its
+progression [39]. Indeed, since the analysis is based on mean PET-SUVR values and the temporal evolution is
+subdivided into three macrostages, the linear mapping serves as a suitable approximation of the logistic trend
+near its inflection point.
+
+
+
+Mapping procedure for τP
+
+Given the sequential pattern of τP propagation across brain regions during disease progression, the Braak stages
+can be reconstructed directly from the model along the simulated time interval. We observe that the time of
+maximum production of misfolded protein (inflexion point) for the space average concentration ⟨ch ⟩ within each
+Braak region of interest (ROI) occurs after the activation of the corresponding subregion. Therefore, we propose
+a critical threshold concentration (ccrit
+                                     h ) calibrated using numerical results and clinical data. Moreover, three
+macrostages are identified along the simulation timeline: Braak Stages 0-II, Braak Stages III-IV, and Braak
+Stages V-VI. τP PET data were reported as the mean SUVR for each Braak region (I to VI), together with
+region-wise abnormality thresholds defined as 2.5 standard deviations higher than the mean SUVR of CU young
+adults [41].
+   To normalise the PET-SUVR data, we rely on tau aggregation kinetics, which are characterised by three
+principal phases: lag, growth, and plateau [42]. The function is defined as follows:
+
+                                   
+                                   
+                                    0,                Stationary phase (s ≤ θlow ),
+                                   
+                                   
+                                   γ     s − θlow
+                                                     , Lag phase,
+                                   
+                                        θhigh − θlow
+                                   
+                              ŝ =      s − θlow
+                                   
+                                                  ,   Active phase,
+                                    θhigh − θlow
+                                   
+                                   
+                                   
+                                     1,                Saturation phase (s ≥ θhigh ),
+                                   
+
+
+where γ ∈ (0, 1) is the scaling factor of the lag phase, while θlow = 0.75 and θhigh = 2.20 are the lower and
+upper mapping thresholds, respectively. θlow is the minimum global mean tau PET–SUVR value, while the
+upper threshold θhigh is set as the smallest of the regional maximum values. This choice ensures that all Braak
+ROIs can reach the saturation phase even after applying the mapping procedure.
+    The definition of τP accumulation phases in each Braak subregion relies on the biphasic SUVR increase
+pattern observed in Figure 1b [27]. The active phase begins at the Braak stage immediately preceding the
+region’s crossing its τP abnormality threshold. However, if the mean SUVR at that stage falls below this
+threshold by an empirical value ϵ (calibrated from clinical data in [27]), the active phase onset shifts back two
+Braak stages to account for potential biological initiation during the prior transition. Preceding stages are
+then classified as lag or stationary phases. An exception applies to Braak II, an early-affected region, where
+classification starts directly with the active phase.
+    The scaling factor γ modulates the mapping from the lag to active phase, since it reflects the slower dynamics
+                                5
+in this regime. A value of γ = 20  provides a good fit to the PET-SUVR data and is therefore adopted in the
+following validation results.
+    The use of linear mappings is supported by [43], where a mechanism-based model calibrated on PET data
+introduces a normalized variable qi = (si − s0,i )/(s∞,i − s0,i ), i = 1, . . . , R to capture regional variability in
+τP aggregation. Here, s0,i represents the SUVR value corresponding to a healthy state in region i, while s∞,i
+denotes the limiting SUVR value associated with an advanced stage of the pathology. That study demonstrates
+accurate fitting on both in-sample and out-of-sample SUVR data. Since our analysis is based on mean clinical
+data, region-specific threshold tuning would not provide significant improvements. Therefore, we apply an
+analogous mapping with global parameters.
+
+
+                                                          9
+                                                                                                                        Aβ averaged concentrations
+                                                                                                     1.0
+
+                                                                                                                                                          α = 0.08/yr
+                                                                                                     0.8                                                  α = 0.27/yr
+                                                                                                                                                          α = 0.61/yr
+                                                                                                     0.6                                                  α = 1.24/yr
+
+
+
+
+                                                                                         ⟨ch ⟩ [-]
+                                                                                                                                                          α = 2.18/yr
+
+                                                                                                     0.4
+
+
+                                                                                                     0.2
+
+
+                                                                                                     0.0
+                                                                                                           0       10                20              30                 40
+                                                                                                                                 t [years]
+
+
+                                                                                                                        Aβ averaged concentrations
+                                                                                                    1.0
+
+
+                                                                                                    0.8
+
+
+                                                                                                    0.6
+
+
+
+
+                                                                                        ⟨ch ⟩ [-]
+                                                                                                    0.4
+                                                                                                                                                          α = 3.87/yr
+                                                                                                    0.2                                                   α = 6.30/yr
+                                                                                                                                                          α = 8.54/yr
+                                                                                                                                                          α = 11.2/yr
+                                                                                                    0.0
+                                                                                                           0   1          2          3        4            5            6
+                                                                                                                                 t [years]
+
+
+
+                                      (a)                                                                      (b)
+                                                Figure 2: Computed amyloid-β average concentration ⟨ch ⟩ as a function of time for different choices of α in the three-dimen
+                                                case.
+Figure 5:   Aβ numerical solution at different stages of the pathology for α = 0.61 years     −1   (a) and Aβ average concentration ⟨ch ⟩
+w.r.t. time t for different choice of α (b).
+                                                      4.2     3D-2D-Graph
+                                                      4.3     Mapping
+5     Results                                         4.4     Braak staging on the graph
+
+                                           5 with
+In this section, we present results obtained     Discussion
+                                                      the proposed methods applied to the spread of Aβ and τP in
+the brain. In the analysis, we will report the space-averaged protein concentrations.        For a generic function g
+                                           6 Limitations                          1
+                                                                                    R
+over the continuous brain domain Ω, the space average is defined as: ⟨g⟩ = |Ω|        Ω
+                                                                                        g(x) dx. In the reduced-order
+                                                                           M
+model, the brain domain Ω is subdivided        into a finite
+                                           7 Conclusions     partition {Ω }
+                                                                         i i=1 , where  each subdomain   Ωi is a node
+of the cerebral graph and is characterised by a measure |Ωi |. The corresponding discrete approximation of the
+                             1
+space average reads: ⟨g⟩ = |Ω|
+                               PM
+                                           Acknowledgements
+                                  i=1 gi |Ωi |.
+                                                      ...
+
+
+                                                      References
+5.1     Three-dimensional high-fidelity simulations
+                                                        [1] D. Arnold, F. Brezzi, B. Cockburn, and D. Marini. Unified analysis of discontinuous Galerkin method
+                                                            elliptic problems. SIAM J. Numer. Anal., 39(5):1749–1779, 2001-02.
+In this section, we show the results of the 3D simulations obtained using the high-fidelity discretisation described
+                                            [2] R. F. Betzel and D. S. Bassett. Generative models for network neuroscience: Prospects and promise.
+in Section 3.1.                                 Soc. Interface, 14(136):20170623, 2017.
+    Figure 5a shows the simulated spatio-temporal       evolution of the Aβ protein within the brain, obtained by
+                                          [3] P. Chaggar, J. W. Vogel, A. Pichet Binette, T. B. Thompson, O. Strandberg, N. Mattsson-Carl
+fixing α = 0.61 years−1 , which is the average   value obtained
+                                              L. Karlsson,          byS.biological
+                                                           E. Stomrud,              measurements
+                                                                        Jbabdi, S. Magon, G. Klein, O.in [19]. A.
+                                                                                                       Hansson, The  initial
+                                                                                                                  Goriely, and Alzheimer’s Di
+condition collocates the misfolded Aβ in all the upper cortex (see time t = 0 years). Moreover, using all the
+values adopted in [19], we extend the sensitivity analysis to the 3D geometry. The7 results are summarised in
+Figure 5b, which reports the temporal evolution of space average Aβ protein concentration ⟨ch ⟩ as α varies. We
+can observe a faster increase in the protein concentration for higher values of α.
+    Analogously, in Figure 6a, we show the numerical results obtained for the τP protein. In this case, the
+initial misfolded concentration is located in the enthorinal cortex. The numerical simulation is performed with
+α = 0.70 years−1 . In Figure 6b, we report the results of the sensitivity analysis to investigate the influence of
+the conversion coefficient on the progression of the pathology. We can observe a slower dynamics than in the
+Aβ simulations.
+
+
+                                                                          10
+                                                                                                                               τP averaged concentrations
+                                                                                                       1.0
+                                                                                                                 α = 0.20/yr
+                                                                                                                 α = 0.37/yr
+                                                                                                       0.8
+                                                                                                                 α = 0.52/yr
+                                                                                                                 α = 0.70/yr
+                                                                                                       0.6       α = 0.98/yr
+
+
+
+
+                                                                                           ⟨ch ⟩ [-]
+                                                                                                       0.4
+
+
+                                                                                                       0.2
+
+
+                                                                                                       0.0
+                                                                                                             0            10                 20             30                 40
+                                                                                                                                         t [years]
+
+
+                                                                                                                               τP averaged concentrations
+                                                                                                      1.0
+
+
+                                                                                                      0.8
+
+
+                                                                                                      0.6
+
+
+
+
+                                                                                          ⟨ch ⟩ [-]
+                                                                                                      0.4
+                                                                                                                                                                 α = 1.33/yr
+                                                                                                      0.2                                                        α = 1.89/yr
+                                                                                                                                                                 α = 2.57/yr
+                                                                                                                                                                 α = 3.34/yr
+                                                                                                      0.0
+                                                                                                             0            5                 10              15                 20
+                                                                                                                                        t [years]
+
+
+
+                                      (a)                                                                                               (b)
+                                                 Figure 2: Computed amyloid-β average concentration ⟨ch ⟩ as a function of time for different choices of α in the three-dimensio
+                                                 case.
+Figure 6:   τP numerical solution at different stages of the pathology for α = 0.70 years−1 (a) and τP average concentration ⟨ch ⟩
+w.r.t. time t for different choice of α (b).
+
+                                                        4.2     3D-2D-Graph
+5.2     High-fidelity model validation with PET-SUVR data
+                                 4.3 Mapping
+                                           4.4 simulations
+In this section, we validate the high-fidelity   Braak staging
+                                                            usingonthe
+                                                                    thePET-SUVR
+                                                                        graph      data from [27]. In particular,
+we consider three different values of the conversion coefficient
+                                           5 Discussion          α, using the mean values and the two symmetric
+ones around it from [18].
+                                                        6     Limitations
+Validation of Aβ simulations. Aβ validation results are shown in Figure 7, where simulated curves of
+                                          7 are
+average concentration of Aβ in the neocortex    Conclusions
+                                                   compared with clinical data from [27]. The analysis is expressed
+as a function of Braak macrostages (see Figure 8b). Moreover, for completeness, Figure 8a shows an example
+                                          Acknowledgements
+of the spatial distribution within the simulated   brain domain at fixed Braak stages. The simulated Aβ curves
+are consistent with the trends observed in... the clinical data of [27]. The simulation curve is always within the
+confidence bands of the data after applying the SUVR mapping described in Section 4. As shown in Figure 7,
+the curves reproduce the clinical data consistently
+                                          References  as α varies, except for a temporal shift.
+                                                          [1] D. Arnold, F. Brezzi, B. Cockburn, and D. Marini. Unified analysis of discontinuous Galerkin methods
+Validation of τP simulations. The validation        elliptic of  τP simulations
+                                                             problems.             is presented
+                                                                        SIAM J. Numer.             for two representative
+                                                                                         Anal., 39(5):1749–1779, 2001-02.     values of
+the critical threshold, ccrit
+                         h    = 0.5 and c crit
+                                          h    =   0.4,  shown     in  Figure   9 and   Figure   10,  respectively.   In  both figures,
+                                                [2] R. F. Betzel and D. S. Bassett. Generative models for network neuroscience: Prospects and promise. J.
+each row corresponds to a Braak region, andSoc.       theInterface,
+                                                            columns     show   the   validation
+                                                                     14(136):20170623, 2017.      outcomes    for  different values  of
+the conversion coefficient α. The numerical simulations of τP exhibit good agreement with the clinical data
+reported in [27] for both critical threshold[3]values.
+                                                    P. Chaggar, J. W. Vogel, A. Pichet Binette, T. B. Thompson, O. Strandberg, N. Mattsson-Carlgr
+                                                                In Figure 9, a slight underfitting is observed in Braak III
+                                                    L. Karlsson, E. Stomrud, S. Jbabdi, S. Magon, G. Klein, O. Hansson, A. Goriely, and Alzheimer’s Dise
+during the transition between the last two macrostages. When the threshold is reduced to ccrit                 h   = 0.4 (Figure 10),
+this discrepancy is reduced. For this latter case, the agreement with the clinical data                 7  is satisfactory   across all
+curves. The critical threshold ccrit
+                                  h  affects   the  temporal       positioning    of the  Braak   macrostages     in post-processing.
+The conversion coefficient α governs the rate of disease progression. The duration of the central macrostage
+remains approximately constant across both threshold values, although temporally shifted.
+
+5.3     Comparison of high-fidelity and reduced-order descriptions
+In this section, we report the results of the comparison between the high-fidelity 3D model, the corresponding
+2D simulations on the sagittal section from [19], and the reduced-order graph-based model. This comparison
+
+
+                                                                           11
+                                     α = 0.27 years−1                                                     α = 0.61 years−1                                                             α = 1.24 years−1
+                                   0–2             3–4                   5–6                        0–2       3–4                         5–6                                0–1           2–3                     4–6
+
+                           1                                                               1                                                                            1
+
+                                                                                          0.8                                                                          0.8
+                    ⟩[−]
+
+
+
+
+                    0.8
+        ⟨cneocortex
+
+
+
+
+                    0.6                                                                   0.6                                                                          0.6
+
+                                                                                          0.4                                                                          0.4
+          h
+
+
+
+
+                    0.4                                                                                                                              Aβ+                                                                      Aβ+
+                                                                               Aβ+
+
+                    0.2                                                                   0.2                                                                          0.2
+
+
+                           0                                                               0                                                                            0
+                               0    5    10   15         20    25   30         35    40         0         5         10               15         20          25                         2         4         6        8    10         12
+                                                   t [years]                                                             t [years]                                                                     t [years]
+
+
+    Figure 1: Temporal evolution of the space average Aβ concentration in the neocortex for three values of α. Clinical data with
+Figure 7: Temporal evolution of the space average Aβ concentration in the neocortex for three values of α. Clinical data with
+    error bars overlaid [?].
+error bars overlaid [27].
+
+
+
+
+                                                                                                                                                                   Aβ average in the neocortex axis x line
+
+
+                                                                                                                                                                  1
+
+
+
+
+                                                                                                                                                     ⟨ch ⟩[−]
+                                                                                                                                                                 0.5
+
+                                                                                                                                                                                                                              Aβ +
+
+
+
+
+                                                                                                                                                                  0
+
+                                                                                                                                                                       0           I      II   III   IV     V                       VI
+                                                                                                                                                                                       PET-based Braak stage
+
+                                                                           (a)                                                                                                                       (b)
+
+Figure 8: (a) Spatial distribution of simulated Aβ concentration at Braak stages I-VI for α = 0.61 year−1 , shown in transversal,
+sagittal, and coronal views. (b) Simulated spatial average Aβ concentration across Braak stages.
+
+
+
+is fundamental to evaluating how the computational efficiency gains resulting from the geometrical reduction
+affect the description of protein spreading in AD.
+                                                          1
+    Figures 11 and 12 show the spatially averaged concentrations of Aβ and τP over time, respectively, for
+different values of the parameter α used in the sensitivity analysis. The comparison among different geometrical
+representations reveals distinct differences in protein concentration dynamics. In particular, the simulations
+in the 2D sagittal section anticipate the temporal evolution of both Aβ and τP , with the difference more
+pronounced for τP than for Aβ . Notably, the Aβ 2D simulations exhibit slower dynamics than the 3D model at
+high values of α. The graph-based model exhibits two distinct behaviours for the two proteins. It anticipates
+Aβ spreading relative to both 3D and 2D models; conversely, the temporal evolution of τP in the graph model
+is more consistent with the high-fidelity 3D simulations than with the 2D simulations.
+
+
+5.4     Comparison in terms of Braak staging theory
+To validate the numerical methods and assess the limitations of graph-based representations of τP propagation,
+we reconstruct the Braak stages by averaging the high-fidelity solver solutions and comparing them with the
+reduced-order graph-based model. The analysis employs a one-to-one correspondence between three-dimensional
+Braak regions and graph nodes to ensure consistency in the spatial integration of tau dynamics. Results are
+presented in Figure 13 for α = 0.70 year−1 .
+   The graph-based model captures the main spatio-temporal features of τP propagation through Braak stage
+IV. However, it does not fully reproduce the progressive invasion of specific anatomical brain regions that
+characterises AD progression beyond Braak stage IV. By contrast, the correct progression is captured by the
+high-fidelity 3D simulation [28].
+
+
+                                                                                                                    12
+                            α = 0.52 years−1                                                          α = 0.70 years−1                                                      α = 0.98 years−1
+                                             Braak II                                                              Braak II                                                            Braak II
+
+                            0–2        3–4                    5–6                               0–2     3–4                    5–6                                    0–2   3–4                5–6
+
+                1                                                                      1                                                                     1
+
+            0.8                                                                       0.8                                                                   0.8
+     ⟨ch ⟩[−]
+
+
+
+
+            0.6                                                                       0.6                                                                   0.6
+
+            0.4                                                                       0.4                                                                   0.4
+                                                                    Braak II+                                                             Braak II+                                                            Braak II+
+
+            0.2                                                                       0.2                                                                   0.2
+
+                0                                                                      0                                                                     0
+                    0   5         10   15       20       25    30     35         40         0    5     10     15      20       25    30      35        40         0     5    10   15      20         25   30      35        40
+
+                                            Braak III                                                              Braak III                                                           Braak III
+
+                            0–2        3–4                    5–6                               0–2     3–4                    5–6                                    0–2   3–4                5–6
+
+                1                                                                      1                                                                     1
+
+            0.8                                                                       0.8                                                                   0.8
+     ⟨ch ⟩[−]
+
+
+
+
+            0.6                                                                       0.6                                                                   0.6
+
+            0.4                                                                       0.4                                                                   0.4
+                                                                    Braak III+                                                            Braak III+                                                           Braak III+
+            0.2                                                                       0.2                                                                   0.2
+
+                0                                                                      0                                                                     0
+                    0   5         10   15       20       25    30     35         40         0    5     10     15      20       25    30      35        40         0     5    10   15      20         25   30      35        40
+
+                                            Braak IV                                                               Braak IV                                                            Braak IV
+
+                            0–2        3–4                    5–6                               0–2     3–4                    5–6                                    0–2   3–4                5–6
+
+                1                                                                      1                                                                     1
+
+            0.8                                                                       0.8                                                                   0.8
+     ⟨ch ⟩[−]
+
+
+
+
+            0.6                                                                       0.6                                                                   0.6
+
+            0.4                                                                       0.4                                                                   0.4
+                                                                    Braak IV+                                                             Braak IV+                                                            Braak IV+
+
+            0.2                                                                       0.2                                                                   0.2
+
+                0                                                                      0                                                                     0
+                    0   5         10   15       20       25    30     35         40         0    5     10     15      20       25    30      35        40         0     5    10   15      20         25   30      35        40
+
+                                             Braak V                                                               Braak V                                                             Braak V
+
+                            0–2        3–4                    5–6                               0–2     3–4                    5–6                                    0–2   3–4                5–6
+
+                1                                                                      1                                                                     1
+
+            0.8                                                                       0.8                                                                   0.8
+     ⟨ch ⟩[−]
+
+
+
+
+            0.6                                                                       0.6                                                                   0.6
+
+            0.4                                                     Braak V+          0.4                                                                   0.4
+                                                                                                                                           Braak V+                                                             Braak V+
+
+            0.2                                                                       0.2                                                                   0.2
+
+                0                                                                      0                                                                     0
+                    0   5         10   15       20       25    30     35         40         0    5     10     15      20       25    30      35        40         0     5    10   15      20         25   30      35        40
+
+                                            Braak VI                                                               Braak VI                                                            Braak VI
+
+                            0–2        3–4                    5–6                               0–2     3–4                    5–6                                    0–2   3–4                5–6
+
+                1                                                                      1                                                                     1
+
+            0.8                                                                       0.8                                                                   0.8
+     ⟨ch ⟩[−]
+
+
+
+
+            0.6                                                                       0.6                                                                   0.6
+
+                                                                    Braak VI+                                                             Braak VI+                                                            Braak VI+
+            0.4                                                                       0.4                                                                   0.4
+
+            0.2                                                                       0.2                                                                   0.2
+
+                0                                                                      0                                                                     0
+                    0   5         10   15       20       25    30     35         40         0    5     10     15      20       25    30      35        40         0     5    10   15      20         25   30      35        40
+                                             t [years]                                                             t [years]                                                           t [years]
+
+
+Figure 1: Validation results. The solid lines represent the numerically simulated spatial averages of τP concentration in Braak
+  Figure 9: Validation results. The solid lines represent the numerically simulated spatial averages of τP concentration in Braak
+ROIs, while the black dots with error bars indicate the clinical PET-SUVR data [?]. The critical threshold ccrit   = 0.5 is used to
+  ROIs, while the black dots with error bars indicate the clinical PET-SUVR data [27]. The critical threshold hccrit
+                                                                                                                h    = 0.5 is used to
+reconstruct the Braak macrostages over the simulated time interval.
+  reconstruct the Braak macrostages over the simulated time interval.
+
+
+
+
+ 6              Discussion
+
+ In this section, we provide a detailed discussion of the results obtained in the previous section.
+
+
+                                                                                                                    13
+                                                                                                                    1
+                           α = 0.52 years−1                                                               α = 0.70 years−1                                                          α = 0.98 years−1
+                                            Braak II                                                                  Braak II                                                                      Braak II
+
+                       0–2            3–4                    5–6                                    0–2    3–4                5–6                                         0–2       3–4                     5–6
+
+               1                                                                           1                                                                     1
+
+           0.8                                                                            0.8                                                                   0.8
+    ⟨ch ⟩[−]
+
+
+
+
+           0.6                                                                            0.6                                                                   0.6
+
+           0.4                                                                            0.4                                                                   0.4
+                                                                        Braak II+                                                             Braak II+                                                                     Braak II+
+           0.2                                                                            0.2                                                                   0.2
+
+               0                                                                           0                                                                     0
+                   0   5         10    15      20       25         30     35         40         0    5     10    15      20         25   30      35        40         0         5         10   15      20         25   30      35        40
+
+                                            Braak III                                                                 Braak III                                                                     Braak III
+
+                       0–2            3–4                    5–6                                    0–2    3–4                5–6                                         0–2       3–4                     5–6
+
+               1                                                                           1                                                                     1
+
+           0.8                                                                            0.8                                                                   0.8
+    ⟨ch ⟩[−]
+
+
+
+
+           0.6                                                                            0.6                                                                   0.6
+
+           0.4                                                                            0.4                                                                   0.4
+                                                                        Braak III+                                                            Braak III+                                                                    Braak III+
+           0.2                                                                            0.2                                                                   0.2
+
+               0                                                                           0                                                                     0
+                   0   5         10    15      20       25         30     35         40         0    5     10    15      20         25   30      35        40         0         5         10   15      20         25   30      35        40
+
+                                            Braak IV                                                                  Braak IV                                                                      Braak IV
+
+                       0–2            3–4                    5–6                                    0–2    3–4                5–6                                         0–2       3–4                     5–6
+
+               1                                                                           1                                                                     1
+
+           0.8                                                                            0.8                                                                   0.8
+    ⟨ch ⟩[−]
+
+
+
+
+           0.6                                                                            0.6                                                                   0.6
+
+           0.4                                                                            0.4                                                                   0.4
+                                                                        Braak IV+                                                             Braak IV+                                                                     Braak IV+
+
+           0.2                                                                            0.2                                                                   0.2
+
+               0                                                                           0                                                                     0
+                   0   5         10    15      20       25         30     35         40         0    5     10    15      20         25   30      35        40         0         5         10   15      20         25   30      35        40
+
+                                            Braak V                                                                   Braak V                                                                       Braak V
+
+                       0–2            3–4                    5–6                                    0–2    3–4                5–6                                         0–2       3–4                     5–6
+
+               1                                                                           1                                                                     1
+
+           0.8                                                                            0.8                                                                   0.8
+    ⟨ch ⟩[−]
+
+
+
+
+           0.6                                                                            0.6                                                                   0.6
+
+           0.4                                                          Braak V+          0.4                                                  Braak V+         0.4                                                          Braak V+
+
+           0.2                                                                            0.2                                                                   0.2
+
+               0                                                                           0                                                                     0
+                   0   5         10    15      20       25         30     35         40         0    5     10    15      20         25   30      35        40         0         5         10   15      20         25   30      35        40
+
+                                            Braak VI                                                                  Braak VI                                                                      Braak VI
+
+                           0–2        3–4                      5–6                                  0–2    3–4                5–6                                         0–2       3–4                     5–6
+
+               1                                                                           1                                                                     1
+
+           0.8                                                                            0.8                                                                   0.8
+    ⟨ch ⟩[−]
+
+
+
+
+           0.6                                                                            0.6                                                                   0.6
+
+                                                                        Braak VI+                                                             Braak VI+                                                                     Braak VI+
+           0.4                                                                            0.4                                                                   0.4
+
+           0.2                                                                            0.2                                                                   0.2
+
+               0                                                                           0                                                                     0
+                   0   5         10    15      20       25         30     35         40         0    5     10    15      20         25   30      35        40         0         5         10   15      20         25   30      35        40
+                                            t [years]                                                                 t [years]                                                                     t [years]
+
+
+Figure 1: Validation results. The solid lines represent the numerically simulated spatial averages of τP concentration in Braak
+Figure 10: Validation results. The solid lines represent the numerically simulated spatial averages of τP concentration in Braak
+ROIs, while the black dots with error bars indicate the clinical PET-SUVR data [?]. The critical threshold ccrit   = 0.4 is used to
+ROIs, while the black dots with error bars indicate the clinical PET-SUVR data [27]. The critical threshold chcrit
+                                                                                                              h    = 0.4 is used to
+reconstruct the Braak macrostages over the simulated time interval.
+reconstruct the Braak macrostages over the simulated time interval.
+
+
+
+6.1                3D high-fidelity results
+The 3D results illustrate the distinct spatio-temporal dynamics of the two proteins. Figure 5a shows that
+Aβ rapidly progresses towards the pathological state, in all the brain geometries, mostly due to the diffused
+initial condition inside the cortex. Concerning τP , starting from a localised condition, it spreads through
+
+
+                                                                                                                      14
+                                                                                                                      1
+                              Aβ averaged concentrations                           Aβ averaged concentrations                       Aβ averaged concentrations                       Aβ averaged concentrations
+                  1.0                                                    1.0                                              1.0                                              1.0
+
+
+                  0.8                                                    0.8                                              0.8                                              0.8
+
+
+                  0.6                                                    0.6                                              0.6                                              0.6
+      ⟨ch ⟩ [-]
+
+
+
+
+                  0.4                                                    0.4                                              0.4                                              0.4
+                                                α = 0.08 α = 0.27                                α = 0.61 α = 1.24                                α = 2.18 α = 3.87                                 α = 6.30 α = 8.54
+                  0.2                                3D       3D         0.2                          3D       3D         0.2                          3D       3D         0.2                           3D       3D
+                                                     2D       2D                                      2D       2D                                      2D       2D                                       2D       2D
+                                                     0D       0D                                      0D       0D                                      0D       0D                                       0D       0D
+                  0.0                                                    0.0                                              0.0                                              0.0
+                        0          10        20         30          40         0       5         10      15          20         0      2.5        5       7.5         10         0      1.25      2.5       3.75        5
+                                         t [years]                                           t [years]                                        t [years]                                        t [years]
+
+
+Figure 11: Computed Aβ average concentration ⟨ch ⟩ as a function of time t for different choices of α [years−1 ], comparing
+high-fidelity (3D and 2D) and low fidelity results.
+
+                              τP averaged concentrations                           τP averaged concentrations                       τP averaged concentrations                       τP averaged concentrations
+                  1.0                                                    1.0                                              1.0                                              1.0
+                            α = 0.20 α = 0.37
+                                 3D       3D
+                  0.8            2D       2D                             0.8                                              0.8                                              0.8
+                                 0D       0D
+
+                  0.6                                                    0.6                                              0.6                                              0.6
+      ⟨ch ⟩ [-]
+
+
+
+
+                  0.4                                                    0.4                                              0.4                                              0.4
+                                                                                                 α = 0.52 α = 0.70                                α = 0.98 α = 1.33                                α = 1.89 α = 2.57
+                  0.2                                                    0.2                          3D       3D         0.2                          3D       3D         0.2                          3D       3D
+                                                                                                      2D       2D                                      2D       2D                                      2D       2D
+                                                                                                      0D       0D                                      0D       0D                                      0D       0D
+                  0.0                                                    0.0                                              0.0                                              0.0
+                        0          10        20         30          40         0      10        20       30          40         0       5        10       15          20         0      3.75      7.5      11.25       15
+                                         t [years]                                          t [years]                                        t [years]                                         t [years]
+
+
+Figure 12: Computed τP average concentration ⟨ch ⟩ as a function of time t for different choices of α [years−1 ], comparing
+high-fidelity (3D and 2D) and low fidelity results.
+
+
+
+the brain following a specific spatial pattern consistent with the Braak staging theory [39]. Indeed, Figure 6a
+shows an advanced involvement of the temporal lobe after 10 years. Due to the synthetic nature of the FK
+model, the conversion coefficient α cannot be directly measured from clinical tests. However, its value is of
+primary importance because it affects the rate of disease evolution, which varies across individuals [15, 19]. The
+sensitivity analysis based on the biological measured values as in [18] shows that a characteristic sigmoidal
+behaviour can be observed for both proteins and for any value of α. An increase in the conversion coefficient
+α leads to a sharper initial front and a faster transition to the saturation phase, indicating a more aggressive
+pathological progression, consistent with previous studies on graphs [15] or 2D geometries [19]. Although this
+trend is common to both proteins, the dynamics appear to be slower for the τP protein, due to the localised
+initial condition in the brain geometry.
+
+
+6.2               High-fidelity model validation with PET-SUVR data
+Validation of Aβ simulations The robustness of the model validation across different values of α indicates
+that the simulated Aβ kinetics are clinically accurate independently of the temporal scaling of the disease
+progression. Since the ability of the model to reproduce clinical data is independent of α, all simulations
+remain within the confidence bands of the clinical measurements when appropriately mapped through the
+SUVR transformation. This consistency across the parameter space demonstrates the reliability of the high-
+fidelity model in capturing the underlying pathological mechanisms of Aβ deposition, regardless of the disease
+development timeline. To isolate the clinically validated stage-dependent behaviour of Aβ, the analysis is
+restricted to Braak macrostages (Figure 8b), which are defined through external clinical landmarks (positivity
+cutoff and plateau phase). By expressing the results in terms of Braak stages rather than absolute time, the
+temporal hypothesis is relaxed, and the intrinsic relationship between pathology progression and brain staging
+emerges independently of α. From a medical perspective, α encodes information not only about the rate of
+disease progression, but also about the spatial distribution of misfolded protein within the brain (see Figure 8a).
+Therefore, Figures 7 and 8b should be considered together: the former validates the model against the clinical
+data in [27] for each α, confirming that the simulated temporal trajectories are clinically consistent, while the
+
+
+                                                                                                              15
+                          High-fidelity discretization (3D)                              Reduced order discretization (graph)
+                1.0                                                            1.0
+
+
+                0.8                                                            0.8
+
+
+                0.6                                                            0.6
+    ⟨ch ⟩ [-]
+
+
+
+
+                0.4                                           Braak II         0.4
+                                                              Braak III
+                                                              Braak IV
+                0.2                                           Braak V          0.2
+                                                              Braak VI
+                0.0                                                            0.0
+                      0       10                    20                    30         0         10                   20          30
+                                       t [years]                                                       t [years]
+
+
+Figure 13: Temporal evolution of spatial average of τP concentration in the Braak ROIs, using the high-fidelity model (left) and
+the reduced-order model (right) with α = 0.70 year−1
+
+
+
+latter reveals the stage-based representation that collapses these trajectories onto a universal curve aligned with
+clinical neuropathological staging [28].
+
+
+Validation of τP simulations The choice of the conversion coefficient and the critical threshold has a
+large impact on the final result. The conversion coefficient α governs the rate of pathological progression,
+while the critical threshold ccrit
+                               h   determines the onset of local regional activation and marks the transition
+to the activation phase as its value decreases. An appropriate combination of these two parameters must
+be identified to optimise the model. The observation that the transition phase spans approximately 4–5 years,
+independently of the selected threshold, suggests a robust inherent timescale in the disease progression dynamics.
+This consistency indicates that the model captures a fundamental aspect of tau pathology progression. These
+findings are consistent with the longitudinal study by [44], who analysed PET-SUVR data acquired using the
+tracer [18 F]MK6240 for tau, employing the cerebellar cortex as the reference region—a choice analogous to
+that adopted in [27]. In that study, the temporoparietal region became compromised approximately six years
+after the mesial temporal region, whereas the rest of the neocortex became involved approximately seven years
+later. A qualitative comparison between these regions and the Braak macrostages employed in the present work
+reveals a coherent temporal alignment. This correspondence supports the validity and biological plausibility
+of the simulated progression pattern, demonstrating that our model captures the expected spatio-temporal
+dynamics of tau pathology observed in clinical studies.
+
+
+6.3             Comparison of high-fidelity and reduced-order descriptions
+The accelerated dynamics observed in the 2D model relative to the 3D case likely result from neglecting the
+brain geometry in the direction orthogonal to the sagittal plane, which leads to a loss of diffusive dynamics
+and effectively reduces the spatial domain. The larger discrepancies observed for τP compared to Aβ can be
+attributed to the localisation of the initial seeding: τP pathology originates in the entorhinal cortex, a spatially
+confined region whose representation in a single 2D section is particularly challenging (see Figure 12). In
+contrast, Aβ pathology initiates from more distributed cortical regions, making its projection onto a sagittal
+section more representative of the full 3D geometry (see Figure 11).
+    The graph-based model shows complementary strengths and limitations. The accelerated Aβ spreading re-
+flects the combined effect of a spatially distributed initial condition across the connectome and the simplified
+geometrical description, which together enhance the effective diffusion of pathology. For τP , however, the
+connectome-based representation captures the temporal dynamics more faithfully than the 2D model. This
+suggests that, while the graph model reduces spatial resolution at the regional level, it compensates by incor-
+porating long-range axonal connectivity patterns within anatomical regions absent from planar representations.
+The 2D domain, constrained to a single anatomical plane, cannot recover these network effects. Consequently,
+when combined with a localised initial condition such as that of τP , the graph model describes the temporal
+evolution more consistently with the 3D physics-based simulations.
+
+
+                                                                    16
+6.4    Comparison in terms of Braak staging theory
+The inability to derive Braak regions directly from the 2D sagittal section stems from the inherent limitation
+of a single cross-section in representing the complex three-dimensional anatomical structure of the brain. The
+reduced-order graph-based model successfully captures the main propagation features; however, the simplifica-
+tion of spatial dimension leads to limitations in reproducing regional heterogeneity.
+    A key factor constraining the model’s reliability is the assumption of a constant conversion coefficient α. This
+simplification may be more pronounced when the spatial dimensionality is reduced, as regional heterogeneity
+is neglected [26]. Under this assumption, the reduced-order model with a constant conversion rate appears
+insufficient to provide a fully accurate representation of Braak stage progression in τP propagation, particularly
+for advanced stages.
+    The model predictions also depend on the parcellation scheme used to define the network domain. The choice
+of parcellation can significantly influence both the network topology and quantitative graph measures [45, 46],
+thereby affecting the model’s predictions and overall biological accuracy. Future refinements should address
+parcellation sensitivity and the spatially varying nature of tau conversion dynamics to improve the model’s
+capability to represent the complete Braak staging progression.
+
+
+6.5    Limitations
+The main limitations of this work concern the modelling assumptions underlying the conversion coefficient.
+The assumption of a constant conversion coefficient represents a significant simplification that neglects both
+spatial and temporal heterogeneity of protein misfolding dynamics. This approximation has a limited impact in
+the 3D setting, where geometric features and diffusion gradients partially compensate for parameter uniformity;
+however, its effects become more pronounced in geometrically reduced models. A natural extension would involve
+the calibration of spatially-localised α parameters directly from PET imaging data, following the approach
+outlined in [26].
+    The validation strategy for Aβ relies on the external identification of Braak macrostages based on clinical
+evidence, rather than on a direct correspondence between simulated protein accumulation and disease staging
+emerging from the model dynamics. The availability of longitudinal PET data, or the integration of Aβ ac-
+cumulation with calibrated τP dynamics, would substantially improve the validation framework and enhance
+confidence in model predictions.
+    The present work extends the 2D analysis of the FK equation conducted in [19]. However, increasing
+attention has been devoted in the literature to the heterodimer model due to its superior descriptive capability
+in representing clearance, conversion, and production processes separately [15, 47]. Future investigations should
+explore the applicability of such mechanistic frameworks within the three-dimensional setting employed herein.
+    Finally, adapting the proposed strategy to PET imaging data acquired with alternative tracers more widely
+used in clinical practice [48], and validating the simulation framework on a large patient-specific imaging
+database, could substantially advance our understanding of the practical utility of numerical simulations for
+pathological prediction and disease progression forecasting.
+
+
+7     Conclusions
+In this work, we investigated the spreading dynamics of the two proteins associated with Alzheimer’s dis-
+ease, amyloid-β and tau protein, using the Fisher-Kolmogorov model. A sensitivity analysis with respect to
+the conversion coefficient α was performed in a three-dimensional brain domain, highlighting its influence
+on disease progression rates. Then, the three-dimensional results were compared with those obtained from
+a two-dimensional sagittal brain section and from a reduced graph-based formulation, to assess the impact
+of geometrical simplifications on model accuracy and computational efficiency. The comparison showed that
+the two-dimensional geometry does not fully capture the global dynamics of both proteins compared to the
+three-dimensional setting. A quantitative validation strategy based on PET-SUVR data was developed using
+[18 F]AZD4694 and [18 F]MK6240 tracers to assess amyloid-β and tau proteins, respectively. The results demon-
+strated that the three-dimensional model successfully reproduces the observed evolution of both proteins. The
+analysis, repeated for different values of the conversion coefficient, confirmed that variations in this parame-
+ter affect the temporal transition between Braak stages and thus the progression rate, while preserving good
+agreement with clinical data. The graph-based model anticipates amyloid-β spreading in time, while providing
+
+
+                                                        17
+a more accurate description of tau propagation than the two-dimensional configuration, although it does not
+reproduce the characteristic Braak staging pattern of tau.
+
+
+Acknowledgements
+OASIS-3 provided the brain MRI images: Longitudinal Multimodal Neuroimaging: Principal Investigators: T.
+Benzinger, D. Marcus, J. Morris; NIH P30 AG066444, P50 AG00561, P30 NS09857781, P01 AG026276, P01
+AG003991, R01 AG043434, UL1 TR000448, R01 EB009352. AV-45 doses were provided by Avid Radiophar-
+maceuticals, a wholly-owned subsidiary of Eli Lilly.
+
+
+References
+ [1] L. C. Walker and M. Jucker, “Neurodegenerative diseases: Expanding the prion concept”, Annu. Rev.
+     Neurosci., vol. 38, no. 1, pp. 87–103, 2015.
+
+ [2] M. Jucker and L. C. Walker, “Self-propagation of pathogenic protein aggregates in neurodegenerative
+     diseases”, Nature, vol. 501, no. 7465, pp. 45–51, 2013.
+
+ [3] P. Scheltens, B. De Strooper, M. Kivipelto, H. Holstege, G. Chételat, C. Teunissen, J. Cummings, and
+     W. van der Flier, “Alzheimer’s disease”, The Lancet, vol. 397, pp. 1577–1590, 2021.
+
+ [4] G.-F. Chen, T.-H. Xu, Y. Yan, Y. Zhou, Y. Jiang, K. Melcher, and H. E. Xu, “Amyloid beta: structure,
+     biology and structure-based therapeutic development”, Acta Pharmacol. Sin., vol. 38, no. 9, pp. 1205–1235,
+     2017.
+
+ [5] M. Jouanne, S. Rault, and A. Voisin-Chiret, “Tau protein aggregation in Alzheimer’s disease: An attractive
+     target for the development of novel therapeutic agents”, Eur. J. Med. Chem., vol. 139, pp. 153–167, 2017.
+
+ [6] L. I. Binder, A. L. Guillozet-Bongaarts, F. Garcia-Sierra, and R. W. Berry, “Tau, tangles, and Alzheimer’s
+     disease”, Biochim. Biophys. Acta, vol. 1739, no. 2–3, pp. 216–223, 2005.
+
+ [7] D. M. Wilson, M. R. Cookson, L. Van Den Bosch, H. Zetterberg, D. M. Holtzman, and I. Dewachter,
+     “Hallmarks of neurodegenerative diseases”, Cell, vol. 186, no. 4, pp. 693–714, 2023.
+
+ [8] B. Dubois, C. A. F. von Arnim, N. Burnie, S. Bozeat, and J. Cummings, “Biomarkers in Alzheimer’s
+     disease: Role in early and differential diagnosis and recognition of atypical variants”, Alzheimer’s Res.
+     Ther., vol. 15, p. 175, 2023.
+
+ [9] T. A. Pascoal, C. S. Aguzzoli, F. Z. Lussier, L. Crivelli, C. K. Suemoto, J. Fortea, P. Rosa-Neto, E. R.
+     Zimmer, P. C. L. Ferreira, and B. Bellavera, “Insights into the use of biomarkers in clinical trials in
+     Alzheimer’s disease”, eBioMedicine, vol. 108, p. 105322, 2024.
+
+[10] H. Hampel, K. Bürger, S. J. Teipel, A. L. W. Bokde, H. Zetterberg, and K. Blennow, “Core candidate
+     neurochemical and imaging biomarkers of Alzheimer’s disease”, Alzheimer’s & Dementia, vol. 4, no. 1,
+     pp. 38–48, 2008.
+
+[11] W. Bao, F. Xie, C. Zuo, Y. Guan, and Y. H. Huang, “PET neuroimaging of Alzheimer’s disease: Radio-
+     tracers and their utility in clinical research”, Front. Aging Neurosci., vol. 13, p. 624330, 2021.
+
+[12] F. Matthäus, “The spread of prion diseases in the brain: Models of reaction and transport on networks”,
+     J. Biol. Syst., vol. 17, no. 4, pp. 623–641, 2009.
+
+[13] R. Fisher, “The wave of advance of advantageous genes”, Annals of Eugenics, vol. 7, no. 4, pp. 353–369,
+     1937.
+
+[14] A. N. Kolmogorov, I. G. Petrovskii, and N. S. Piskunov, “Etude de la diffusion avec croissance de la quantité
+     de matière et son application à un problème biologique”, Moscow University Mathematics Bulletin, vol. 1,
+     pp. 1–25, 1937.
+
+
+                                                        18
+[15] S. Fornari, A. Schäfer, M. Jucker, A. Goriely, and E. Kuhl, “Prion-like spreading of Alzheimer’s disease
+     within the brain’s connectome”, J. R. Soc. Interface, vol. 16, no. 159, p. 20190356, 2019.
+[16] J. Weickenmeier, M. Jucker, A. Goriely, and E. Kuhl, “A physics-based model explains the prion–like fea-
+     tures of neurodegeneration in Alzheimer’s disease, Parkinson’s disease, and amyotrophic lateral sclerosis”,
+     J. Mech. Phys. Solids, vol. 124, pp. 264–281, 2019.
+[17] A. Schäfer, J. Weickenmeier, and E. Kuhl, “The interplay of biochemical and biomechanical degeneration
+     in Alzheimer’s disease”, Comput. Methods Appl. Mech. Engrg., vol. 352, pp. 369–388, 2019.
+[18] M. Corti, F. Bonizzoni, L. Dede’, A. M. Quarteroni, and P. F. Antonietti, “Discontinuous Galerkin methods
+     for Fisher-Kolmogorov equation with application to α-synuclein spreading in Parkinson’s disease”, Comput.
+     Methods Appl. Mech. Engrg., vol. 417, p. 116450, 2023.
+[19] M. Corti, “Exploring tau protein and amyloid-beta propagation: A sensitivity analysis of mathematical
+     models based on biological data”, Brain Multiphysics, vol. 7, p. 100098, 2023.
+[20] M. Corti, F. Bonizzoni, and P. F. Antonietti, “Structure preserving polytopal discontinuous Galerkin
+     methods for the numerical modeling of neurodegenerative diseases”, J. Sci. Comput., vol. 100, p. 39, 2024.
+[21] P. F. Antonietti, M. Corti, S. Gómez, and I. Perugia, “A structure-preserving ldg discretization of the
+     fisher–kolmogorov equation for modeling neurodegenerative diseases”, Math. Comput. Simul., vol. 241,
+     pp. 351–366, 2026.
+[22] F. Bonizzoni, M. Braukhoff, A. Jängel, and I. Perugia, “A structure-preserving discontinuous galerkin
+     scheme for the fisher–kpp equation”, Numer. Math., vol. 146, pp. 119–157, 2020.
+[23] A. Raj, A. Kuceyeski, and M. Weiner, “A network diffusion model of disease progression in dementia”,
+     Neuron, vol. 73, no. 6, pp. 1204–1215, 2012.
+[24] Y. Iturria-Medina, R. C. Sotero, P. J. Toussaint, A. C. Evans, and Alzheimer’s Disease Neuroimaging Ini-
+     tiative, “Epidemic spreading model to characterize misfolded proteins propagation in aging and associated
+     neurodegenerative disorders”, PLoS Comput. Biol., vol. 10, no. 11, p. e1003956, 2014.
+[25] A. Schäfer, M. Peirlinck, K. Linka, E. Kuhl, and Alzheimer’s Disease Neuroimaging Initiative, “Bayesian
+     physics-based modeling of tau propagation in Alzheimer’s disease”, Front. Physiol., vol. 12, p. 1081, 2021.
+[26] M. Corti, F. Bonizzoni, P. F. Antonietti, and A. M. Quarteroni, “Uncertainty quantification for Fisher–
+     Kolmogorov equation on graphs with application to patient-specific Alzheimer’s disease”, ESAIM: Math.
+     Model. Numer. Anal., vol. 58, no. 1, pp. 147–176, 2024.
+[27] J. Therriault, T. A. Pascoal, F. Z. Lussier, C. Tissot, M. Chamoun, G. Bezgin, S. Servaes, A. L. Benedet,
+     N. J. Ashton, T. K. Karikari, J. Lantero-Rodriguez, P. Kunach, Y.-T. Wang, J. Fernandez-Arias, G. Massar-
+     weh, P. Vitali, J.-P. Soucy, P. Saha-Chaudhuri, K. Blennow, H. Zetterberg, S. Gauthier, and P. Rosa-Neto,
+     “Biomarker modeling of Alzheimer’s disease using PET-based Braak staging”, Nat. Aging, vol. 2, no. 6,
+     pp. 526–535, 2022.
+[28] H. Braak, I. Alafuzoff, T. Arzberger, H. Kretzschmar, and K. Del Tredici, “Staging of Alzheimer disease-
+     associated neurofibrillary pathology using paraffin sections and immunocytochemistry”, Acta Neuropathol.,
+     vol. 112, no. 4, pp. 389–404, 2006.
+[29] D. Arnold, F. Brezzi, B. Cockburn, and D. Marini, “Unified analysis of discontinuous Galerkin methods
+     for elliptic problems”, SIAM J. Numer. Anal., vol. 39, no. 5, pp. 1749–1779, 2001-02.
+[30] R. F. Betzel and D. S. Bassett, “Generative models for network neuroscience: Prospects and promise”, J.
+     R. Soc. Interface, vol. 14, no. 136, p. 20170623, 2017.
+[31] A. J. Smola and R. Kondor, “Kernels and regularization on graphs”, in Learning Theory and Kernel
+     Machines, vol. 2777 of Lecture Notes in Computer Science, pp. 144–158, Springer, 2003.
+[32] P. J. LaMontagne, T. L. Benzinger, J. C. Morris, S. Keefe, R. Hornbeck, C. Xiong, E. Grant, J. Hassenstab,
+     K. Moulder, A. G. Vlassenko, M. E. Raichle, C. Cruchaga, and D. Marcus, “OASIS-3: Longitudinal
+     neuroimaging, clinical, and cognitive dataset for normal aging and Alzheimer disease”, 2019, MedRxiv.
+
+
+                                                      19
+[33] B. Fischl, “FreeSurfer”, NeuroImage, vol. 62, no. 2, pp. 774–781, 2012.
+[34] R. S. Desikan, F. Ségonne, B. Fischl, B. T. Quinn, B. C. Dickerson, D. Blacker, R. L. Buckner, A. M.
+     Dale, R. P. Maguire, B. T. Hyman, M. S. Albert, and R. J. Killiany, “An automated labeling system for
+     subdividing the human cerebral cortex on MRI scans into gyral based regions of interest”, NeuroImage,
+     vol. 31, no. 3, pp. 968–980, 2006.
+[35] K.-A. Mardal, M. E. Rognes, T. B. Thompson, and L. M. Valnes, Mathematical Modeling of the Human
+     Brain: From Magnetic Resonance Images to Finite Element Simulation, vol. 10. Springer International
+     Publishing, 2022.
+[36] F.-C. Yeh, “DSI Studio: an integrated tractography platform and fiber data hub for accelerating brain
+     research”, Nat. Methods, vol. 22, pp. 1617–1619, 2025.
+[37] L. Fan, H. Li, J. Zhuo, Y. Zhang, J. Wang, L. Chen, Z. Yang, C. Chu, S. Xie, A. R. Laird, P. T. Fox, S. B.
+     Eickhoff, C. Yu, and T. Jiang, “The Human Brainnetome Atlas: A new brain atlas based on connectional
+     architecture”, Cereb. Cortex, vol. 26, no. 8, pp. 3508–3526, 2016.
+[38] A. Schäfer, E. C. Mormino, E. Kuhl, and Alzheimer’s Disease Neuroimaging Initiative, “Network diffusion
+     modeling explains longitudinal tau PET data”, Front. Neurosci., vol. 14, p. 566876, 2020.
+[39] A. Whittington, D. J. Sharp, R. N. Gunn, and Alzheimer’s Disease Neuroimaging Initiative, “Spatiotem-
+     poral distribution of β-amyloid in Alzheimer disease is the result of heterogeneous regional carrying capac-
+     ities”, J. Nuc. Med., vol. 59, no. 5, pp. 822–827, 2018.
+[40] J. Therriault, T. A. Pascoal, A. L. Benedet, M. Savard, F. Z. Lussier, C. Tissot, M. Chamoun, S. A.
+     Mathotaarachchi, E. Thomas, S. Gauthier, P. Rosa-Neto, and Alzheimer’s Disease Neuroimaging Initiative,
+     “Determining amyloid-β positivity using [18 F]AZD4694 PET imaging”, J. Nucl. Med., vol. 62, no. 2,
+     pp. 247–252, 2021.
+[41] T. A. Pascoal, A. L. Benedet, D. L. Tudorascu, J. Therriault, S. Mathotaarachchi, M. Savard, F. Z. Lussier,
+     C. Tissot, M. Chamoun, M. S. Kang, J. Stevenson, G. Massarweh, M.-C. Guiot, J.-P. Soucy, S. Gauthier,
+     and P. Rosa-Neto, “Longitudinal 18F-MK-6240 tau tangles accumulation follows Braak stages”, Brain,
+     vol. 144, pp. 3517–3528, 2021.
+[42] T. V. Kamath, N. Klickstein, C. Commins, A. R. Fernandes, D. H. Oakley, M. P. Frosch, B. T. Hyman,
+     and S. Dujardin, “Kinetics of tau aggregation reveals patient–specific tau characteristics among Alzheimer’s
+     cases”, Brain Commun., vol. 3, no. 2, p. fcab096, 2021.
+[43] P. Chaggar, J. W. Vogel, A. Pichet Binette, T. B. Thompson, O. Strandberg, N. Mattsson-Carlgren,
+     L. Karlsson, E. Stomrud, S. Jbabdi, S. Magon, G. Klein, O. Hansson, A. Goriely, and Alzheimer’s Disease
+     Neuroimaging Initiative, “Personalised regional modelling predicts tau progression in the human brain”,
+     PLoS Biol., vol. 23, no. 7, p. e3003241, 2025.
+[44] N. Krishnadas, V. Doré, J. S. Robertson, L. Ward, C. Fowler, C. L. Masters, P. Bourgeat, J. Fripp, V. L.
+     Villemagne, and C. C. Rowe, “Rates of regional tau accumulation in ageing and across the Alzheimer’s
+     disease continuum: An AIBL 18F-MK6240 PET study”, eBioMedicine, vol. 88, p. 104450, 2023.
+[45] B. C. M. van Wijk, C. J. Stam, and A. Daffertshofer, “Comparing brain networks of different size and
+     connectivity density using graph theory”, PLoS ONE, vol. 5, no. 10, 2010.
+[46] F. Xu, S. Garai, D. Duong-Tran, A. J. Saykin, Y. Zhao, L. Shen, and Alzheimer’s Disease Neuroimaging
+     Initiative, “Consistency of graph theoretical measurements of Alzheimer’s disease fiber density connectomes
+     across multiple parcellation scales”, in Proceedings of the IEEE International Conference on Bioinformatics
+     and Biomedicine (BIBM), pp. 1323–1328, IEEE, 2023.
+[47] P. F. Antonietti, F. Bonizzoni, M. Corti, and A. Dall’Olio, “Discontinuous Galerkin approximations of
+     the heterodimer model for protein-protein interaction”, Comput. Methods Appl. Mech. Engrg., vol. 431,
+     p. 117282, 2024.
+[48] W. van Oostveen and E. de Lange, “Imaging techniques in Alzheimer’s disease: A review of applications
+     in early diagnosis and longitudinal monitoring”, Int. J. Mol. Sci., vol. 22, no. 4, p. 2110, 2021.
+
+
+                                                       20
+

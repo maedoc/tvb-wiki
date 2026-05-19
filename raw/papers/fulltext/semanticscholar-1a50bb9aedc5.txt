@@ -1,0 +1,364 @@
+                INTERNATIONAL JOURNAL OF SOCIAL HEALTH
+                https://ijsh.ph/index.php/rp
+                Volume 4 Number 7 July 2025                                           E-ISSN: 2984-7079
+
+Analysis of Efficient Net Model Using Binary Segmentation Results from
+Magnetic Resonance Imaging (MRI) T1 Weighted Contrast Images in
+Classifying Brain Tumors Types
+
+Muhammad Alifian Ihtisyamuddin*, M.Choiroel Anwar, Rasyid, Yeti Kartikasari, Leny
+Latifah, Gatot Murti Wibowo
+Politeknik Kesehatan Kementrian Kesehatan Semarang, Indonesia
+Email: alifianimuhammad@gmail.com, choirul1960@gmail.com, rasyid.lihawa@gmail.com,
+yeti.kartikasari@gmail.com, leny003@brin.go.id, gatotmurtiw@gmail.com
+
+         KEYWORDS                                                  ABSTRACT
+ MRI Brain, Brain Tumor, Binary   Brain tumors consist of abnormal tissues resulting from uncontrolled cell
+ Segmentation, EfficientNet       proliferation and have no physiological function in the brain. The application
+                                  of binary image segmentation is important because it is widely used in medical
+                                  imaging to assist in brain tumor diagnosis. There has been prior work on MRI
+                                  image classification for brain tumor types, such as using EfficientNet. This
+                                  study aims to investigate the application of binary segmentation results from
+                                  T1-weighted contrast MRI images in the EfficientNet model. The study
+                                  employed a Research and Development (R&D) methodology. The dataset
+                                  comprised 1,400 images, including 700 glioma and 700 meningioma cases.
+                                  MRI images and tumor masks were combined using a binary masking
+                                  segmentation method. Subsequently, the segmented images were input into
+                                  the EfficientNet model and evaluated using a confusion matrix. The model
+                                  testing yielded an accuracy of 0.6, precision of 0.627, recall of 0.492, and an
+                                  F1 score of 0.551. However, the loss value was relatively high at 0.678. These
+                                  results suggest that binary segmentation images from T1-weighted contrast
+                                  MRI scans of brain tumor cases can be applied effectively to the EfficientNet
+                                  model.
+
+                                                   Coresponding Author: Muhammad Alifian Ihtisyamuddin
+                                                                   Email: alifianimuhammad@gmail.com
+
+INTRODUCTION
+        Brain tumors are abnormally developing tissues caused by unregulated cell proliferation
+that have no physiological function in the brain. Brain tumors exhibit different characteristics
+compared to tumors in other organs; although often histologically benign, they have the potential
+to become malignant due to their location within confined intracranial structures (Jiang et al.,
+2017). Glioma is the most prevalent primary brain tumor, accounting for 81% of all central nervous
+system malignancies. Gliomas arise from glial or progenitor cells. According to the World Health
+Organization (WHO), gliomas are classified into four grades: Grade 1 and Grade 2 correspond to
+low-grade gliomas, while Grade 3 and Grade 4 are categorized as high-grade gliomas (Xu et al.,
+2020).
+        Meningioma is a central nervous system tumor originating from arachnoid cap cells.
+Meningiomas represent approximately 30% of all primary intracranial tumors in adults but are rare
+in children and adolescents (0.4–4.6%) (Zhao et al., 2020). Although most meningiomas are
+benign, about 20% of cases are high-grade tumors requiring aggressive clinical intervention
+(Hanna et al., 2023). WHO classifies meningiomas into three grades: Grade I (80.5% of cases)
+with benign histology, Grade II (17.7%) and Grade III (1.7%) with atypical to malignant histology
+associated with a more aggressive clinical course (Ogasawara et al., 2021).
+        Magnetic resonance imaging (MRI) represents the most advanced neuroimaging modality,
+providing detailed images of brain anatomy. MRI uses magnetic fields and radiofrequency (RF)
+                                                                                                         357
+   Muhammad AlifianIhtisyamuddin*, M.Choiroel Anwar, Rasyid, Yeti Kartikasari, Leny Latifah, Gato
+                                                                                            Murti Wibowo
+  Analysis of EfficientNet Model Using Binary Segmentation Results from Magnetic Resonance Imaging (MRI)
+                                             T1 Weighted Contrast Images in Classifying Brain Tumors Types
+
+pulses instead of ionizing radiation, making it safer than X-ray-based diagnostic techniques such
+as computed tomography (CT) scans (Lefevre et al., 2016). CT scans have limited sensitivity for
+soft tissue differentiation in brain tumors, whereas MRI offers superior contrast resolution,
+enabling clear visualization of both soft and hard brain tissues (Suta et al., 2019). Due to its non-
+invasive nature and high-resolution imaging capabilities, MRI is widely employed for the early
+diagnosis and characterization of brain tumors (Naser & Deen, 2020).
+        Manual diagnosis of brain tumors often relies on biopsy and direct observation.
+Histopathological examination of biopsy samples typically requires 10–15 days, during which
+diagnostic errors may occur (Andre et al., 2021). Moreover, biopsy carries risks, with cerebral
+hemorrhage being a common complication that may lead to neurological deficits, whether
+symptomatic or asymptomatic (Li et al., 2022). Given these limitations, low-risk, non-invasive
+diagnostic methods are needed to assist clinicians. Image segmentation analysis offers an
+alternative approach for tumor assessment.
+        Segmentation is the process of partitioning an image into multiple regions to extract
+Regions of Interest (ROIs), such as tumor masses, enabling more accurate localization and
+characterization (Michael et al., 2021). Binary segmentation specifically divides image data into
+two categories—typically, tumor versus non-tumor regions—based on selected features or criteria.
+This technique is extensively used in medical image analysis for object detection and classification
+tasks. Tumor segmentation plays a crucial role in clinical practice by supporting diagnosis,
+prognosis, tumor growth prediction, density monitoring, and treatment planning (Aggarwal et al.,
+2023).
+        EfficientNet is a family of convolutional neural networks designed by scaling a baseline
+network in terms of width, depth, and resolution using a compound scaling method (Lin et al.,
+2023; Oza et al., 2022; Tan & Le, 2019). This approach balances these dimensions to improve
+model accuracy effectively (Tan & Le, 2019). EfficientNet-B0 is the simplest variant with the
+fewest parameters, yet it maintains strong image classification performance with computational
+efficiency (Fajrina et al., 2024).
+        In recent years, the importance of MRI for brain tumor diagnosis and management has
+been widely acknowledged. Lefevre et al. (2016) emphasized that MRI outperforms CT scans by
+providing superior anatomical detail of brain tissues. Despite MRI’s diagnostic utility, manual
+interpretation and invasive biopsy procedures present challenges such as procedural risks and
+diagnostic delays, highlighting the need for safer, automated methods. Li et al. (2022) further
+pointed out cerebral hemorrhage as a significant biopsy-related risk, underscoring the need for
+alternative low-risk diagnostic strategies. These findings drive the advancement of segmentation
+technologies as supportive tools in tumor diagnosis.
+        Binary segmentation methods have demonstrated value in extracting ROIs from MRI scans
+for medical decision-making (Michael et al., 2021). Applied to brain tumors, such techniques can
+improve tumor characterization, growth monitoring, and therapeutic planning. However,
+conventional segmentation methods face limitations in accuracy and computational speed, creating
+an opportunity to integrate modern artificial intelligence models for automation and enhanced
+performance.
+        Therefore, this study aims to apply binary segmentation results from T1-weighted contrast-
+enhanced MRI images of brain tumors to the EfficientNet model and evaluate its performance
+using metrics such as accuracy, precision, recall, and F1 score. The outcomes of this research could
+contribute to more accurate early diagnosis and optimized treatment planning for patients with
+brain tumors.
+
+
+
+
+                                                                                                         358
+   Muhammad AlifianIhtisyamuddin*, M.Choiroel Anwar, Rasyid, Yeti Kartikasari, Leny Latifah, Gato
+                                                                                            Murti Wibowo
+  Analysis of EfficientNet Model Using Binary Segmentation Results from Magnetic Resonance Imaging (MRI)
+                                             T1 Weighted Contrast Images in Classifying Brain Tumors Types
+
+METHOD
+        The study method used is Research and Development (RnD) that aim to create a brain
+tumor classification model by entering binary segmentation image results into EfficientNet. This
+study used images from MRI scans of brain tumors that acquired from figshare with the name
+“Brain Tumor Dataset” by Jun Cheng (Cheng, 2024). The images contain 3064 T1 weighted
+contrast consisting of 708 meningioma images, 1426 glioma images and 930 pituitary tumor
+images. However, the images used were 1400 images consisting of 700 glioma images and 700
+meningioma images.
+        The data still in MAT format. Each MAT file consists of a tumor type label (1:
+Meningioma, 2: Glioma. 3: Pituitary), patient ID, original tumor MRI image, tumor border, and
+tumor mask. This study only used original tumor MRI images and tumor masks. MRI images and
+masking images are combined in the MATLAB application with the binary masking segmentation
+method. Then the results of the binary masking segmentation are entered into the EfficientNet B0
+architecture. The results of testing the model using a confusion matrix assessment consisting of
+accuracy, precision, recall and F1 score.
+
+RESULT AND DISCUSSION
+Brain Tumor Image Segmentation Process
+        This study aims to determine the results of binary segmentation of brain tumors can be
+tested using the EfficientNet model along with the accuracy results obtained. This study uses data
+acquired from the internet that include 3064 T1 weighted contrast images consisting of 708
+meningioma images, 1426 glioma images and 930 pituitary tumor images. This study uses data of
+1400 images consisting of 700 glioma images and 700 meningioma images. The images are
+divided using a ratio of 80:20, 80% for data training and 20% for data testing, resulting in 1,120
+data training images and 280 data testing images. The binary masking segmentation process using
+MATLAB software. The results of binary masking processing are shown in Figure 1.
+
+
+
+
+                            (a)                       (b)                     (c)
+               Figure 1. (a) Original image (b) Masking image (c) New binary segmentation image
+
+
+Model Testing Using EfficientNet
+       The uploaded data is entered into the tumor dataset folder. The folder consists of a testing
+folder (data testing) and a training folder (data training). Each folder also contains 2 folders
+according to the type of brain tumor. After the tumor dataset is available, the EfficientNet model
+is tested with Google Colab. For the Google Colab system using RAM (random access memory)
+system of 12.7 GB, a GPU (Graphics Processing Unit) RAM of 15 GB, and a storage of 235.7 GB.
+       Before testing the model, the first step is install libraries like TensorFlow, Keras, and Google
+Drive library. This procedure to ensure that the EfficientNet model is controlled and runs properly
+according to the installation. After the library has been installed, the next step is to authenticate to
+gain access to the dataset in Google Drive, so that can be entered in the EfficientNet model.
+       Data preprocessing parameters are set like size and normalization to prepare the model into
+EfficientNet. For EfficientNet B0, a target size of 224 x 224 is used, a batch size of 32, and a
+                                                                                                         359
+   Muhammad AlifianIhtisyamuddin*, M.Choiroel Anwar, Rasyid, Yeti Kartikasari, Leny Latifah, Gato
+                                                                                            Murti Wibowo
+  Analysis of EfficientNet Model Using Binary Segmentation Results from Magnetic Resonance Imaging (MRI)
+                                             T1 Weighted Contrast Images in Classifying Brain Tumors Types
+
+“binary” class mode. The target size aims to ensure that all images have the same dimensions
+during the training process. The choice of the “binary” class mode because only uses 2 tumor
+categories, namely glioma and meningioma. The batch size used is 32 due to memory efficiency.
+A large batch size can increase training speed because more computation is made. However, large
+batch size can consume more GPU memory. (Hastomo et al., 2024).
+
+
+
+
+                            Figure 2. EfficientNet model pre-processing settings
+
+       After the data pre-processing setup, the next step is to build the EfficientNet B0 model and
+train the model with 10 epochs. The number of epochs indicates how much of the whole dataset is
+sent into the model (Hastomo et al., 2024). The higher the epoch, the greater the accuracy but the
+longer the time required. Therefore, this study uses an epoch of 10 so that the time required is not
+too long, which is around 1 hour 3 minutes. The results of the data training can be seen in Table 1,
+which shows that the higher the accuracy value of the training data, the lower the loss value given.
+
+                                Table 1. Results of the data training process
+                      Epoch           Time               Loss Value           Accuracy Value
+                        1             420 s                0.6941                 0.6009
+                        2             381 s                0.6739                 0.6071
+                        3             378 s                0.5949                 0.6848
+                        4             378 s                0.5762                 0.7071
+                        5             381 s                0.5535                 0.7188
+                        6             387 s                0.5332                 0.7304
+                        7             377 s                0.4998                 0.7500
+                        8             378 s                0.5136                 0.7616
+                        9             377 s                0.4705                 0.7670
+                       10             376 s                0.4696                 0.7741
+
+
+
+
+                                                                                                         360
+ Muhammad AlifianIhtisyamuddin*, M.Choiroel Anwar, Rasyid, Yeti Kartikasari, Leny Latifah, Gato
+                                                                                          Murti Wibowo
+Analysis of EfficientNet Model Using Binary Segmentation Results from Magnetic Resonance Imaging (MRI)
+                                           T1 Weighted Contrast Images in Classifying Brain Tumors Types
+
+
+
+
+          Figure 3. Comparison graph between accuracy value and loss value on training data
+
+     After the model training process, the next step is to evaluate the model performance using
+ data testing. This process takes 51 seconds.
+
+
+
+
+                         Figure 4. EfficientNet model test setup on data testing
+
+     In the confusion matrix table, the image classification results show that 99 images were
+ identified as glioma and 69 as meningioma. However, there was an error in calculating the
+ confusion matrix results which caused 71 meningioma images to be classified as glioma and
+ 41 glioma images to be classified as meningioma.
+
+
+
+
+                                                                                                       361
+   Muhammad AlifianIhtisyamuddin*, M.Choiroel Anwar, Rasyid, Yeti Kartikasari, Leny Latifah, Gato
+                                                                                            Murti Wibowo
+  Analysis of EfficientNet Model Using Binary Segmentation Results from Magnetic Resonance Imaging (MRI)
+                                             T1 Weighted Contrast Images in Classifying Brain Tumors Types
+
+
+
+
+                             Figure 5. Confusion matrix results on data testing
+
+       For the test results, the model obtained an accuracy of 0.6, precision obtained a value of
+   0.627, recall obtained a value of 0.492, and the F1 score obtained a value of 0.551. But the loss
+   value obtained was higher, which was 0.678. The cause of the loss value being higher than the
+   accuracy value is overfitting. Overfitting is creating a model that accurately represents the
+   training data, but fails to generalize well to new data sampled from the same distribution.
+   (Simon & Aliferis, 2024). Overfitting can lead to high accuracy on data training, but low
+   accuracy and high loss on data testing.
+
+                                Table 2. Efficient Net model calculation results
+                 Data Testing      Accuracy        Loss       Precision      Recall     F1 score
+                 Assessment           0,6          0,678        0,627        0,492       0,551
+                   Results
+
+
+      These results are still far different when compared to previous studies using original MRI
+images with brain tumor cases, like a research conducted by Medina and Sanchez aimed to assess
+the performance model of the three types of EfficientNet (B0, B3, and small) using techniques
+such as transfer learning, fine-tuning, and early stopping. The study used two datasets from
+different sources. The results show that EfficientNet B0 produces higher accuracy compared to the
+EfficientNet B3 and EfficientNet small types with accuracy values of 98.4% and 97.5% (Medina
+& Sánchez, 2023).
+      The limitation of this study is that if the model testing is done repeatedly, it can cause
+changes in the results of the test data model. This is because the computational process in Google
+Colab can affect the test data results produced. In addition, the accuracy of the model is still
+moderate so this model should be further developed.
+
+CONCLUSION
+        The results of this study demonstrate that binary tumor segmentation from contrast-
+enhanced T1-weighted MRI images can be effectively implemented in the EfficientNet model,
+albeit with moderate accuracy. To enhance model performance, it is recommended to leverage
+variations of transfer learning techniques, including fine-tuning and early stopping, alongside
+expanding the dataset to include more diverse cases, such as different tumor malignancy levels
+and progression stages. Future research should focus on integrating larger, balanced, and clinically
+                                                                                                         362
+   Muhammad AlifianIhtisyamuddin*, M.Choiroel Anwar, Rasyid, Yeti Kartikasari, Leny Latifah, Gato
+                                                                                            Murti Wibowo
+  Analysis of EfficientNet Model Using Binary Segmentation Results from Magnetic Resonance Imaging (MRI)
+                                             T1 Weighted Contrast Images in Classifying Brain Tumors Types
+
+representative datasets and exploring advanced EfficientNet variants or hybrid deep learning
+architectures. Additionally, investigating robust data augmentation strategies and model
+interpretability methods, like Grad-CAM, could further improve classification accuracy and
+clinical applicability in brain tumor diagnosis.
+
+REFERENCES
+Aggarwal, M., Tiwari, A. K., Sarathi, M. P., & Bijalwan, A. (2023). An early detection and
+        segmentation of Brain Tumor using Deep Neural Network. BMC Medical Informatics and
+        Decision Making, 23(1). https://doi.org/10.1186/s12911-023-02174-8
+Andre, R., Wahyu, B., & Purbaningtyas, R. (2021). Klasifikasi Tumor Otak Menggunakan
+        Convolutional Neural Network Dengan Arsitektur Efficientnet-B3. Just IT: Jurnal Sistem
+        Informasi,       Teknologi      Informasi       Dan      Komputer,       11(3),     55–59.
+        https://jurnal.umj.ac.id/index.php/just-it/index
+Cheng,       J.     (2024,     December       21).     Brain     Tumor       Dataset.     Figshare.
+        https://figshare.com/articles/dataset/brain_tumor_dataset/1512427
+Fajrina, A. N., Pradana, Z. H., Purnama, S. I., & Romadhona, S. (2024). Penerapan Arsitektur
+        EfficientNet-B0 Pada Klasifikasi Leukimia Tipe Acute Lymphoblastik Leukimia. Jurnal
+        Riset Rekayasa Elektro, 6(1), 59–68. http://jurnalnasional.ump.ac.id/index.php/JRRE
+Hanna, C., Willman, M., Cole, D., Mehkri, Y., Liu, S., Willman, J., & Lucke-Wold, B. (2023).
+        Review of meningioma diagnosis and management. Egyptian Journal of Neurosurgery,
+        38(16). https://doi.org/10.1186/s41984-023-00195-z
+Hastomo, W., Karno, A. S. B., Sestri, E., Terisia, V., Yusuf, D., Arman, S. A., & Arif, D. (2024).
+        Classification of Brain Image Tumor using EfficientNet B1-B2 Deep Learning. Semesta
+        Teknika, 27(1), 46–54. https://doi.org/10.18196/st.v27i1.19691
+Jiang, H., Cui, Y., Wang, J., & Lin, S. (2017). Impact of epidemiological characteristics of
+        supratentorial gliomas in adults brought about by the 2016 world health organization
+        classification of tumors of the central nervous system. Oncotarget, 8(12), 20354–20361.
+        www.impactjournals.com/oncotarget
+Lefevre, N., Naouri, J. F., Herman, S., Gerometta, A., Klouche, S., & Bohu, Y. (2016). A Current
+        Review of the Meniscus Imaging: Proposition of a Useful Tool for Its Radiologic Analysis.
+        Radiology Research and Practice, 2016, 1–25. https://doi.org/10.1155/2016/8329296
+Li, H., Zheng, C., Rao, W., Sun, J., Yu, X., & Zhang, J. (2022). The risk factors of hemorrhage in
+        stereotactic needle biopsy for brain lesions in a large cohort: 10 years of experience in a
+        single center. Chinese Neurosurgical Journal, 8(1). https://doi.org/10.1186/s41016-022-
+        00307-y
+Lin, C., Yang, P., Wang, Q., Qiu, Z., Lv, W., & Wang, Z. (2023). Efficient and accurate compound
+        scaling for convolutional neural networks. Neural Networks, 167, 787–797.
+Medina, J. M., & Sánchez, J. (2023). High Accuracy Brain Tumor Classification with EfficientNet
+        and Magnetic Resonance Images. 5th International Conference on Advances in Signal
+        Processing and Artificial Intelligence (ASPAI 2023), 151–156.
+Michael, E., Ma, H., Li, H., Kulwa, F., & Li, J. (2021). Breast Cancer Segmentation Methods:
+        Current Status and Future Potentials. In BioMed Research International (Vol. 2021).
+        Hindawi Limited. https://doi.org/10.1155/2021/9962109
+
+
+                                                                                                         363
+  Muhammad AlifianIhtisyamuddin*, M.Choiroel Anwar, Rasyid, Yeti Kartikasari, Leny Latifah, Gato
+                                                                                           Murti Wibowo
+ Analysis of EfficientNet Model Using Binary Segmentation Results from Magnetic Resonance Imaging (MRI)
+                                            T1 Weighted Contrast Images in Classifying Brain Tumors Types
+
+Naser, M. A., & Deen, M. J. (2020). Brain tumor segmentation and grading of lower-grade glioma
+         using deep learning in MRI images. Computers in Biology and Medicine, 121.
+         https://doi.org/10.1016/j.compbiomed.2020.103758
+Ogasawara, C., Philbrick, B. D., & Adamson, D. C. (2021). Meningioma: A review of
+         epidemiology, pathology, diagnosis, treatment, and future directions. In Biomedicines
+         (Vol. 9, Issue 3). MDPI AG. https://doi.org/10.3390/biomedicines9030319
+Oza, P. R., Sharma, P., & Patel, S. (2022). A transfer representation learning approach for breast
+         cancer diagnosis from mammograms using efficientnet models. Scalable Computing:
+         Practice and Experience, 23(2), 51–58.
+Simon, G. J., & Aliferis, C. (2024). Artificial Intelligence and Machine Learning in Health Care
+         and      Medical        Sciences     Best     Practices    and     Pitfalls.   Springer.
+         https://doi.org/https://doi.org/10.1007/978-3-031-39355-6
+Suta, I. B. L. M., Hartati, R. S., & Divayana, Y. (2019). Diagnosa Tumor Otak Berdasarkan Citra
+         MRI (Magnetic Resonance Imaging). Majalah Ilmiah Teknologi Elektro, 18(2).
+         https://doi.org/10.24843/mite.2019.v18i02.p01
+Tan, M., & Le, Q. V. (2019). EfficientNet: Rethinking Model Scaling for Convolutional Neural
+         Networks. ArXiv. http://arxiv.org/abs/1905.11946
+Xu, S., Tang, L., Li, X., Fan, F., & Liu, Z. (2020). Immunotherapy for glioma: Current
+         management and future application. In Cancer Letters (Vol. 476, pp. 1–12). Elsevier
+         Ireland Ltd. https://doi.org/10.1016/j.canlet.2020.02.002
+Zhao, L., Zhao, W., Hou, Y., Wen, C., Wang, J., Wu, P., & Guo, Z. (2020). An Overview of
+         Managements          in       Meningiomas.       Frontiers     in     Oncology,       10.
+         https://doi.org/10.3389/fonc.2020.01523
+
+                            © 2025 by the authors. It was submitted for possible open-access publication under the terms
+                            and conditions of the Creative Commons Attribution (CC BY SA) license
+                            (https://creativecommons.org/licenses/by-sa/4.0/).
+
+
+
+
+                                                                                                                     364
+

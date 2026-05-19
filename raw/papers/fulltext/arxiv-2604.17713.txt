@@ -1,0 +1,1333 @@
+                                                Modeling Higher-Order Brain Interactions via a Multi-View Information Bottleneck
+                                                               Framework for fMRI-based Psychiatric Diagnosis
+
+                                                                                   Kunyu Zhanga , Qiang Lib,∗, Vince D. Calhounb , Shujian Yua,c,∗
+                                                                       a Department of Computer Science, Vrije Universiteit Amsterdam, Amsterdam, 1081 HV, The Netherlands
+                                         b Tri-Institutional Center for Translational Research in Neuroimaging and Data Science (TReNDS), Georgia State University, Georgia Institute of Technology, and
+
+                                                                                                   Emory University, Atlanta, GA, 30303, USA
+                                                                       c Department of Physics and Technology, UiT - The Arctic University of Norway, Tromsø, 9019, Norway
+
+
+
+
+                                         Abstract
+arXiv:2604.17713v1 [cs.LG] 20 Apr 2026
+
+
+
+
+                                         Resting-state functional magnetic resonance imaging (fMRI) has emerged as a cornerstone for psychiatric diagnosis, yet most ap-
+                                         proaches rely on pairwise brain cortical or sub-cortical connectivities that overlooks higher-order interactions (HOIs) central to
+                                         complex brain dynamics. While hypergraph methods encode HOIs through predefined hyperedges, their construction typically re-
+                                         lies on heuristic similarity metrics and does not explicitly characterize whether interactions are synergy- or redundancy-dominated.
+                                         In this paper, we introduce O-information, a signed measure that characterizes the informational nature of HOIs, and integrate third-
+                                         and fourth-order O-information into a unified multi-view information bottleneck framework for fMRI-based psychiatric diagnosis.
+                                         To enable scalable O-information estimation, we further develop two independent acceleration strategies: a Gaussian analytical
+                                         approximation and a randomized matrix-based Rényi entropy estimator, achieving over a 30-fold computational speedup compared
+                                         with conventional estimators. Our tri-view architecture systematically fuses pairwise, triadic, and tetradic brain interactions, captur-
+                                         ing comprehensive brain connectivity while explicitly penalizing redundancy. Extensive evaluation across four benchmark datasets
+                                         (REST-meta-MDD, ABIDE, UCLA, ADNI) demonstrates consistent improvements, outperforming 11 baseline methods includ-
+                                         ing state-of-the-art graph neural network (GNN) and hypergraph based approaches. Moreover, our method reveals interpretable
+                                         region-level synergy-redundancy patterns which are not explicitly characterized by conventional hypergraph formulations.
+                                         Keywords: Multi-view learning, Information Bottleneck, O-information, Psychiatric diagnosis, Resting-state fMRI, Brain
+                                         network analysis
+
+
+                                         1. Introduction                                                                   order (MDD), schizophrenia (SZ) [12, 10], and Alzheimer’s
+                                                                                                                           disease (AD) [13].
+                                            Mental disorders exhibit complex and distributed neural sig-                      Yet two fundamental limitations of GNN-based pipelines
+                                         natures, making precise neurobiological characterization chal-                    persist. First, most pipelines quantify FNC through correlations
+                                         lenging. Resting-state functional magnetic resonance imaging                      or partial correlations, thereby restricting inference to linear,
+                                         (rs-fMRI) [1] has become a cornerstone for machine learn-                         pairwise dependencies and overlooking higher-order interac-
+                                         ing–based diagnostic frameworks, as it enables noninvasive                        tions (HOIs) that are central to complex cognition [14]. Second,
+                                         assessment of whole-brain functional network connectivity                         they are sensitive to noisy or spurious interactions arising from
+                                         (FNC) alterations across diverse patient populations [2, 3, 4].                   measurement noise or subject-specific artifacts [15], which can
+                                         Earlier machine learning pipelines rely on manually crafted                       undermine generalization and model reliability [16].
+                                         graph-theoretic features [5], which can be ineffective or bi-                        Hypergraph formulations address the first limitation by en-
+                                         ased. Deep learning approaches, including CNNs [6] and ad-                        abling edges that bind arbitrary-size sets of ROIs, thus explicitly
+                                         versarial learning [7], mitigate such biases by learning hier-                    encoding multivariate functional dependencies [17, 18]. How-
+                                         archical representations directly from data, yet they may not                     ever, the construction of hypergraphs typically relies on man-
+                                         fully leverage the non-Euclidean structure of brain networks.                     ually chosen similarity metrics and pruning rules [19], which
+                                         Graph neural networks (GNNs) [8] address this gap by mod-                         may introduce selection bias. The resulting hyperedges indi-
+                                         eling brain networks as graphs with regions of interest (ROIs)                    cate co-association without revealing how regions share infor-
+                                         or independent component networks (ICNs) as nodes and FNC                         mation, e.g., whether an interaction is redundancy- or synergy-
+                                         as edges [9, 10], achieving promising diagnostic accuracy on                      dominated [20]. From an information-theoretic perspective, O-
+                                         autism spectrum disorder (ASD) [11, 7], major depressive dis-                     information [21] offers a data-driven information-theoretic al-
+                                                                                                                           ternative: it provides a signed multivariate dependence measure
+                                            ∗ Corresponding authors.                                                       where negative values indicate synergy-dominated interactions
+                                               Email addresses: qli27@gsu.edu (Qiang Li), s.yu3@vu.nl (Shujian             generating genuinely new joint information and positive val-
+                                         Yu)                                                                               ues indicate redundancy-dominated interactions reflecting re-
+        (a) Hypergraph Methods                                          (b) MvHo-IB Method                                              the proposed framework on four benchmark datasets
+                                  2-order
+                  N1              3-order
+                                                   N1                           N1                            N1                        (REST-meta-MDD [24], ABIDE [25], UCLA [26], and
+                                  4-order
+
+                                                                                                                          N5
+                                                                                                                                        ADNI [27]). MvHo-IB++ achieves consistent improve-
+       N2                   N5          N2                    N5   N2                      N5   N2
+
+                                                                                                                                        ments over state-of-the-art GNN and hypergraph-based
+             N3        N4
+                                             N3          N4              N3           N4             N3              N4
+                                                                                                                                        baselines, while revealing disorder-related synergy- and
+        Limited connectivity,                 Full 2-order                 Full 3-order                   Full 4-order
+                                                                                                                                        redundancy-dominated higher-order interaction patterns
+      and potential information               Connectivity                 Connectivity                   Connectivity
+                                                                                                                                        that provide additional neuroimaging insights.
+
+Figure 1: Comparison between existing hypergraph methods and our MvHo-
+IB++: (a) hypergraph methods represent HOIs through selected hyperedges,                                                           2. Related Work
+often defined by predefined criteria. (b) MvHo-IB++ instead exhaustively mod-
+els pairwise, third-order, and fourth-order interactions, while explicitly distin-                                                 2.1. Multi-view Learning for fMRI-based Psychiatric Diagno-
+guishing synergy-dominated from redundancy-dominated patterns through O-                                                                sis
+information. The IB regularization further compresses view-specific redundant
+information in the learned representations.                                                                                           Single-view approaches that rely solely on pairwise func-
+                                                                                                                                   tional connectivity are limited to linear, dyadic dependencies
+                                                                                                                                   and remain sensitive to noise and subject-specific artifacts [28,
+peated signals. As illustrated in Figure 1, O-information cap-                                                                     14, 15]. Multi-view learning addresses these challenges by
+tures multiregion dependencies and characterizes whether they                                                                      integrating complementary representations of the same sub-
+are synergy- or redundancy-dominated, thereby supporting the                                                                       ject [29]. Within the fMRI domain, multi-view pipelines have
+modeling of both pairwise and higher-order interactions.                                                                           been designed along several dimensions: temporal views com-
+   Despite its conceptual appeal, a rigorous implementation re-                                                                    bine static and dynamic connectivity to capture both persistent
+mains challenging, particularly with respect to the efficient es-                                                                  and transient network patterns [30]; frequency-resolved views
+timation of O-information from observed fMRI signals. In our                                                                       expose band-specific coupling mechanisms [31]; spatial views
+earlier work [22], we introduced a matrix-based Rényi’s α-                                                                         fuse multiple parcellations to reduce atlas dependence [32]; and
+order entropy functional estimator to enable reliable estimation                                                                   interaction-order views, most relevant to this work, supplement
+without requiring explicit probability density function (PDF)                                                                      pairwise connectivity with higher-order representations encod-
+modeling or data discretization. However, its O(N 3 ) computa-                                                                     ing concurrent interactions among three or more regions [28].
+tional complexity limited scalability, restricting the analysis to                                                                    Recent architectures instantiate these principles: multi-view
+third-order HOIs.                                                                                                                  hypergraph embeddings preserve higher-order relations across
+   In this work, we extend our previous work [22] by mov-                                                                          sites and atlases [33]; dual-branch networks fuse Euclidean
+ing beyond just three-way interactions and small-scale datasets,                                                                   connectivity features with non-Euclidean hypergraph represen-
+introducing scalable estimation strategies that enable higher-                                                                     tations [34]; temporal–spatial models integrate dynamic and
+order (e.g., tetradic) modeling. Specifically, we develop two                                                                      topological properties [29]; and graph-based multi-view meth-
+independent acceleration strategies: a closed-form analytical                                                                      ods employ metric learning and spectral convolutions [35].
+solution under Gaussian assumptions and a randomized ap-                                                                           These approaches collectively underscore a shift from single-
+proximation for the matrix-based Rényi’s α-order entropy func-                                                                     descriptor pipelines toward principled integration of comple-
+tional [23], both of which substantially reduce the computa-                                                                       mentary views, setting the stage for methods that systematically
+tional cost of multivariate entropy and higher-order dependency                                                                    combine pairwise and higher-order interaction structures.
+estimation. These acceleration strategies make it feasible to ex-
+tend HOI modeling from third to fourth order on benchmark                                                                          2.2. Hypergraph-based modeling of higher-order brain inter-
+cohorts, enabling a multi-view learning framework that jointly                                                                          actions
+captures pairwise, triadic, and tetradic interactions while main-
+taining computational tractability.                                                                                                   Hypergraphs extend pairwise graphs by allowing hyperedges
+   In summary, our main contributions include:                                                                                     that connect arbitrary-size sets of brain regions or networks,
+                                                                                                                                   thereby enabling the representation of higher-order and mul-
+   • We propose MvHo-IB++, a scalable multi-view infor-                                                                            tivariate functional interactions beyond dyadic connectivity. In
+     mation bottleneck framework that systematically models                                                                        fMRI, hyper-nodes correspond to anatomically segregated re-
+     pairwise, third-order, and fourth-order brain interactions                                                                    gions and hyperedges encode concurrent interactions among
+     via O-information, while compressing redundant view-                                                                          three or more regions, offering a more neurobiologically plau-
+     specific information with an information bottleneck-based                                                                     sible representation of network-level dynamics than pairwise
+     regularization for fMRI-based psychiatric diagnosis.                                                                          graphs. Recent brain-network studies have therefore adopted
+   • We develop two scalable strategies for higher-order O-                                                                        hypergraph neural operators to learn from such higher-order
+     information estimation. A Gaussian analytical approxi-                                                                        structures [36], and devised hyperedge-aware embeddings tai-
+     mation and a randomized matrix-based Rényi entropy ap-                                                                        lored to multisite, multi-atlas rs-fMRI.
+     proximation make third- and fourth-order interaction mod-                                                                        Three principal strategies have emerged for constructing
+     eling computationally feasible on large-scale cohorts.                                                                        fMRI hypergraphs: learnable end-to-end approaches that opti-
+                                                                                                                                   mize hyperedge topology via backpropagation [37]; shared rep-
+   • We demonstrate the effectiveness and interpretability of                                                                      resentative structures that pre-compute a fixed topology from
+                                                                                                                               2
+cohort-level statistics [18]; and subject-specific structures de-           interest (ROIs), e.g., 116 for AAL atlas [43] or 105 for ICA-
+rived from individual time series [33]. Despite these ad-                   driven brain network template [9], and T indicates the signal
+vances, hypergraph construction often relies on predefined sim-             duration. We use subscripts to denote the channel index of the
+ilarity metrics and pruning heuristics [19], and the resulting              BOLD signal, where Xij represents the 1D signal from the i-th
+hyperedges typically encode multivariate co-association pat-                (1 ≤ i ≤ C) brain region/network for the j-th (1 ≤ j ≤ N)
+terns without explicitly characterizing whether interactions are            patient. Our objective is to develop a classifier that maps raw
+redundancy- or synergy-dominated [20].                                      brain signal X to its diagnostic label Y.
+
+2.3. Information Bottleneck frameworks for brain network rep-               3.1. Multi-view Information Bottleneck Framework
+     resentation                                                               We construct three complementary views from raw BOLD
+                                                                            signals, as illustrated in Figure 2. From ROI/ICN time series,
+   The information bottleneck (IB) principle [38] seeks a rep-              we derive: (i) a C × C matrix encoding pairwise functional con-
+resentation Z that is maximally predictive of the target Y while            nectivity; (ii) a C × C × C tensor capturing third-order interac-
+compressing nuisance information about the input. For graph-                tions; and (iii) a C × C × C × C tensor representing fourth-order
+structured data G (e.g., fMRI-derived connectivity), the graph              interactions. Together, these representations enable multi-order
+information bottleneck (GIB) [39] learns an encoder Z = fϕ (G)              modeling of brain network dependencies, from pairwise corre-
+by trading off sufficiency and compression:                                 lations to higher-order interactions.
+                                                                               The 2D view constructs a symmetric matrix V1 ∈ RC×C
+                LGIB = min I(Z; G) − β I(Z; Y),                 (1)         where each element V1 (i, j) represents the functional connec-
+                                                                            tivity between brain regions i and j. Instead of using the con-
+with β > 0. In practice, I(Z; Y) is optimized via the
+                                                                            ventional Pearson’s correlation coefficient, we employ matrix-
+cross-entropy surrogate based on the variational lower bound
+                                                                            based Rényi’s α-order mutual information [23] to quantify non-
+I(Z; Y) ≥ H(Y) + E[log Pθ (Y | Z)], where Pθ (Y | Z) denotes the
+                                                                            linear pairwise dependencies:
+parametric predictive distribution (e.g., implemented by a clas-
+sifier head) that maps the learned representation Z to the target                                     V1 (i, j) = Iα (Xi ; X j )               (4)
+label Y. I(Z; G) is regulated through entropy regularization on
+                                                                            where Xi and X j are BOLD time series from regions i and j,
+Z. For deterministic encoders, I(G; Z) = H(Z) [40], yielding
+                                                                            respectively. To construct the graph structure for the GNN en-
+the training objective:
+                                                                            coder, we apply a sparsity threshold retaining only the top 30%
+                                                                            of pairwise connections ranked by mutual information magni-
+                     min CE(Y, Ŷ) + βH(Z).                     (2)
+                      ϕ,θ                                                   tude, setting the remaining entries to zero.
+                                                                               The 3D view constructs a tensor V2 ∈ RC×C×C where each
+  When multiple views of the same subject are available (e.g.,              element V2 (i, j, k) captures the three-way interaction among re-
+pairwise connectivity and higher-order interaction tensors),                gions i, j, and k using O-information:
+GIB extends to a multi-view setting:
+                                                                                                 V2 (i, j, k) = O(Xi , X j , Xk ).             (5)
+max I(Y; Z) − β1 I(X1 ; Z1 )+β2 I(X2 ; Z2 ) ,      Z = fθ (Z1 , Z2 ),
+                                          
+                                                s.t.,                          The 4D view extends to capture fourth-order interactions
+                                                               (3)          through a tensor V3 ∈ RC×C×C×C where each element rep-
+with the practical surrogate min CE(Y, Ŷ) + β1 H(Z1 ) + β2 H(Z2 ).         resents four-way interactions among quadruplets of brain re-
+   The IB principle has recently been used for fMRI analysis.               gions/networks:
+The BrainIB [41] addresses interpretability by extracting min-
+imal predictive subgraphs: it learns to identify and retain only                               V3 (i, j, k, l) = O(Xi , X j , Xk , Xl )        (6)
+those nodes and edges that are maximally informative about                       Figure 2 illustrates the architecture of MvHo-IB++. Specifi-
+the diagnostic label while discarding task-irrelevant structures,           cally, our framework employs three specialized encoders: hϕ1
+thereby compressing the brain graph into a compact, inter-                  (Graph Isomorphism Network for the 2D connectivity ma-
+pretable subgraph representation. BrainIB++ [42] further ex-                trix), hϕ2 (Brain3DCNN for the 3D third-order tensor), and
+tends this framework by incorporating dynamic graph-attention               hϕ3 (Brain4DCNN for the 4D fourth-order tensor), which pro-
+mechanisms that refine connectivity graphs through learned                  duce latent representations Z1 , Z2 , and Z3 , respectively. These
+edge reweighting or pruning under the IB objective, improving               view-specific representations are integrated through a feature
+both node feature aggregation and graph-level representations               fusion network fθ to obtain the unified representation Z =
+for schizophrenia classification.                                            fθ (Z1 , Z2 , Z3 ), which is then fed to a classifier head ω to pre-
+                                                                            dict the diagnostic label Y.
+3. Methodology                                                                   The overall objective of the extended MvHo-IB++ frame-
+                                                                            work is:
+   Consider a dataset of brain signal recordings {X i , Y i }i=1
+                                                             N
+                                                                                                                                               
+                                                                 ,             arg max I(Y; Z) − β1 I(V1 ; Z1 ) + β2 I(V2 ; Z2 ) + β3 I(V3 ; Z3 ) ,
+where each recording X ∈ Ri     C×T
+                                     represents the raw blood-               ϕ1 ,ϕ2 ,ϕ3 ,θ,w
+
+oxygenation-level-dependent (BOLD) signal detected in fMRI                                     s.t.    Z = fθ (Z1 , Z2 , Z3 ),
+for the i-th patient. Here, C denotes the number of regions of                                                                                 (7)
+                                                                        3
+             Preprocess                                Feature Construction                                                               Multi-view IB Representation Learning
+                                                                                                                                           GIN Encoder h∅1
+      rs-fMRI Time Series             2-order: Mutual Information
+                                      𝑅𝑂𝐼𝑠                                                                                                                                                          𝑍1
+
+
+
+
+                                                                                                                                            Graph Structure
+                                                                                                                           Thresholding
+      MRI
+
+
+
+
+                                                                                                                             Sparsity
+                                                                                                 ROIs - ICNs
+                                                           𝑖                                                                                                          GIN         2-order
+                                                           𝑙
+                                                                                                                                                                     Layers      Features                     Information
+                                                           𝑘
+                                                                                                                                                                                                               Bottleneck
+                                                                                                                                                                     Graph
+                                                           j                                                                                                         Pooling
+                                                               t
+                                                                         ROIs - ICNs
+                                         3-order: 𝒪-Information                                                                    Brain3DCNN Encoder h∅2
+                                     𝑅𝑂𝐼𝑠
+               fMRI                                                                                                                                                                                 𝑍2
+                                                           𝑖                                                                                                                                                   Feature               𝑍
+
+
+
+
+                                                                                                    ROIs - ICNs
+                                                           𝑙                                                                                                                                                   Fusion                         ෡
+                                                                                                                                                                                                                                              Y
+                                                           𝑘                                                                                                                                                  Network 𝑓𝜃
+                                                                                                                                           3D E2E                    3D E2N
+                                                                                                                                           Layers                    Layers
+                                                           𝑗                                                                                                                    3D N2G
+                                                           t                                                                                                                     Layers
+                  AAL 116 or
+                  Neuromark              4-order: 𝒪-Information
+                 2.2 Template         𝑅𝑂𝐼𝑠                                                                                            Brain4DCNN Encoder h∅3
+
+      𝑅𝑂𝐼𝑠                                                 𝑖                                                                                                                                        𝑍3
+                                                           𝑙                                                                                                        4D E2N      4D N2G
+                                                                               ROIs - ICNs
+
+
+
+                                                                                                                                                                    Layers       Layers
+                                                           𝑘
+                                                                                                                                                                     Node       Graph
+                                                                                                                             4D E2E                               Aggregation   Pooling
+                                                           𝑗
+                                                                                                                             Layers                                                                       𝑍 = 𝑓𝜃 (𝑍1 , 𝑍2 , 𝑍3 )
+                                                               t
+                            t
+
+
+
+
+Figure 2: Overview of the MvHo-IB++ framework. Raw rs-fMRI data are parcellated using the AAL-116 atlas or the Neuromark 2.2 template to extract ROI/ICN
+time series, from which three complementary views are constructed: a 2D pairwise mutual-information matrix, a 3D third-order O-information tensor, and a
+4D fourth-order O-information tensor. Each view is processed by a specialized encoder (GIN hϕ1 , Brain3DCNN hϕ2 , and Brain4DCNN hϕ3 ) to produce latent
+representations Z1 , Z2 , and Z3 , respectively. These are integrated through a feature fusion network fθ to obtain the unified representation Z = fθ (Z1 , Z2 , Z3 ), which
+is fed to a classifier to predict the diagnostic label Ŷ. The information bottleneck principle maximizes I(Y; Z) while compressing view-specific redundancies.
+
+
+where β1 , β2 , and β3 are regularization coefficients for the three                                    From an information-theoretic perspective, a positive value
+views, respectively.                                                                                 of O-information indicates that redundancy outweighs synergy
+   As discussed in Section 2.3, for deterministic encoders, this                                     among brain regions i, j, and k, meaning that their joint in-
+objective reduces to:                                                                                teractions contain predominantly redundant information. In
+                                                                                                   contrast, a negative value reflects synergy-dominated interac-
+     arg min CE(Y, Ŷ) + β1 H(Z1 ) + β2 H(Z2 ) + β3 H(Z3 ) ,                                         tions [21, 20]. A Venn diagram illustrating the relationships
+    ϕ1 ,ϕ2 ,ϕ3 ,θ,w                                              (8)                                 among TC, DTC, and O-information is shown in Figure 3.
+                      s.t. Z = fθ (Z1 , Z2 , Z3 ).                                                      The fourth-order O-information is defined analogously as:
+  The entropy terms H(Z1 ), H(Z2 ), and H(Z3 ) are estimated                                                      O(Xi , X j , Xk , Xℓ ) = TC(Xi , X j , Xk , Xℓ ) − DTC(Xi , X j , Xk , Xℓ ).
+using the matrix-based Rényi’s α-order entropy functional (see                                                                                                                            (12)
+Supplementary Material A for details).
+                                                                                                                    O(𝑋𝑖 , 𝑋𝑗 , 𝑋𝑘 )                                            T𝐶(𝑋𝑖 , 𝑋𝑗 , 𝑋𝑘 )                   DTC(𝑋𝑖 , 𝑋𝑗 , 𝑋𝑘 )
+
+3.2. O-Information and Scalable Estimation                                                                                                                              𝑋𝑖                           𝑋𝑗       𝑋𝑖                         𝑋𝑗
+
+   We use O-information to characterize HOIs among brain re-
+gions. For three BOLD time series Xi , X j , Xk ∈ RT correspond-                                                                                              =                                           −
+ing to regions i, j, and k, the O-information is defined as the
+difference between total correlation (TC) and dual total corre-
+lation (DTC):                                                                                                                                                                         𝑋𝑘                                   𝑋𝑘
+
+
+         O(Xi , X j , Xk ) = TC(Xi , X j , Xk ) − DTC(Xi , X j , Xk ).         (9)
+                                                                                                     Figure 3: Venn diagram illustration of total correlation (TC) and dual total
+                                                                                                     correlation (DTC).
+   Here, TC and DTC are multivariate dependence measures in
+information theory:                                                                                     Direct estimation of O-information at scale is computation-
+                                                                                                     ally expensive. We therefore adopt two alternative accelera-
+  TC(Xi , X j , Xk ) = H(Xi ) + H(X j ) + H(Xk ) − H(Xi , X j , Xk ),
+                                                                             (10)                    tion strategies, used independently: 1) a Gaussian analytical
+                                                                                                     approximation, and 2) a randomized approximation for matrix-
+DTC(Xi , X j , Xk ) = H(Xi , X j , Xk ) − H(Xi | X j , Xk ) − H(X j | Xi , Xk )                      based Rényi entropy. The Gaussian approximation provides a
+                                − H(Xk | Xi , X j ).                         (11)                    closed-form and efficient solution under second-order statistics,
+                                                                                             4
+while the randomized Rényi estimator offers a more general                    3.3. BrainCNN encoders for high-order interactions
+nonparametric alternative. Both strategies exploit the symme-
+try of covariance and Gram matrices by operating only on their                   To process the third-order and fourth-order O-information
+upper-triangular entries, thereby avoiding redundant computa-                 tensors, we develop Brain3DCNN and Brain4DCNN archi-
+tions and reducing memory consumption.                                        tectures with specialized cross-shaped convolution kernels.
+                                                                              Both follow a hierarchical edge-to-node-to-graph processing
+3.2.1. Gaussian analytical approximation                                      paradigm. We detail Brain4DCNN below, as Brain3DCNN has
+  Under the multivariate Gaussian assumption, consider a K-                   been described in our prior work [22].
+tuple of brain regions X1 , . . . , XK . The TC among them can be
+                                                                               (a) E2E Layer                                   (b) E2N Layer              (c) N2G Layer
+                                                                                                                               (i,j,k,l)
+computed as:
+                                                                                                                               (i,j,k,l)
+                                                                                                                                                Node
+                                                                                                                                               Features
+                                                        !
+                                    1      det(diag(Σ))
+            TC(X1 , . . . , XK ) = log                    ,
+                                                                                                                               (i,j,k,l)
+            c                                                (13)
+                                    2         det(Σ)
+                                                                                                                               (i,j,k,l)
+where Σ ∈ RK×K is the covariance matrix of (X1 , . . . , XK ).
+   The DTC also admits a closed-form log-determinant expres-
+sion based on principal minors of Σ. The O-information is then
+given by:                                                                     Figure 4: Architecture of Brain4DCNN with three hierarchical layers. (a) The
+                                                                              4D Edge-to-Edge (E2E) layer applies four-dimensional cross-shaped convo-
+  O(X1 , . . . , XK ) = TC(X
+                        c 1 , . . . , XK ) − DTC(X
+                                             d 1 , . . . , XK ).   (14)       lution kernels to the input fourth-order O-information tensor, capturing local
+                                                                              connectivity patterns along all four spatial axes simultaneously. (b) The 4D
+                                                                              Edge-to-Node (E2N) layer aggregates fourth-order hyperedge representations
+   This formulation requires only covariance determinants and                 (i, j, k, l) into node-level features through weighted summation with learnable
+principal minors, avoiding density estimation. For small fixed                parameters α, β, γ, and δ that capture position-specific contributions. (c) The
+K (e.g., K = 3, 4 in our work), the total computational com-                  4D Node-to-Graph (N2G) layer performs global pooling over all node features
+plexity scales approximately as O(C K T ) over all region combi-              {a(ℓ+1,n)
+                                                                                 i       } to produce the graph-level representation g(ℓ+1) for classification.
+nations. Detailed derivations and complexity analysis are pro-
+vided in Supplementary Material B.                                               Figure 4 illustrates the three-stage hierarchical architecture
+                                                                              of Brain4DCNN for processing fourth-order brain interactions.
+3.2.2. Randomized approximation for matrix-based Rényi’s en-
+       tropy.
+                                                                              3.3.1. 4D Edge-to-Edge (E2E) Layer
+   As an alternative that does not rely on distributional assump-
+tions, we estimate entropies using the matrix-based Rényi en-                    To capture fourth-order interactions encoded in the O-
+tropy functional of order α. Given T time-point samples and the               information tensor, we extend the 2D Edge-to-Edge (E2E) ar-
+normalized Gram matrix G ∈ RT ×T constructed with a Gaus-                     chitecture [45] to a 4D E2E layer. As shown in Figure 4(a), the
+sian kernel, the entropy is defined as                                        layer processes a fourth-order interaction tensor using a struc-
+                                                                              tured cross-shaped convolutional kernel.
+                                                                                                           ℓ
+                                                                                 Formally, let O(ℓ) ∈ R M ×C×C×C×C denote all feature maps at
+                                                  T      
+                 1             α      1         X α 
+     Hα (X) =         log tr(G ) =          log  λi  ,   (15)            the ℓ-th layer, extracted from M ℓ convolutional kernels. For the
+               1−α                   1−α
+                                                   
+                                                     i=1
+                                                                              first input layer, O1 ∈ RC×C×C×C is the estimated fourth-order
+{λi }Ti=1 denote the eigenvalues of G.                                        O-information tensor.
+   To avoid explicit eigendecomposition with cubic complexity                    We adopt a cross-shaped kernel that performs one-
+O(T 3 ), we approximate the trace using randomized trace esti-                dimensional convolutions independently along each of the four
+mation [44], yielding an efficient estimator H  eα (X). Specifically,         spatial axes, followed by a linear combination. For the n-th
+          s
+let {gi }i=1 be i.i.d. standard Gaussian probe vectors. Then                  output feature map at layer (ℓ + 1), the response is computed as:
+
+                                                                                                  Mℓ X
+                                     s               
+                                                                                                     K h
+                  eα (X) = 1 log 1
+                                     X ⊤ α 
+                                            gi G gi  .
+                                                                                                  X
+                 H
+                            1−α       s i=1
+                                                                (16)
+                                                                                     i, j,k,l =
+                                                                                    O(ℓ+1,n)            w(ℓ,m,n)
+                                                                                                         1,c      i+c, j, k, l + w1,−c Oi−c, j, k, l
+                                                                                                                 O(ℓ,m)           (ℓ,m,n) (ℓ,m)
+
+                                                                                                  m=1 c=1
+
+   Using this entropy approximation estimator, we can effi-                                       + w(ℓ,m,n)
+                                                                                                      2,c     i, j+c, k, l + w2,−c Oi, j−c, k, l
+                                                                                                             O(ℓ,m)           (ℓ,m,n) (ℓ,m)
+                                                                                                                                                                    (18)
+ciently evaluate each entropy term in both TC and DTC (see
+                                                                                                  + w(ℓ,m,n)
+                                                                                                      3,c     i, j, k+c, l + w3,−c Oi, j, k−c, l
+                                                                                                             O(ℓ,m)           (ℓ,m,n) (ℓ,m)
+Eqs. 10 and 11); consequently, the O-information can be com-                                                                                          i
+puted as follows:                                                                                 + w(ℓ,m,n)
+                                                                                                     4,c      i, j, k, l+c + w4,−c Oi, j, k, l−c
+                                                                                                             O(ℓ,m)           (ℓ,m,n) (ℓ,m)
+
+
+                       Oα = TCα − DTCα .                           (17)
+                                                                              where w(ℓ,m,n)
+                                                                                       d,±c are learnable weights for the cross-shaped kernel
+  For fixed α and a small number of probe vectors, the overall                in dimension d ∈ {1, 2, 3, 4}, and K is the kernel radius.
+complexity scales approximately as O(C K T 2 ) over all K-tuples.                This design preserves the structural symmetry of fourth-order
+Detailed derivations and algorithmic steps are provided in Sup-               interactions while significantly reducing the number of param-
+plementary Material B.                                                        eters from O(K 4 ) to O(4K) per kernel.
+                                                                          5
+3.3.2. 4D Edge-to-Node (E2N) Layer                                                     2,428 scans (1,300 MDD and 1,128 healthy controls, HCs) col-
+   As illustrated in Figure 4(b), the 4D E2N layer aggregates the                      lected across 25 research groups in 17 hospitals in China. Fol-
+fourth-order interaction tensor into node-level representations                        lowing standard exclusion criteria (incomplete metadata, sub-
+while preserving higher-order dependence structure.                                    optimal normalization or coverage, excessive head motion, sites
+                      ℓ
+   Given O(ℓ) ∈ R M ×C×C×C×C from the 4D E2E layer, the E2N                            with fewer than ten subjects per group, and incomplete time se-
+layer computes the representation of region i by aggregating all                       ries), 1,604 scans remained for analysis (828 MDD, 776 HCs).
+fourth-order interactions involving i.                                                 Demographic and clinical summaries for all four datasets ap-
+   Specifically, for the n-th output channel,                                          pear in Table 1.
+                                                                                          For UCLA, we applied group-level independent compo-
+                 Mℓ X
+                 X  C h                                                                nent analysis using the NeuroMark_fMRI_2.2 template2 to de-
+    a(ℓ+1,n)
+     i       =         α(ℓ,m,n) O(ℓ,m)
+                                 i, j,k,l + β
+                                              (ℓ,m,n) (ℓ,m)
+                                                     O j,i,k,l                         rive 105 spatially independent functional networks from the
+                 m=1 j,k,l=1                                                (19)       consortium-provided preprocessed data [9]. For ABIDE, we
+                                                                                       performed a conventional SPM-based pipeline3 consisting of
+                                                                       i
+                               + γ(ℓ,m,n) O(ℓ,m)
+                                           j,k,i,l + δ        O j,k,l,i .
+                                                       (ℓ,m,n) (ℓ,m)
+                                                                                       slice-timing correction, rigid-body realignment, spatial normal-
+                                                                                       ization to MNI space, spatial smoothing with a 6 mm FWHM
+   The learnable weights α(ℓ,m,n) , β(ℓ,m,n) , γ(ℓ,m,n) , and δ(ℓ,m,n) cap-
+                                                                                       Gaussian kernel, band-pass filtering (0.01–0.08 Hz), and re-
+ture the contribution of region i when it appears in different ten-
+                                                                                       gression of nuisance signals (head motion parameters, white
+sor modes. This aggregation preserves permutation symmetry
+                                                                                       matter, and cerebrospinal fluid). For REST-meta-MDD, we
+across modes, ensuring that all four-way interactions involving
+                                                                                       used the consortium-provided preprocessed time series, gen-
+region i are integrated into its node representation.
+                                                                                       erated via a harmonized workflow: discard the first ten vol-
+                                                                                       umes, slice-timing correction, motion correction, normaliza-
+3.3.3. 4D Node-to-Graph (N2G) Layer                                                    tion to MNI space, temporal filtering (0.01–0.1 Hz), and re-
+   As depicted in Figure 4(c), the 4D N2G layer performs the fi-                       gression of confounds including motion parameters, global
+nal aggregation of node-level representations into a graph-level                       signal, white matter, cerebrospinal fluid, and linear trends.
+feature vector that summarizes fourth-order interaction patterns                       Note that the different filtering parameters across datasets re-
+across the entire brain network.                                                       flect adherence to each consortium’s standardized preprocess-
+   Let {a(ℓ+1)
+         i     }Ci=1 denote the node representations produced by                       ing protocol. After preprocessing, we extracted time se-
+the 4D E2N layer. The graph-level feature is obtained via                              ries from functional networks or regions using spatially con-
+permutation-invariant pooling:                                                         strained ICA with the NeuroMark 2.2 multiscale template [46],
+                                                                                     available at http://trendscenter.org/data and in the GIFT tool-
+             g(ℓ+1) = Pool {a(ℓ+1,n)
+                                i    : i = 1, . . . , C} .  (20)                       box (http://trendscenter.org/software/gift): for UCLA, 105 ICA
+                                                                                       component time courses were obtained; for ABIDE, ADNI, and
+  In our implementation, we employ global average pooling,                             REST-meta-MDD, we extracted mean BOLD time series from
+though other permutation-invariant operators (e.g., max pool-                          116 regions of interest (ROIs) (AAL atlas: 90 cerebral and 26
+ing or attention-based aggregation) can be used. This operation                        cerebellar regions).
+summarizes higher-order interaction information into a com-
+pact graph-level representation for downstream classification.                         4.2. Baselines and Evaluation Protocol
+                                                                                          We compare against eleven representative methods that cover
+4. Experiments                                                                         prevailing design families for brain network modeling: three
+                                                                                       foundational graph neural networks, GCN [8], GAT [47],
+4.1. Datasets and Experimental Settings                                                and GIN [48]; three information-theoretic models, SIB [49],
+                                                                                       DIRGNN [50], and BrainIB [41]; a multi-view model operating
+   We benchmark our approach on four publicly available rs-                            on standard graph and Euclidean space, MHNet [34]; and three
+fMRI cohorts. (i) The UCLA Consortium for Neuropsychi-                                 neuroscience-informed hypergraph construction pipelines, Hy-
+atric Phenomics dataset [26] comprises schizophrenia (SZ;                              BRiD [37], HL [18], and CcSi-MHAHGEL [33]. We also com-
+n=50) and normal control (NC; n=114) participants. (ii) The                            pare with the original MvHo-IB [22], which is limited to two
+Alzheimer’s Disease Neuroimaging Initiative (ADNI) [27] con-                           views and incurs substantial computational cost.
+tains subjects with mild cognitive impairment (MCI; n=38) and                             As HL and CcSi-MHAHGEL are not open-source, we re-
+matched NCs (n=37). (iii) The Autism Brain Imaging Data Ex-                            implemented their hypergraph construction procedures follow-
+change I (ABIDE-I) [25] aggregates multi-site rs-fMRI from                             ing the original descriptions; all hypergraph baselines share a
+more than 1,000 individuals.1 In our study, we use 528 autism                          common HyperAtten [51] backbone for fair comparison (im-
+spectrum disorder (ASD) patients and 571 typically developing                          plementation details are provided in the Supplementary Mate-
+(TD) controls. (iv) The REST-meta-MDD consortium [24] is                               rial, Section D).
+the largest MDD rs-fMRI resource to date, originally including
+
+                                                                                         2 https://trendscenter.org/data/
+   1 http://fcon_1000.projects.nitrc.org/indi/abide/                                     3 https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
+
+
+                                                                                   6
+                                            Table 1: Demographic and clinical characteristics for all datasets.
+                                    UCLA                            ABIDE                            ADNI                         REST-meta-MDD
+ Characteristic
+                             SZ              HC               ASD          TD                  MCI         NC                    MDD          HC
+ Sample size                 50              114               528         571                   38         37                    828         776
+ Age (years)            39.17 ± 8.59     31.20 ± 8.76       17.0 ± 8.4 17.1 ± 7.7            73.1 ± 7.3 74.1 ± 6.2            34.3 ± 11.5 34.4 ± 13.0
+ Age range                 21–50            21–50             7–64      8.1–56.2             60.0–88.7 65.2–90.0                 18–65       18–64
+ Gender (M/F)               42/8            58/56            464/64     471/100                19/19      15/22                 301/527     318/458
+ Education (years)            –               –                 –           –                15.6 ± 2.9 16.5 ± 2.3             12.0 ± 3.4  13.6 ± 3.4
+
+
+4.2.1. Evaluation Protocol
+                                                                                Table 2: Classification accuracy on four rs-fMRI datasets. Best results are in
+   We adopt two complementary validation schemes to quan-                       bold.
+tify generalization. First, we perform tenfold cross validation                  Method                      UCLA           ADNI           REST          ABIDE
+                                                                                 GCN [8]                  62.27 ± 6.21   66.13 ± 4.62   60.82 ± 3.87   64.48 ± 3.94
+within each dataset and report the mean and standard devi-                       GAT [47]                 67.73 ± 7.61   66.28 ± 8.69   64.77 ± 4.13   67.93 ± 4.27
+ation across folds. Second, on the multi-site cohort REST-                       GIN [48]                 65.91 ± 8.21   68.33 ± 6.47   65.42 ± 3.96   67.95 ± 4.18
+meta-MDD, we conduct leave-one-site-out cross validation to                      DIR-GNN [50]             75.72 ± 8.37   70.63 ± 6.96   64.53 ± 4.21   72.07 ± 3.84
+                                                                                 SIB [49]                 72.76 ± 8.13   70.21 ± 7.43   55.72 ± 5.28   62.74 ± 4.67
+assess out-of-site performance on unseen acquisition centers.                    BrainIB [41]             79.14 ± 4.17   72.47 ± 5.32   70.02 ± 3.21   70.22 ± 3.58
+All methods use matched preprocessing, a common atlas, and                       MHNet [34]               79.22 ± 6.72   71.96 ± 4.96   71.03 ± 3.14   71.49 ± 3.42
+identical graph or hypergraph construction settings. Hyperpa-                    HyBRiD [37]              79.38 ± 8.34   71.34 ± 7.43   70.86 ± 3.27   71.72 ± 3.51
+                                                                                 HL [18]                  78.74 ± 7.21   70.61 ± 6.84   70.16 ± 3.36   70.05 ± 3.62
+rameters follow authors’ recommendations and are tuned within                    CcSi-MHAHGEL [33]        76.84 ± 7.86   70.18 ± 7.21   68.77 ± 3.74   69.01 ± 3.89
+the same search ranges. Model selection is carried out on val-                   MvHo-IB [22]             83.12 ± 5.74   73.23 ± 4.37        –              –
+                                                                                 MvHo-IB++                83.36 ± 5.63   73.41 ± 4.26   72.53 ± 2.54   72.61 ± 2.68
+idation splits in each fold or held-out site, and test metrics are
+reported once per split with identical evaluation criteria across
+all competitors.
+                                                                                   Conventional GNN baselines (GCN, GAT, and GIN) oper-
+4.3. Hyperparameter Setup                                                       ate on pairwise functional connectivity graphs and consistently
+                                                                                underperform MvHo-IB++ across cohorts.
+   All models were implemented in PyTorch and trained on
+                                                                                   Information-theoretic baselines (DIR-GNN, SIB, and
+a single NVIDIA A100 40 GB GPU. We used Adam with
+                                                                                BrainIB) improve upon vanilla GNNs by regularizing rep-
+an initial learning rate of 1×10−5 , halved every 50 epochs,
+                                                                                resentations to preserve task-relevant information while
+and weight decay of 0.03. The GIN backbone contains three
+                                                                                suppressing noise. However, these methods remain constrained
+graph layers with two-layer MLP blocks of hidden sizes [128,
+                                                                                by single-view pairwise graphs and therefore cannot fully
+256, 512], followed by batch normalization and ReLU. The
+                                                                                exploit complementary signals across interaction orders. In
+Brain3DCNN branch comprises E2E3D layers (32 to 64 chan-
+                                                                                particular, approaches based on subgraph selection or pruning
+nels) with spatial–channel reduction. Training ran for 100
+                                                                                can be sensitive to cohort heterogeneity, which may degrade
+epochs with batch size 32 and dropout 0.5. For the matrix-
+                                                                                robustness when acquisition protocols vary.
+based Rényi’s α-order entropy functional used in the informa-
+                                                                                   Hypergraph and multi-view baselines (MHNet, Hy-
+tion bottleneck loss (Eq. 8), we set the Gaussian kernel band-
+                                                                                BRiD and the HyperAtten variants HyperAttenHL and
+width σ=5 and α=1.01. For its randomized approximation, the
+                                                                                HyperAttenCcSi-MHAHGEL ) partially capture higher-order struc-
+number of s is 30 in all experiments. Regularization coeffi-
+                                                                                ture via hyperedge construction or attention-based aggregation,
+cients β1 , β2 , β3 ∈ {0, 10−4 , 10−3 , 10−2 , 10−1 } were selected via
+                                                                                and they perform competitively on several cohorts. Nonethe-
+tenfold cross-validation, with the best validation accuracy ob-
+                                                                                less, their higher-order modeling is either implicit or dependent
+tained at β1 =0.01, β2 =0.1, and β3 =0.1. The fusion module ag-
+                                                                                on heuristic hypergraph design choices, which can miss
+gregates the three learned views using a three-layer MLP with
+                                                                                interaction patterns that are not well represented by constructed
+ReLU and dropout (p=0.5). Competing baselines were config-
+                                                                                hyperedges. MvHo-IB++ instead provides a systematic, order-
+ured according to their published recommendations and tuned
+                                                                                explicit characterization through multi-order O-information
+within their prescribed ranges.
+                                                                                tensors, and the specialized Brain4DCNN encoder directly
+                                                                                learns from these tensors.
+5. Results
+5.1. Overall comparison                                                         5.2. Ablation Study
+   Table 2 shows that MvHo-IB++ achieves the best accuracy                         To disentangle the contribution of each component in MvHo-
+on all four datasets. The gains over the strongest compet-                      IB++, we conduct an ablation study on all four datasets; Table 3
+ing methods range from 0.94% to 3.98%, demonstrating con-                       summarizes the results.
+sistent improvements across cohort sizes and diagnostic cate-                      As shown in Table 3, GIN (MI) uses only the second-
+gories. The performance of the original MvHo-IB on REST-                        order view constructed from matrix-based mutual information
+meta-MDD and ABIDE is omitted, as the method does not scale                     with a GIN encoder, which suggests that pairwise connectiv-
+to large datasets due to its high computational complexity.                     ity alone is insufficient for robust psychiatric classification.
+                                                                            7
+                                                                                                        (a)                                                                                    (b)
+                                                                                                                                                                                   82.9                                                                                82.9
+ Table 3: Ablation study on four rs-fMRI datasets. Accuracy (%) is reported.            0.0001                  82.15           82.18       82.31    82.45                                0.0001        82.35    82.41                  82.52      82.63
+
+                                                                                                                                                                                   82.8
+ Configuration             UCLA           ADNI           REST          ABIDE                                                                                                                                                                                           82.8
+                                                                                                                                                                                   82.7
+ GIN (MI)               66.17 ± 7.84   68.74 ± 6.21   64.75 ± 3.92   67.02 ± 4.13        0.001                  82.22           82.38       82.39    82.53                                 0.001        82.44    82.51                  82.58      82.71
+
+                                                                                                                                                                                   82.6                                                                                82.7
+ Brain3DCNN (Gauss)     73.96 ± 6.47   70.17 ± 5.68   66.61 ± 3.51   70.17 ± 3.76
+ Brain3DCNN (Random)    74.09 ± 6.38   70.31 ± 5.54   66.68 ± 3.48   70.32 ± 3.71                                                                                                  82.5                                                                                82.6
+                                                                                          0.01                  82.48           82.55       82.67    82.74                                   0.01       82.67    82.74                  82.83      82.91
+ Brain4DCNN (Gauss)     74.18 ± 6.29   70.41 ± 5.47   66.37 ± 3.53   70.39 ± 3.69                                                                                                  82.4
+ 2-view w/o IB          81.77 ± 5.82   72.06 ± 4.63   71.21 ± 2.87   71.67 ± 3.14                                                                                                                                                                                      82.5
+                                                                                                                                                                                   82.3
+ 3-view w/o IB          82.86 ± 5.71   72.94 ± 4.41   71.72 ± 2.73   72.18 ± 2.94               0.1             82.61           82.69       82.96    82.70                                    0.1       82.78    82.85                  82.94      82.96
+                                                                                                                                                                                   82.2                                                                                82.4
+ Full model             83.36 ± 5.63   73.41 ± 4.26   72.53 ± 2.54   72.61 ± 2.68
+                                                                                                               0.0001       0.001           0.01     0.1                                               0.0001    0.001                  0.01       0.1
+
+                                                                                                        (c)                                                                                    (d)
+                                                                                                                                                                                   83.3                                                                                83.2
+                                                                                        0.0001                  82.58           82.67       82.73    82.41                                0.0001        82.28    82.33                  82.52      82.58
+Moving to higher-order modeling, Brain3DCNN (Gauss) en-                                                                                                                            83.2                                                                                83.1
+                                                                                                                                                                                   83.1                                                                                83.0
+codes a third-order O-information tensor computed via a Gaus-                            0.001                                                                                                                                                                         82.9
+                                                                                                                82.66           82.72       82.79    82.52                         83.0 0.001           82.35    82.39                  82.41      82.54
+
+sian analytical approximation, while Brain3DCNN (Random)                                                                                                                           82.9                                                                                82.8
+                                                                                                                                                                                                                                                                       82.7
+uses a randomized approximation for matrix-based Rényi en-                                0.01                  82.49           82.43       82.87    82.74
+                                                                                                                                                                                   82.8
+                                                                                                                                                                                             0.01       82.47    82.51                  83.27      82.69
+
+                                                                                                                                                                                   82.7                                                                                82.6
+tropy. The two estimators yield near-identical performance                                                                                                                         82.6                                                                                82.5
+                                                                                                0.1                                                                                           0.1                                                                      82.4
+(within 0.15 points), indicating accurate and stable entropy es-                                                82.43           82.49       82.65    83.36
+                                                                                                                                                                                   82.5
+                                                                                                                                                                                                        82.59    82.64                  82.93      83.01
+
+                                                                                                                                                                                                                                                                       82.3
+timation for constructing O-information tensors and supporting                                                 0.0001       0.001           0.01     0.1                                               0.0001    0.001                  0.01       0.1
+our dual-strategy design for efficiency. Extending to fourth or-                         (e)
+                                                                                                        84.0
+                                                                                                                                                     (f) 84.0                                                    (g) 84.0
+
+                                                                                                        83.5            83.36
+der, Brain4DCNN (Gauss) indicates that fourth-order interac-                                                                                                         83.5   83.36                                                83.5   83.36
+
+
+
+
+                                                                                         Accuracy (%)
+
+
+
+
+                                                                                                                                                      Accuracy (%)
+
+
+
+
+                                                                                                                                                                                                                  Accuracy (%)
+                                                                                                               83.01                82.96
+                                                                                                        83.0                                                         83.0                                                        83.0
+tions provide consistent but moderate improvements when used                                                                                82.70                                     82.74
+                                                                                                                                                                                               82.52
+                                                                                                                                                                                                                                                82.65
+                                                                                                                                                                                                                                                           82.49
+                                                                                                        82.5                                                         82.5                               82.41                    82.5                              82.43
+alone.                                                                                                  82.0                                                         82.0                                                        82.0
+
+   Multi-view integration substantially boosts performance.                                                     0.1      0.01       0.001   0.0001                           0.1      0.01     0.001    0.0001                           0.1    0.01       0.001   0.0001
+
+
+
+The 2-view w/o IB model fuses the second-order MI-based
+pairwise graph with the third-order (random-estimator) O-                               Figure 5: Hyperparameter sensitivity analysis on the UCLA dataset. Panels
+information tensor without the information bottleneck objec-                            (a), (b), (c), and (d) show classification accuracy heatmaps as a function of β2
+tive, while 3-view w/o IB further adds the fourth-order view;                           (x-axis) and β3 (y-axis) for fixed β1 values of 0.0001, 0.001, 0.01, and 0.1, re-
+                                                                                        spectively. Color intensity indicates accuracy, with warmer colors representing
+both configurations outperform single-view higher-order mod-                            higher performance. Panels (e), (f), and (g) show individual sensitivity curves
+els in Table 3. The improvement from 2-view to 3-view indi-                             of β1 , β2 , and β3 when the other two coefficients are fixed at their optimal val-
+cates that the fourth-order tensor provides complementary pat-                          ues (β1 =0.01, β2 =0.1, β3 =0.1).
+terns that are not fully redundant with lower-order views, and
+that fusion is essential to exploit distinct signals at each order.
+                                                                                        5.3.1. Joint sensitivity of β2 and β3 across different β1 settings
+   Applying the multi-view information bottleneck regulariza-
+tion to the 3-view architecture yields the full model, which                               Figure 5 summarizes the joint sensitivity of β2 and β3 across
+achieves the best accuracy on all four datasets in Table 3. This                        different values β1 ∈ {0.0001, 0.001, 0.01, 0.1} on UCLA. The
+shows that the entropy regularization terms β1 H(Z1 )+β2 H(Z2 )+                        best performance consistently occurs in the upper-right region
+β3 H(Z3 ) effectively compress view-specific redundancies and                           with larger β2 and β3 , provided that β1 is moderately set. In
+improve generalization. The information bottleneck principle                            particular, β1 =0.01 yields the optimal operating point at β2 =0.1
+encourages Z1 , Z2 , Z3 to retain task-relevant information while                       and β3 =0.1. When β1 is too small, insufficient compression
+discarding noise and spurious correlations, which is particularly                       of the second-order view leaves noise and redundancy largely
+beneficial on heterogeneous multi-site cohorts such as REST                             unregulated; when β1 is too large, excessive regularization re-
+and ABIDE.                                                                              moves discriminative pairwise information, reducing accuracy.
+   Overall, the ablations show that higher-order modeling pro-                          Overall, the heatmaps indicate a stable optimum characterized
+vides the largest jump over pairwise baselines, multi-view fu-                          by moderate regularization for the pairwise view and strong
+sion accounts for the main additional gains, the fourth-order                           regularization for higher-order views.
+view yields consistent but smaller improvements, and the in-
+formation bottleneck objective adds modest yet reliable refine-                         5.3.2. Individual hyperparameter sensitivity
+ments. Together, these components enable MvHo-IB++ to                                       Varying one coefficient at a time while fixing the other two
+achieve state-of-the-art performance across all four datasets.                          at their optimal values shows that accuracy is maximized at
+                                                                                        β1 =0.01 and β2 =β3 =0.1, and degrades when any coefficient de-
+5.3. Hyperparameter Sensitivity Analysis                                                creases by one or more orders of magnitude. The second-order
+                                                                                        view exhibits a moderate-regularization preference, where too
+   MvHo-IB++ introduces three information bottleneck coeffi-                            little compression retains noisy correlations and too much com-
+cients, β1 , β2 , and β3 , which control view-specific compression                      pression discards useful connectivity patterns. In contrast, the
+for the second-, third-, and fourth-order representations, respec-                      higher-order views are more sensitive and benefit from stronger
+tively, and a Gaussian kernel bandwidth σ in the matrix-based                           entropy regularization, because the third- and fourth-order O-
+Rényi entropy estimator. We assess robustness by sweeping                               information tensors encode substantially higher-dimensional
+β ∈ {0.0001, 0.001, 0.01, 0.1} on UCLA and evaluating the ef-                           interaction spaces than pairwise graphs and are therefore more
+fect of σ on ADNI and REST-meta-MDD (Figure 5).                                         prone to overfitting.
+                                                                                    8
+Table 4: Kernel bandwidth sensitivity analysis on ADNI and REST-meta-MDD       Table 5: Comparison of entropy estimation strategies and model configurations
+datasets using 2-view configuration with randomized approximation.             across four datasets. Accuracy (%) is reported. “Previous” refers to the orig-
+         σ               ADNI           REST-meta-MDD                          inal MvHo-IB implementation; “Gauss” and “Random” denote the Gaussian
+                                                                               analytical and randomized approximation-based estimators in MvHo-IB++, re-
+         0.1          70.44 ± 5.87        69.87 ± 3.62                         spectively.
+         1            71.66 ± 5.21        71.31 ± 3.14                          Method                   UCLA           ADNI           REST          ABIDE
+         5            72.94 ± 4.52        71.97 ± 2.83                          2-view (Previous)     83.12 ± 5.74   73.23 ± 4.37        –              –
+                                                                                2-view (Gauss)        82.27 ± 5.86   72.54 ± 4.58   71.61 ± 2.73   72.17 ± 2.84
+         10           70.53 ± 5.79        71.53 ± 3.27                          2-view (Random)       82.47 ± 5.71   72.96 ± 4.42   71.97 ± 2.68   71.93 ± 2.91
+         Median       73.16 ± 4.38        72.41 ± 2.71                          3-view (Gauss) 4D     82.94 ± 5.52   73.17 ± 4.31   72.06 ± 2.61   72.41 ± 2.76
+                                                                                3-view (Random) 4D    83.36 ± 5.63   73.41 ± 4.26   72.53 ± 2.54   72.61 ± 2.68
+
+
+5.3.3. Kernel bandwidth sensitivity                                            6.1.1. Computational scalability and approximation accuracy
+   We examine the kernel bandwidth σ in the matrix-based                          The 2-view (Previous) configuration corresponds to the orig-
+Rényi entropy estimator by comparing fixed choices σ ∈                         inal MvHo-IB framework, which models pairwise and third-
+{0.1, 1, 5, 10} with a data-driven median heuristic that sets σ to             order interactions via direct entropy computation without accel-
+the median pairwise Euclidean distance within each mini-batch.                 eration. It reaches 83.12% on UCLA and 73.23% on ADNI but
+Table 4 reports ADNI and REST-meta-MDD accuracy using                          is infeasible on the larger REST (1,604 subjects) and ABIDE
+the 2-view (pairwise + third-order) configuration with random-                 (1,099 subjects) cohorts, as reflected by missing entries, due to
+ized O-information computation. The median heuristic per-                      the cubic cost of third-order O-information computation and the
+forms best on both datasets (73.16% on ADNI and 72.41% on                      memory required to store full covariance matrices.
+REST-meta-MDD), outperforming all fixed bandwidths, while                         Our acceleration strategies remove this bottleneck. 2-view
+σ=5 is the strongest fixed setting. This suggests that adapting                (Gauss) uses Gaussian analytical approximations, achieving
+the kernel scale during training improves robustness by avoid-                 82.27% on UCLA and 72.54% on ADNI with small drops of
+ing over-smoothing at large σ and noise sensitivity at small σ,                0.85 and 0.69 points relative to 2-view (Previous), while scal-
+and provides a parameter-free alternative that generalizes across              ing to REST (71.61%) and ABIDE (72.17%). 2-view (Random)
+datasets and training dynamics.                                                applies a randomized approximation for matrix-based Rényi
+                                                                               entropy and achieves 82.47% on UCLA, 72.96% on ADNI,
+5.3.4. Summary of hyperparameter analysis                                      71.97% on REST, and 71.93% on ABIDE, consistently exceed-
+    Overall, the sensitivity analysis supports a hierarchical com-             ing 2-view (Gauss) on UCLA and ADNI and matching or im-
+pression strategy with β1 =0.01 and β2 =β3 =0.1, corresponding                 proving it on the larger cohorts. Overall, both approximations
+to moderate regularization for the pairwise view and stronger                  introduce minimal error while enabling large-scale multi-site
+regularization for higher-order views. Performance improves as                 analysis.
+β2 and β3 increase, consistent with the higher capacity and over-
+fitting risk of third- and fourth-order tensors, while β1 exhibits             6.1.2. Wall-clock computation time
+an intermediate optimum because overly weak regularization                        To quantify the computational efficiency gains in absolute
+retains pairwise noise and overly strong regularization over-                  terms, we measured the wall-clock time required to compute
+compresses discriminative connectivity. Despite these trends,                  all third-order and fourth-order O-information tensors on the
+accuracy is stable within a practical range, varying by less than              UCLA dataset (105 ICA networks) using a single NVIDIA
+1 percentage point when β2 , β3 ∈ [0.01, 0.1] with β1 =0.01, indi-             A100 GPU. Table 6 reports the results.
+cating robustness to moderate hyperparameter misspecification
+and straightforward tuning via cross-validation. For the kernel                Table 6: Computational time comparison for O-information computation on
+bandwidth, the median heuristic consistently outperforms fixed                 UCLA dataset (105 ICA networks, single A100 GPU).
+σ, suggesting that adaptive kernel scaling further improves gen-                  Method              Time (min)         Speedup         Relative Cost
+eralization.                                                                      Without              5790.84             1.0×             100%
+                                                                                  Gaussian               53.26            108.8×            0.92%
+                                                                                  Randomized            170.31             34.0×             2.9%
+6. Discussion and Conclusion
+                                                                                  Without approximation, exhaustive computation requires
+6.1. Comparison with Previous MvHo-IB and Computational                        5790.84 minutes, rendering it impractical for iterative model
+     Efficiency                                                                development and large-scale studies. The Gaussian analyti-
+                                                                               cal approximation reduces computation time to 53.26 minutes,
+   Table 5 compares the performance and scalability of differ-                 achieving a 108.8-fold speedup while requiring only 0.92% of
+ent entropy estimation strategies and model configurations. The                the original computational cost. The randomized approxima-
+original MvHo-IB framework employed an exhaustive compu-                       tion completes in 170.31 minutes with a 34.0-fold speedup and
+tation of all third-order O-information terms, which achieved                  2.9% relative cost. Both strategies substantially exceed the 30-
+excellent accuracy on smaller cohorts but became computation-                  fold acceleration threshold, validating the computational effi-
+ally prohibitive on larger datasets like REST and ABIDE.                       ciency claims in the abstract and enabling practical deployment
+                                                                           9
+of exhaustive higher-order interaction modeling on large co-             present the results for major depressive disorder as a represen-
+horts.                                                                   tative example; detailed results for all three disorders are pro-
+                                                                         vided in the Supplementary Material.
+6.1.3. Benefits of fourth-order interactions
+   Extending the framework to fourth-order interactions further          Table 7: Top-5 discriminative third-order and fourth-order interactions in
+improves performance. The 3-view (Gauss) 4D configuration                REST-meta-MDD dataset identified by Grad-CAM. AAL region indices are
+                                                                         shown.
+adds a fourth-order O-information tensor computed via Gaus-               Triplet/Quadruplet        MDD (Mean ± SD)        HC (Mean ± SD)     ∆ (MDD - HC)
+sian approximation, achieving 82.94% on UCLA, 73.17% on                   73, 74, 76                 0.211 ± 0.161          0.149 ± 0.121        +0.063
+ADNI, 72.06% on REST, and 72.41% on ABIDE. Compared                       44, 47, 48                 0.360 ± 0.228          0.304 ± 0.229        +0.056
+                                                                          73, 75, 76                 0.183 ± 0.150          0.128 ± 0.110        +0.055
+to 2-view (Gauss), the fourth-order view contributes gains of             56, 99, 100                0.117 ± 0.127          0.066 ± 0.104        +0.051
+0.67, 0.63, 0.45, and 0.24 percentage points, respectively. The           55, 56, 100                0.074 ± 0.111          0.032 ± 0.083        +0.042
+3-view (Random) 4D variant, which employs randomized ap-                  73, 74, 75, 76             0.268 ± 0.179          0.187 ± 0.142        +0.081
+                                                                          55, 56, 99, 100            0.143 ± 0.141          0.079 ± 0.108        +0.064
+proximation for all entropy computations, attains 83.36% on               73, 74, 77, 78             0.232 ± 0.173          0.161 ± 0.129        +0.071
+UCLA, 73.41% on ADNI, 72.53% on REST, and 72.61%                          44, 47, 48, 42             0.408 ± 0.238          0.344 ± 0.231        +0.064
+on ABIDE, matching or exceeding the original MvHo-IB on                   43, 44, 47, 48             0.397 ± 0.233          0.334 ± 0.228        +0.063
+UCLA and ADNI while extending coverage to the previously
+intractable REST and ABIDE datasets. The consistent supe-
+riority of the randomized approximation-based approach (0.42                  (a)        Top 5 3-order               (b)      Top 5 4-order
+points over Gauss on UCLA, 0.24 points on ADNI, 0.47 points
+on REST, 0.20 points on ABIDE) suggests that the random-
+ized approximation provides more accurate entropy estimates
+than the Gaussian approximation, particularly when integrated
+across multiple views.
+
+6.1.4. Summary and implications
+   The comparison reveals three key insights. First, the accel-
+eration strategies, Gaussian analytical approximation and ran-
+domized approximation for matrix-based Rényi’s entropy, en-
+able scalable multi-order O-information computation on large
+cohorts with minimal performance degradation (less than 1%
+loss compared to the exhaustive original method). Second,
+the randomized approximation consistently outperforms Gaus-                           Calcarine_L       Fusiform_L         Pallidum_L    Cerebelum_L
+sian approximation, likely due to its nonparametric nature and                        Calcarine_R       Fusiform_R         Pallidum_R    Cerebelum_R
+                                                                                      Lingual_L         Putamen_L          Thalamus_L
+robustness to deviations from Gaussianity in real fMRI data.                                                                             Amygdala_R
+                                                                                      Lingual_R         Putamen_R          Thalamus_R
+
+Third, the addition of fourth-order interactions provides consis-
+tent, albeit modest, improvements across all datasets (0.24,0.67         Figure 6: Discriminative higher-order interaction patterns in major depressive
+points), confirming that higher-order brain network dependen-            disorder. (a) Top-5 third-order interactions. (b) Top-5 fourth-order interactions.
+cies carry complementary diagnostic signal. Together, these
+findings establish MvHo-IB++ as a computationally efficient                 Across all three disorders, Grad-CAM analysis reveals
+and statistically principled framework for capturing multi-order         disorder-specific higher-order connectivity signatures.       In
+brain interactions at scale.                                             schizophrenia, the most discriminative interactions involve
+                                                                         cerebellar–occipitotemporal and thalamic circuits, with both
+6.2. Interpretability: Discriminative Higher-Order Patterns              increased and decreased O-information indicating imbalanced
+     via Grad-CAM                                                        rather than uniformly disrupted connectivity. In major depres-
+                                                                         sive disorder (Table 7, Figure 6), the top patterns implicate
+   To identify which higher-order interactions contribute most           striato-pallido-thalamic, visual-limbic, and fusiform-cerebellar
+to diagnostic classification, we apply Gradient-weighted Class           circuits, all showing hyperconnectivity. In mild cognitive im-
+Activation Mapping (Grad-CAM) [52] to the learned third- and             pairment, frontal executive, right-lateralized visual, and cere-
+fourth-order O-information tensors. Grad-CAM computes the                bellar cognitive regions exhibit elevated higher-order interac-
+gradient of the class prediction with respect to each tensor el-         tions, consistent with compensatory network rigidification in
+ement, highlighting brain region/network combinations whose              prodromal Alzheimer’s disease. See the Supplementary Mate-
+interaction patterns are most discriminative. We identify the            rial for detailed neuroanatomical interpretation.
+top-5 triplets and quadruplets with the highest absolute gradient           Notably, many discriminative fourth-order quadruplets di-
+magnitudes across the UCLA, REST-meta-MDD, and ADNI                      rectly extend their corresponding third-order triplets across all
+datasets, then compare their mean O-information values be-               three disorders, indicating that the identified regions partici-
+tween patient and healthy control groups. Table 7 and Figure 6           pate in coherent multi-way functional dependencies rather than
+                                                                    10
+spurious combinations. This hierarchical consistency across                    network analysis for diagnosis with large-scale self-
+interaction orders confirms that the third-order O-information                 supervised learning, IEEE transactions on medical imag-
+captures local synergistic triads, while the fourth-order O-                   ing 43 (2024) 4004–4016.
+information extends these to broader, more distributed interac-
+tion motifs. The convergent yet disorder-specific neuroanatom-             [5] X. Shen, E. S. Finn, D. Scheinost, M. D. Rosenberg,
+ical findings validate the complementary nature of the multi-                  M. M. Chun, X. Papademetris, R. T. Constable, Using
+view framework.                                                                connectome-based predictive modeling to predict individ-
+   In this work, we introduced MvHo-IB++, a scalable multi-                    ual behavior from brain connectivity, Nature Protocols 12
+view information bottleneck framework for psychiatric diagno-                  (2017) 506–518.
+sis that systematically integrates pairwise, triadic, and tetradic
+                                                                           [6] Q.-H. Lin, Y.-W. Niu, J. Sui, W.-D. Zhao, C. Zhuo, V. D.
+brain interactions. By combining O-information–based higher-
+                                                                               Calhoun, Sspnet: An interpretable 3d-cnn for classifica-
+order modeling with two independent acceleration strategies,
+                                                                               tion of schizophrenia using phase maps of resting-state
+we made exhaustive third- and fourth-order interaction enu-
+                                                                               complex-valued fmri data, Medical Image Analysis 79
+meration computationally feasible on large multisite cohorts.
+                                                                               (2022) 102430.
+Across extensive experiments on four benchmark datasets
+(UCLA, ADNI, REST-meta-MDD, and ABIDE), MvHo-IB++                          [7] Y. Tang, G. Tong, X. Xiong, C. Zhang, H. Zhang, Y. Yang,
+consistently achieves state-of-the-art performance, outperform-                Multi-site diagnostic classification of autism spectrum
+ing graph neural networks, information bottleneck variants, and                disorder using adversarial deep learning on resting-state
+representative hypergraph-based approaches. Our results sug-                   fmri, Biomedical Signal Processing and Control 85 (2023)
+gest that systematic enumeration of higher-order interactions                  104892.
+with redundancy compression yields strong and stable diagnos-
+tic performance while avoiding heuristic hyperedge construc-               [8] T. N. Kipf, M. Welling, Semi-supervised classification
+tion and pruning strategies that may introduce selection bias or               with graph convolutional networks, in: International Con-
+miss informative interaction patterns.                                         ference on Learning Representations, 2017. URL: https:
+   Beyond quantitative gains, MvHo-IB++ reveals discrimina-                    //openreview.net/forum?id=SJU4ayYgl.
+tive higher-order connectivity signatures that are not explicitly
+accessible to conventional hypergraph formulations. By ex-                 [9] A. Iraji, Z. Fu, A. Faghiri, M. Duda, J. Chen,
+plicitly characterizing redundancy- and synergy-dominated de-                  S. Rachakonda, T. DeRamus, P. Kochunov, B. M. Ad-
+pendencies, the proposed framework identifies disorder specific                hikari, A. Belger, et al., Identifying canonical and replica-
+multi-region biomarkers that emerge only at triadic and tetradic               ble multi-scale intrinsic connectivity networks in 100k+
+levels. Extensive ablation studies further confirm that each                   resting-state fmri datasets, Human brain mapping 44
+component contributes synergistically and that performance re-                 (2023) 5729–5748.
+mains stable across a broad range of regularization coefficients
+and kernel parameters, demonstrating robustness to hyperpa-               [10] D. Lei, K. Qin, W. H. Pinaya, J. Young,
+rameter specification. More broadly, the proposed framework                    T. Van Amelsvoort, M. Marcelis, G. Donohoe, D. O.
+offers a general route for integrating explicit higher-order in-               Mothersill, A. Corvin, S. Vieira, et al., Graph con-
+teraction measures with multi-view representation learning in                  volutional networks reveal network-level functional
+structured biomedical signals.                                                 dysconnectivity in schizophrenia, Schizophrenia Bulletin
+                                                                               48 (2022) 881–892.
+
+References                                                                [11] X. Li, Y. Zhou, N. Dvornek, M. Zhang, S. Gao, J. Zhuang,
+                                                                               D. Scheinost, L. H. Staib, P. Ventola, J. S. Duncan,
+ [1] P. M. Matthews, P. Jezzard, Functional magnetic reso-                     Braingnn: Interpretable brain graph neural network for
+     nance imaging, Journal of Neurology, Neurosurgery &                       fmri analysis, Medical Image Analysis 74 (2021) 102233.
+     Psychiatry 75 (2004) 6–12.
+                                                                          [12] Q. Li, V. Calhoun, A. R. Ballem, S. Yu, J. Malo,
+ [2] B. B. Biswal, M. Mennes, X.-N. Zuo, S. Gohel, C. Kelly,                   A. Iraji, Aberrant high-order dependencies in schizophre-
+     S. M. Smith, C. F. Beckmann, J. S. Adelstein, R. L. Buck-                 nia resting-state functional mri networks, in: NeurIPS
+     ner, S. Colcombe, et al., Toward discovery science of hu-                 2023 workshop: Information-Theoretic Principles in Cog-
+     man brain function, Proceedings of the national academy                   nitive Systems, 2023.
+     of sciences 107 (2010) 4734–4739.
+                                                                          [13] K. Zhang, Y. Yang, J. Zhang, X. Shi, S. Yu, Pime:
+ [3] V. D. Calhoun, G. D. Pearlson, Recent developments in                     Prototype-based interpretable mcts-enhanced brain net-
+     brain imaging of schizophrenia: A selective review, Neu-                  work analysis for disorder diagnosis, 2026. URL: https:
+     roscience Imaging 1 (2007) 279–294.                                       //arxiv.org/abs/2602.21046. arXiv:2602.21046.
+
+ [4] Y. Yang, C. Ye, G. Su, Z. Zhang, Z. Chang, H. Chen,                  [14] R. Herzog, F. E. Rosas, R. Whelan, S. Fittipaldi,
+     P. Chan, Y. Yu, T. Ma, Brainmass: Advancing brain                         H. Santamaria-Garcia, J. Cruzat, A. Birba, S. Moguilner,
+                                                                     11
+     E. Tagliazucchi, P. Prado, et al., Genuine high-order inter-              intrinsic brain architecture in autism, Molecular psychia-
+     actions in brain networks and neurodegeneration, Neuro-                   try 19 (2014) 659–667.
+     biology of Disease 175 (2022) 105918.
+                                                                          [26] R. A. Poldrack, E. Congdon, W. Triplett, K. Gorgolewski,
+[15] J. D. Power, K. A. Barnes, A. Z. Snyder, B. L. Schlaggar,                 K. Karlsgodt, J. Mumford, F. Sabb, N. Freimer, E. Lon-
+     S. E. Petersen, Spurious but systematic correlations in                   don, T. Cannon, et al., A phenome-wide examination of
+     functional connectivity mri networks arise from subject                   neural and cognitive function, Scientific data 3 (2016) 1–
+     motion, NeuroImage 59 (2012) 2142–2154. doi:https:                        12.
+     //doi.org/10.1016/j.neuroimage.2011.10.018.
+                                                                          [27] C. R. Jack Jr, M. A. Bernstein, N. C. Fox, P. Thomp-
+[16] Y. Wang, K. Zhang, M. Wang, S. Gao, N. Yin, Usbd:                         son, G. Alexander, D. Harvey, B. Borowski, P. J. Brit-
+     Universal structural basis distillation for source-free graph             son, J. L. Whitwell, C. Ward, et al., The alzheimer’s dis-
+     domain adaptation, 2026. URL: https://arxiv.org/                          ease neuroimaging initiative (adni): Mri methods, Jour-
+     abs/2602.08431. arXiv:2602.08431.                                         nal of Magnetic Resonance Imaging: An Official Jour-
+[17] Y. Feng, H. You, Z. Zhang, R. Ji, Y. Gao, Hypergraph neu-                 nal of the International Society for Magnetic Resonance
+     ral networks, in: Proceedings of the AAAI conference on                   in Medicine 27 (2008) 685–691.
+     artificial intelligence, volume 33, 2019, pp. 3558–3565.
+                                                                          [28] F. Battiston, G. Cencetti, I. Iacopini, V. Latora, M. Lu-
+[18] L. Xiao, J. Wang, P. H. Kassani, Y. Zhang, Y. Bai, J. M.                  cas, A. Patania, J.-G. Young, G. Petri, Networks beyond
+     Stephen, T. W. Wilson, V. D. Calhoun, Y.-P. Wang, Multi-                  pairwise interactions: Structure and dynamics, Physics
+     hypergraph learning-based brain functional connectivity                   Reports 874 (2020) 1–92.
+     analysis in fmri data, IEEE transactions on medical imag-
+     ing 39 (2019) 1746–1758.                                             [29] B. Jie, M. Liu, D. Shen, Integration of temporal and spa-
+                                                                               tial properties of dynamic connectivity networks for auto-
+[19] D. Cai, M. Song, C. Sun, B. Zhang, S. Hong, H. Li,                        matic diagnosis of brain disease, Medical Image Analysis
+     Hypergraph structure learning for hypergraph neural net-                  47 (2018) 81–94.
+     works., in: IJCAI, 2022, pp. 1923–1929.
+                                                                          [30] E. A. Allen, E. Damaraju, S. M. Plis, E. B. Erhardt,
+[20] T. Scagliarini, L. Sparacino, L. Faes, D. Marinazzo,                      T. Eichele, V. D. Calhoun, Tracking whole-brain connec-
+     S. Stramaglia, Gradients of o-information highlight syn-                  tivity dynamics in the resting state, Cerebral Cortex 24
+     ergy and redundancy in physiological applications, Fron-                  (2014) 663–676.
+     tiers in Network Physiology 3 (2024) 1335808.
+                                                                          [31] C.-W. Wu, H. Gu, H. Lu, E. A. Stein, J.-H. Chen, Y. Yang,
+[21] F. E. Rosas, P. A. Mediano, M. Gastpar, H. J. Jensen,                     Frequency specificity of functional connectivity in brain
+     Quantifying high-order interdependencies via multivari-                   networks, NeuroImage 42 (2008) 1047–1055.
+     ate extensions of the mutual information, Physical Review
+     E 100 (2019) 032305.                                                 [32] M. F. Glasser, T. S. Coalson, E. C. Robinson, C. D.
+                                                                               Hacker, J. Harwell, E. Yacoub, K. Ugurbil, J. Andersson,
+[22] K. Zhang, Q. Li, S. Yu, Mvho-ib: Multi-view higher-
+                                                                               C. F. Beckmann, M. Jenkinson, et al., A multi-modal par-
+     order information bottleneck for brain disorder diagnosis,
+                                                                               cellation of human cerebral cortex, Nature 536 (2016)
+     in: International Conference on Medical Image Comput-
+                                                                               171–178.
+     ing and Computer-Assisted Intervention, Springer, 2025,
+     pp. 407–417.                                                         [33] W. Wang, L. Xiao, G. Qu, V. D. Calhoun, Y.-P. Wang,
+[23] S. Yu, L. G. S. Giraldo, R. Jenssen, J. C. Principe, Multi-               X. Sun, Multiview hyperedge-aware hypergraph embed-
+     variate extension of matrix-based rényi’s α-order entropy                 ding learning for multisite, multiatlas fmri based func-
+     functional, IEEE Transactions on Pattern Analysis and                     tional connectivity network analysis, Medical Image
+     Machine Intelligence 42 (2019) 2960–2966.                                 Analysis 94 (2024) 103144. doi:https://doi.org/10.
+                                                                               1016/j.media.2024.103144.
+[24] C.-G. Yan, X. Chen, L. Li, F. X. Castellanos, T.-J. Bai, Q.-
+     J. Bo, J. Cao, G.-M. Chen, N.-X. Chen, W. Chen, et al.,              [34] Y. Li, W. Zeng, W. Dong, L. Cai, L. Wang, H. Chen,
+     Reduced default mode network functional connectivity in                   H. Yan, L. Bian, N. Wang, Mhnet: Multi-view high-order
+     patients with recurrent major depressive disorder, Pro-                   network for diagnosing neurodevelopmental disorders us-
+     ceedings of the National Academy of Sciences 116 (2019)                   ing resting-state fmri, Journal of imaging informatics in
+     9078–9083.                                                                medicine (2025) 1–21.
+
+[25] A. Di Martino, C.-G. Yan, Q. Li, E. Denio, F. X.                     [35] S. I. Ktena, S. Parisot, E. Ferrante, M. Rajchl, M. Lee,
+     Castellanos, K. Alaerts, J. S. Anderson, M. Assaf, S. Y.                  B. Glocker, D. Rueckert, Metric learning with spectral
+     Bookheimer, M. Dapretto, et al., The autism brain imag-                   graph convolutions on brain connectivity networks, Neu-
+     ing data exchange: towards a large-scale evaluation of the                roImage 169 (2018) 431–442.
+                                                                     12
+[36] J. Wang, H. Li, G. Qu, K. M. Cecil, J. R. Dillman, N. A.          [48] K. Xu, W. Hu, J. Leskovec, S. Jegelka, How powerful are
+     Parikh, L. He, Dynamic weighted hypergraph convolu-                    graph neural networks?, arXiv preprint arXiv:1810.00826
+     tional network for brain functional connectome analysis,               (2018).
+     Medical Image Analysis 87 (2023) 102828.
+                                                                       [49] J. Yu, T. Xu, Y. Rong, Y. Bian, J. Huang, R. He, Recog-
+[37] W. Qiu, H. Chu, S. Wang, H. Zuo, X. Li, Y. Zhao, R. Ying,              nizing predictive substructures with subgraph information
+     Learning high-order relationships of brain regions, in:                bottleneck, IEEE transactions on pattern analysis and ma-
+     R. Salakhutdinov, Z. Kolter, K. Heller, A. Weller,                     chine intelligence 46 (2021) 1650–1663.
+     N. Oliver, J. Scarlett, F. Berkenkamp (Eds.), Proceedings
+     of the 41st International Conference on Machine Learn-            [50] Y. Wu, X. Wang, A. Zhang, X. He, T.-S. Chua, Dis-
+     ing, volume 235 of Proceedings of Machine Learning Re-                 covering invariant rationales for graph neural networks,
+     search, PMLR, 2024, pp. 41582–41603. URL: https:                       in: International Conference on Learning Representa-
+     //proceedings.mlr.press/v235/qiu24b.html.                              tions, 2022. URL: https://openreview.net/forum?
+                                                                            id=hGXij5rfiHw.
+[38] N. Tishby, F. C. Pereira, W. Bialek, The information bot-
+                                                                       [51] Y. Gao, Y. Feng, S. Ji, R. Ji, Hgnn+: General hypergraph
+     tleneck method, arXiv preprint physics/0004057 (2000).
+                                                                            neural networks, IEEE Transactions on Pattern Analysis
+[39] T. Wu, H. Ren, P. Li, J. Leskovec, Graph information                   and Machine Intelligence 45 (2022) 3181–3199.
+     bottleneck, Advances in Neural Information Processing
+                                                                       [52] R. R. Selvaraju, M. Cogswell, A. Das, R. Vedantam,
+     Systems 33 (2020) 20437–20448.
+                                                                            D. Parikh, D. Batra, Grad-cam: Visual explanations from
+[40] D. J. Strouse, D. J. Schwab, The deterministic information             deep networks via gradient-based localization, in: Pro-
+     bottleneck, Neural computation 29 (2017) 1611–1630.                    ceedings of the IEEE International Conference on Com-
+                                                                            puter Vision, 2017, pp. 618–626.
+[41] K. Zheng, S. Yu, B. Li, R. Jenssen, B. Chen, Brainib:
+     Interpretable brain network-based psychiatric diagnosis           [53] Y. Jiang, L. Palaniyappan, C. Luo, X. Chang, J. Zhang,
+     with graph information bottleneck, IEEE Transactions on                Y. Tang, Z. Consortium, Neuroimaging epicenters as po-
+     Neural Networks and Learning Systems (2024).                           tential sites of onset of the neuroanatomical pathology in
+                                                                            schizophrenia, Science Advances 10 (2024) eadk6063.
+[42] T. Hu, Q. Li, S. Liu, V. D. Calhoun, G. van Wingen,
+     S. Yu, Brainib++: Leveraging graph neural networks and            [54] Y. I. Sheline, D. M. Barch, J. L. Price, M. M. Rundle, S. N.
+     information bottleneck for functional brain biomarkers in              Vaishnavi, A. Z. Snyder, M. E. Raichle, The default mode
+     schizophrenia, Biomedical Signal Processing and Control                network and self-referential processes in depression, Pro-
+     112 (2026) 108803.                                                     ceedings of the National Academy of Sciences 106 (2009)
+                                                                            1942–1947.
+[43] N. Tzourio-Mazoyer, B. Landeau, D. Papathanassiou,
+                                                                       [55] T. Wise, L. Marwood, A. M. Perkins, A. Herane-Vives,
+     F. Crivello, O. Etard, N. Delcroix, B. Mazoyer, M. Joliot,
+                                                                            R. Joules, D. J. Lythgoe, D. Arnone, Instability of de-
+     Automated anatomical labeling of activations in spm us-
+                                                                            fault mode network connectivity in major depression: a
+     ing a macroscopic anatomical parcellation of the mni mri
+                                                                            two-sample confirmation study, Translational Psychiatry
+     single-subject brain, Neuroimage 15 (2002) 273–289.
+                                                                            7 (2017) e1105.
+[44] T. Gong, Y. Dong, S. Yu, B. Dong, Computationally ef-
+     ficient approximations for matrix-based renyi’s entropy,
+     IEEE Transactions on Signal Processing 70 (2023) 6170–
+     6184.
+
+[45] J. Kawahara, C. J. Brown, S. P. Miller, B. G. Booth,
+     V. Chau, R. E. Grunau, J. G. Zwicker, G. Hamarneh,
+     Brainnetcnn: Convolutional neural networks for brain net-
+     works; towards predicting neurodevelopment, NeuroIm-
+     age 146 (2017) 1038–1049.
+
+[46] K. M. Jensen, J. A. Turner, L. Q. Uddin, V. D. Cal-
+     houn, A. Iraji, Addressing inconsistency in functional
+     neuroimaging: A replicable data-driven multi-scale func-
+     tional atlas for canonical brain networks, bioRxiv (2024).
+
+[47] P. Velickovic, G. Cucurull, A. Casanova, A. Romero,
+     P. Lio, Y. Bengio, et al., Graph attention networks, stat
+     1050 (2017) 10–48550.
+                                                                  13
+A. Matrix-Based Rényi’s α-Order Entropy Functional for                                 Algorithm 1 Mini-Batch                       Entropy        Estimation     for
+the IB Terms                                                                           H(Z1 ), H(Z2 ), H(Z3 )
+                                                                                       Require: Mini-batch latent sets {zi }i=1  Nb
+                                                                                                                                     from each of Z1 , Z2 , Z3 ;
+A.1 Objective Context                                                                      α; σ; β1 , β2 , β3
+                                                                                        1: for v = 1 to 3 do
+   In the multi-view IB objective, the compression terms are
+                                                                                        2:    Build Kv using κ(zi , z j ) = exp(−∥zi − z j ∥22 /(2σ2 ))
+                    β1 H(Z1 ) + β2 H(Z2 ) + β3 H(Z3 ),                    (.1)          3:    Normalize Gv ← Kv /tr(Kv )
+                                                                                        4:    Compute H    bα (Zv ) = 1 log(tr(Gαv ))
+                                                                                                                      1−α
+where Z1 , Z2 , Z3 are latent representations from the three en-                        5: end for
+coders. This section details how each H(Zv ) is estimated with a                        6: Return Lent = β1 H   bα (Z1 ) + β2 H
+                                                                                                                              bα (Z2 ) + β3 H
+                                                                                                                                            bα (Z3 )
+matrix-based Rényi entropy functional on mini-batches.
+                                                                                       B. Detailed Derivations and Complexity Analysis
+A.2 Mini-Batch Kernel Matrix Construction
+                                                                                       B.1 Gaussian Analytical Approximation
+  For each view-specific latent representation Z1 , Z2 , or Z3 , let                      When the joint distribution of the involved variables is well-
+a mini-batch contain Nb latent vectors {z1 , . . . , zNb }, where Nb ≤                 approximated as multivariate Gaussian, differential entropy
+N and N is the number of subjects in the dataset. Define the                           is available in closed form via the covariance matrix Σ ∈
+Gaussian kernel                                                                        RK×K [12]:
+                                                                                                                         1
+                            ∥zi − z j ∥22                                                     H(X1 , . . . , XK ) = log (2πe)K det(Σ) .
+                                                                                                                                         
+                                                                                                                                                    (.9)
+        κ(zi , z j ) = exp−                   , i, j = 1, . . . , Nb . (.2)                                          2
+                                  2σ2
+                                                                                          The total correlation (TC) is first defined as:
+Construct the Gram matrix K ∈ RNb ×Nb with Ki j = κ(zi , z j ),                                                        K
+                                                                                                                       X
+then normalize by trace:                                                                      TC(X1 , . . . , XK ) =         H(Xi ) − H(X1 , . . . , XK ).      (.10)
+                                                                                                                       i=1
+                                        K                                              Under Gaussianity, this reduces to:
+                                G=          .                             (.3)
+                                      tr(K)                                                                               1    det diag(Σ)
+                                                                                                                                                     !
+                                                                                                    TC(X1 , . . . , XK ) = log                            .     (.11)
+Thus G is positive semidefinite and satisfies tr(G) = 1.                                                                  2       det(Σ)
+                                                                                         The dual total correlation (DTC) is first defined as:
+A.3 Matrix-Based Rényi Entropy Estimator                                                                                                  K
+                                                                                                                                          X
+                                                                                        DTC(X1 , . . . , XK ) = H(X1 , . . . , XK ) −           H(Xi | X[K]\i ), (.12)
+   For order α > 0, α , 1, define                                                                                                         i=1
+
+                                   1                                                   where X[K]\i denotes all variables except Xi . Under the Gaussian
+                      bα (Z) =
+                      H               log(tr(Gα )) .                      (.4)         assumption,
+                                  1−α
+                                                                                                                              1
+                                                                                                       H(Xi | X[K]\i ) =        log (2πe) σ2i|[K]\i ,
+                                                                                                                                                   
+In practice, integer α is commonly used. This avoids explicit                                                                                                   (.13)
+                                                                                                                              2
+density estimation and can be directly optimized by backprop-                          and equivalently:
+agation through the kernel matrix.
+                                                                                                                   K
+                                                                                                                   X
+                                                                                         DTC(X1 , . . . , XK ) =         H(X[K]\i ) − (K − 1)H(X1 , . . . , XK ).
+A.4 Three-View Entropy Terms in Training                                                                           i=1
+                                                                                                                                               (.14)
+   For each training mini-batch, compute:                                              Under Gaussianity, each term H(X[K]\i ) is computed from the
+                                                                                       corresponding (K−1) × (K−1) principal minor of Σ. The O-
+                                1
+                                   log tr Gα1 ,
+                                        
+                     bα (Z1 ) =
+                     H                                                    (.5)         information is then obtained as:
+                               1−α
+                                                                                         O(X1 , . . . , XK ) = TC(X1 , . . . , XK ) − DTC(X1 , . . . , XK ). (.15)
+                     bα (Z2 ) = 1 log tr Gα ,
+                                        
+                     H                                                    (.6)
+                               1−α          2
+                                                                                       This closed-form computation requires only covariance deter-
+                     bα (Z3 ) = 1 log tr Gα .
+                                            
+                     H                                                    (.7)         minants and principal minors (computed from the upper trian-
+                               1−α          3
+                                                                                       gle), enabling efficient O-information estimation for K = 3 or
+The implemented loss term is                                                           K = 4 without density estimation. Given T time points and C
+                                                                                       brain regions/networks, the K × K covariance matrix Σ ∈ RK×K
+             Lent = β1 H
+                       bα (Z1 ) + β2 H
+                                     bα (Z2 ) + β3 H
+                                                   bα (Z3 ).              (.8)         is computed in O(T · K 2 ) for each K-tuple,
+                                                                                                                                and the determinant
+                                                                                       computation requires O(K 3 ). For all CK combinations, the total
+                                                                                                         
+A.5 Algorithmic Summary                                                                complexity is O( CK ·(T ·K 2 +K 3 )), which simplifies to O(C K ·T )
+                                                                                       for small K.
+                                                                                  14
+B.2 Randomized Approximation for Matrix-Based Rényi’s En-                              C. Detailed Neuroanatomical Interpretation
+tropy
+                                                                                          To complement the summary in the main text, this section
+    For non-Gaussian settings, we estimate entropies with the
+                                                                                       provides the full Grad-CAM–based neuroanatomical interpre-
+matrix-based Rényi’s α-order functional. Given T time-point
+                                                                                       tation of discriminative higher-order interaction patterns for
+samples {x1 , . . . , xT } and the normalized Gram matrix G ∈
+                                                                                       each disorder.
+RT ×T built with a Gaussian kernel κ(xi , x j ) = exp(−∥xi −
+x j ∥2 /(2σ2 )), the entropy is
+                                                                                       C.1 Schizophrenia
+                                     1                                                   Table .8 presents the top-5 discriminative third-order and
+                     Hα (X) =           log tr(Gα ) .
+                                                   
+                                                                         (.16)
+                                    1−α                                                fourth-order interactions in the UCLA schizophrenia dataset.
+   We avoid explicit eigendecomposition by randomized trace
+                                                               s                       Table .8: Top-5 discriminative third-order and fourth-order interactions in
+estimation: draw s i.i.d. standard Gaussian probe vectors {gi }i=1
+                                                                                       UCLA schizophrenia dataset identified by Grad-CAM. ICA105 component in-
+and compute
+                                                                                       dices are shown.
+                                    s                                                 Triplet/Quadruplet SZ (Mean ± SD) HC (Mean ± SD) ∆ (SZ - HC)
+                           1        1 X ⊤ α                                       6, 14, 16              0.368 ± 0.248        0.237 ± 0.227        +0.131
+              Hα (X) =
+              e                log        g G gi  .   (.17)                                                                                         +0.109
+                         1−α
+                                     
+                                       s i=1 i                                          2, 68, 71              0.175 ± 0.263        0.066 ± 0.171
+                                                                                        41, 42, 44             0.367 ± 0.236        0.264 ± 0.183        +0.103
+                                                                                        1, 2, 71               0.195 ± 0.207        0.098 ± 0.150        +0.097
+The complete randomized approximation procedure is summa-                               83, 84, 96             0.220 ± 0.200        0.316 ± 0.220         -0.096
+rized in Algorithm 2 [44].                                                              4, 6, 14, 16           0.412 ± 0.263        0.251 ± 0.228        +0.161
+                                                                                        2, 68, 71, 72          0.218 ± 0.274        0.084 ± 0.179        +0.134
+Algorithm 2 Integer order matrix-based Rényi’s entropy esti-                            41, 42, 43, 44         0.403 ± 0.247        0.276 ± 0.192        +0.127
+mation                                                                                  1, 2, 71, 72           0.247 ± 0.223        0.113 ± 0.158        +0.134
+                                                                                        83, 84, 95, 96         0.208 ± 0.211        0.342 ± 0.229         -0.134
+Require: Kernel matrix G ∈ RT ×T , number of random vectors
+    s, integer order α ≥ 2
+                                                                                          In schizophrenia, MvHo-IB++ identifies three distinct patho-
+Ensure: Approximation to Hα (G)
+                                                                                       logical systems (Table .8).
+ 1: Generate s independent random standard Gaussian vectors
+                                                                                          The first system involves the triplet (6, 14, 16), connect-
+    gi , i = 1, . . . , s
+                                                                                       ing the networks cerebellar (ICA6), occipitotemporal (ICA14,
+                                    g⊤i Gα gi
+                                             
+ 2: return H  eα (G) = 1 log 1 Pi=1
+                                  s
+                          1−α   s                                                      ICA16). This connection shows the strongest abnormality, with
+                                                                                       elevated O-information in SZ (0.368 ± 0.248) compared to HC
+   Powers of G act through repeated matrix–vector products,                            (0.237 ± 0.227, ∆ = +0.131). Adding the network cerebellar
+enabling a complexity on the order of O(α s T 2 ) and matrix stor-                     (ICA4) to form the quadruplet (4, 6, 14, 16) reveals an even
+age restricted to the upper triangle. Using this randomized en-                        greater dysfunction (∆ = +0.161).
+tropy estimator, we compute TC and DTC as:                                                The second system includes the triplet (41, 42, 44), spanning
+                                                                                       the networks extended thalamic (ICA41, ICA42 and ICA44).
+                             K
+                             X                                                         SZ shows higher interactions (0.367 ± 0.236) than HC (0.264 ±
+  TCα (X1 , . . . , XK ) =                    eα (X1 , . . . , XK ),
+                                   eα (Xi ) − H
+                                   H                                     (.18)
+                                                                                       0.183, ∆ = +0.103), which further increase in the quadruplet
+                             i=1
+                             K
+                                                                                       (41, 42, 43, 44; ∆ = +0.127). This connection reflects corollary
+                                                                                       discharge dysfunction.
+                             X
+DTCα (X1 , . . . , XK ) =                                eα (X1 , . . . , XK ),
+                                   eα (X[K]\i ) − (K − 1)H
+                                   H
+                             i=1
+                                                                                          In contrast, the third system, comprising the triplet (83, 84,
+                                                                         (.19)         96) and quadruplet (83, 84, 95, 96), links the networks tem-
+                                                                                       poroparietal (ICA83, ICA84), and default mode (ICA96). Here,
+where Heα (Xi ) is estimated from the Gram matrix of the i-th vari-                    O-information is reduced in SZ (triplet: ∆ = −0.096; quadru-
+able, Hα (X1 , . . . , XK ) from the joint Gram matrix constructed
+      e                                                                                plet: ∆ = −0.134), the only negative-valued pattern among the
+via kernel product, and H      eα (X[K]\i ) from the joint Gram matrix                 top discriminators.
+excluding the i-th variable. The O-information is then obtained                           Together, these findings support the dysconnection hypothe-
+as                                                                                     sis [53], indicating that schizophrenia stems not from uniform
+                           Oα = TCα − DTCα ,                     (.20)                 network dysfunction but from imbalanced connectivity across
+                                                                                       brain networks.
+providing scalable estimates of third- and fourth-order interac-
+tions without distributional assumptions. The Gram matrix con-                         C.2 Major Depressive Disorder
+struction requires O(T 2 ) for T time points, and each random-
+                                                                                          In major depressive disorder, MvHo-IB++ identifies three
+ized trace estimation costs O(α · s · T 2 ) where s is the number
+                                                                                       distinct pathological systems.
+of probe vectors. Computing O-information for        one K-tuple re-                    The first system involves the triplet (73, 74, 76), connect-
+quires (2K + 1) entropy evaluations. For all CK combinations,
+                                                                                     ing bilateral putamen (AAL73, AAL74) and right pallidum
+the total complexity is O( CK · K · α · s · T 2 ), which simplifies to                 (AAL76). This connection shows the strongest abnormality,
+O(C K · T 2 ) for fixed α and s.                                                       with elevated O-information in MDD (0.211 ± 0.161) compared
+                                                                                  15
+to HC (0.149 ± 0.121, ∆ = +0.063). Adding the left pallidum
+                                                                                  (a)        Top 5 3-order                (b)           Top 5 4-order
+(AAL75) to form the quadruplet (73, 74, 75, 76) reveals the
+greatest dysfunction (∆ = +0.081). This basal ganglia circuit
+also extends to the thalamus in the quadruplet (73, 74, 77, 78;
+∆ = +0.071), reflecting hyperconnectivity within the striato-
+pallido-thalamic pathway.
+   The second system includes the triplet (44, 47, 48), span-
+ning right calcarine cortex (AAL44) and bilateral lingual gyrus
+(AAL47, AAL48). MDD shows higher interactions (0.360 ±
+0.228) than HC (0.304 ± 0.229, ∆ = +0.056), which further in-
+crease in the quadruplets extending bilaterally (43, 44, 47, 48;
+∆ = +0.063) and incorporating the amygdala (44, 47, 48, 42;
+∆ = +0.064). This visual-limbic circuit reflects aberrant con-
+nectivity between early visual processing regions and emotional
+centers.
+   The third system, comprising the triplets (56, 99, 100) and
+(55, 56, 100), links bilateral fusiform gyrus (AAL55, AAL56)
+with bilateral cerebellum lobule VI (AAL99, AAL100). The                                Frontal_Sup_L               ParaHippocampal_L           Putamen_L
+                                                                                        Frontal_Sup_R               ParaHippocampal_R           Putamen_R
+combined quadruplet (55, 56, 99, 100) shows elevated O-                                                             Fusiform_L                  Temporal_Pole_Sup_L
+                                                                                        Frontal_Mid_L
+information (∆ = +0.064), indicating dysconnection between                              Frontal_Mid_R               Fusiform_R                  Temporal_Pole_Sup_R
+                                                                                        Cingulum_Post_L             Precuneus_L                 Hippocampus_L
+ventral visual stream and the cerebellar cognitive control re-                                                      Precuneus_R                 Hippocampus_R
+                                                                                        Cingulum_Post_R
+gions.
+   Together, these findings reveal that major depressive disor-
+der involves hyperconnectivity across multiple systems: striato-               Figure .7: Discriminative higher-order interaction patterns in mild cognitive im-
+pallidal motivational circuits, visual-limbic processing path-                 pairment (ADNI dataset). (a) Top-5 third-order interactions. (b) Top-5 fourth-
+ways, and fusiform-cerebellar integration networks, support-                   order interactions.
+ing the hypothesis that depression stems from imbalanced func-
+tional integration rather than localized deficits [54, 55].
+                                                                               quadruplet (3, 4, 7, 8; ∆ = +0.056), spanning bilateral superior
+C.3 Mild Cognitive Impairment                                                  and middle frontal gyri, reflecting compensatory hyperconnec-
+  Table .9 and Figure .7 present the top-5 discriminative inter-               tivity within the prefrontal executive network.
+actions and their spatial distribution in the ADNI dataset (MCI
+                                                                                  The second system includes the triplet (48, 50, 52), span-
+vs. NC).
+                                                                               ning right lingual gyrus (AAL48), right superior occipital gyrus
+                                                                               (AAL50), and right middle occipital gyrus (AAL52). MCI
+Table .9: Top-5 discriminative third-order and fourth-order interactions in    shows higher interactions (0.319 ± 0.088) than HC (0.285 ±
+ADNI dataset (MCI vs. NC) identified by Grad-CAM. AAL region indices           0.081, ∆ = +0.034), which further increase in the quadruplet
+are shown.
+ Triplet/Quadruplet MCI (Mean ± SD) HC (Mean ± SD) ∆ (MCI - HC)                (48, 50, 52, 54; ∆ = +0.051) by incorporating right inferior
+ 3, 7, 22               0.362 ± 0.091        0.310 ± 0.082        +0.052       occipital gyrus (AAL54). This right-lateralized visual pathway
+ 7, 22, 23              0.368 ± 0.085        0.321 ± 0.076        +0.047       dysfunction reflects impaired visuospatial processing character-
+ 3, 7, 23               0.429 ± 0.103        0.386 ± 0.094        +0.043
+ 92, 100, 102          −0.002 ± 0.089       −0.040 ± 0.085        +0.038       istic of prodromal Alzheimer’s disease.
+ 48, 50, 52             0.319 ± 0.088        0.285 ± 0.081        +0.034
+ 3, 7, 22, 23           0.467 ± 0.112        0.406 ± 0.098        +0.061
+                                                                                  The third system, comprising the triplet (92, 100, 102) and
+ 3, 4, 7, 8             0.403 ± 0.096        0.347 ± 0.090        +0.056       quadruplet (92, 100, 102, 104), links right cerebellar Crus I
+ 48, 50, 52, 54         0.356 ± 0.094        0.305 ± 0.086        +0.051       (AAL92), right cerebellar lobule VI (AAL100), right cerebel-
+ 92, 100, 102, 104      0.010 ± 0.098       −0.035 ± 0.091        +0.045
+                                                                               lar lobule VIIb (AAL102), and right cerebellar lobule VIII
+ 7, 22, 23, 24          0.371 ± 0.089        0.332 ± 0.083        +0.039
+                                                                               (AAL104). MCI shows elevated O-information (triplet: ∆ =
+                                                                               +0.038; quadruplet: ∆ = +0.045), indicating dysconnection
+   In mild cognitive impairment, MvHo-IB++ identifies three
+                                                                               within the right cerebellar cognitive control regions that extend
+distinct pathological systems (Figure .7, Table .9).
+                                                                               beyond motor coordination to support executive function and
+   The first system involves the triplet (3, 7, 23), connecting
+                                                                               working memory.
+left superior frontal gyrus (AAL3), left middle frontal gyrus
+(AAL7), and left medial superior frontal gyrus (AAL23). This                      Together, these findings reveal that mild cognitive impair-
+connection shows elevated O-information in MCI (0.429 ±                        ment involves hyperconnectivity across frontal executive net-
+0.103) compared to HC (0.386±0.094, ∆ = +0.043). Extending                     works, visual processing pathways, and cerebellar cognitive re-
+to the quadruplet (3, 7, 22, 23) by adding right olfactory cor-                gions, supporting the hypothesis that prodromal Alzheimer’s
+tex (AAL22) reveals the strongest dysfunction (∆ = +0.061).                    disease reflects compensatory network rigidification rather than
+This frontal-olfactory circuit further extends bilaterally in the              uniform disconnection.
+                                                                          16
+C.4 Consistency and Complementarity of Multi-Order Patterns                   All hypergraph-based models were implemented using a
+                                                                            common HyperAtten backbone [51] to ensure architectural
+   Many discriminative fourth-order quadruplets directly ex-                consistency across methods.
+tend their corresponding third-order triplets. In schizophrenia,
+triplet (6, 14, 16) extends to quadruplet (4, 6, 14, 16), triplet
+(41, 42, 44) to quadruplet (41, 42, 43, 44), and triplet (83, 84,
+96) to quadruplet (83, 84, 95, 96). Similarly, in MDD, triplet
+(73, 74, 76) extends to quadruplet (73, 74, 75, 76), and triplet
+(55, 56, 100) to quadruplet (55, 56, 99, 100). In MCI, triplet (3,
+7, 23) extends to quadruplet (3, 7, 22, 23), triplet (48, 50, 52) to
+quadruplet (48, 50, 52, 54), and triplet (92, 100, 102) to quadru-
+plet (92, 100, 102, 104). This hierarchical consistency across
+interaction orders indicates that the identified regions partici-
+pate in coherent multi-way functional dependencies rather than
+spurious combinations. The third-order O-information captures
+local synergistic triads, while the fourth-order O-information
+extends these to broader, more distributed interaction motifs.
+   The convergent neuroanatomical findings across all three
+disorders, each showing disorder-specific patterns (cerebellar-
+visual-thalamic in SZ, striato-pallidal-visual-cerebellar in
+MDD, and frontal-occipital-cerebellar in MCI), validate the
+complementary nature of the multi-view framework and
+demonstrate that MvHo-IB++ captures interpretable, clinically
+relevant higher-order connectivity signatures that align with es-
+tablished neuroscience knowledge of psychiatric and neurode-
+generative pathophysiology.
+
+
+D. Implementation Details of Compared Hypergraph Base-
+lines
+
+   To ensure fair comparison, we implemented the hypergraph
+construction procedures of HL [18] and CcSi-MHAHGEL [33]
+following their original descriptions.
+   For HL, we constructed a shared cohort-level hypergraph us-
+ing a K-nearest-neighbor (K-NN) scheme applied to the aver-
+age functional connectivity matrix. Specifically, similarity be-
+tween node features xi and x j was computed using a Gaussian
+kernel:
+                                      ∥xi − x j ∥22 
+                                                        
+                Sim(vi , v j ) = exp −                   . (.21)
+                                             σ2
+                                       
+
+Each hyperedge consisted of a vertex and its K−1 nearest neigh-
+bors, forming a shared incidence matrix across subjects.
+   For CcSi-MHAHGEL, we constructed subject-specific hy-
+pergraphs via sparse linear regression. For each ROI i, its time
+series xi was modeled as a sparse combination of all other ROIs
+by solving:
+                      1
+                 min ∥xi − Ai αi ∥22 + λ∥αi ∥1 ,           (.22)
+                  αi 2
+
+where Ai contains the time series of all other ROIs. Hyperedges
+were formed by grouping ROI i with regions corresponding to
+strictly positive regression coefficients.
+   For HyBRiD [37], we adopted the learnable end-to-end hy-
+pergraph constructor as described in the original work, in which
+the hypergraph topology is parameterized and optimized via
+backpropagation.
+                                                                       17
+

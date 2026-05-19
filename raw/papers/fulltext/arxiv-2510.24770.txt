@@ -1,0 +1,751 @@
+                                          DMVFC: D EEP L EARNING BASED F UNCTIONALLY C ONSISTENT
+                                           T RACTOGRAPHY F IBER C LUSTERING U SING M ULTIMODAL
+                                                   D IFFUSION MRI AND F UNCTIONAL MRI
+
+
+                                               Bocheng Guo∗ †          Jin Wang∗ †        Yijie Li†       Junyi Wang†         Mingyu Gao†           Puming Feng†
+arXiv:2510.24770v2 [eess.IV] 3 Nov 2025
+
+
+
+
+                                              Yuqian Chen‡          Jarrett Rushmore§          Nikos Makris‡         Yogesh Rathi‡         Lauren J O’Donnell¶‡
+
+
+                                                                                                 Fan Zhang∥ ¶†
+
+
+                                                                                              November 4, 2025
+
+                                                                                                A BSTRACT
+
+                                                   Tractography fiber clustering using diffusion MRI (dMRI) is a crucial method for white matter (WM)
+                                                   parcellation to enable analysis of brain’s structural connectivity in health and disease. Current fiber
+                                                   clustering strategies primarily use the fiber geometric characteristics (i.e., the spatial trajectories) to
+                                                   group similar fibers into clusters, while neglecting the functional and microstructural information
+                                                   of the fiber tracts. There is increasing evidence that neural activity in the WM can be measured
+                                                   using functional MRI (fMRI), providing potentially valuable multimodal information for fiber
+                                                   clustering to enhance its functional coherence. Furthermore, microstructural features such as fractional
+                                                   anisotropy (FA) can be computed from dMRI as additional information to ensure the anatomical
+                                                   coherence of the clusters. In this paper, we develop a novel deep learning fiber clustering framework,
+                                                   namely Deep Multi-view Fiber Clustering (DMVFC), which uses joint multi-modal dMRI and
+                                                   fMRI data to enable functionally consistent WM parcellation. DMVFC can effectively integrate the
+                                                   geometric and microstructural characteristics of the WM fibers with the fMRI BOLD signals along
+                                                   the fiber tracts. DMVFC includes two major components: (1) a multi-view pretraining module to
+                                                   compute embedding features from each source of information separately, including fiber geometry,
+                                                   microstructure measures, and functional signals, and (2) a collaborative fine-tuning module to
+                                                   simultaneously refine the differences of embeddings. In the experiments, we compare DMVFC with
+                                                   two state-of-the-art fiber clustering methods and demonstrate superior performance in achieving
+                                                   functionally meaningful and consistent WM parcellation results.
+
+
+
+                                          1   Introduction
+
+                                          Diffusion magnetic resonance imaging (dMRI) tractography is a well-established neuroimaging technique that uniquely
+                                          allows in vivo mapping of the brain’s white matter (WM) connections at the macroscopic level [1]. This technique
+                                          has been widely used in the quantitative analysis of the brain’s structural connectivity [2]. Fiber clustering is a crucial
+                                          strategy for WM parcellation to subdivide whole-brain tractography into geometrically similar and anatomically
+                                          meaningful bundles [3], [4]. Although many fiber clustering methods have been developed for parcellation of the WM
+                                          tracts [2], existing clustering methods share a common limitation that they do not explicitly capture the functional
+                                          and microstructural implications of fiber clusters. To achieve clustering outcomes that are both anatomically and
+                                          functionally meaningful, it is crucial to develop a framework that integrates both structural and functional modalities.
+                                                                                     A PREPRINT - N OVEMBER 4, 2025
+
+
+1.1   Tractography Parcellation Using Fiber Clustering
+
+Tractography parcellation is essential for quantitative analysis of the brain’s structural connectivity. Fiber clustering is
+an important tractography parcellation strategy to organize streamlines into coherent groups based on their geometric
+similarities [2]. Briefly, fiber clustering methods begin by computing pairwise similarity distances between fibers and
+subsequently group them using various clustering algorithms. Compared to other tractography parcellation methods,
+such as the cortical-parcellation-based methods that organize fibers by their termination points in gray matter areas,
+fiber clustering techniques yield greater inter-subject consistency and exhibit improved reproduction reliability [6, 7].
+This methodological robustness has enabled deeper investigation into the organization of WM throughout different
+stages of life and disease conditions [4]. Ji et al applied a novel atlas-based parcellation approach to cluster and analyze
+superficial WM U-fibers in schizophrenia and bipolar disorder [8]. Automatically annotated fibre clustering (AAFC) [9]
+facilitates detailed analysis of WM tract microstructure, enabling effective differentiation between Parkinson’s disease,
+Scans Without Evidence of Dopaminergic Deficit (SWEDD), and healthy controls.
+Many approaches have been proposed for clustering tractography data. QuickBundles, for instance, employs a
+computationally efficient clustering algorithm based on the minimum average direct-flip distance to rapidly cluster
+streamlines for individual subjects [3]. Beyond individual-level clustering, groupwise methods have been developed to
+create population-based tractography atlases. One example is WhiteMatterAnalysis (WMA), which applies spectral
+clustering using pairwise distances between closest fiber points to segment fibers across multiple subjects [4], [10].
+FFClust is another, a high-performance algorithm that is designed to utilize graph modeling, facilitating the identification
+of compact and anatomically meaningful WM bundles in both individual and population-level analyses [11]. Román et
+al employ a two-level hierarchical clustering approach by first segmenting fiber centroids into ROI-based subgroups
+for initial clustering, followed by a second clustering stage to identify the most reproducible short association fiber
+bundles across subjects [12]. These techniques help capture consistent anatomical patterns across individuals and are
+critical in studies of population-level WM organization. Recent advances in deep learning have enabled enhanced
+effective and efficient parcellation of WM fiber tracts through innovative approaches that leverage graph network [13],
+self-supervised learning [14], and contrastive learning techniques [15].
+These methods offer distinct frameworks that improve anatomical accuracy and computational speed, addressing
+challenges in brain WM microstructure analysis. However, existing fiber clustering methods primarily rely on geometric
+features and have yet to integrate fMRI data to ensure that fiber clusters exhibit functional consistency.
+
+1.2   Functional and Microstructural Information Along WM Fiber Tracts
+
+Functional magnetic resonance imaging (fMRI), which utilizes blood oxygen level-dependent (BOLD) contrast [3], is a
+well-established method for assessing functional activity in the brain’s gray matter (GM). It has long been assumed that
+BOLD signals mainly arise from postsynaptic potentials in GM, where such activity is virtually absent in WM, leading
+to ongoing debate about the functional significance of BOLD responses observed in WM. However, recent research has
+shown that BOLD signals in WM consistently appear during visual and motor tasks, displaying patterns that closely
+resemble those found in GM [16], though with lower amplitudes and a slight time delay [17]. Notably, the resting-state
+frequency spectrum of WM BOLD signals has been found to closely match the spectral profile characteristic of
+GM [18], [19]. Furthermore, stable, long-range functional networks can be reliably detected within WM at the voxel
+level [20], and these networks are well correlated with those in GM, which indicates functional homogeneities of
+WM BOLD signals within fiber tracts [21]. Therefore, a promising solution for the construction of brain functional
+architecture is to exploit the functional signal transmission along WM fibers, which will take advantage of the abundant
+multimodal information, including the spatial distribution and temporal sequence of BOLD signals.
+Furthermore, from the dMRI data itself, many quantitative measures can be computed to reflect the underlying tissue
+microstructure properties of the WM. For example, fractional anisotropy (FA) is a neuroimaging index of microstructural
+WM integrity. This measure is sensitive to a variety of microstructural features. FA may reflect the coherence of
+membranes and restrictions [22]. However, to the best of our knowledge, no study has incorporated FA into fiber
+clustering yet. Moreover, FA is highly sensitive to the fractional composition of tissue that includes myelinated
+neurons [23]. As FA reflects the morphological characteristics of fibers, it provides valuable insights for clustering
+fibers with similar structural properties. This suggests that incorporating FA could be particularly advantageous for
+achieving more anatomically coherent clustering outcomes.
+
+1.3   Unsupervised Deep Feature Learning and Multi-view Clustering
+
+Deep neural networks have demonstrated superior performance in various computational neuroimaging tasks such as
+registration [24], imaging [25], and segmentation [26]. In particular, deep-learning-based clustering has been the subject
+of extensive study as an unsupervised learning task [28], which can be a powerful tool in fiber clustering analysis. One
+
+
+                                                             2
+                                                                                     A PREPRINT - N OVEMBER 4, 2025
+
+
+straightforward approach of unsupervised deep clustering is to extract feature embeddings with neural networks and
+then perform clustering on these embeddings to form clusters. The learned embeddings are high-level representations of
+input data and have been demonstrated to be informative for downstream tasks. For fiber clustering, studies have been
+proposed to use self-supervised learning. CINTA [33], an unsupervised autoencoder-based method for tractography
+clustering, avoids distance thresholding and achieves anatomically coherent results with linear time complexity. Deep
+Fiber Clustering (DFC) [14] framework utilizes self-supervised learning to derive meaningful embeddings for clustering
+WM fibers. [29]
+A promising direction is using multi-view clustering for effective WM parcellation to combine fMRI information with
+dMRI information. In recent years, benefiting from the ability to well exploit the underlying information embedded in
+the data from different views in unsupervised clustering, multi-view clustering (MVC) has been increasingly researched
+and applied to multiple scenarios. Multi-view clustering methods like [30], [32] have gained better performance on
+vision multi-view datasets than single-view datasets. However, the computer vision tasks are based on the different
+views of the same modality data. On fibers, fMRI and dMRI yield complementary insights, where fMRI reveals
+functional activity along the pathways, and dMRI maps geometric trajectories and structural information. It inspires us
+to utilize the attribute of integrating complementary information from multi-view clustering. Although fMRI provides
+valuable insights into membrane coherence and microstructural constraints, to date, no studies have incorporated fMRI
+as a fusion mechanism within multi-view clustering frameworks for WM fibers.
+
+1.4   Contributions
+
+In this work, we present a new multimodal fiber clustering framework, Deep Multi-view Fiber Clustering (DMVFC),
+that combines multiple types of data to improve cluster connectivity correlation and detail of fiber clustering analy-
+sis. In contrast to previous studies primarily focused on dMRI [3], [12], [33], we put forth a more comprehensive
+self-supervised multi-view deep learning framework with additional information as a clustering constraint. We utilize
+multimodal data to perform WM clustering efficiently, achieving fiber clustering with functional and microstruc-
+tural consistency. The final results of our experiments evaluate the feasibility of our method, and the compari-
+son with previous methods highlights the reliability and advantages of our approach. Source code is available at:
+https://github.com/GBCWORLDWALKER/DMVFC.
+We have three main contributions. First, we apply deep multi-view clustering for fiber clustering, providing a novel
+approach to analyzing neural pathways. Second, our method uniquely incorporates dMRI data and fMRI data jointly into
+deep fiber clustering, leading to enhanced performance in clustering the brain’s structural and functional connectivity.
+Third, by integrating different data modalities, our work provides more insights and establishes a new framework for
+fiber clustering techniques. The preliminary version of this work, referred to as DMVFCconf , was published in ISBI
+2025 [34]. In this work, we extend our previous work by 1) optimizing the fine-tuning process by using multi-modal
+based initialization, 2) adding FA information to further improve cluster anatomical coherence, and 3) a comprehensive
+evaluation on additional anatomical fiber tracts.
+
+
+2     METHODS
+
+The overall workflow of DMVFC is shown in Figure 1. There are two main training stages in DMVFC: (1) multi-view
+pretraining and (2) collaborative fine-tuning. In the first stage, the multi-view pretraining module computes two kinds
+of embeddings from fiber geometric information and brain functional signals (Section 2.1). In the second stage, the
+collaborative fine-tuning module refines the pretrained embeddings to ensure that the clustering outcomes integrate
+both dMRI and fMRI information simultaneously (Section 2.2). During the inference stage (Section 2.3), fractional
+anisotropy (FA) is incorporated as supplementary information to enhance the clustering process.
+
+2.1   Multi-view Pre-training for Embedding Computation
+
+In multi-view clustering analysis, the term “views” refers to different representations or perspectives of the same dataset,
+enabling the clustering algorithm to exploit complementary information from each view to enhance clustering accuracy
+and robustness [31]. In our work, the multi-view pre-training module consists of two parallel embedding extraction
+networks designed to generate feature embeddings from two distinct views, i.e., the fiber geometry information and
+brain functional signals, respectively. The two models are based on the popular dynamic graph convolutional neural
+network (DGCNN) [32], which is specifically designed for processing graph-structured data such as point clouds.
+DGCNN has been shown to be successful for fiber clustering in the Deep Fiber Clustering (DFC) framework [14], where
+it leverages geometric similarity between fibers to derive embedding features and subsequently refines the embedding
+
+
+                                                             3
+                                                                                      A PREPRINT - N OVEMBER 4, 2025
+
+
+
+
+Figure 1: Method Overview. The training stage consists of pretraining and tuning processes. During the pretraining
+stage, two parallel feature extraction models are trained to compute embeddings from fiber geometric information and
+brain functional signals, respectively. During the fine-tuning stage, the pretrained embeddings are optimized to ensure
+that the clustering outcomes integrate both geometric and functional information simultaneously. During the inference
+stage, fiber geometry information and FA data are incorporated to optimize clustering results. During this phase, an
+input fiber is assigned to the cluster with the highest soft label assignment probability, indicating the specific cluster to
+which the fiber belongs.
+
+
+space based on clustering outcomes. In the proposed DMVFC, we extend this approach to a multi-view model that
+incorporates both fiber geometry and functional signals.
+
+
+2.1.1   Network inputs
+
+To represent geometric information, fibers are modeled as point clouds that are defined by the spatial coordinates of fiber
+points along the trajectories. Specifically, for a given fiber i, its geometric input is denoted as x1i ∈ Rnp ×3 , where np
+corresponds to the number of evenly sampled points along the fiber, represented in the spatial Right-Anterior-Superior
+(RAS) coordinate system.
+For capturing functional signals, fibers are represented as point clouds defined by the BOLD signals at the endpoints.
+The fiber endpoints are located in the grey matter (except for tracts such as the CST, where one endpoint is within the
+white matter brainstem region).To improve cross-subject comparability and measurement robustness, we use the BOLD
+signals at the two endpoints near the cortex as the functional representation: endpoints lie near the cortex, provide a
+higher signal-to-noise ratio, and facilitate parcellation-based alignment. By contrast, correlations of along-tract white-
+matter BOLD can be susceptible to local confounds—e.g., small vessel/venous signals, crossing-fiber interference and
+partial-volume effects, field inhomogeneity, and regional variability in the hemodynamic response function—leading to
+larger phase/latency variability and noise and thus hampering cross-subject consistency assessments. Each endpoint
+contains 1,200 time points (see Section 3), which were randomly downsampled to 600 to enable more efficient CPU
+processing. As a result, for a fiber i, its functional signal input is formed as x2i ∈ R2×600 .
+
+
+                                                             4
+                                                                                              A PREPRINT - N OVEMBER 4, 2025
+
+
+2.1.2    Network training
+To obtain geometric and functional signal embeddings that effectively distinguish each fiber and improve clustering
+performance, we adopt the design principles of the DFC method [14]. DFC is a self-supervised learning-based method
+that processes pairs of fibers as inputs and employs fiber distance measures as pseudo-labels to train latent embedding
+representations for each fiber via DGCNN.
+In contrast to DFC’s single-model design, our method employs two parallel DGCNN networks to process the geometric
+and functional inputs represented as:
+                                                                           N
+                                           (xi , yi ) | xvi , yiv ∈ Rnp ×C i=1
+                                           v v
+                                                                                                              (1)
+
+Specifically, consider the dataset where (xvi , yiv ) denotes an input pair fed into its respective DGCNN network. Here, v
+indicates which view a particular input belongs to, N represents the total number of fibers, np represents the number
+of points per fiber, and C corresponds to the number of channels for each data type. For geometric input (v = 1),
+the pseudo-label s1i is derived from the minimum average direct-flip distance, a metric commonly used in WM fiber
+clustering [3], [4]. In contrast, for functional input (v = 2), pseudo-label s2i is calculated using the Pearson correlation
+of fMRI signals.
+Finally, to ensure that the distance between embeddings aligns with the similarity of data pairs, our study employs the
+following loss function:
+
+                                                     N
+                                                     X
+                                              LS =         ||d(xvi , yiv ) − svi ||22                                    (2)
+                                                     i=1
+where svi represents the label of input pairs, d(•) denotes the Euclidean distance between the learned deep embeddings
+fθv (xvi ).
+
+2.2     Collaborative Fine-tuning
+
+Since geometric and functional embeddings of fibers are computed independently, integrating the complementary
+information is crucial to achieve consistent clustering results across both modalities. To achieve this, we draw inspiration
+from the deep embedded multi-view clustering with collaborative training (DEMVC) method [32], which leverages
+embeddings from different views to mutually guide the fine-tuning of each other. In this case, this collaborative
+algorithm allows each embedding to assimilate complementary features from other views through the fine-tuning
+process.
+In our collaborative fine-tuning stage, the overall loss is represented as a weighted sum of Ls (see Eq. 2) to preserve
+embedding similarity between different fibers, along with Lc , which serves as an alternative collaborative loss function
+(refer to Eq. 3 and Eq. 4), applied alternately during odd and even training epochs as shown in the following equations.
+This alternating strategy helps the model learn from different perspectives and prevents it from overly relying on specific
+patterns.
+
+                                                                        K
+                                                                      N X
+                                                                      X                p1ij
+                                      Lvc odd = KL(P 1 ||Qv ) =                p1ij log v                                (3)
+                                                                       i=1 j=1
+                                                                                       qij
+
+                                                                       N X
+                                                                         K
+                                                                       X               p2ij
+                                     Lvc even = KL(P 2 ||Qv ) =                p2ij log v                                (4)
+                                                                       i=1 j=1
+                                                                                       qij
+where Qv denotes the soft label of all fibers across different views (with v = 1 representing the geometric view and
+                                         v
+v = 2 denoting the functional view). qij    represents the probability that one input fiber belongs to a given cluster j,
+which is defined by the t-student distribution:
+
+                                             v
+                                                  (1 + ||ziv − µvj ||2 )−1
+                                            qij =P            v     v 2 −1                                               (5)
+                                                  j ′ (1 + ||zi − µj ′ || )
+where ziv is the embedding of an individual fiber which has index i and µvj is the centroid of cluster j, This employs the
+Student’s t-distribution to convert the distance between individual fiber and cluster centroids into probabilities for soft
+label assignment, leveraging the heavy-tailed property of the t-distribution to ensure a smooth and robust probability
+distribution. P v is the target distribution and pvij is defined as:
+
+
+                                                                5
+                                                                                    A PREPRINT - N OVEMBER 4, 2025
+
+
+
+
+                                       Figure 2: Flowchart of data preprocessing
+
+
+                                                          v 2          v
+                                                                   P
+                                                        (qij ) /   i qij
+                                              pvij = P      v )2 /
+                                                                   P     v
+                                                                                                                      (6)
+                                                      j   (qij        i qij
+
+It is notable that the initialization of the centroids of clusters at the very beginning of fine-tuning process in both
+geometric information view and functional information view are crucial for the final results of optimization of the
+model. We calculate the centroids of geometric information embeddings first, and then use the fiber indexes of centroids
+in geometric information view as the centroids of the functional information embedding. The impact of the initialization
+strategy is further examined in the ablation study presented in Section 3.3.
+During the training process, the clustering losses are applied alternately in odd and even epochs. The fine-tuning Loss is
+defined as :
+
+                                                     Lf = Ls + γLc                                               (7)
+where γ is empirically set to be 0.1, Lc is defined as Lc odd during odd epochs and Lc = Lc even during even epochs.
+
+2.3   Inference Stage
+
+During the inference stage, for a new subject, we first compute the FA similarity between individual fibers. In parallel,
+the geometric input (as introduced in Section 2.1.1) is constructed and fed into the network to obtain the corresponding
+embeddings. The Manhattan distance is employed to quantify the FA similarity between fibers. This similarity value
+is then scaled by a factor of 30 and added to the geometric distance produced by the model to compute the final
+distance. This final distance is subsequently used to estimate the probability of each input belonging to a given cluster,
+as described in Eq. 5 (Section 2.2). The final cluster assignment for each fiber is determined by selecting the cluster
+with the highest probability. Notably, fMRI data are not needed at the inference stage. The model operating in the
+geometric information view is trained with guidance from functional data, but performs prediction independently of it.
+
+3     EXPERIMENTS AND RESULTS
+3.1   Data Acquisition and Preprocessing
+
+In this study, we utilize well-preprocessed dMRI and rfMRI data from the unrelated 100 subjects in the Human
+Connectome Project Young Adult (HCP-YA) [36]. For each participant, one hour of whole-brain rsfMRI data were
+collected using a 3 Tesla scanner, with a spatial resolution of 2×2×2 mm3 , repetition Time (TR) of 720 ms, echo time
+
+
+                                                            6
+                                                                                    A PREPRINT - N OVEMBER 4, 2025
+
+
+
+                 Table 1: Average GM correlation and α in different bundles under different model.
+                                         Riemannian
+                   Quick Bundle                                     DFC               DMVFCconf                    DMVFC
+      Bundle                             Framework
+
+                   Corr         α         Corr         α         Corr         α         Corr         α         Corr          α
+
+       ATR         0.266      4.991       0.322      4.762       0.308      4.544       0.318      4.582       0.347        4.521
+       CG          0.358      5.603       0.360      5.610       0.372      5.570       0.373      5.565       0.378        5.561
+       CST         0.251      5.124       0.291      4.723       0.311      4.288       0.314      4.289       0.326        4.281
+       FPT         0.339      4.931       0.392      4.914       0.374      4.890       0.379      5.068       0.394        4.886
+       ICP         0.253      3.968       0.272      3.991       0.315      4.003       0.332      4.415       0.341        3.914
+       IFO         0.275      5.605       0.311      5.599       0.319      5.573       0.318      5.576       0.322        5.571
+      POPT         0.234      5.264       0.285      5.261       0.275      5.242       0.293      5.380       0.294        5.231
+       SCP         0.251      5.124       0.291      4.723       0.349      4.286       0.354      4.304       0.367        4.235
+      ST_FO        0.264      4.315       0.364      4.002       0.469      3.715       0.470      3.747       0.478        3.711
+  ST_PREC          0.307      4.435       0.377      4.422       0.381      4.407       0.381      4.412       0.384        4.405
+      ST_PAR       0.301      5.423       0.340      5.417       0.333      5.457       0.338      5.416       0.348        5.398
+       STR         0.532      3.193       0.533      3.188       0.531      3.159       0.532      3.180       0.536        3.004
+
+
+
+
+(TE) of 33.1 ms, dMRI data were obtained with a spatial resolution of 1.25×1.25×1.25 mm, TR of 5520 ms, and TE of
+89.5 ms.
+The overall data processing workflow is illustrated in Figure 2. Diffusion MRI data were processed using the widely
+adopted tract segmentation tool TractSeg [37] to delineate anatomical fiber bundles. In our experiment, all 72 bundles
+were analysed. The rsfMRI data are preprocessed through the HCP fMRI minimal pipeline [38]. Then they were
+cleaned of spatially specific structured noise (ICA-FIX) [39] and precisely aligned across subjects by multimodal
+cortical surface registration (MSMAll) [38]. To prevent signal contamination and improve the signal-to-noise ratio and
+fMRI sensitivity in WM, we carry out spatial smoothing (4 mm full-width half-maximum, isotropic) for GM and WM
+separately. These preprocessing steps are done using the SPM12 toolbox [27]. Finally, the WM signals were band-pass
+filtered within the 0.01 to 0.08 Hz frequency range.
+
+
+3.2    Implementation
+
+The entire dataset was divided into 80 training samples and 20 testing samples. During the pretraining phase, the
+model was trained for 450 epochs with an initial learning rate of 3 × 10−3 , which decayed by a factor of 0.1 every 200
+epochs. This learning rate decay strategy helps the model converge more effectively by allowing larger updates in the
+early training stages to accelerate learning, while gradually reducing the learning rate for more stable updates later in
+training. In the subsequent fine-tuning phase, training was conducted for 20 epochs using a learning rate of 1 × 10−5 .
+A batch size of 1024 was employed, and optimization was performed using the Adam algorithm [41]. All deep learning
+models were implemented with PyTorch (v2.4.1) and Python (3.10). Training and inference were carried out on a single
+NVIDIA 3090 GPU. The training time for each bundle is approximately 6 hours, and the inference time is about 15
+minutes. Visualization of results was conducted using 3D Slicer via SlicerDMRI [42] [43]. The fiber bundles selected
+for quantitative evaluation in Tables I-III and Figure 3 were randomly chosen to demonstrate the effectiveness of the
+paper’s core method.
+To ensure fast and efficient processing of the large number of fiber samples during model training and inference, fibers
+are downsampled to 25 points, as this number provides good performance with relatively low computational costs.
+
+
+                                                             7
+                                                                                   A PREPRINT - N OVEMBER 4, 2025
+
+
+3.3     Experimental Results
+
+3.3.1    Model performance comparison with state-of-the-art methods
+To evaluate our clustering results, we compare our method with three state-of-the-art fiber clustering methods: Quick-
+Bundles (QB) [3], a Riemannian Framework for Structurally Curated Functional Clustering of Brain WM Fibers [5],
+and Deep Fiber Clustering (DFC) [14]. In brief, QB is an efficient fiber clustering technique that groups similar fibers
+based on extracted features and spatial proximity. The Riemannian Framework is an advanced method for functional
+fiber clustering using WM BOLD signals along fibers. DFC is a deep learning-based method on which our method is
+built (see Section 2.1).
+We use the following two evaluation metrics. First, as the goal of functional fiber clustering is to ensure that fibers
+within a cluster exhibit functional homogeneity, we compute the Pearson correlation of fMRI signals at the endpoints of
+fibers within each cluster [5]. A higher correlation indicates a stronger functional correlation across fibers within the
+cluster. In addition, to assess the geometric similarity of the fibers within a cluster, we compute the α measure, which
+is defined as the average pair-wise distances between all fibers within each cluster [11]. The value of α captures the
+coherence of the streamlines within clusters. A lower value of α indicates better coherence and improved clustering
+performance.
+The average fMRI signal correlation and the α measure for clusters of the 12 bundles of interest are shown in Table
+1. For all the bundles shown in the table, we calculate the average metrics for the bilateral bundles. Our method in
+general outperforms the other methods in terms of functional performance and maintains the lowest α value. These
+data demonstrate that our clustering technique not only ensures high functional relevance but also maintains strong
+geometric consistency.
+
+
+
+
+                  Figure 3: Impact of incorporating fMRI and FA information on model performance
+
+
+3.3.2    Ablation study of embedding initialization before fine-tuning
+As discussed in Section 2.2, the initialization of the clustering embeddings plays a critical role in the subsequent fine-
+tuning process. To systematically evaluate its impact, we perform an ablation study designed to analyze the influence of
+
+
+                                                            8
+                                                                                      A PREPRINT - N OVEMBER 4, 2025
+
+
+Table 2: Ablation study of centroid initialization in the embedding space. fMRI correlation and alpha metrics for the
+final results are reported for models using different initialization strategies before fine-tuning.
+
+                                        Method
+                                                         ATR     CG     CST     FPT    ICP
+                               Bundle
+
+                                                  Corr 0.347 0.378 0.326 0.394 0.341
+                                 DMVFC
+                                                    α   4.521 5.561 4.281 4.886 3.914
+                                Individual        Corr 0.322 0.377 0.316 0.390 0.336
+                               Initialization       α   4.554 5.564 4.288 4.994 4.143
+
+
+
+
+different initialization strategies on the final model’s performance. This investigation aims to provide empirical insights
+into how initialization affects model representation quality. Our method utilizes centroids of geometric information
+view to initialize the centroids of functional information view. In the ablation study, individual initialization method
+without explicit initialization relies on performing initialization within their respective embedding spaces by using
+centroids derived from each individual view. All other parameters and experimental conditions are held constant to
+isolate the effect of initialization strategy on model performance. Following this initialization approach, both model
+configurations undergo fine-tuning for 20 epochs. The metrics fMRI endpoints correlation and α are calculated on the
+test datasets. This design enables a clear assessment of how omitting the specific initialization impacts the fine-tuning
+process and final outcomes. As shown in Table 2, our method achieves higher fMRI correlation and less α. It indicates
+that the method of utilizing geometric information embedding centroids to initialize functional information view has a
+positive effect on subsequent fine-tuning.
+
+3.3.3   Ablation study of incorporation of fMRI and FA information
+To evaluate the impact of incorporatin fMRI and FA information on model performance, we conducted a comparative
+analysis involving three distinct model configurations relative to a baseline model: (1) the proposed model incorporating
+both FA and fMRI data, (2) the baseline model enhanced solely with fMRI data, and (3) the baseline model augmented
+exclusively with FA information. The fMRI-enhanced model was implemented using the same multi-view collaborative
+clustering framework as the proposed model, with the FA component removed to isolate the effect of fMRI data.
+Conversely, the FA-only model is based on the DFC [14] framework, incorporating FA information exclusively during
+the inference stage, as detailed in Section 2.3. These results are summarized in Figure 3, where DFC [14] serves
+as the reference baseline, and improvements in fMRI correlation are depicted via bar plots. The findings clearly
+indicate that integrating FA information leads to consistent and significant enhancements in model performance across
+all configurations compared to the baseline. This suggests that FA provides valuable complementary information,
+thereby improving the robustness and accuracy of brain functional modeling. Moreover, the proposed model integrating
+both fMRI and FA information demonstrates superior improvement compared to models incorporating each modality
+individually. Notably, in certain fiber bundles, the performance improvement exceeds the additive effect of combining
+the separate improvements observed from fMRI and FA alone, indicating a synergistic interaction between the two data
+types.
+
+3.3.4   Experiments on clustering consistency across subjects
+To further quantitatively assess clustering consistency among subjects, a representative pathway is identified for each
+cluster. This pathway is defined as the single fiber that exhibits the highest total functional correlation with all other
+fibers within the same cluster. The correlation is calculated based on the BOLD signals at the fibers’ endpoints, making
+this representative pathway the ’functional centroid’ that best captures the cluster’s shared functional characteristics.
+Distances are calculated between the corresponding representative pathways for different subjects. These values are
+then contrasted with the average distance within clusters and the mean distance throughout the entire bundle. The
+Hausdorff distance serves as a tool to gauge the uniformity of spatial arrangements in three-dimensional space, and
+Table 3 presents these results. Specifically, the Hausdorff distance between fibers acts as a measure of proximity for
+the point collections that fibers traverse; it is a frequently employed structural metric in the context of fiber clustering.
+Moreover, the data shows that the mean intra-cluster distance is consistently smaller than the mean distance across the
+entire bundle, indicating that the resulting clusters are structurally compact and well-defined. Furthermore, the analysis
+reveals that the pairwise distances between representative pathways from different subjects are significantly smaller
+
+
+                                                             9
+                                                                                     A PREPRINT - N OVEMBER 4, 2025
+
+
+Table 3: Hausdorff Distance between corresponding functional pathways, fibers in clusters, and fibers in bundles (MD
+denotes Mean Hausdorff Distance)
+
+                                   Pairwise MD of pathways
+                      Bundle                                        MD in clusters MD in bundles
+                               sub1-sub2 sub1-sub3 sub2-sub3
+
+                       ATR        6.43        5.27        6.58           7.35             13.52
+
+                      CC_2        9.53        8.62        8.33          10.40             21.31
+
+                        CG        5.12        6.52        6.81           8.91             18.07
+
+                       CST        4.14        5.11        4.77           7.32             12.47
+
+                       FPT        5.24        7.02        6.23           8.29             17.14
+
+                       ICP        4.81        3.76        4.22           5.81             13.38
+
+                      POPT        7.36        7.56        7.27           8.93             18.77
+
+
+
+
+than the average distances within the clusters themselves. This finding demonstrates a high degree of consistency for
+the identified pathways across the subject pool, which shows the effectiveness of our method.
+
+3.3.5   Visualization of fiber clustering results
+
+To further demonstrate that our clustering results have functional homogeneity, we visualize the fMRI signals on
+several example clusters in Figure 4. The colors in the clusters displayed in the figure correspond to the strength of the
+fMRI signals. Each column in the figure represents clusters that are spatially closest to one another within the same
+bundle, as identified by four different clustering methods. The detailed differences between the clusters, highlighted by
+red circles, illustrate the superior performance of our method in the removal of outliers and the clustering results of
+dMRI. Furthermore, the color intensity, reflecting the strength of the fMRI information, shows greater coherence along
+the streamlines within clusters. This enhanced coherence indicates that our approach maintains stronger functional
+alignment compared to the other three methods, yielding more consistent clustering and functional coherence across
+the data. These findings underscore the efficacy of our method in achieving both high-quality clustering and more
+functionally meaningful groupings.
+
+3.3.6   Visualization of embedding space
+
+To visually demonstrate the superior performance of our clustering method at the feature level, we employed the
+Uniform Manifold Approximation and Projection (UMAP) [37] to project 10-dimensional embeddings from the dMRI
+information view into a 2-dimensional space. Furthermore, the final clustering label will represent how the overall
+clustering framework divides fibers into different clusters.
+In Figure 5, distinct colors represent different clusters, and each point corresponds to a single fiber. The key difference,
+highlighted by the red circle in the figure, illustrates the overall performance of our clustering framework. We also
+visualize the corresponding fibers of the red circle embedding areas in the right of the embedding visualization. The
+blue fibers included in our cluster indicates that our approach achieves better clustering results, due to the additional
+information and improvements made to the overall framework. In the figure, with similar embedding, our method
+achieves better clustering results in some fibers that the baseline failed to assign appropriate labels. This figure
+demonstrates the enhancement in feature embedding capabilities of our model, showing that it effectively makes
+data points within the same cluster closer in the lower-dimensional representation and performs more accurate label
+assignment. This improvement in embedding ability further reinforces the performance of our method in distinguishing
+and clustering related data points more accurately.
+
+
+                                                            10
+                                                                                   A PREPRINT - N OVEMBER 4, 2025
+
+
+
+
+Figure 4: Visualization of clustering results for four different methods, with clusters colored according to the strength
+of fMRI signals. Each column displays the corresponding cluster from three different clustering methods. Differences
+between clusters are highlighted by red circles. Note that these are selected example clusters for visualization purposes
+from all processed bundles, not exhaustive representations.
+
+
+4   DISCUSSION
+In this work, we introduced DMVFC, a novel deep learning framework that effectively integrates multimodal dMRI
+and fMRI data to enhance WM parcellation. Unlike traditional methods relying primarily on geometry, DMVFC
+leverages microstructural (FA) and functional (BOLD) information, leading to improved functional and anatomical
+coherence of fiber clusters. Our experiments demonstrate DMVFC’s superior performance over state-of-the-art methods
+in achieving functionally homogeneous and geometrically consistent WM parcellation. Ablation studies confirmed
+the positive impact of our centroid initialization strategy and highlighted the synergistic benefits of integrating both
+fMRI and FA information, often yielding improvements beyond additive effects. Crucially, DMVFC showed high
+clustering consistency across subjects, with significantly smaller pairwise distances between representative pathways
+from different subjects compared to intra-cluster distances, underscoring its effectiveness and robustness in producing
+reproducible WM parcellations. DMVFC’s framework also offers substantial flexibility for future extensions. Other
+diffusion measures like NODDI parameters, task-based fMRI, T1-weighted MRI, and Quantitative Susceptibility
+Mapping (QSM) could be incorporated to provide more comprehensive and biologically detailed WM characterization.
+While advantageous for richer insights, such integration entails increased data complexity, potentially more sophisticated
+network architectures, and higher computational demands. Regarding tractography, our method utilizes TractSeg for
+bundle delineation. Although DMVFC is designed to be robust to fiber representation variations, different algorithms
+can yield distinct fiber characteristics. Future work will systematically evaluate DMVFC’s performance and robustness
+across various tractography methods to assess how fiber generation differences propagate through our framework.
+
+
+                                                           11
+                                                                                    A PREPRINT - N OVEMBER 4, 2025
+
+
+
+
+Figure 5: Illustration of the geometric embedding using UMAP, with the baseline DFC on the left and our proposed
+framework in the middle, with the visualization of tractography of the corresponding bundle. Key differences are
+highlighted by the red circles. The blue streamlines represent those unique fiber to our method’s cluster, while red
+streamlines indicate those exclusive to the baseline. Yellow streamlines denote the overlap, appearing in both our cluster
+and the baseline cluster. From all clustered white matter tracts, we select the CC_5 (top) and SLF_III (bottom) for
+demonstration.
+
+
+DMVFC uniquely integrates complementary dMRI and fMRI insights to overcome limitations of geometry-centric
+approaches. By achieving superior functionally consistent clustering and high inter-subject reproducibility, DMVFC
+provides a powerful new tool for understanding the intricate structure-function relationship in WM, with significant
+implications for neuroimaging research and potential clinical applications.
+
+
+5   CONCLUSION
+
+In this paper, we present a novel deep-learning framework for fiber clustering that integrates dMRI, fMRI, and FA
+information, effectively combining both geometric and functional data from WM fiber tracts. Through extensive
+experiments, we identified an optimal method for merging the geometric characteristics of fibers with BOLD signals
+along the WM fibers, enhancing clustering performance. The proposed framework has been rigorously validated,
+demonstrating its functional and structural consistency. By leveraging multimodal data, our framework underscores the
+substantial potential of WM BOLD signals in improving fiber clustering accuracy and provides a powerful tool for
+advanced neuroimaging analysis.
+
+
+Acknowledgements
+
+This work is in part supported by the National Key R&D Program of China (No. 2023YFE0118600), and the National
+Natural Science Foundation of China (No. 62371107).
+
+
+References
+
+ [1] P. J. Basser, S. Pajevic, C. Pierpaoli, J. Duda, and A. Aldroubi, “In vivo fiber tractography using DT-MRI data,”
+     Magnetic resonance in medicine, vol. 44, no. 4, pp. 625–632, 2000.
+
+
+                                                           12
+                                                                                     A PREPRINT - N OVEMBER 4, 2025
+
+
+ [2] F. Zhang, A. Daducci, Y. He, S. Schiavi, C. Seguin, R. E. Smith, C.-H. Yeh, T. Zhao, and L. J. O’Donnell, “Quan-
+     titative mapping of the brain’s structural connectivity using diffusion MRI tractography: A review,” Neuroimage,
+     vol. 249, p. 118870, 2022.
+ [3] E. Garyfallidis, M. Brett, M. M. Correia, G. B. Williams, and I. Nimmo-Smith, “Quickbundles, a method for
+     tractography simplification,” Frontiers in neuroscience, vol. 6, p. 175, 2012.
+ [4] F. Zhang, Y. Wu, I. Norton, L. Rigolo, Y. Rathi, N. Makris, and L. J. O’Donnell, “An anatomically curated fiber
+     clustering white matter atlas for consistent white matter tract parcellation across the lifespan,” Neuroimage, vol.
+     179, pp. 429–447, 2018.
+ [5] Y. Zhao, Z. Yang, Z. Ding, and J. Su, “A riemannian framework for structurally curated functional clustering of
+     brain white matter fibers,” IEEE Transactions on Medical Imaging, vol. 42, no. 8, pp. 2414–2424, 2023.
+ [6] F. Zhang, Y. Wu, I. Norton, Y. Rathi, A. J. Golby, and L. J. O’Donnell, “Test–retest reproducibility of white
+     matter parcellation using diffusion MRI tractography fiber clustering,” Human brain mapping, vol. 40, no. 10, pp.
+     3041–3057, 2019.
+ [7] F. Zhang, I. Norton, W. Cai, Y. Song, W. M. Wells, and L. J. O’Donnell, “Comparison between two white
+     matter segmentation strategies: an investigation into white matter segmentation consistency,” in 2017 IEEE 14th
+     International Symposium on Biomedical Imaging (ISBI 2017). IEEE, 2017, pp. 796–799.
+ [8] E. Ji, P. Guevara, M. Guevara, A. Grigis, N. Labra, S. Sarrazin, N. Hamdani, F. Bellivier, M. Delavest, M. Leboyer
+     et al., “Increased and decreased superficial white matter structural connectivity in schizophrenia and bipolar
+     disorder,” Schizophrenia Bulletin, vol. 45, no. 6, pp. 1367–1378, 2019.
+ [9] Y. Feng, W. Yan, J. Wang, J. Song, Q. Zeng, and C. Zhao, “Local white matter fiber clustering differentiates
+     parkinson’s disease diagnoses,” Neuroscience, vol. 435, pp. 146–160, 2020.
+[10] L. J. O’Donnell and C.-F. Westin, “Automatic tractography segmentation using a high-dimensional white matter
+     atlas,” IEEE transactions on medical imaging, vol. 26, no. 11, pp. 1562–1575, 2007.
+[11] A. Vázquez, N. López-López, A. Sánchez, J. Houenou, C. Poupon, J.-F. Mangin, C. Hernández, and P. Guevara,
+     “Ffclust: Fast fiber clustering for large tractography datasets for a detailed study of brain connectivity,” NeuroImage,
+     vol. 220, p. 117070, 2020.
+[12] C. Román, C. Hernández, M. Figueroa, J. Houenou, C. Poupon, J.-F. Mangin, and P. Guevara, “Superficial white
+     matter bundle atlas based on hierarchical fiber clustering over probabilistic tractography data,” NeuroImage, vol.
+     262, p. 119550, 2022.
+[13] F. Liu, J. Feng, G. Chen, Y. Wu, Y. Hong, P.-T. Yap, and D. Shen, “Deepbundle: fiber bundle parcellation with
+     graph convolution neural networks,” in Graph Learning in Medical Imaging: First International Workshop, GLMI
+     2019, Held in Conjunction with MICCAI 2019, Shenzhen, China, October 17, 2019, Proceedings 1. Springer,
+     2019, pp. 88–95.
+[14] Y. Chen, C. Zhang, T. Xue, Y. Song, N. Makris, Y. Rathi, W. Cai, F. Zhang, and L. J. O’Donnell, “Deep fiber
+     clustering: Anatomically informed fiber clustering with self-supervised deep learning for fast and effective
+     tractography parcellation,” NeuroImage, vol. 273, p. 120086, 2023.
+[15] T. Xue, F. Zhang, C. Zhang, Y. Chen, Y. Song, N. Makris, Y. Rathi, W. Cai, and L. J. O’Donnell, “Supwma:
+     consistent and efficient tractography parcellation of superficial white matter with deep learning,” in 2022 IEEE
+     19th International Symposium on Biomedical Imaging (ISBI). IEEE, 2022, pp. 1–5.
+[16] M. J. Courtemanche, C. J. Sparrey, X. Song, A. MacKay, and R. C. D’Arcy, “Detecting white matter activity
+     using conventional 3 tesla fMRI: An evaluation of standard field strength and hemodynamic response function,”
+     Neuroimage, vol. 169, pp. 145–150, 2018.
+[17] L. M. Fraser, M. T. Stevens, S. D. Beyea, and R. C. D’Arcy, “White versus gray matter: fMRI hemodynamic
+     responses show similar characteristics, but differ in peak amplitude,” BMC neuroscience, vol. 13, pp. 1–6, 2012.
+[18] M. Li, Y. Gao, Z. Ding, and J. C. Gore, “Power spectra reveal distinct bold resting-state time courses in white
+     matter,” Proceedings of the National Academy of Sciences, vol. 118, no. 44, p. e2103104118, 2021.
+[19] Y. Huang, S. K. Bailey, P. Wang, L. E. Cutting, J. C. Gore, and Z. Ding, “Voxel-wise detection of functional
+     networks in white matter,” Neuroimage, vol. 183, pp. 544–552, 2018.
+[20] M. Peer, M. Nitzan, A. S. Bick, N. Levin, and S. Arzy, “Evidence for functional networks within the human
+     brain’s white matter,” Journal of Neuroscience, vol. 37, no. 27, pp. 6394–6407, 2017.
+[21] Z. Ding, Y. Huang, S. K. Bailey, Y. Gao, L. E. Cutting, B. P. Rogers, A. T. Newton, and J. C. Gore, “Detection of
+     synchronous brain activity in white matter tracts at rest and under functional loading,” Proceedings of the National
+     Academy of Sciences, vol. 115, no. 3, pp. 595–600, 2018.
+
+
+                                                            13
+                                                                                   A PREPRINT - N OVEMBER 4, 2025
+
+
+[22] P. Kochunov, D. Williamson, J. Lancaster, P. Fox, J. Cornell, J. Blangero, and D. Glahn, “Fractional anisotropy of
+     water diffusion in cerebral white matter across the lifespan,” Neurobiology of aging, vol. 33, no. 1, pp. 9–20, 2012.
+[23] K. G. Schilling, M. Li, F. Rheault, Z. Ding, A. W. Anderson, H. Kang, B. A. Landman, and J. C. Gore, “Anomalous
+     and heterogeneous characteristics of the bold hemodynamic response function in white matter,” Cerebral Cortex
+     Communications, vol. 3, no. 3, p. tgac035, 2022.
+[24] F. Zhang, W. M. Wells, and L. J. O’Donnell, “Deep diffusion MRI registration (ddmreg): a deep learning method
+     for diffusion MRI registration,” IEEE transactions on medical imaging, vol. 41, no. 6, pp. 1454–1467, 2021.
+[25] Y. Huang, F. Zheng, D. Wang, W. Huang, M. R. Scott, and L. Shao, “Brain image synthesis with unsupervised
+     multivariate canonical cscl4net,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+     Recognition, 2021, pp. 5881–5890.
+[26] Z. Wang, Y. Lv, M. He, E. Ge, N. Qiang, and B. Ge, “Accurate corresponding fiber tract segmentation via fiberge-
+     omap learner,” in International Conference on Medical Image Computing and Computer-Assisted Intervention.
+     Springer, 2022, pp. 143–152.
+[27] J. Ashburner, G. Barnes, C.-C. Chen, J. Daunizeau, G. Flandin, K. Friston, S. Kiebel, J. Kilner, V. Litvak, R. Moran
+     et al., “Spm12 manual,” Wellcome Trust Centre for Neuroimaging, London, UK, vol. 2464, no. 4, p. 53, 2014.
+[28] Y. Ren, J. Pu, Z. Yang, J. Xu, G. Li, X. Pu, P. S. Yu, and L. He, “Deep clustering: A comprehensive survey,” IEEE
+     transactions on neural networks and learning systems, 2024.
+[29] Y. Xie, Z. Xu, J. Zhang, Z. Wang, and S. Ji, “Self-supervised learning of graph neural networks: A unified review,”
+     IEEE transactions on pattern analysis and machine intelligence, vol. 45, no. 2, pp. 2412–2429, 2022.
+[30] C. Cui, Y. Ren, J. Pu, J. Li, X. Pu, T. Wu, Y. Shi, and L. He, “A novel approach for effective multi-view
+     clustering with information-theoretic perspective,” Advances in neural information processing systems, vol. 36, pp.
+     44 847–44 859, 2023.
+[31] M.-S. Chen, L. Huang, C.-D. Wang, and D. Huang, “Multi-view clustering in latent embedding space,” in
+     Proceedings of the AAAI conference on artificial intelligence, vol. 34, 2020, pp. 3513–3520.
+[32] J. Xu, Y. Ren, G. Li, L. Pan, C. Zhu, and Z. Xu, “Deep embedded multi-view clustering with collaborative training,”
+     Information Sciences, vol. 573, pp. 279–290, 2021.
+[33] J. H. Legarreta, L. Petit, F. Rheault, G. Theaud, C. Lemaire, M. Descoteaux, and P.-M. Jodoin, “Filtering in
+     tractography using autoencoders (finta),” Medical Image Analysis, vol. 72, p. 102126, 2021.
+[34] J. Wang, B. Guo, Y. Li, J. Wang, Y. Chen, J. Rushmore, N. Makris, Y. Rathi, L. J. O’Donnell, and F. Zhang, “A
+     novel deep learning tractography fiber clustering framework for functionally consistent white matter parcellation
+     using multimodal diffusion MRI and functional MRI,” in 2025 IEEE 22nd International Symposium on Biomedical
+     Imaging (ISBI). IEEE, 2025, pp. 1–5.
+[35] Y. Wang, Y. Sun, Z. Liu, S. E. Sarma, M. M. Bronstein, and J. M. Solomon, “Dynamic graph cnn for learning on
+     point clouds,” ACM Transactions on Graphics (tog), vol. 38, no. 5, pp. 1–12, 2019.
+[36] D. C. Van Essen, S. M. Smith, D. M. Barch, T. E. Behrens, E. Yacoub, K. Ugurbil, W.-M. H. Consortium et al.,
+     “The wu-minn human connectome project: an overview,” Neuroimage, vol. 80, pp. 62–79, 2013.
+[37] J. Wasserthal, P. Neher, and K. H. Maier-Hein, “Tractseg-fast and accurate white matter tract segmentation,”
+     NeuroImage, vol. 183, pp. 239–253, 2018.
+[38] M. F. Glasser, S. N. Sotiropoulos, J. A. Wilson, T. S. Coalson, B. Fischl, J. L. Andersson, J. Xu, S. Jbabdi,
+     M. Webster, J. R. Polimeni et al., “The minimal preprocessing pipelines for the human connectome project,”
+     Neuroimage, vol. 80, pp. 105–124, 2013.
+[39] L. Griffanti, G. Salimi-Khorshidi, C. F. Beckmann, E. J. Auerbach, G. Douaud, C. E. Sexton, E. Zsoldos, K. P.
+     Ebmeier, N. Filippini, C. E. Mackay et al., “Ica-based artefact removal and accelerated fMRI acquisition for
+     improved resting state network imaging,” Neuroimage, vol. 95, pp. 232–247, 2014.
+[40] L. McInnes, J. Healy, and J. Melville, “Umap: Uniform manifold approximation and projection for dimension
+     reduction,” arXiv preprint arXiv:1802.03426, 2018.
+[41] D. P. Kingma, “Adam: A method for stochastic optimization,” arXiv preprint arXiv:1412.6980, 2014.
+[42] F. Zhang, T. Noh, P. Juvekar, S. F. Frisken, L. Rigolo, I. Norton, T. Kapur, S. Pujol, W. Wells III, A. Yarmarkovich
+     et al., “SlicerdMRI: diffusion MRI and tractography research software for brain cancer surgery planning and
+     visualization,” JCO clinical cancer informatics, vol. 4, pp. 299–309, 2020.
+[43] I. Norton, W. I. Essayed, F. Zhang, S. Pujol, A. Yarmarkovich, A. J. Golby, G. Kindlmann, D. Wassermann, R. S. J.
+     Estepar, Y. Rathi et al., “SlicerdMRI: open source diffusion MRI software for brain cancer research,” Cancer
+     research, vol. 77, no. 21, pp. e101–e103, 2017.
+
+
+                                                           14
+

@@ -1,0 +1,1049 @@
+                                                                                                                     TYPE Review
+                                                                                                                     PUBLISHED 22 September 2025
+                                                                                                                     DOI 10.3389/fneur.2025.1661049
+
+
+
+
+                                                Beyond the surface: a review of
+OPEN ACCESS                                     transcranial temporal
+                                                interference stimulation for deep
+EDITED BY
+Hakjoo Kim,
+Harvard Medical School, United States
+
+REVIEWED BY
+Kanata Yatsuda,
+                                                brain modulation
+Chiba University, Japan
+Abolghasem Zeidaabadi Nezhad,
+Isfahan University of Technology, Iran          Boyan Ivanov1*, Jake E. Toth2 , Alekhya Mandali3 ,
+Hossein Soroushi,
+Texas A and M University, United States         Roberto Salvati4 and Mahnaz Arvaneh1
+                                                1
+*CORRESPONDENCE                                   School of Electrical and Electronic Engineering, The University of Sheffield, Sheffield,
+Boyan Ivanov                                    United Kingdom, 2 Institute of Biomedical Engineering, The University of Oxford, Oxford,
+  bivanov2@sheffield.ac.uk                      United Kingdom, 3 School of Psychology, The University of Sheffield, Sheffield, United Kingdom,
+                                                4
+                                                  Perspectum Ltd., Oxford, United Kingdom
+RECEIVED 07 July 2025
+ACCEPTED 15 August 2025
+PUBLISHED 22 September 2025
+
+CITATION                                        Temporal Interference (TI) stimulation has emerged as a novel, non-invasive
+Ivanov B, Toth JE, Mandali A, Salvati R and     technique for selectively modulating deep brain regions while minimizing
+Arvaneh M (2025) Beyond the surface: a
+                                                stimulation of superﬁcial cortical layers, addressing key limitations of traditional
+review of transcranial temporal interference
+stimulation for deep brain modulation.          transcranial electrical stimulation (tES) methods. This review systematically
+Front. Neurol. 16:1661049.                      examines advancements in TI research from June 2017 to December 2024,
+doi: 10.3389/fneur.2025.1661049                 encompassing safety evaluations, computational modeling (including Finite
+COPYRIGHT                                       Element Method simulations), and stimulation–parameter optimisation. The
+© 2025 Ivanov, Toth, Mandali, Salvati and
+Arvaneh. This is an open-access article
+                                                paper synthesizes 63 publications on the efficacy of TI in deep brain
+distributed under the terms of the Creative     neuromodulation, its optimisation strategies, and emerging methodologies
+Commons Attribution License (CC BY). The        aimed at improving stimulation precision and reducing off-target effects.
+use, distribution or reproduction in other
+forums is permitted, provided the original
+                                                Furthermore, the review explores the clinical applications of TI, particularly
+author(s) and the copyright owner(s) are        its potential in treating neurological disorders such as epilepsy, Parkinson’s
+credited and that the original publication in   disease, and cognitive impairments. Despite its promise, challenges remain,
+this journal is cited, in accordance with
+accepted academic practice. No use,
+                                                including variability in stimulation outcomes, the need for individualized
+distribution or reproduction is permitted       treatment protocols, and gaps in understanding the long-term effects of TI. By
+which does not comply with these terms.         consolidating current knowledge and identifying future research priorities, this
+                                                review provides a comprehensive perspective on the transformative potential of
+                                                TI stimulation in neuroscience and clinical neurotherapeutics.
+
+                                                KEYWORDS
+
+                                                non-invasive deep brain stimulation, temporal interference stimulation, interferential
+                                                stimulation, interfering electric ﬁelds, temporal interference stimulation (TIS),
+                                                interferential current stimulation, transcranial temporal interference stimulation
+                                                (tTIS)
+
+
+
+                                                1 Introduction
+                                                     The applications of transcranial electrical stimulation (tES) toward restoring human
+                                                health have been advancing rapidly in the last decade. However, standard tES delivers
+                                                current through large sponge pads, where a recent review of optimisation studies notes
+                                                that, even with multi-electrode conﬁgurations, targeting deep structures inevitably co-
+                                                stimulates overlying cortex (1). Modeling work shows that much of the injected current
+                                                is shunted across the scalp, producing diﬀuse ﬁelds that decay rapidly with depth (2), and
+                                                practical guides warn that scalp electrodes do not eﬀectively penetrate deep brain regions,
+                                                making them most suitable for cortical targets (3). Temporal Interference (TI) stimulation,
+                                                a technique developed by Grossman et al., has been shown to non-invasively target deep
+
+
+
+Frontiers in Neurology                                                01                                                               frontiersin.org
+Ivanov et al.                                                                                                           10.3389/fneur.2025.1661049
+
+
+
+
+brain structures, opening new possibilities for therapeutic                    location and extent of the e-ﬁeld (15). Additionally, the spatial
+interventions in neurological disorders (4).                                   arrangement and number of electrodes are crucial for focusing
+    TI stimulation applies two slightly diﬀerent high-frequency                the e-ﬁeld on speciﬁc target areas while minimizing stimulation
+alternating currents (f 1 and f 2) through two pairs of electrodes             of adjacent tissues (22). Optimizing these parameters is crucial for
+on the scalp. These currents interfere constructively and produce              developing safe and eﬀective TI protocols tailored to therapeutic
+an electric ﬁeld that oscillates at the diﬀerence of their frequencies         and experimental needs.
+(f = f 1 − f 2), called the beat frequency (see Figure 1).
+While neuronal membranes exhibit low-pass ﬁltering properties
+at the level of subthreshold membrane responses (5, 6), While                  2 Article types
+neuronal membranes exhibit low-pass ﬁltering properties at the
+level of subthreshold membrane responses (5, 6), TI can eﬀectively                 Recent ﬁndings on TI stimulation remain promising but
+stimulate deep brain structures while largely avoiding direct neural           highlight signiﬁcant knowledge gaps and methodological
+activation of superﬁcial cortex (7–9). However, overall current                inconsistencies. While earlier reviews have covered aspects of
+amplitude remains limited by cutaneous perceptibility and pain                 the TI literature, they remain limited in scope. Zhu and Yin
+thresholds in scalp tissues (10). Although TI stimulation produces             (87) highlighted inconsistencies in human outcomes and called
+a low-frequency “beat,” all delivered energy remains conﬁned to the            for improved stimulation protocols, focusing on preclinical and
+high-frequency carriers. Neurones, acting as nonlinear rectiﬁers,              computational studies. Demchenko et al. (23) reviewed human
+demodulate the high-frequency carriers and respond at the beat                 studies, emphasizing safety and early therapeutic outcomes, but
+rate (6), even though no low-frequency power is injected directly.             omitted animal and computational research. Gomez-Tames et al.
+By strategically placing electrode pairs, the targeted superimposed            (1) discussed electric-ﬁeld modeling for tES, with only peripheral
+ﬁeld is directed deep within the brain (see Figure 2). However,                coverage of TI. Soroushi et al. (24) explored computational
+recent studies suggest that this understanding may be incomplete,              strategies but lacked integration of clinical safety data. Peng
+as network-level interactions and ion channel non-linearities                  et al. (25) mapped preclinical mechanisms without addressing
+appear to play a crucial role in TI-induced neural responses (11, 12).         human trials or safety. Key gaps remain in synthesizing data
+While these ﬁndings challenge the conventional model, the precise              on safety and tolerability, optimizing stimulation parameters,
+mechanisms of action underlying TI stimulation remain uncertain                integrating ﬁndings across animal, computational, and clinical
+and continue to be actively investigated.                                      domains, and linking preclinical insights to clinical protocols. Our
+    In rodent models, TI has been shown to induce depolarisation               scoping review addresses these by mapping safety data, modeling
+of axonal membranes, potentially generating action potentials                  approaches (including ﬁnite element analysis), and parameter
+at the cellular level (4). However, in humans, TI functions as                 optimisation strategies across modalities. We reconcile fragmented
+a sub-threshold modulation technique similar to transcranial                   methodologies and provide a uniﬁed foundation for advancing TI
+alternating current stimulation (tACS) and transcranial direct                 research and clinical translation.
+current stimulation (tDCS). Some of the contributing factors                       Unlike systematic reviews or meta-analyses, which focus on
+for this diﬀerence are attributed to the larger brain size,                    narrowly deﬁned questions and often impose strict inclusion
+increased skull thickness, and the lower current amplitudes applied.           criteria, a scoping review is designed to map the breadth of
+This allows for modulation of neural oscillations, similar in                  a developing research area, clarify key concepts, and identify
+function to transcranial alternating current stimulation (tACS)                knowledge gaps and research priorities (26, 27). Given the
+and transcranial direct current stimulation (tDCS) (13). Through               early-stage nature of TI studies—spanning human safety trials,
+oscillation of the modulation envelope, TI can synchronize with                animal models, and diverse computational simulations—a scoping
+existing neural activity via the principle of neural entrainment,              methodology allows us to comprehensively chart existing work,
+reminiscent of tACS (14). By doing so, TI can inﬂuence neural                  accommodate multiple study designs, and survey areas requiring
+behavior and connectivity without directly triggering action                   deeper, focused investigation.
+potentials in humans. This sub-threshold method enables TI to                      This scoping review synthesizes existing research on TI
+target deep brain structures—such as the hippocampus, striatum,                safety, parameter optimisation, and computational simulations,
+and motor cortex—non-invasively. A recent study by Violante et al.             encompassing both experimental and modeling studies. The
+(7) demonstrates TI’s capacity to modulate the hippocampus in                  objective is to identify eﬀective strategies, common challenges,
+humans, presenting promising applications for both research and                and future research priorities to advance the development of
+therapeutic interventions in regions traditionally diﬃcult to reach            TI stimulation toward clinical adoption. By consolidating studies
+with tES.                                                                      on TI’s application in the human brain, this review highlights
+    In TI stimulation, the depth and focality of the resulting electric        key trends, limitations, and knowledge gaps, along with recent
+ﬁeld (e-ﬁeld) are inﬂuenced by several critical factors, including             advancements aimed at addressing these challenges.
+the amplitude, frequency, phase, and spatial conﬁguration of the                   The review begins with an overview of TI mechanics, followed
+applied currents (13, 15–18). Higher current amplitudes enable                 by an evaluation of its safety and tolerability in humans. Next, it
+deeper brain penetration but may compromise focality, increasing               assesses TI’s impact on neuronal activation and excitability through
+the risk of unintended stimulation or conduction blocks (13,                   computational models, comparing its performance with traditional
+19–21). The phase and frequency settings play a pivotal role                   tES methods. Subsequently, optimisation methodologies and
+in shaping the interference patterns, which directly aﬀect the                 advanced techniques to enhance TI’s eﬃcacy are explored, along
+
+
+
+
+Frontiers in Neurology                                                    02                                                         frontiersin.org
+Ivanov et al.                                                                                                                  10.3389/fneur.2025.1661049
+
+
+
+
+    FIGURE 1
+    (A) The amplitude-modulated signal, resulting from the constructive interference between the two component high-frequency signals, where the
+    orange line shows the resulting low-frequency envelope, oscillating at f = f1 − f2. (B) The two high-frequency component signals (Red and Blue),
+    f1 and f2, are also shown in Figure 2. Please note that the scale in the x-axis between (A, B) is different.
+
+
+
+
+    FIGURE 2
+    An illustration depicting two high-frequency electric ﬁelds in red and blue and the stimulation point in yellow where the Beat Frequency is formed.
+    Created in BioRender. Ivanov, B. (2025) https://BioRender.com/jg6woc6.
+
+
+
+
+Frontiers in Neurology                                                       03                                                               frontiersin.org
+Ivanov et al.                                                                                                           10.3389/fneur.2025.1661049
+
+
+
+
+with novel modalities and their potential beneﬁts. The review                      No serious adverse eﬀects were reported across any of these
+concludes by discussing the clinical applications of TI and its future        studies for younger and older adults. Similar to healthy populations,
+potential in neurotherapeutics.                                               clinical populations such as patients with traumatic brain injury
+                                                                              also did not experience any serious adverse eﬀects, with only 1 in
+                                                                              15 patients dropping out of the study due to experiencing strong
+3 Literature search and                                                       sensations reminding the patient of their traumatic brain injury
+                                                                              (41). Reports of transient sensory experiences, including tingling,
+inclusion/exclusion criteria
+                                                                              fatigue, itching, vibration, or pressure, were conﬁned to the highest
+                                                                              current dose (2 mA). These sensations were consistent between
+     We deﬁned our search phrase as: “‘Non-invasive deep
+                                                                              the active and placebo TI conditions and are also in line with the
+brain stimulation’ OR ‘temporal interference stimulation’ OR
+                                                                              sensations previously associated with traditional tES techniques,
+‘interferential stimulation’ OR ‘interfering electric ﬁelds”’ AND
+                                                                              such as tDCS and tACS (42–47). Impedance and temperature
+“brain.” Inclusion criteria were peer-reviewed journal articles
+                                                                              measurements conﬁrmed safe skin-electrode interactions (37).
+employing TI for sub-threshold deep brain modulation, where
+                                                                                   Blinding eﬀectiveness is essential for TI stimulation’s clinical
+studies investigating supra-threshold stimulation were excluded.
+                                                                              use. Vassiliadis et al. reported that participant sensations between
+Other exclusion criteria were non-brain applications, non-English
+                                                                              active and placebo sessions were similarly rated in intensity at
+publications, review articles, studies primarily focused on hardware
+                                                                              2 mA, with guesses about session order no better than random,
+development and non-electrode-based stimulation methods. We
+                                                                              demonstrating potential blinding eﬃciency (41). Conta et al. also
+searched PubMed, IEEE Xplore, and Scopus for studies published
+                                                                              conﬁrmed TI’s tolerability and blinding eﬀectiveness at 1 mA,
+between 2017 and 2024. This search yielded 1,429 studies. After
+                                                                              underscoring the value of maintaining robust placebo controls for
+removing duplicates and applying our inclusion criteria, 55 relevant
+                                                                              diverse applications (48).
+studies were included, and an additional 6 studies were added
+manually. A detailed overview of our search and ﬁltering process
+is shown in Figure 3.
+     Our search results show that since its introduction in 2017,             4.2 Limitations and future research
+TI has gained increasing interest in the research community.                  directions for safety evaluation of TI
+Publications on TI have grown signiﬁcantly, as illustrated in
+Figure 4, which displays the number of studies, after removing                     While existing studies have reported no signiﬁcant short-term
+duplicates, published each year from 2017 to Dec 2024.                        adverse eﬀects, the long-term safety of TI stimulation remains
+                                                                              largely unexplored, necessitating further investigation through
+                                                                              more inclusive and longitudinal research designs. Factors such as
+4 TI safety evaluation                                                        age, psychological conditions, and pre-existing health issues can
+                                                                              signiﬁcantly inﬂuence how TI-generated electric ﬁelds propagate
+    The use of electric stimulation dates back to the Roman Empire            through the brain and other tissues, highlighting the importance of
+(28, 29), with Luigi Galvani’s 18th-century work on tDCS laying               studying diverse populations (20). Moreover, as Cassara et al. have
+the groundwork for its clinical applications (30). Building on                noted, there is a critical discrepancy between the theoretically safe
+these foundations, this section reviews studies that focus on TI’s            current amplitudes and those commonly employed in experimental
+tolerability and safety in humans. We have also included a summary            settings, underscoring an urgent need for standardized, TI-speciﬁc
+of the in-vivo human TI studies, which can be found in Table 1. We            safety guidelines (49). To ensure these guidelines are robust and
+will then discuss the current literature gaps on TI safety and what           relevant, they should be grounded in physiological metrics, such
+future research could follow to progress the ﬁeld further.                    as skin sensation thresholds and tissue heating eﬀects, rather
+                                                                              than being adapted from frameworks designed for tACS and
+                                                                              tDCS, which may not fully capture the unique characteristics of
+4.1 Safety proﬁles and adverse events                                         TI stimulation.
+                                                                                   Addressing these safety concerns is vital not only to minimize
+    While some studies have reported functional outcomes of TI                potential risks associated with long-term use but also to improve
+in human cohorts (31–34, 38–40), only a limited subset of studies             the reliability and reproducibility of TI studies. Establishing
+have directly assessed its safety and tolerability across varying             comprehensive safety standards tailored to TI will enable
+stimulation parameters (10, 37, 41). Until now, 412 participants              researchers to optimize stimulation parameters, ensure consistent
+have undergone TI stimulation with a current strength ranging                 application across studies, and unlock the full potential of this
+from 0.5–4mA and stimulation beat frequencies ranging from 20                 promising technology for therapeutic and research purposes.
+to 130 Hz, with a carrier frequency of 2 kHz and a stimulation
+duration of up to 40 min. Collectively, the studies evaluated the
+safety and tolerability of diﬀerent types of TI protocols, which              5 Comparative analysis of temporal
+are primarily classiﬁed as either constant or burst. Constant                 interference
+stimulation protocols deliver a continuous electrical current,
+leading to sustained neural activation. In contrast, burst stimulation           This section analyses studies that investigated the
+protocols apply intermittent bursts at a predeﬁned frequency (32).            neuronal responses generated by TI stimulation, highlighting
+
+
+
+Frontiers in Neurology                                                   04                                                          frontiersin.org
+Ivanov et al.                                                                                                              10.3389/fneur.2025.1661049
+
+
+
+
+    FIGURE 3
+    A ﬂowchart detailing the process used for obtaining and ﬁltering the papers covered in this literature review.
+
+
+
+
+the critical parameters that inﬂuence these responses.                             could theoretically and selectively target deep brain structures
+Subsequently, studies comparing the eﬃcacy of TI to established                    without aﬀecting superﬁcial cortical areas. The simulations also
+transcranial neuromodulation methods—including tACS and                            validated that the eﬀectiveness and location of stimulation can
+tDCS—are reviewed.                                                                 be adjusted by modifying the electric currents’ carrier frequency
+                                                                                   and amplitude ratio between the electrode pairs, which is
+                                                                                   consistent with previous literature (4). A detailed summary
+                                                                                   of the conducted experiments and their results can be found
+5.1 Investigating neuronal responses to TI                                         in Table 2.
+and key inﬂuencing parameters                                                          Modak et al. evaluated non-invasive TI stimulation using
+                                                                                   two 2 and 2.02 kHz currents with a 20 Hz beat frequency
+    Building on the original experiment described by Grossman                      aimed at the left caudate in healthy adults during resting-state
+et al. (4), several research groups have conducted in-vivo                         fMRI, but instead observed signiﬁcant BOLD increases in bilateral
+rat experiments and computational analyses to enhance our                          orbitofrontal cortex and fusiform/parahippocampal regions, with
+understanding of TI’s impact (12, 13, 50–53). A multi-scale                        modeling showing peak ﬁelds overlapping the orbitofrontal cortex
+computational model by Gomez et al. (50) explored the                              rather than the intended target (54). They also noted deactivation
+eﬀects of TI stimulation across various biological scales, from                    in the right precuneus/superior parietal lobule, suggesting oﬀ-
+molecular interactions to whole-organism responses. The ﬁnite-                     target conduction eﬀects. Even so, they found no signiﬁcant
+element-based computational study showed that TI stimulation                       diﬀerences in discomfort between active and sham conditions. Only
+
+
+
+Frontiers in Neurology                                                        05                                                        frontiersin.org
+Ivanov et al.                                                                                                                10.3389/fneur.2025.1661049
+
+
+
+
+    FIGURE 4
+    A bar chart showing the number of the published TI-related papers (after duplicate removal), obtained through the keyword search, covering the
+    period from Jun 2017 to Dec 2024.
+
+
+
+
+one participant reported a mild headache lasting up to 15 days,                 motor evoked potentials in rats versus cognitive or perceptual
+indicating TI is generally safe and well tolerated (54).                        readouts in humans—use diﬀerent metrics and scales, limiting
+     A number of in-vivo and in-silico experiments were conducted               direct alignment of safety and eﬃcacy thresholds. Together, these
+to investigate the mechanism of TI and its key inﬂuencing                       factors necessitate caution when extrapolating parameter settings
+parameters (7, 13, 51, 52). Two in-vivo studies involving rats                  and eﬀect sizes from rodent models to clinical TI applications.
+and humans revealed that in both populations, neuronal ﬁring
+rates exhibited increased sensitivity to unbalanced current ratios
+(7, 51). Speciﬁcally, this sensitivity was signiﬁcant in rats at carrier        5.2 Evaluating the potential of TI
+frequencies below 1,800 Hz (51). Violante et al. investigated the
+impact of diﬀerent current ratios on Blood Oxygenation Level
+                                                                                stimulation compared to traditional tES
+Dependent (BOLD) signal and memory performance. Their results                   techniques
+indicate that a 1:3 current ratio signiﬁcantly reduced the BOLD
+signal and improved episodic memory, as measured by a face-                         Recent studies have evaluated the eﬀectiveness of TI
+name paired associative task (7). Further in-silico experimentation             stimulation compared to established non-invasive brain
+showed that deeper targets could beneﬁt from lower carrier                      stimulation approaches, such as tDCS and tACS (18, 35, 53, 57–59).
+frequencies due to their eﬀects on the neuronal activation threshold            Early ﬁndings are promising, suggesting that TI has the potential to
+and sensitivity to amplitude modulation (13, 52). Across all human              target deep-brain regions with minimal impact on the surrounding
+studies discussed in this section, TI stimulation was well tolerated,           cortical areas. In particular, three recent in-vivo studies targeting
+with no serious adverse eﬀects reported. Only a few mild and                    the primary motor cortex (M1) in humans and rats reported that
+common side eﬀects were noted by Violante et al. and Modak et al.               TI signiﬁcantly enhances motor skills and outperforms tACS and
+(7, 13, 51, 52, 54). In a crossover behavioral study comparing active           tDCS in improving motor performance (31, 35, 58). However, these
+TI with sham sessions, the only side eﬀect occurring signiﬁcantly               results are not entirely consistent. While some studies indicate that
+more often during TI was itchiness at the electrode site (Z =                   TI oﬀers superior enhancements in functional connectivity and
+−2.354, P = 0.019) (7).                                                         motor skills compared to traditional tDCS (35, 58), others report
+                                                                                only marginal improvements (57).
+                                                                                    Current research primarily focuses on single-session,
+                                                                                short-term eﬀects, leaving the long-term outcomes of TI
+5.1.1 Limitations of cross-species comparison                                   stimulation largely unexplored. Moreover, many ﬁndings rely
+    While both human and rodent studies provide valuable insights               on computational models, which can introduce inconsistencies
+into TI-evoked neural eﬀects, direct comparison is constrained                  due to simpliﬁcations, such as omitting cerebrospinal ﬂuid to
+by key interspeciﬁc diﬀerences. Rodent skull thickness, tissue                  accommodate hardware limitations (57).
+conductivities, and brain geometry diﬀer substantially from                         Although the mean e-ﬁeld strength of TI is comparable to
+humans, altering the electric ﬁeld distribution and required current            other tES methods, achieving suﬃcient depth often requires higher
+densities (55). Moreover, anesthesia protocols, used in animal                  intensities, potentially exceeding comfort thresholds and increasing
+studies, can modify neuronal excitability and vascular dynamics,                the risk of conduction block (19, 20, 53). A recent study comparing
+which may not translate to awake human participants (56). Lastly,               advanced techniques such as HD-tACS and Intersectional tACS
+behavioral and electrophysiological outcome measures—such as                    highlighted their potential to stimulate deep brain regions (57).
+
+
+
+Frontiers in Neurology                                                     06                                                              frontiersin.org
+                         TABLE 1 Summary of in-vivo human studies using temporal interference stimulation (TI).
+Frontiers in Neurology
+
+
+
+
+                                                                                                                                                                                                                                                                                                      Ivanov et al.
+                           Study                           Design                     Population                 Target                    Control                       f (Hz)             Carriers            Sessions                  Primary                    Notes
+                                                                                                                                                                                              (kHz)                                        outcome
+                           Zheng et al. (31)               RCT, double-blind          40 Healthy adults          M1 leg area               Sham                              20               2.0 & 2.02         10 sessions               Vertical jump              ↑ CMJ, ↑ SJ in TI vs
+                                                                                      (male)                                                                                                                                               height                     sham
+
+                           Wessel et al. (32)              Cross-over, RCT,           45 Healthy adults          Striatum                  HF & TMS control                 100                 2 & 2.1          Exp.1: 4 sessions;        Motor learning             TI increased
+                                                           Double-blind               and 15 Elderly                                                                                                             Exp. 2: 2 session;        (SFTT)                     motor-network
+                                                                                                                                                                                                                 TMS Control: 1                                       activation and
+                                                                                                                                                                                                                 session                                              accelerated motor
+                                                                                                                                                                                                                                                                      learning
+
+                           Violante et al. (7)             Cross-over design,         52 Healthy adults          Hippocampus               Sham                               5               2.0 & 2.005        Exp.1: 1 session;         Episodic memory            TI enhanced
+                                                           Double-blind                                                                                                                                          Exp.2: 2 sessions         accuracy                   episodic memory
+                                                                                                                                                                                                                                                                      accuracy
+
+                           Ma et al. (33)                  Cross-over design,         29 healthy adults          M1 hand area              Sham                           20 & 70            2 & 2.02; 2 &       Three sessions            RT, MEP amp.,              70Hz: ↑ RT & IO
+                                                           Single-blind                                                                                                                          2.07                                      learning                   slope; 20Hz: ↑
+                                                                                                                                                                                                                                                                      learning & MEP
+                                                                                                                                                                                                                                                                      amp.
+
+                           Zhang et al. (34)               RCT, Single-blind          60 young adults            Right frontoparietal      TI-sham &                          6               2.0 & 2.006        One session               N-back accuracy /          TI was feasible,
+                                                                                                                                           tACS-sham                                                                                       RT / IES                   blinded, with WM
+                                                                                                                                                                                                                                                                      gains comparable to
+                                                                                                                                                                                                                                                                      tACS
+
+                           Zhu et al. (35)                 RCT, double-blind          40 young adults            M1                        Active comparator                 20                2 & 2.02          Two sessions              FC                         Both TI and tDCS ↑
+07
+
+
+
+
+                                                                                                                                           (tDCS)                                                                                                                     FC M1–
+                                                                                                                                                                                                                                                                      premotor/SMA; no
+                                                                                                                                                                                                                                                                      between-group
+                                                                                                                                                                                                                                                                      diﬀerence
+
+                           Von Conta et al. (36)           Randomized                 33 healthy adults          Parieto-occipital         HF control (1kHz                 IAF                    1             Three sessions            α-power after-eﬀect        No signiﬁcant
+                                                           Cross-over,                                           cortex                    mono)                                                                                                                      diﬀerence between
+                                                           Single-blind                                                                                                                                                                                               TI, tACS, and
+                                                                                                                                                                                                                                                                      control
+
+                           Iszak et al. (21)               Pseudo-randomized          24 Healthy adults          Muscle / retina /         TACS, Carrier only,             10 (TI)          2.000 & 2.010        Exp.1: 1 session;         Muscle twitches,           Demonstrated
+                                                           Crossover design                                      occipital EEG             Sham                                                                  Exp.2: 1 session;         phosphenes, EEG α          deeper focus
+                                                                                                                                                                                                                 Exp.3: 2 sessions         power                      without phosphenes
+                                                                                                                                                                                                                                                                      in TI; EEG
+                                                                                                                                                                                                                                                                      α-modulation
+                                                                                                                                                                                                                                                                      observed only in
+                                                                                                                                                                                                                                                                      tACS
+
+
+
+
+                                                                                                                                                                                                                                                                                                      10.3389/fneur.2025.1661049
+                           Piao et al. (37)                Single-blind, RCT          38 healthy adults          Left M1                   Sham (no current)              20 or 70           2 & 2.02; 2 &       Three sessions            EEG, NSE,                  Safe, no NSE
+                                                                                                                                                                                                 2.07            (single visit)            batteries, AEs             change; stable EEG
+
+                           Vassiliadis et al. (38)         RCT, Double-blind          119 young / older          Striatum &                Placebo (HF)                     100                 2 & 2.1          1–4 sessions/Exp.         Safety and blinding        TI was safe,
+                                                                                      adults and TBI             hippocampus                                                                                                               feasibility                well-tolerated and
+                                                                                      patients                                                                                                                                                                        eﬀectively blinded
+frontiersin.org
+
+
+
+
+                         This table presents key characteristics of published studies that have applied temporal interference stimulation (TI) in human participants. It includes information on study design, population, stimulation targets, sample sizes for TI and control conditions, control
+                         types, stimulation parameters (including envelope frequency f , carrier frequencies, and current per electrode pair), session durations, primary outcome measures, reported eﬀect metrics, and results. TI, Temporal Interference; tDCS, transcranial Direct Current
+                         Stimulation; tACS, transcranial Alternating Current Stimulation; HF, High Frequency; M1, Primary Motor Cortex; SMA, Supplementary Motor Area; fMRI, functional Magnetic Resonance Imaging; RT, Reaction Time; MEP, Motor Evoked Potential; FC, Functional
+                         Connectivity; CMJ, Countermovement Jump; SJ, Squat Jump; IES, Inverse Eﬃciency Score; AEs, Adverse Event; TBI, Traumatic Brain Injury; Exp., Experiement; IAF, Individual Alpha Frequency; NSE, Neurological Safety Biomarkers.
+Ivanov et al.                                                                                                                                              10.3389/fneur.2025.1661049
+
+
+
+
+TABLE 2 Summary of results from the computational multi-scale mouse model study by Gomez et al. (50).
+
+
+  Experiment                    Conditions                                                                              Results
+  Beat frequency eﬀect          Beat frequencies: 5–100 Hz, constant carrier frequency: 2 kHz                           No inﬂuence on activation threshold within the tested range
+
+  Carrier frequency eﬀect       Carrier frequencies: 1–4 kHz, constant beat frequency: 10 Hz                            Activation threshold increased with higher carrier frequencies
+
+  Amplitude ratio eﬀect         Amplitude ratios: various (e.g., 1:1, 2:1), constant carrier and beat frequencies       Location of nerve activation shifted according to amplitude ratio
+The experiments varied beat frequencies, carrier frequencies, and amplitude ratios of TI to assess their impact on neural activation. Beat frequency did not inﬂuence the activation threshold,
+while higher carrier frequencies increased it. The location of nerve activation changed with diﬀerent amplitude ratios.
+
+
+
+
+However, the authors noted that with further optimisation, TI                                     and current levels, they identiﬁed setups that maximized the Peak
+could achieve greater eﬃcacy by better conﬁning the stimulation                                   Ratio, thereby improving stimulation precision in the desired
+ﬁeld to the target area (57). This potential for further improvement                              brain regions.
+of TI was supported by one more study, comparing tACS to TI                                           Huang et al. extended this framework by introducing a
+(18). Conversely, early computational studies pointed to higher                                   constraint within their optimisation function to minimize oﬀ-
+oﬀ-target eﬀects in TI, particularly in deep brain stimulation                                    target e-ﬁeld eﬀects (63). This added constraint enhanced the
+applications, emphasizing the need for improved focality to                                       precision of TI by focusing on both maximizing stimulation in
+enhance its clinical utility (60).                                                                target areas and minimizing unintended eﬀects in non-target
+    As highlighted by Conta et al. (20), variability in the generated                             regions (63). Expanding further, Lee et al. introduced the “Peak-
+e-ﬁeld distribution presents another challenge for TI stimulation,                                Sum Ratio” objective function, deﬁned as the ratio between the
+resulting in inconsistent stimulation eﬀects across individuals.                                  maximum e-ﬁeld amplitude at the target region and the mean
+Despite emphasizing the potential beneﬁts that TI can oﬀer,                                       amplitude in neocortical regions where the amplitude exceeds 90%
+the team underscores the need for individualized stimulation                                      of the peak amplitude. This reﬁned objective function, coupled
+montages in order to better leverage the technology to its full                                   with the sequential addition of electrode pairs, enabled targeted
+potential (20). Similarly, Zhu et al. reported insuﬃcient stimulation                             focality enhancements in regions like the hippocampus across three
+intensity and a limited range of experimental conditions, restricting                             realistic head models (22).
+the exploration of TI’s full potential (35). Furthermore, Qi                                          These studies collectively underscore the critical role of
+et al. discussed the translational challenges of applying results                                 deﬁning tailored optimisation metrics, called objective functions,
+from animal models to humans, noting the diﬀerences in brain                                      in achieving optimal TI stimulation. Such precision is essential for
+complexity and size that complicate achieving precise and eﬀective                                improving eﬃcacy in targeted brain areas and reducing unintended
+deep brain stimulation in clinical settings (58).                                                 stimulation in other areas, thus supporting the development of safer
+                                                                                                  and more eﬀective non-invasive neuromodulation techniques.
+
+6 Optimisation of TI parameters
+6.1 Electrode conﬁgurations and objective                                                         6.2 Advances in electrode conﬁguration
+functions for enhanced precision                                                                  and neural response tailoring
+
+    The development of TI stimulation relies heavily on the                                            To advance TI parameter optimisation, recent strategies
+optimisation of key parameters to achieve precise and eﬀective                                    include Cao and Grover’s Hodgkin-Huxley model (64), which
+neuromodulation. While demonstrating the advantage of                                             uses electrode pairs to improve spatial precision, and Missey
+electrode arrays over conventional electrodes in generating                                       et al.’s orientation-tunable approach (65) that adjusts stimulation
+more localized stimulation hotspots, Huang’s study highlighted                                    thresholds based on axonal alignment and neuron types.
+the necessity of numerical optimisation in TI due to the                                               Cao and Grover’s model employs multiple electrode
+complex relationship between electrode placement and                                              conﬁgurations to create dynamic, steerable stimulation patterns,
+the formation of the resulting e-ﬁeld distribution (61). To                                       enhancing focality and minimizing oﬀ-target eﬀects (64). Their
+visualize the dynamic nature of TI, Huang deviated from                                           approach introduces “patch-pairs” of electrodes that focus
+traditional static visualization techniques and adopted a                                         currents into targeted brain areas while reducing unintended
+dynamic approach to his simulations, tracking the evolution                                       stimulation, with ﬁndings indicating that diﬀerent neuron types,
+of the e-ﬁeld distribution over time, rather than focusing on a                                   such as parvalbumin-expressing inhibitory neurons, may require
+single snapshot in time (61). Building on the need for precise                                    tailored stimulation strategies (64). Building on these insights,
+adjustments in TI parameters—such as electrode placement,                                         Missey et al. demonstrated that axonal alignment relative to
+current intensity, phase, and frequency—Lee et al. conducted                                      the electric ﬁeld signiﬁcantly aﬀects stimulation thresholds,
+an exhaustive search across three realistic head models to                                        with parallel axons requiring lower current for activation
+optimize the “Peak Ratio,” deﬁned as the ratio of e-ﬁeld                                          compared to perpendicular ones, highlighting the importance of
+amplitude between the target region and cortical areas (62).                                      electrode orientation for precise, minimally invasive deep brain
+By evaluating conﬁgurations across 61 possible electrode pairs                                    stimulation (65).
+
+
+
+Frontiers in Neurology                                                                       08                                                                              frontiersin.org
+Ivanov et al.                                                                                                               10.3389/fneur.2025.1661049
+
+
+
+
+                                                                             TABLE 3 Head Model Types used in the reviewed optimisation papers.
+6.3 Evolutionary algorithms for TI
+parameter optimisation                                                        References                Head Model Type
+                                                                              Lee et al. (62)           MRI-derived head models from 3 healthy male
+    Several studies have employed genetic algorithms (GAs)                                              participants.
+to address the complexities in optimizing TI parameters.
+                                                                              Huang, (61)               Standard MNI-152 average head.
+Honarbakhsh and Mohammadzadeh developed a GA-based
+method to increase spatial resolution by deﬁning an objective                 Missey et al. (65)        No human head model (mouse hippocampus
+                                                                                                        network).
+function that minimizes oﬀ-target e-ﬁeld exposure while
+signiﬁcantly expanding the number of electrode sources, thereby               Bahn et al. (71)          Population Head Models repository: 38 MRI-derived
+enhancing focal precision in TI applications (66). Similarly, Stoupis                                   head meshes.
+
+and Samaras used GA-based methods to optimize the electric ﬁeld               Huang et al. (63)         ICBM-152 v6 template head.
+ratio between the target region’s gray matter and surrounding                 Karimi et al. (70)        Analytical homogeneous vs. inhomogeneous
+brain tissue (67). These studies show that genetic algorithms are                                       synthetic models.
+potentially valuable for managing high-dimensional, complex,
+                                                                              Esmaeilpour et al. (13)   The origin of the head model was not stated.
+multi-objective, and non-convex TI optimisation problems.
+                                                                              Stoupis and Samaras,      Population Head Models repository: 38 realistic head
+    Building on this, Wang et al. proposed multi-objective
+                                                                              (67)                      meshes.
+optimisation via the evolutionary algorithm (MOVEA) framework,
+which balances focality and intensity by generating a Pareto front            Wang et al. (19)          Individual MRI derived FEM models (subject speciﬁc
+                                                                                                        segmentation).
+of optimized solutions. This ﬂexible approach explores electrode
+conﬁgurations without predeﬁned constraints, highlighting the                 Wang et al. (72)          Both synthetic spherical and MRI derived models.
+
+potential of evolutionary algorithms in optimizing complex,
+multi-objective TI scenarios where trade-oﬀs must be carefully
+managed (68).                                                                assessing how well the stimulus aligned with the target area and
+                                                                             using this feedback to iteratively adjust the weights of the current-
+                                                                             generation network through backpropagation. The authors argued
+6.4 Artiﬁcial neural networks for TI                                         that the proposed USNNs oﬀered superior nonlinear optimisation
+                                                                             capabilities, enabling to navigate the intricate relationships between
+parameter optimization
+                                                                             electrode placement and stimulation patterns more eﬀectively than
+                                                                             traditional methods. Additionally, the ﬂexible network architecture
+    With the recent popularity of deep learning and Artiﬁcial
+                                                                             and a targeted loss function—designed to prioritize peak accuracy,
+Neural Networks (ANN) (69), Karimi et al. extended the
+                                                                             concentration, and minimization of oﬀ-target eﬀects—were other
+computational modeling approach using an ANN framework
+                                                                             potential key advantages of the proposed solution (71).
+to estimate TI parameters in two simpliﬁed head models:
+homogeneous and inhomogeneous cylinders (70). The
+inhomogeneous model incorporated layers representing the
+scalp, skull, cerebrospinal ﬂuid, and brain tissue. The researchers          6.5 Challenges and future directions in TI
+explored two electrode conﬁgurations: one with two electrode                 optimisation
+pairs and another with four electrode pairs. To train the ANN,
+they generated two datasets by pre-calculating e-ﬁeld distributions              Computationally intensive optimisation methods, such as
+based on systematically varied stimulation parameters. For                   exhaustive search and evolutionary algorithms, are promising
+the two-electrode conﬁguration, a dataset of 474 samples was                 but often time-consuming and may not always provide globally
+prepared, with the network inputs representing the coordinates of            optimal solutions (62, 66–68). The need for multiple electrodes to
+the activated area’s center of gravity, and the outputs including the        achieve optimal focality is also limited by the channel capacities
+total current and current ratios between electrode pairs. For the            of current stimulation devices (64). While incorporating neuronal
+four-electrode pair conﬁguration, a larger dataset of 15,755 samples         ﬁber orientation to optimize the e-ﬁeld has proven eﬀective,
+was developed, incorporating similar parameter variations while              this requires magnetic resonance imaging data, which is often
+keeping the current ratio ﬁxed for two of the electrode pairs. The           inaccessible and time-consuming to obtain (65). Additionally,
+ANN demonstrated successful control over the position and shape              deep learning methods, though eﬃcient when successful, lack
+of the stimulated areas by adjusting the TI stimulation parameters,          transparency, especially when training datasets and models are
+showcasing its potential for precise neuromodulation (70).                   not publicly available. The heavy reliance on simulations without
+    Building on artiﬁcial intelligence-based optimisation, Bahn              suﬃcient experimental validation raises concerns about the real-
+et al. introduced unsupervised neural networks (USNNs) to                    world applicability of these ﬁndings.
+reﬁne the currents of high-deﬁnition electrodes, targeting                       Future research should focus on more eﬃcient optimisation
+focal stimulation in deep brain regions (71). Their approach                 algorithms that balance computational demands with solution
+involved a two-part neural network architecture: the ﬁrst                    quality, potentially through hybrid approaches. Moreover, current
+component generated electrode currents, while the second                     methods often overlook the impact of carrier frequency on
+estimated interference exposure based on those currents. These               neuronal excitability, which has been shown to be a key factor (13,
+two components operated in tandem, with the exposure network                 50). Importantly, there is a pressing need for open-source sharing
+
+
+
+Frontiers in Neurology                                                  09                                                                   frontiersin.org
+Ivanov et al.                                                                                                                                 10.3389/fneur.2025.1661049
+
+
+
+
+TABLE 4 Comparison of novel TI modalities: key metrics and trade-offs.
+
+
+  Modality              Envelope control             Focality change vs. TI                          Max e-ﬁeld (V/m)                          Current limitation
+  Standard TI           Continuous beat              Baseline                                                   0.5                            N/A
+
+  PMI (16)              Pulse-like                   +0%                                                        0.5                            Phantom only
+
+  Epicranial TI (73)    Continuous                   +9%                                                        1.9                            Invasive
+
+  Gigahertz TI (74)     Continuous                   NS                                                       Up to 12                         Invasive
+
+  Epidural TI (75)      Continuous                   NS                                                          1                             untested in vivo
+
+  PWM-TI (76)           Duty-cycle                   ±0%                                                        0.5                            Modeling only
+
+  STFS (77)             Arbitrary                    NS                                                         NS                             untested in vivo
+
+  MTI (78)              Continuous                   Steerable                                                  NS                             Modeling only
+TI, Temporal Interference; PMI, Phase Modulation Interference; E-ﬁeld, Electric Field; STFS, Spatio-Temporal Fourier Synthesis; MTI, Multi-Point Temporal Interference; PWM-TI,
+Pulse-Width Modulated Temporal Interference; NS, Not Stated.
+
+
+
+of training datasets, Finite Element Method (FEM) models, and                              amplitude, achieving ﬁnely controlled, pulse-like stimulation
+optimisation models in TI for further validation and replicability.                        envelopes (16). These results were obtained through a simulation
+    Current objective functions used in TI optimisation often                              study and later conﬁrmed by a tissue phantom experiment,
+focus on a narrow set of parameters, such as focality and                                  where both the simulations and experimental measurements
+intensity, without fully accounting for the dynamic nature of                              showed consistent spatial distributions of the envelope modulation
+neuronal excitability or individual variability. While addressing                          amplitude, validating the computational model with real-world
+these limitations, it is crucial to delineate the roles of diﬀerent                        experimental data.
+components in the optimisation process. Factors such as neuron-
+speciﬁc responses, regional diﬀerences in tissue properties, and
+the eﬀects of carrier frequency modulation are better incorporated                         7.2 Minimally invasive temporal
+at the e-ﬁeld modeling stage, where a more accurate and                                    interference
+biologically informed representation of neuronal behavior can be
+achieved. Objective functions, in turn, should focus on leveraging                             Invasive TI approaches, such as epicranial cortical stimulation,
+these improved models to target clinically relevant outcomes,                              can improve e-ﬁeld targeting, enhancing its intensity by up to
+such as maximizing therapeutic eﬃcacy while minimizing side                                3.8 times and increasing focality by 9% compared to transcranial
+eﬀects. Additionally, hybrid optimisation methods integrating                              TI methods (73, 79). Additionally, deep brain stimulation using
+experimental validation and real-world data could help reﬁne these                         temporally interfering electromagnetic waves in the gigahertz
+objective functions for better clinical applicability. Furthermore,                        range, generated by endocranially implanted antenna arrays, can
+there is a need for optimisation studies to use real and more                              bypass scalp attenuation, achieving higher focality and e-ﬁeld
+detailed, MRI-derived brain images, instead of synthetic or                                intensities at deep brain targets, up to 12 V/m (74).
+averaged models, which is evident by looking at Table 3, as well                               Lee et al. evaluated the feasibility of minimally invasive
+as supported by the study of Wang et al., which is underlying the                          epidural temporal interference (eTI) for deep brain stimulation
+fact, that more detailed models will lead to signiﬁcantly diﬀerent                         using a combination of computational simulations and phantom
+results (72).                                                                              model experiments (75). By modeling e-ﬁelds, they optimized
+                                                                                           eTI to selectively target the Anterior Hippocampus, Subthalamic
+                                                                                           Nucleus, and Ventral Intermediate Nucleus of the Thalamus.
+7 New TI modalities                                                                        Their simulations suggested that an e-ﬁeld amplitude of 1
+                                                                                           V/m could be achieved with a 5.6 mA current, within safety
+    Although TI is relatively new, several innovative modalities                           ranges from prior epidural studies in stroke and depression
+are continuously emerging, enhancing the original interferential                           (80, 81). Validation through a skull phantom, ﬁlled with brain-
+method proposed by Grossman et al. (4). This section brieﬂy                                mimicking agarose gel and outﬁtted with copper electrodes,
+discusses how some of these advancements are pushing the                                   showed close agreement between simulated and experimental e-
+boundaries of non-invasive brain stimulation. A summary of the                             ﬁeld distributions. Although promising, further testing, including
+studies covered in this section can be found in Table 4.                                   temperature and in-vivo studies, is required to assess clinical safety
+                                                                                           and tolerability fully.
+
+7.1 Phase modulated temporal
+interference                                                                               7.3 Pulse-width modulation
+
+   Terasawa et al. introduced Phase Modulation Interference                                    Luﬀ et al. developed Pulse-width Modulated Temporal
+(PMI), allowing transient changes in the stimulation envelope’s                            Interference (PWM-TI), a non-invasive technique that modiﬁes
+
+
+
+Frontiers in Neurology                                                                10                                                                       frontiersin.org
+Ivanov et al.                                                                                                    10.3389/fneur.2025.1661049
+
+
+
+
+electrical ﬁeld parameters through pulse-width modulation             7.6 Challenges and future perspectives in
+rather than traditional sinusoidal signals (76). Using ex-vivo        new TI modalities
+and in-vivo methods, including computational modeling
+and mouse studies, they showed that PWM-TI performs                       Despite the promising advancements in new TI modalities,
+similarly to conventional TI. Their ﬁndings indicate that             several challenges remain in fully realizing their potential for non-
+the interaction between pulse-width modulation and cell               invasive brain stimulation. Precise targeting of deep brain regions
+membrane time constants inﬂuences the resulting electric              while minimizing eﬀects on surrounding tissues is a key hurdle.
+ﬁeld dynamics. This suggests that varying the duty cycles             Recent studies have highlighted that inter-individual anatomical
+of the signal could enable targeted modulation of speciﬁc             variability can shift the focal spot of stimulation signiﬁcantly,
+cell types.                                                           making ﬁxed montages unreliable without per subject optimisation.
+                                                                      However, purely individualized optimisation demands high
+                                                                      resolution MRI and heavy computation, whereas population based
+                                                                      templates can match personalized optima within 1̃7%, oﬀering
+7.4 Spatio-temporal Fourier synthesis                                 a more scalable compromise (82, 83). Techniques like single
+                                                                      pulse TI and pulse width modulated TI oﬀer improved control
+    Beyond conventional temporal interference approaches,             over stimulation parameters, but optimizing spatial resolution
+recent advancements have explored novel stimulation                   remains an active area of research (76, 82–84). Safety concerns,
+paradigms leveraging the principles of spatio-temporal                particularly regarding the long-term eﬀects of high-frequency
+Fourier synthesis (STFS) (77). Kish et al. introduced a               stimulation, require thorough clinical trials to assess potential risks
+method that utilizes multiple electrode pairs driven by               and side eﬀects (73, 79). The reliance on computational models to
+harmonically structured sinusoidal currents to enhance both           optimize electrode conﬁgurations demands empirical validation to
+the spatial and temporal precision of deep-brain stimulation          ensure their accuracy in real-world applications (74, 78). A deeper
+(77). Unlike traditional TI, which relies on high-frequency           understanding of the underlying neural mechanisms is critical
+beating sinusoidal currents, STFS constructs sharp, localized         for tailoring interventions to speciﬁc neurological conditions.
+stimulation spikes while maintaining low stimulation                  Addressing these challenges through targeted research is key to
+intensity at the scalp (4, 77). Computational simulations             translating new TI modalities into clinical practice.
+have demonstrated that STFS can generate various signal
+conﬁgurations, including high-frequency prime harmonics,
+quasi-random noise, and chirped waveforms, each oﬀering unique        8 Clinical applications of TI assessed
+stimulation proﬁles. While this technique shows promise for
+achieving targeted neuromodulation with improved focality,
+                                                                      in humans
+further validation in experimental and clinical settings is
+                                                                           Although TI has extensive potential applications, only limited
+necessary to reﬁne stimulation waveforms and assess safety
+                                                                      studies have evaluated its eﬃcacy in humans, focusing on motor
+and eﬃcacy.
+                                                                      learning, working memory, epilepsy, and Parkinson’s Disease (7, 31,
+                                                                      32, 38, 85, 86).
+                                                                           Two complementary studies investigated TI’s eﬀect on motor
+                                                                      learning via targeting the striatum. Both found that TI successfully
+7.5 Multi-point temporal interference                                 modulates motor performance. Wessel et al. observed that
+stimulation                                                           theta-burst stimulation using burst protocol improved motor
+                                                                      performance and striatal-frontal connectivity in 15 young, healthy
+    Multi-Point Temporal Interference (MTI) stimulation               individuals, with similar results in a cohort of older adults (32).
+builds upon traditional TI by introducing a method to                 Similarly, Vassiliadis et al. showed that 80 Hz TI enhanced motor
+simultaneously and independently target multiple deep                 skill acquisition and connectivity in 48 healthy volunteers, assessed
+brain regions (78). By assigning distinct frequencies                 through a force-tracking motor learning task (38). Building on
+to each electrode, MTI avoids the need for additional                 these ﬁndings, Zheng et al. focused on the Primary Motor Cortex
+electrode pairs, streamlining its application for both                (M1) and demonstrated that TI stimulation eﬀectively enhances
+research and clinical settings. This modality optimizes               motor excitability and performance in humans (31). Using both
+stimulation parameters, including frequency and amplitude,            computational and experimental approaches (N = 40), they
+to minimize artifacts while ensuring precise e-ﬁeld                   showed signiﬁcant improvements in vertical jump performance,
+strength across multiple targets. Validated through several           including countermovement and squat jump heights.
+computational models of varying complexity as well                         In a sham-controlled trial, Zhang et al. assessed TI’s impact
+as tissue phantom experiments, MTI demonstrated the                   on working memory compared to tACS and sham (34). While
+ability to generate independent, steerable stimulation                TI showed eﬀective blinding, it resulted in only slight working
+points. This advancement oﬀers a potentially versatile                memory improvements under high cognitive load, with no
+tool for modulating complex brain networks involving                  signiﬁcant diﬀerences between TI and other stimulation methods.
+deep structures, expanding the capabilities of non-invasive           The study, though conﬁrmed TI’s safety and potential, indicated the
+neuromodulation (78).                                                 need for further research with larger sample sizes.
+
+
+
+Frontiers in Neurology                                           11                                                            frontiersin.org
+Ivanov et al.                                                                                                            10.3389/fneur.2025.1661049
+
+
+
+
+     Finally, Acerbo et al. explored TI as a non-invasive alternative          simulations and their alignment with empirical results (72).
+to deep brain stimulation for epilepsy, demonstrating its ability              Additionally, anatomical variability between individuals presents a
+to target deep brain structures, such as the hippocampus. In a                 challenge to achieving consistent and comparable results. TI studies
+cadaver-based study, TI at an envelope frequency of 130 Hz reduced             have yet to fully account for these variations, which can signiﬁcantly
+pathological biomarkers, including a more than 50% reduction in                inﬂuence the e-ﬁeld distributions and, thus, stimulation outcomes.
+fast ripples, suggesting its potential for treating epilepsy (85).             Future research should focus on addressing individual diﬀerences
+                                                                               between patients to ensure that the same brain regions are
+                                                                               stimulated. Furthermore, this personalisation needs to take into
+8.1 Limitations and future directions                                          account the eﬀects of the stimulation area and its eﬀects on the
+                                                                               e-ﬁeld intensity.
+    The ﬁrst-in-human applications of TI have shown promising                      Finally, there is a signiﬁcant gap in understanding TI’s long-
+potential in areas such as motor learning and epilepsy. However,               term eﬀects. Currently, studies focus on short-term stimulation
+several limitations must be addressed to fully harness its clinical            eﬀects, leaving potential long-term impacts largely unexplored.
+potential. Importantly, most TI studies lack a clear understanding             Expanding the duration of these studies could oﬀer crucial
+of the neural mechanisms underlying TI’s eﬀects. Future research               insights into TI’s performance over extended periods. This duration
+should aim to identify the speciﬁc brain regions and networks                  increase could be in the form of repeated visits, exploring the
+targeted by TI and how these changes correlate with behavioral                 longevity of TI-induced eﬀects, or—focusing on longer protocols,
+outcomes. Techniques such as functional magnetic resonance                     exploring the eﬀects of e-ﬁled saturation in the brain and its
+imaging or electroencephalography could be used to explore these               associated physiological and behavioral changes. In addition,
+real-time brain changes, with some pilot studies already being                 there is a pressing need to increase sample sizes in human and
+conducted (7). Addressing these limitations and expanding our                  animal studies. Larger sample sizes would allow for a more
+understanding of TI eﬀects will be key to realizing its full potential.        robust examination of how TI’s parameters vary across diﬀerent
+    Another limitation is the sample size and diversity of the                 individuals, thus providing a clearer understanding of its eﬀects.
+existing studies, which predominantly involve healthy young                    Addressing these issues systematically will be crucial in leveraging
+adults. To enhance the applicability of TI, future research should             TI’s full potential as an eﬀective neuromodulation method.
+include larger, more diverse populations, including individuals with               Future research must continue to develop personalized
+neurological conditions. The focus on short-term eﬀects is another             protocols, leveraging computational models to reﬁne stimulation
+limitation. While initial results are promising, little is known about         parameters. Extensive clinical trials are essential to validate TI’s
+the long-term safety and eﬃcacy of TI. Therefore, future research              eﬃcacy across diverse populations. While TI represents a frontier
+should expand participant demographics to include a diverse range              in non-invasive brain modulation, its advancement depends on a
+of ages, health status, and racial backgrounds, enhancing the                  deeper understanding of its mechanisms, technological innovation,
+generalisability of the ﬁndings. Longitudinal studies are needed to            and rigorous clinical validation.
+assess the durability of TI’s eﬀects and identify any potential risks              Despite the extensive research on optimisation and
+associated with prolonged use.                                                 personalisation, a critical knowledge gap persists: how exactly
+                                                                               do techniques like TI stimulation interact with brain tissue
+                                                                               and inﬂuence the complex networks within the brain? Even
+9 Conclusion                                                                   with tDCS—a technology that has been in use for a while—
+                                                                               our understanding of its precise mechanisms of action
+    This review highlights TI’s potential in targeting deeper brain            is still incomplete. This underscores an urgent need for
+structures not traditionally reachable by tES, indicating a potential          more comprehensive, multidisciplinary research. Clinicians,
+to serve as an alternative treatment for neurological conditions.              biophysicists, neurologists, neuroscientists, and engineers must
+Nevertheless, signiﬁcant challenges remain that must be overcome               come together to unravel these intricacies. By integrating insights
+to advance the technology’s development. Clarifying the deﬁnition              from various ﬁelds, we can paint a clearer picture of how TI
+of TI-sham and understanding the eﬀects of high-frequency sham                 and other brain stimulation techniques aﬀect diﬀerent regions,
+on the brain is vital for accurate control conditions. Additionally,           cell types, and the emergent properties of neural networks.
+identifying the optimal envelope frequency and determining the                 Understanding the working principles of TI—much like any
+maximum safe injection current is crucial for maximizing eﬃcacy                form of neuromodulation—requires bridging the knowledge from
+and safety.                                                                    diﬀerent domains to unlock its full potential.
+    The current research on TI stimulation faces several limitations
+that need to be addressed to enhance its accuracy, reproducibility,
+and translational potential. One major challenge lies in the reliance          Author contributions
+on computational models, which, while beneﬁcial, often involve
+approximations that can skew results. Models lacking suﬃcient                      BI: Writing – review & editing, Formal analysis,
+anatomical detail, such as the omission of cerebrospinal ﬂuid                  Writing – original draft, Data curation, Conceptualization,
+or variations in tissue conductivity, can lead to inaccuracies                 Visualization, Investigation. JT: Writing – review & editing.
+in predicting e-ﬁeld distributions and stimulation outcomes. To                AM: Supervision, Writing – review & editing. RS: Writing –
+mitigate this, future models should incorporate more detailed                  review & editing. MA: Writing – review & editing, Methodology,
+anatomical and biophysical features, improving the ﬁdelity of                  Conceptualization, Supervision.
+
+
+
+Frontiers in Neurology                                                    12                                                           frontiersin.org
+Ivanov et al.                                                                                                                                       10.3389/fneur.2025.1661049
+
+
+
+
+Funding                                                                                        Generative AI statement
+    The author(s) declare that ﬁnancial support was received                                       The author(s) declare that no Gen AI was used in the creation
+for the research and/or publication of this article. This                                      of this manuscript.
+work was supported by EPSRC iCASE, Perspectum, and the                                             Any alternative text (alt text) provided alongside ﬁgures in
+University of Sheﬃeld under reference number EP/W524360/1.                                     this article has been generated by Frontiers with the support of
+Furthermore, Jake E. Toth’s contribution was supported                                         artiﬁcial intelligence and reasonable eﬀorts have been made to
+by Rosetrees Trust. The funders were not involved in the                                       ensure accuracy, including review by the authors wherever possible.
+study design, collection, analysis, interpretation of data,                                    If you identify any issues, please contact us.
+the writing of this article, or the decision to submit it
+for publication.
+                                                                                               Publisher’s note
+Conﬂict of interest                                                                                All claims expressed in this article are solely those of the
+                                                                                               authors and do not necessarily represent those of their aﬃliated
+    RS and BI were employed by Perspectum Ltd.                                                 organizations, or those of the publisher, the editors and the
+    The remaining authors declare that the research was conducted                              reviewers. Any product that may be evaluated in this article, or
+in the absence of any commercial or ﬁnancial relationships that                                claim that may be made by its manufacturer, is not guaranteed or
+could be construed as a potential conﬂict of interest.                                         endorsed by the publisher.
+
+
+
+
+References
+  1. Gomez-Tames J, Fernández-Corazza M. Perspectives on optimized transcranial                   15. Wang B, Aberra AS, Grill WM, Peterchev AV. Responses of model
+electrical stimulation based on spatial electric ﬁeld modeling in humans. J Clin Med.          cortical neurons to temporal interference stimulation and related transcranial
+(2024) 13:3084. doi: 10.3390/jcm13113084                                                       alternating current stimulation modalities. J Neural Eng. (2023) 19:066047.
+                                                                                               doi: 10.1088/1741-2552/acab30
+  2. Datta A, Bansal V, Diaz J, Patel J, Reato D, Bikson M. Gyri-precise head
+model of transcranial direct current stimulation: improved spatial focality using a              16. Terasawa Y, Tashiro H, Ueno T, Ohta J. Precise temporal control of interferential
+ring electrode versus conventional rectangular pad. Brain Stimul. (2009) 2:201–7.              neural stimulation via phase modulation. IEEE Trans Biomed Eng. (2021) 69:220–8.
+doi: 10.1016/j.brs.2009.03.005                                                                 doi: 10.1109/TBME.2021.3091689
+   3. Thair H, Holloway AL, Newport R, Smith AD. Transcranial direct current                      17. Rampersad S, Roig-Solvas B, Yarossi M, Kulkarni PP, Santarnecchi
+stimulation (tDCS): a beginner’s guide for design and implementation. Front Neurosci.          E, Dorval AD, et al. Prospects for transcranial temporal interference
+(2017) 11:641. doi: 10.3389/fnins.2017.00641                                                   stimulation in humans: a computational study. Neuroimage. (2019) 202:116124.
+                                                                                               doi: 10.1016/j.neuroimage.2019.116124
+  4. Grossman N, Bono D, Dedic N, Kodandaramaiah SB, Rudenko A, Suk HJ, et al.
+Noninvasive deep brain stimulation via temporally interfering electric ﬁelds. Cell.              18. Hirata A, Akazawa Y, Kodera S, Otsuru N, Laakso I. Electric ﬁeld
+(2017) 169:1029–41. doi: 10.1016/j.cell.2017.05.024                                            envelope focality in superﬁcial brain areas with linear alignment montage
+                                                                                               in temporal interference stimulation. Comput Biol Med. (2024) 178:108697.
+  5. Hutcheon B, Yarom Y. Resonance, oscillation and the intrinsic
+                                                                                               doi: 10.1016/j.compbiomed.2024.108697
+frequency preferences of neurons. Trends Neurosci. (2000) 23:216–22.
+doi: 10.1016/S0166-2236(00)01547-2                                                               19. Wang G, Dokos S. Selective myelinated nerve ﬁber stimulation via temporal
+                                                                                               interfering electric ﬁelds. In: 2021 43rd Annual International Conference of the IEEE
+  6. Mirzakhalili E, Barra B, Capogrosso M, Lempka SF.                      Biophysics
+                                                                                               Engineering in Medicine & Biology Society (EMBC). IEEE (2021). p. 6033–6036.
+of temporal interference stimulation. Cell Systems. (2020)                  11:557–72.
+                                                                                               doi: 10.1109/EMBC46164.2021.9630073
+doi: 10.1016/j.cels.2020.10.004
+                                                                                                  20. von Conta J, Kasten FH, Ćurčić-Blake B, Aleman A, Thielscher A, Herrmann CS.
+  7. Violante IR, Alania K. Cassarà AM, Neufeld E, Acerbo E, Carron R, et al. Non-
+                                                                                               Interindividual variability of electric ﬁelds during transcranial temporal interference
+invasive temporal interference electrical stimulation of the human hippocampus. Nat
+                                                                                               stimulation (tTIS). Sci Rep. (2021) 11:20357. doi: 10.1038/s41598-021-99749-0
+Neurosci. (2023) 26:1994–2004. doi: 10.1038/s41593-023-01456-8
+                                                                                                 21. Iszak K, Gronemann SM, Meyer S, Hunold A, Zschüntzsch J, Bähr M, et al. Why
+  8. Currie A, Wong J, Okun M, A. review of temporal interference, nanoparticles,
+                                                                                               temporal inference stimulation may fail in the human brain: a pilot research study.
+ultrasound, gene therapy, and designer receptors for Parkinson disease. NPJ Parkinson’s
+                                                                                               Biomedicines. (2023) 11:1813. doi: 10.3390/biomedicines11071813
+Dis. (2024) 10:195. doi: 10.1038/s41531-024-00804-0
+                                                                                                  22. Lee S, Park J, Lee C, Im CH, et al. Multipair transcranial temporal interference
+  9. Fani N, Treadway MT. Potential Applications of Temporal Interference Deep Brain
+                                                                                               stimulation for improved focalized stimulation of deep brain regions: a simulation
+Stimulation for the Treatment of Transdiagnostic Conditions in Psychiatry. Cham:
+                                                                                               study. Comput Biol Med. (2022) 143:105337. doi: 10.1016/j.compbiomed.2022.105337
+Springer International Publishing. (2024). doi: 10.1038/s41386-023-01682-5
+                                                                                                 23. Demchenko I, Tailor I, Chegini S, Yu H, Gholamali Nezhad F, Rueda A, et al.
+  10. Thiele C, Tamm C, Ruhnau P, Zaehle T. Perceptibility and pain thresholds in low-
+                                                                                               Human applications of transcranial temporal interference stimulation: a systematic
+and high-frequency alternating current stimulation: implications for tACS and tTIS. J
+                                                                                               review. medRxiv. 2025-05. (2025). doi: 10.1101/2025.05.16.25327804
+Cogn Enhanc. (2025) 9:79–91. doi: 10.1007/s41465-024-00304-2
+                                                                                                24. Soroushi H, Abbasi S, Du Y, Ning N, Lei Y. Temporal interference stimulation:
+  11. Plovie T, Schoeters R, Tarnaud T, Joseph W, Tanghe E. Nonlinearities and
+                                                                                               mechanisms, optimization, validation, and clinical prospects a comprehensive review.
+timescales in neural models of temporal interference stimulation. Bioelectromagnetics.
+                                                                                               Comput Stat. (2025) 17:e70031. doi: 10.1002/wics.70031
+(2025) 46:e22522. doi: 10.1002/bem.22522
+                                                                                                 25. Peng J, Du Z, Piao Y, Yu X, Huang K, Tang Y, et al. Advances in the application
+  12. Caldas-Martinez S, Goswami C, Forssell M, Cao J, Barth AL, Grover P. Cell-
+                                                                                               of temporal interference stimulation: a scoping review. Front Hum Neurosci. (2025)
+speciﬁc eﬀects of temporal interference stimulation on cortical function. Commun Biol.
+                                                                                               19:1536906. doi: 10.3389/fnhum.2025.1536906
+(2024) 7:1076. doi: 10.1038/s42003-024-06728-y
+                                                                                                  26. Arksey H, O’malley L. Scoping studies: towards a methodological framework. Int
+  13. Esmaeilpour Z, Kronberg G, Reato D, Parra LC, Bikson M. Temporal
+                                                                                               J Soc Res Methodol. (2005) 8:19–32. doi: 10.1080/1364557032000119616
+interference stimulation targets deep brain regions by modulating neural oscillations.
+Brain Stimul. (2021) 14:55–65. doi: 10.1016/j.brs.2020.11.007                                   27. Levac D, Colquhoun H, O’brien KK. Scoping studies: advancing the
+                                                                                               methodology. Implement Sci. (2010) 5:69. doi: 10.1186/1748-5908-5-69
+  14. Thiele C, Rufener KS, Repplinger S, Zaehle T, Ruhnau P. Transcranial temporal
+interference stimulation (tTIS) inﬂuences event-related alpha activity during mental             28. Sarmiento    C,  San-Juan   D,    Prasath           V.  Brief    history      of
+rotation. Psychophysiology. (2024) 61:e14651. doi: 10.1111/psyp.14651                          transcranial direct current stimulation (tDCS):           from electric ﬁshes       to
+
+
+
+
+Frontiers in Neurology                                                                    13                                                                         frontiersin.org
+Ivanov et al.                                                                                                                                            10.3389/fneur.2025.1661049
+
+
+
+
+microcontrollers. Psychol Med. (2016) 46:3259–61. doi: 10.1017/S00332917160                         51. Mojiri Z, Akhavan A, Rouhani E, Zahabi SJ. Quantitative analysis of noninvasive
+01926                                                                                             deep temporal interference stimulation: a simulation and experimental study. Heliyon.
+                                                                                                  (2024) 10:e29482. doi: 10.1016/j.heliyon.2024.e29482
+  29. Cambridge NA. Electrical Apparatus Used in Medicine Before 1900. New York:
+SAGE Publications. (1977).                                                                          52. Plovie T, Schoeters R, Tarnaud T, Martens L, Joseph W, Tanghe E. Inﬂuence of
+                                                                                                  temporal interference stimulation parameters on point neuron excitability. In: 2022
+ 30. Fitzgerald PB. Transcranial pulsed current stimulation: a new way forward? Clin
+                                                                                                  44th Annual International Conference of the IEEE Engineering in Medicine & Biology
+Neurophysiol. (2014) 125:217–9. doi: 10.1016/j.clinph.2013.10.009
+                                                                                                  Society (EMBC). IEEE (2022). p. 2365–2368. doi: 10.1109/EMBC48229.2022.9871641
+   31. Zheng S, Fu T, Yan J, Zhu C, Li L, Qian Z, et al. Repetitive temporal interference
+                                                                                                    53. Karimi N, Amirfattahi R, Zeidaabadi Nezhad A. Neuromodulation eﬀect of
+stimulation improves jump performance but not the postural stability in young
+                                                                                                  temporal interference stimulation based on network computational model. Front Hum
+healthy males: a randomized controlled trial. J Neuroeng Rehabil. (2024) 21:38.
+                                                                                                  Neurosci. (2024) 18:1436205. doi: 10.3389/fnhum.2024.1436205
+doi: 10.1186/s12984-024-01336-7
+                                                                                                    54. Modak P, Fine J, Colon B, Need E, Cheng H, Hulvershorn L, et al. Temporal
+  32. Wessel MJ, Beanato E, Popa T, Windel F, Vassiliadis P, Menoud P,
+                                                                                                  interference electrical neurostimulation at 20 Hz beat frequency leads to increased
+et al. Noninvasive theta-burst stimulation of the human striatum enhances
+                                                                                                  fMRI BOLD activation in orbitofrontal cortex in humans. Brain Stimul. (2024)
+striatal activity and motor skill learning. Nat Neurosci. (2023) 26:2005–16.
+                                                                                                  17:867–75. doi: 10.1016/j.brs.2024.07.014
+doi: 10.1038/s41593-023-01457-7
+                                                                                                    55. Vöröslakos M, Takeuchi Y, Brinyiczki K, Zombori T, Oliva A, Fernández-Ruiz
+  33. Ma R, Xia X, Zhang W, Lu Z, Wu Q, Cui J, et al. High gamma and beta temporal
+                                                                                                  A, et al. Direct eﬀects of transcranial electric stimulation on brain circuits in rats and
+interference stimulation in the human motor cortex improves motor functions. Front
+                                                                                                  humans. Nat Commun. (2018) 9:483. doi: 10.1038/s41467-018-02928-3
+Neurosci. (2022) 15:800436. doi: 10.3389/fnins.2021.800436
+                                                                                                    56. Baek K, Park CR, Jang S, Shim WH, Kim YR. Anesthetic modulations
+   34. Zhang Y, Zhou Z, Zhou J, Qian Z, Lü J, Li L, et al. Temporal interference
+                                                                                                  dissociate neuroelectric characteristics between sensory-evoked and spontaneous
+stimulation targeting right frontoparietal areas enhances working memory in healthy
+                                                                                                  activities across bilateral rat somatosensory cortical laminae. Sci Rep. (2022) 12:11661.
+individuals. Front Hum Neurosci. (2022) 16:918470. doi: 10.3389/fnhum.2022.918470
+                                                                                                  doi: 10.1038/s41598-022-13759-0
+   35. Zhu Z, Xiong Y, Chen Y, Jiang Y, Qian Z, Lu J, et al. Temporal interference (TI)
+                                                                                                    57. Huang Y, Parra LC. Can transcranial electric stimulation with multiple electrodes
+stimulation boosts functional connectivity in human motor cortex: a comparison study
+                                                                                                  reach deep targets? Brain Stimul. (2019) 12:30–40. doi: 10.1016/j.brs.2018.09.010
+with transcranial direct current stimulation (tDCS). Neural Plast. (2022) 2022:7605046.
+doi: 10.1155/2022/7605046                                                                           58. Qi S, Liu X, Yu J, Liang Z, Liu Y, Wang X. Temporally interfering
+                                                                                                  electric ﬁelds brain stimulation in primary motor cortex of mice promotes
+   36. von Conta J, Kasten FH, Ćurčić-Blake B, Schellhorn K, Herrmann CS.
+                                                                                                  motor skill through enhancing neuroplasticity. Brain Stimul. (2024) 17:245–57.
+Characterizing low-frequency artifacts during transcranial temporal interference
+                                                                                                  doi: 10.1016/j.brs.2024.02.014
+stimulation (tTIS). Neuroimage. (2022) 2:100113. doi: 10.1016/j.ynirp.2022.100113
+                                                                                                    59. Howell B, McIntyre CC. Feasibility of interferential and pulsed transcranial
+  37. Piao Y, Ma R, Weng Y, Fan C, Xia X, Zhang W, et al. Safety evaluation
+                                                                                                  electrical stimulation for neuromodulation at the human scale. Neuromodulation.
+of employing temporal interference transcranial alternating current stimulation in
+                                                                                                  (2021) 24:843–53. doi: 10.1111/ner.13137
+human studies. Brain Sci. (2022) 12:1194. doi: 10.3390/brainsci12091194
+                                                                                                    60. Radyt e E, Wendt K, Sorkhabi MM, O’Shea J, Denison T. Relative comparison
+  38. Vassiliadis P, Beanato E, Popa T, Windel F, Morishita T, Neufeld E, et al. Non-
+                                                                                                  of non-invasive brain stimulation methods for modulating deep brain targets. In:
+invasive stimulation of the human striatum disrupts reinforcement learning of motor
+                                                                                                  2022 44th Annual International Conference of the IEEE Engineering in Medicine &
+skills. Nat Hum Behav. (2024) 8:1581–98. doi: 10.1038/s41562-024-01901-z
+                                                                                                  Biology Society (EMBC). IEEE (2022). p. 1715–1718. doi: 10.1109/EMBC48229.2022.98
+  39. Demchenko I, Rampersad S, Datta A, Horn A, Churchill NW, Kennedy                            71476
+SH, et al. Target engagement of the subgenual anterior cingulate cortex with
+                                                                                                   61. Huang Y. Visualizing interferential stimulation of human brains. Front Hum
+transcranial temporal interference stimulation in major depressive disorder: a
+                                                                                                  Neurosci. (2023) 17:1239114. doi: 10.3389/fnhum.2023.1239114
+protocol for a randomized sham-controlled trial. Front Neurosci. (2024) 18:1390250.
+doi: 10.3389/fnins.2024.1390250                                                                     62. Lee S, Lee C, Park J, Im CH. Individually customized transcranial temporal
+                                                                                                  interference stimulation for focused modulation of deep brain structures:
+  40. Yang C, Xu Y, Du Y, Shen X, Li T, Chen N, et al. Transcranial temporal
+                                                                                                  a simulation study with diﬀerent head models. Sci Rep. (2020) 10:11730.
+interference subthalamic stimulation for treating motor symptoms in Parkinson’s
+                                                                                                  doi: 10.1038/s41598-020-68660-5
+disease: a pilot study. Brain Stimulat. (2024) 17:1250–2. doi: 10.1016/j.brs.2024.10.012
+                                                                                                    63. Huang Y, Datta A, Parra LC. Optimization of interferential stimulation
+  41. Vassiliadis P, Stiennon E, Windel F, Wessel MJ, Beanato E, Hummel FC.
+                                                                                                  of the human brain with electrode arrays. J Neural Eng. (2020) 17:036023.
+Safety, tolerability and blinding eﬃciency of non-invasive deep transcranial temporal
+                                                                                                  doi: 10.1088/1741-2552/ab92b3
+interference stimulation: ﬁrst experience from more than 250 sessions. J Neural Eng.
+(2024) 21:024001. doi: 10.1088/1741-2552/ad2d32                                                     64. Cao J, Grover P. Stimulus: noninvasive dynamic patterns of neurostimulation
+                                                                                                  using spatio-temporal interference. IEEE Trans Biomed Eng. (2019) 67:726–37.
+  42. Fertonani A, Ferrari C, Miniussi C. What do you feel if I apply transcranial
+                                                                                                  doi: 10.1109/TBME.2019.2919912
+electric stimulation? Safety, sensations and secondary induced eﬀects. Clin
+Neurophysiol. (2015) 126:2181–8. doi: 10.1016/j.clinph.2015.03.015                                  65. Missey F, Rusina E, Acerbo E, Botzanowski B, Trébuchon A, Bartolomei F,
+                                                                                                  et al. Orientation of temporal interference for non-invasive deep brain stimulation in
+  43. Antal A, Alekseichuk I, Bikson M, Brockmöller J, Brunoni AR, Chen
+                                                                                                  epilepsy. Front Neurosci. (2021) 15:633988. doi: 10.3389/fnins.2021.633988
+R, et al. Low intensity transcranial electric stimulation: safety, ethical, legal
+regulatory and application guidelines. Clin Neurophysiol. (2017) 128:1774–809.                      66. Honarbakhsh B, Mohammadzadeh M. Focusing the temporally interfering
+doi: 10.1016/j.clinph.2017.06.001                                                                 electric ﬁelds in non-invasive deep brain stimulation. Electron Lett. (2020) 56:1401–3.
+                                                                                                  doi: 10.1049/el.2020.2295
+   44. Reckow J, Rahman-Filipiak A, Garcia S, Schlaeﬄin S, Calhoun O, DaSilva
+AF, et al. Tolerability and blinding of 4x1 high-deﬁnition transcranial direct current              67. Stoupis D, Samaras T. Non-invasive stimulation with temporal interference:
+stimulation (HD-tDCS) at two and three milliamps. Brain Stimul. (2018) 11:991–7.                  optimization of the electric ﬁeld deep in the brain with the use of a genetic algorithm. J
+doi: 10.1016/j.brs.2018.04.022                                                                    Neural Eng. (2022) 19:056018. doi: 10.1088/1741-2552/ac89b3
+   45. El Jamal C, Harrie A, Rahman-Filipiak A, Iordan AD, DaSilva AF, Ploutz-                      68. Wang M, Lou K, Liu Z, Wei P, Liu Q. Multi-objective optimization
+Snyder R, et al. Tolerability and blinding of high-deﬁnition transcranial direct current          via evolutionary algorithm (MOVEA) for high-deﬁnition transcranial
+stimulation among older adults at intensities of up to 4 mA per electrode. Brain Stimul.          electrical stimulation of the human brain. Neuroimage. (2023) 280:120331.
+(2023) 16:1328–35. doi: 10.1016/j.brs.2023.08.025                                                 doi: 10.1016/j.neuroimage.2023.120331
+  46. Gandiga PC, Hummel FC, Cohen LG. Transcranial DC stimulation (tDCS):                          69. Schmidhuber J. Deep learning in neural networks: an overview. Neural Netw.
+a tool for double-blind sham-controlled clinical studies in brain stimulation. Clin               (2015) 61:85–117. doi: 10.1016/j.neunet.2014.09.003
+Neurophysiol. (2006) 117:845–50. doi: 10.1016/j.clinph.2005.12.003
+                                                                                                    70. Karimi F, Attarpour A, Amirfattahi R, Nezhad AZ. Computational analysis of
+  47. Wessel M, Zimerman M, Timmermann J, Hummel F. Eyelid myokymia in an                         non-invasive deep brain stimulation based on interfering electric ﬁelds. Phys Med Biol.
+older subject after repetitive sessions of anodal transcranial direct current stimulation.        (2019) 64:235010. doi: 10.1088/1361-6560/ab5229
+Brain Stimulat. (2013) 6:463–5. doi: 10.1016/j.brs.2012.09.002
+                                                                                                    71. Bahn S, Lee C, Kang BY. A Computational Study on the Optimization
+  48. von Conta J, Kasten FH, Schellhorn K, Ćurčić-Blake B, Aleman A, Herrmann                 of Transcranial Temporal Interfering Stimulation With High-Deﬁnition Electrodes
+CS. Benchmarking the eﬀects of transcranial temporal interference stimulation (tTIS)              Using Unsupervised Neural Networks. Hoboken, USA: Wiley Online Library. (2023).
+in humans. Cortex. (2022) 154:299–310. doi: 10.1016/j.cortex.2022.05.017                          doi: 10.1002/hbm.26181
+  49. Cassarà AM, Newton TH, Zhuang K, Regel SJ, Achermann P, Kuster N,                             72. Wang H, Sun W, Zhang J, Yan Z, Wang C, Wang L, et al. Inﬂuence
+et al. Safety recommendations for temporal interference stimulation in the brain.                 of layered skull modeling on the frequency sensitivity and target accuracy in
+bioRxiv.2022-12. (2022). doi: 10.1101/2022.12.15.520077                                           simulations of transcranial current stimulation. Hum Brain Mapp. (2021) 42:5345–56.
+                                                                                                  doi: 10.1002/hbm.25622
+  50. Gomez-Tames J, Asai A, Hirata A. Multiscale computational model reveals nerve
+response in a mouse model for temporal interference brain stimulation. Front Neurosci.              73. Khatoun A, Asamoah B, Mc Laughlin M. Investigating the feasibility
+(2021) 15:684465. doi: 10.3389/fnins.2021.684465                                                  of epicranial cortical stimulation using concentric-ring electrodes: a novel
+
+
+
+
+Frontiers in Neurology                                                                       14                                                                           frontiersin.org
+Ivanov et al.                                                                                                                                          10.3389/fneur.2025.1661049
+
+
+
+
+minimally invasive neuromodulation method. Front Neurosci. (2019) 13:440965.                        81. Williams NR, Bentzley BS, Hopkins T, Pannu J, Sahlem GL, Takacs I, et al.
+doi: 10.3389/fnins.2019.00773                                                                     Optimization of epidural cortical stimulation for treatment-resistant depression. Brain
+                                                                                                  Stimul. (2018) 11:239–40. doi: 10.1016/j.brs.2017.09.001
+   74. Ahsan F, Chi T, Cho R, Sheth SA, Goodman W, Aazhang B. EMvelop
+stimulation: minimally invasive deep brain stimulation using temporally interfering                 82. Brahma T, Guillen A, Moreno J, Datta A, Huang Y. On the need of individually
+electromagnetic waves. J Neural Eng. (2022) 19:046005. doi: 10.1088/1741-2552/ac7894              optimizing temporal interference stimulation of human brains due to inter-individual
+                                                                                                  variability. Brain Stimul. (2025) 18:1373–1388. doi: 10.1016/j.brs.2025.07.006
+   75. Lee S, Park J, Lim S, Kwak Y, Jang DP, Kim DH, et al. Feasibility of
+epidural temporal interference stimulation for minimally invasive electrical deep brain             83. Yatsuda K, Fernández-Corazza M, Yu W, Gomez-Tames J. Population-
+stimulation: simulation and phantom experimental studies. J Neural Eng. (2022)                    optimized electrode montage approximates individualized optimization in
+19:056003. doi: 10.1088/1741-2552/ac8503                                                          transcranial temporal interference stimulation. Comput Biol Med. (2025) 192:110223.
+                                                                                                  doi: 10.1016/j.compbiomed.2025.110223
+  76. Luﬀ CE, Dzialecka P, Acerbo E, Williamson A, Grossman N. Pulse-width
+modulated temporal interference (PWM-TI) brain stimulation. Brain Stimul. (2024)                    84. Acerbo E, Botzanowski B, Dellavale D, Stern MA, Cole E, Gutekunst CA,
+17:92–103. doi: 10.1016/j.brs.2023.12.010                                                         et al. Improved temporal and spatial focality of non-invasive deep-brain stimulation
+                                                                                                  using multipolar single-pulse temporal interference with applications in epilepsy.
+  77. Kish LB, Antal A. Non-invasive deep-brain stimulations by spatio-temporal
+                                                                                                  bioRxiv.024-01. (2024). doi: 10.1101/2024.01.11.575301
+fourier synthesis. Fluct Noise Lett. (2024) 23:2450049. doi: 10.1142/S0219477524500494
+   78. Zhu X, Li Y, Zheng L, Shao B, Liu X, Li C, et al. Multi-point temporal interference          85. Acerbo E, Jegou A, Luﬀ C, Dzialecka P, Botzanowski B, Missey F, et al. Focal
+stimulation by using each electrode to carry diﬀerent frequency currents. IEEE Access.            non-invasive deep-brain stimulation with temporal interference for the suppression
+(2019) 7:168839–48. doi: 10.1109/ACCESS.2019.2947857                                              of epileptic biomarkers. Front Neurosci. (2022) 16:945221. doi: 10.3389/fnins.2022.
+                                                                                                  945221
+  79. Khatoun A, Asamoah B, Mc Laughlin M. A computational modeling study
+to investigate the use of epicranial electrodes to deliver interferential stimulation to            86. Yang C, Xu Y, Feng X, Wang B, Du Y, Wang K, et al. Transcranial temporal
+subcortical regions. Front Neurosci. (2021) 15:779271. doi: 10.3389/fnins.2021.779271             interference stimulation of the right globus pallidus in Parkinson’s disease. Movement
+                                                                                                  Disor. (2024) 40:1061–1069. doi: 10.1002/mds.29967
+  80. Levy RM, Harvey RL, Kissela BM, Winstein CJ, Lutsep HL, Parrish TB, et al.
+Epidural electrical stimulation for stroke rehabilitation: results of the prospective,               87. Zhu Z, Yin L. A mini-review: recent advancements in temporal interference
+multicenter, randomized, single-blinded everest trial. Neurorehabil Neural Repair.                stimulation in modulating brain function and behavior. Front Hum Neurosci. (2023)
+(2016) 30:107–19. doi: 10.1177/1545968315575613                                                   17:1266753. doi: 10.3389/fnhum.2023.1266753
+
+
+
+
+Frontiers in Neurology                                                                       15                                                                         frontiersin.org
+

@@ -1,0 +1,1080 @@
+                                                                                                                            TYPE Original Research
+                                                                                                                            PUBLISHED 25 June 2025
+                                                                                                                            DOI 10.3389/frai.2025.1594372
+
+
+
+
+                                                 Deep learning-based feature
+OPEN ACCESS                                      selection for detection of autism
+                                                 spectrum disorder
+EDITED BY
+Alaa Eleyan,
+American University of the Middle East, Kuwait
+
+REVIEWED BY
+Shijun Li,                                       Ibrahim Naﬁsah1 , Nermine Mahmoud2 , Ahmed A. Ewees3 ,
+People’s Liberation Army General Hospital,
+China                                            Mohamed G. Khattap4 , Abdelghani Dahou5 , Safar M. Alghamdi6 ,
+Judy Simon,
+SRM Arts and Science College, India              Ibrahim A. Fares7*, Mohammed Azmi Al-Betar8,9 and
+*CORRESPONDENCE                                  Mohamed Abd Elaziz7,10*
+Mohamed Abd Elaziz                               1
+   abd_el_aziz_m@yahoo.com                         Department of Statistics and Operations Research, College of Sciences, King Saud University, Riyadh,
+Ibrahim A. Fares                                 Saudi Arabia, 2 Faculty of Human Science, Galala University, Suez, Egypt, 3 Department of Computer,
+   ifares.cs@gmail.com                           Damietta University, Damietta, Egypt, 4 Technology of Radiology and Medical Imaging Program, Faculty
+                                                 of Applied Health Sciences Technology, Galala University, Suez, Egypt, 5 School of Computer Science
+RECEIVED 20 March 2025                           and Technology, Zhejiang Normal University, Jinhua, China, 6 Department of Mathematics and
+ACCEPTED 28 May 2025                             Statistics, College of Science, Taif University, Taif, Saudi Arabia, 7 Department of Mathematics, Faculty of
+PUBLISHED 25 June 2025                           Science, Zagazig University, Zagazig, Egypt, 8 Artiﬁcial Intelligence Research Center (AIRC), College of
+CITATION
+                                                 Engineering and Information Technology, Ajman University, Ajman, United Arab Emirates, 9 Hourani
+Naﬁsah I, Mahmoud N, Ewees AA,                   Center for Applied Scientiﬁc Research, Al-Ahliyya Amman University, Amman, Jordan, 10 Faculty of
+Khattap MG, Dahou A, Alghamdi SM, Fares IA,      Computer Science and Engineering, Galala University, Suez, Egypt
+Azmi Al-Betar M and Abd Elaziz M (2025)
+Deep learning-based feature selection for
+detection of autism spectrum disorder.           Introduction: Autism Spectrum Disorder (ASD) is a neurodevelopmental
+Front. Artif. Intell. 8:1594372.
+doi: 10.3389/frai.2025.1594372                   condition characterized by challenges in communication, social interactions,
+                                                 and repetitive behaviors. The heterogeneity of symptoms across individuals
+COPYRIGHT
+© 2025 Naﬁsah, Mahmoud, Ewees, Khattap,          complicates diagnosis. Neuroimaging techniques, particularly resting-state
+Dahou, Alghamdi, Fares, Azmi Al-Betar and        functional MRI (rs-fMRI), have shown potential for identifying neural signatures
+Abd Elaziz. This is an open-access article       of ASD, though challenges such as high dimensionality, noise, and small sample
+distributed under the terms of the Creative
+Commons Attribution License (CC BY). The
+                                                 sizes hinder their clinical application.
+use, distribution or reproduction in other       Methods: This study proposes a novel approach for ASD detection utilizing deep
+forums is permitted, provided the original
+author(s) and the copyright owner(s) are
+                                                 learning and advanced feature selection techniques. A hybrid model combining
+credited and that the original publication in    Stacked Sparse Denoising Autoencoder (SSDAE) and Multi-Layer Perceptron
+this journal is cited, in accordance with        (MLP) is employed to extract relevant features from rs-fMRI data in the ABIDE
+accepted academic practice. No use,              I dataset, which was preprocessed using the CPAC pipeline. Feature selection
+distribution or reproduction is permitted
+which does not comply with these terms.          is enhanced through an optimized Hiking Optimization Algorithm (HOA) that
+                                                 integrates DynamicOpposites Learning (DOL) and Double Attractors to improve
+                                                 convergence toward the optimal subset of features.
+                                                 Results: The proposed model is evaluated using multiple ASD datasets. The
+                                                 performance metrics include an average accuracy of 0.735, sensitivity of 0.765,
+                                                 and speciﬁcity of 0.752, surpassing the results of existing state-of-the-art
+                                                 methods.
+                                                 Discussion: The ﬁndings demonstrate the effectiveness of the hybrid deep
+                                                 learning approach for ASD detection. The enhanced feature selection process,
+                                                 coupled with the hybrid model, addresses limitations in current neuroimaging
+                                                 analyses and offers a promising direction for more accurate and clinically
+                                                 applicable ASD detection models.
+
+                                                 KEYWORDS
+
+                                                 autism detection, deep learning, resting-state functional MRI (rs-fMRI), feature
+                                                 selection, Hiking Optimization Algorithm, dynamic-opposite learning, double attractors
+
+
+
+                                                 1 Introduction
+                                                     Autism can be defined as a set of behavioral manifestations that include restricted
+                                                 activities, barriers to communication, as well as social interaction problems. A more
+                                                 accurate term for this condition is autism spectrum disorder (ASD) (Lord et al.,
+                                                 2018). Diagnosis can be made as early as 18 to 24 months, when symptoms become
+
+
+Frontiers in Artiﬁcial Intelligence                                      01                                                                  frontiersin.org
+Naﬁsah et al.                                                                                                               10.3389/frai.2025.1594372
+
+
+
+
+distinguishable from typical development and other cognitive or                 gained prominence by revealing abnormal connectivity patterns
+developmental challenges (Sayers et al., 2023). ASD is classified               within brain networks related to social cognition and sensory
+under neurodevelopmental disorders in the Diagnostic and                        processing (Supekar et al., 2013). Yet, bringing such findings to
+Statistical Manual of Mental Disorders (DSM-5) and is associated                the clinical realm necessitates surmounting the computational
+with language impairments, poor social engagement, and limited                  challenges: one rs-fMRI dataset comprises tens of thousands of
+or repetitive interests and activities. Parents of children with ASD            regional connectivity features but scarcely over 1,000 subjects
+face considerable psychological, physical, and financial burdens                even in public databases like the Autism Brain Imaging Data
+(John and Sala, 2018). Various tools have been used to diagnose                 Exchange (ABIDE) (Di Martino et al., 2014). Therefore, there is an
+ASD, such as the Autism Spectrum Quotient (AQ), the Childhood                   urgent imperative to develop effective diagnostic methods for ASD,
+Autism Rating Scale (CARS-2), and the Screening Tool for Autism                 which not only facilitate early intervention but also play a crucial
+in Toddlers and Young Children (STAT) (Al-Hendawi et al.,                       role in managing the condition’s global prevalence. Implementing
+2023). These assessments help identify symptoms and determine                   such diagnostic tools can provide timely support and resources,
+the severity of the condition, facilitating early intervention and              ultimately improving outcomes for individuals with ASD and
+support. However, there is a pressing need for more advanced                    their families.
+and accurate methods, particularly those employing artificial                        Machine learning (ML) offers a promising solution by detecting
+intelligence (AI) to enhance the effectiveness of these traditional             subtle neural signatures associated with ASD. Nonetheless, high
+techniques.                                                                     dimensionality and noise in neuroimaging data continue to
+     According to the Global Burden of Disease (GBD) Study, ASD                 challenge model accuracy (Mellema et al., 2022; Fares et al.,
+ranks among the six most common developmental disabilities in                   2025). Feature selection (FS) techniques, such as recursive feature
+children under 5 years old. The prevalence of ASD has increased                 elimination, have become essential for removing redundant
+significantly in recent decades, likely due to greater awareness and            connections while preserving biomarkers related to social attention
+improved recognition of the condition (Zeidan et al., 2022). In                 and executive function (Mellema et al., 2022; Bahathiq et al., 2022;
+2010, approximately 52 million children were diagnosed with ASD,                Fares and Abd Elaziz, 2025). Hybrid approaches that combine
+translating to a prevalence of 7.6 per 1,000 individuals. In 2018,              deep learning (DL) with FS have demonstrated notable success.
+the Centers for Disease Control and Prevention (CDC) reported                   For example, methods integrating the Adaptive Bacterial Foraging
+that 1 in 59 children had ASD, a figure that rose to 1 in 44 by                 (ABF) algorithm with Support Vector Machine Recursive Feature
+2020 (Zeidan et al., 2022). Studies in Europe and the United States             Elimination (SVM-RFE) have shown high performance in ASD
+suggest that ASD diagnoses have increased markedly over the last                detection (Lamani and Benadit, 2023). Similarly, convolutional
+two decades, from 0.48% to 3.13% (Zeidan et al., 2022). However,                neural networks (CNNs) hybridized with Elephant Herding
+most research on ASD prevalence in Arab countries has focused                   Optimization (EHO) algorithms have been applied to multiple
+on wealthier nations. A systematic meta-analysis found that ASD                 fMRI datasets, yielding promising results in identifying ASD
+prevalence rates vary across Oman, the UAE, Saudi Arabia, Bahrain,              patients (Chola Raja and Kannimuthu, 2023).
+Kuwait, and Qatar (Sayers et al., 2023). In Egypt, ASD prevalence                    However, despite such progress, various challenges remain. The
+estimates have varied significantly, ranging from 5.4 per 1,000 to              biological heterogeneity of ASD implies that no neural marker is
+as high as 33.6% (Zeidan et al., 2022). However, Egyptian studies               universally applicable; connectivity changes differ between toddlers
+are often limited to specific regions, institutional settings, and small        and adults, between verbal and non-verbal individuals, or between
+sample sizes.                                                                   those with and without genetic syndromes (Alzubaidi et al., 2023).
+     Diagnosing ASD remains challenging due to its frequent co-                 Reproducibility is also constrained by small sample sizes and
+occurrence with other disorders such as epilepsy, attention deficit             heterogeneous preprocessing pipelines at imaging sites (Schielen
+hyperactivity disorder (ADHD), and sensory processing disorders,                et al., 2024; Chola Raja and Kannimuthu, 2023).
+often resulting in delayed or missed diagnoses (Simonoff et al.,                     This paper aims to propose a modified version of the
+2008). Recent research estimates that 1 in 36 children in the                   autism detection model based on the strengths of DL and FS
+United States are diagnosed with ASD, a figure substantially higher             techniques. In general, the DL model combining a Stacked Sparse
+than in previous decades, attributable to broadened diagnostic                  Denoising Autoencoder (SSDAE) and a Multi-Layer Perceptron
+criteria and increased public awareness (Christensen, 2016; Qin                 (MLP) is used to extract the relevant features (Liu et al., 2024).
+et al., 2024). This growing prevalence places considerable strain on            Following by using an enhanced version of Hiking Optimization
+healthcare systems, with families often incurring annual therapy                Algorithm (HOA) as an FS technique (Oladejo et al., 2024). This
+and treatment costs exceeding 60, 000 per child, underscoring the               enhancement is conducted through using Dynamic Opposites
+critical need for accessible and advanced detection tools (Lavelle              Learning (DOL) (Ahmad et al., 2022) and Double Attractors (He
+et al., 2014; Huda et al., 2024).                                               and Lu, 2022) to enhance the convergence toward the optimal
+     Traditional ASD diagnosis primarily relies on parent-reported              subset of relevant features. These approaches have been established
+developmental milestones and behavioral observations, which are                 in their performance in different applications. For example, DOL
+inherently subjective and susceptible to cultural and gender biases             has applied engineering problems (Cao et al., 2023; Xu et al., 2020),
+(Patil et al., 2024; Bahathiq et al., 2022). Consequently, many                 job shop scheduling (Yang et al., 2022), IIR system identification
+adolescents and adults, especially females without intellectual                 (Niu Y. et al., 2022), and skin cancer detection (Dahou et al.,
+disabilities, remain undiagnosed until secondary mental health                  2023). Has applied to enhance design of structures (Kaveh and
+issues arise (Giarelli et al., 2010). In response, neuroimaging                 Yousefpoor, 2024), color image compression (Yao et al., 2025), and
+techniques such as resting-state functional MRI (rs-fMRI) have                  KELM diabetes classification (Zhu et al., 2025).
+
+
+Frontiers in Artiﬁcial Intelligence                                        02                                                          frontiersin.org
+Naﬁsah et al.                                                                                                            10.3389/frai.2025.1594372
+
+
+
+
+    The contributions of this study can be stated as follows:               reproducibility with LASSO regularization, while Abraham et al.
+                                                                            (2017) proposed a deep embedded feature selection (DEFS)
+  • Development of an autism detection approach using DL and                algorithm, training FS layers and autoencoders together, and
+    an enhanced FS model based on a modified version of the                 discovering cerebellar and somatosensory connectivity to be
+    HOA algorithm.                                                          significant biomarkers. For multi-modal data, Abbas et al. (2023)
+  • Integration of SSDAE and MLP for learning feature                       merged structural MRI and fMRI features with attention, mapping
+    representations from rs-fMRI data and performing                        87% accuracy for ABIDE-II. Graph-methods saw a quantum jump
+    feature extraction.                                                     with Li et al. (2020), utilizing graph neural networks (GNNs)
+  • Introducing a modified version of HOA using the dynamic                 for investigating modular connectivity profiles, mapping 80%
+    opposite-based learning and double attractors.                          accuracy, and indicating thalamocortical impairment in ASD.
+  • Evaluation of the performance of the developed autism                       Further, hybrid meta-heuristic algorithms along with
+    detection technique on multiple datasets and comparison with            CNNs achieved 98.6% on the ABIDE dataset (Chola Raja
+    other well-known methods.                                               and Kannimuthu, 2023). Likewise, DL models like YOLOv8
+                                                                            while performing the analysis on facial images, showed 89.64%
+    The organization of this paper is given as follows: Section 2           classification accuracy with a F1-score of 89% (Gautam et al., 2023).
+introduces the related works of using different AI models to detect         The proposed adaptive bacterial foraging optimization along with
+autism. Section 3 presents the basic information of the Hiking              SVM-RFE and mRMR and followed by the graph convolutional
+Optimization Algorithm (HOA), Dynamic-Opposite Learning                     network classifier obtained an accuracy of 97.512% (Lamani and
+(DOL), and Double Attractors. The stages of the proposed autism             Benadit, 2023).
+detection model are presented in section 4. The experimental                    Liu et al. (2024) introduced MADE-for-ASD, which
+results and discussion are introduced in Section 5. Finally, the            integrates the power of various brain atlases and demographic
+conclusion and future works are presented in Section 6.                     information with fMRI. It presented an accuracy as high as
+                                                                            96.40% by highlighting the essential ASD-relevant brain regions.
+                                                                            Furthermore, this efficient model is extendable and available
+2 Related works                                                             openly for public adoption. A meta-analysis in Ding et al. (2024)
+                                                                            emphasized the classification performance of these deep-learning
+    The development of AI-based models for detecting ASD                    models in ascertaining the disorder amongst children; thereby it
+has seen notable progress, particularly with the integration                may be exploited in extending present diagnostic methodologies.
+of FS techniques and DL algorithms. Over the past decade,                   Chen et al. (2024) introduced DeepASD, an adversary-regularized
+various studies have explored innovative methods for leveraging             GNN, aligning feature distributions between modalities (fMRI +
+neuroimaging data, such as rs-fMRI, in combination with DL                  SNPs), and mapping state-of-the-art 93% AUC-ROC performance
+approaches. This section will review the most influential works that        for ABIDE-II. While the study Joe (2024) proposed using
+have contributed to the development of ASD detection models,                AI robots integrated with visual strategies to enhance social
+highlighting key advancements in both AI methodologies and                  and communication skills in children with ASD. The author
+neuroimaging techniques used in ASD diagnosis.                              employed interactive robots to deliver structured visual stimuli and
+    Earlier work of Di Martino et al. (2014) and Guan and                   personalized learning experiences to improve engagement and skill
+Liu (2021) described Autism Brain Imaging Data Exchange                     retention. The author used a tuned CNN model, and it achieved an
+(ABIDE), a multi-site rs-fMRI repository, allowing for high-                accuracy of 96% in the detection of ASD.
+dimensional analysis of functional connectivity in ASD, and                     The study of Khan and Katarya (2025) proposes a new
+driving development in ML techniques. Nielsen et al. (2013)                 scheme, WS-BiTM, fusing White Shark Optimization (WSO)
+displayed multisite fMRI classification with SVMs, but with                 for FS and Bidirectional Long Short-Term Memory (Bi-LSTM)
+high-dimensional and site-related biases limiting it. The DL                for classification for ASD improvement. WSO is utilized for
+transition began with graph-based techniques. Parisot et al. (2018)         selecting significant features out of sets of datasets for autism
+started with graph convolutional networks (GCNs) representing               screening, and then these are processed with Bi-LSTM for efficient
+functional connectivity in brain graphs, with 70% accuracy in               sequential processing. WSO-Bi-LSTM overcomes overfitting and
+ABIDE through encoding non-linear relationships between regions             computational efficiency issues effectively. Baseline algorithms
+of interest (ROIs). In parallel, Heinsfeld et al. (2018) utilized           outdo through comparative studies with 97.6%, 96.2%, and 96.4%
+convolutional neural networks (CNNs) for raw fMRI time-series,              accuracy for datasets for toddlers, adults, and kids, respectively, and
+with renewed emphasis on automatization of feature extraction               proving its efficiency as a dependable tool for ASD classification.
+in an effort to reduce manual ROI selection. Hybrid architectures               The contribution of Abu-Doleh et al. (2025) introduces a
+soon dominated: Eslami et al. (2019) combined SVM-RFE FS                    two-step model for improving ASD classification with volumetric
+with 3D CNNs, and 88% accuracy in ABIDE through isolating                   brain MRI images. First, subcortical structures are extracted and
+discriminative connections in the default mode network (DMN).               processed with a 3D autoencoder in order to detect regions of
+Similarly, Wang et al. (2020) designed a multi-atlas feature                interest for analysis for ASD-related analysis. Secondly, these
+ensemble scheme and showed FS preceding training with DL aided              regions are classified with a Siamese Convolutional Neural Network
+generalizability improvement over ABIDE sites.                              (SCNN). SCNN achieved 66% accuracy with regions determined
+    FS techniques specific to neuroimaging data gained                      with the Mutual Information FS criterion. This contribution
+prominence. Niu X. et al. (2022) optimized site-wise feature                identifies the potential for fusing SCNNs and autoencoders for
+
+
+
+Frontiers in Artiﬁcial Intelligence                                    03                                                            frontiersin.org
+Naﬁsah et al.                                                                                                                  10.3389/frai.2025.1594372
+
+
+
+
+brain MRI-based ASD improvement. Jabbar et al. (2025) develop an             geographer Waldo Tobler. THF is an exponential function that
+ML model for early ASD screening by combining parent-reported                estimates hikers’ velocity based on the terrain’s steepness. This
+questionnaires plus video analysis of child behavior. They achieved          function plays a crucial role in HOA, as it simulates the movement
+high accuracy through feature engineering by using data balancing            dynamics of search agents (hikers) within the optimization space.
+techniques. Their hybrid algorithm outperforms traditional tools                 The velocity of a hiker i at iteration t, denoted as Wi (t), is
+in AUC (0.92). The solution enables low-cost, mobile-friendly                computed using the following equation:
+screening, particularly beneficial in resource-limited settings where
+clinical access is restricted.
+                                                                                                    Wi (t) = 6e−3.5|Si,t +0.05|                      (2)
+
+                                                                             where Si,t represents the slope of the terrain at the hiker’s position.
+3 Background
+                                                                             The slope itself is determined by the elevation change (dh) and the
+                                                                             distance traveled (dx), given by:
+    Optimization algorithms play a crucial role in enhancing the
+effectiveness of AI models by improving FS processes and model
+performance. Among these, the Hiking Optimization Algorithm                                                    dh
+                                                                                                      Si,t =      = tan θi,t                         (3)
+(HOA) has shown promise as an effective tool for solving                                                       dx
+complex optimization problems, due to its human-inspired search              where θi,t is the inclination angle of the terrain, constrained within
+mechanism that mirrors the dynamics of hiking. This section                  the range [0◦ , 50◦ ].
+will introduce the key concepts behind HOA, Dynamic-Opposite                     The integration of THF into HOA ensures that the movement
+Learning (DOL), and Double Attractors, which serve as the                    of hikers (agents) is guided by realistic terrain-based constraints.
+foundational techniques for the proposed autism detection model.             In essence, steeper inclinations result in slower movement
+                                                                             speeds, mirroring real-world hiking behaviors. By leveraging this
+                                                                             function, HOA dynamically adjusts the step sizes of agents
+3.1 Hiking Optimization Algorithm                                            in the optimization process, enhancing both exploration and
+                                                                             exploitation capabilities.
+    The Hiking Optimization Algorithm (HOA) is a metaheuristic
+inspired by hiking, where hikers navigate varying terrains to
+reach a peak (Oladejo et al., 2024). Similar to the unpredictable            3.1.3 Exploitation phase
+landscapes of hiking, optimization problems feature complex                      The exploitation phase of the HOA is responsible for refining
+search spaces. HOA uses Tobler’s Hiking Function (THF) to model              the search process by guiding hikers (agents) toward promising
+hikers’ movement, considering terrain elevation and distance.                regions in the optimization landscape. This phase leverages the
+This approach mimics hikers’ strategies of avoiding steep paths              social intelligence of hikers as a group and their individual cognitive
+to maintain a steady pace, helping agents in HOA find optimal                abilities. A key parameter known as the sweep factor (SF) plays
+solutions while avoiding local optima. The algorithm’s human-                a crucial role in defining the balance between exploitation and
+inspired structure makes it an efficient tool for solving complex            exploration. The SF regulates the influence of the lead hiker on
+optimization problems.                                                       the movement of other hikers, controlling the extent of their
+                                                                             deviation from the leader’s trajectory. A higher SF value directs the
+                                                                             HOA toward the exploitation phase, allowing agents to converge
+3.1.1 Initialization                                                         toward promising solutions. Conversely, a lower SF encourages
+    In the first step of the HOA, the initial positions of the               exploration, enabling the algorithm to investigate diverse regions of
+hikers—analogous to search agents—are established randomly.                  the search space. The velocity of a hiker i at iteration t is updated by:
+This method ensures diversity in the search space, promoting a
+broad exploration of potential solutions. The position of each hiker,
+denoted as Xi (t), is determined within a defined search space. This                    Wi (t + 1) = Wi (t) + γ × (Xbest − αi (t)Xi (t))             (4)
+space is bounded by the upper limit UBi and the lower limit LBi for
+each dimension j of the decision variable. The initialization process        where γ is a random number within the range [0, 1]. Wi (t + 1)
+follows the equation:                                                        and Wi (t) represent the actual and initial velocities of the hiker,
+                                                                             respectively. The variable Xbest corresponds to the position of the
+                                                                             lead hiker, representing the best solution found so far. Additionally,
+                  Xi (t) = (UBi − LBi ) × rand() + LBi           (1)         αi (t) denotes the sweep factor (SF), which takes values in the
+                                                                             range [1, 3].
+where rand() is a uniformly distributed random variable within the
+                                                                                  The updated position of hiker i at the next iteration,
+range [0, 1].
+                                                                             incorporating its velocity, is expressed as:
+
+
+3.1.2 Modeling hiker speed using Tobler’s Hiking                                                   Xi (t + 1) = Xi (t) + Wi (t)                      (5)
+Function
+   The next step is incorporating the widely recognized Tobler’s                The complete implementation details of the Hiking
+Hiking Function (THF), a mathematical model formulated by the                Optimization Algorithm, including its initialization, velocity
+
+
+
+Frontiers in Artiﬁcial Intelligence                                     04                                                                frontiersin.org
+Naﬁsah et al.                                                                                                                  10.3389/frai.2025.1594372
+
+
+
+
+   1: Set the parameters: number of hikers (N), maximum                                        XjO = aj + bj − Xj ,    j = 1, 2, ..., D                (7)
+        iterations (Max_Iter), upper bound (UB), lower
+        bound (LB), and dimensions of the problem (D).                           where [a, b] represents the search domain of X. D is the dimension
+   2: Initialize the positions of the hikers Xi randomly                         of X. In general, replacing the standard opposite number X O with
+        within the bounds [UB, LB].                                              X RO transforms the search into an asymmetric adaptive process,
+   3: Calculate the fitness of each hiker and allocate                           preventing premature convergence. A new candidate solution X DO
+        the best of them.                                                        is then selected as:
+   4: while (t < Max_Iter) do
+   5:      for each hiker i = 1 to N do
+   6:           Determine       the   inclination   angle     θi,t   and                             X DO = X + rand(X RO − X)                         (8)
+        calculate the slope using Equation 3.
+                                                                                     To maintain feasibility, X DO is adjusted if it falls outside the
+   7:           Compute the initial hiking velocity Wi (t)
+                                                                                 search boundaries [a, b]. However, as iterations progress, the search
+        using Equation 2.
+                                                                                 space may shrink, reducing the algorithm’s exploitation capability.
+   8:           Update the current velocity Wi (t + 1) of Xi
+                                                                                 To counteract this, a weighting factor w is introduced, refining the
+        using Equation 4.
+                                                                                 final formulation:
+   9:           Update the hiker’s position Xi (t + 1) using
+        Equation 5.
+  10:           Compute the fitness value Fitn of update β.                                          X DOL = X + w × (X RO − X)                        (9)
+  11:           if Fitn < Fiti then
+  12:              Update Xi = Xn .                                              where w is a positive constant ensuring an optimal balance between
+  13:              Update Fiti = Fitn ;                                          exploration and exploitation.
+  14:           end if
+  15:       end for
+  16:       t=t+1                                                                3.2.1 Dynamic opposite number
+  17: end while                                                                      Let X be a real number in the search space, where X ∈ [a, b]. To
+                                                                                 introduce dynamic adaptation, the dynamic opposite number X DO
+Algorithm 1. Pseudo-code of the HOA algorithm.
+                                                                                 is defined as:
+
+
+updates, and search mechanisms, are outlined in the pseudocode                                   X DO = X + w × rand × (X O − X),                     (10)
+provided in Algorithm 1.
+                                                                                 where X O represents the opposite number of X as defined earlier in
+                                                                                 the OBL in Equation 7, w is a positive weighting factor controlling
+3.2 Dynamic-opposite learning                                                    the expansion range, and rand is a random value sampled from
+                                                                                 (0, 1). The introduction of w ensures a balanced adaptation,
+    Metaheuristic optimization algorithms often struggle with                    preventing excessive search space contraction while enhancing
+premature convergence, leading to stagnation in local optima.                    exploration capabilities.
+Dynamic-Opposite Learning (DOL) is a recent strategy designed
+to enhance both exploration and exploitation by dynamically
+adjusting the search space (Xu et al., 2020). DOL builds upon                    3.2.2 Dynamic opposite point in
+Opposite-Based Learning (OBL) (Wang et al., 2011; Rahnamayan                     multi-dimensional space
+et al., 2007; El-Abd, 2011), which improves convergence by                          Extending the DOL approach to higher dimensions, consider
+considering opposite solutions (Tizhoosh, 2005). Traditional OBL                 X = (X1 , X2 , . . . , XD ) as a point in a D-dimensional search space,
+methods refine this concept but remain susceptible to local                      where each coordinate Xj falls within the predefined range [aj , bj ].
+optima (Rahnamayan et al., 2007; Ergezer et al., 2009). To                       The opposite point in this space is denoted by XjO , as defined in
+overcome this, DOL introduces an asymmetric and dynamically                      Equation 7. The dynamic opposite point is formulated as:
+expanding search space, increasing population diversity and
+reducing stagnation. A random opposite number is used to create
+asymmetry, preventing premature convergence, while a weighting                      XjDO = Xj + w × rand × (rand × XjO − Xj ),            j = 1:D     (11)
+factor balances exploration and exploitation. By integrating
+DOL into metaheuristic frameworks, optimization performance is
+significantly enhanced, making it a powerful approach for solving                3.2.3 DOL-based optimization
+complex problems.                                                                    The proposed DOL strategy is applied iteratively to guide the
+    The concept behind DOL is to expand the search space                         optimization process. Given a population of candidate solutions
+dynamically, rather than symmetrically, by introducing a random                  X, each point undergoes transformation based on the dynamic
+opposite number X RO , defined as:                                               opposite learning mechanism. The newly generated opposite
+                                                                                 candidates X DO = (X1DO , X2DO , . . . , XD
+                                                                                                                           DO ) are assessed based on
+
+                                                                                 their objective function values.
+                X RO = rand × X O ,     where rand ∈ [0, 1]           (6)            The selection process follows a simple criterion:
+
+
+Frontiers in Artiﬁcial Intelligence                                         05                                                              frontiersin.org
+Naﬁsah et al.                                                                                                                      10.3389/frai.2025.1594372
+
+
+
+
+     If the fitness of X DO surpasses that of X, the new candidate                 presents the developed autism detection model. The model
+is accepted. Otherwise, X DO is discarded, and the original X                      integrates DL techniques with the modified HOA to enhance the
+is retained.                                                                       diagnostic process by extracting meaningful features from raw data
+     To ensure boundary constraints are maintained, each XjDO                      and optimizing FS for improved diagnostic accuracy.
+must satisfy:
+
+
+                         XjDO ∈ [aj , bj ],   j = 1:D                  (12)        4.1 Feature extraction process
+    If any XjDO falls outside this range, it is reinitialized as a random
+                                                                                       The feature extraction process in the proposed framework
+value within [aj , bj ].
+                                                                                   involves leveraging multi-atlas fMRI data to identify discriminative
+                                                                                   features for ASD diagnosis following the proposed model and
+                                                                                   process in Liu et al. (2024). Functional connectivity matrices are
+3.3 Double attractors                                                              derived from three brain atlases (AAL, CC, EZ) using Pearson
+                                                                                   correlation coefficients, which are flattened into one-dimensional
+    In this section, we introduce Double attractors as one of the                  vectors. These vectors are input into a Stacked Sparse Denoising
+most important operators that are used to enhance the balancing                    Autoencoder (SSDAE) for pre-training, where sparsity and noise
+between exploration and exploitation (He and Lu, 2022). In                         constraints are applied to learn robust feature representations. The
+general, the solutions in the metaheuristic algorithms are updated                 SSDAE compresses the data into a reduced encoding, which is
+their values according to the shared information and personal                      then fine-tuned using the MLP. The final 100-unit layer of the
+knowledge. Moreover, the solutions during the updating process                     MLP extracts learned features, which are subsequently processed
+move toward the feasible solution that is considered as an attraction              by an FS algorithm to identify the most relevant features for
+point. However, the process of balance between the main phases of                  classification. This approach ensures the extraction of meaningful
+MH techniques, named exploration and exploitation, is considered                   and discriminative features from multi-atlas fMRI data, optimizing
+one of the main challenges that the MH algorithms suffer from                      the model for ASD diagnosis.
+them. Therefore, DA is used to handle this challenge, and this is
+achieved through using two attractors named L1 and L2.
+    Following (He and Lu, 2022), L1 is defined as in Equation 13.
+                                                                                   4.2 Feature selection process
+     L1ij (t) = φ1 × pij (t) + (1 − φ1 ) × pbj (t), i = 1, 2, ..., N   (13)
+                                                                                       The modified HOA plays a pivotal role in the FS process by
+    In Equation 13, pij (t) indicates the historical best value at jth
+                                                                                   refining the search for the most relevant features that contribute
+dimension of Xi the iteration t. Whereas pbj (t) indicates the value
+                                                                                   to accurate ASD detection. By integrating dynamic OBL, HOA
+of Xb among dimension j among tth iteration. φ1 is a parameter
+                                                                                   enhances the ability to exploit known good solutions while avoiding
+that linearly decreased over iterations and it is defined.
+                                                                                   local optima. The introduction of DA further improves the balance
+                                      T−t                                          between exploration and exploitation, allowing the algorithm
+             φ1 = (β2 − β1 ) ×            + β1 , β1 , β2 = 0.9         (14)        to explore diverse regions of the feature space and converge
+                                       T
+                                                                                   more effectively on the most discriminative features for ASD
+where T is the maximum number of iterations.
+                                                                                   classification. This makes the HOA an essential tool for improving
+   Moreover, the second attractor L2 is defined as:
+                                                                                   the diagnostic accuracy of the proposed model, as it ensures that
+     L2ij (t) = φ2 × pij (t) + (1 − φ1 ) × pbj (t), i = 1, 2, ..., N   (15)        only the most relevant and informative features are used for
+                                                                                   classification, which directly impacts the detection of ASD.
+where φ2 denotes a constant parameter.                                                 Followed by generating a set of solutions X and using its
+    Finally, the solution can be updated using either L1 and L2 as                 opposition using DOL as defined in Equation 11. Then determining
+defined in Equation 16.                                                            the best N solutions from X ∪ X DOL according to their fitness value.
+               (                                                                   The next process is to update the solutions X using the operators of
+        at       Xij1 if f (Xij1 ) < f (Xij2 )                                     HOA and DA. This process of updating is conducted until the stop
+      Xij =                                                    (16)
+                    Xij2     otherwise                                             conditions are met. The details of the proposed model are given
+               (                                                                   as follows.
+         1       L1ij + β × |mj − Xij (t)|ln u1 if rand < 0.5
+       Xij =                                                   (17)
+                 L1ij − β × |mj − Xij (t)|ln u1      otherwise
+               (
+         2       L2ij + β × |mj − Xij (t)|ln u1 if rand < 0.5                      4.2.1 First stage
+       Xij =                                                   (18)
+                 L2ij − β × |mj − Xij (t)|ln u1      otherwise                         This stage aims to generate a suitable population X which
+                                                                                   has N solutions based on the DOL techniques. To achieve this
+4 Proposed method                                                                  task, the first step is to use Equation 19 to set the initial value for
+                                                                                   these solutions.
+   Building on the foundational concepts of HOA, DOL, and
+Double Attractors introduced in the previous section, this section                     Xi = r5 × (Uj − Lj ) + Lj , j = 1, 2, ..., D, i = 1, 2, ..., N     (19)
+
+
+
+Frontiers in Artiﬁcial Intelligence                                           06                                                                frontiersin.org
+Naﬁsah et al.                                                                                                               10.3389/frai.2025.1594372
+
+
+
+
+where D denotes the dimension of X and r5 ∈ [0, 1] refers to                      analysis of its performance. The effectiveness of the model is
+a random value. We apply Equation 11 to generate the opposite                     evaluated through various experiments, and its performance
+solutions X DO for each Xi , i = 1, 2, ..., N. Then we compute the                is compared with existing models to assess its strengths
+fitness value for X and X DO , then select the best N solutions from              and limitations.
+X ∪ X DO to form the initial solution X. In general, this step leads to
+enhancing the convergence rate toward the optimal solution.
+
+                                                                                  5.1 Dataset preparation
+4.2.2 Second stage
+    This second stage aims to enhance the value of solutions X                         The rs-fMRI data used in this study were sourced from
+based on the operators of HOA and DA. This process is conducted                   the ABIDE I dataset, comprising 505 autistic individuals and
+by determining the best solution Xb .                                             530 typical controls (TCs). The dataset includes subjects with
+    The next step is to determine the selected features using the                 ASD and TC, with age ranges from 10.0 to 35.0 years for
+current solution Xi , and this is achieved by using the binary of Xi as           ASD and 10.0 to 33.7 years for TC across different sites.
+defined in the following formula.                                                 The data is preprocessed using the Configurable Pipeline for
+                                                                                  the Analysis of Connectomes (CPAC) pipeline, which includes
+                                    (
+                                          1   if r6 < 0.5                         essential steps such as slice timing correction, voxel intensity
+                        BXij =                                        (20)        normalization, motion correction, nuisance signal removal, global
+                                         0       otherwise
+                                                                                  signal regression, band-pass filtering, and spatial registration.
+    In Equation 20, r6 ∈ [0, 1] denotes a random value. After that,               After preprocessing and quality control, the final dataset consists
+we evaluate the quality of the selected features which correspond                 of 1,035 samples distributed as follows: 623 samples for the
+to the ones in BXi , and this is performed through computing the                  training set, 308 samples for the validation set, and 104 samples
+fitness value (Fiti ) as in the following equation.                               for the test set. Functional connectivity matrices are generated
+                                                                                using three brain atlases (AAL, CC, EZ), and the mean time
+                                                        |BXij |                   series for each ROI is calculated following (Liu et al., 2024).
+                     Fiti =ρ×γ + (1−ρ) ×                              (21)
+                                                          D                       These matrices are flattened into one-dimensional vectors, forming
+                                                                                  the input for the feature extraction model. Finally, we derived
+    In Equation 21, |BXij | refers to the number of selected features.            three datasets from ABIDE I based on the EZ, AAL, and
+γ denotes the error of classification using the KNN classifier (we set            CC atlases, designated as Dataset-1, Dataset-2, and Dataset-
+K = 5). ρ∈[0, 1] refers to a parameter used to balance between the                3, respectively.
+two terms of Equation 21.
+    The best Xb solution with the best Fit is then identified. Then we
+apply the operators of HOA as defined in Equations 2–5. Then we
+used the DA to enhance X, however, to reduce the time complexity                  5.2 Model conﬁgurations
+of this stage, we used the following formula.
+                            (                                                         The model architecture integrates an SSDAE followed by an
+                                Xijat       if mod(t, 20) == 0                    MLP. For the SSDAE, pre-training was conducted with a learning
+                    Xij =                                             (22)
+                                        Xij       otherwise                       rate of 0.001 using gradient descent (GD) and a batch size of
+                                                                                  100. Sparsity and noise constraints were applied to enhance robust
+   The steps of this stage are repeated until the stop conditions are             feature learning, with dropout set to 0.5 to reduce overfitting.
+met. Then the best solution is returned as the output of this stage.              The SSDAE comprises two autoencoder layers: the first encoding
+                                                                                  layer has 1,000 units, and the second reduces the representation to
+                                                                                  600 units. The MLP was subsequently fine-tuned with a learning
+4.2.3 Third stage                                                                 rate of 0.0005 using stochastic gradient descent (SGD) and a
+    Finally, we used the testing set to assess the quality of the                 smaller batch size of 10 to allow for finer updates. Dropout was
+selected features, and this was conducted by generating the binary                set to 0.3 for the MLP. The final layer of the MLP includes
+version of Xb is obtained using Equation 20. Then we select the                   100 units, outputting the learned features for each atlas. The
+relevant features from the testing set that correspond to the ones                number of training iterations was selected based on convergence
+in BXb and assess the quality of those features by computing the                  behavior: the first SSDAE autoencoder was trained for 700
+performance metrics of the predicted values obtained using the                    iterations, and the second for 1,000 iterations to ensure adequate
+trained KNN model. The steps of the developed model are given                     reconstruction performance.
+in Figure 1.
+
+
+5 Experimental results and discussion                                             5.3 Evaluation metrics
+
+    Having outlined the architecture and processes of the proposed                    The effectiveness of the suggested method, along with the
+autism detection model, this section presents the results of the                  performance of the comparison algorithms, is assessed using the
+proposed autism detection model, including a comprehensive                        following evaluation metrics:
+
+
+
+Frontiers in Artiﬁcial Intelligence                                          07                                                         frontiersin.org
+Naﬁsah et al.                                                                                                              10.3389/frai.2025.1594372
+
+
+
+
+    FIGURE 1
+    Phases of the developed autism detection based on the MHOA algorithm.
+
+
+
+
+  • Accuracy:                                                                  preprocessed using a consistent pipeline to extract functional
+                                                                               connectivity matrices, which were then transformed into feature
+                                           TP + TN                             vectors for analysis. The experiments used identical training
+                      Accuracy =                                   (23)
+                                      TP + TN + FP + FN                        and evaluation procedures across all algorithms to ensure a
+                                                                               fair comparison.
+        In this formula, TP and TN denote the true positive and
+                                                                                    The MHOA method was compared against six metaheuristic
+    true negative counts, while FP and FN represent the false
+                                                                               optimization algorithms: Hiking Optimization Algorithm (HOA),
+    positives and false negatives, respectively.
+                                                                               slime mold algorithm (SMA) (Ewees et al., 2023), Attraction-
+  • Sensitivity:
+                                                                               repulsion optimization algorithm (AROA) (Cymerys and Oszust,
+                                               TP                              2024), Harris hawk optimizer (HHO) (Abd Elaziz and Yousri,
+                             Sensitivity =                         (24)
+                                             TP + FN                           2021), Great Wall Construction Algorithm (GWCA) (Guan et al.,
+                                                                               2023), and gray wolf optimizer (GWO) (Helmi et al., 2021).
+  • Standard Deviation (StDev):
+                                                                               These algorithms were selected based on their demonstrated
+                                   v
+                                   u   N
+                                                                               success in FS and high-dimensional search spaces. All methods
+                                   u1 X
+                           StDev = t     (xi − x̄)2                (25)        were evaluated using a k-nearest neighbors (KNN) classifier
+                                     N                                         with consistent parameter settings. Evaluation metrics included
+                                             i=1
+                                                                               accuracy, sensitivity, AUC, fitness value, and the number of selected
+          Where, N refers to the total number of runs, xi denotes the          features. The same classifier and dataset splits were applied to each
+      individual values, and x̄ is the mean of those values.                   method to ensure consistent benchmarking.
+                                                                                    The proposed approach introduces a hybrid architecture
+                                                                               combining SSDAE and MLP for feature representation, integrated
+5.4 Results and discussion                                                     with an enhanced optimization framework based on a modified
+                                                                               Hiking Optimization Algorithm. The use of Dynamic Opposite
+    To assess the effectiveness of the proposed MHOA-based                     Learning increases population diversity, while the Double
+ASD detection model, experiments were conducted using multiple                 Attractors mechanism improves convergence toward better
+datasets derived from the ABIDE I database. Each dataset was                   feature subsets. These enhancements were specifically designed
+
+
+
+Frontiers in Artiﬁcial Intelligence                                       08                                                          frontiersin.org
+Naﬁsah et al.                                                                                                         10.3389/frai.2025.1594372
+
+
+
+
+TABLE 1 Results of the Dataset-1.
+
+
+ Measure                              MHOA           HOA               SMA              AROA           HHO           GWCA            GWO
+  Accuracy             Mean           0.7019          0.6779           0.6635           0.6442         0.6490         0.6587         0.6298
+
+                       StDev          0.0272         0.0068            0.0136           0.0136         0.0204         0.0068         0.0476
+
+                       Best           0.7212          0.6827           0.6731           0.6538         0.6635         0.6635         0.6635
+
+                       Worst          0.6827          0.6731           0.6538           0.6346         0.6346         0.6538         0.5962
+
+  Sensitivity          Mean           0.7400          0.7200           0.6700           0.7000         0.6600         0.7200         0.6800
+
+                       StDev          0.0566          0.0283           0.0424           0.0000         0.0283         0.0000         0.0283
+
+                       Best           0.7800          0.7400           0.7000           0.7000         0.6800         0.7200         0.7000
+
+                       Worst          0.7000          0.7000           0.6400           0.7000         0.6400         0.7200         0.6600
+
+  AUC                  Mean           0.7668          0.7318           0.7161           0.6678         0.7239         0.7092         0.7100
+
+                       StDev          0.0111         0.0034            0.0327           0.0079         0.0259         0.0164         0.0352
+
+                       Best           0.7746          0.7342           0.7392           0.6733         0.7422         0.7207         0.7349
+
+                       Worst          0.7590          0.7294           0.6930           0.6622         0.7056         0.6976         0.6851
+
+  Fitness value        Mean           0.2777          0.2732           0.3027           0.3102         0.2689         0.3664         0.2698
+
+                       StDev          0.0073          0.0048           0.0088           0.0831         0.0281         0.0040         0.0253
+
+                       Best           0.2725          0.2698           0.2964           0.2514         0.2490         0.3635         0.2519
+
+                       Worst          0.2828         0.2766            0.3089           0.3689         0.2887         0.3692         0.2876
+
+  Features no.         Best           65.00           102.00            87.00           262.00          92.00         415.00         116.00
+
+                       StDev           16.47          7.78              66.26           167.58          94.75          24.04          31.82
+
+                       Mean           76.00           107.50           134.50           380.50         159.00         432.00         138.50
+
+
+
+
+to address the high dimensionality and noise in rs-fMRI data                deviation values indicated that HOA maintained the most stable
+and contribute to improved classification outcomes across                   performance, whereas SMA and GWO showed greater variability.
+the datasets.                                                               The best and worst AUC values showed MHOA’s effectiveness, as it
+    The results, summarized in Tables 1–3, demonstrate that                 outperformed the compared methods.
+MHOA consistently achieved competitive performance compared                     For the fitness value, HHO exhibited the best mean. HOA
+to the other algorithms in most evaluation metrics.                         and GWO followed closely, with MHOA ranking slightly lower.
+    Table 1 lists the numerical results for DATASET-1. In the table,        However, the standard deviation results indicated that MHOA
+the accuracy results demonstrated that MHOA achieved the highest            and HOA provided more stable optimization performance than
+mean accuracy, followed closely by HOA and SMA. The stability               HHO and AROA, which had higher variance. The best and worst
+of MHOA was slightly lower than HOA, as indicated by its higher             fitness values showed that HHO maintained a strong optimization
+standard deviation. However, its best and worst accuracy values             capability, while GWCA had the highest worst fitness value.
+remained superior to those of the other methods. SMA exhibited                  The FS results revealed that MHOA achieved the lowest
+moderate performance, with AROA and HHO showing lower                       number of selected features in the Best-case scenario. SMA
+mean values. GWO achieved the lowest accuracy.                              and HOA followed, while GWCA selected the highest number
+    In terms of sensitivity, MHOA ranked first, achieving the               of features. The standard deviation results indicated that HOA
+highest mean value. HOA and GWCA followed with comparable                   had the most stable FS followed by MHOA, while AROA and
+mean sensitivity scores, while AROA and GWO were positioned in              HHO exhibited greater variability. The mean values confirmed
+the middle. HHO showed the lowest mean sensitivity. The standard            that MHOA consistently selected fewer features than the other
+deviation analysis revealed that AROA and GWCA had the most                 methods and demonstrated its efficacy in reducing dimensionality
+stable results, while MHOA exhibited intermediate stability. The            while preserving classification performance. Figure 2 presents a
+best sensitivity values confirmed MHOA’s advantage, as it reached           comparison of the algorithms’ performance on Dataset-1 across
+the highest observed value, while the worst results indicated               Accuracy, Sensitivity, and AUC metrics.
+that GWCA achieved the highest stability, followed by MHOA                      As shown in Figure 2, the MHOA algorithm consistently
+and HOA.                                                                    outperformed other algorithms across all three key metrics:
+    Regarding the AUC metric, MHOA achieved the highest                     accuracy, sensitivity, and AUC. Notably, MHOA achieved
+mean, indicating superior overall classification performance. HOA           the highest average accuracy of 0.7019, indicating improved
+and HHO also showed competitive results, with SMA ranking                   classification capability. These results validate the effectiveness
+slightly lower. AROA exhibited the lowest mean AUC. Standard                of combining SSDAE-based feature extraction with the
+
+
+
+
+Frontiers in Artiﬁcial Intelligence                                    09                                                         frontiersin.org
+Naﬁsah et al.                                                                      10.3389/frai.2025.1594372
+
+
+
+
+TABLE 2 Results of the Dataset-2.
+
+
+ Measure                              MHOA     HOA      SMA      AROA     HHO      GWCA          GWO
+  Accuracy             Mean           0.6635   0.6442   0.6442   0.6490   0.6490   0.6490         0.6442
+
+                       StDev          0.0136   0.0000   0.0136   0.0068   0.0068   0.0068        0.0000
+
+                       Best           0.6731   0.6442   0.6538   0.6538   0.6538   0.6538         0.6442
+
+                       Worst          0.6538   0.6442   0.6346   0.6442   0.6442   0.6442         0.6442
+
+  Sensitivity          Mean           0.7300   0.7100   0.7400   0.7000   0.7300   0.7200         0.7200
+
+                       StDev          0.0424   0.0141   0.0283   0.0000   0.0141   0.0000        0.0000
+
+                       best           0.7600   0.7200   0.7600   0.7000   0.7400   0.7200         0.7200
+
+                       Worst          0.7000   0.7000   0.7200   0.7000   0.7200   0.7200        0.7200
+
+  AUC                  Mean           0.6931   0.6873   0.6711   0.6839   0.6794   0.6781         0.6839
+
+                       StDev          0.0076   0.0064   0.0113   0.0060   0.0028   0.0009         0.0058
+
+                       Best           0.6985   0.6919   0.6791   0.6881   0.6814   0.6787         0.6880
+
+                       Worst          0.6878   0.6828   0.6631   0.6796   0.6774   0.6774         0.6798
+
+  Fitness value        Mean           0.1658   0.3484   0.2846   0.2626   0.2877   0.3482         0.3187
+
+                       StDev          0.0036   0.0047   0.0089   0.0176   0.0201   0.0065         0.0230
+
+                       Best           0.1633   0.3450   0.2784   0.2501   0.2735   0.3436         0.3025
+
+                       Worst          0.1683   0.3517   0.2909   0.2751   0.3019   0.3528         0.3349
+
+  Features no.         Best           16.00    74.00    10.00    41.00    48.00    58.00          51.00
+
+                       StDev           3.54     1.41     14.85    0.71     7.78     5.66          10.61
+
+                       Mean           18.50    75.00     20.50   41.50    53.50    62.00          58.50
+
+
+
+TABLE 3 Results of the Dataset-3.
+
+
+ Measure                              MHOA     HOA      SMA      AROA     HHO      GWCA          GWO
+  Accuracy             Mean           0.8382   0.8261   0.8164   0.8333   0.8309   0.8285         0.8333
+
+                       StDev          0.0034   0.0137   0.0137   0.0034   0.0068   0.0171        0.0034
+
+                       Best           0.8406   0.8357   0.8261   0.8357   0.8357   0.8406         0.8357
+
+                       Worst          0.8357   0.8164   0.8068   0.8309   0.8261   0.8164         0.8309
+
+  Sensitivity          Mean           0.8257   0.7936   0.7890   0.8165   0.8211   0.8028         0.8211
+
+                       StDev          0.0000   0.0195   0.0130   0.0000   0.0065   0.0324         0.0065
+
+                       best           0.8257   0.8073   0.7982   0.8165   0.8257   0.8257        0.8257
+
+                       Worst          0.8257   0.7798   0.7798   0.8165   0.8165   0.7798         0.8165
+
+  AUC                  Mean           0.9099   0.8980   0.9006   0.9065   0.9085   0.9008         0.9065
+
+                       StDev          0.0013   0.0018   0.0045   0.0010   0.0028   0.0059         0.0029
+
+                       Best           0.9108   0.8993   0.9038   0.9072   0.9105   0.9050         0.9086
+
+                       Worst          0.9091   0.8967   0.8974   0.9058   0.9065   0.8966         0.9045
+
+  Fitness value        Mean           0.2100   0.2048   0.1826   0.2382   0.2681   0.2029         0.2358
+
+                       StDev          0.0257   0.0084   0.0021   0.0274   0.0018   0.0034         0.0300
+
+                       Best           0.1919   0.1989   0.1811   0.2188   0.2668   0.2005         0.2146
+
+                       Worst          0.2282   0.2108   0.1841   0.2576   0.2694   0.2053         0.2570
+
+  Features no.         Best           35.00    15.00     20.00   57.00    73.00    22.00          36.00
+
+                       StDev          16.26     9.90     12.12    6.36    13.44    15.56          29.70
+
+                       Mean           46.50    22.00    21.50    61.50    82.50    33.00          57.00
+
+
+
+
+Frontiers in Artiﬁcial Intelligence                     10                                    frontiersin.org
+Naﬁsah et al.                                                                                                           10.3389/frai.2025.1594372
+
+
+
+
+    FIGURE 2
+    Results of accuracy, sensitivity, and AUC for Dataset-1.
+
+
+
+
+modified HOA in capturing discriminative features from                       exhibited greater variability. The mean values confirmed that
+rs-fMRI data.                                                                MHOA consistently selected fewer features than most methods
+    Table 2 presents the results of the DATASET-2. In the table,             and proved effective in dimensionality reduction while maintaining
+MHOA achieved the highest mean accuracy, followed closely by                 classification accuracy. Figure 3 presents a comparison of the
+AROA, HHO, and GWCA, which exhibited similar performance.                    algorithms’ performance on Dataset-2 across Accuracy, Sensitivity,
+The standard deviation values showed that HOA and GWO                        and AUC metrics.
+exhibited the most stable results. MHOA outperformed other                        In Figure 3, the proposed MHOA model outperforms all
+methods in the best and worst accuracy values. SMA, AROA, and                competing methods in terms of accuracy and AUC, demonstrating
+HHO exhibited moderate performance, while HOA and GWO had                    improved classification capability. Although the SMA algorithm
+lower rankings.                                                              achieved slightly higher sensitivity, MHOA exhibits a strong
+    In terms of sensitivity, SMA achieved the highest mean value,            balance between sensitivity and accuracy, which is crucial in
+with MHOA and HHO ranking closely behind. HOA and AROA                       minimizing both false negatives and false positives in ASD
+exhibited the lowest sensitivity. Standard deviation values showed           detection. The GWCA and GWO models showed relatively stable
+that AROA, GWCA, and GWO were the most stable. The Best-case                 sensitivity but did not match the overall classification performance
+confirmed MHOA’s strength, while the worst value demonstrated                of MHOA.
+that SMA, HHO, GWCA, and GWO showed similar results,                              Table 3 presents the results and shows that MHOA achieved the
+followed by MHOA.                                                            highest mean accuracy. AROA and GWO followed closely, while
+    Regarding the AUC metric, MHOA ranked highest in                         HOA and SMA ranked lower. Standard deviation values indicated
+mean performance and demonstrated its superior classification                that AROA and GWO exhibited stable performance, whereas
+capability. HOA followed closely, while SMA recorded the lowest              HOA and SMA showed greater variability. MHOA maintained
+mean AUC. Standard deviation results indicated that GWCA                     its dominance in best and worst accuracy values, reinforcing
+maintained the most stable AUC performance, whereas SMA                      its robustness.
+showed greater variability. The best and worst values confirmed                   Regarding sensitivity, MHOA ranked the highest with the
+MHOA’s consistently high performance across various scenarios.               best mean performance. HHO and GWO followed closely behind.
+    For the fitness value, MHOA exhibited the best mean. AROA                HOA showed the lowest sensitivity and indicated its weakness in
+followed, while HOA recorded the highest mean value. The                     detecting positive instances. Standard deviation results indicated
+standard deviation analysis showed that MHOA had the most                    that MHOA and AROA were the most stable in sensitivity, while
+stable fitness value, whereas GWO and HHO exhibited greater                  SMA, HOA, and GWCA exhibited higher variability. The best-
+variability. The best and worst fitness values further confirmed that        case values demonstrated that MHOA consistently performed well
+MHOA maintained strong optimization capability, whereas HOA                  in identifying positive instances, while HOA’s worst-case results
+and GWCA showed inconsistent performance.                                    showed significant variability.
+    The FS results revealed that SMA achieved the lowest number                   For AUC, MHOA outperformed all other algorithms in
+of selected features in the best case. MHOA followed closely,                mean performance and demonstrated clear class differentiation
+while HOA selected the highest number of features. The standard              capability. HHO and GWO ranked next, while HOA performed
+deviation values indicated that AROA maintained the most stable              the weakest in AUC. Standard deviation analysis revealed that
+FS, followed by HOA and MHOA, while SMA and GWO                              AROA exhibited the most stability in AUC performance, while
+
+
+
+Frontiers in Artiﬁcial Intelligence                                     11                                                         frontiersin.org
+Naﬁsah et al.                                                                                                            10.3389/frai.2025.1594372
+
+
+
+
+    FIGURE 3
+    Results of accuracy, sensitivity, and AUC for Dataset-2.
+
+
+
+
+    FIGURE 4
+    Results of accuracy, sensitivity, and AUC for Dataset-3.
+
+
+
+
+SMA and GWCA showed higher fluctuations. The best and worst                   approach by selecting a moderate number of features, maintaining
+values confirmed that MHOA maintained good performance across                 a trade-off between dimensionality reduction and classification
+different scenarios and indicated its reliability in class separation.        performance. Standard deviation values revealed that AROA
+    In terms of fitness value, SMA achieved the lowest mean. HOA              exhibited the most stable FS, while GWO showed the greatest
+and GWCA followed, while HHO recorded the highest mean.                       variability. The mean values confirmed that HOA and SMA
+Standard deviation results showed that HHO was the most stable                consistently selected fewer features, while MHOA maintained a
+in optimization performance, while AROA and GWO exhibited                     competitive balance between FS and model performance. Figure 4
+higher variability. The best and worst values further supported               presents a comparison of the algorithms’ performance on Dataset-3
+SMA’s optimization efficiency, while MHOA exhibited competitive               across Accuracy, Sensitivity, and AUC metrics.
+performance with relatively stable optimization. HHO and AROA                     As shown in Figure 4, the MHOA algorithm achieved the best
+displayed less stability in converging to optimal solutions.                  results across all metrics. It ranked first in accuracy, followed by
+    Regarding FS, HOA selected the fewest features in the best-               AROA, GWO, and HHO. In sensitivity, MHOA again led, while
+case scenario. SMA followed closely behind, while HHO selected                HHO, GWO, and AROA showed similar outcomes. For AUC,
+the highest number of features. MHOA demonstrated a balanced                  MHOA maintained the top position, with HHO, AROA, and GWO
+
+
+
+Frontiers in Artiﬁcial Intelligence                                      12                                                         frontiersin.org
+Naﬁsah et al.                                                                                                            10.3389/frai.2025.1594372
+
+
+
+
+TABLE 4 Results of the Friedman test.
+
+
+  Measure                  MHOA           HOA               SMA                  AROA               HHO             GWCA              GWO
+  Accuracy                    7.00         3.33              2.67                  4.17              4.00              4.00             2.83
+
+  AUC                         7.00         4.33              2.50                  3.33              4.67              2.17             4.00
+
+  Sensitivity                 6.50         3.17              3.33                  3.00              4.00              4.00             4.00
+
+
+
+
+close behind. GWCA and HOA showed lower sensitivity and AUC                  individuals who may otherwise be missed by traditional methods.
+values, and SMA ranked lowest in accuracy and sensitivity.                   By combining the SSDAE and MLP, the model effectively extracts
+     These observed performance rankings are further supported by            relevant features, while the enhanced HOA, utilizing dynamic
+the results of the Friedman test, a non-parametric statistical method        opposite-based learning and double attractors, optimizes FS. The
+commonly used to detect differences across multiple conditions               developed model demonstrates promising results, with an average
+when the data does not follow normal distribution assumptions.               accuracy of 0.735, sensitivity of 0.765, and AUC of 0.790 across
+It is particularly useful in model comparison as it accounts for             various datasets, showing the potential of DL and the MHOA
+the ordinal nature of the data and dependencies between repeated             algorithm in automated ASD detection.
+measures. The results of the Friedman test, as shown in Table 4,                 Despite the promising results, several challenges remain. The
+reveal considerable variability in performance across the models.            biological heterogeneity of ASD, along with variations in imaging
+MHOA consistently ranks highest in accuracy, AUC, and sensitivity            protocols and preprocessing steps, introduces potential limitations
+and shows better overall effectiveness. In contrast, GWO ranks               that could affect the generalizability and reproducibility of the
+lowest in accuracy and reflects relatively lower performance in this         model. Future work could focus on addressing these challenges
+context. Models such as HOA, SMA, AROA, HHO, and GWCA                        by incorporating multi-site datasets with consistent preprocessing
+demonstrate intermediate performance. These findings highlight               pipelines to enhance the model’s robustness and external
+differences among the models, with MHOA showing the most                     validity. Additionally, the model’s interpretability remains a key
+consistent results.                                                          consideration, as understanding the decision-making process of DL
+     To further evaluate the performance of the developed MHOA               models is crucial for clinical adoption. Efforts toward developing
+model to detect ASD, we compared it with the results obtained                explainable AI techniques could be integrated to provide more
+in Liu et al. (2024). Since this work uses the same strategy to              transparent insights into the detected features and their relevance
+split ABIDE I dataset. The technique used in Liu et al. (2024) is            to ASD. Moreover, future research should explore the application of
+named MADE-for-ASD, and its accuracy for CC, AAL, and EZ is                  this approach to other neurodevelopmental disorders that exhibit
+73.42%, 71.20%, and 68.74%, respectively. However, our developed             overlapping symptoms with ASD, such as ADHD and intellectual
+MHOA based on the SSDAE model has accuracy 66.35%, 70.19%,                   disabilities. Expanding the model’s applicability across a broader
+and 83.82% for EZ, AAL, and CC, respectively. So, MADE-for-ASD               spectrum of neurodevelopmental conditions could facilitate the
+is better than MHOA at EZ and AAL, whereas MHOA is better                    development of more generalized and efficient diagnostic tools.
+according to the results of CC split (dataset-3). In addition, the           Furthermore, incorporating longitudinal data and examining the
+average accuracy of MADE-for-ASD and our MHOA model overall                  model’s performance over time could provide deeper insights into
+the three datasets is 71.12% and 73.45%, respectively. This indicates        the progression of ASD and its early detection.
+the high ability of the developed model to detect ASD.                           In conclusion, this study lays the groundwork for a more
+     In general, MHOA consistently achieved the highest                      effective, DL-based diagnostic tool for ASD, offering a promising
+accuracy and AUC across datasets and demonstrated strong                     direction for early detection and intervention. However, further
+classification performance. Sensitivity results confirmed its ability        refinements and validations in diverse clinical settings are
+to identify positive instances. Its optimization performance                 necessary to ensure the model’s practical applicability in real-world
+remained competitive with relatively stable fitness values.                  healthcare environments.
+FS analysis indicated that MHOA maintained a balance
+between dimensionality reduction and model effectiveness
+and demonstrating its reliability across diverse evaluation criteria.        Data availability statement
+However, its stability in some metrics, such as fitness value and
+sensitivity, was lower than that of certain methods and suggesting              Publicly available datasets were analyzed in this study. This data
+potential improvements in robustness under varying conditions.               can be found here: https://www.nature.com/articles/s41598-022-
+                                                                             09821-6.
+
+6 Conclusion and future works
+                                                                             Ethics statement
+    This paper presents a novel DL model integrated with a
+modified version of the HOA for detecting ASD from rs-                           Ethical approval and written informed consent from the
+fMRI data. The proposed model enhances the accuracy of ASD                   patients/participants or their legal guardians/next of kin were not
+detection, potentially improving early intervention strategies for           required, as the ABIDE I is a publicly available dataset.
+
+
+
+Frontiers in Artiﬁcial Intelligence                                     13                                                          frontiersin.org
+Naﬁsah et al.                                                                                                                                           10.3389/frai.2025.1594372
+
+
+
+
+Author contributions                                                                            extend their appreciation to the King Salman center For Disability
+                                                                                                Research for funding this work through Research Group no
+    IN: Writing – original draft, Resources, Software,                                          KSRG-2024-297.
+Data curation, Investigation, Methodology, Visualization,
+Conceptualization, Funding acquisition, Supervision. NM:
+Visualization, Writing – original draft, Methodology, Data                                      Conﬂict of interest
+curation, Validation, Investigation, Software. AE: Writing
+– review & editing, Investigation, Writing – original draft,                                        The authors declare that the research was conducted in the
+Conceptualization, Formal analysis, Visualization, Resources,                                   absence of any commercial or financial relationships that could be
+Validation. MK: Conceptualization, Investigation, Methodology,                                  construed as a potential conflict of interest.
+Software, Visualization, Writing – original draft, Formal analysis,
+Data curation, Resources. AD: Investigation, Methodology,
+Writing – original draft, Resources, Conceptualization, Project                                 Generative AI statement
+administration. SA: Software, Visualization, Writing – original
+draft, Investigation, Project administration, Methodology,                                          The author(s) declare that no Gen AI was used in the creation
+Supervision, Validation. IF: Data curation, Conceptualization,                                  of this manuscript.
+Writing – original draft, Investigation, Visualization, Formal
+analysis. MA-B: Resources, Validation, Project administration,
+Methodology, Software, Investigation, Writing – original draft,
+                                                                                                Publisher’s note
+Supervision. ME: Project administration, Validation, Supervision,
+Writing – review & editing, Investigation, Visualization, Software.
+                                                                                                    All claims expressed in this article are solely those of the
+                                                                                                authors and do not necessarily represent those of their affiliated
+Funding                                                                                         organizations, or those of the publisher, the editors and the
+                                                                                                reviewers. Any product that may be evaluated in this article, or
+    The author(s) declare that financial support was received                                   claim that may be made by its manufacturer, is not guaranteed or
+for the research and/or publication of this article. The authors                                endorsed by the publisher.
+
+
+
+
+References
+   Abbas, S. Q., Chi, L., and Chen, Y.-P. P. (2023). Deepmnf: deep multimodal                      Chen, W., Yang, J., Sun, Z., Zhang, X., Tao, G., Ding, Y., et al. (2024). Deepasd: a
+neuroimaging framework for diagnosing autism spectrum disorder. Artif. Intell. Med.             deep adversarial-regularized graph learning method for asd diagnosis with multimodal
+136:102475. doi: 10.1016/j.artmed.2022.102475                                                   data. Transl. Psychiatry 14:375. doi: 10.1038/s41398-024-02972-2
+    Abd Elaziz, M., and Yousri, D. (2021). Automatic selection of heavy-tailed                     Chola Raja, K., and Kannimuthu, S. (2023). Deep learning-based feature selection
+distributions-based synergy henry gas solubility and harris hawk optimizer for feature          and prediction system for autism spectrum disorder using a hybrid meta-heuristics
+selection: case study drug design and discovery. Artif. Intell. Rev. 54, 4685–4730.             approach. J. Intell. Fuzzy Syst. 45, 797–807. doi: 10.3233/JIFS-223694
+doi: 10.1007/s10462-021-10009-z                                                                    Christensen, D. L. (2016). Prevalence and characteristics of autism spectrum
+    Abraham, A., Milham, M. P., Di Martino, A., Craddock, R. C., Samaras,                       disorder among children aged 8 years–autism and developmental disabilities
+D., Thirion, B., et al. (2017). Deriving reproducible biomarkers from multi-                    monitoring network, 11 sites, United States, 2012. MMWR Surveill. Summ. 72, 1–14.
+site resting-state data: an autism-based example. Neuroimage 147, 736–745.                      doi: 10.15585/mmwr.ss6503a1
+doi: 10.1016/j.neuroimage.2016.10.045                                                              Cymerys, K., and Oszust, M. (2024). Attraction-repulsion optimization
+    Abu-Doleh, A., Abu-Qasmieh, I. F., Al-Quran, H. H., Masad, I. S., Banyissa, L.              algorithm for global optimization problems. Swarm Evolut. Comput. 84:101459.
+R., and Ahmad, M. A. (2025). Recognition of autism in subcortical brain volumetric              doi: 10.1016/j.swevo.2023.101459
+images using autoencoding-based region selection method and Siamese convolutional                  Dahou, A., Aseeri, A. O., Mabrouk, A., Ibrahim, R. A., Al-Betar, M.
+neural network. Int. J. Med. Inform. 194:105707. doi: 10.1016/j.ijmedinf.2024.105707            A., and Elaziz, M. A. (2023). Optimal skin cancer detection model using
+   Ahmad, M. F., Isa, N. A. M., Lim, W. H., and Ang, K. M. (2022). Differential                 transfer learning and dynamic-opposite hunger games search. Diagnostics 13:1579.
+evolution with modified initialization scheme using chaotic oppositional based                  doi: 10.3390/diagnostics13091579
+learning strategy. Alexandria Eng. J. 61, 11835–11858. doi: 10.1016/j.aej.2022.05.028              Di Martino, A., Yan, C.-G., Li, Q., Denio, E., Castellanos, F. X., Alaerts, K.,
+   Al-Hendawi, M., Hussein, E., Al Ghafri, B., and Bulut, S. (2023). A scoping                  et al. (2014). The autism brain imaging data exchange: towards a large-scale
+review of studies on assistive technology interventions and their impact on                     evaluation of the intrinsic brain architecture in autism. Mol. Psychiatry 19, 659–667.
+individuals with autism spectrum disorder in Arab countries. Children 10:1828.                  doi: 10.1038/mp.2013.78
+doi: 10.3390/children10111828                                                                      Ding, Y., Zhang, H., and Qiu, T. (2024). Deep learning approach to predict autism
+   Alzubaidi, L., Bai, J., Al-Sabaawi, A., Santamaría, J., Albahri, A. S., Al-dabbagh,          spectrum disorder: a systematic review and meta-analysis. BMC Psychiatry 24, 739.
+B. S. N., et al. (2023). A survey on deep learning tools dealing with data                      doi: 10.1186/s12888-024-06116-0
+scarcity: definitions, challenges, solutions, tips, and applications. J. Big Data 10:46.           El-Abd, M. (2011). “Opposition-based artificial bee colony algorithm,” in
+doi: 10.1186/s40537-023-00727-2                                                                 Proceedings of the 13th Annual Conference on Genetic and Evolutionary Computation,
+   Bahathiq, R. A., Banjar, H., Bamaga, A. K., and Jarraya, S. K. (2022).                       109–116. doi: 10.1145/2001576.2001592
+Machine learning for autism spectrum disorder diagnosis using structural magnetic                  Ergezer, M., Simon, D., and Du, D. (2009). “Oppositional biogeography-based
+resonance imaging: promising but challenging. Front. Neuroinform. 16:949926.                    optimization,” in 2009 IEEE International Conference on Systems, Man and Cybernetics
+doi: 10.3389/fninf.2022.949926                                                                  (IEEE), 1009–1014. doi: 10.1109/ICSMC.2009.5346043
+   Cao, D., Xu, Y., Yang, Z., Dong, H., and Li, X. (2023). An enhanced whale                       Eslami, T., Mirjalili, V., Fong, A., Laird, A. R., and Saeed, F. (2019). ASD-diagnet:
+optimization algorithm with improved dynamic opposite learning and adaptive inertia             a hybrid learning approach for detection of autism spectrum disorder using fmri data.
+weight strategy. Complex Intell. Syst. 9, 767–795. doi: 10.1007/s40747-022-00827-1              Front. Neuroinform. 13:70. doi: 10.3389/fninf.2019.00070
+
+
+
+
+Frontiers in Artiﬁcial Intelligence                                                        14                                                                          frontiersin.org
+Naﬁsah et al.                                                                                                                                                     10.3389/frai.2025.1594372
+
+
+
+
+   Ewees, A. A., Al-Qaness, M. A., Abualigah, L., Algamal, Z. Y., Oliva, D.,                                Nielsen, J. A., Zielinski, B. A., Fletcher, P. T., Alexander, A. L., Lange, N.,
+Yousri, D., et al. (2023). Enhanced feature selection technique using slime mould                        Bigler, E. D., et al. (2013). Multisite functional connectivity MRI classification
+algorithm: a case study on chemical data. Neural Comput. Applic. 35, 3307–3324.                          of autism: abide results. Front. Hum. Neurosci. 7:599. doi: 10.3389/fnhum.2013.
+doi: 10.1007/s00521-022-07852-8                                                                          00599
+   Fares, I. A., and Abd Elaziz, M. (2025). Explainable tabnet transformer-based on                          Niu, X., Gou, J., Chang, H., Lowe, M., and Zhang, F. (2022). Classification model
+google vizier optimizer for anomaly intrusion detection system. Knowl. Based Syst.                       with weighted regularization to improve the reproducibility of neuroimaging signature
+316:113351. doi: 10.1016/j.knosys.2025.113351                                                            selection. Stat. Med. 41, 5046–5060. doi: 10.1002/sim.9553
+   Fares, I. A., Abd Elaziz, M., Aseeri, A. O., Zied, H. S., and Abdellatif, A. G. (2025).                  Niu, Y., Yan, X., Wang, Y., and Niu, Y. (2022). Dynamic opposite learning
+Tfkan: transformer based on kolmogorov-arnold networks for intrusion detection in                        enhanced artificial ecosystem optimizer for IIR system identification. J. Supercomput.
+IoT environment. Egyptian Inform. J. 30:100666. doi: 10.1016/j.eij.2025.100666                           78, 13040–13085. doi: 10.1007/s11227-022-04367-w
+   Gautam, S., Sharma, P., Thapa, K., Upadhaya, M. D., Thapa, D., Khanal, S. R., et al.                     Oladejo, S. O., Ekwe, S. O., and Mirjalili, S. (2024). The hiking optimization
+(2023). Screening autism spectrum disorder in children using deep learning approach:                     algorithm: a novel human-based metaheuristic approach. Knowl.-Based Syst.
+Evaluating the classification model of yolov8 by comparing with other models. arXiv                      296:111880. doi: 10.1016/j.knosys.2024.111880
+preprint arXiv:2306.14300.
+                                                                                                            Parisot, S., Ktena, S. I., Ferrante, E., Lee, M., Guerrero, R., Glocker, B., et al.
+   Giarelli, E., Wiggins, L. D., Rice, C. E., Levy, S. E., Kirby, R. S., Pinto-Martin, J., et al.        (2018). Disease prediction using graph convolutional networks: application to
+(2010). Sex differences in the evaluation and diagnosis of autism spectrum disorders                     autism spectrum disorder and Alzheimer’s disease. Med. Image Anal. 48, 117–130.
+among children. Disabil. Health J. 3, 107–116. doi: 10.1016/j.dhjo.2009.07.001                           doi: 10.1016/j.media.2018.06.001
+   Guan, H., and Liu, M. (2021). Domain adaptation for medical image analysis: a                            Patil, M., Iftikhar, N., and Ganti, L. (2024). Neuroimaging insights into autism
+survey. IEEE Trans. Biomed. Eng. 69, 1173–1185. doi: 10.1109/TBME.2021.3117407                           spectrum disorder: structural and functional brain. Health Psychol. Res. 12:123439.
+                                                                                                         doi: 10.52965/001c.123439
+   Guan, Z., Ren, C., Niu, J., Wang, P., and Shang, Y. (2023). Great wall construction
+algorithm: a novel meta-heuristic algorithm for engineer problems. Expert Syst. Appl.                       Qin, L., Wang, H., Ning, W., Cui, M., and Wang, Q. (2024). New advances in
+233:120905. doi: 10.1016/j.eswa.2023.120905                                                              the diagnosis and treatment of autism spectrum disorders. Eur. J. Med. Res. 29:322.
+                                                                                                         doi: 10.1186/s40001-024-01916-2
+   He, G., and Lu, X.-l. (2022). Good point set and double attractors based-qpso and
+application in portfolio with transaction fee and financing cost. Expert Syst. Appl.                         Rahnamayan, S., Tizhoosh, H. R., and Salama, M. M. (2007). “Quasi-oppositional
+209:118339. doi: 10.1016/j.eswa.2022.118339                                                              differential evolution,” in 2007 IEEE Congress on Evolutionary Computation (IEEE),
+                                                                                                         2229–2236. doi: 10.1109/CEC.2007.4424748
+   Heinsfeld, A. S., Franco, A. R., Craddock, R. C., Buchweitz, A., and Meneguzzi, F.
+(2018). Identification of autism spectrum disorder using deep learning and the abide                         Sayers, E. W., Beck, J., Bolton, E. E., Brister, J. R., Chan, J., Comeau, D. C.,
+dataset. NeuroImage 17, 16–23. doi: 10.1016/j.nicl.2017.08.017                                           et al. (2023). Database resources of the national center for biotechnology information.
+                                                                                                         Nucleic Acids Res. 52:D33. doi: 10.1093/nar/gkad1044
+   Helmi, A. M., Al-Qaness, M. A., Dahou, A., Damaševičius, R., Krilavičius, T., and
+Elaziz, M. A. (2021). A novel hybrid gradient-based optimizer and grey wolf optimizer                       Schielen, S. J., Pilmeyer, J., Aldenkamp, A. P., and Zinger, S. (2024). The diagnosis
+feature selection method for human activity recognition using smartphone sensors.                        of ASD with MRI: a systematic review and meta-analysis. Transl. Psychiatry 14:318.
+Entropy 23:1065. doi: 10.3390/e23081065                                                                  doi: 10.1038/s41398-024-03024-5
+   Huda, S., Khan, D. M., Masroor, K., Warda Rashid, A., and Shabbir, M. (2024).                            Simonoff, E., Pickles, A., Charman, T., Chandler, S., Loucas, T., and Baird, G.
+Advancements in automated diagnosis of autism spectrum disorder through deep                             (2008). Psychiatric disorders in children with autism spectrum disorders: prevalence,
+learning and resting-state functional mri biomarkers: a systematic review. Cogn.                         comorbidity, and associated factors in a population-derived sample. J. Am. Acad. Child
+Neurodyn. 18, 3585–3601. doi: 10.1007/s11571-024-10176-z                                                 Adolesc. Psychiatry 47, 921–929. doi: 10.1097/CHI.0b013e318179964f
+   Jabbar, U., Iqbal, M. W., Alourani, A., Shinan, K., Alanazi, F., Sarwar, N., et al.                       Supekar, K., Uddin, L. Q., Khouzam, A., Phillips, J., Gaillard, W. D., Kenworthy, L.
+(2025). Machine learning-based approach for early screening of autism spectrum                           E., et al. (2013). Brain hyperconnectivity in children with autism and its links to social
+disorders. Appl. Comput. Intell. Soft Comput. 2025:9975499. doi: 10.1155/acis/9975499                    deficits. Cell Rep. 5, 738–747. doi: 10.1016/j.celrep.2013.10.001
+   Joe, C. V. (2024). Exploring ai robots-based visual strategy in training children with                   Tizhoosh, H. R. (2005). “Opposition-based learning: a new scheme for machine
+autism disorder. J. Innov. Image Proc. 6, 40–49. doi: 10.36548/jiip.2024.1.004                           intelligence,” in International Conference on Computational Intelligence for Modelling,
+                                                                                                         Control and Automation and International Conference on Intelligent Agents,
+   John, J., and Sala, R. (2018). 043 Is the prevalence of autism spectrum disorder
+                                                                                                         Web Technologies and Internet Commerce (CIMCA-IAWTIC’06) (IEEE), 695–701.
+decreased in black and ethnic children and adolescents?. Arch. Disease Childhood 103,
+                                                                                                         doi: 10.1109/CIMCA.2005.1631345
+A17A18. doi: 10.1136/goshabs.43
+                                                                                                            Wang, H., Wu, Z., Rahnamayan, S., Liu, Y., and Ventresca, M. (2011). Enhancing
+  Kaveh, A., and Yousefpoor, H. (2024). Chaotic Meta-Heuristic Algorithms for
+                                                                                                         particle swarm optimization using generalized opposition-based learning. Inf. Sci. 181,
+Optimal Design of Structures. Cham: Springer. doi: 10.1007/978-3-031-48918-1
+                                                                                                         4699–4714. doi: 10.1016/j.ins.2011.03.016
+   Khan, K., and Katarya, R. (2025). Ws-bitm: Integrating white shark optimization
+                                                                                                            Wang, Y., Wang, J., Wu, F.-X., Hayrat, R., and Liu, J. (2020). Aimafe:
+with BI-LSTM for enhanced autism spectrum disorder diagnosis. J. Neurosci. Methods
+                                                                                                         autism spectrum disorder identification with multi-atlas deep feature
+413:110319. doi: 10.1016/j.jneumeth.2024.110319
+                                                                                                         representation and ensemble learning. J. Neurosci. Methods 343:108840.
+   Lamani, M. R., and Benadit, P. J. (2023). Automatic diagnosis of autism spectrum                      doi: 10.1016/j.jneumeth.2020.108840
+disorder detection using a hybrid feature selection model with graph convolution
+                                                                                                            Xu, Y., Yang, Z., Li, X., Kang, H., and Yang, X. (2020). Dynamic opposite learning
+network. SN Comput. Sci. 5:126. doi: 10.1007/s42979-023-02439-z
+                                                                                                         enhanced teaching-learning-based optimization. Knowl. Based Syst. 188:104966.
+   Lavelle, T. A., Weinstein, M. C., Newhouse, J. P., Munir, K., Kuhlthau, K. A.,                        doi: 10.1016/j.knosys.2019.104966
+and Prosser, L. A. (2014). Economic burden of childhood autism spectrum disorders.
+                                                                                                            Yang, D., Wu, M., Li, D., Xu, Y., Zhou, X., and Yang, Z. (2022). Dynamic
+Pediatrics 133, e520–e529. doi: 10.1542/peds.2013-0763
+                                                                                                         opposite learning enhanced dragonfly algorithm for solving large-scale flexible job
+   Li, X., Zhou, Y., Dvornek, N. C., Zhang, M., Zhuang, J., Ventola, P., et al.                          shop scheduling problem. Knowl. Based Syst. 238:107815. doi: 10.1016/j.knosys.2021.1
+(2020). “Pooling regularized graph neural network for fMRI biomarker analysis,” in                       07815
+Medical Image Computing and Computer Assisted Intervention-MICCAI 2020: 23rd
+                                                                                                            Yao, M., Chen, Z., Deng, H., Wu, X., Liu, T., and Cao, C. (2025).
+International Conference, Lima, Peru, October 4–8, 2020, Proceedings, Part VII 23
+                                                                                                         A color image compression and encryption algorithm combining compressed
+(Springer), 625–635. doi: 10.1007/978-3-030-59728-3_61
+                                                                                                         sensing, sudoku matrix, and hyperchaotic map. Nonlinear Dyn. 113, 2831–2865.
+   Liu, X., Hasan, M. R., Gedeon, T., and Hossain, M. Z. (2024). Made-for-ASD: a                         doi: 10.1007/s11071-024-10334-2
+multi-atlas deep ensemble network for diagnosing autism spectrum disorder. Comput.
+                                                                                                            Zeidan, J., Fombonne, E., Scorah, J., Ibrahim, A., Durkin, M. S., Saxena, S., et al.
+Biol. Med. 182:109083. doi: 10.1016/j.compbiomed.2024.109083
+                                                                                                         (2022). Global prevalence of autism: a systematic review update. Autism Res. 15,
+   Lord, C., Elsabbagh, M., Baird, G., and Veenstra-Vanderweele, J. (2018). Autism                       778–790. doi: 10.1002/aur.2696
+spectrum disorder. Lancet 392, 508–520. doi: 10.1016/S0140-6736(18)31129-2
+                                                                                                            Zhu, Y., Zhang, M., Huang, Q., Wu, X., Wan, L., and Huang, J. (2025).
+   Mellema, C. J., Nguyen, K. P., Treacher, A., and Montillo, A. (2022). Reproducible                    Secretary bird optimization algorithm based on quantum computing and
+neuroimaging features for diagnosis of autism spectrum disorder with machine                             multiple strategies improvement for kelm diabetes classification. Sci. Rep. 15:3774.
+learning. Sci. Rep. 12:3057. doi: 10.1038/s41598-022-06459-2                                             doi: 10.1038/s41598-025-87285-0
+
+
+
+
+Frontiers in Artiﬁcial Intelligence                                                                 15                                                                           frontiersin.org
+

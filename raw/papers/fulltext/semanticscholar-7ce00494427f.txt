@@ -1,0 +1,1539 @@
+                                                                                                                     TYPE Review
+                                                                                                                     PUBLISHED 20 April 2026
+                                                                                                                     DOI 10.3389/fncom.2026.1762692
+
+
+
+
+                                              Deterministic, stochastic, and
+OPEN ACCESS
+                                              mean-ﬁeld PDE models in
+EDITED BY
+Maurizio Mattia,
+                                              neuroscience
+Italian National Institute of Health (ISS),
+Italy
+                                              Coşkun Çetin1*, Jose Roberto Castilho Piqueira2 ,
+REVIEWED BY
+Magnus Richardson,                            Burhaneddin İzgi3 , Ayse Peker-Dobie3*, Semra Ahmetolan3 and
+University of Warwick, United Kingdom
+Tilo Schwalger,                               Murat Özkaya4
+Technical University of Berlin, Germany       1
+                                                Department of Mathematics and Statistics, California State University, CSU, Sacramento, CA,
+*CORRESPONDENCE                               United States, 2 Escola Politécnica, Universidade de São Paulo, São Paulo, Brazil, 3 Department of
+Coşkun Çetin                                 Mathematics Engineering, Faculty of Science and Letters, Istanbul Technical University, İstanbul,
+  cetin@csus.edu                              Türkiye, 4 Department of Business, Faculty of Political Sciences, Çanakkale Onsekiz Mart University,
+Ayse Peker-Dobie                              Çanakkale, Türkiye
+  pdobie@itu.edu.tr
+
+RECEIVED 07 December 2025
+REVISED 06 March 2026
+                                              Large neuronal networks demonstrate complex dynamics across multiple scales,
+ACCEPTED 25 March 2026                        ranging from single-neuron excitability and spike-train variability to mesoscopic
+PUBLISHED 20 April 2026
+                                              rhythms and whole-brain activity. Different types of differential equation
+CITATION
+Çetin C, Piqueira JRC, İzgi B,
+                                              models have been developed to comprehend these phenomena, connecting
+Peker-Dobie A, Ahmetolan S and                deterministic, stochastic, and mean-ﬁeld descriptions. At the deterministic
+Özkaya M (2026) Deterministic,                level, ordinary differential equation (ODE) models, including conductance-based
+stochastic, and mean-ﬁeld PDE models
+in neuroscience.
+                                              neuron models, neural-mass systems, and whole-brain networks, summarize
+Front. Comput. Neurosci. 20:1762692.          neural behavior through a reduced set of macroscopic variables. At the
+doi: 10.3389/fncom.2026.1762692               population level, mean-ﬁeld partial differential equation (PDE) models such
+COPYRIGHT                                     as Fokker-Planck, age-structured, kinetic, and neural ﬁeld equations describe
+© 2026 Çetin, Piqueira, İzgi,                the evolution of probability or population densities over membrane-potentials,
+Peker-Dobie, Ahmetolan and Özkaya.
+This is an open-access article distributed
+                                              synaptic states, and other kinetic variables. These PDEs link single-neuron
+under the terms of the Creative               mechanisms to population-level activity and allow one to analyze bifurcations,
+Commons Attribution License (CC BY).          oscillations and other collective patterns. Stochastic differential equation
+The use, distribution or reproduction in
+other forums is permitted, provided the
+                                              (SDE) models and their extensions that include jump-diffusion processes and
+original author(s) and the copyright          stochastic PDEs (SPDEs) are widely used to describe random membrane
+owner(s) are credited and that the            ﬂuctuations, irregular spike trains, synaptic plasticity and large-scale variability
+original publication in this journal is
+cited, in accordance with accepted
+                                              in neural activity. These stochastic models are also applied to neural data
+academic practice. No use, distribution       analysis, for example to quantify noise in electro-physiological recordings and
+or reproduction is permitted which does       to infer latent neural dynamics. Because variability and noise are central in neural
+not comply with these terms.
+                                              systems, we devote more space to stochastic models but always relate them
+                                              back to the surrounding ODE and PDE frameworks. This hierarchy of ODE,
+                                              PDE, and SDE-SPDE models shows that the versatility of differential-equation-
+                                              based approaches in neuroscience offers uniﬁed tools for multiscale modeling,
+                                              neural signal processing, cognitive modeling, and the analysis of noisy neural
+                                              systems. We also discuss some known numerical and computational approaches,
+                                              especially for stochastic models and conclude by outlining open challenges,
+                                              such as multiscale inference, control-oriented formulations and the integration
+                                              of differential-equation models with modern machine-learning methods.
+
+                                              KEYWORDS
+
+                                              differential equation models, stochastic differential equations, computational
+                                              neuroscience, stochastic neural dynamics, mean-ﬁeld partial differential equations,
+                                              Fokker-Planck equations, numerical methods
+
+
+
+
+Frontiers in Computational Neuroscience                              01                                                                 frontiersin.org
+Çetin et al.                                                                                                          10.3389/fncom.2026.1762692
+
+
+
+
+1 Introduction                                                               and to capture large-scale neural variability in data such as
+                                                                             electroencephalography (EEG) and related electrophysiological
+    Large neuronal networks show collective behavior that spans              recordings (Ghorbanian et al., 2013; Tajmirriahi and Amini,
+asynchronous irregular spiking, coherent oscillations and spatially          2021). More recently, the combination of SDE-based models with
+structured activity patterns. Theoretical frameworks developed               machine-learning tools and experimental data has contributed
+to explain these phenomena are mainly based on differential                  to our understanding of neural oscillations, decision making,
+equations and can, on different scales, be grouped into three                and learning (ElGazzar and van Gerven, 2024; Holmes et al.,
+broad classes: deterministic ordinary differential equation (ODE)            2005; René et al., 2020). At the same time, these approaches
+models, stochastic process-based descriptions, and mean-field                raise challenges in parameter estimation, model selection, and
+partial differential equation (PDE) models arising in the large-             interpretation of fitted SDEs in biological terms (René et al., 2020).
+network limit (Breakspear, 2017; Brunel, 2000; Carrillo and Roux,            Such stochastic frameworks provide a microscopic description at
+2025; Gerstner et al., 2014). Our aim is to show how these three             the level of single-neurons or small networks and at the same time
+levels fit together into a multiscale mathematical picture that links        offer a natural starting point for the derivation of mean-field PDE
+single-neuron dynamics to whole-brain activity.                              models that describe the behavior of very large networks.
+    At the level of single-neurons and neural populations, ODE                    The third layer consists of mean-field PDE models, which
+models form the classical backbone of computational neuroscience             do not track individual neurons but rather the evolution of
+(Dayan and Abbott, 2001; Gerstner et al., 2014). Conductance-                population densities over appropriate state variables (Cáceres et al.,
+based models of Hodgkin-Huxley type describe the evolution                   2011; Laing and Lord, 2009). Parabolic Fokker-Planck equations,
+of the membrane-potential together with gating variables that                such as network noisy leaky integrate-and-fire (NNLIF) models
+characterize the kinetics of the ion-channel, while reduced                  (sometimes called nonlinear noisy leaky integrate-and-fire models),
+systems such as the FitzHugh-Nagumo and Morris-Lecar models                  describe how the distribution of membrane-potentials evolves
+capture key features of excitability and firing patterns in low-             under synaptic input and noise, and have been used to study
+dimensional settings, making them suitable for phase-plane and               phenomena such as blow-up, synchronization, and the stability
+bifurcation analysis (FitzHugh, 1961; Hodgkin and Huxley, 1990;              of stationary states in recurrent networks (Cáceres et al., 2011;
+Morris and Lecar, 1981; Nagumo et al., 1962). At the population              Cáceres and Perthame, 2014). Hyperbolic age- or time-elapsed-
+scale, neural-mass models of Wilson-Cowan type, and their                    structured equations organize the population according to the time
+extensions to whole-brain settings, describe the interactions among          since the last spike and provide a natural framework to analyze
+excitatory and inhibitory populations, multistability, and large-            the effects of refractoriness, adaptation, and delay (Kang et al.,
+scale oscillations in terms of a small number of macroscopic                 2015; Pakdaman et al., 2013, 2014; Schwalger and Chizhov,
+variables, such as firing rate or mean membrane-potential                    2019; Schwalger and Lindner, 2015). These age or time-
+(Breakspear, 2017; Jansen and Rit, 1995; Wilson and Cowan, 1972).            elapsed structured equations are also widely known in the
+For broader reviews of mean-field and neural-mass approaches                 computational neuroscience literature as refractory-density
+in computational neuroscience, see Carrillo and Roux (2025);                 equations (Aviel and Gerstner, 2006; Chizhov and Graham,
+Deco et al. (2008). For a complementary textbook treatment                   2007, 2008; Gerstner, 2000, 2001; Schwalger and Chizhov,
+from an applied-mathematics perspective, including delays and                2019). Kinetic Fokker-Planck systems of voltage-conductance
+stochasticity, see Coombes and Wedgwood (2023). However, this                or FitzHugh-Nagumo type retain additional variables such as
+deterministic skeleton is frequently extended to explicitly account          synaptic conductances or recovery variables, yielding mesoscopic
+for the stochastic nature of spike generation, synaptic noise,               models that preserve important biophysical detail (Mischler et al.,
+and network heterogeneity (Laing and Lord, 2009; Schwalger et al.,           2016; Perthame and Salort, 2013). Stochastic partial differential
+2017; Wallace et al., 2011).                                                 equations (SPDEs), in particular neural field PDEs and spatially
+    This motivates a second layer of modeling in which ODE-                  extended formulations, play a central role in the study of cortical
+based dynamics are generalized to stochastic processes. Noisy                waves, pattern formation, spatial aspects of brain dynamics as
+integrate-and-fire equations, stochastic conductance-based                   well as stochastic versions of time-elapsed PDEs (Carrillo et al.,
+models, random spike-time models, Hawkes-type point-processes,               2023, 2024; Schmutz et al., 2023; Schwalger et al., 2017). One can
+and Markovian descriptions of synaptic and neuronal states allow             also check chapters 11–12 of Laing and Lord (2009) for their
+one to incorporate both intrinsic fluctuations (such as conductance          numerical solutions.
+fluctuation of ion-channels) and extrinsic randomness (e.g., from                 The aim of this review is to present these three modeling layers
+the synaptic activity of other cells) as a natural generalization            not as separate topics but as parts of a coherent chain that runs from
+of deterministic models (Brunel, 2000; Carrillo and Roux, 2025;              deterministic ODE models of single- neurons, through stochastic
+Daley and Vere-Jones, 2003; Gerstner and Kistler, 2002; Hawkes,              descriptions of spike generation and synaptic variability, to mean-
+1971; Wallace et al., 2011). Stochastic differential equation (SDE)          field PDE models for large interacting populations. Because the
+models as well as their extensions that include delay equations              stochastic layer provides the key bridge between microscopic neural
+and jump-diffusion processes provide a flexible framework to                 variability and mean-field PDE descriptions, the stochastic material
+model single-neuron and network dynamics in continuous time,                 is developed in greater detail than the deterministic ODE and
+bridging deterministic drift functions and random perturbations.             PDE sections. The remainder of the paper is organized as follows.
+They have been used to describe spike trains and membrane-                   Section 2 provides a concise overview of deterministic ODE models,
+potential fluctuations, to model synaptic plasticity and learning,           summarizing the basic structure of single-neuron, neural-mass,
+
+
+
+
+Frontiers in Computational Neuroscience                                 02                                                           frontiersin.org
+Çetin et al.                                                                                                                      10.3389/fncom.2026.1762692
+
+
+
+
+and whole-brain dynamical systems. Section 3 introduces a brief                         Beyond fixed points, neuronal ODEs can exhibit limit cycles
+theoretical background and some numerical solution methods                          (periodic orbits), mixed-mode oscillations, bursting, and more
+for SDEs, and stochastic models, including SDE-based neuron                         complex attractors. Such behaviors often arise through local or
+and network descriptions, point-process and renewal models, and                     global bifurcations (Hopf, saddle-node, homoclinic, etc.), in which
+Markovian synaptic state models. Section 4 presents the main                        qualitative and quantitative changes in long-time dynamics occur
+principles used to derive mean-field PDEs from microscopic                          when parameters such as applied current or synaptic strength
+stochastic network models. We also discuss Fokker-Planck, age-                      cross critical values. At population and whole-brain scales, these
+structured, kinetic, and neural field equations, combining modeling                 bifurcations underlie phenomena such as multistability between
+aspects, mathematical theory, and representative numerical results                  resting and active states, or transitions from asynchronous activity
+in this section. Finally, Section 5 highlights open problems and                    to rhythmic oscillations.
+future research directions related to multiscale modeling, data                         In many neural models, finite-transmission and processing-
+assimilation, control, and the interplay between these mechanistic                  speed introduce explicit delays. Delay differential equations (DDEs)
+models and modern machine-learning approaches.                                      extend general ODEs by allowing the vector field to depend on
+                                                                                    past states,
+                                                                                                                                               
+                                                                                                 ẋ(t) = F x(t), x(t − τ1 ), · · · , x(t − τm ) ,
+2 Deterministic ODE models in
+neuroscience: a brief overview                                                      representing, for example, synaptic or axonal conduction delays.
+                                                                                    Such systems arise naturally in neural-mass and whole-brain
+    This section reviews the main classes of deterministic                          models with long-range connectivity and can support rich
+ODE models that have shaped theoretical and computational                           dynamics, including delay-induced oscillations and complex
+neuroscience. The goal is not to provide an exhaustive historical                   transient behavior. In the present review, however, we do not
+survey, but to illustrate the types of dynamics that arise at different             pursue DDEs in detail and focus instead on ODE models without
+scales and to highlight those structural features that will reappear in             explicit delays, their stochastic extensions, and the corresponding
+stochastic and PDE-based formulations.                                              mean-field PDE limits.
+
+
+
+2.1 Theoretical background                                                          2.2 Conductance-based single-neuron
+                                                                                    models
+     Deterministic neuronal models are naturally formulated as
+finite-dimensional dynamical systems. Given a state vector x(t) ∈                       At the level of a single-neuron, deterministic models describe
+Rn (for example, membrane-potential together with gating or                         the membrane-potential together with auxiliary variables
+recovery variables), a general ODE is given by                                      representing ion-channel kinetics. The classical example is the
+                                                                                    Hodgkin-Huxley formalism, in which the membrane-potential
+                             ẋ(t) = F(x(t), t),                                    V(t) satisfies a current-balance equation of the form
+                                                                                                          X
+where F : Rn × R → Rn is a vector field. In many neuroscience
+                                                                                                                            
+                                                                                           C V̇(t) = −         Ik V(t), x(t) + Isyn (t) + Iext (t),            (1)
+applications, F is autonomous F(x, t) = F(x), so the dynamics are                                          k
+fully determined by the current state. Under standard regularity
+                                                                                    where C is the membrane capacitance, Ik denotes ionic currents
+assumptions on F (e.g., local Lipschitz continuity), the initial value
+                                                                                    (e.g., sodium, potassium, leak), Isyn is the total synaptic current
+problem x(0) = x0 defines a unique solution on some time interval
+                                                                                    and Iext represents externally applied input (Dayan and Abbott,
+and thus a flow 8t (x0 ) on state space (Ermentrout and Terman,
+                                                                                    2001; Gerstner et al., 2014; Hodgkin and Huxley, 1990). Each ionic
+2010; Izhikevich, 2007).
+                                                                                    current is typically written as
+     An equilibrium (or fixed point) is a state x∗ such that F(x∗ ) = 0.
+Linearizing the dynamics around x∗ yields                                                                                 p   q
+                                                                                                      Ik (V, x) = ḡk mkk hkk (V − Ek ),
+                ẏ(t) = J(x∗ ) y(t),     J(x∗ ) = DF(x∗ ),
+                                                                                    where ḡk is a maximal conductance, Ek is the reversal potential,
+                                                                                    and mk , hk are gating variables that represent the fraction of open
+where J(x∗ ) is the Jacobian matrix of F at x∗ . The eigenvalues of
+                                                                                    activation and inactivation gates for the channel type k. These
+J(x∗ ) determine the local behavior of the nonlinear system: If all
+                                                                                    gating variables satisfy first-order kinetics of the form
+eigenvalues have strictly negative real parts, x∗ is (asymptotically)
+stable; if at least one eigenvalue has a positive real part, it is unstable.                                              mk,∞ (V) − mk
+In low-dimension, phase-plane analysis provides a geometric                              ṁk = αk (V) 1 − mk − βk (V) mk =               ,
+                                                                                                                               τk (V)
+picture of trajectories, allows one to classify excitable and oscillatory
+regimes, and facilitates the construction of bifurcation diagrams                   with analogous expressions for hk . The vector x(t) collects all such
+as the parameters vary (Ermentrout and Terman, 2010; Izhikevich,                    gating variables. Together, Equation 1 and the gating equations
+2007). These tools will be used implicitly in our discussion of                     define a nonlinear ODE system in which action potentials arise as
+conductance-based and reduced single-neuron models.                                 emergent transients or oscillations.
+
+
+
+Frontiers in Computational Neuroscience                                        03                                                                   frontiersin.org
+Çetin et al.                                                                                                             10.3389/fncom.2026.1762692
+
+
+
+
+    Conductance-based models can be extended to include                        where τm is the membrane time constant and Vrest is the resting
+additional ion-channels, calcium and other intracellular variables,            potential. When V(t) reaches a fixed threshold Vth , a spike is said
+dendritic compartments, and detailed synaptic mechanisms.                      to occur and the potential is instantaneously reset to a value Vreset
+From a dynamical-systems viewpoint, they are relatively                        (often followed by a refractory period). Mathematically, these are
+high-dimensional nonlinear ODE systems that can exhibit                        hybrid dynamical systems that combine continuous ODE flows
+a variety of dynamical behaviors under parameter changes                       with discrete events (Gerstner and Kistler, 2002). In later sections,
+(Ermentrout and Terman, 2010; Izhikevich, 2007). These features                noisy and networked versions of Equation 2 will serve as starting
+will reappear, in aggregate form, at the population level.                     points for the derivation of Fokker-Planck and age-structured PDE
+    Beyond reproducing action potentials, conductance-based                    models describing the evolution of membrane-potential or time-
+models have been used to systematically classify different types               since-last-spike densities.
+of neuronal excitability and firing patterns. By varying maximal                    Reduced neuron models are frequently used as building
+conductances, reversal potentials, or time constants, one can                  blocks in network studies where analytic tractability is paramount.
+induce transitions between quiescence, tonic spiking, bursting and             Planar FitzHugh-Nagumo or Morris-Lecar units coupled on
+mixed-mode oscillations organized by local and global bifurcations             lattices, random graphs, or small-world networks have been
+in the underlying ODE system (Ermentrout and Terman, 2010;                     employed to investigate how local excitability interacts with
+Izhikevich, 2007). This has led to robust classifications of neurons           connectivity to generate waves, synchrony, and cluster states.
+into, for example, type I and type II excitability according to                In the case of integrate-and-fire populations, their simplicity
+the nature of the spike-onset bifurcation, with direct implications            allows for large-scale simulations exploring how recurrent
+for how they synchronize in networks. Type I neurons can                       structure, heterogeneity, and synaptic delays shape emergent
+begin firing at arbitrarily low frequencies as the input current               phenomena such as asynchronous irregular activity, oscillations,
+just crosses threshold (as in a saddle-node on invariant circle                and related collective phenomena (Augustin et al., 2017; Brunel,
+bifurcation), whereas type II neurons start firing at a finite, nonzero        2000; Gerstner et al., 2014). Phase reductions of limit-cycle
+minimum frequency, typically through a Hopf bifurcation, and                   oscillator models provide yet another viewpoint, in which each
+these differences have direct implications for how they synchronize            neuron is reduced to a phase variable and coupling is encoded
+in networks. Conductance-based models also serve as testbeds                   via phase response curves; this connects neuronal modeling to the
+for parameter-estimation and model-reduction techniques, linking               broader theory of coupled oscillators and Kuramoto-type systems
+detailed ionic mechanisms to simplified descriptions that can be               (Breakspear et al., 2010).
+embedded into population and whole-brain models.
+
+                                                                               2.4 Neural-mass and rate-based ODE
+2.3 Reduced single-neuron models                                               models
+
+    To obtain simpler but dynamically faithful descriptions,                       At a mesoscopic level, it is often convenient to aggregate the
+reduced single-neuron models often approximate fast gating                     activity of many neurons into homogeneous populations and to
+variables by their steady-state values and combine slower ones into            describe their dynamics in terms of macroscopic variables such
+a single recovery variable, leading to planar systems of the form              as average firing rate, average membrane-potential, or synaptic
+                                                                               activity (Dayan and Abbott, 2001; Deco et al., 2008; Gerstner et al.,
+               V̇ = F(V) − w + Iext ,     ẇ = G(V, w),                        2014; Montbrió et al., 2015). This leads to neural-mass and rate-
+                                                                               based models.
+where V denotes the membrane-potential, w is a recovery                            A paradigmatic example is the Wilson-Cowan system
+variable, and F, G are nonlinear functions. The FitzHugh-                      for interacting excitatory and inhibitory populations
+Nagumo model (FitzHugh, 1961; Nagumo et al., 1962) and Morris-                 (Wilson and Cowan, 1972). Let E(t) and I(t) denote the activities
+Lecar model (Morris and Lecar, 1981) are prototypical examples.                (for example, firing rates) of the excitatory and inhibitory
+Their low-dimensionality makes them ideal for phase-plane                      populations. Their evolution is given by
+analysis: one can characterize excitability types, identify stable                                                                           
+                                                                                        τE Ė(t) = −E(t) + φE wEE E(t) − wEI I(t) + IE (t) ,
+and unstable manifolds, and track qualitative changes in firing                                                                            
+patterns via bifurcation diagrams (Ermentrout and Terman, 2010;                          τI İ(t) = −I(t) + φI wIE E(t) − wII I(t) + II (t)
+Izhikevich, 2007). Classical dynamical systems analyses of neuronal
+                                                                               where τE , τI are time constants, wab are coupling strengths between
+excitability and bursting, especially phase-plane and fast-slow
+                                                                               populations, IE , II are external inputs, and φE , φI are typically
+geometric methods developed by Rinzel and co-workers, provide
+                                                                               sigmoidal gain functions. Variants of this model and related rate-
+important mathematical background for such reduced models
+                                                                               based systems have been used extensively to study the emergence of
+(Rinzel and Huguet, 2013; Rinzel and Lee, 1987).
+                                                                               oscillations, multistability, and pattern formation in cortical circuits
+     Another important family is provided by integrate-and-fire
+                                                                               (Ermentrout and Terman, 2010; Izhikevich, 2007; Wallace et al.,
+models. In their simplest form, the subthreshold dynamics of V(t)
+                                                                               2011; Wilson and Cowan, 1972).
+follow a linear ODE such as
+                                                                                   More elaborate neural-mass formulations, such as the Jansen-
+                             1              1                                 Rit model and its descendants, introduce additional state
+                V̇(t) = −      V(t) − Vrest + Isyn (t),            (2)         variables to represent postsynaptic potentials and synaptic currents
+                            τm               C
+
+
+
+Frontiers in Computational Neuroscience                                   04                                                             frontiersin.org
+Çetin et al.                                                                                                            10.3389/fncom.2026.1762692
+
+
+
+
+(Jansen and Rit, 1995). Each population is then described by a small          seizure-like activity (Breakspear, 2017; Deco et al., 2011; Naze et al.,
+system of coupled ODEs with biophysically motivated parameters.               2015).
+     A notable recent development in mesoscopic population                        From a mathematical perspective, Equation 3 defines a large
+modeling is the emergence of exact mean-field, or next-                       system of coupled nonlinear ODEs, sometimes with delays, on a
+generation, neural-mass descriptions for heterogeneous spiking                network. Questions of interest include the existence and stability of
+networks (Coombes, 2023; Coombes and Wedgwood, 2023).                         fixed points and limit cycles, the possibility of multistable regimes,
+In the quadratic integrate-and-fire/θ -neuron setting, these                  the conditions for synchronization and partial synchrony, and the
+reductions connect microscopic spiking dynamics to closed                     influence of network topology and delays on emergent dynamics
+macroscopic equations for quantities such as the firing rate, mean            (Breakspear, 2017).
+membrane potential, and, through Kuramoto/Ott-Antonsen-                           Whole-brain models are typically constrained by structural
+type descriptions, population synchrony (Devalle et al., 2017;                connectivity matrices obtained from diffusion MRI or tract-tracing
+Luke et al., 2013; Montbrió et al., 2015; Ott and Antonsen, 2008).            data, and their parameters are tuned to reproduce empirical
+This is conceptually important because firing rate is no longer               measures such as functional connectivity, power spectra, or resting-
+treated as a purely phenomenological variable, but becomes                    state networks (Breakspear, 2017; Deco et al., 2011). Bifurcation
+dynamically linked to within-population synchrony. Extensions of              analysis and numerical continuation have been used to identify
+this framework have also been used to describe fluctuation-driven             parameter regimes that support realistic levels of metastability
+population dynamics and synaptic shot noise in sparse balanced                and dynamically switching network configurations, and to relate
+networks (Goldobin et al., 2025, 2021).                                       changes in coupling strength, conduction delays or regional
+     Neural-mass and rate-based models are often fitted directly              excitability to shifts between healthy and pathological regimes,
+to mesoscopic recordings, for example, EEG, MEG or local                      including seizure-like dynamics. These models thus provide a
+field potentials, to infer effective connectivity and to interpret            bridge between structural connectivity, dynamical systems theory,
+pathological rhythms, thereby linking microscopic mechanisms                  and clinical neuro-imaging, and they are natural candidates
+to experimentally observed dynamics (Breakspear, 2017;                        for control and data-assimilation approaches discussed later in
+Jansen and Rit, 1995). They have also been used to model                      the review.
+cognitive operations such as working memory, attention,
+decision making and winner-take-all dynamics by exploiting
+multistability and nonlinear gain functions; more biophysically
+grounded recurrent circuit formulations have been especially                  2.6 Numerical exploration and bifurcation
+influential in studies of working memory and related cognitive                analysis
+functions (Brunel and Wang, 2001; Compte et al., 2000). In this
+sense, neural-mass models occupy a central position between                        The deterministic ODE models reviewed so far are typically
+microscopic spiking descriptions and macroscopic imaging                      analyzed in combination with numerical simulation and
+data: they incorporate biophysically interpretable parameters                 bifurcation tools. For single-neuron models, direct time-stepping
+while remaining low-dimensional enough to permit systematic                   schemes such as forward or adaptive Runge-Kutta methods allow
+bifurcation analysis and parameter exploration (Augustin et al.,              one to visualize trajectories, firing patterns, and responses to time-
+2017; Breakspear, 2017; Deco et al., 2008; Greven et al., 2026).              dependent inputs. In reduced planar systems of FitzHugh-Nagumo
+                                                                              or Morris-Lecar type, phase-plane plots with nullclines, vector
+                                                                              fields, and trajectories give a geometric picture of excitability and
+2.5 Whole-brain ODE networks                                                  spike generation. They also provide a natural way to identify
+                                                                              homoclinic orbits, limit cycles, and separatrices between different
+    On the macroscopic, whole-brain scale, neural-mass or                     dynamical regimes (Ermentrout and Terman, 2010; Izhikevich,
+mean-field ODE models are often assigned to anatomically                      2007).
+defined brain regions and coupled through structural connectivity                  In higher-dimensional conductance-based models, numerical
+matrices derived from diffusion-weighted MRI or tract-tracing                 continuation software (such as XPPAUT, AUTO, or MatCont) is
+data (Breakspear, 2017; Ritter et al., 2013). Denoting by Xi (t) the          routinely used to track equilibria and limit cycles as parameters
+state vector associated with the region i (e.g., local firing rates,          vary, to locate Hopf, saddle-node, or homoclinic bifurcations, and
+mean membrane-potentials, and synaptic variables), one obtains a              to construct bifurcation diagrams in one- or two-parameter planes.
+high-dimensional ODE network of the form                                      These methods have been instrumental for classifying excitability
+                                                                              and bursting mechanisms in Hodgkin-Huxley-type systems.
+                                                                                   At the population and whole-brain scale, similar tools
+                             X                    
+         Ẋi (t) = F Xi (t) +   Kij G Xj (t − dij ) + Ii (t),     (3)
+                                 j                                            are applied to neural-mass and large-scale network models.
+                                                                              The Wilson-Cowan and Jansen-Rit systems, and their whole-
+where F encapsulates the local neural-mass dynamics, Kij is the               brain generalizations, are typically explored by combining direct
+structural connectivity from region j to region i, dij is an effective        numerical integration of coupled ODEs with continuation of steady
+transmission delay and Ii (t) denotes an external or noise-like               states and periodic orbits. This allows one to chart regions of
+input. Depending on the choice of local model and coupling,                   multistability, to identify bifurcation-induced transitions between
+Equation 3 can reproduce key resting-state features, transitions              asynchronous and rhythmic regimes, and to relate parameter
+between metastable patterns, and pathological regimes such as                 changes (for example, in coupling strength or external input) to
+
+
+
+Frontiers in Computational Neuroscience                                  05                                                             frontiersin.org
+Çetin et al.                                                                                                                 10.3389/fncom.2026.1762692
+
+
+
+
+experimentally observed shifts between resting-state, oscillatory,              0 and any n-dimensional state space S, the conditional probability
+and seizure-like activity (Breakspear, 2017; Jansen and Rit, 1995).             distribution of the process at a future time t ≥ t0 depends only
+In this sense, numerical bifurcation analysis forms a bridge                    on the state at time tn , and not on the history before that time.
+between the abstract dynamical-systems framework introduced                     Formally, the Markov property is defined as: For any measurable
+above and the phenomenology of realistic biophysical and whole-                 subset A ⊂ S and t0 < t1 < ... < tn < t,
+brain models.
+                                                                                 P(Xt ∈ A|Xt0 = x0 , Xt1 = x1 , ..., Xtn = xn ) = P(Xt ∈ A|Xtn = xn )
+
+                                                                                where Xt0 , Xt1 , ..., Xtn are the past states of the process up to time tn ,
+3 Stochastic models of neural activity                                          and Xt is the state of the process at a future time t > tn .
+                                                                                Wiener process: A Wiener process (also called Brownian motion)
+     Neural systems operate in an environment where information                 is a Markovian stochastic process {Wt = W(t), t ≥ 0} that satisfies
+processing is affected by the electro-physiological properties of               the following conditions:
+neurons and their bifurcation dynamics (Ermentrout and Terman,
+2010; Izhikevich, 2007; Wallace et al., 2011) as well as the                      • W(0) = 0 and W(t) − W(s) ∼ N(0, t − s) for t > s, which
+variability and noise of intrinsic cellular mechanisms and                          means that the increments are Gaussian processes with mean
+external input (Dumont et al., 2024; Fasoli, 2013; Laing and Lord,                  0 and variance t − s. In particular, W(t) ∼ N(0, t) for all t > 0
+2009; Pisarchik and Hramov, 2023; Saarinen et al., 2008). Although                • For any sequence of time 0 ≤ t1 ≤ t2 ≤ ... ≤ tn , the
+deterministic models provide valuable insight into the biophysical                  increments W(t2 )−W(t1 ), W(t3 )−W(t2 ), ..., W(tn )−W(tn−1 )
+and network-level principles of neuronal dynamics, they often                       are independent random variables, which means that future
+fail to capture the randomness observed in real neural data.                        increments are independent of the previous increments
+Stochastic models offer a convenient framework for integrating                    • The process {W(t)} has continuous paths with probability one.
+these sources of randomness to model fluctuations in membrane-
+potentials, probabilistic spike generation, synaptic transmission               Stochastic differential equations : A stochastic differential
+variability, noisy limit cycles and large-scale network irregularities.         equation (SDE) is a more general form of an ODE that involves
+As in many other applications of science and engineering, the                   a stochastic process to account for randomness in a dynamic
+simplest procedure to integrate randomness into deterministic                   variable Xt . Here, our focus is on Ito-type SDE, which is of the
+models has been adding a Gaussian (or similar) white noise process              Markovian form
+to a deterministic dynamical system with a suitable intensity or
+standard deviation. For more complex models with autocorrelation                                    dXt = f (t, Xt )dt + g(t, Xt )dWt ,                  (4)
+functions, “colored noise” or other variations are incorporated
+into such models rather heuristically (Chizhov and Graham,                      where Xt is the random process at time t, f (t, Xt ) is the drift term
+2007, 2008; Laing and Lord, 2009; Mao, 2011; Oksendal, 2013;                    representing the deterministic part of the system, g(t, Xt ) is the
+Schwalger and Lindner, 2015). Both the microscopic origins and                  diffusion term denoting the stochastic part of the system, and dWt
+mesoscopic/macroscopic manifestations of neural variability can                 is the "differential" term for a Wiener process Wt . Equation 4 is
+be described more rigorously via probabilistic models based on                  usually written in an integral form which provides a more rigorous
+SDEs as well as their jump-diffusion, delay and SPDE versions                   probabilistic representation. Moreover, its vector form can be used
+(Cáceres et al., 2011; Carrillo et al., 2023, 2024; Dumont et al., 2024;        for higher dimensional state variables and several sources of noise
+Pietras et al., 2020; Schmutz et al., 2023). In this section, first a           (based on a multidimensional Brownian motion process). In that
+brief theoretical background and a review of commonly used                      case the drift term is also a vector function and the diffusion term is
+numerical solution methods for SDEs are given. Then, several                    a matrix function of a suitable size. However, such scalar or vector
+stochastic models in neuroscience are discussed in giving meaning               SDEs may not capture sudden or discontinuous changes/impulses
+to noisy experimental recordings, by highlighting the importance of             directly. Then, the resulting discontinuous behavior of the random
+randomness in the development of neural computation, population                 process can be modeled by adding a jump term to Equation 4
+dynamics and parameter estimation.                                              (Platen and Bruti-Liberati, 2010). These generalized processes are
+                                                                                called jump-diffusion processes. Some examples and applications
+                                                                                are given in subsection 3.3.
+3.1 Theoretical background                                                      Remark: Note that a perturbed version of an ODE (e.g., the
+                                                                                examples introduced in section 2) using a white noise process with
+    In this subsection, we introduce some definitions, notations,               a suitable deterministic intensity σ (t) can be described as an Ito-
+and known results for SDEs. We assume that the audience is                      type SDE with the additive “noise” or diffusion term of the form
+                                                                                                                                          Rt
+familiar with probability distributions of random variables,                    σ (t)dWt . Then, the corresponding stochastic integral, 0 σ (s) dWs ,
+                                                                                                                                       Rt 2
+conditional probability, covariance/variance, and probability                   is a Gaussian process with mean zero and variance 0 σ (s)ds. The
+spaces. Then, a stochastic process {Xt : t ∈ T} is an indexed family            differential rules for Ito-type SDEs and their differentiable functions
+of random variables in a given probability space, where each Xt                 are governed by Ito stochastic calculus, more explicitly by a change-
+represents the state of the system at time t.                                   of-variable formula, called the Ito rule (Kloeden and Platen, 1992;
+Markov property: A stochastic process Xt is said to satisfy the                 Mao, 2011; Oksendal, 2013). Additionally, if jump-diffusion models
+Markov property (or it is a Markovian process) if for any time t0 ≥             are considered in the analyses, the jump-adapted approximation
+
+
+
+Frontiers in Computational Neuroscience                                    06                                                                 frontiersin.org
+Çetin et al.                                                                                                               10.3389/fncom.2026.1762692
+
+
+
+
+versions of these methods and their applications would take an                 function g(t, xt ). Then, a refined version of explicit E-M method
+important role (see İzgi, 2015, Chapter 4, Platen and Bruti-Liberati,         that is called the explicit Milstein method has the following
+2010 and references therein).                                                  iterations at the discretized mesh points ti with approximate
+                                                                               solutions xi to X(ti ):
+
+3.2 Numerical solution methods for                                                           xi+1 = xi + f (ti , xi )1t + g(ti , xi )1Wi
+stochastic differential equations                                                                   1
+                                                                                                  + g(ti , xi )g ′ (ti , xi )((1Wi )2 − 1t)
+                                                                                                    2
+    Even though linear and some special nonlinear SDEs have                    where g ′ (ti , xi ) is the derivative of the diffusion term with respect
+explicit solutions, most nonlinear SDEs are solved using suitable              to xt . Even though the explicit Milstein method is an improvement
+numerical methods that include the Euler-Maruyama method                       over the explicit E-M method, it suffers from the same divergence
+and its several variants, as well as Milstein-type methods and                 and instability phenomena when applied to only locally Lipschitz
+other generalizations like Runge-Kutta versions. We present some               coefficients with superlinear growth, like stochastic FitzHugh-
+common methods that are used in (or have the potential to                      Nagumo models.
+improve) neuroscience models below.                                            Alternate         Euler-type      methods:       (İzgi and Çetin,  2018;
+Euler-Maruyama         method:     (Kloeden and Platen,     1992;              Kloeden and Platen, 1992) In order to ensure convergence
+Laing and Lord, 2009) The Euler-Maruyama (E-M) method                          and stability of discretized numerical solutions, several alternate
+approximates the solution to the SDE in discrete time steps. It is             versions of E-M methods have been introduced. Some of them
+analogous to the Euler method for solving ODEs numerically, but                are modified to capture desirable properties of the actual solution
+this version also includes a stochastic component. If X(t) = Xt                (e.g., positivity, ergodicity etc.). The implicit E-M method for SDEs
+solves an SDE of the form                                                      is a stochastic variant of the implicit Euler method that provides
+                                                                               enhanced stability compared to the classical E-M and Milstein
+                   dXt = f (t, Xt )dt + g(t, Xt )dWt ,
+                                                                               methods, especially for stiff problems with nonlinear drift terms
+on an interval [0, T], we consider a partition of                              over longer time periods [0, T]. It allows for larger time steps
+[0, T], 0 = t0 < t1 < ... < tn = T, and let xi denote an                       without numerical blow-up with the same strong convergence
+approximation to X(ti ) for each i = 0, 1, 2, ..., n. Then, starting           order of 0.5 (and weak convergence order of 1). For a given
+with the initial condition X(0) = x0 , which can be a constant                 stochastic differential equation of the form in Equation 4, the
+or another random variable, the explicit (or forward) E-M                      (fully) implicit E-M method is given by the update rule below:
+method approximates this continuous-time process X(t) by its
+discrete-time E-M counterpart xi via iterations of the form                             xi+1 = xi + f (xi+1 , ti+1 )1t + g(xi+1 , ti+1 )1Wi+1 .
+
+               xi+1 = xi + f (ti , xi )1t + g(ti , xi )1Wi ,                       A more practical version is drift-implicit E-M method,
+                                                                               sometimes called partially implicit method, though the terms
+where 1Wi is the random increment of the Wiener process with                   “partially implicit” and “semi-implicit” are used for several other
+a Gaussian distribution. In particular, if a uniform partition is              types of numerical schemes including stochastic theta methods
+                                             √
+used with mesh size 1t, then 1Wi ∼ 1tN(0, 1) can be used                       (for additively combining explicit and drift-implicit versions) and
+for simulating its paths via random numbers from the standard                  multiplicative combination of forward and backward values (xi and
+normal distribution. It is well known that the E-M procedure                   xi+1 terms) in approximating the drift term. For an SDE of the
+converges (strongly) with rate 0.5 as 1t converges to zero if the              form in Equation 4, iterations of the drift-implicit E-M method are
+drift coefficient satisfies a uniform Lipschitz condition and both the         given by
+drift and diffusion terms have linear growth in the state variable
+x (Kloeden and Platen, 1992). Despite being simple and practical,                          xi+1 = xi + f (xi+1 , ti+1 )1t + g(xi , ti )1Wi+1
+this method is not suitable for more general equations, e.g., when
+a coefficient is only locally Lipschitz, or it has superlinear growth          where the drift term f (xi+1 , ti+1 ) is implicit, while the diffusion term
+due to positive probability of sample path blow-ups and instability            g(xi , ti ) is explicit.
+issues (İzgi and Çetin, 2018).                                                     The drift-implicit method provides superior stability and
+Milstein Method:(İzgi and Çetin, 2017; Kloeden and Platen, 1992)              better computational efficiency for stiff SDEs compared with the
+The Milstein method is another numerical scheme for solving                    explicit Euler and Milstein methods (requiring small 1t steps and
+SDEs, providing an improvement over the Euler-Maruyama                         stronger assumptions on the drift term). Split-step methods also
+method in terms of accuracy (improving the strong convergence                  possess desirable convergence, stability, and long-term ergodicity
+rate to 1 under also smoothness assumptions on the diffusion                   properties in solving stiff SDEs. Some other methods that are
+coefficient). It is suitable for SDEs whose (differentiable) diffusion         known to converge under suitable monotonicity and polynomial
+term is easy to differentiate with respect to the state variable. Given        growth conditions include truncated and tamed E-M methods.
+an SDE                                                                         Each method has certain advantages depending on the type
+                                                                               of nonlinearity, monotonicity, and growth conditions, step-size
+                   dXt = f (t, Xt )dt + g(t, Xt )dWt ,
+                                                                               requirement, ease of implementation, computational efficiency,
+the Milstein method improves upon the E-M method by adding                     and empirical convergence behavior. For example, fully implicit,
+an extra term involving the first partial derivative of the diffusion          drift-implicit, and split-step methods have very strong stability
+
+
+
+Frontiers in Computational Neuroscience                                   07                                                                  frontiersin.org
+Çetin et al.                                                                                                              10.3389/fncom.2026.1762692
+
+
+
+
+properties, but they may require solving a nonlinear equation                     3.3 Existing work of SDEs on mathematical
+(e.g., via Newton method) at each iteration (İzgi and Çetin, 2018;               neuroscience
+Kloeden and Platen, 1992; Wang and Li, 2010). Truncated E-M
+algorithm restricts the growth of the coefficients to prevent the                     In this section, we provide an integrated overview of stochastic
+blow-up for solution processes or keep them positive if the solution              models in neuroscience during the last few decades, highlighting
+is known to be positive. They provide improved stability and                      general trends, contributions, strengths, and limitations of
+guarantee strong convergence of the method despite the fact that                  existing research in mathematical neuroscience. Incorporation
+it involves a slight algorithmic bias in the numerical solution (Mao,             of randomness to neural models in literature has involved
+2015).                                                                            Brownian motion (from white noise), Ornstein-Uhlenbeck process
+Split-Step Euler method (İzgi and Çetin, 2018; Wang and Li,                      or Langevin equation (from colored noise), Poisson process
+2010): Split-Step Euler (SSE) method approximates the solution of                 (from jumps and arrival times of inputs), Boltzmann machine
+an SDE by separating its components, providing superior stability                 (for binary neuron models), and Markov chain models (with
+for stiff SDEs compared to explicit schemes. The SSE method first                 suitable transition probabilities and discretized states), among
+handles the stiff, deterministic drift part implicitly and then utilizes          others (Burkitt, 2001; Dayan and Abbott, 2001; Fasoli, 2013;
+the stochastic diffusion part explicitly in a separate stage. This                Greven et al., 2026; Pietras et al., 2020; Schwalger et al., 2017;
+approach provides stability for the stiff components of the SDEs by               Wallace et al., 2011; Wegman and Habib, 1992; Yasue et al., 1988).
+allowing larger time steps for the solution process with the same                 However, our focus in this review is mainly on models
+convergence order of 0.5.                                                         which are based on Ito-type SDEs, Poisson processes and
+     For SDE given in Equation 4, the drifting split-step Euler                   jump-diffusion models.
+method is                                                                             In order to model the kinetics of the relative membrane-
+                                                                                  potential X(t) of N neurons in a nerve system with
+                         x̄i = xi + f (x̄i , ti )1t,
+                                                                                  mutual electric interactions via neural connections, an N-
+                       xi+1 = x̄i + g(x̄i , ti )1Wi .                             dimensional Wiener process W(t) and a vector SDE of
+                                                                                  the form
+     Moreover, if the first step is considered for the diffusion term
+instead of the drift, then the diffused version of the SSE method                                                       √
+                                                                                                     dX(t) = A(t)dt +    vdW(t),
+can be obtained, similarly. One drawback of SSE methods is that a
+nonlinear equation may need to be solved in the first stage at each               are introduced in Yasue et al. (1988). In this model, each
+iteration. One way to overcome this issue is to consider their semi-              component xi (t) has a drift term, Ai (t), which represents the
+implicit versions for suitable drift functions (İzgi and Çetin, 2017,            mean forward current of the neuron i, as the total electric
+2018). For example, consider a scalar logistic-type SDE of the form               current flowing into its membrane. They use the least action
+    dX(t) = AX(t) − δX r (t) dt + σ (X(t)) dW(t), 0 < t ≤ T,
+                                                                                 principle and variational methods to derive a fundamental
+                                                                                  equation, which is a complex neural wave equation. The
+with the initial condition X(0) = x0 , where r = 2 or an odd                      proposed model captures fundamental perceptual processes and
+positive integer r ≥ 3, δ ≥ 0, A ∈ R, and σ (·) satisfies a linear                memory mechanisms.
+growth condition.                                                                      The sources, forms, and functionality of noise/uncertainty
+     Then, the semi-implicit split-step (SISS) method for this scalar             terms in neurodynamics have been extensively discussed in the
+SDE focuses on approximating the term a(y) = Ay − δyr with                        literature. The noisy input from presynaptic neurons may regulate
+ρ1 (x, y) = Ay − δyxr−1 , or with ρ2 (x, y) = Ax − δyxr−1 . Starting              firing, explain subthreshold vs. suprathreshold activities, break
+with the former choice, if we solve y = x + ρ1 (x, y) 1 for y, then we            up phase locking (or produce a stochastic phase locking called
+obtain the expressions                                                            skipping), and improve encoding of incoming signals via stochastic
+                                                                                  resonance. Noise is present at all stages of sensory processing
+                      x                                      a(x)
+  f 1 (x) =                     ,        a1 (x) =                        ,        and significantly affects variability in both neural and behavioral
+               1 + 1(δxr−1 − A)                        1 − 1(A − δxr−1 )
+                                                                                  responses. It may also contribute to balancing energy cost and
+where f 1 (x) = x + 1a1 (x). These functions are well-defined if                  reaction times in neural design. Thus, noise is not just a nuisance
+δxr−1 − A ≥ 0 or if 1 is sufficiently small. It is easy to verify that            term, but a helpful part of how the brain processes and encodes
+a1 (x) converges uniformly to a(x) in compact sets as 1 → 0 (see                  information and makes decisions (Fasoli, 2013; Laing and Lord,
+İzgi and Çetin, 2018, 2021).                                                     2009; Pisarchik and Hramov, 2023). The (constructive and more
+     A similar result is obtained if the latter approximation ρ2 (x, y)           general) regulation effect of noise to enhance firing is known as
+is used. Then, several alternative versions of the SISS methods can               coherence resonance (Deco and Schürmann, 1998; Laing and Lord,
+be constructed (İzgi and Çetin, 2018). A simple version uses the                 2009; Pisarchik and Hramov, 2023), while anticoherence resonance
+following (now explicit) iterations: xi+1 = f 1 (xi ) + σ (xi ) 1Wi+1             refers to the diminishing regularity effects of noise intensity
+where f 1 (x) and a1 (x) are as above. So, this SISS version                      (Pisarchik and Hramov, 2023).
+corresponds to the E-M discretizations applied to an SDE that has                      In order to study how noise can enhance information transfer
+a new drift term a1 (x), instead of a(x). On the other hand, one may              in central neurons through stochastic resonance, a stochastic
+consider the Milstein-type SISS methods in İzgi and Çetin (2019),                integrate-and-fire model for the subthreshold membrane-potential
+whose order of strong convergence is 1, as an extension of the                    and its jump-diffusion version is adopted in Deco and Schürmann
+Euler-type SISS methods.                                                          (1998). This approach combines an Ornstein-Uhlenbeck SDE with
+
+
+
+Frontiers in Computational Neuroscience                                      08                                                         frontiersin.org
+Çetin et al.                                                                                                              10.3389/fncom.2026.1762692
+
+
+
+
+a Poisson-distributed input spike train (from somatic synapses) as a                By adding Brownian noise to the Hodgkin-Huxley model,
+jump-diffusion model:                                                           an Ito-type SDE is used to model voltage-gated ion-channel
+                                  !                                             behavior in Saarinen et al. (2008) with a focus on cerebellar
+                          V(t)                                                  granule cells (which are small excitatory neurons). They form an
+           dV(t) =      −      + µ dt + σ dW(t) + ωdS(t),
+                           τ                                                    SDE model with the activation and inactivation of six different
+                                                                                ionic conductances:
+where τ denotes the decay of the membrane-potential in the
+absence of the input signal, ω represents soma-synaptic-strength,                     dX(t) = (αx (Vm )(1 − X(t)) − βx (Vm )X(t))dt + σ dW,
+and S(t) is a homogeneous Poisson process as a train of Dirac
+delta functions. More explicitly, S(t) satisfies dS(t)
+                                                         P
+                                                  dt   =   i δ(t −
+                                                                                where X(t) represents the gating variable for the ion-channel
+ti ) over all spike times ti which are governed by a Poisson
+                                                                                type in question, αx and βx are the rate functions of activation
+process with fixed intensity λ (Deco and Schürmann, 1998). Jump-
+                                                                                or inactivation processes, respectively, and W is the Brownian
+diffusion models also appear in the applications of synaptic
+                                                                                motion. They emphasize the role of the SDE approach for
+plasticity. For example, Robert and Vignoud (2021) used an SDE
+                                                                                more accurately and efficiently modeling the random behavior
+for the time evolution of the post-synaptic membrane-potential,
+                                                                                of neurons and ion-channels, compared to Markov chain
+and the neuron spikes are modeled by an inhomogeneous
+                                                                                and deterministic models. They reproduce irregular firing
+Poisson process.
+                                                                                observations of cerebellar granule cells more realistically and
+     When the average overall synaptic input is large, the
+                                                                                efficiently than previous stochastic methods by also using the
+corresponding Poisson process can be approximated by a suitable
+                                                                                expectation-maximization algorithm. This method has the
+Gaussian process. Then, the synaptic current dynamics with “white
+                                                                                potential to investigate intricate neural network dynamics in
+noise” would follow an Ornstein-Uhlenbeck process. Consequently,
+                                                                                the cerebellum and other neuron types as well (Saarinen et al.,
+this uncertainty appears on the voltage dynamics in the form
+                                                                                2008).
+of “colored noise”. An application to the stochastic FitzHugh-
+                                                                                     Another application of stochastic models to improve
+Nagumo model with additive and periodic stochastic forcing can
+                                                                                deterministic methods is modeling cerebrospinal fluid (CSF)
+be written in the following SDE form (with a slight change
+                                                                                flow and intracranial pressure fluctuations observed in clinical
+of notation):
+                                                                                data. For example, a stochastic version of the Marmarou model is
+                                                                                developed in Raman (2011) by introducing the following Ito-type
+                                                            !
+   dV(t) =     bV(V − 0.5)(1 − V) − cw(t) + d sin(ft) + I(t) dt                 SDE for the dynamic flow of CSF:
+
+           + σ dZ(t),                                                                             (                   )
+                                                                                                          Ep(p − pb )
+                                                                                            dp = EpI(t) −               dt + σ EpdW,
+where w(t) is a slow recovery variable (which depends on V in                                                 R
+a linear ODE), I(t) is the bias current, f is the forcing frequency
+and Z(t) is an Ornstein-Uhlenbeck process. For a summary of                     where p is the CSF pressure, pb is the basline pressure, E is the
+these ideas and references, one can check (Laing and Lord, 2009,                cerebral elasticity and I is the rate of external volume addition.
+Chapter 4). Note that such a system of nonlinear equations can be               This SDE has an explicit analytical solution (as a stochastic
+efficiently solved via the SISS methods described in subsection 3.2             Verhulst equation), but its more complex versions and similar
+of this manuscript.                                                             quadratic models [like the quadratic integrate-and-fire models in
+     By focusing on two independent Poisson processes (for                      Laing and Lord (2009)] can be solved using the stable numerical
+excitatory and inhibitory postsynaptic potentials, respectively), the           methods discussed in Subsection 3.2. One of the key findings of
+behavior of balanced neurons with reversal potential is analyzed in             this study is that when noise reaches a certain level, the probabilities
+Burkitt (2001) using a stochastic version of the leaky integrate-and-           change quickly based on how easily CSF flows and how strong the
+fire (LIF) model. This stochastic line also connects to classical first-        noise is (Raman, 2011).
+passage-time and diffusion-based analyses of leaky integrate-and-                   By utilizing perturbative field-theoretic and path integral
+fire models (Ditlevsen and Lansky, 2007; Lansky and Ditlevsen,                  methods, the moments of commonly used SDEs such as
+2008). Related analytical work has further developed fluctuation-               FitzHugh-Nagumo and Ornstein-Uhlenbeck models are
+dissipation and cross-correlation-response relations for spiking                studied in Chow and Buice (2015). While these methods
+systems under diffusive and shot-noise drive (Lindner, 2022;                    are complex, they are powerful tools in mathematical
+Stubenrauch and Lindner, 2024). For balanced neurons that receive               neuroscience and can also be applied to study larger systems
+periodic input, the spiking rate is modeled with an inhomogeneous               such as networks of interacting neurons or systems with
+Poisson process, and the relationships between the timing of                    fixed disorder.
+these periodic synaptic inputs and the output spikes are studied.                   Recent literature and dissertations in stochastic neural
+Using an Ito-type SDE model for LIF neurons, rapid random                       dynamics also include models with multiple variables usually
+fluctuations (RRF) in neurons are studied in Hong et al. (2016)                 coupled together to explain how one or more brain regions
+to explain how brain signals propagate. The model captures RRF                  interact, how to predict spiking behavior of neurons, or how
+in neuronal membrane potentials and offers analytical support                   the membrane potential dynamics are related to intracellular
+for the presence of a force that drives signal movement in                      movement. For example, the following (reduced) collection of
+the brain.                                                                      coupled nonlinear SDEs is proposed in Deco et al. (2014) for
+
+
+
+Frontiers in Computational Neuroscience                                    09                                                             frontiersin.org
+Çetin et al.                                                                                                                      10.3389/fncom.2026.1762692
+
+
+
+
+the global brain dynamics for the excitatory (E) and inhibitory                         a p-dimensional parameter vector θ , and a d-dimensional process
+(I) variables:                                                                          of the form Xt = (Vt , Yt ) in the Ito-type SDE
+
+       Ii(E) = WE I0 + w+ JNMDA S(E)                         Cij Sj(E) − Ji S(I)                         dXt = b(Xt ; θ )dt + 6(Xt ; θ )dWt ,               (5)
+                                                       X
+                                 i + GJNMDA                                  i
+                                                         j
+               + Iexternal                                                              where Vt denotes the membrane-potential, and Yt represents the
+                                                                                        d − 1 dimensional vector of unobserved variables, including gating
+       Ii(I) = WI I0 + JNMDA S(E)  (I)
+                                                                    Cij Sj(E)
+                                                             X
+                              i − Si + λGJNMDA
+                                                                                        variables and the proportion of open ion channels (for a specific
+                                                                j
+                                                                                        ion) or specific synaptic input. In Equation 5, the expressions b and
+                                       αI Ii(I) − bI                                    6 are the corresponding vector drift and matrix diffusion functions,
+       ri(I) = H (I) (Ii(I) ) =
+                                1 − exp(−dI (aI Ii(I) − bI ))                           respectively. The main challenge is parameter estimation, as only
+  dS(E)          S(E)                                                                   the membrane-potential is directly observed, making it harder to
+    i (t)
+             = − i + (1 − S(E))         (E)
+                                   i γ ri + σ vi (t))                                   infer hidden states from these partially observed complex models.
+     dt           τE
+                                                                                             Many research papers study brain damage/injuries and
+  dS(I)
+     i (t)       S(I)
+             = − i + ri(I) + σ vi (t),                                                  diseases, including seizures and Alzheimer’s disease, via stochastic
+     dt           τI                                                                    models and their numerical solutions, occasionally with the aid of
+                                                                                        machine learning methods. For example, a stochastic brain network
+where ri(E,I) denotes the firing rate of the excitatory (E) or inhibitory               model is presented in Jirsa et al. (2017) for brain interventions by
+(I) population in brain area i, S(E,I)i    is the average excitatory or                 incorporating individual structural data, epileptogenic zones, and
+inhibitory synaptic gating variable at area i, and Ii(E,I) represents the               MRI lesions. Using high-performance computing and simulations
+corresponding input current to the excitatory or inhibitory variable,                   of SDEs via the E-M method, they conduct systematic parameter
+respectively. Their approach simplifies a high-dimensional system                       exploration and model validation for the development of tailored
+of neurons interacting randomly by treating groups of elements as                       therapeutic strategies. A high-order linear SDE dynamic system in
+independent entities in a dynamic-mean-field model (Deco et al.,                        a d-dimensional space is used in Chen et al. (2017) to model and
+2014).                                                                                  optimize the movement trajectory (selected by the central nervous
+    By expanding the Hodgkin-Huxley neuron model to a system                            system) of the human arm. By extending the integrate-and-fire
+of four SDEs, Tierney (2024) investigates the spiking behavior of a                     model (for stochastic neuron activity) and employing a stochastic
+neuron to provide a more realistic understanding of the dynamics                        control method, analytical solutions for the optimal trajectory,
+of membrane potential (voltage, V) as well as the gating variables                      velocity, and variance are explicitly derived in this linear model, and
+(m, n, h) at a given time in the ion channel:                                           a three-dimensional example is provided.
+                                                                                             By utilizing advanced connectometry and a stochastic model,
+          dV = [(I − (INα + IK + IL ))/C]dt + σV dW 1 (t)                               Sinha et al. (2019) studies significant white-matter changes in
+                                                                                        patients with idiopathic generalized epilepsy (IGE), including
+          dm = [αm (V)(1 − m) − βm (V)m]dt + σm dW 2 (t)
+                                                                                        damage to the cingulum, fornix, and superior longitudinal
+          dh = [αh (V)(1 − h) − βh (V)h]dt + σh dW 3 (t)                                fasciculus, as well as stronger thalamo-cortical tract integrity.
+          dn = [αn (V)(1 − n) − βn (V)n]dt + σn dW 4 (t)                                Incorporating these findings into a computational model, the
+                                                                                        study suggests that enhanced cortico-reticular and impaired
+where m and n represent the proportions of sodium or potassium                          cortico-cortical connections drive seizure-like dynamics,
+gates open, respectively, and h refers to proportion for sodium                         highlighting impaired cortical-to-thalamic connectivity as a
+ion channel closed. Moreover, σV , σm , σh , and σn denote the                          potential therapeutic target. Seizure transitions were simulated
+diffusion coefficients on each of the four states of the model. The                     using an SDE model with a noise term, numerically solved via the
+model is solved via the E-M method, and an ensemble Kalman                              E-M method with a very small step size.
+filter method is implemented for data assimilation to describe                               A new EEG signal modeling approach using SDE with
+how the stochasticity influences a neuron’s behavior (Tierney,                          self-similar fractional Lévy stable processes (the innovation
+2024).                                                                                  model) is introduced in Tajmirriahi and Amini (2021) to extract
+     A non-linear stochastic model of nine variables is introduced in                   discriminative features for seizure detection. By using a scale-
+Ðord̄ević et al. (2023) for dopamine dynamics in rat striatum. The                     invariant fractional derivative and fitting a probability distribution
+model captures synthesis, storage, release, uptake, and metabolism,                     to the derived signals, the features are then used to train a
+whose noise terms are driven by a nine-dimensional Brownian                             support vector machine (SVM) classifier. This approach achieves
+motion process. The article also proves the existence, uniqueness,                      very high classification accuracy (of more than 99 percent) in
+and positivity of solutions and presents boundaries for the                             distinguishing between healthy and epileptic EEG segments. The
+moments of the SDEs. They use a positivity-preserving and                               simple and accurate method is also computationally efficient as it
+convergent implicit numerical method to simulate coordinate                             does not require signal decomposition. Another study that employs
+processes and provide visualizations.                                                   an innovation process and machine learning methods (SVM,
+     A multidimensional stochastic model is considered in                               K-nearest neighbor, and random forest) for high classification
+Ditlevsen and Samson (2016) to estimate biophysical parameters                          accuracy is the SDE model of Raisi-Nafchi et al. (2025b), which
+of neuronal membrane-potential dynamics from intracellular                              is applied to post-contrast T1-weighted MRI images for grading
+recordings. The model uses an m-dimensional Wiener process Wt ,                         astrocytomas (a type of brain tumors) before surgery. The
+
+
+
+Frontiers in Computational Neuroscience                                            10                                                            frontiersin.org
+Çetin et al.                                                                                                           10.3389/fncom.2026.1762692
+
+
+
+
+model utilizes a fractional Laplacian filter to capture specific                 In conclusion, these studies highlight significant recent
+properties of the MRI data and then feeds the results into the               advances for stochastic models in the neurosciences. The
+classified grades. The proposed model succeeds in obtaining high             integration of stochasticity in neuroscience research provides a
+accuracy (98.49%) using a two-dimensional SVM, and shows                     more realistic approach, enabling models to better explain the
+great promise for improving tumor grading (Raisi-Nafchi et al.,              behavior of neurons and brain activity.
+2025b). These authors also applied SDEs along with a statistical                 Modeling the interaction of a large population of neurons
+modeling framework to analyze MRI images and predict the                     becomes challenging as the complexity of the neural system grows.
+isocitrate dehydrogenase mutation status in grade IV gliomas                 Although SDEs provide better insight into the dynamics of a
+(Raisi-Nafchi et al., 2025a).                                                single-neuron or a neural network, it is computationally difficult
+    A novel stochastic model is introduced in MacIver and Shaheen            to use a very large system of SDEs in modeling the entire brain.
+(2024) by adding Brownian diffusion to a deterministic reaction-             To overcome this issue, the mean-field PDEs are utilized. The
+diffusion model used in biological invasion applications. By                 mean-field PDEs model large-scale neural interactions and provide
+integrating ideas from graph theory and Bayesian statistics, this            a mesoscopic/macroscopic description of them. These equations
+model is used to simulate the propagation of misfolded proteins in           connect the gaps between the models for individual neurons and
+Alzheimer’s disease, a neuro-degenerative disorder characterized by          those for collective groups of neurons observed in neural systems.
+cognitive decline. The corresponding SDE formulation is given by             Their details are discussed in the next section.
+                      N
+                                               !
+                         Lij cj + αci [1 − ci ] dt + σ 2 ci dW(t),
+                     X
+         dci = −
+                                                                             4 Mean-ﬁeld PDE models in
+                    j=1
+
+where ci denotes the misfolded protein concentration in node                 neuroscience
+i, and α represents the conversion rate. This stochastic version
+contributes to more realistic simulations of the disease and captures            Mean-field PDE models provide mesoscopic/macroscopic
+the variability in misfolded protein concentration across different          descriptions of large neuronal networks by following probability
+brain regions over time.                                                     or population densities over suitable state variables instead of
+    By adding Brownian noise to a biologically plausible                     tracking individual neurons. From a modeling viewpoint, they
+deterministic (Izhikevich) model and utilizing machine-learning              arise as limits of large interacting stochastic systems and can often
+techniques, a neural SDE is proposed by Sato et al. (2025) for               be interpreted as nonlinear Fokker-Planck or transport equations
+modeling heterogeneous spike patterns, designing external current            of McKean-Vlasov type (Fasoli, 2013); see also Carrillo and Roux
+and controlling spike-timing. External currents are iteratively              (2025) for a recent comprehensive survey of such models.
+trained to minimize both firing mismatches and timing errors                 Related mesoscopic reductions linking spiking-network dynamics
+using stochastic gradient descent and back-propagation techniques.           to population-level descriptions include the dynamic mean-field
+Simulations indicate successful spike control including regular              approach of Mattia and Del Giudice, spike-to-rate reductions such
+spiking, bursting, and fast spiking patterns.                                as those of Ostojic and Brunel, and fluctuation-driven population
+    A stochastic model based on Langevin equations and Fokker-               reductions developed more recently by Goldobin et al. (2021);
+Planck equation is introduced in Staii (2025) to describe random             Mattia and Del Giudice (2002, 2004); Ostojic and Brunel (2011).
+axonal motion, connect the drift to a biophysical actin-myosin-                  In this section, we first recall the mean-field construction in a
+clutch model, and investigate the stability for estimating the               unified framework, and then discuss four PDE families that have
+fluctuation spectra and oscillatory regimes.                                 emerged in neuroscience: parabolic Fokker-Planck equations for
+    From a diffusive approximation of the mean-field limit of a              membrane-potential or rate variables (Section 4.2), hyperbolic age-
+system of SDEs that model the collective behavior of an ensemble             or time-elapsed structured equations (Section 4.3), kinetic Fokker-
+of neurons, Carrillo et al. (2013) examined the global existence             Planck systems for voltage-conductance and FitzHugh-Nagumo-
+of classical solutions to the initial boundary-value problem of a            type dynamics (Section 4.4), and stochastic neural field PDEs for
+nonlinear parabolic equation. The study derives a nonlocal Fokker-           spatially extended cortical activity (Section 4.5).
+Planck equation with nonlinear dependence on the coefficients
+that includes the probability flux across the boundary. Then the
+Fokker-Planck equation with nonlinear boundary conditions is
+transformed into a Stefan-like free boundary problem with a Dirac-
+                                                                             4.1 Theoretical background: from
+delta source term.                                                           microscopic networks to mean-ﬁeld PDEs
+    Some other multidimensional stochastic (integrate-and-fire)
+neuron models discuss spike-triggered adaptation in non-                          Consider a network of N neurons. For each neuron i ∈
+equilibrium settings (Schwalger and Lindner, 2015), subthreshold             {1, . . . , N} we denote by Zi (t) its state at time t, taking values in
+resonance under weak and high noise settings (Brunel et al.,                 a space E (e.g., E = R for a membrane-potential, E = R2 for a
+2003), colored noise for temporally correlated spike inputs                  voltage-recovery pair, or E = R+ × R for an age-potential pair). A
+(Schwalger et al., 2015), noisy limit cycles and quasi-cycles                broad class of interacting stochastic models can be written as
+(Wallace et al., 2011), and dimension reduction techniques
+                                                                                dZi (t) = b Zi (t), µN                 N
+                                                                                                                        
+that include spectral decomposition of the corresponding                                             t dt + σ Zi (t), µt dWi (t) + dJi (t),
+Fokker-Planck operator (Augustin et al., 2017).                                       i = 1, . . . , N,
+
+
+
+Frontiers in Computational Neuroscience                                 11                                                             frontiersin.org
+Çetin et al.                                                                                                                10.3389/fncom.2026.1762692
+
+
+
+
+              1 PN
+where µNt = N     j=1 δZj (t) is the empirical measure of the network,             with threshold and reset at Vth and Vreset , respectively. In a
+b and σ are drift and diffusion coefficients, Wi ’s are independent                mean-field approximation, Isyn,i (t) is replaced by an effective input
+Brownian motions (or other noise sources), and Ji represents jump                  depending on the population firing rate S(t) and a connectivity
+terms such as spikes and resets. In point-process formulations, the                parameter J, possibly with synaptic delay. In the limit, as N →
+dynamics may instead be specified through stochastic intensities or                ∞, the membrane-potential density p(t, v) satisfies a nonlinear
+hazard functions driven by µN    t .                                               Fokker-Planck equation in (Vmin , Vth ) of the form
+    In the mean-field regime of a large, weakly coupled network,
+                                                                                                                                     σ2
+one expects a law-of-large-numbers behavior as N → ∞: the
+                                                                                                  
+                                                                                   ∂t p(t, v) + ∂v − τ1m (v − Vrest ) + µ(t) p(t, v) −   ∂ 2 p(t, v) = 0,
+                                                                                                                            
+empirical measure µN  t converges to a deterministic probability                                                                       2 vv
+measure µt on E, and the dynamics of a typical neuron converges
+                                                                                   where drift µ(t) is determined by network activity S(t), and
+to a nonlinear (McKean-Vlasov) process Z(t) with law µt ,
+                                                                                   boundary conditions encode threshold crossing, a flux-based
+                                                                                   definition of the firing rate S(t), and reset at Vreset .
+                                       
+      dZ(t) = b Z(t), µt dt + σ Z(t), µt dW(t) + dJ(t),
+                                                                                        An early analytical study of sparse inhibitory integrate-and-fire
+          µt = L(Z(t)).
+                                                                                   networks identified a sharp transition from stationary to oscillatory
+when Z(t) has continuous paths and a density p(t, z), its law                      global activity in the low-firing-rate regime, providing a classical
+solves a nonlinear Fokker-Planck or transport equation of McKean-                  reference point for later population-level analyses of oscillations
+Vlasov type. If some coordinates of Z are ages (time since last                    (Brunel and Hakim, 1999). Subsequent analytical studies of NNLIF
+spike), or if jumps and reset mechanisms are present, transport                    equations have clarified several additional key regimes. The basic
+terms and renewal-type boundary conditions appear, leading to                      model admits zero, one, or two stationary states depending on
+age-structured or kinetic PDEs. Rigorous derivations rely on the                   connectivity, and in fully excitatory networks, one can prove
+theory of interacting particle systems and the propagation of chaos                finite-time blow-up of the firing rate under suitable conditions
+(Carrillo and Roux, 2025; Fasoli, 2013).                                           on the initial data, highlighting the delicate balance between
+                                                                                   excitation and noise (Cáceres et al., 2011). Extensions, including
+                                                                                   a refractory state and randomness in the firing potential, show
+4.2 Fokker-Planck models                                                           that the blow-up scenario persists and that spontaneous activity
+                                                                                   can arise in parameter regimes where the deterministic-threshold
+    Fokker-Planck equations arise as forward Kolmogorov                            model would blow up (Cáceres and Perthame, 2014). For inhibitory
+equations for stochastic neuron models and noisy neural-mass                       or weakly connected networks, and in particular for delayed NNLIF
+systems. They describe the time evolution of a density p(t, x) for                 systems, one can construct global-in-time solutions and prove
+a process                                                                          convergence toward the stationary distributions by exploiting a
+                                                                                   discrete sequence of pseudo-equilibria that captures the long-
+                   dXt = b(Xt , t) dt + σ (Xt , t) dWt ,                           time behavior for large transmission delays (Cáceres et al., 2024).
+                                                                                   These results link the nonlinear Fokker-Planck structure of NNLIF
+with Xt ∈ Rd encoding, for example, a membrane-potential or a
+                                                                                   models to phenomena such as plateau states and delay-induced
+low-dimensional rate/decision variable. If Xt admits a density, then
+                                                                                   oscillations in population activity.
+p satisfies
+
+∂t p(t, x) = −∇x· b(x, t) p(t, x) + 21 ∇x· a(x, t) ∇x p(t, x) , a = σ σ ⊤ .
+                                                            
+
+                                                                       (6)         4.2.2 Fokker-Planck models for decision, rate,
+when b or a depend on p through a self-consistent firing rate                      and evoked population dynamics
+or mean-field, Equation 6 becomes a nonlinear Fokker-Planck
+equation of McKean-Vlasov type.                                                        Fokker-Planck equations also arise for low-dimensional
+     An important example outside the classical spiking setting is                 decision and rate models derived from stochastic neural-mass
+provided by Kuramoto-type oscillator networks, where population-                   systems. In two-choice decision models, a stochastic Wilson-
+level nonlinear Fokker-Planck equations have been used to                          Cowan-type system with a drift field F and noise amplitude ε leads,
+describe synchronization phenomena in cortical oscillations                        at the level of probability density p(t, x) of the two population
+(Breakspear et al., 2010).                                                         activities x ∈  ⊂ R2 , to a Fokker-Planck equation of the form
+
+                                                                                                                    ε
+                                                                                    ∂t p(t, x) = −∇x · F(x) p(t, x) + 1x p(t, x),        x ∈  ⊂ R2 ,
+                                                                                                                     2
+4.2.1 Network noisy leaky integrate-and-ﬁre
+(NNLIF) models                                                                     supplemented with no-flux boundary conditions on ∂ that
+                                                                                   enforce bounded firing rates and conservation of total probability
+    In a homogeneous population of NNLIF neurons, let Isyn,i (t)                   (Carrillo et al., 2011). For small noise, the dynamics exhibit
+denote incoming synaptic current for neuron i at time t. Then, the                 metastability: solutions rapidly concentrate along a slow manifold
+subthreshold voltage dynamics of neuron i is governed by an SDE                    connecting an unstable “spontaneous” state to two stable “decision”
+of the form                                                                        states, and only on much longer time scales relax toward
+               1                                                                equilibrium. Under suitable inward-pointing assumptions on the
+     dVi (t) = −     Vi (t) − Vrest + Isyn,i (t) dt + σ dWi (t),                   drift field F, one can prove the existence, uniqueness, and positivity
+                 τm
+
+
+
+Frontiers in Computational Neuroscience                                       12                                                           frontiersin.org
+Çetin et al.                                                                                                           10.3389/fncom.2026.1762692
+
+
+
+
+of a stationary density and convergence of solutions toward this              4.4 Kinetic PDEs for voltage-conductance
+equilibrium by combining Krein-Rutman theory with generalized                 and FitzHugh-Nagumo dynamics
+relative entropy methods (Carrillo et al., 2011). The stationary
+distribution encodes decision probabilities through the mass near                 Kinetic mean-field models retain several continuous state
+the different attractors, and the observed concentration along a              variables per neuron, such as a membrane-potential and one or
+slow manifold suggests reduced one-dimensional drift-diffusion                more conductance or recovery variables, together with noise and
+approximations for the decision variable (Carrillo et al., 2011).             mean-field coupling. They aim to bridge biophysically detailed
+     Furthermore, in Harrison et al. (2005), a population density             single-neuron dynamics with more aggregated population models.
+approach is proposed to model the evoked response potential                       A paradigmatic example is the voltage-conductance kinetic
+with random arrivals at peak times, and the dispersive effects of             equation introduced by Perthame and Salort for integrate-and-fire
+stochastic forces are analyzed to compare equilibrium response                networks with slow synaptic conductances (Perthame and Salort,
+rates of stochastic versus deterministic models. Taking expectations          2013). In the mean-field limit the joint density p(t, v, g) of voltage
+over the probability density that represents an ensemble of                   v and conductance g satisfies a kinetic Fokker-Planck equation of
+trajectories, the mean membrane potential and firing rates                    the form
+are studied. Model parameters are estimated via a Bayesian
+approach, and the corresponding Fokker-Planck equations are                                                                           σ2 2
+                                                                                 ∂t p(t, v, g) + ∂v f (v, g) p + ∂g h(v, g, 8[p]) p − V ∂vv
+                                                                                                                                  
+                                                                                                                                            p
+solved via discretizations.                                                                                                            2
+                                                                                                 σ2 2
+                                                                                               − G ∂gg   p = 0,
+                                                                                                  2
+4.3 Age- and time-elapsed structured PDEs                                     where f and h encode the passive and synaptic currents, 8[p] is
+                                                                              a nonlocal functional of p linked to the population firing rate,
+    In computational neuroscience, age-structured and time-                   and the diffusion term acts only on the conductance variable g,
+elapsed formulations, often referred to as refractory-density                 yielding a hypoelliptic structure. The equation is complemented
+equations, provide an alternative mean-field description in which             by threshold-reset conditions in v and suitable boundary behavior
+the state variable is the time-elapsed since the last spike rather            as g → 0 and g → ∞. Perthame and Salort established global
+than the membrane-potential (Chizhov and Graham, 2007, 2008;                  a priori bounds on the density and the firing rate, analyzed the
+Gerstner, 2000, 2001; Schwalger and Chizhov, 2019). At the                    existence of stationary solutions in weakly connected regimes, and
+microscopic level, each neuron carries an age variable Ai (t) ≥ 0             highlighted a “paradox” with respect to parabolic NNLIF equations,
+that increases at unit speed between spikes and is reset to zero at           which can exhibit finite-time blow-up whereas the kinetic model
+spike-times,                                                                  remains globally bounded (Perthame and Salort, 2013).
+                                                                                  Another prominent example is the kinetic FitzHugh-Nagumo
+                                 Ȧi (t) = 1,                                 model, in which the probability density of the state (V, W) satisfies
+                                                                              a nonlinear Fokker-Planck equation associated with mean-field-
+with spike intensity (hazard rate) λ(Ai (t), µN
+                                              t ) depending on age            coupled FitzHugh-Nagumo dynamics with noise (Mischler et al.,
+and population activity. In the mean-field limit, the age distribution        2016). The associated density p(t, v, w) satisfies a hypoelliptic
+n(t, a) satisfies                                                             nonlocal kinetic Fokker-Planck equation on R2 , where the drift
+                                                                             combines the cubic FitzHugh-Nagumo vector field with a McKean-
+   ∂t n(t, a) + ∂a n(t, a) + λ a, F [n(t, ·)] n(t, a) = 0,      a > 0,        Vlasov term depending on the average voltage. Mischler et al.
+                                                                              proved the global well-posedness of this equation, the existence
+together with the renewal boundary condition                                  of non-trivial stationary probability densities, and uniqueness
+                                                                              together with exponential stability of the stationary state in
+                                                                              a weakly nonlinear (small connectivity) regime (Mischler et al.,
+                           Z ∞
+                                                 
+               n(t, 0) =         λ a, F [n(t, ·)] n(t, a) da.                 2016). Moreover, their spectral analysis and numerical simulations
+                           0
+                                                                              show that increasing connectivity can induce symmetry breaking
+     These equations naturally encode refractoriness through the              and give rise to time-periodic collective oscillations, illustrating
+age variable and can be extended to incorporate adaptation and                how kinetic PDEs capture transitions between asynchronous and
+fatigue through fragmentation-type terms, as well as transmission             oscillatory network activity (Mischler et al., 2016).
+delays through suitable coupling kernels (Pakdaman et al., 2009,
+2014; Perthame et al., 2025). Analytical studies of age- and
+time-elapsed structured models have shown that, depending on                  4.5 Stochastic neural ﬁeld PDEs
+the connectivity regime and on heterogeneity or adaptation
+mechanisms, one can observe rigorous desynchronisation and                        Neural field models describe coarse-grained activity in
+exponential relaxation to steady states in weakly coupled or                  spatially distributed neuronal populations, typically cortical
+heterogeneous networks (Kang et al., 2015; Pakdaman et al., 2009,             sheets or grid-cell networks. Classical formulations are integro-
+2014), as well as self-sustained or delay-induced periodic solutions          differential equations for a field u(t, x) defined on a spatial
+in strongly nonlinear and delayed regimes (Pakdaman et al., 2009;             domain, with nonlocal coupling via a synaptic kernel. A classic
+Perthame et al., 2025).                                                       review of deterministic Wilson-Cowan/Amari-type neural field
+
+
+
+Frontiers in Computational Neuroscience                                  13                                                           frontiersin.org
+Çetin et al.                                                                                                            10.3389/fncom.2026.1762692
+
+
+
+
+theories, including their mathematical analysis and pattern-                             u(t, 0) = g0 (t), u(t, 1) = g1 (t),   0≤t≤T
+forming mechanisms, is given by Coombes (Coombes, 2005).
+     Building on these classical formulations, stochastic neural field        where Wt is a Wiener process and Ẇ is the corresponding white
+models incorporate noise either directly at the field level or via            noise process.
+fluctuations in local populations and exhibit spatial patterns such               To summarize, mean-field PDE models in neuroscience
+as traveling waves, bumps, and grid-like tessellations. From a mean-          encompass parabolic, hyperbolic, and kinetic equations that
+field PDE perspective, stochastic neural fields can often be recast as        systematically connect microscopic stochastic descriptions of
+nonlinear Fokker-Planck systems for the local probability density             neural networks to mesoscopic and macroscopic dynamics and
+of activity variables. Recent work in Carrillo et al. (2023, 2024)            provide a flexible framework for analyzing population-level
+develops this framework for spatially coupled neural populations              neural phenomena.
+with stochastic dynamics.
+     In Carrillo et al. (2023), they analyze a four-population model
+for grid cells in the medial entorhinal cortex on a toroidal                  4.6 Numerical methods for mean-ﬁeld PDE
+domain, in which spatially periodic patterns emerge from a                    models
+homogeneous state through a noise-driven bifurcation: small but
+finite noise destabilizes the spatially homogeneous equilibrium                    The mean-field PDE models described in this section are
+and selects hexagonal grid-like patterns of activity, in line with            rarely solvable in closed form and are typically investigated using
+experimental observations. The analysis combines neural-field                 numerical schemes tailored to their specific structure. Two broad
+pattern-formation mechanisms with a nonlinear, nonlocal Fokker-               approaches can be distinguished: particle-based methods, which
+Planck structure and uses equivariant bifurcation theory on the               approximate the underlying stochastic processes, and deterministic
+torus to classify branches of patterned solutions and their linear            solvers for the PDEs themselves.
+stability (Carrillo et al., 2023).                                                 A first class of methods relies on Monte Carlo simulation
+     Building on this model, Carrillo et al. (2024) develops a                of the microscopic SDE or point-process description and
+rigorous PDE theory for the associated nonlinear Fokker-                      empirical estimation of the associated density (René et al., 2020;
+Planck system. By reformulating the equation as a Stefan-                     Schwalger et al., 2017). This is natural for NNLIF and kinetic
+type free boundary problem, the authors prove the local and                   models, where the law of a McKean-Vlasov process is approximated
+global existence of classical solutions under suitable decay                  by a large ensemble of interacting particles. Such schemes
+and Lipschitz assumptions, derive representation formulas, and                are straightforward to implement but can be computationally
+establish nonlinear asymptotic stability of stationary states via a           expensive when rare events or fine spatial resolution are required,
+generalized relative entropy functional. These results complement             and are less convenient for systematic bifurcation analysis.
+the bifurcation analysis of Carrillo et al. (2023) by showing that the             Deterministic schemes approximate the PDEs directly. For
+spatially structured grid-cell patterns that emerge at the PDE level          the NNLIF equation and its variants, finite-difference and
+are dynamically stable over long times.                                       finite-volume methods based on high-order upwind or WENO
+     Beyond neural field Fokker-Planck systems, SPDEs have also               discretisations have been used to resolve sharp gradients and
+been used to model cortical activity more directly. For example,              blow-up-like phenomena in voltage or conductance distributions,
+Steyn-Ross- type SPDE models are used in Kramer et al. (2005) to              often combined with strong-stability-preserving Runge-Kutta time
+predict oscillations and traveling waves in response to the increased         integrators. In addition, structure-preserving discretisations of
+subcortical excitation, with a simplified ODE version showing                 Fokker-Planck type, such as the Chang-Cooper and Scharfetter-
+bifurcations and oscillatory behavior. Comparison with human                  Gummel schemes, have been adapted to these models in order
+seizure data reveals agreement in peak frequency and propagation              to guarantee discrete conservation of mass and non-negativity
+speed, suggesting that seizures may represent the formation of a              of the solution and, in the linear case, to reproduce the
+pathological pattern in the brain (Kramer et al., 2005). Another              correct equilibrium state and dissipation of relative entropy
+example is a feedback control model of Lopour and Szeri (2010)                (Carrillo and Roux, 2025; Chang and Cooper, 1970).
+via an SPDE model of the human cortex for stopping seizures.                       For age-structured and time-elapsed equations, upwind finite-
+It ensures accurate simulations by handling sharp changes in the              volume methods on the age variable, sometimes coupled with
+brain’s activity near electrodes. It is shown that a new electrode            splitting strategies in time, provide efficient approximations of
+measurement model and control algorithm effectively suppress                  transport and renewal terms. In kinetic voltage-conductance and
+seizure-like activity while minimizing the risk of cortical damage            FitzHugh-Nagumo systems, semi-implicit and operator-splitting
+(Lopour and Szeri, 2010).                                                     schemes are often employed to handle stiffness and degenerate
+     A numerical solution method for stochastic Fitzhugh-Nagumo               diffusion, while maintaining stability in regimes with strong
+PDEs is developed in Uma et al. (2025) for modeling neuro-                    coupling or large delays.
+biological dynamics as                                                             More recently, spectral and discontinuous Galerkin methods,
+                                                                              as well as multiscale hybrid schemes combining particle and
+                  ut = uxx + u(u − a)(1 − u) + σ uẆt                         PDE solvers, have been proposed for stochastic neural field PDEs
+                                                                              and related Fokker-Planck systems. These approaches aim to
+with initial and boundary conditions                                          accurately capture both the spatial pattern formation and the
+                                                                              long-time dynamics (including noise-driven bifurcations) in high-
+               u(0, x) = u0 (x),   0≤x≤1                                      dimensional settings. Developing robust, structure-preserving,
+
+
+
+Frontiers in Computational Neuroscience                                  14                                                          frontiersin.org
+Çetin et al.                                                                                                        10.3389/fncom.2026.1762692
+
+
+
+
+and computationally efficient numerical methods for these PDE              disorders and the development of novel computational methods
+models remains an active area of research and are crucial to               in neuroscience.
+connecting the mathematical theory to realistic network sizes and               Although the basic mathematical picture is well established
+experimental data.                                                         for several canonical models, many questions remain open.
+                                                                           At the stochastic level, network-scale SDE models are often
+                                                                           high-dimensional and driven by complex, state-dependent and
+                                                                           non-Gaussian noise sources, yet most existing work still relies
+5 Discussion and open problems                                             on relatively simple white-noise approximations. Developing
+                                                                           statistically tractable and computationally efficient methods to
+    In this review, we have organized differential-equation-               infer realistic noise structures and parameters from limited,
+based models in neuroscience into three interconnected layers:             noisy data (e.g. subsampled spikes or imaging signals) remains
+deterministic ODE models at the single-neuron, population and              a major challenge. Recent work on neural ODE and SDE
+whole-brain scales; stochastic models that extend these ODE                architectures has also emphasized open problems concerning their
+frameworks to incorporate intrinsic and synaptic variability; and          expressive power, identifiability and numerical robustness: it is
+mean-field PDE models that describe the evolution of probability           not yet fully understood which classes of neural dynamics these
+or population densities in large networks (Carrillo and Roux,              models can represent, how to ensure stable training in stiff and
+2025;      Dayan and Abbott,     2001;   Ermentrout and Terman,            multiscale regimes, or how to interpret the learned continuous-
+2010; Gerstner et al., 2014). This hierarchy links microscopic             time vector fields in biological terms (Worsham and Kalita, 2025).
+spiking       to    mesoscopic    and    macroscopic      behavior         From a methodological perspective, it would be valuable to
+and reveals common mathematical structures across                          design parameter-estimation and model-selection frameworks that
+modeling approaches.                                                       combine mechanistic differential equation models with modern
+    At the deterministic level, conductance-based and reduced              machine-learning tools (e.g. amortized inference, variational
+single-neuron models, neural-mass systems and whole-brain                  autoencoders, or neural surrogate models), in a way that is robust to
+ODE networks provide mechanistic templates from which both                 measurement noise, yields uncertainty quantification, and respects
+stochastic and mean-field descriptions can be derived (Breakspear,         biophysical constraints.
+2017; Deco et al., 2008; FitzHugh, 1961; Hodgkin and Huxley,                    Similar challenges arise when combining differential equation
+1990; Ritter et al., 2013; Wilson and Cowan, 1972). They allow             models with machine-learning tools such as physics-informed
+one to analyze excitability types, multistability and oscillations         neural networks (PINNs). PINN-based methods have been
+in relatively low-dimensional state spaces, to connect biophysical         proposed for forward and inverse problems in Fokker-Planck
+parameters to qualitative changes in dynamics, and to interpret            and mean-field PDEs, but rigorous error estimates, convergence
+mesoscopic and macroscopic recordings via fitted population                guarantees and identifiability results are still largely restricted to
+models. Stochastic extensions (noisy ODEs, SDEs, point-process             low-dimensional or linear settings. Extending these theoretical
+and renewal models) enrich these templates by capturing                    foundations to nonlinear, high-dimensional neural PDEs, and
+randomness in spike-timing, synaptic input and network                     understanding how much data are needed to learn reliable models
+connectivity, and they serve as microscopic starting points for            from particle or spike-train observations, are important open
+mean-field limits. Because variability and noise are central to            questions. More broadly, there is considerable scope for work on
+neural function and cognition, the stochastic layer receives               multiscale integration-connecting ODE, SDE and PDE descriptions
+particular attention in this review. SDE-based models have been            within unified inference pipelines-on control and optimization
+successfully used to reproduce neural firing patterns, to study            of high-dimensional stochastic and mean-field models, and on
+the impact of fluctuating inputs and synaptic plasticity, and to           incorporating more realistic biophysical constraints and noise
+capture large-scale neural variability in electro-physiological            statistics into differential-equation-based models of neural systems.
+(Ditlevsen and Samson, 2016; Jansen and Rit, 1995; René et al.,                 At this point, we believe that artificial intelligence and
+2020; Schwalger et al., 2017) and imaging data (Jirsa et al., 2017;        machine-learning techniques may enable more precise and efficient
+Ritter et al., 2013).                                                      parameter estimation for stochastic neural models. Since these
+    On the other hand, mean-field PDE models-Fokker-Planck,                approaches can learn complex probabilistic structure directly
+age-structured, kinetic and stochastic neural field equations-             from data, they have the potential to substantially accelerate
+encode the collective dynamics of large populations in terms of            parameter estimation, especially when combined with adaptive
+densities over membrane-potentials, elapsed times or conductance           optimization and uncertainty quantification. However, a key
+and recovery variables (Cáceres et al., 2011; Carrillo and Roux,           challenge is to ensure that the inferred parameters remain
+2025; Chizhov and Graham, 2007; Gerstner, 2000; Mischler et al.,           biologically interpretable and robust in real-data settings.
+2016; Pakdaman et al., 2013; Schwalger et al., 2017). Across these
+levels, similar dynamical phenomena emerge: multistability,
+oscillations, synchronization and pattern formation, as well as
+regimes of pathological activity such as seizure-like events,              5.1 Multiscale integration and model
+blow-up and delay-induced instabilities. Taken together, ODE,              comparison
+SDE and PDE models have made significant contributions to
+our understanding of neural dynamics and remain promising                      Although ODE-/SDE-/PDE-based models can often be
+tools for advancing our understanding of brain function, neural            derived from one another in suitable limiting regimes,
+
+
+
+Frontiers in Computational Neuroscience                               15                                                           frontiersin.org
+Çetin et al.                                                                                                           10.3389/fncom.2026.1762692
+
+
+
+
+systematic cross-scale comparisons within the same study are                  5.3 Control, modulation and optimal
+not yet widespread, despite influential examples that provide                 interventions
+extensive benchmarks between derived mesoscopic/macroscopic
+dynamics and simulations of the underlying microscopic models                     Most of the work reviewed here focuses on the autonomous
+(Greven et al., 2026; René et al., 2020; Schwalger et al., 2017).             dynamics of neural systems. However, from both theoretical and
+Beyond these benchmark studies, many correspondences are                      applied perspectives, questions of control and modulation
+known at the level of formal derivations: for instance, NNLIF                 are increasingly relevant, for example, in the context of
+Fokker-Planck equations and time-elapsed age-structured models                neuromodulation therapies, seizure suppression, or targeted
+can both be obtained from networks of integrate-and-fire                      stimulation (Acharya et al., 2022; Chouzouris et al., 2021; Schiff,
+neurons under different scalings or choices of state variables                2011).
+(Cáceres et al., 2024, 2011; Carrillo et al., 2011); kinetic FitzHugh-            At the ODE level, there is a rich literature on control of neural-
+Nagumo equations can be linked to both microscopic excitable                  mass and whole-brain models (Basu et al., 2018; Chouzouris et al.,
+neurons and low-dimensional rate models (Mischler et al.,                     2021; Wang et al., 2016). Moreover, stochastic optimal control
+2016; Montbrió et al., 2015). A more systematic analysis of                   techniques (based on dynamic programming principle or
+these correspondences could clarify when different reduced                    martingale duality techniques) are well established (Chen et al.,
+descriptions are genuinely equivalent, when they capture                      2017). Even though there may still be some room to extend
+complementary aspects of the same dynamics, and when                          currently known methods to interventions in neurodynamics,
+they diverge.                                                                 there is an increasing trend to integrate theoretical results with
+    From a practical point of view, such comparisons are also                 both machine-learning and Monte Carlo methods. However,
+important for model selection: given a particular dataset (e.g.,              control questions for PDE-based mean-field models are only
+spike trains, local field potentials, EEG/MEG or fMRI time series),           beginning to be explored. Natural problems include: suppressing
+under what conditions should one prefer a neural-mass ODE,                    blow-up in NLIF equations by appropriately shaping external
+a Fokker-Planck equation, an age-structured model or a kinetic                input or connectivity; steering age-structured networks between
+PDE? Developing quantitative criteria and robust procedures                   asynchronous and oscillatory regimes; and controlling kinetic
+for comparing these models, either through likelihood-based                   equations to stabilize or destabilize particular patterns. These tasks
+approaches or via carefully designed summary statistics, remains              naturally lead to optimal control or feedback control problems
+an open challenge.                                                            governed by nonlinear Fokker-Planck, transport, or kinetic
+                                                                              equations, where control theory and numerical analysis still have
+                                                                              much to contribute.
+
+5.2 Data assimilation and parameter
+inference in PDE-based models
+                                                                              5.4 Analytical challenges and model
+    While there is a wide variety of well-established methods                 generalizations
+for parameter inference in ODE and SDE models, robust
+and identifiable inference is still nontrivial in multiscale,                     On the analytical side, several structural questions remain
+partially observed, and strongly nonlinear neural systems                     open even for relatively classical models (Carrillo and Roux,
+(Ditlevsen and Samson,      2016;     Moye and Diekman,        2018;          2025). For NNLIF equations, a complete characterization of
+René et al., 2020). For PDE-based neural models, corresponding                all possible long-time behaviors (stationary states, periodic or
+inference and data-assimilation frameworks are comparatively                  more complex attractors) as connectivity, delay, and noise vary
+less standardized and less routinely applied in neuroscience                  is still incomplete, especially in multi-population or spatially
+(Harrison et al., 2005). In principle, population densities in                extended settings (Cáceres et al., 2011; Cáceres and Perthame,
+Fokker-Planck, age-structured or kinetic equations can be linked              2014; Cáceres et al., 2024). For age-structured models,
+to observable quantities such as firing rates, power spectra or               strongly nonlinear firing-rate functions and distributed delay
+spatial patterns; in practice, the inverse problem of estimating              kernels can generate intricate dynamics whose rigorous
+parameters (connectivity strengths, delays, noise levels, adaptation          understanding is only partial (Pakdaman et al., 2009, 2013,
+time scales) from such observables remains highly challenging                 2014; Perthame et al., 2025; Schwalger and Chizhov, 2019).
+(Ditlevsen and Samson, 2016; Harrison et al., 2005; René et al.,              For kinetic equations, hypoellipticity, degenerate diffusion,
+2020).                                                                        and unbounded coefficients pose technical difficulties, and
+    Several methodological avenues are available, such as                     the study of bifurcations and pattern formation is still in
+variational data assimilation, adjoint-based gradient methods,                an early stage (Mischler et al., 2016; Perthame and Salort,
+Bayesian inference, and particle-based approximations of                      2013).
+PDE dynamics, but they have not yet been systematically                           At the same time, several natural model extensions have
+adapted to neural PDE models. Developing scalable, well-posed                 not yet been fully incorporated into the mean-field PDE
+parameter-estimation frameworks for these equations and                       framework. These include synaptic plasticity (both short-
+quantifying the identifiability of key parameters is an important             and long-term), structural connectivity changes, heterogeneous
+direction for making mean-field PDEs more directly usable in                  populations with distributed parameter sets, and more realistic
+data-driven neuroscience.                                                     dendritic and network geometries (Carrillo et al., 2023;
+
+
+
+Frontiers in Computational Neuroscience                                  16                                                           frontiersin.org
+Çetin et al.                                                                                                         10.3389/fncom.2026.1762692
+
+
+
+
+Ritter et al., 2013; Robert and Vignoud, 2021; Schmutz et al.,               Author contributions
+2023; Schwalger et al., 2017). Extending existing analytical results
+to such generalizations or identifying reduced PDE descriptions                  CÇ: Conceptualization, Formal analysis, Investigation,
+that remain tractable in their presence, represents a substantial but        Methodology, Project administration, Resources, Supervision,
+important challenge.                                                         Validation, Visualization, Writing – original draft, Writing –
+                                                                             review & editing. JP: Conceptualization, Funding acquisition,
+                                                                             Investigation, Project administration, Supervision, Visualization,
+5.5 Links to machine-learning and neural                                     Writing – review & editing, Methodology. Bİ: Conceptualization,
+differential equations                                                       Formal analysis, Investigation, Methodology, Resources,
+                                                                             Validation, Visualization, Writing – original draft, Writing –
+     Finally, there is growing interest in combining mechanistic             review & editing. AP-D: Conceptualization, Formal analysis,
+differential equation models with machine-learning techniques.               Investigation, Methodology, Resources, Validation, Visualization,
+At the ODE and SDE levels, neural ODEs, neural SDEs and                      Writing – original draft, Writing – review & editing. SA:
+universal differential equations offer flexible frameworks in                Conceptualization, Formal analysis, Investigation, Methodology,
+which parts of the dynamics are specified mechanistically while              Resources, Validation, Visualization, Writing – original draft,
+others are learned from data. However, combining these models                Writing – review & editing. MÖ: Investigation, Writing – original
+with Bayesian and statistical methods, such as (conditional)                 draft, Writing – review & editing.
+maximum-likelihood estimation and EM-type approaches
+within hidden Markov frameworks, becomes challenging,
+especially for mesoscopic inference when some variables are
+latent and only partially observed (Ditlevsen and Samson, 2016;              Funding
+Laing and Lord, 2009; René et al., 2020). Extending these ideas
+to PDE-based neural models could enable hybrid approaches                         The author(s) declared that financial support was not received
+where, for example, the structure of a Fokker-Planck or age-                 for this work and/or its publication.
+structured equation is retained but certain closure terms,
+effective drift components, or kernel functions are learned
+from data.
+     Physics-informed neural networks and related mesh-free
+                                                                             Conﬂict of interest
+methods provide another route to approximate solutions
+                                                                                 The author(s) declared that this work was conducted in the
+of neural PDEs and to solve inverse problems, potentially
+                                                                             absence of any commercial or financial relationships that could be
+reducing the cost of classical discretisations in high-
+                                                                             construed as a potential conflict of interest.
+dimensional or parameter-rich settings. However, questions
+of expressivity, training stability, and error control for
+such methods in the context of nonlinear Fokker-Planck,
+transport, and kinetic equations are far from settled, and deserve           Generative AI statement
+careful investigation.
+                                                                                  The author(s) declared that generative AI was not used in the
+                                                                             creation of this manuscript.
+5.6 Outlook                                                                       Any alternative text (alt text) provided alongside figures in
+                                                                             this article has been generated by Frontiers with the support of
+     Differential equation models have played a central role                 artificial intelligence and reasonable efforts have been made to
+in theoretical neuroscience for decades, and the landscape                   ensure accuracy, including review by the authors wherever possible.
+is now broad enough to cover deterministic dynamics,                         If you identify any issues, please contact us.
+stochastic processes, computational methods and mean-
+field PDEs in a unified way. The next phase is likely to be
+driven by tighter integration of these modeling layers with
+experimental data and by closer interaction between theoretical              Publisher’s note
+analysis, numerics/simulations, optimization/control, and
+machine-learning components. Progress along these lines                          All claims expressed in this article are solely those of the
+could yield not only a deeper mathematical understanding of                  authors and do not necessarily represent those of their affiliated
+neural dynamics across scales, but also more effective tools                 organizations, or those of the publisher, the editors and the
+for interpreting data, designing interventions, and linking                  reviewers. Any product that may be evaluated in this article, or
+microscopic mechanisms to mesoscopic and macroscopic                         claim that may be made by its manufacturer, is not guaranteed or
+brain activities.                                                            endorsed by the publisher.
+
+
+
+
+Frontiers in Computational Neuroscience                                 17                                                         frontiersin.org
+Çetin et al.                                                                                                                                          10.3389/fncom.2026.1762692
+
+
+
+
+References
+Acharya, G., Ruf, S. F., and Nozari, E. (2022). Brain modeling for control: a review.            Chow, C. C., and Buice, M. A. (2015). Path integral methods for stochastic differential
+Front. Control Eng. 3:1046764. doi: 10.3389/fcteg.2022.1046764                                   equations. J. Mathemat. Neurosci. 5:8. doi: 10.1186/s13408-015-0018-5
+Augustin, M., Ladenbauer, J., Baumann, F., and Obermayer, K. (2017). Low-                        Compte, A., Brunel, N., Goldman-Rakic, P. S., and Wang, X.-J. (2000). Synaptic
+dimensional spike rate models derived from networks of adaptive integrate-and-                   mechanisms and network dynamics underlying spatial working memory in a cortical
+fire neurons: comparison and implementation. PLoS Comput. Biol. 13:e1005545.                     network model. Cereb. Cort. 10, 910–923. doi: 10.1093/cercor/10.9.910
+doi: 10.1371/journal.pcbi.1005545
+                                                                                                 Coombes, S. (2005). Waves, bumps, and patterns in neural field theories. Biol. Cybern.
+Aviel, Y., and Gerstner, W. (2006). From spiking neurons to rate models: a cascade               93, 91–108. doi: 10.1007/s00422-005-0574-y
+model as an approximation to spiking neuron models with refractoriness. Phys. Rev.
+E—Statist. Nonlinear Soft Matter Phys. 73:051908. doi: 10.1103/PhysRevE.73.051908                Coombes, S. (2023). Next generation neural population models. Front. Appl. Mathem.
+                                                                                                 Statist. 9:1128224. doi: 10.3389/fams.2023.1128224
+Basu, I., Crocker, B., Farnes, K., Robertson, M. M., Paulk, A. C., Vallejo, D.
+I., et al. (2018). A neural mass model to predict electrical stimulation evoked                  Coombes, S., and Wedgwood, K. C. (2023). Neurodynamics. Cham: Springer.
+responses in human and non-human primate brain. J. Neural Eng. 15:066012.
+                                                                                                 Daley, D., and Vere-Jones, D. (2003). “Renewal processes,” in An Introduction to the
+doi: 10.1088/1741-2552/aae136
+                                                                                                 Theory of Point Processes (Cham: Springer), 63–108.
+Breakspear, M. (2017). Dynamic models of large-scale brain activity. Nat. Neurosci. 20,
+                                                                                                 Dayan, P., and Abbott, L. (2001). Theorethical Neuroscience. Cambridge, MA: MIT
+340–352. doi: 10.1038/nn.4497
+                                                                                                 Press.
+Breakspear, M., Heitmann, S., and Daffertshofer, A. (2010). Generative models of
+                                                                                                 Deco, G., Jirsa, V. K., and McIntosh, A. R. (2011). Emerging concepts for the dynamical
+cortical oscillations: neurobiological implications of the kuramoto model. Front. Hum.
+                                                                                                 organization of resting-state activity in the brain. Nat. Rev. Neurosci. 12, 43–56.
+Neurosci. 4:190. doi: 10.3389/fnhum.2010.00190
+                                                                                                 doi: 10.1038/nrn2961
+Brunel, N. (2000). Dynamics of sparsely connected networks of excitatory
+                                                                                                 Deco, G., Jirsa, V. K., Robinson, P. A., Breakspear, M., and Friston, K. (2008). The
+and inhibitory spiking neurons. J. Comput. Neurosci. 8, 183–208.
+                                                                                                 dynamic brain: from spiking neurons to neural masses and cortical fields. PLoS
+doi: 10.1023/A:1008925309027
+                                                                                                 Comput. Biol. 4:e1000092. doi: 10.1371/journal.pcbi.1000092
+Brunel, N., and Hakim, V. (1999). Fast global oscillations in networks of
+                                                                                                 Deco, G., Ponce-Alvarez, A., Hagmann, P., Romani, G. L., Mantini, D., and Corbetta,
+integrate-and-fire neurons with low firing rates. Neural Comput. 11, 1621–1671.
+                                                                                                 M. (2014). How local excitation–inhibition ratio impacts the whole brain dynamics. J.
+doi: 10.1162/089976699300016179
+                                                                                                 Neurosci. 34, 7886–7898. doi: 10.1523/JNEUROSCI.5068-13.2014
+Brunel, N., Hakim, V., and Richardson, M. (2003). Firing-rate resonance in a
+                                                                                                 Deco, G., and Schürmann, B. (1998). Stochastic resonance in the mutual information
+generalized integrate-and-fire neuron with subthreshold resonance. Phys. Rev. E
+                                                                                                 between input and output spike trains of noisy central neurons. Physica D: Nonlinear
+67:051916. doi: 10.1103/PhysRevE.67.051916
+                                                                                                 Phenomena 117, 276–282. doi: 10.1016/S0167-2789(97)00313-8
+Brunel, N., and Wang, X.-J. (2001). Effects of neuromodulation in a cortical network
+                                                                                                 Devalle, F., Roxin, A., and Montbrió, E. (2017). Firing rate equations require a spike
+model of object working memory dominated by recurrent inhibition. J. Comput.
+                                                                                                 synchrony mechanism to correctly describe fast oscillations in inhibitory networks.
+Neurosci. 11, 63–85. doi: 10.1023/A:1011204814320
+                                                                                                 PLoS Comput. Biol. 13:e1005881. doi: 10.1371/journal.pcbi.1005881
+Burkitt, A. N. (2001). “Synchronization of the neural response to noisy periodic
+                                                                                                 Ditlevsen, S., and Lansky, P. (2007). Parameters of stochastic diffusion processes
+synaptic input in a balanced leaky integrate-and-fire neuron with reversal potentials,”
+                                                                                                 estimated from observations of first-hitting times: application to the leaky integrate-
+in IJCNN’01. International Joint Conference on Neural Networks (IEEE), 22–27.
+                                                                                                 and-fire neuronal model. Phys. Rev. E—Statist. Nonlinear Soft Matter Phys. 76:041906.
+Cáceres, M. J., Ca nizo, J. A., and Ramos-Lora, A. (2024). Sequence of pseudoequilibria          doi: 10.1103/PhysRevE.76.041906
+describes the long-time behavior of the nonlinear noisy leaky integrate-and-fire model
+                                                                                                 Ditlevsen, S., and Samson, A. (2016). Parameter estimation in neuronal stochastic
+with large delay. Phys. Rev. E 110:064308. doi: 10.1103/PhysRevE.110.064308
+                                                                                                 differential equation models from intracellular recordings of membrane potentials in
+Cáceres, M. J., Carrillo, J. A., and Perthame, B. (2011). Analysis of nonlinear noisy            single neurons: a review. Journal de la Société Française de Statistique 157, 6–21.
+integrate & fire neuron models: blow-up and steady states. J. Mathemat. Neurosci. 1:7.
+                                                                                                 Ðord̄ević, J., Milošević, M., and Šuvak, N. (2023). Non-linear stochastic
+doi: 10.1186/2190-8567-1-7
+                                                                                                 model for dopamine cycle. Chaos, Solitons & Fractals 177:114220.
+Cáceres, M. J., and Perthame, B. (2014). Beyond blow-up in excitatory integrate and              doi: 10.1016/j.chaos.2023.114220
+fire neuronal networks: refractory period and spontaneous activity. J. Theor. Biol. 350,
+                                                                                                 Dumont, G., Henry, J., and Tarniceriu, C. (2024). Oscillations in a fully connected
+81–89. doi: 10.1016/j.jtbi.2014.02.005
+                                                                                                 network of leaky integrate-and-fire neurons with a poisson spiking mechanism. J.
+Carrillo, J. A., Cordier, S., and Mancini, S. (2011). A decision-making fokker-                  Nonlinear Sci. 34:18. doi: 10.1007/s00332-023-09995-x
+planck model in computational neuroscience. J. Math. Biol. 63, 801–830.
+                                                                                                 ElGazzar, A., and van Gerven, M. (2024). Generative modeling of neural dynamics
+doi: 10.1007/s00285-010-0391-3
+                                                                                                 via latent stochastic differential equations. arXiv [preprint] arXiv:2412.12112.
+Carrillo, J. A., González, M. D. M., Gualdani, M. P., and Schonbek, M.                           doi: 10.48550/arXiv.2412.12112
+E. (2013). Classical solutions for a nonlinear fokker-planck equation arising
+                                                                                                 Ermentrout, B., and Terman, D. H. (2010). Mathematical foundations of neuroscience,
+in computational neuroscience. Commun. Part. Different. Equat. 38, 385–409.
+                                                                                                 volume 35. Cham: Springer.
+doi: 10.1080/03605302.2012.747536
+                                                                                                 Fasoli, D. (2013). Attacking the Brain with Neuroscience: Mean-Field Theory, Finite Size
+Carrillo, J. A., and Roux, P. (2025). Nonlinear partial differential equations in
+                                                                                                 Effects and Encoding Capability of Stochastic Neural Networks (PhD thesis). Université
+neuroscience: from modelling to mathematical theory. Math. Models and Meth. in Appl.
+                                                                                                 Nice Sophia Antipolis, Nice, France.
+Sci. 35, 403–584. doi: 10.1142/S0218202525400044
+                                                                                                 FitzHugh, R. (1961). Impulses and physiological states in theoretical models of nerve
+Carrillo, J. A., Roux, P., and Solem, S. (2023). Noise-driven bifurcations in a nonlinear
+                                                                                                 membrane. Biophys. J. 1, 445–466. doi: 10.1016/S0006-3495(61)86902-6
+fokker-planck system describing stochastic neural fields. Physica D: Nonlinear
+Phenomena 449:133736. doi: 10.1016/j.physd.2023.133736                                           Gerstner, W. (2000). Population dynamics of spiking neurons: fast
+                                                                                                 transients, asynchronous states, and locking. Neural Comput. 12, 43–89.
+Carrillo, J. A., Roux, P., and Solem, S. (2024). Well-posedness and stability of a
+                                                                                                 doi: 10.1162/089976600300015899
+stochastic neural field in the form of a partial differential equation. Journal des
+Mathématiques Pures et Appliquées 193:103623. doi: 10.1016/j.matpur.2024.103623                  Gerstner, W. (2001). Coding properties of spiking neurons: reverse and cross-
+                                                                                                 correlations. Neural Netw. 14, 599–610. doi: 10.1016/S0893-6080(01)00053-3
+Chang, J., and Cooper, G. (1970). A practical difference scheme for fokker-planck
+equations. J. Comput. Phys. 6, 1–16. doi: 10.1016/0021-9991(70)90001-X                           Gerstner, W., and Kistler, W. M. (2002). Spiking Neuron Models: Single Neurons,
+                                                                                                 Populations, Plasticity. Cambridge: Cambridge University Press.
+Chen, Y., Deng, Y., Yue, S., and Deng, C. (2017). Optimal stochastic control
+problem for general linear dynamical systems in neuroscience. Adv. Mathem. Phys.                 Gerstner, W., Kistler, W. M., Naud, R., and Paninski, L. (2014). Neuronal Dynamics:
+2017:8730859. doi: 10.1155/2017/8730859                                                          From Single Neurons to Networks and Models of Cognition. Cambridge: Cambridge
+                                                                                                 University Press. doi: 10.1017/CBO9781107447615
+Chizhov, A. V., and Graham, L. J. (2007). Population model of hippocampal
+pyramidal neurons, linking a refractory density approach to conductance-                         Ghorbanian, P., Ramakrishnan, S., Simon, A. J., and Ashrafiuon, H. (2013). “Stochastic
+based neurons. Phys. Rev. E—Statist. Nonlinear Soft Matter Phys. 75:011924.                      dynamic modeling of the human brain EEG signal,” in Dynamic Systems and Control
+doi: 10.1103/PhysRevE.75.011924                                                                  Conference (New York: American Society of Mechanical Engineers).
+Chizhov, A. V., and Graham, L. J. (2008). Efficient evaluation of neuron populations             Goldobin, D. S., Ageeva, M. V., di Volo, M., Tixidre, F., and Torcini, A. (2025). Synaptic
+receiving colored-noise current based on a refractory density method. Phys. Rev.                 shot noise triggers fast and slow global oscillations in balanced neural networks. Phys.
+E—Statist. Nonlinear Soft Matter Phys. 77:011910. doi: 10.1103/PhysRevE.77.011910                Rev. E 112:034301. doi: 10.1103/47h5-fbyy
+Chouzouris, T., Roth, N., Cakan, C., and Obermayer, K. (2021). Applications of optimal           Goldobin, D. S., Di Volo, M., and Torcini, A. (2021). Reduction methodology
+nonlinear control to a whole-brain network of fitzhugh-nagumo oscillators. Phys. Rev.            for fluctuation driven population dynamics. Phys. Rev. Lett. 127:038301.
+E 104:024213. doi: 10.1103/PhysRevE.104.024213                                                   doi: 10.1103/PhysRevLett.127.038301
+
+
+
+
+Frontiers in Computational Neuroscience                                                     18                                                                           frontiersin.org
+Çetin et al.                                                                                                                                          10.3389/fncom.2026.1762692
+
+
+
+
+Greven, N. E., Ranft, J., and Schwalger, T. (2026). How random connectivity                      Mischler, S., Qui ninao, C., and Touboul, J. (2016). On a kinetic fitzhugh-
+shapes the fluctuating dynamics of finite-size neural populations. PRX Life 4:013007.            nagumo model of neuronal network. Commun. Mathem. Phys. 342, 1001–1042.
+doi: 10.1103/shvm-x4x6                                                                           doi: 10.1007/s00220-015-2556-9
+Harrison, L. M., David, O., and Friston, K. J. (2005). Stochastic models of neuronal             Montbrió, E., Pazó, D., and Roxin, A. (2015). Macroscopic description for
+dynamics. Philosoph. Trans. Royal Soc. B 360, 1075–1091. doi: 10.1098/rstb.2005.1648             networks of spiking neurons. Phys. Rev. X 5:021028. doi: 10.1103/PhysRevX.5.02
+                                                                                                 1028
+Hawkes, A. G. (1971). Spectra of some self-exciting and mutually exciting point
+processes. Biometrika 58, 83–90. doi: 10.1093/biomet/58.1.83                                     Morris, C., and Lecar, H. (1981). Voltage oscillations in the barnacle giant muscle fiber.
+                                                                                                 Biophys. J. 35, 193–213. doi: 10.1016/S0006-3495(81)84782-0
+Hodgkin, A. L., and Huxley, A. F. (1990). A quantitative description of membrane
+current and its application to conduction and excitation in nerve. Bull. Math. Biol. 52,         Moye, M. J., and Diekman, C. O. (2018). Data assimilation methods for neuronal state
+25–71. doi: 10.1016/S0092-8240(05)80004-7                                                        and parameter estimation. J. Mathem. Neurosci. 8:11. doi: 10.1186/s13408-018-0066-8
+Holmes, P., Shea-Brown, E., Moehlis, J., Bogacz, R., Gao, J., Aston-Jones, G.,                   Nagumo, J., Arimoto, S., and Yoshizawa, S. (1962). An active pulse transmission
+et al. (2005). Optimal decisions: From neural spikes, through stochastic differential            line simulating nerve axon. Proc. IRE 50, 2061–2070. doi: 10.1109/JRPROC.1962.28
+equations, to behavior. IEICE Trans. Fund. Elect. Commun. Comp. Sci. 88, 2496–2503.              8235
+doi: 10.1093/ietfec/e88-a.10.2496
+                                                                                                 Naze, S., Bernard, C., and Jirsa, V. (2015). Computational modeling of seizure dynamics
+Hong, D., Man, S., and Martin, J. V. (2016). A stochastic mechanism for signal                   using coupled neuronal networks: factors shaping epileptiform activity. PLoS Comput.
+propagation in the brain: force of rapid random fluctuations in membrane potentials of           Biol. 11:e1004209. doi: 10.1371/journal.pcbi.1004209
+individual neurons. J. Theor. Biol. 389, 225–236. doi: 10.1016/j.jtbi.2015.10.035
+                                                                                                 Oksendal, B. (2013). Stochastic Differential Equations: An Introduction with
+İzgi, B. (2015). Behavioral Classification of Stochastic Differential Equations in              Applications. Cham: Springer.
+Mathematical Finance (PhD thesis). Istanbul Technical University, İstanbul, Turkey.
+                                                                                                 Ostojic, S., and Brunel, N. (2011). From spiking neuron models to linear-nonlinear
+İzgi, B., and Çetin, C. (2017). Some moment estimates for new semi-implicit split-step          models. PLoS Comput. Biol. 7:e1001056. doi: 10.1371/journal.pcbi.1001056
+methods. AIP Conf. Proc. 1833:020041. doi: 10.1063/1.4981689
+                                                                                                 Ott, E., and Antonsen, T. M. (2008). Low dimensional behavior of large systems of
+İzgi, B., and Çetin, C. (2018). Semi-implicit split-step numerical methods for a class          globally coupled oscillators. Chaos 18:2930766. doi: 10.1063/1.2930766
+of nonlinear stochastic differential equations with non-lipschitz drift terms. J. Comput.
+                                                                                                 Pakdaman, K., Perthame, B., and Salort, D. (2009). Dynamics of a structured neuron
+Appl. Math. 343, 62–79. doi: 10.1016/j.cam.2018.03.027
+                                                                                                 population. Nonlinearity 23:55. doi: 10.1088/0951-7715/23/1/003
+İzgi, B., and Çetin, C. (2019). Milstein-type semi-implicit split-step numerical
+                                                                                                 Pakdaman, K., Perthame, B., and Salort, D. (2013). Relaxation and self-sustained
+methods for nonlinear sde with locally lipschitz drift terms. Thermal Sci. 23, 1–12.
+                                                                                                 oscillations in the time elapsed neuron network model. SIAM J. Appl. Math. 73,
+doi: 10.2298/TSCI180912325I
+                                                                                                 1260–1279. doi: 10.1137/110847962
+İzgi, B., and Çetin, C. (2021). Strong convergence of semi-implicit split-step methods
+                                                                                                 Pakdaman, K., Perthame, B., and Salort, D. (2014). Adaptation and fatigue model for
+for sde with locally lipschitz coefficients. Commun. Nonlinear Sci. Num. Simulat.
+                                                                                                 neuron networks and large time asymptotics in a nonlinear fragmentation equation. J.
+94:105574. doi: 10.1016/j.cnsns.2020.105574
+                                                                                                 Mathem. Neurosci. 4:14. doi: 10.1186/2190-8567-4-14
+Izhikevich, E. M. (2007). Dynamical Systems in Neuroscience. Cambridge, MA: MIT
+                                                                                                 Perthame, B., Rieutord, C., and Salort, D. (2025). Strongly nonlinear age-structured
+Press.
+                                                                                                 equation, time-elapsed model and large delays: B. Perthame et al. J. Mathem. Biol. 91:65.
+Jansen, B. H., and Rit, V. G. (1995). Electroencephalogram and visual evoked potential           doi: 10.1007/s00285-025-02294-x
+generation in a mathematical model of coupled cortical columns. Biol. Cybern.
+                                                                                                 Perthame, B., and Salort, D. (2013). On a voltage-conductance kinetic system
+73:357–366. doi: 10.1007/BF00199471
+                                                                                                 for integrate and fire neural networks. Kinetic Related Models 6, 841–864.
+Jirsa, V. K., et al. (2017). The virtual epileptic patient: individualized                       doi: 10.3934/krm.2013.6.841
+whole-brain models of epilepsy spread. Neuroimage 145, 377–388.
+                                                                                                 Pietras, B., Gallice, N., and Schwalger, T. (2020). Low-dimensional firing-rate
+doi: 10.1016/j.neuroimage.2016.04.049
+                                                                                                 dynamics for populations of renewal-type spiking neurons. Phys. Rev. E 102:022407.
+Kang, M.-J., Perthame, B., and Salort, D. (2015). Dynamics of time elapsed                       doi: 10.1103/PhysRevE.102.022407
+inhomogeneous neuron network model. Comptes Rendus Mathematique 353,
+                                                                                                 Pisarchik, A. N., and Hramov, A. (2023). Stochastic processes in the brain’s
+1111–1115. doi: 10.1016/j.crma.2015.09.029
+                                                                                                 neural network and their impact on perception and decision-making.
+Kloeden, P. E., and Platen, E. (1992). Numerical Solution of Stochastic Differential             Uspekhi Fizicheskikh Nauk 193, 1298–1324. doi: 10.3367/UFNr.2022.12.03
+Equations. Berlin: Springer-Verlag.                                                              9309
+Kramer, M. A., Kirsch, H. E., and Szeri, A. J. (2005). Pathological pattern formation            Platen, E., and Bruti-Liberati, N. (2010). Numerical Solution of Stochastic Differential
+and cortical propagation of epileptic seizures. J. Royal Soc. Interf. 2, 113–127.                Equations with Jumps in Finance. Berlin: Springer-Verlag.
+doi: 10.1098/rsif.2004.0028
+                                                                                                 Raisi-Nafchi, M., Tajmirriahi, M., Rabbani, H., and Amini, Z. (2025a).
+Laing, C., and Lord, G. J. (2009). Neural Coherence and Stochastic Resonance. Oxford:            Detecting isocitrate dehydrogenase mutation status in grade iv gliomas using
+Oxford Academic.                                                                                 stochastic differential equations. Biomed. Signal Process. Cont. 110:108245.
+                                                                                                 doi: 10.1016/j.bspc.2025.108245
+Lansky, P., and Ditlevsen, S. (2008). A review of the methods for signal estimation
+in stochastic diffusion leaky integrate-and-fire neuronal models. Biol. Cybern. 99,              Raisi-Nafchi, M., Tajmirriahi, M., Rabbani, H., and Amini, Z. (2025b). Stochastic
+253–262. doi: 10.1007/s00422-008-0237-x                                                          differential equation modeling approach for grading astrocytomas on brain MRI
+                                                                                                 images. Sci. Rep. 15:22835. doi: 10.1038/s41598-025-06144-0
+Lindner, B. (2022). Fluctuation-dissipation relations for spiking neurons. Phys. Rev.
+Lett. 129:198101. doi: 10.1103/PhysRevLett.129.198101                                            Raman, K. (2011). A stochastic differential equation analysis of
+                                                                                                 cerebrospinal fluid dynamics. Fluids Barriers CNS 8:9. doi: 10.1186/2045-811
+Lopour, B. A., and Szeri, A. J. (2010). A model of feedback control for the
+                                                                                                 8-8-9
+charge-balanced suppression of epileptic seizures. J. Comput. Neurosci. 28, 375–387.
+doi: 10.1007/s10827-010-0215-x                                                                   René, A., Longtin, A., and Macke, J. H. (2020). Inference of a mesoscopic
+                                                                                                 population model from population spike trains. Neural Comput. 32, 1448–1498.
+Luke, T. B., Barreto, E., and So, P. (2013). Complete classification of the macroscopic
+                                                                                                 doi: 10.1162/neco_a_01292
+behavior of a heterogeneous network of theta neurons. Neural Comput. 25, 3207–3234.
+doi: 10.1162/NECO_a_00525                                                                        Rinzel, J., and Huguet, G. (2013). Nonlinear dynamics of neuronal excitability,
+MacIver, A., and Shaheen, H. (2024). Modelling alzheimer’s protein dynamics: A data-             oscillations, and coincidence detection. Commun. Pure Appl. Mathem. 66, 1464–1494.
+driven integration of stochastic methods, machine learning and connectome insights.              doi: 10.1002/cpa.21469
+arXiv [preprint] arXiv:2411.02644. doi: 10.48550/arXiv.2411.02644                                Rinzel, J., and Lee, Y. S. (1987). Dissection of a model for neuronal parabolic bursting.
+Mao, X. (2011). Stochastic Differential Equations and Applications. Sawston: Woodhead            J. Math. Biol. 25, 653–675. doi: 10.1007/BF00275501
+Publishing.                                                                                      Ritter, P., Schirner, M., McIntosh, A. R., and Jirsa, V. K. (2013). The virtual brain
+Mao, X. (2015). The truncated euler-maruyama method for stochastic differential                  integrates computational modeling and multimodal neuroimaging. Brain Connect. 3,
+equations. J. Comput. Appl. Math. 290, 370–384. doi: 10.1016/j.cam.2015.06.002                   121–145. doi: 10.1089/brain.2012.0120
+Mattia, M., and Del Giudice, P. (2002). Population dynamics of interacting                       Robert, P., and Vignoud, G. (2021). Stochastic models of neural synaptic
+spiking neurons. Phys. Rev. E 66:051917. doi: 10.1103/PhysRevE.66.0                              plasticity. SIAM J. Appl. Math. 81, 1821–1846. doi: 10.1137/20M138
+51917                                                                                            288X
+Mattia, M., and Del Giudice, P. (2004). Finite-size dynamics of inhibitory and                   Saarinen, A., Linne, M. L., and Yli-Harja, O. (2008). Stochastic differential equation
+excitatory interacting spiking neurons. Phys. Rev. E—Statist. Nonlinear Soft Matter              model for cerebellar granule cell excitability. PLoS Comput. Biol. 4:e1000004.
+Phys. 70:052903. doi: 10.1103/PhysRevE.70.052903                                                 doi: 10.1371/journal.pcbi.1000004
+
+
+
+
+Frontiers in Computational Neuroscience                                                     19                                                                           frontiersin.org
+Çetin et al.                                                                                                                                            10.3389/fncom.2026.1762692
+
+
+
+
+Sato, F., Ogura, M., Sashie, A., Bai, Y., Shimono, M., and Wakamiya, N.                           Tajmirriahi, M., and Amini, Z. (2021). Modeling of seizure and seizure-free eeg signals
+(2025). Neural sde-based spike control of noisy neurons. PLoS ONE 20:e0330607.                    based on stochastic differential equations. Chaos, Solitons & Fractals 150:111104.
+doi: 10.1371/journal.pone.0330607                                                                 doi: 10.1016/j.chaos.2021.111104
+Schiff, S. J. (2011). Neural Control Engineering: the Emerging Intersection Between               Tierney, N. (2024). Stochastic Modeling of Neuron Dynamics (PhD thesis). Worcester
+Control Theory and Neuroscience. Cambridge, MA: MIT Press.                                        Polytechnic Institute, Worcester, MA, United States.
+Schmutz, V., Locherbach, E., and Schwalger, T. (2023). On a finite-size                           Uma, D., Jafari, H., Raja Balachandar, S., Venkatesh, S. G., and Vaidyanathan, S.
+neuronal population equation. SIAM J. Appl. Dynam. Syst. 22, 996–1029.                            (2025). An approximate solution for stochastic fitzhugh-nagumo partial differential
+doi: 10.1137/21M1445041                                                                           equations arising in neurobiology models. Math. Methods Appl. Sci. 48, 2980–2998.
+                                                                                                  doi: 10.1002/mma.10471
+Schwalger, T., and Chizhov, A. V. (2019). Mind the last spike—firing rate models
+for mesoscopic populations of spiking neurons. Curr. Opin. Neurobiol. 58, 155–166.                Wallace, E., Benayoun, M., van Drongelen, W., and Cowan, J. (2011). Emergent
+doi: 10.1016/j.conb.2019.08.003                                                                   oscillations in networks of stochastic spiking neurons. PLoS ONE 6:e14804.
+                                                                                                  doi: 10.1371/journal.pone.0014804
+Schwalger, T., Deger, M., and Gerstner, W. (2017). Towards a theory of cortical
+columns: From spiking neurons to interacting neural populations of finite size. PLoS              Wang, J., Niebur, E., Hu, J., and Li, X. (2016). Suppressing epileptic activity in a neural
+Comput. Biol. 13:e1005507. doi: 10.1371/journal.pcbi.1005507                                      mass model using a closed-loop proportional-integral controller. Sci. Rep. 6:27344.
+                                                                                                  doi: 10.1038/srep27344
+Schwalger, T., Droste, F., and Lindner, B. (2015). Statistical structure of neural spiking
+under non-poissonian or other non-white stimulation. J. Comput. Neurosci. 39, 29–51.              Wang, P., and Li, Y. (2010). Split-step forward methods for stochastic differential
+doi: 10.1007/s10827-015-0560-x                                                                    equations. J. Comput. Appl. Math. 233, 2641–2651. doi: 10.1016/j.cam.2009.11.010
+Schwalger, T., and Lindner, B. (2015). Analytical approach to an integrate-                       Wegman, E. J., and Habib, M. K. (1992). Stochastic methods for neural systems. J. Stat.
+and-fire model with spike-triggered adaptation. Phys. Rev. E 92:062703.                           Plan. Inference 33, 5–25. doi: 10.1016/0378-3758(92)90092-7
+doi: 10.1103/PhysRevE.92.062703
+                                                                                                  Wilson, H. R., and Cowan, J. D. (1972). Excitatory and inhibitory
+Sinha, N., et al. (2019). Computer modelling of connectivity change suggests                      interactions in localized populations of model neurons. Biophys. J. 12, 1–24.
+epileptogenesis mechanisms in idiopathic generalised epilepsy. NeuroImage: Clini.                 doi: 10.1016/S0006-3495(72)86068-5
+21:101655. doi: 10.1016/j.nicl.2019.101655
+                                                                                                  Worsham, J. M., and Kalita, J. K. (2025). A guide to neural ordinary differential
+Staii, C. (2025). Stochastic models of neuronal growth. AppliedMath 5:170.                        equations: Machine learning for data-driven digital engineering. Digit. Eng. 6:100060.
+doi: 10.3390/appliedmath5040170                                                                   doi: 10.1016/j.dte.2025.100060
+Stubenrauch, J., and Lindner, B. (2024). Furutsu-novikov-like cross-correlation-                  Yasue, K., Jibu, M., Misawa, T., and Zambrini, J. C. (1988). Stochastic
+response relations for systems driven by shot noise. Phys. Rev. X 14:041047.                      neurodynamics. Ann. Inst. Stat. Math. 40, 41–59. doi: 10.1007/BF0005
+doi: 10.1103/PhysRevX.14.041047                                                                   3954
+
+
+
+
+Frontiers in Computational Neuroscience                                                      20                                                                            frontiersin.org
+

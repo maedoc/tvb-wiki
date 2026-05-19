@@ -1,0 +1,952 @@
+                                                            Compact Dynamical Mean-Field Theory of Oscillator Networks
+
+                                                                                                 Kanishka Reddy1, ∗
+                                                                          1
+                                                                              Department of Applied Mathematics, University of Washington
+                                                            We present a compact dynamical mean-field theory (DMFT) for large networks of coupled phase
+                                                         oscillators whose phases live on the circle S 1 and interact with both coherent mean-field coupling and
+                                                         quenched randomness. Starting from wrapped Langevin dynamics, we build a path-integral repre-
+                                                         sentation that keeps the 2π-periodicity of the phases explicit. After averaging over the disorder in the
+                                                         thermodynamic limit, this construction reduces to a single-oscillator stochastic equation driven by
+                                                         a deterministic mean field and a self-consistent colored Gaussian noise, whose covariance is fixed by
+                                                         a circular two-time correlator. In the limit of vanishing disorder, the formalism reproduces the Ott–
+                                                         Antonsen reduction and recovers standard Kuramoto and theta-neuron neural-mass equations. The
+                                                         same framework accommodates arbitrary 2π-periodic coupling functions, including those obtained
+                                                         from infinitesimal phase response curves (iPRCs) of biophysical neuron models. As an example,
+arXiv:2603.09402v1 [q-bio.NC] 10 Mar 2026
+
+
+
+
+                                                         we show that for adaptive exponential integrate-and-fire neurons, inserting an iPRC-fitted coupling
+                                                         into the compact DMFT yields quantitative predictions for synchronization thresholds, providing
+                                                         a direct route from single-neuron phase response data to network-level mean-field predictions for
+                                                         arbitrary phase-reducible oscillators.
+
+
+                                                             I.   INTRODUCTION                                 ten relied on numerical simulations or perturbative ex-
+                                                                                                               pansions in the coupling strength.
+                                               Networks of coupled phase oscillators are a standard               An important step toward a nonperturbative treat-
+                                            tool for describing collective dynamics across physics, bi-        ment was recently taken by Prüser, Rosmej, and En-
+                                            ology, and engineering. They capture synchronization               gel, who used dynamical-cavity methods to derive a
+                                            phenomena in systems such as Josephson junction arrays,            self-consistent single-oscillator description of the fully
+                                            power grids, neural circuits, and circadian rhythms [1–6].         disordered Kuramoto model [22, 23]. Their approach
+                                            In all-to-all ensembles with rank-one coupling, classical          yields a single-site stochastic equation driven by colored
+                                            mean-field arguments already explain how macroscopic               noise, whose two-time correlator must be determined self-
+                                            synchrony emerges, and the reductions due to Ott and               consistently, and provides quantitative predictions for the
+                                            Antonsen (OA) and to Watanabe and Strogatz (WS)                    volcano transition in the local-field distribution.
+                                            make this picture precise: under suitable assumptions,                In this paper we develop a more general framework,
+                                            the infinite-dimensional dynamics collapses onto a low-            compact dynamical mean-field theory, that extends the
+                                            dimensional manifold parametrized by a complex order               dynamical-cavity construction of Prüser and Engel in
+                                            parameter [7–9]. Closely related constructions underlie            three respects.
+                                            neural-mass descriptions of theta-neuron and quadratic                (i) Compact path-integral formulation on S 1 . In
+                                            integrate-and-fire (QIF) populations, where the firing-            Refs. [22, 23] the phase is treated as a noncompact vari-
+                                            rate dynamics of a large ensemble can be written as a pair         able on R, and 2π-periodicity is only enforced at the
+                                            of coupled ordinary differential equations [10–13]. These          level of observables. Here we instead start from wrapped
+                                            results together give a sharp and analytically tractable           Langevin dynamics on the circle S 1 and build a Mar-
+                                            account of synchronization in idealized mean-field archi-          tin–Siggia–Rose–Janssen–de Dominicis (MSRJD) path
+                                            tectures.                                                          integral in which the response field is integer-valued. This
+                                               Real networks, however, are seldom rank-one or uni-             integer structure comes from the Fourier representation
+                                            form. Coupling matrices in neural circuits, power sys-             of the periodic Dirac comb enforcing identification mod-
+                                            tems, and other applications are typically dense, het-             ulo 2π. Villain resummation [24, 25] turns the resulting
+                                            erogeneous, and often strongly nonreciprocal, shaped by            integer sum into a periodic Gaussian, giving a continuum
+                                            quenched disorder that does not self-average in the ther-          theory that keeps track of winding sectors and respects
+                                            modynamic limit. In such settings the effective input              the topology of S 1 already at the level of the generating
+                                            to a given oscillator is no longer a static mean field but         functional. In this compact formulation intrinsic phase
+                                            a temporally correlated fluctuation whose statistics are           noise D and frequency disorder ∆ are treated on the same
+                                            self-generated by the network. Recent work on fully dis-           footing, unlike in the dynamical-cavity approach.
+                                            ordered Kuramoto-type ensembles has mapped out a rich                 (ii) Unified mean and random channels with arbitrary
+                                            phenomenology, including nontrivial incoherent states,             harmonics. Prüser and Engel work with purely random
+                                            volcano-type transitions of the local-field distribution,          coupling and a fixed sinusoidal interaction. By contrast,
+                                            and collective chaos [14–21]. Analytical progress has of-          we split the coupling matrix into a coherent mean J0 /N
+                                                                                                               and a zero-mean Gaussian random part of variance g 2 /N .
+                                                                                                               This gives a continuous interpolation between classical
+                                                                                                               mean-field synchronization and disorder-dominated dy-
+                                            ∗ kani@uw.edu
+                                                                                                               namics. The compact framework also allows general
+                                                                                                                                  2
+
+2π-periodic coupling functions H(∆θ) = m hm eim∆θ ,
+                                             P
+                                                                 and D ≥ 0 controls the noise strength. The deterministic
+rather than only the sin(∆θ) term of the Kuramoto                drift is
+model. In the limit g → 0 the random channel switches                                              N
+off and the theory reduces exactly to Ott–Antonsen dy-
+                                                                                                   X                          
+                                                                   Fi (θ(t), t) := ωi + Ii (t) +         Wij H θi (t) − θj (t) , (3)
+namics, recovering both Kuramoto ensembles and theta-                                              j=1
+neuron neural-mass models [10, 26].
+   (iii) Biophysical parameterization via phase response         where ωi is the intrinsic frequency of oscillator i, Ii (t) is
+curves. The multiharmonic structure in (ii) has a natural        an external drive, and H(∆) is a 2π-periodic interaction
+biophysical interpretation. For any neuron model with            function.
+a stable limit cycle, classical phase-reduction theory [27]        We expand H in a Fourier series,
+defines an infinitesimal phase response curve (iPRC) that                   X                         
+describes how weak perturbations advance or delay the              H(∆) =        hm eim∆ + h∗m e−im∆ ,         hm ∈ C. (4)
+phase. The Fourier coefficients of the iPRC then directly                   m≥1
+determine the coupling function H(∆θ) in our descrip-
+tion. This gives a concrete route from single-cell measure-      The classical Kuramoto model is obtained by taking
+ments to network-level DMFT parameters. As an illus-             h1 = −i/2 and hm>1 = 0, which gives H(∆) = sin ∆.
+tration, we consider adaptive exponential integrate-and-         Keeping higher harmonics m ≥ 2 allows for more general
+fire (AdEx) neurons and show that Ott–Antonsen dy-               interactions, including those that arise from phase reduc-
+namics with iPRC-derived coupling reproduces synchro-            tion of biophysical neuron models [27, 32, 33]. In Sec. VI
+nization thresholds in networks of phase-reduced AdEx            we explain how the coefficients hm can be computed di-
+oscillators.                                                     rectly from an empirically measured or numerically ob-
+   Taken together, points (i)–(iii) place compact DMFT           tained infinitesimal phase response curve.
+at the interface between the theory of disordered oscilla-          The coupling matrix Wij is split into a uniform mean
+tor networks and biophysically motivated neural model-           part and a quenched random part with the usual ther-
+ing. In contrast to voltage-based mean-field approaches          modynamic scaling:
+for conductance-driven networks [28–31], which start                                            J0
+from a Fokker–Planck equation in voltage space and then                                 Wij =      +gW
+                                                                                                     fij ,                       (5)
+                                                                                                N
+derive rate equations, we first perform phase reduction,
+extract the coupling coefficients from the iPRC, and only        where
+then close the theory via DMFT. This sacrifices detailed                                                        1
+subthreshold voltage statistics but yields a relatively sim-              ⟨W
+                                                                           fij ⟩ = 0,       ⟨W   fi′ j ′ ⟩ =
+                                                                                             fij W                δii′ δjj ′ .   (6)
+                                                                                                                N
+ple analytical structure in which synchronization thresh-
+olds and related quantities follow from a small set of           Here J0 sets the strength of the coherent mean-field cou-
+Fourier coefficients.                                            pling, and g tunes the amplitude of quenched disorder.
+   The remainder of the paper is organized as follows.           The variance structure δii′ δjj ′ means that W
+                                                                                                              fij and W  fji
+Section II introduces the oscillator model and the cou-          are statistically independent, i.e. the random part is fully
+pling decomposition. Sections III–IV develop the com-            asymmetric. The 1/N scaling ensures that the cumula-
+pact path-integral formulation, perform the disorder av-         tive effect of fluctuations remains O(1) as N → ∞. Vary-
+erage, and derive the effective single-site SDE. Sec-            ing (J0 , g) interpolates between the classical Kuramoto
+tion V shows how the Ott–Antonsen reduction and theta-           case (g = 0, J0 > 0) and fully disordered ensembles
+neuron/QIF dynamics appear in the mean-channel limit.            (J0 = 0, g > 0).
+Section VI details the iPRC-based parameterization us-              The harmonic expansion (4) naturally introduces col-
+ing AdEx neurons. Section VII compares the DMFT                  lective order parameters
+predictions with direct network simulations. Section VIII                                   N
+summarizes the main results and outlines possible exten-                                1 X imθj (t)
+                                                                             Zm (t) =         e      ,           m ≥ 1,          (7)
+sions.                                                                                  N j=1
+
+                                                                 which measure m-fold clustering. In particular, |Z1 | is
+                        II.    MODEL                             the usual Kuramoto order parameter: |Z1 | = 0 corre-
+                                                                 sponds to an incoherent state, while |Z1 | > 0 indicates
+   We consider a network of N phase oscillators θi (t) ∈         macroscopic synchronization.
+[−π, π), i = 1, . . . , N , evolving according to the stochas-     For the intrinsic frequencies ωi we will often assume a
+tic differential equation                                        Lorentzian distribution,
+                                       √                                                           ∆
+               θ̇i (t) = Fi (θ(t), t) + 2D ξi (t),         (1)                    p(ω) =                    ,                  (8)
+                                                                                           π (ω − ω0 )2 + ∆2
+where ξi (t) are independent white noises with
+                                                                 with center ω0 and half-width ∆ > 0. This choice keeps
+                ⟨ξi (t)ξi′ (t′ )⟩ = δii′ δ(t − t′ ),      (2)    many calculations simple (integrals over ω can be done
+                                                                                                                                             3
+
+by residues), but the DMFT construction itself does not                   where ∆ε θt := θt+ε − θt . In contrast to the standard,
+rely on a single specific form of p(ω).                                   noncompact MSRJD field theory [34, 35], the response
+   Because the phases live on the circle S 1 , some care                  field kt now takes values in Z rather than in R. This
+is needed when setting up a path-integral description.                    integer structure comes directly from the Fourier sum
+Standard MSRJD field theory uses a real-valued response                   in (10) and is what keeps track of winding sectors.
+field and implicitly assumes a noncompact target space.                      For the Itô discretization the Jacobian of the trans-
+In the next section we construct a compact MSRJD for-                     formation from noise to phase increments is unity, so no
+mulation that respects 2π-periodicity and keeps winding                   extra determinant appears. As usual, this ensures causal
+sectors explicit in the continuum limit.                                  response functions, a feature we use later when we ana-
+                                                                          lyze connected correlators in Sec. IV.
+
+III.   COMPACT MSRJD PATH INTEGRAL AND
+           VILLAIN RESUMMATION
+                                                                                                C.    Villain resummation
+
+   We now construct a path-integral representation of the
+dynamics (1) that keeps the compact geometry of S 1 ex-                     The sum over integers kt in (11) can be recast in a more
+plicit. Phases are only defined modulo 2π, so the usual                   convenient form using Poisson resummation. Define
+MSRJD formalism with a real response field conjugate
+to an unconstrained coordinate has to be adapted.                                                  yt := ∆ε θt − εF (θt , t),             (12)
+
+                                                                          so that at fixed y we have
+        A.      Discrete-time wrapped dynamics                                                    X
+                                                                                                         exp ik y − Dε k 2 .
+                                                                                                            
+                                                                                                                                          (13)
+                                                                                                  k∈Z
+  To fix ideas, start with a single phase θt ∈ [−π, π)
+updated on a discrete time grid t ∈ {t0 , t0 + ε, . . . } with
+                                                                          Applying the Poisson summation formula
+an Itô scheme,
+                            √                                                                      X                X
+  θt+ε = θt + ε F (θt , t) + 2Dε ηt + 2πℓt , ℓt ∈ Z, (9)                                                  f (k) =         fb(2πr),        (14)
+                                                                                                   k∈Z              r∈Z
+where ηt ∼ N (0, 1) are independent Gaussians. The in-
+teger ℓt enforces the wrap: after each update the phase                   with f (k) = exp(iky − Dεk 2 ) and Fourier transform
+is returned to [−π, π) by adding the appropriate multiple
+                                                                                                                    (y − ν)2
+                                                                                                      r                     
+of 2π.                                                                                                     π
+                                                                                            fb(ν) =           exp −           ,           (15)
+   This wrapping is encoded by the periodic Dirac comb                                                     Dε         4Dε
+                     X                         1 X ikx                    gives the Villain form [24, 25]:
+         δ2π (x) =          δ(x − 2πp) =          e ,              (10)
+                                              2π
+                     p∈Z                           k∈Z
+                                                                                                                    (y − 2πr)2
+                                                                                                      r                       
+                                                                             X
+                                                                                       iky−Dεk2           π X
+where the second equality is the Poisson-summation                                 e              =           exp −             .         (16)
+                                                                                                          Dε           4Dε
+(Fourier series) representation. Inserting (10) into the                     k∈Z                              r∈Z
+
+path measure and integrating out the Gaussian noise ηt
+yields, for each time slice, a weight that involves a sum                 The right-hand side is a sum of Gaussians centered at
+over an integer kt .                                                      y = 2πr, i.e. a wrapped (periodic) Gaussian on the circle.
+                                                                            Using (16) slice by slice, the generating functional be-
+                                                                          comes
+           B.    Integer-valued response field                                                                                             2 
+                                                                                                                ∆ε θt − εF (θt , t) − 2πrt
+                                                                                       Z        YX           
+                                                                          Z[J] ∝           Dθ             exp −
+  Introducing sources Jt for observables O(θt ) and per-                                        t rt ∈Z
+                                                                                                                          4Dε
+forming the Gaussian average over noise, we obtain the                                                              P
+                                                                                                            × eε     t Jt O(θt )   .      (17)
+compact MSRJD generating functional
+          Z     X         Xh
+                                                                         Each factor is a wrapped Gaussian in the increment, and
+   Z[J] ∝ Dθ         exp        ikt ∆ε θt − εF (θt , t)                   rt ∈ Z records the winding acquired during that time
+                  {kt ∈Z}         t                                       step. Taking the continuum limit ε → 0 before sending
+                                          i        X                     D → 0 produces a compact field theory that still resolves
+                               − Dε kt2       +ε         Jt O(θt ) ,      phase slips. The ordering of these limits is important: it
+                                                    t                     guarantees that rare winding events for small D retain a
+                                                                   (11)   finite weight in the path integral.
+                                                                                                                                 4
+
+              D.     Vector case: N phases                            IV.   DISORDER AVERAGE AND EMERGENCE
+                                                                                 OF TWO-TIME FIELDS
+  For N coupled oscillators {θt,i }N
+                                   i=1 , define
+                                                                         We now average over the quenched random cou-
+                 yt,i := ∆ε θt,i − εFi (θt , t).               (18)          f at fixed oscillator paths {θt,i , kt,i }. This pro-
+                                                                      plings W
+                                                                      duces time-nonlocal terms that link different time slices
+The compact MSRJD action generalizes to                               and naturally introduce two-time collective fields at the
+                                                                      DMFT saddle point.
+                  Xh                     i
+                                     2
+ ScMSRJD [θ, k] =   ikt,i yt,i − Dε kt,i   ,             kt,i ∈ Z,
+                     t,i
+                                                               (19)                A.    Gaussian average over W
+                                                                                                               f
+and the Villain representation reads
+                                                                         The random couplings W    fij are independent and iden-
+                                (yt,i − 2πrt,i )2
+                                                 
+            Y X                                                       tically distributed (i.i.d.) with zero mean and variance
+                          exp −                    .           (20)
+            t,i rt,i ∈Z
+                                      4Dε                             1/N . Since the action (24) is linear in W   f , the disor-
+                                                                      der average of exp(Srand ) reduces to a Gaussian integral.
+This provides the starting point for including quenched               Using
+coupling disorder, in close analogy with DMFT treat-                                                                
+                                                                                     P
+                                                                                         Aij W              1 X 2
+ments of random neural networks and spin glasses [36–                              e             f = exp          A         (25)
+                                                                                             fij
+                                                                                      ij
+
+38].
+                                                                                                 W         2N ij ij
+
+                                                                      for arbitrary Aij , we obtain
+   E.   Composite fields and action decomposition                                           2 2 XXX
+                                                                            Srand           g ε
+                                                                          e       f = exp
+                                                                                  W          2N
+   To connect this compact formulation to the coupling                                           t,t′ i,j m,n
+
+structure (5), it is convenient to introduce composite                                                                     
+                                                                                               ∗  (m) (n)∗ (m) (n)
+                                                                                      × hm hn Ψt,i Ψt′ ,i Φt,j Φt′ ,j + c.c. .
+fields built from the phase exponentials and the response
+variables:                                                                                                                   (26)
+           (m)                       (m)           (m)
+         Φt,i := eimθt,i ,         Ψt,i := kt,i Φt,i .         (21)   The average thus generates a quartic interaction that is
+                                                                      nonlocal in time: different times t and t′ are coupled via
+The harmonic order parameters (7) are simply Zm (t) =                 products of ΨΨ∗ and ΦΦ. In DMFT language, a single
+      P (m)
+N −1 j Φt,j .                                                         frozen realization of quenched disorder turns into self-
+                                                                      generated temporal correlations in the N → ∞ limit.
+   Substituting the coupling decomposition (5) into the
+drift (3), and using the harmonic expansion (4), the part
+of the MSRJD action that depends on the couplings splits                          B.     Two-time collective fields
+into
+
+                    SW = Smean + Srand ,                       (22)     To decouple the quartic term, we introduce two-time
+                                                                      collective fields
+with the mean-channel contribution                                                                      N
+                                                                                        (m,n)        1 X (m) (n)
+                                                                                    Qt,t′       :=        Φ   Φ′ ,           (27)
+              XX                                                                                    N j=1 t,j t ,j
+                                               
+                              (m)
+  Smean = −iε          J0 hm Ψt,i Zm (t) + c.c. ,              (23)
+                 t,i m≥1                                                                                N
+                                                                                        (m,n)        1 X (m) (n)∗
+                                                                                     St,t′      :=        Ψ    Ψt′ ,i .      (28)
+and the random-channel contribution                                                                  N i=1 t,i
+               XX         (m) f     (m)
+                                               
+  Srand = −igε        hm Ψt,i W  ij Φt,j + c.c. . (24)
+                                                                      In terms of these fields, the exponent in (26) can be writ-
+                 t,i,j m≥1                                            ten as
+                                                                           g 2 ε2 N X              (m,n) (m,n)
+                                                                                                                      
+The mean channel couples the response composites Ψ(m)                                       hm h∗n St,t′ Qt,t′ + c.c. .     (29)
+                                                                               2
+linearly to the collective variables Zm , while the ran-                            ′
+                                                                                  t,t ,m,n
+                                         f Φ, which will
+dom channel involves the bilinear form Ψ W                                                   (m,n)
+generate time-nonlocal terms once we average over the                   The quantity Qt,t′ is a circular two-time correlator
+quenched disorder. We turn to this average in the next                of the phase exponentials at harmonics m and n. In
+                                                                                   (m,m)
+section.                                                              particular, Qt,t   = 1 because |eimθ |2 = 1. The field
+                                                                                                                                          5
+
+ (m,n)
+St,t′   is built from the response variables and will be                  E.    Colored Gaussian auxiliary field
+seen to play a more limited role once causality is taken
+into account.                                                     With the S-sector effectively local in time, the residual
+                                                               bilinear dependence on Q can be decoupled by introduc-
+                                                                                                            (m)
+                                                               ing a complex Gaussian auxiliary field ζt         with zero
+         C.    Hubbard–Stratonovich decoupling
+                                                               mean and covariance
+                                                                                  (m)        (n)                    (m,n)
+  To enforce the definitions (27)–(28), we introduce con-                        ζt        ζ t′      = g 2 hm h∗n Qt,t′     .           (34)
+jugate fields (Q,
+               b S)
+                  b using delta-function constraints rep-
+                                                               Integrating in ζ and collecting terms, the partition func-
+resented as Fourier integrals. The partition function then     tion factorizes over sites:
+takes the form                                                                   Z               N
+                                                                                                 Y
+                                                                            Z ∝ DQ eN Seff [Q]     Zsite [Q],        (35)
+               Z
+          Z ∝ DQ DQ     b DS DSb eN Scoll [Q,Q,S,
+                                             b S] b
+                                                                                                              i=1
+
+                          N                                    where each factor Zsite [Q] is the partition function of a
+                                 (i)
+                          Y
+                      ×         Zsite [Q, Q,
+                                          b S, S],
+                                               b       (30)    single oscillator driven by the colored field ζ with co-
+                          i=1                                  variance (34), together with the deterministic mean-field
+                                                               contribution from Smean .
+with                                                              In the thermodynamic limit N → ∞, the functional
+            X  (m,n) (m,n)                                    integral over Q is dominated by its saddle point. The
+    Scoll =    b ′ Q ′ + Sb(m,n)
+               Q
+                                  (m,n)
+                                 St,t′                         self-consistency condition at that point is
+                t,t   t,t   t,t′
+              t,t′ ,m,n
+                                                                    (m,n)         (m)        (n)                                ′
+
+                g 2 ε2                                         Qt,t′     = Φt              = e−imθ(t) einθ(t ) 1-site ,
+                                                                                           Φt ′    1-site
+                             ∗ (m,n) (m,n)
+              +          hm hn St,t′ Qt,t′ + c.c. ,    (31)                                                            (36)
+                  2
+                                                               where the average is taken with respect to the single-
+                (i)                                            site dynamics driven by ζ and the mean field. In other
+and where Zsite is the partition function of a single oscil-
+                                                               words, Q fixes the statistics of ζ, which drives the single-
+lator in the presence of the collective fields.
+                                                               oscillator problem, whose solution must reproduce the
+   Stationarity with respect to Qb and Sb yields
+                                                               same Q.
+                                    2 2
+                 b (m,n)    g ε           (m,n)
+                Q  t,t′  =−       hm h∗n St,t′ ,       (32)
+                              2                                                       F.         Single-site weight
+                   (m,n)    g 2 ε2 ∗       (m,n)
+                Sbt,t′ = −        hm hn Qt,t′ ,        (33)
+                              2                                   Combining the mean-channel term (23) with the
+so the two sectors are coupled through their conjugate         colored-noise decoupling, the single-site partition func-
+fields.                                                        tion can be written as
+                                                                                 X Z       D    nX
+                                                                 log Zsite = log       Dθ exp           ikt (∆ε θt − εω − εIt )
+                                                                                  {kt ∈Z}                           t
+              D.      Causality and the S-channel
+                                                                                                            (m) (m)
+                                                                                                      X
+                                                                                           2
+                                                                                                                        
+                                                                               − Dεkt            − iε   kt Φt ζ t + c.c.
+   The Itô discretization in (9) implies that the response                                           t,m
+field kt at time t depends only on the phase θt at the same                         X          (m)             oE
+                                                                               − iε   J0 hm kt Φt Zm (t) + c.c.     . (37)
+time and not on future increments. Response correlators                                                                             ζ
+                                                                                      t,m
+are therefore strictly causal and vanish for t ̸= t′ .
+   As a consequence, the two-time response correlator          The first line describes the uncoupled phase dynamics
+  (m,n)                                                        with drift ω + It and diffusion D. The second line in-
+St,t′ defined in (28) only has equal-time contributions,
+ (m,n)                                                         troduces the coupling to the colored Gaussian drive ζ.
+St,t′    ∝ δt,t′ . These contact terms merely affect the       The third line accounts for the deterministic mean field
+overall normalization of Z and do not transmit informa-        through the order parameters Zm .
+tion between distinct times. At the physical saddle point
+there is therefore no time-extended (t ̸= t′ ) contribution
+from the S-channel.                                                G.     From discrete weight to continuum SDE
+   The only genuinely dynamical two-time object that re-
+             (m,n)
+mains is Qt,t′ . The DMFT closure can thus be ex-                To extract a continuum stochastic equation from (37),
+pressed entirely in terms of this correlator, which sim-       consider one time slice and combine the random and
+plifies the structure compared with theories where both        mean-field contributions into
+correlation and response have independent temporal dy-
+                                                                                  (m)              (m)
+namics.                                                                         Jt          := ζ t       + J0 hm Zm (t).                (38)
+                                                                                                                                          6
+
+After completing the square in the integer kt and using                                  A.   Mean-field dynamics on S 1
+the Villain step as in Sec. III C, the slice contributes a
+factor                                                                         Setting g = 0 in the single-site SDE (40) and taking
+                                    P     (m) (m)     2                    D = 0 gives the deterministic mean-field dynamics
+                  yt − 2ε Re                 Jt − 2πr
+           
+                                       m Φt
+  X
+        exp −                                                     ,   (39)                         X                     
+                                         4Dε                                     θ̇ = F (θ, t) + 2  Re J0 hm Zm (t) e−imθ ,    (43)
+  r∈Z
+                                                                                                    m≥1
+
+where yt = ∆ε θt − εω − εIt .                                                where F (θ, t) collects the intrinsic frequency and any
+  Taking the limit ε → 0 turns the product of                                external input. The order parameters are defined self-
+such wrapped Gaussians into the path measure of a                            consistently as
+continuous-time SDE on S 1 . The effective single-site dy-                                      Z π
+namics reads
+                                                                                      Zm (t) =      eimθ f (θ, ω, t) dθ p(ω) dω, (44)
+                           √                                                                        −π
+         θ̇(t) = ω + I(t) + 2D ξ(t)
+                    X                                                      with f (θ, ω, t) the phase density for oscillators of fre-
+                 +2      Re J0 hm Zm (t) e−imθ(t)                            quency ω and p(ω) the frequency distribution.
+                            m≥1                                                 The density evolves according to the continuity equa-
+                                                                             tion on S 1 ,
+                             X                        
+                  +2              Re ζ (m) (t) e−imθ(t) ,             (40)
+                            m≥1                                                                                     
+                                                                                              ∂t f + ∂θ v(θ, ω, t) f = 0,         (45)
+
+where ξ(t) is standard white noise and ζ (m) (t) are com-                    with velocity field
+plex Gaussian processes with
+                                                                               v(θ, ω, t) = F (θ, t) + J0 h Z(t) e−iθ + J0 h∗ Z ∗ (t) e+iθ
+                      (n)
+                                                                                          = F (θ, t) + 2J0 Re h Z(t) e−iθ ,
+                                                                                                                           
+        ζ (m) (t) ζ         (t′ ) = g 2 hm h∗n Q(m,n) (t, t′ ).       (41)                                                              (46)
+
+                                                                             where we have restricted to the first harmonic m = 1.
+  The single-site equation (40) is the effective DMFT
+description: one oscillator on S 1 subject to intrinsic dy-
+namics, a deterministic mean field encoded in Zm (t), and                               B.    The Ott–Antonsen manifold
+a colored Gaussian drive ζ (m) with self-consistent covari-
+ance. The closure relations are
+                                                                                Ott and Antonsen proposed that many mean-field os-
+                      Zm (t) = eimθ(t) 1-site ,                              cillator systems are attracted to a low-dimensional mani-
+                                                     ′                (42)   fold where the density takes the Poisson-kernel form [7, 9]
+            Q(m,n) (t, t′ ) = e−imθ(t) einθ(t ) 1-site ,
+                                                                                                          1   1 − |a(ω, t)|2
+                                                                                         f (θ, ω, t) =                         ,       (47)
+where the averages are taken over realizations of the                                                    2π 1 − a(ω, t) e−iθ 2
+single-site SDE (40).
+   For stationary, U(1)-invariant states with Zm = 0 and                     with a complex amplitude a(ω, t) satisfying |a| < 1. On
+time-translation invariance, the correlator depends only                     this manifold, all Fourier modes of f are powers of a:
+on the time difference: Q(m,n) (t, t′ ) = δmn Qm (τ ) with                       Z π
+τ = t − t′ and Qm (0) = 1. The next sections focus on
+                                                                                                                   n
+                                                                                     einθ f (θ, ω, t) dθ = a(ω, t)∗ ,   n ≥ 1.    (48)
+this stationary regime.                                                           −π
+
+                                                                                For the OA manifold to be invariant under (45), the
+                                                                             velocity field must be at most first order in e±iθ . This
+V. MEAN-CHANNEL LIMIT: OTT–ANTONSEN                                          is the case when the coupling is purely first harmonic
+ REDUCTION AND NEURAL-MASS MODELS                                            (hm = 0 for m ≥ 2) and the intrinsic drift F (θ, t) is also
+                                                                             linear in e±iθ .
+   The compact DMFT construction contains the stan-                             Under these conditions, substituting (47) into (45) and
+dard mean-field picture as a special case. If we switch off                  using the algebra worked out in [7, 9] leads to a closed
+the random channel by taking g → 0, the colored drive                        equation for a(ω, t):
+disappears and only the deterministic coupling through
+                                                                                                          1 ∗              
+the order parameters Zm remains. In this section we                                    ȧ(ω, t) = −iω a +   H (t) − H(t) a2 ,       (49)
+show how, under mild assumptions on the interaction,                                                      2
+this limit reproduces the Ott–Antonsen (OA) manifold                         with effective drive
+and recovers theta-neuron and quadratic integrate-and-
+fire (QIF) neural-mass equations.                                                             H(t) = 2J0 h Z(t) + 2I(t),               (50)
+                                                                                                                         7
+
+and self-consistency condition                                  E.   Theta-neuron and QIF neural-mass models
+                       Z
+                Z(t) = a∗ (ω, t) p(ω) dω.             (51)      The theta-neuron model describes a type-I excitable
+                                                              neuron via a phase variable θ ∈ S 1 , with membrane volt-
+                                                              age given by a stereographic transform of θ. The intrinsic
+Equations (49)–(51) are the OA reduction: the PDE (45)        dynamics is
+is replaced by ODEs for a(ω, t) coupled through a single
+complex order parameter Z(t).                                                  θ̇ = 1 − cos θ + (1 + cos θ) η,         (57)
+
+                                                              where η controls excitability, and spikes correspond to θ
+   C.   Lorentzian frequencies and residue closure            crossing π.
+                                                                 For a population with excitabilities η ∼ p(η) and mean-
+                                                              field synaptic coupling, one typically obtains
+  For a Lorentzian frequency distribution (8) centered at
+ω0 with half-width ∆, the integral in (51) can be done                                                         
+                                                                    F (θ, t) = 1 − cos θ + (1 + cos θ) η + I(t) ,   (58)
+analytically. The Lorentzian has a simple pole at ω =
+ω0 − i∆ in the lower half-plane. If a(ω, t) is analytic       where I(t) collects external input and recurrent drive pro-
+there and decays for large |ω|, we can close the contour      portional to the population firing rate.
+and obtain                                                      This drift is linear in e±iθ :
+                 Z(t) = a∗ (ω0 − i∆, t).              (52)                            1                1
+                                                              F (θ, t) = (1 + η + I) − (η + I − 1)eiθ − (η + I − 1)e−iθ ,
+                                                                                      2                2
+   Evaluating (49) at ω = ω0 − i∆ and using (52) gives a                                                            (59)
+single closed ODE for Z:                                      so the OA ansatz applies. Combined with first-harmonic
+                                                              coupling, the flow remains Möbius-invariant, and OA
+                     1                                        yields a closed two-dimensional system.
+                        H − H ∗Z 2
+                                   
+  Ż = (iω0 − ∆) Z +                                             For Lorentzian-distributed excitabilities with center η̄
+                     2
+     = (iω0 − ∆) Z + (J0 h Z + I) − (J0 h∗ Z ∗ + I) Z 2 .     and half-width ∆η , the residue step leads to the neural-
+                                                       (53)   mass equations of Montbrió, Pazó, and Roxin [10]. In-
+                                                              troducing macroscopic variables (r, v) via
+This is the standard OA equation for a mean-field ensem-                             1 − W∗
+ble with Lorentzian frequency spread. The linear term                       Z=              ,    W = πr + iv,          (60)
+−∆Z represents dephasing from heterogeneity, and the                                 1 + W∗
+nonlinear terms encode the feedback through Z.                the OA equation (53) can be rewritten as
+
+                                                                                ∆η
+                                                                           ṙ =    + 2rv,                              (61)
+                D.    Kuramoto model                                             π
+                                                                           v̇ = v + η̄ + I(t) + Jsyn r − π 2 r2 ,
+                                                                                 2
+                                                                                                                       (62)
+   The classical Kuramoto model corresponds to H(∆) =
+sin ∆, i.e. h = −i/2 and h∗ = +i/2. With I = 0, Eq. (53)      where r(t) is the population firing rate and v(t) the
+reduces to                                                    mean membrane potential. These equations are exact
+                                                              in the limit of infinitely many all-to-all coupled QIF neu-
+                                J0                            rons [10–13].
+                                   Z − Z ∗Z 2 .
+                                             
+          Ż = (iω0 − ∆) Z +                          (54)
+                                2
+
+Writing Z = R eiψ with R = |Z|, the radial dynamics is               F.     General coupling and the role of h
+
+                              J0                                 The OA reduction also covers general first-harmonic
+              Ṙ = −∆R +         R(1 − R2 ).          (55)
+                              2                               interactions
+The incoherent state R = 0 is stable for J0 < J0,c =                  H(∆) = h ei∆ + h∗ e−i∆ ,          h = |h|eiα .   (63)
+2∆ and unstable otherwise, and for J0 > 2∆ there is a
+synchronized branch                                           The synchronization threshold then depends on both |h|
+                          r                                   and the phase α. For Lorentzian frequencies, lineariz-
+                                 2∆                           ing (53) around Z = 0 gives the critical coupling
+                     R=     1−      .                 (56)
+                                 J0
+                                                                            ∆
+                                                                  J0,c =         ,      s := − sin α = − sin(arg h),   (64)
+This reproduces the classical Kuramoto transition [1–3].                   |h| s
+                                                                                                                        8
+
+as long as s > 0 (i.e. α ∈ (−π, 0)). The factor s picks out      For instantaneous, δ-like synapses with amplitude pro-
+the synchronizing component of the interaction: pure co-      portional to a postsynaptic conductance change, one ef-
+sine coupling (α = 0 or π) has s = 0 and cannot create a      fectively samples the iPRC at the postsynaptic phase:
+synchronized state, while pure sine coupling (α = −π/2)
+gives s = 1 and the strongest tendency to synchronize.             H(∆ϕ) ∝ Z(ϕpost ),         ∆ϕ = ϕpost − ϕpre .    (67)
+   In Sec. VI we show that, for phase-reduced neuron
+                                                              For synapses with a finite time course s(t), the interaction
+models, the coefficient h obtained from the iPRC typi-
+                                                              is given by a convolution of Z with the synaptic kernel,
+cally has a nonzero phase α. As a result, the synchroniza-
+                                                              but the resulting H(∆ϕ) is still 2π-periodic and can be
+tion threshold can differ substantially from the textbook
+                                                              expanded in Fourier modes [27, 43].
+Kuramoto value J0,c = 2∆.
+                                                                 Given a numerically computed or experimentally mea-
+                                                              sured iPRC Z(ϕ), we obtain the Fourier coefficients via
+   VI.      FROM BIOPHYSICAL NEURONS TO                                       Z 2π
+                                                                           1
+               NETWORK DYNAMICS                                     hm =           Z(ϕ) e−imϕ dϕ,       m ≥ 1.        (68)
+                                                                          2π 0
+  The compact DMFT formulation treats the interaction         For a real-valued iPRC, h−m = h∗m , and the interaction
+function H(∆) only through its Fourier coefficients (4),      function can be written as
+so any 2π-periodic coupling can in principle be used. For                         X
+                                                                                      hm eim∆ϕ + h∗m e−im∆ϕ
+                                                                                                            
+neuron models with a stable limit cycle, phase reduction               H(∆ϕ) =
+provides a concrete way to obtain these coefficients from                         m≥1
+the infinitesimal phase response curve (iPRC). This gives                      =2
+                                                                                     X
+                                                                                           Re hm eim∆ϕ .
+                                                                                                      
+                                                                                                                     (69)
+a direct route from single-cell biophysics to network-level
+                                                                                     m≥1
+DMFT predictions.
+                                                              Once the set {hm } is known, it can be plugged into the
+                                                              DMFT equations. The mean-channel dynamics of Sec. V
+  A.     Phase reduction and the infinitesimal PRC            then follows without further reference to the underlying
+                                                              biophysical model.
+  Consider a conductance-based or integrate-and-fire
+neuron model whose dynamics admits a stable limit cycle
+γ with period T . Phase reduction [27, 39, 40] associates              C.   Example: Adaptive exponential
+to each point on γ a phase ϕ ∈ [0, 2π) that advances                         integrate-and-fire neuron
+uniformly in time:
+                                                                 As a concrete example we consider the adaptive ex-
+                                 2π                           ponential integrate-and-fire (AdEx) model [44], a two-
+                      ϕ̇ = ω0 :=                      (65)
+                                 T                            dimensional point-neuron model that captures spike initi-
+in the absence of perturbations.                              ation, adaptation, and subthreshold dynamics. Its equa-
+   Under a weak perturbation ϵ p(t), the phase obeys          tions are
+                                                                                                 V − V 
+                                                                                                       T
+              ϕ̇ = ω0 + ϵ Z(ϕ) p(t) + O(ϵ2 ),         (66)      C V̇ = −gL (V − EL ) + gL ∆T exp           − w + I,
+                                                                                                    ∆T
+                                                                                                                  (70)
+where Z(ϕ) is the iPRC. The function Z quantifies how
+a brief input delivered at phase ϕ shifts subsequent spike     τw ẇ = a(V − EL ) − w,                               (71)
+times: Z(ϕ) > 0 corresponds to an advance, Z(ϕ) < 0 to
+                                                              with reset V → Vr and w → w + b when V reaches a
+a delay.
+                                                              cutoff. For suitable parameters, the dynamics converges
+   The iPRC is a property of the single neuron. It can
+                                                              to a stable limit cycle corresponding to tonic firing.
+be obtained numerically from the limit cycle via the ad-
+                                                                We compute the iPRC using the adjoint method [27,
+joint method, or measured experimentally by injecting
+                                                              39]. Linearizing the dynamics around the limit cycle
+brief current pulses at different phases and recording the
+                                                              and solving the adjoint variational equation yields a 2π-
+induced phase shifts [41, 42].
+                                                              periodic function Z(ϕ), normalized so that
+                                                                                Z 2π
+       B.    From iPRC to coupling coefficients                                      Z(ϕ) ∇ϕ γ dϕ = 1,               (72)
+                                                                                 0
+
+  Now consider a network of N identical neurons with          where γ parametrizes the limit cycle. A representative
+weak synaptic coupling. After phase reduction, the net-       iPRC is shown in Fig. 1(a). The curve is strongly non-
+work dynamics can be written in the form (1)–(3), with        sinusoidal: it displays a pronounced peak near the up-
+an interaction function H(∆ϕ) that depends on both the        stroke of the spike and small amplitude during the re-
+iPRC and the synaptic waveform.                               fractory part of the cycle.
+                                                                                                                                                                           9
+
+                                                                 (a)                                                 (b)
+  From this iPRC we extract the first Fourier coefficient                                                                  1.0
+                                                                                    ® = ¡0:98                                                       J0; c
+via (68),                                                                0.08
+                                                                                    s = 0:83
+                                                                                                                           0.8
+
+
+
+
+                                                             iPRC Z(')
+                                                                         0.06
+                      h1 = |h1 | eiα ,                                                                                     0.6
+
+
+
+
+                                                                                                                     R = jZj
+                                                     (73)                                                                          ¢ = 0:1
+                                                                                                                                   J0; c = 0:121
+                                                                                                                                                                   OA theory
+                                                                                                                                                                   Network
+                                                                         0.04                                              0.4
+
+with magnitude |h1 | and phase α. For the parameter set                  0.02
+                                                                                                                           0.2
+used in Fig. 1, we obtain α ≈ −0.98 rad, corresponding                   0.00
+                                                                                                                           0.0
+to a synchronizing component s = − sin α ≈ 0.83. This                           0           ¼
+                                                                                            2       ¼      3¼
+                                                                                                            2
+                                                                                                                2¼           0.0              0.1            0.2
+                                                                                                                                                            J0
+                                                                                                                                                                    0.3
+                                                                                                 Phase '
+value lies between pure sine coupling (α = −π/2, s = 1)
+and pure cosine coupling (α = 0, s = 0), and reflects the
+                                                             FIG. 1. iPRC-based parameterization of compact DMFT.
+detailed shape of the AdEx iPRC.
+                                                             (a) Infinitesimal phase response curve Z(ϕ) for an AdEx neu-
+                                                             ron, computed via the adjoint method. The first Fourier har-
+                                                             monic has phase α ≈ −0.98 rad and synchronizing component
+ D.   Mean-channel synchronization: theory versus            s = − sin α ≈ 0.83. (b) Mean-channel synchronization: order
+                    simulation                               parameter R = |Z| versus coupling strength J0 for a network
+                                                             of N = 2000 phase oscillators with AdEx-derived coupling.
+  With the iPRC-derived coefficient h1 in hand, the OA       Blue circles: network simulations (mean ± SEM across runs).
+reduction of Sec. V predicts a synchronization threshold     Black curve: OA prediction (75). Dashed line: theoretical
+                                                                          th
+                                                             threshold J0,c  = ∆/(|h1 |s) ≈ 0.121. Parameters: ∆ = 0.1,
+given by (64):
+                                                             D = 0.
+                       th        ∆
+                      J0,c =           ,             (74)
+                               |h1 | s
+                                                             quasi-renewal approximations to obtain a transfer func-
+where ∆ is the half-width of the Lorentzian frequency        tion linking firing rate to input statistics, and finally
+                        th
+distribution. For J0 > J0,c the OA dynamics yields           closes on low-dimensional equations for rate and adapta-
+                               s                             tion. This strategy preserves subthreshold voltage statis-
+                                          th
+                                        J0,c                 tics and the full spike-generation mechanism, but it re-
+                 R = |Z| =         1−        ,       (75)    quires solving high-dimensional Fokker–Planck or inte-
+                                         J0
+                                                             gral equations for each parameter regime.
+                       th
+while R = 0 for J0 ≤ J0,c .                                    Our route is different. We first reduce the neuron
+  To check this prediction, we simulate a network of N =     to a phase oscillator, compute the iPRC once to obtain
+2000 phase oscillators with interaction                      the coefficients {hm }, and then work entirely within the
+                                                             DMFT framework. The price is that phase reduction as-
+                H(∆ϕ) = 2 Re h1 ei∆ϕ ,
+                                       
+                                                     (76)    sumes operation near a stable limit cycle and discards
+                                                             subthreshold statistics. The benefit is a compact ana-
+using the AdEx-derived h1 . Intrinsic frequencies are        lytic description: synchronization thresholds and other
+drawn from a Lorentzian with half-width ∆ = 0.1. For         mean-field properties follow from a small set of Fourier
+each coupling J0 we evolve the system to steady state        coefficients.
+and measure the time-averaged order parameter
+                                                                The QIF neuron and its theta-neuron representa-
+                     R = |Z1 (t)| t .                (77)    tion [10–12] can be viewed as a special case in which
+                                                             phase reduction is exact, the iPRC is known in closed
+   The comparison is shown in Fig. 1(b). The simulation      form, and OA gives exact mean-field equations. The
+points follow the OA prediction closely, and the transi-     present framework extends this picture to more detailed
+                                             th
+tion occurs near the theoretical threshold J0,c ≈ 0.121.     neuron models, where the effective coupling is obtained
+This agreement indicates that the iPRC–DMFT pipeline         numerically from the iPRC rather than imposed a priori.
+reproduces the collective synchronization behavior of the
+phase-reduced network quantitatively.
+
+
+        E.   Scope and relation to prior work                                             VII.      NUMERICAL VALIDATION
+
+
+  The iPRC–DMFT construction presented here is com-            We now compare the compact DMFT predictions with
+plementary to voltage-based mean-field approaches.           numerical simulations of both the full N -oscillator system
+  A large body of work derives mean-field equations for      and the effective single-site description. Throughout this
+AdEx and related models directly in voltage space [28–       section we restrict to the first harmonic (m = 1) with
+31]. There one starts from the Fokker–Planck equation        Kuramoto-type coupling H(∆) = sin ∆, so that h = −i/2
+for the membrane potential distribution, uses diffusion or   and |h| = 1/2.
+                                                                                                                                                                           10
+
+             A.    Simulation methodology                                   (a)                                        (b)
+                                                                                      g = 0.302 (0.70gceff)                      g = 0.366 (0.85gceff)
+                                                                            1.0                                                                              network
+                                                                                                                                                             0.70 gceff
+                                                                            0.8                                                                              0.85 gceff
+   For network simulations, we integrate the N -body dy-                                                                                                     0.97 gceff
+                                                                            0.6
+
+
+
+
+                                                                   |Q(τ)|
+namics (1) with coupling matrix (5) using an Euler–
+                                                                            0.4
+Maruyama scheme with time step dt = 0.01. The random
+                                                                            0.2
+matrix Wf is drawn once per realization with i.i.d. en-
+                                                                            0.0
+tries Wij ∼ N (0, 1/N ). Intrinsic frequencies are sampled
+      f
+                                                                            (c)                                        (d)
+                                                                                      g = 0.418 (0.97gceff)
+from a Lorentzian with half-width ∆. After discarding                       1.0
+                                                                                                                     3 × 10−3
+an initial transient (typically Ttrans = 200 time units),                   0.8                                      2 × 10−3
+we estimate the circular two-time correlator                                0.6
+
+
+
+
+                                                                   |Q(τ)|
+
+
+
+
+                                                                                                                ΔN
+                                                                                                                        10−3
+                         N                                                  0.4
+                    1 X −iθj (t) iθj (t+τ )                                                                          6 × 10−4   ∝ N −1/2
+            Q(τ ) =       e     e           t
+                                                         (78)               0.2
+                                                                                                                                ΔN                     g = 0.85 gceff
+                    N j=1                                                   0.0                                      4 × 10−4
+                                                                                  0   2          4        6                                        3
+                                                                                                                                           10
+                                                                                                 τ                                             N
+
+by averaging over time.
+   To test the DMFT closure, we also simulate the single-        FIG. 2. DMFT correlator closure and finite-size scaling. (a–
+site SDE (40) driven by a synthetic colored noise ζ(t)           c) Magnitude |Q(τ )| from direct network simulations (black
+with prescribed covariance determined by a candidate             curves, mean ± SEM across probes and disorder realiza-
+Q(τ ). Given Q(τ ), we compute its power spectrum                tions) compared with single-rotor DMFT dynamics driven
+                                                                 by self-consistent colored noise (shaded bands, mean ± SEM
+Q(Ω),
+ b      generate complex Gaussian   white noise in fre-
+                          q                                      across independent noise draws) at three subcritical couplings
+quency space, multiply by Q(Ω),
+                             b      and transform back           g/gceff ∈ {0.70, 0.85, 0.97}. Here gceff = γ0 /|h| is set by the
+to obtain ζ(t). This construction yields a process with          measured incoherent dephasing rate. (d) Finite-size devia-
+the desired two-point statistics.                                tion ∆N at g = 0.85 gceff scales as N −1/2 , consistent with
+                                                                 central-limit fluctuations around the DMFT limit. Parame-
+   Starting from an initial guess Q(0) (τ ), usually the inco-
+                                                                 ters: D = 0.05, ∆ = 0.3, Lorentzian p(ω).
+herent form Q(0) (τ ) = e−γ0 |τ | with γ0 measured at g = 0,
+we iterate as follows. Given Q(n) , we synthesize ζ, sim-
+ulate the single-site SDE for multiple independent real-
+                                                (n+1)            regime, the effective colored drive is well described by the
+izations, measure the resulting correlator Qnew (τ ), and        DMFT self-consistency.
+update                                                             We also examine how deviations from the DMFT pre-
+                                                                 diction scale with system size. For each N we define
+  Q(n+1) ← α Q(n+1)
+              new + (1 − α) Q
+                             (n)
+                                 ,     α ∈ [0.3, 0.5].
+                                                   (79)                                             Z τmax                                            1/2
+                                                                                           1                                               2
+We declare convergence when ∥Q(n+1) − Q(n) ∥∞ < 10−3 .                ∆N =                                    QN (τ ) − Qref (τ ) dτ                            ,         (80)
+                                                                                          τmax        0
+
+                                                                 where Qref (τ ) is a reference correlator obtained from the
+             B.   DMFT correlator closure                        largest simulated system. At g = 0.85 gceff we find ∆N ∝
+                                                                 N −1/2 over N ∈ [250, 4000] [Fig. 2(d)], as expected if
+  The self-consistent construction (40)–(42) replaces the        the effective field is a sum of O(N ) weakly correlated
+dense N -body system by a single rotor driven by col-            contributions.
+ored noise whose covariance is fixed by Q(τ ). We assess            We emphasize that this validation probes the dense-
+this reduction by directly comparing Q(τ ) measured in           coupling regime in which the present DMFT closure is
+full networks with Q(τ ) obtained from the single-site dy-       expected to be most accurate, where each oscillator re-
+namics driven by synthesized ζ.                                  ceives a sum of O(N ) random inputs of size O(N −1/2 ),
+  To set an overall scale, we first estimate the incoherent      so the disorder-induced local field approaches a Gaus-
+dephasing rate γ0 from simulations at g = 0, by fitting          sian colored process in the thermodynamic limit. Moving
+|Q(τ )| ∼ e−γ0 τ over an intermediate time window. We            away from this regime can introduce two distinct sources
+then define an effective critical scale gceff = γ0 /|h|. Fig-    of discrepancy. First, for weak disorder (g ≪ gceff ) the
+ure 2(a–c) shows |Q(τ )| for three subcritical couplings         disorder-driven fluctuations are small, so finite-size ef-
+g/gceff ∈ {0.70, 0.85, 0.97}. In each panel, the DMFT sur-       fects and statistical uncertainty can be comparatively
+rogate (colored band) closely follows the network result         more visible relative to the size of the random-channel
+(black curve).                                                   contribution, since in this regime the random channel
+  The agreement improves as g approaches gceff : at g =          acts only as a small perturbation about the mean-field
+0.70 gceff small discrepancies are visible at intermediate       dynamics. Second, for sparse graphs with finite mean
+lags, whereas at g = 0.97 gceff the two curves are nearly        degree, the local field is no longer a sum over O(N ) weak
+indistinguishable on the plotted scale. This is consis-          terms and need not be well-approximated as Gaussian,
+tent with the idea that, in the dense, strongly disordered       and extending the compact DMFT to that setting would
+                                                                                                                                11
+
+likely require a sparse dynamical mean-field formulation           synchronization (g → 0, where the Ott–Antonsen and
+that tracks a distribution over effective field trajectories       Kuramoto/theta-neuron reductions are recovered) and
+rather than a single correlator Q(τ ) [45, 46].                    disorder-dominated regimes, where the DMFT closure
+   Taken together, these tests indicate that, for dense ran-       captures the statistics of fully disordered networks and
+dom coupling, the compact DMFT captures the two-time               agrees with direct simulations.
+statistics of the oscillator phases. The single-site equa-            A practical advantage of the framework is that it ac-
+tion (40) with colored noise covariance fixed by Q(τ ) pro-        cepts arbitrary 2π-periodic coupling functions through
+vides a quantitatively accurate reduced description of the         their Fourier coefficients. For neuron models with a
+N -body dynamics in the thermodynamic limit.                       stable limit cycle, these coefficients can be obtained di-
+                                                                   rectly from the infinitesimal phase response curve, giving
+                                                                   a concrete route from single-cell dynamics to network-
+                  VIII.    DISCUSSION                              level mean-field predictions. We illustrated this for
+                                                                   AdEx neurons and found quantitative agreement be-
+   We have formulated a compact dynamical mean-field               tween iPRC-based mean-field theory and simulations of
+theory for networks of phase oscillators on S 1 that keeps         phase-reduced networks. Future work can include ex-
+the circle topology explicit in the path-integral descrip-         tensions to sparse or structured connectivity, where a
+tion. Enforcing 2π-periodicity via a Dirac-comb con-               distributional sparse-graph cavity/DMFT closure may
+straint and using Villain resummation leads, after dis-            be required [45, 46], spatially extended systems such as
+order averaging, to a self-consistent single-oscillator SDE        one-dimensional rings and two-dimensional neural fields,
+driven by a deterministic mean field and colored Gaus-             and regimes with intrinsically non-Gaussian fluctuation
+sian input with covariance fixed by a circular two-time            statistics.
+correlator Q(τ ). Splitting the coupling into coherent and            The simulation code supporting Figs. 1 and 2 is openly
+disordered parts interpolates between classical mean-field         available in Ref. [47].
+
+
+
+
+ [1] Y. Kuramoto, Self-entrainment of a population of cou-         [12] C. R. Laing, Derivation of a neural field model from a net-
+     pled nonlinear oscillators, in International Symposium on          work of theta neurons, Phys. Rev. E 90, 010901 (2014).
+     Mathematical Problems in Theoretical Physics, Lecture         [13] C. Bick, M. Goodfellow, C. R. Laing, and E. A. Martens,
+     Notes in Physics, Vol. 39, edited by H. Araki (Springer,           Understanding the dynamics of biological and neural os-
+     Berlin, 1975) pp. 420–422.                                         cillator networks through exact mean-field reductions: A
+ [2] S. H. Strogatz, From Kuramoto to Crawford: exploring               review, J. Math. Neurosci. 10, 9 (2020).
+     the onset of synchronization in populations of coupled        [14] B. Ottino-Löffler and S. H. Strogatz, Volcano transition
+     oscillators, Physica D 143, 1 (2000).                              in a solvable model of frustrated oscillators, Physical Re-
+ [3] J. A. Acebrón, L. L. Bonilla, C. J. P. Vicente, F. Ritort,        view Letters 120, 264102 (2018).
+     and R. Spigler, The Kuramoto model: A simple paradigm         [15] D. Pazó and R. Gallego, Volcano transition in popula-
+     for synchronization phenomena, Rev. Mod. Phys. 77, 137             tions of phase oscillators with random nonreciprocal in-
+     (2005).                                                            teractions, Physical Review E 108, 014202 (2023).
+ [4] F. A. Rodrigues, T. K. D. M. Peron, P. Ji, and J. Kurths,     [16] Y. Kati, J. Ranft, and B. Lindner, Self-consistent auto-
+     The Kuramoto model in complex networks, Phys. Rep.                 correlation of a disordered kuramoto model in the asyn-
+     610, 1 (2016).                                                     chronous state, Physical Review E 110, 054301 (2024).
+ [5] K. Wiesenfeld, P. Colet, and S. H. Strogatz, Frequency        [17] H. Hong and E. A. Martens, First-order like phase tran-
+     locking in Josephson arrays: Connection with the Ku-               sition induced by quenched coupling disorder, Chaos 32,
+     ramoto model, Phys. Rev. E 57, 1563 (1998).                        063125 (2022).
+ [6] G. Buzsáki and X.-J. Wang, Mechanisms of gamma os-           [18] I. León and D. Pazó, Enlarged Kuramoto model: Sec-
+     cillations, Annu. Rev. Neurosci. 35, 203 (2012).                   ondary instability and transition to collective chaos,
+ [7] E. Ott and T. M. Antonsen, Low dimensional behavior of             Phys. Rev. E 105, L042201 (2022).
+     large systems of globally coupled oscillators, Chaos 18,      [19] I. León and D. Pazó, Dynamics and chaotic properties of
+     037113 (2008).                                                     the fully disordered Kuramoto model, Chaos 35, 073140
+ [8] S. Watanabe and S. H. Strogatz, Integrability of a glob-           (2025).
+     ally coupled oscillator array, Phys. Rev. Lett. 70, 2391      [20] C. Bick, M. J. Panaggio, and E. A. Martens, Chaos in
+     (1993).                                                            Kuramoto oscillator networks, Chaos 28, 071102 (2018).
+ [9] E. Ott and T. M. Antonsen, Long time evolution of phase       [21] S. Olmi, A. Politi, and A. Torcini, Collective chaos in
+     oscillator systems, Chaos 19, 023117 (2009).                       pulse-coupled neural networks, Europhys. Lett. 92, 60007
+[10] E. Montbrió, D. Pazó, and A. Roxin, Macroscopic de-              (2010).
+     scription for networks of spiking neurons, Phys. Rev. X       [22] A. Prüser, S. Rosmej, and A. Engel, Nature of the vol-
+     5, 021028 (2015).                                                  cano transition in the fully disordered kuramoto model,
+[11] D. Pazó and E. Montbrió, Low-dimensional dynamics of             Physical Review Letters 132, 187201 (2024).
+     populations of pulse-coupled oscillators, Phys. Rev. X 4,     [23] A. Prüser and A. Engel, Role of coupling asymmetry in
+     011009 (2014).                                                     the fully disordered kuramoto model, Physical Review E
+                                                                                                                                12
+
+     110, 064214 (2024).                                                 ods for the dynamics of stochastic and disordered sys-
+[24] J. Villain, Theory of one- and two-dimensional magnets              tems, J. Phys. A: Math. Theor. 50, 033001 (2017).
+     with an easy magnetization plane. ii. the planar, classical,   [36] H. Sompolinsky, A. Crisanti, and H.-J. Sommers, Chaos
+     two-dimensional magnet, Journal de Physique 36, 581                 in random neural networks, Physical Review Letters 61,
+     (1975).                                                             259 (1988).
+[25] L. M. Sieberer, G. Wachtel, E. Altman, and S. Diehl, Lat-      [37] A. Crisanti and H. Sompolinsky, Path-integral approach
+     tice duality for the compact kardar–parisi–zhang equa-              to random neural networks, Phys. Rev. E 98, 062120
+     tion, Physical Review B 94, 104521 (2016).                          (2018).
+[26] T. B. Luke, E. Barreto, and P. So, Complete classification     [38] A. Crisanti, H. Horner, and H.-J. Sommers, The spherical
+     of the macroscopic behavior of a heterogeneous network              p-spin interaction spin-glass model, Z. Phys. B 92, 257
+     of theta neurons, Neural Computation 25, 3207 (2013).               (1993).
+[27] E. Brown, J. Moehlis, and P. Holmes, On the phase re-          [39] G. B. Ermentrout and D. H. Terman, Mathematical
+     duction and response dynamics of neural oscillator pop-             Foundations of Neuroscience, Interdisciplinary Applied
+     ulations, Neural Computation 16, 673 (2004).                        Mathematics, Vol. 35 (Springer, New York, 2010).
+[28] M. Augustin, J. Ladenbauer, F. Baumann, and K. Ober-           [40] A. T. Winfree, Biological rhythms and the behavior of
+     mayer, Low-dimensional spike rate models derived from               populations of coupled oscillators, Journal of Theoretical
+     networks of adaptive integrate-and-fire neurons: Com-               Biology 16, 15 (1967).
+     parison and implementation, PLoS Computational Biol-           [41] T. I. Netoff, M. A. Schwemmer, and T. J. Lewis, Ex-
+     ogy 13, e1005545 (2017).                                            perimentally estimating phase response curves of neu-
+[29] Y. Zerlaut, S. Chemla, F. Chavane, and A. Destexhe,                 rons: Theoretical and practical issues, in Phase Re-
+     Modeling mesoscopic cortical dynamics using a mean-                 sponse Curves in Neuroscience: Theory, Experiment,
+     field model of conductance-based networks of adaptive               and Analysis, Springer Series in Computational Neuro-
+     exponential integrate-and-fire neurons, Journal of Com-             science, Vol. 6, edited by N. W. Schultheiss, A. A. Prinz,
+     putational Neuroscience 44, 45 (2018).                              and R. J. Butera (Springer, New York, NY, 2012) pp.
+[30] M. di Volo, A. Romagnoni, C. Capone, and A. Destexhe,               95–129.
+     Biologically realistic mean-field models of conductance-       [42] N. W. Schultheiss, J. R. Edgerton, and D. Jaeger, Phase
+     based networks of spiking neurons with adaptation, Neu-             response curve analysis of a full morphological globus
+     ral Computation 31, 653 (2019).                                     pallidus neuron model reveals distinct perisomatic and
+[31] M. Carlu, O. Chehab, L. Dalla Porta, D. Depan-                      dendritic modes of synaptic integration, Journal of Neu-
+     nemaecker, C. Héricé, M. Jedynak, E. Köksal Ersöz,              roscience 30, 2767 (2010).
+     P. Muratore, S. Souihel, C. Capone, Y. Zerlaut, A. Des-        [43] G. B. Ermentrout and N. Kopell, Parabolic bursting in an
+     texhe, and M. di Volo, A mean-field approach to the dy-             excitable system coupled with a slow oscillation, SIAM
+     namics of networks of complex neurons, from nonlinear               Journal on Applied Mathematics 46, 233 (1986).
+     integrate-and-fire to hodgkin–huxley models, Journal of        [44] R. Brette and W. Gerstner, Adaptive exponential
+     Neurophysiology 123, 1042 (2020).                                   integrate-and-fire model as an effective description of
+[32] H. Daido, Multibranch entrainment and scaling in large              neuronal activity, Journal of Neurophysiology 94, 3637
+     populations of coupled oscillators, Physical Review Let-            (2005).
+     ters 77, 1406 (1996).                                          [45] J. P. L. Hatchett and T. Uezu, Mean field and cavity
+[33] P. S. Skardal, E. Ott, and J. G. Restrepo, Cluster                  analysis for coupled oscillator networks, Phys. Rev. E
+     synchrony in systems of coupled phase oscillators with              78, 036106 (2008).
+     higher-order coupling, Physical Review E 84, 036208            [46] F. L. Metz, Dynamical mean-field theory of complex sys-
+     (2011).                                                             tems on sparse directed networks, Phys. Rev. Lett. 134,
+[34] P. C. Martin, E. D. Siggia, and H. A. Rose, Statistical             037401 (2025), arXiv:2406.06346 [cond-mat.dis-nn].
+     dynamics of classical systems, Physical Review A 8, 423        [47] K. Reddy, Simulation code for “compact dynamical
+     (1973).                                                             mean-field theory of oscillator networks” (2026).
+[35] J. A. Hertz, Y. Roudi, and P. Sollich, Path integral meth-
+

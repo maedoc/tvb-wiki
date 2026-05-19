@@ -1,0 +1,561 @@
+nature methods
+
+Brief Communication                                                                                       https://doi.org/10.1038/s41592-023-02145-x
+
+
+Neurodesk: an accessible, flexible and
+portable data analysis environment for
+reproducible neuroimaging
+
+Received: 2 March 2023                                   Angela I. Renton 1,2,47 , Thuy T. Dao 2,47, Tom Johnstone3, Oren Civier 3,
+                                                         Ryan P. Sullivan 4, David J. White 3, Paris Lyons3, Benjamin M. Slade3,
+Accepted: 27 November 2023
+                                                         David F. Abbott 5, Toluwani J. Amos 6, Saskia Bollmann2, Andy Botting7,
+Published online: xx xx xxxx                             Megan E. J. Campbell 8,9, Jeryn Chang 10, Thomas G. Close4,
+                                                         Monika Dörig 11, Korbinian Eckstein 2, Gary F. Egan12,13, Stefanie Evas 14,15,
+    Check for updates
+                                                         Guillaume Flandin16, Kelly G. Garner17,18, Marta I. Garrido 19,20,
+                                                         Satrajit S. Ghosh 21,22, Martin Grignard23, Yaroslav O. Halchenko24,
+                                                         Anthony J. Hannan 5, Anibal S. Heinsfeld25, Laurentius Huber26,
+                                                         Matthew E. Hughes3, Jakub R. Kaczmarzyk 27,28, Lars Kasper 29,30,
+                                                         Levin Kuhlmann 31, Kexin Lou2,32, Yorguin-Jose Mantilla-Ramos 33,
+                                                         Jason B. Mattingley 1,18, Michael L. Meier 11, Jo Morris7, Akshaiy Narayanan34,
+                                                         Franco Pestilli25, Aina Puce35, Fernanda L. Ribeiro 2, Nigel C. Rogasch12,36,37,
+                                                         Chris Rorden38, Mark M. Schira 39, Thomas B. Shaw 2,40,41, Paul F. Sowman42,
+                                                         Gershon Spitz43,44, Ashley W. Stewart 2,45, Xincheng Ye 2, Judy D. Zhu 42,
+                                                         Aswin Narayanan40,48 & Steffen Bollmann 2,40,45,46,48
+
+
+                                                         Neuroimaging research requires purpose-built analysis software, which is
+                                                         challenging to install and may produce different results across computing
+                                                         environments. The community-oriented, open-source Neurodesk
+                                                         platform (https://www.neurodesk.org/) harnesses a comprehensive and
+                                                         growing suite of neuroimaging software containers. Neurodesk includes
+                                                         a browser-accessible virtual desktop, command-line interface and
+                                                         computational notebook compatibility, allowing for accessible, flexible,
+                                                         portable and fully reproducible neuroimaging analysis on personal
+                                                         workstations, high-performance computers and the cloud.
+
+Neuroimaging data analysis is challenging. Aside from the scientific             Neurodesk, a community-oriented open-source solution for neuroim-
+background motivating the choice of analysis, advanced domain knowl-             aging analysis with four guiding principles: accessibility, portability,
+edge beyond the researcher’s expertise is needed; for example, signal            flexibility and, overarchingly, reproducibility.
+and image processing, software engineering, statistics and machine                    Ideally, scientific analysis workflows should be easily accessible, so
+learning. Researchers faced with this task rely on specialized software          users can deploy them from any computing environment with minimal
+packages typically developed by research teams with limited resources.           time and effort4, and portable, so that users can tractably shift analysis
+The resulting analysis tools often have limited technical support, can           pipelines between computing environments once developed. Many
+be difficult to install, have conflicting dependencies or are inconsist-         researchers prototype analysis pipelines using their laptop or desktop
+ently available across operating systems1–3. These issues not only are           computer, and then switch to workstations and high-performance
+frustrating and time consuming, but also ultimately compromise repro-            computing clusters for processing at scale. Accessible and portable
+ducibility, a foundational scientific principle. We therefore developed          workflows allow for the optimized allocation of computing resources
+
+
+A full list of affiliations appears at the end of the paper.   e-mail: angie.renton23@gmail.com; s.bollmann@uq.edu.au
+
+
+Nature Methods
+Brief Communication                                                                                                        https://doi.org/10.1038/s41592-023-02145-x
+
+
+                           a                                               b                                           c
+                                                                                                                                             MNE
+                                                                                                                                             Python
+                               Community                                           Neurocontainers                                           Conda
+                                                                                                                                             Vscode
+                                                                                                                                             Bins/Libs
+
+
+
+
+                                                                                      Ac
+                                                                                        ce
+                                                                                           ss
+                                                                                             ib
+                                                                                                ili
+                                                                                                   ty
+                                                                                                        la
+                                                                                                          ye
+                                                                                                             r
+
+                           d
+                                              Via Neurodesktop                                           Via Neurocommand
+
+
+                                      Linux                                                                                      Computational
+                                                              Windows                                                             notebooks
+                                                                                                                 HPC
+                                                                                                                 cluster
+
+                                                    Cloud
+
+                                 MacOS
+
+
+                                                               Diverse computing environments
+
+Fig. 1 | The Neurodesk platform. a, Neurodesk is built by and for the scientific        layers of accessibility: (1) Neurodesktop: a browser-accessible virtual desktop
+community, enabling anyone to contribute containers. b, Community-                      environment; (2) Neurocommand: a command-line interface that runs the same
+contributed software recipes are automatically used to build software                   software containers programmatically. These interfaces allow users to reproduce
+containers stored in the Neurocontainers repository. c, Each container                  analyses across computing environments (HPC: high-performance computing).
+packages a tool together with all its dependencies. d, Neurodesk provides two
+
+
+
+while supporting shared development workloads5. Unfortunately,                         collection of versioned neuroimaging software containers (Fig. 1a,b).
+many analysis workflows are neither readily accessible nor portable6,7,                Neurocontainers contributed by the community are automatically
+and many existing solutions to these issues lack flexibility8. For exam-               made available to access through Neurodesk (Fig. 1a). Each Neuro-
+ple, single-install preprogrammed analysis pipelines are popular with                  container includes the packaged tool and all dependencies required
+clinicians, but researchers typically customize analysis pipelines for                 to execute a specific version of that tool (Fig. 1c). Because containers
+specific projects9–11. Virtual machines or dual-boot computers partially               isolate dependencies, different Neurocontainers can provide different
+address these barriers, but they are resource intensive and still do not               versions of the same tool, allowing researchers to seamlessly switch
+reconcile conflicts between software packages or their dependencies.                   software versions.
+Beyond productivity costs, inaccessible and unstable neuroimaging                           Neurodesk enables researchers to use Neurocontainers directly
+tools also pose a wider threat to reproducibility12,13, that is, running               through the cloud or download containers for offline use through two
+the same software on the same input data and obtaining the same                        possible interfaces, without the need to install neuroimaging software
+result14. The transparency and openness promotion guidelines, which                    locally. First, Neurodesktop is a browser-accessible virtual desktop
+have over 5,000 journals, publishers and other related organizations                   environment with all containerized tools accessible from the applica-
+as signatories, state that all reported results should be independently                tion menu (Fig. 1d). Neurodesktop has the look and feel of working
+reproduced before publication15. But realistically, results verification               on one’s local computer, and can be executed using local or cloud
+is usually too impractical to implement at review6.                                    resources. Second, Neurocommand can be used to launch and interact
+      These issues are not unique to neuroimaging or scientific research,              with Neurocontainers through the command line. Neurocommand is
+and similar issues in the software space led to the development of soft-               suitable for use in high-performance computing environments, and can
+ware containers; lightweight and portable solutions that package appli-                be used to interact with neuroimaging software through computational
+cations and their dependencies. Container engines such as Docker,                      notebooks such as Google Colab or Jupyter Notebooks18 (Fig. 1d). These
+Podman and Apptainer/Singularity allow containerized software to                       Neurodesk interfaces can be launched from most common operating
+seamlessly shift between computing environments without relying                        systems by installing the Neurodesk App, or by launching remote
+on, or conflicting with, software outside the container16. Containers                  instances online. Extensive documentation, tutorials and examples are
+are thus well suited to address the issues facing neuroimaging analysis                available at the Neurodesk website (https://www.neurodesk.org/). By
+and form the core of the Neurodesk project17 (Fig. 1). Neurodesk makes                 harnessing these easy-to-use interfaces, researchers can flexibly take
+containerized neuroimaging software easier to both access and create                   advantage of large open datasets, reproduce reported analyses, and
+through the Neurocontainers repository, a comprehensive and growing                    switch between neuroimaging modalities and computational platforms
+
+
+Nature Methods
+Brief Communication                                                                                               https://doi.org/10.1038/s41592-023-02145-x
+
+
+                                                                       Image intensity differences
+              a                                             Absolute mean inter-      c                                            Absolute mean inter-
+                                                       system intensity difference                                            system intensity difference
+                                   Local install                                                           Neurodesk
+                                                       L           R                                                          L            R
+               L            R                                                          L             R                                              1.200
+                                                                             1.200
+
+
+                                                                             0.800                                                                  0.800
+
+
+                                                                             0.400                                                                  0.400
+
+
+                                                                             0                                                                      0
+
+
+                                                                       Classification differences
+                                                                                                                                       Mean inter-system
+              b                                                Mean inter-system      d                                             disagreement in label
+                                                            disagreement in label
+                                  Local install                                                            Neurodesk
+                                                       L           R          0.160                                            L           R        0.016
+               L            R                                                          L             R
+
+                                                                              0.120                                                                 0.012
+
+
+                                                                              0.080                                                                 0.008
+
+
+                                                                              0.040                                                                 0.004
+
+
+
+Fig. 2 | Inter-computer differences in an fMRI processing pipeline.                   classification disagreement after image segmentation with FSL-FIRST, averaged
+a,c, Absolute mean inter-computer image intensity differences within                  across participants. Projections are shown for locally installed software (b) and
+subcortical structures after image registration with FSL-FLIRT. Projections are       Neurodesk (d) (note the difference in color scale range).
+shown for locally installed software (a) and Neurodesk (c). b,d, Inter-system
+
+
+
+
+within and between projects. Containerized software reduces unneces-                       Neurodesk is also impactful as an educational tool in workshops
+sary computational variability between execution systems, making it                   and courses. The platform was first conceptualized during a ‘hack-
+possible to share analyses between laboratories and collaborate on                    athon’25, an event where people with diverse skill sets collaborated on
+large datasets without artificial differences between sites. Further,                 projects and developed research skills. Variability in analysis environ-
+for developers, the effort to containerize and add one’s software to                  ments across attendees’ computers presents a hurdle for neuroimaging
+Neurodesk may be minimal compared with testing software and sup-                      training workshops such as this. Facilitators often spend considerable
+porting users across diverse computing platforms.                                     time troubleshooting software installations specific to unique comput-
+     Studies have shown that subtle differences in hardware, firmware                 ing environments. Neurodesk, which provides access to a standardized
+and software dependencies can systematically alter results across com-                analysis environment with the requisite tools preinstalled with almost
+puting environments19–21, meaning it is often impossible to replicate                 no set up, allows researchers to efficiently tackle complex scientific
+results even when given the original data, code and software version.                 problems by eliminating technical troubleshooting. Moreover, Neu-
+This effect has been well described for functional magnetic resonance                 rodesk is scalable to different class sizes and computational demands,
+imaging (fMRI) processing pipelines19. To evaluate whether Neurodesk                  can be accessed remotely and enables trainees to easily access their
+addresses these issues, we therefore set out to replicate and extend                  analyses after the workshop. Containerized platforms in other fields
+upon these findings; we ran four identical MRI analysis pipelines, in                 have made a substantial impact in this way, for example, the Galaxy
+two separate computing environments, using software installed locally                 platform for bioinformatics26.
+and through Neurodesk. We found meaningful differences in image                            Neurodesk exists within a larger ecosystem of projects providing
+intensity and subcortical tissue classification between the two com-                  accessible, reproducible, flexible and portable neuroimaging analysis,
+puters for pipelines run on locally installed software (Fig. 2a,b), but               and, where possible, seeks to interoperate with related platforms. While
+not for pipelines run on Neurodesk (Fig. 2c,d). These results show that               Neurodesk is not the only project to address any one of these principles,
+Neurodesk allows researchers to adhere to the highest possible repro-                 Neurodesk is unique in addressing all four principles. Projects such
+ducibility standards with minimal changes to their typical workflow.                  as NeuroDebian1 and Neurofedora27 increase accessibility for GNU/
+See the Supplementary Notes for the full results of this case study.                  Linux operating systems, but offer limited support for portability or
+     Neurodesk not only facilitates access to reproducible neuro-                     reproducibility. Other projects such as Brainlife28, BIDSApps29, Fly-
+imaging data analysis, but also makes sharing these workflows less                    wheel (https://flywheel.io/), XNAT30, Code-Ocean31, Qmenta (https://
+burdensome. Neurocontainers are accessible within computational                       www.qmenta.com/), CBRAIN32 and Biocontainers33 all support repro-
+notebooks (for example, running FreeSurfer22 within Google Colab),                    ducibility through containerization, but have different use-cases to
+enabling researchers to share reproducible code and results alongside                 Neurodesk. For example, Brainlife facilitates reproducible and trace-
+published manuscripts. Notably, this approach requires authors to                     able cloud-based analysis using community-contributed workflows.
+ensure interoperability of the linked code and data, ensuring that                    However, the platform is designed to allow users to run pre-coded
+readers do not need to spend time downloading large datasets from                     analysis pipelines, rather than to flexibly access software to develop
+remote repositories, or overcome issues with executing notebooks                      their own pipelines. To this end, the Neurodesk and Brainlife teams
+due to insufficient cloud computing resources. Recent developments                    are increasing interoperability between the platforms by providing
+in reproducible preprints present an enriched publication path that                   Brainlife development environments on Neurodesk, and running Neu-
+simplifies the sharing of data and analysis code23. NeuroLibre, for                   rodesk containers on Brainlife. Thus, in cases where flexibility is less
+example, hosts interactive notebooks and associated data, allowing                    important, Neurodesk can also be harnessed to support the complete
+readers to modify and re-execute code24. Neurocontainers are ideally                  workflow reproducibility offered by preprogrammed analysis pipelines
+suited for such integrated and reproducible approaches.                               with Brainlife. Similarly, we have integrated the ‘BIDSApps’ repository
+
+
+Nature Methods
+Brief Communication                                                                                  https://doi.org/10.1038/s41592-023-02145-x
+
+of containerized workflows, allowing users to access or adapt these         13. Nosek, B. A. et al. Replicability, robustness, and reproducibility
+workflows. In this way, users already accustomed to other platforms             in psychological science. Annu. Rev. Psychol. 73, 719–748
+and tools will also benefit from the Neurodesk project.                         (2022).
+     Neurodesk has some limitations that warrant discussion. One            14. Plesser, H. E. Reproducibility vs. replicability: a brief history of a
+area of ongoing development relates to the inclusion of proprietary             confused terminology. Front. Neuroinform. 11, 76 (2018).
+and licensed software without compromising accessibility. Another           15. Nosek, B. A. et al. Promoting an open research culture. Science
+challenge for a flexible platform with as wide a range of applications          348, 1422–1425 (2015).
+as Neurodesk is the project’s long-term sustainability. Neurodesk’s         16. Boettiger, C. An introduction to Docker for reproducible research.
+community-driven, continuous integration model provides a powerful              ACM SIGOPS Oper. Syst. Rev. 49, 71–79 (2015).
+and flexible way to address both of these expanded use-cases without        17. Trunov, A. S., Voronova, L. I., Voronov, V. I. & Ayrapetov, D. P.
+depending on a single development team. We have developed multiple              Container cluster model development for legacy applications
+pathways for sustainability, including the federated support of the             integration in scientific software system. in 2018 IEEE International
+underlying hosting infrastructure, flexibility in the continuous integra-       Conference ‘Quality Management, Transport and Information
+tion and deployment infrastructure and a potential for a commercial             Security, Information Technologies’ (IT QM IS) 815–819
+model to offer tailored support for institutions and workshops.                 https://doi.org/10.1109/ITMQIS.2018.8525120 (2018).
+     The challenges of accessibility, portability, flexibility and repro-   18. Thomas, T. et al. Jupyter Notebooks—a publishing format for
+ducibility discussed here are not unique to neuroscience. In turn,              reproducible computational workflows. In Positioning and
+Neurodesk’s core foundation could be used to deploy software specific           Power in Academic Publishing: Players, Agents and Agendas
+to any other discipline, and it is our sincere hope that this platform is       (eds Loizides, F. & Schmid, B.) 87–90 (IOS Press, 2016).
+adapted as such. The Neurodesk platform has the potential to improve        19. Glatard, T. et al. Reproducibility of neuroimaging analyses across
+the way scientists analyze data and communicate results. Specifically,          operating systems. Front. Neuroinform. 9, 12 (2015).
+Neurodesk allows any scientist, anywhere in the world, to conveniently      20. Gronenschild, E. H. et al. The effects of FreeSurfer version,
+access, develop and adapt their neuroimaging analysis tools, and apply          workstation type, and Macintosh operating system version on
+them in a fully reproducible manner from any computing environment.             anatomical volume and cortical thickness measurements.
+                                                                                PLoS ONE 7, e38234 (2012).
+Online content                                                              21. Krefting, D. et al. Reliability of quantitative neuroimage analysis
+Any methods, additional references, Nature Portfolio reporting sum-             using freesurfer in distributed environments. In MICCAI Workshop
+maries, source data, extended data, supplementary information,                  on High-Performance and Distributed Computing for Medical
+acknowledgements, peer review information; details of author con-               Imaging (2011).
+tributions and competing interests; and statements of data and code         22. Fischl, B. FreeSurfer. NeuroImage 62, 774–781 (2012).
+availability are available at https://doi.org/10.1038/s41592-023-02145-x.   23. DuPre, E. et al. Beyond advertising: new infrastructures for
+                                                                                publishing integrated research objects. PLoS Comput. Biol. 18,
+References                                                                      e1009651 (2022).
+1.  Halchenko, Y. & Hanke, M. Open is not enough. let’s take the next       24. Karakuzu, A. et al. NeuroLibre: a preprint server for full-fledged
+    step: an integrated, community-driven computing platform for                reproducible neuroscience. Preprint at OSF https://doi.org/
+    neuroscience. Front. Neuroinform. 6, 22 (2012).                             10.31219/osf.io/h89js (2022).
+2. Hanke, M. & Halchenko, Y. Neuroscience runs on GNU/Linux.                25. Gau, R. et al. Brainhack: developing a culture of open,
+    Front. Neuroinform. 5, 8 (2011).                                            inclusive, community-driven neuroscience. Neuron 109,
+3. Niso, G. et al. Open and reproducible neuroimaging: from study               1769–1775 (2021).
+    inception to publication. NeuroImage 263, 119623 (2022).                26. Afgan, E. et al. The Galaxy platform for accessible, reproducible
+4. Wilkinson, M. D. et al. The FAIR Guiding Principles for scientific           and collaborative biomedical analyses: 2018 update. Nucleic
+    data management and stewardship. Sci. Data 3, 160018 (2016).                Acids Res. 46, W537–W544 (2018).
+5. Kurtzer, G. M., Sochat, V. & Bauer, M. W. Singularity:                   27. Sinha, A. et al. Comp-NeuroFedora, a free/open source operating
+    scientific containers for mobility of compute. PLoS ONE 12,                 system for computational neuroscience: download, install,
+    e0177459 (2017).                                                            research. BMC Neurosci. 21, 1 (2020).
+6. Van Gorp, P. & Mazanek, S. SHARE: a web portal for creating and          28. Hayashi, S. et al. brainlife.io: a decentralized and open
+    sharing executable research papers. Procedia Comput. Sci. 4,                source cloud platform to support neuroscience research.
+    589–597 (2011).                                                             Preprint at arXiv https://doi.org/10.48550/arXiv.2306.02183
+7. Poline, J. -B. et al. Is neuroscience FAIR? a call for collaborative         (2023).
+    standardisation of neuroscience data. Neuroinformatics 20,              29. Gorgolewski, K. J. et al. BIDS apps: improving ease of use,
+    507–512 (2022).                                                             accessibility, and reproducibility of neuroimaging data analysis
+8. Silberzahn, R. et al. Many analysts, one data set: making                    methods. PLoS Comput. Biol. 13, e1005209 (2017).
+    transparent how variations in analytic choices affect results. Adv.     30. Herrick, R. et al. XNAT Central: open sourcing imaging research
+    Methods Pract. Psychol. Sci. 1, 337–356 (2018).                             data. NeuroImage 124, 1093–1096 (2016).
+9. Tapera, T. M. et al. FlywheelTools: data curation and manipulation       31. Staubitz, T., Klement, H., Teusner, R., Renz, J. & Meinel, C.
+    on the Flywheel platform. Front. Neuroinform. 15, 678403 (2021).            CodeOcean—a versatile platform for practical programming
+10. Routier, A. et al. Clinica: an open-source software platform for            excercises in online environments. In 2016 IEEE Global
+    reproducible clinical neuroscience studies. Front. Neuroinform.             Engineering Education Conference (EDUCON) 314–323
+    15, 689675 (2021).                                                          https://doi.org/10.1109/EDUCON.2016.7474573 (2016).
+11. Abe, T. et al. Neuroscience cloud analysis as a service: an             32. Sherif, T. et al. CBRAIN: a web-based, distributed computing
+    open-source platform for scalable, reproducible data analysis.              platform for collaborative neuroimaging research. Front.
+    Neuron 110, 2771–2789 (2022).                                               Neuroinform. 8, 54 (2014).
+12. Goodman, S. N., Fanelli, D. & Ioannidis, J. P. A. What does             33. da Veiga Leprevost, F. et al. BioContainers: an open-source and
+    research reproducibility mean? Sci. Transl. Med. 8,                         community-driven framework for software standardization.
+    341ps12–341ps12 (2016).                                                     Bioinformatics 33, 2580–2582 (2017).
+
+
+Nature Methods
+Brief Communication                                                                                      https://doi.org/10.1038/s41592-023-02145-x
+
+Publisher’s note Springer Nature remains neutral with regard to                self-archiving of the accepted manuscript version of this article is
+jurisdictional claims in published maps and institutional affiliations.        solely governed by the terms of such publishing agreement and
+                                                                               applicable law.
+Springer Nature or its licensor (e.g. a society or other partner)
+holds exclusive rights to this article under a publishing                      © The Author(s), under exclusive licence to Springer Nature America,
+agreement with the author(s) or other rightsholder(s); author                  Inc. 2024
+
+
+1
+ The University of Queensland, Queensland Brain Institute, St Lucia, Brisbane, Queensland, Australia. 2The University of Queensland, School of Electrical
+Engineering and Computer Science, St Lucia, Brisbane, Queensland, Australia. 3Centre for Mental Health & Brain Sciences, Swinburne University of
+Technology, Hawthorn, Victoria, Australia. 4The University of Sydney, School of Biomedical Engineering, Sydney, New South Wales, Australia.
+5
+ The Florey Institute of Neuroscience and Mental Health, The University of Melbourne, Melbourne, Victoria, Australia. 6School of Life Science and
+Technology, University of Electronic Science and Technology, Chengdu, China. 7Australian Research Data Commons (ARDC), Sydney, New South Wales,
+Australia. 8School of Psychological Sciences, University of Newcastle, Newcastle, New South Wales, Australia. 9Hunter Medical Research Institute
+Imaging Centre, Newcastle, New South Wales, Australia. 10The University of Queensland, School of Biomedical Sciences, St Lucia, Brisbane, Queensland,
+Australia. 11Integrative Spinal Research, Department of Chiropractic Medicine, Balgrist University Hospital, University of Zurich, Zurich, Switzerland.
+12
+  The Turner Institute for Brain and Mental Health, School of Psychological Sciences, Monash University, Melbourne, Victoria, Australia. 13Monash
+Biomedical Imaging, Monash University, Melbourne, Victoria, Australia. 14School of Psychology, University of Adelaide, Adelaide, South Australia,
+Australia. 15Human Health, Health & Biosecurity, CSIRO, Adelaide, South Australia, Australia. 16Wellcome Centre for Human Neuroimaging, University
+College London, London, UK. 17School of Psychology, University of New South Wales, Sydney, New South Wales, Australia. 18The University of
+Queensland, School of Psychology, St Lucia, Brisbane, Queensland, Australia. 19Melbourne School of Psychological Sciences, he University of Melbourne,
+Melbourne, Victoria, Australia. 20Graeme Clark Institute for Biomedical Engineering, The University of Melbourne, Melbourne, Victoria, Australia. 21McGovern
+Institute for Brain Research, Massachusetts Institute of Technology, Cambridge, MA, USA. 22Department of Otolaryngology - Head and Neck Surgery,
+Harvard Medical School, Boston, MA, USA. 23GIGA CRC In-Vivo Imaging, University of Liège, Liège, Belgium. 24Center for Open Neuroscience, Department
+of Psychological and Brain Sciences, Dartmouth College, Hanover, NH, USA. 25Department of Psychology, Center for Perceptual Systems, Institute
+for Neuroscience, Center For Learning and Memory, The University of Texas at Austin, Austin, TX, USA. 26National Institute of Mental Health (NIMH),
+National Institutes Health, Bethesda, MD, USA. 27Department of Biomedical Informatics, Stony Brook University, New York, NY, USA. 28Simons Center for
+Quantitative Biology, Cold Spring Harbor Laboratory, New York, NY, USA. 29BRAIN-TO Lab, Krembil Brain Institute, University Health Network, Toronto,
+Ontario, Canada. 30Translational Neuromodeling Unit, Institute for Biomedical Engineering, University of Zurich and ETH Zurich, Zurich, Switzerland.
+31
+   Department of Data Science and AI, Faculty of Information Technology, Monash University, Melbourne, Victoria, Australia. 32Department of Biomedical
+Engineering, Southern University of Science and Technology, Shenzhen, China. 33Grupo Neuropsicología y Conducta (GRUNECO), Facultad de Medicina,
+Universidad de Antioquia, Medellín, Colombia. 34School of Computer Science, The University of Auckland, Auckland, New Zealand. 35Department of
+Psychological and Brain Sciences, Indiana University, Bloomington, IN, USA. 36Discipline of Psychiatry, Adelaide Medical School, University of Adelaide,
+Adelaide, South Australia, Australia. 37Hopwood Centre for Neurobiology, Lifelong Health Theme, South Australian Health and Medical Research
+Institute (SAHMRI), Adelaide, South Australia, Australia. 38McCausland Center for Brain Imaging, Department of Psychology, University of South Carolina,
+Columbia, SC, USA. 39School of Psychology, University of Wollongong, Wollongong, New South Wales, Australia. 40The University of Queensland,
+Centre for Advanced Imaging, St Lucia, Brisbane, Queensland, Australia. 41Department of Neurology, Royal Brisbane and Women’s Hospital, Brisbane,
+Queensland, Australia. 42Macquarie University, School of Psychological Sciences, Sydney, New South Wales, Australia. 43Department of Neuroscience,
+Central Clinical School, Faculty of Medicine, Nursing and Health Sciences, Monash University, Melbourne, Victoria, Australia. 44Monash-Epworth
+Rehabilitation Research Centre, Turner Institute for Brain and Mental Health, School of Psychological Sciences, Monash University, Melbourne,
+Victoria, Australia. 45ARC Training Centre for Innovation in Biomedical Imaging Technology, The University of Queensland, Brisbane, Queensland,
+Australia. 46Queensland Digital Health Centre, The University of Queensland, Brisbane, Queensland, Australia. 47These authors contributed equally:
+Angela I. Renton, Thuy T. Dao. 48These authors jointly supervised this work: Aswin Narayanan, Steffen Bollmann.      e-mail: angie.renton23@gmail.com;
+s.bollmann@uq.edu.au
+
+
+
+
+Nature Methods
+Brief Communication                                                                                   https://doi.org/10.1038/s41592-023-02145-x
+
+Methods                                                                       new packages. The Neurodesk GitHub organization (https://github.
+How to use Neurodesk: accessibility, flexibility and portability              com/NeuroDesk/) has an active discussion forum where develop-
+The Neurodesk platform’s website (https://www.neurodesk.org/)                 ers respond to requests for new software containers. (2) In addi-
+is user-friendly and open to community contributions. The website             tion to this developer-centric route to new software containers, we
+contains information about the included software and is automatically         actively encourage contributions from the research community. A
+updated through continuous integration. Therefore, there is always            core aim for developing the Neurodesk platform was to build it as a
+up-to-date documentation, lists of currently available applications and       community-driven project that is not contingent on a specific team of
+a release history. The website also hosts clear instructions for accessing    developers. As such, we provide a template and detailed instructions
+and interacting with Neurodesk from various computing environments            for creating build scripts for new software containers. Moreover, we
+and tutorials on using various software packages.                             aim to ensure long-term executability of the containers by storing the
+      Neurodesk makes reproducible neuroimaging data analysis                 containers in different formats: docker, podman, singularity/apptainer
+accessible in almost any computing environment and brings the same            and an unpacked chroot environment. This comes with the benefit of
+dependencies to all supported platforms. This portability extends to          increased accessibility for users and the advantage that when technol-
+the Neurodesktop graphical user interface, which provides the same            ogy progresses and standards change over the years, users will still be
+desktop environment across all supported computing environments.              able to execute the software through standard GNU/Linux kernel tools
+Containerized analyses look, feel and run the same way across differ-         (chroot and mount)41–99.
+ent computing environments. Thus, researchers reading or reviewing
+manuscripts with open data and code can use Neurodesk to replicate            Reporting summary
+the exact pipeline using the reported tool versions without being             Further information on research design is available in the Nature Port-
+required to install additional software.                                      folio Reporting Summary linked to this article.
+      For a data analysis environment to be portable, such that it can
+easily shift between computing environments, it also needs to be light-       Data availability
+weight with a small storage footprint. To this end, our accessibility layer   The data that support the findings of the case study are available from
+harnesses the CernVM File System (CVMFS)34. The CVMFS layer allows            the ICBM database (https://www.loni.usc.edu/). There are restrictions
+accessing the software from a remote host without installation, so only       that apply to the availability of these data, which were used under
+parts of a container that are actively used are sent over the network         approved permission for the current study, and thus are not publicly
+and cached on the user’s local computer. Users can access terabytes           available but are available from ICBM upon request. Source data are
+of software without explicitly downloading or storing it locally. The         provided with this paper.
+Neurodesk platform has several CVMFS nodes worldwide, providing
+low latency and direct access to Neurocontainers. Thus, to use Neu-           Code availability
+rodesk, users only install the required container engine to access the        The code for this project is publicly available on GitHub, across multi-
+Neurocontainer of their choice. The current release of Neurodesktop,          ple repositories under the https://github.com/NeuroDesk/ organiza-
+which facilitates access to all tools in the Neurocontainers repository,      tion. It has also been archived on Zenodo at https://doi.org/10.5281/
+is less than 1.6 GB in download size.                                         zenodo.8053090. The code is licensed under the MIT License.
+      Anticipating that installing a third-party container engine software    All stages of development, from the initial conception as a hackathon
+may be a barrier to entry for some researchers, there is an entirely          project, through to the most current iteration of Neurodesk, with
+cloud-based solution: ‘Neurodesk Play’ (https://play.neurodesk.               up-to-date community-built Neurocontainer recipes, are documented
+org/). Neurodesk Play is accessible globally, allowing anyone to use a        publicly across the project’s GitHub repository and the platform’s
+cloud-based graphical desktop environment for neuroimaging data               website; which contains descriptions of how code is organized on the
+analysis and teaching. Neurodesk play instances are Binderhub35               GitHub repository, and how to contribute to the project (https://www.
+instances deployed based on the zero-to-binderhub guide, coupled              neurodesk.org/).
+with the full suite of Neurocontainers delivered via CVMFS. Neurodesk-        Any issues can be logged at https://github.com/orgs/NeuroDesk/
+top can also run on institutional or cloud computing resources ena-           discussions/. Contributions can be made by any community member
+bling access to large amounts of computing resources or datasets. For         with a GitHub account and the eagerness to create pull requests.
+example, the Australian Research Data Commons (ARDC) provides
+Neurodesk on their Virtual Desktop Service freely available to anyone         References
+with an Australian Access Federation account.                                 34. Blomer, J. et al. Micro-CernVM: slashing the cost of building and
+      The accessibility, flexibility and portability of this platform can         deploying virtual machines. J. Phys. Conf. Ser. 513, 032009 (2014).
+be best assessed through its utility to users. We, therefore, display         35. Jupyter, P. et al. Binder 2.0—reproducible, interactive, sharable
+up-to-date usage statistics for the platform on our website (https://www.         environments for science at scale. in Proceedings of the 17th
+neurodesk.org/docs/overview/metrics/). Further, the platform has                  Python in Science Conference 113–120 https://doi.org/10.25080/
+already been referenced in several peer-reviewed studies36–39.                    Majora-4af1f417-011 (2018).
+                                                                              36. Atilgan, H. et al. Functional relevance of the extrastriate body
+Long-term sustainability of the Neurodesk platform                                area for visual and haptic object recognition: a preregistered
+Neurodesk has a wide selection of tools available spanning many                   fMRI-guided TMS study. Cereb. Cortex Commun. 4, tgad005
+domains of neuroimaging data analysis. Extended Data Table 1 shows                (2023).
+the tools available at the time of publication, although this list is grow-   37. Chang, J. et al. Open-source hypothalamic-ForniX (OSHy-X)
+ing rapidly as the community and developers contribute software                   atlases and segmentation tool for 3T and 7T. J. Open Source
+through recipes created using the open-source Neurodocker project40.              Softw. 7, 4368 (2022).
+These recipes can be based on the Neurodebian project1. Users can find        38. Stewart, A. W. et al. QSMxT: robust masking and artifact reduction
+a full and up-to-date list at https://www.neurodesk.org/applications/.            for quantitative susceptibility mapping. Magn. Reson. Med. 87,
+Neurodesk uses a two-pronged approach to staying up to date with new              1289–1300 (2022).
+neuroimaging tools and new versions of already included software:             39. Biondetti, E. et al. Multi-echo quantitative susceptibility mapping:
+(1) The Neurodesk maintainers add tools as they become aware of                   how to combine echoes for accuracy and precision at 3 Tesla.
+new developments or community members request the addition of                     Magn. Reson. Med. 88, 2101–2116 (2022).
+
+
+Nature Methods
+Brief Communication                                                                                  https://doi.org/10.1038/s41592-023-02145-x
+
+40. Kaczmarzyk, J. et al. ReproNim/neurodocker: 0.9.5.                       63. Jenkinson, M., Beckmann, C. F., Behrens, T. E. J., Woolrich, M. W. &
+    https://doi.org/10.5281/zenodo.7929032 (2023).                               Smith, S. M. FSL. NeuroImage 62, 782–790 (2012).
+41. Gorgolewski, K. et al. Nipype: a flexible, lightweight and               64. Isensee, F. et al. Automated brain extraction of multisequence
+    extensible neuroimaging data processing framework in Python.                 MRI using artificial neural networks. Hum. Brain Mapp. 40,
+    Front. Neuroinform. 5, 13 (2011).                                            4952–4964 (2019).
+42. Adebimpe, A. et al. ASLPrep: a platform for processing of arterial       65. Shaw, T., York, A., Ziaei, M., Barth, M. & Bollmann, S.
+    spin labeled MRI and quantification of regional brain perfusion.             Longitudinal Automatic Segmentation of Hippocampal
+    Nat. Methods 19, 683–686 (2022).                                             Subfields (LASHiS) using multi-contrast MRI. NeuroImage 218,
+43. Esteban, O. et al. fMRIPrep: a robust preprocessing pipeline for             116798 (2020).
+    functional MRI. Nat. Methods 16, 111–116 (2019).                         66. Huber, L. R. et al. LayNii: a software suite for layer-fMRI.
+44. Esteban, O. et al. MRIQC: Advancing the automatic prediction of              NeuroImage 237, 118091 (2021).
+    image quality in MRI from unseen sites. PLoS ONE 12, e0184661            67. Vincent, R. D. et al. MINC 2.0: a flexible format for multi-modal
+    (2017).                                                                      images. Front. Neuroinformatics 10, 35 (2016).
+45. Li, X., Morgan, P. S., Ashburner, J., Smith, J. & Rorden, C. The first   68. Grussu, F. et al. Multi-parametric quantitative in vivo spinal cord
+    step for neuroimaging data analysis: DICOM to NIfTI conversion.              MRI with unified signal readout and image denoising. NeuroImage
+    J. Neurosci. Methods 264, 47–56 (2016).                                      217, 116884 (2020).
+46. Zwiers, M. P., Moia, S. & Oostenveld, R. BIDScoin: a user-friendly       69. Winkler, A. M., Ridgway, G. R., Webster, M. A., Smith, S. M. &
+    application to convert source data to brain imaging data                     Nichols, T. E. Permutation inference for the general linear model.
+    structure. Front. Neuroinform. 15, 770608 (2022).                            NeuroImage 92, 381–397 (2014).
+47. Gorgolewski, K. J. et al. The brain imaging data structure, a            70. Kasper, L. et al. The PhysIO toolbox for modeling physiological
+    format for organizing and describing outputs of neuroimaging                 noise in fMRI data. J. Neurosci. Methods 276, 56–72 (2017).
+    experiments. Sci. Data 3, 160044 (2016).                                 71. Dymerska, B. et al. Phase unwrapping with a rapid opensource
+48. Yushkevich, P. A. et al. User-guided segmentation of                         minimum spanning tree algorithm (ROMEO). Magn. Reson. Med.
+    multi-modality medical imaging datasets with ITK-SNAP.                       85, 2294–2308 (2021).
+    Neuroinformatics 17, 83–102 (2019).                                      72. Fedorov, A. et al. 3D slicer as an image computing platform for
+49. Wang, R., Benner, T., Sorensen, A. G. & Wedeen, V. J. Diffusion              the quantitative imaging network. Magn. Reson. Imaging 30,
+    toolkit: a software package for diffusion imaging data processing            1323–1341 (2012).
+    and tractography. Proc. Intl Soc. Mag. Reson. Med. 15, 3720 (2007).      73. De Leener, B. et al. SCT: Spinal Cord Toolbox, an open-source
+50. Yeh, F. -C. Population-based tract-to-region connectome of the               software for processing spinal cord MRI data. NeuroImage 145,
+    human brain and its hierarchical topology. Nat. Commun. 13,                  24–43 (2017).
+    4933 (2022).                                                             74. Ashburner, J. Computational anatomy with the SPM software.
+51. Tournier, J. -D., Calamante, F. & Connelly, A. MRtrix: diffusion             Magn. Reson. Imaging 27, 1163–1174 (2009).
+    tractography in crossing fiber regions. Int. J. Imaging Syst.            75. Langkammer, C. et al. Fast quantitative susceptibility mapping
+    Technol. 22, 53–66 (2012).                                                   using 3D EPI and total generalized variation. NeuroImage 111,
+52. Pallast, N. et al. Processing pipeline for atlas-based imaging data          622–630 (2015).
+    analysis of structural and functional mouse brain MRI (AIDAmri).         76. Klein, S., Staring, M., Murphy, K., Viergever, M. A. & Pluim, J.
+    Front. Neuroinform. 13, 42 (2019).                                           elastix: a toolbox for intensity-based medical image Registration.
+53. Desrosiers-Gregoire, G. et al. Rodent Automated Bold                         IEEE Trans. Med. Imaging 29, 196–205 (2010).
+    Improvement of EPI Sequences (RABIES): a standardized image              77. Shamonin, D. et al. Fast parallel image registration on CPU and
+    processing and data quality platform for rodent fMRI. Preprint at            GPU for diagnostic classification of Alzheimer’s disease. Front.
+    bioRxiv https://doi.org/10.1101/2022.08.20.504597 (2022).                    Neuroinform. 7, 50 (2014).
+54. Hangel, G. et al. Ultra-high resolution brain metabolite mapping         78. Civier, O., Sourty, M. & Calamante, F. MFCSC: novel method to
+    at 7T by short-TR Hadamard-encoded FID-MRSI. NeuroImage 168,                 calculate mismatch between functional and structural brain
+    199–210 (2018).                                                              connectomes, and its application for detecting hemispheric
+55. Cox, R. W. AFNI: what a long strange trip it’s been. NeuroImage 62,          functional specialisations. Sci. Rep. 13, 3485 (2023).
+    743–747 (2012).                                                          79. Tadel, F., Baillet, S., Mosher, J. C., Pantazis, D. & Leahy, R. M.
+56. Avants, B. B., Tustison, N. & Johnson, H. Advanced Normalization             Brainstorm: a user-friendly application for MEG/EEG analysis.
+    Tools (ANTS). Insight J. 2, 1–35 (2009).                                     Comput. Intell. Neurosci. 2011, 879716 (2011).
+57. Wisse, L. E. M. et al. Automated hippocampal subfield                    80. Brunner, C., Delorme, A. & Makeig, S. Eeglab—an open source
+    segmentation at 7T MRI. Am. J. Neuroradiol. 37, 1050–1057 (2016).            MATLAB toolbox for electrophysiological research. Biomed. Tech.
+58. Gaser, C. et al. CAT—a computational anatomy toolbox for the                 58, 1 (2013).
+    analysis of structural MRI data. Preprint at bioRxiv https://doi.org/    81. Oostenveld, R., Fries, P., Maris, E. & Schoffelen, J. -M. FieldTrip:
+    10.1101/2022.06.11.495736 (2022).                                            open source software for advanced analysis of MEG, EEG, and
+59. Eckstein, K. et al. Improved susceptibility weighted imaging at ultra-       invasive electrophysiological data. Comput. Intell. Neurosci. 2011,
+    high field using bipolar multi-echo acquisition and optimized                156869 (2011).
+    image processing: CLEAR-SWI. NeuroImage 237, 118175 (2021).              82. Gramfort, A. et al. MNE software for processing MEG and EEG
+60. Whitfield-Gabrieli, S. & Nieto-Castanon, A. Conn: a functional               data. NeuroImage 86, 446–460 (2014).
+    connectivity toolbox for correlated and anticorrelated brain             83. Brunner, C., Breitwieser, C. & Müller-Putz, G. R. Sigviewer and
+    networks. Brain Connect 2, 125–141 (2012).                                   Signalserver—open source software projects for biosignal
+61. Marcus, D. S. et al. Human Connectome Project informatics:                   analysis. Biomed. Eng. Tech. 58, 1 (2013).
+    quality control, database services, and data visualization.              84. Ihaka, R. & Gentleman, R. R: a language for data analysis and
+    NeuroImage 80, 202–219 (2013).                                               graphics. J. Comput. Graph. Stat. 5, 299–314 (1996).
+62. Estrada, S. et al. FatSegNet: a fully automated deep learning            85. Ribeiro, F. L., Bollmann, S. & Puckett, A. M. Predicting the
+    pipeline for adipose tissue segmentation on abdominal dixon                  retinotopic organization of human visual cortex from anatomy
+    MRI. Magn. Reson. Med. 83, 1471–1483 (2020).                                 using geometric deep learning. NeuroImage 244, 118624 (2021).
+
+
+Nature Methods
+Brief Communication                                                                                       https://doi.org/10.1038/s41592-023-02145-x
+
+86. Mishra, P., Lehmkuhl, R., Srinivasan, A., Zheng, W. & Popa, R. A.        supported by the National Collaborative Research Infrastructure
+    Delphi: a cryptographic inference service for neural networks.           Strategy-funded ARDC. We acknowledge the facilities and scientific
+    In 29th USENIX Security Symposium (USENIX Security 20)                   and technical assistance of the National Imaging Facility, a National
+    2505–2522 (2020).                                                        Collaborative Research Infrastructure Strategy capability. A National
+87. Still, M. The definitive guide to ImageMagick. vol. 1 (Springer,         Institutes of Health grant (P41EB019936) partially supported J.R.K.
+    2006).                                                                   and S.S.G. Data collection and sharing for this project was provided
+88. Rorden, C. & Brett, M. Stereotaxic display of brain lesions. Behav.      by the International Consortium for Brain Mapping (ICBM; Principal
+    Neurol. 12, 191–200 (2000).                                              Investigator: J. Mazziotta). ICBM funding was provided by the National
+89. Rorden, C. rordenlab/MRIcroGL: version 20-July-2022                      Institute of Biomedical Imaging and BioEngineering. ICBM data are
+    (v1.2.20220720) https://doi.org/10.5281/ZENODO.7533834 (2022).           disseminated by the Laboratory of Neuro Imaging at the University
+90. Vicory, J. et al. SlicerSALT: Shape AnaLysis Toolbox. In Shape in        of Southern California. We thank I. C. D. Lenton, E. Cooper-Williams
+    Medical Imaging (eds. Reuter, M. et al.) vol. 11167, 65–72 (Springer     and Y. ‘Sam’ Peng for contributions to the first NeuroDesk precursor
+    International Publishing, 2018).                                         ‘Dicom2Cloud’ and the reviewers for the constructive feedback. The
+91. Rorden, C. & Hanayik, T. neurolabusc/surf-ice: version                   funders had no role in study design, data collection and analysis,
+    6-October-2021 (v1.0.20211006). https://doi.org/10.5281/                 decision to publish or preparation of the manuscript.
+    ZENODO.7533772 (2021)
+92. Bumgarner, J. R. & Nelson, R. J. Open-source analysis and                Author contributions
+    visualization of segmented vasculature datasets with VesselVio.          Conceptualization: S.B., A.N., O.C., T.J., D.W., A.R., T.S., R.S., T.C., A.H.,
+    Cell Rep. Methods 2, 100189 (2022).                                      G.E., M.G., A.P., F.P., M.G., L.K., G.S., D.A., M.C., N.R., J.R.K., S.G., P.F.S.,
+93. Cusack, R. et al. Automatic analysis (aa): efficient neuroimaging        S.B. and J.B.M. Software: S.B., A.N., T.S., O.C., T.J., D.W., A.N., T.D., A.S.,
+    workflows and parallel processing using Matlab and XML. Front.           M.G., L.K., J.D.Z., K.E., S.E., X.Y., F.R., J.C., K.L., J.M., R.H., Y.-J.M.-R.,
+    Neuroinform. 8, 90 (2015).                                               J.R.K., A.B., C.R., Y.O.H. and A.S.H. Validation: S.B., A.N., T.J.A., A.R.,
+94. Liem, F. & Gorgolewski, C. F. BIDS-Apps/baracus: v1.1.2.                 T.S., O.C., D.W., K.G., T.D., A.S., L.K., J.D.Z., K.E., G.F., M.G., S.E., X.Y., M.S.,
+    https://doi.org/10.5281/ZENODO.1018841 (2017).                           F.R., J.C., J.K., K.L., L.H., R.S., T.C., M.H., L.K., G.S., D.A., M.C., N.R., M.G.,
+95. Kim, Y. et al. BrainSuite BIDS App: containerized workflows for          A.P., M.D. and M.L.M. Formal analysis: T.D. Conceptualization of formal
+    MRI analysis. Preprint at bioRxiv https://doi.org/10.1101/2023.03.       analysis: S.B., T.D., A.R., F.R. and T.S. Writing—initial outline: A.R., O.C.,
+    14.532686 (2023).                                                        P.L. and S.B. Writing—original draft: A.R. Writing—review and editing:
+96. Glasser, M. F. et al. The minimal preprocessing pipelines for the        all authors. Visualization: A.R. Supervision: S.B., T.J. and A.R. Project
+    Human Connectome Project. NeuroImage 80, 105–124 (2013).                 administration: S.B., A.N., P.L., T.J., O.C. and B.S. Funding acquisition:
+97. Smith, S. M. et al. Resting-state fMRI in the Human Connectome           S.B., A.N., O.C., T.J., D.W. and R.S.
+    Project. NeuroImage 80, 144–168 (2013).
+98. Trott, O. & Olson, A. J. AutoDock Vina: improving the speed              Competing interests
+    and accuracy of docking with a new scoring function, efficient           The authors declare no competing interests.
+    optimization, and multithreading. J. Comput. Chem. 31,
+    455–461 (2010).                                                          Additional information
+99. Eberhardt, J., Santos-Martins, D., Tillack, A. F. & Forli, S. AutoDock   Extended data is available for this paper at
+    Vina 1.2.0: new docking methods, expanded force field, and               https://doi.org/10.1038/s41592-023-02145-x.
+    Python bindings. J. Chem. Inf. Model. 61, 3891–3898 (2021).
+                                                                             Supplementary information The online version
+Acknowledgements                                                             contains supplementary material available at
+The ARDC invested in Neurodesk’s development through the                     https://doi.org/10.1038/s41592-023-02145-x.
+Australian Electrophysiology Data Analytics Platform project
+(S.B., A.N., O.C., T.J. and R.S.). We thank Oracle for Research for          Correspondence and requests for materials should be addressed to
+providing Oracle Cloud credits and related cloud resources to                Angela I. Renton or Steffen Bollmann.
+support this project (S.B.) The University of Queensland funded the
+project via the Knowledge Exchange & Translation Fund and the UQ             Peer review information Nature Methods thanks Taiga Abe, Agah
+AI Collaboratory (S.B.). S.B., F.L.R. and A.W.S. acknowledge funding         Karakuzu, and the other, anonymous, reviewer(s) for their contribution
+through an ARC Linkage grant (LP200301393). S.B. and A.W.S.                  to the peer review of this work. Nina Vogt, in collaboration with the
+acknowledge funding through the Australian Research Council                  Nature Methods team. Peer reviewer reports are available.
+Training Centre for Innovation in Biomedical Imaging Technology
+(IC170100035). This research was supported by use of the Nectar              Reprints and permissions information is available at
+Research Cloud, a collaborative Australian research platform                 www.nature.com/reprints.
+
+
+
+
+Nature Methods
+Brief Communication                                                                                                            https://doi.org/10.1038/s41592-023-02145-x
+
+
+Extended Data Table 1 | Tools currently available in Neurodesk
+
+
+
+
+The Neurodesk development team uses a broad definition of what constitutes a ‘tool’ and is guided by the community in what level of granularity would most flexibly facilitate neuroimaging
+data analysis on a case-by-case basis. Note that each tool has been listed under only one category, although some may span multiple categories. An up-to-date table can be retrieved from
+https://www.neurodesk.org/applications/. Details on the tools are available in refs. 41–99.
+
+
+
+Nature Methods
+View publication stats
+

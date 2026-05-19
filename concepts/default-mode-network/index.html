@@ -1,0 +1,1217 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A knowledge base for whole-brain simulation, neural mass models, and neuroimaging integration. From the Wilson-Cowan model to TVB platform tutorials.">
+      
+      
+        <meta name="author" content="Hermes Agent">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Default Mode Network (DMN) - TVB Wiki – Connectome‑Based Whole‑Brain Modeling</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#conceptual-origin-and-significance" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" class="md-header__button md-logo" aria-label="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TVB Wiki – Connectome‑Based Whole‑Brain Modeling
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Default Mode Network (DMN)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/maedoc/tvb-wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../entities/tvb/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../topics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Browse by Topic
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../comparisons/tvb-vs-nest-vs-neuron/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Compare Tools
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Catalog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" class="md-nav__button md-logo" aria-label="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    TVB Wiki – Connectome‑Based Whole‑Brain Modeling
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/maedoc/tvb-wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../entities/tvb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is TVB?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neural-mass-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural Mass Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connectome/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Connectome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Browse by Topic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comparisons/tvb-vs-nest-vs-neuron/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compare Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catalog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Catalog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../entities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Entities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comparisons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Comparisons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#conceptual-origin-and-significance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceptual Origin and Significance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-anatomical-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Anatomical Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Anatomical Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hub-regions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hub Regions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peripheral-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Peripheral Nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structural-basis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structural Basis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functional-organization-and-subsystems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functional Organization and Subsystems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functional Organization and Subsystems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dorsal-medial-prefrontal-subsystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dorsal Medial Prefrontal Subsystem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medial-temporal-lobe-subsystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Medial Temporal Lobe Subsystem
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anticorrelation-with-task-positive-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anticorrelation with Task-Positive Networks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#developmental-trajectories-and-aging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Developmental Trajectories and Aging
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Developmental Trajectories and Aging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#neurodevelopment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Neurodevelopment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aging-and-decline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aging and Decline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clinical-relevance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clinical Relevance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Clinical Relevance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#psychiatric-disorders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Psychiatric Disorders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#neurological-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Neurological Conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#role-in-whole-brain-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Role in Whole-Brain Modeling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Default Mode Network (DMN)</h1>
+
+<p>The <strong>Default Mode Network (DMN)</strong> is a large-scale <a href="../brain-network/">brain-network</a> identified through <a href="../neuroimaging/">neuroimaging</a> that demonstrates high metabolic activity during wakeful <a href="../rest/">rest</a> and systematic deactivation during externally-oriented goal-directed tasks. First characterized by <a href="../marcus-raichle/">marcus-raichle</a> using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.</p>
+<h2 id="conceptual-origin-and-significance">Conceptual Origin and Significance<a class="headerlink" href="#conceptual-origin-and-significance" title="Permanent link">&para;</a></h2>
+<p>The discovery of the DMN emerged from a pivotal observation in functional neuroimaging: certain brain regions consistently show higher metabolic activity at rest than during task performance.<a href="../marcus-raichle/">marcus-raichle</a> formalised this observation, proposing that these regions constitute a coherent network representing the brain's default state of organized, intrinsic activity. This conceptual shift transformed how neuroscientists think about brain function—moving from a view that treated rest as an absence of activity to recognizing it as an active, structured process with distinct dynamics.</p>
+<p>The significance of the DMN extends beyond its role as a baseline state. It provides a framework for understanding internally-directed cognition—the mental processes that occur independently of external sensory input. Prior to the identification of the DMN, neuroscience research had focused predominantly on mapping brain responses to external stimuli. The DMN research tradition established that the resting brain engages in substantial information processing, including autobiographical memory retrieval, future planning, social cognition, and self-referential thinking. This conceptual advance laid the groundwork for the modern field of <a href="../resting-state/">resting-state</a> neuroimaging and <a href="../functional-connectivity/">functional-connectivity</a> analysis.</p>
+<h2 id="core-anatomical-architecture">Core Anatomical Architecture<a class="headerlink" href="#core-anatomical-architecture" title="Permanent link">&para;</a></h2>
+<p>The DMN exhibits a characteristic anatomical distribution centered on the medial wall of the cerebral cortex. [2] provided a comprehensive anatomical characterization establishing the canonical regions comprising this network.</p>
+<h3 id="hub-regions">Hub Regions<a class="headerlink" href="#hub-regions" title="Permanent link">&para;</a></h3>
+<p>The posterior cingulate cortex (PCC) serves as the primary hub of the DMN, exhibiting the highest metabolic activity within the network and showing strong <a href="../functional-connectivity/">functional-connectivity</a> with all other DMN regions. The PCC's anatomical position—receiving dense projections from diverse cortical and subcortical regions—positions it as an integration hub coordinating information flow within the network. The medial prefrontal cortex (mPFC), particularly its ventral portion, constitutes a second major hub, supporting self-referential processing and emotional regulation.</p>
+<h3 id="peripheral-nodes">Peripheral Nodes<a class="headerlink" href="#peripheral-nodes" title="Permanent link">&para;</a></h3>
+<p>The angular gyrus, located at the intersection of the temporal, parietal, and occipital lobes, participates in language processing and memory retrieval. The hippocampus and adjacent medial temporal lobe structures support episodic memory consolidation and retrieval, enabling the network's role in remembering past events and simulating future scenarios. The lateral temporal cortex contributes semantic processing capabilities, while the temporal poles support social knowledge and theory of mind operations.</p>
+<h3 id="structural-basis">Structural Basis<a class="headerlink" href="#structural-basis" title="Permanent link">&para;</a></h3>
+<p>Diffusion tensor imaging studies reveal that DMN regions are connected by dense anatomical pathways, particularly via the cingulum bundle linking PCC to mPFC and hippocampus. These <a href="../structural-connectivity/">structural-connectivity</a> substrates provide the anatomical scaffolding enabling coherent <a href="../functional-connectivity/">functional-connectivity</a> patterns observed in <a href="../neuroimaging-fmri/">neuroimaging-fmri</a> and <a href="../neuroimaging-meg/">neuroimaging-meg</a> studies. The network exhibits "small-world" properties with dense local clustering and long-range inter-module connections typical of hub-dominated architectures.</p>
+<h2 id="functional-organization-and-subsystems">Functional Organization and Subsystems<a class="headerlink" href="#functional-organization-and-subsystems" title="Permanent link">&para;</a></h2>
+<p>Subsequent research revealed that the DMN is not a homogeneous entity but comprises functionally specialized subsystems. andrews-hanna-2010 (building on [2]) proposed a influential fractionation of the DMN into two distinct subsystems with differential <a href="../connectivity/">connectivity</a> patterns and cognitive functions.</p>
+<h3 id="dorsal-medial-prefrontal-subsystem">Dorsal Medial Prefrontal Subsystem<a class="headerlink" href="#dorsal-medial-prefrontal-subsystem" title="Permanent link">&para;</a></h3>
+<p>The dorsal medial prefrontal subsystem includes the dmPFC, temporoparietal junction (TPJ), and temporal pole. This subsystem supports mentalizing operations—constructing and reasoning about the mental states of others. When engaging in social cognition, theory of mind tasks, or evaluating social scenarios, this subsystem shows increased activation while remaining parts of the DMN may deactivated. The TPJ in particular has been implicated in attention to social cues and understanding others' intentions.</p>
+<h3 id="medial-temporal-lobe-subsystem">Medial Temporal Lobe Subsystem<a class="headerlink" href="#medial-temporal-lobe-subsystem" title="Permanent link">&para;</a></h3>
+<p>The medial temporal lobe subsystem encompasses the hippocampus, parahippocampal cortex, and ventromial prefrontal cortex. This subsystem operates as an "episodic memory system," supporting retrieval of autobiographical memories and construction of simulated future events. The famous "scene construction" process—mentally visualizing detailed scenarios for memory encoding or future planning—depends critically on this subsystem's integrity. Disruption to hippocampal-prefrontal connectivity compromises these functions, as observed in conditions ranging from normal aging to <a href="../alzheimers-disease/">Alzheimer's disease</a>.</p>
+<h2 id="anticorrelation-with-task-positive-networks">Anticorrelation with Task-Positive Networks<a class="headerlink" href="#anticorrelation-with-task-positive-networks" title="Permanent link">&para;</a></h2>
+<p>A fundamental feature of DMN dynamics is its systematic anticorrelation with networks supporting externally-directed cognition. When individuals engage in goal-directed tasks requiring external attention, the DMN shows systematic deactivation while the "task-positive network" (including dorsolateral prefrontal cortex and intraparietal sulcus) activates. anticevic-2012 demonstrated that this anticorrelation is not merely a methodological artifact but reflects genuine competitive interactions between <a href="../network-dynamics/">network-dynamics</a>.</p>
+<p>This push-pull relationship suggests that the brain operates in a balanced state between internally-directed (DMN-mediated) and externally-directed (task-positive network-mediated) processing modes. The degree of DMN suppression during tasks predicts performance on demanding cognitive operations, and individual differences in this relationship correlate with behavioral measures of cognitive control. Disrupted DMN-task network balance has been implicated inmultiple psychiatric conditions, including <a href="../schizophrenia-models/">schizophrenia-models</a> wherein failure to appropriately suppress DMN activity during tasks may contribute to attentional deficits and self-referential processing disturbances.</p>
+<h2 id="developmental-trajectories-and-aging">Developmental Trajectories and Aging<a class="headerlink" href="#developmental-trajectories-and-aging" title="Permanent link">&para;</a></h2>
+<p>The DMN undergoes substantial reorganization across the lifespan, with distinct developmental patterns characterizing childhood, adolescence, and aging.</p>
+<h3 id="neurodevelopment">Neurodevelopment<a class="headerlink" href="#neurodevelopment" title="Permanent link">&para;</a></h3>
+<p>During childhood and adolescence, the DMN exhibits a characteristic developmental <a href="../../entities/trajectory/">trajectory</a> from relatively local, fragmented organization toward the distributed, integrated network observed in adults. <a href="../neurodevelopment/">neurodevelopment</a> of the DMN follows a posterior-to-anterior progression, with sensory and motor regions maturing first while association cortex develops later. Long-range connections between frontal and posterior DMN regions mature last, consistent with the protracted development of prefrontal executive functions. This extended developmental timeline renders the DMN particularly vulnerable to early-life insults, with implications for neurodevelopmental disorders.</p>
+<h3 id="aging-and-decline">Aging and Decline<a class="headerlink" href="#aging-and-decline" title="Permanent link">&para;</a></h3>
+<p>With normal aging, DMN <a href="../functional-connectivity/">functional-connectivity</a> shows progressive disruption, particularly in the strength of PCC-mPFC coupling. These changes correlate with declines in episodic memory and executive function, suggesting that DMN integrity underlies cognitive performance in aging populations. The DMN has emerged as a sensitive biomarker for early detection of Alzheimer's disease, with PCC hypometabolism and disrupted connectivity patterns detectable years before clinical symptoms. Amyloid deposition patterns in Alzheimer's disease preferentially target DMN regions, potentially reflecting their high baseline metabolic activity and associated vulnerability.</p>
+<h2 id="clinical-relevance">Clinical Relevance<a class="headerlink" href="#clinical-relevance" title="Permanent link">&para;</a></h2>
+<p>DMN alterations have been documented across diverse neurological and psychiatric conditions, making it a critical target for clinical neuroscience research.</p>
+<h3 id="psychiatric-disorders">Psychiatric Disorders<a class="headerlink" href="#psychiatric-disorders" title="Permanent link">&para;</a></h3>
+<p>In <a href="../schizophrenia-models/">schizophrenia-models</a>, DMN abnormalities include reduced task-induced deactivation, increased <a href="../functional-connectivity/">functional-connectivity</a> during rest, and disordered communication between subsystems. These alterations may contribute to the characteristic symptoms of disordered self-referential processing, auditory hallucinations, and thought confusion. Depressive disorders show elevated DMN connectivity, particularly involving subgenual anterior cingulate cortex, consistent with the rumination and self-focused cognition characterizing depression. ADHD is associated with reduced DMN deactivation during tasks, potentially underlying difficulties with attention regulation.</p>
+<h3 id="neurological-conditions">Neurological Conditions<a class="headerlink" href="#neurological-conditions" title="Permanent link">&para;</a></h3>
+<p>In epilepsy modeling, DMN disruptions correlate with cognitive interictal symptoms including memory impairment and executive dysfunction. The DMN's sensitivity to network disruptions makes it a valuable probe for understanding whole-<a href="../brain-dynamics/">brain-dynamics</a> in epileptic networks. Neurodegenerative conditions including Alzheimer's disease and frontotemporal dementia show characteristic DMN vulnerability patterns reflecting underlying proteinopathies and selective regional susceptibility.</p>
+<h2 id="role-in-whole-brain-modeling">Role in Whole-Brain Modeling<a class="headerlink" href="#role-in-whole-brain-modeling" title="Permanent link">&para;</a></h2>
+<p>The DMN presents both opportunities and challenges for <a href="../whole-brain-modeling/">whole-brain modeling</a> approaches. Capturing the network's characteristic dynamics—and particularly its anticorrelation with task-positive networks—requires models that can represent competing brain states and state-dependent modulation of <a href="../functional-connectivity/">functional-connectivity</a>. The DMN serves as a critical validation target for models aiming to simulate resting-state dynamics, and understanding its interactions with other networks provides constraints for <a href="../parameter-estimation/">parameter-estimation</a> in large-scale models.</p>
+<p><a href="../personalized-brain-modeling/">personalized-brain-modeling</a> approaches increasingly incorporate DMN parameters to predict individual differences in cognition and clinical outcomes. The network's accessibility via <a href="../resting-state/">resting-state</a> <a href="../neuroimaging-fmri/">neuroimaging-fmri</a> makes it particularly amenable to building personalized models from readily acquired data, with applications ranging from surgical planning to treatment response prediction.</p>
+<h2 id="related-concepts">Related Concepts<a class="headerlink" href="#related-concepts" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../resting-state/">resting-state</a> – Intrinsic brain activity measured without task performance</li>
+<li><a href="../functional-connectivity/">functional-connectivity</a> – Statistical dependencies between brain regions</li>
+<li><a href="../bold-signal/">bold-signal</a> – Blood oxygen level-dependent signal underlying <a href="../fmri/">fmri</a></li>
+<li><a href="../brain-network/">brain-network</a> – Large-scale organized brain connectivity patterns</li>
+<li><a href="../network-hubs/">network-hubs</a> – Regions with high connectivity serving integration roles</li>
+<li><a href="../structural-connectivity/">structural-connectivity</a> – Anatomical <a href="../white-matter/">white-matter</a> pathways</li>
+<li><a href="../neuroimaging-fmri/">neuroimaging-fmri</a> – Functional magnetic resonance imaging</li>
+<li><a href="../aging/">aging</a> – Effects of aging on brain networks</li>
+<li><a href="../neurodevelopment/">neurodevelopment</a> – Developmental processes shaping brain organization</li>
+<li><a href="../epilepsy-modeling/">epilepsy-modeling</a> – Computational models of epileptic networks</li>
+</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ol>
+<li>(authors unknown). <em>A Default Mode of Brain Function</em>.</li>
+<li>(authors unknown). <em>The Brain's Default Network: Anatomy, Function, and Relevance to Disease</em>.</li>
+<li>(authors unknown). <em>Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis</em>.</li>
+</ol>
+<hr />
+<h2 id="references_1">References<a class="headerlink" href="#references_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li>"Marcus E. Raichle", "Abraham Z. Snyder", "Ann M. Gusnard", "Gordon L. Shulman" (2001) <strong>A Default Mode of Brain Function</strong>. <em>Proceedings of the National Academy of Sciences</em>.</li>
+<li>"Randy L. Buckner", "Jessica R. Andrews-Hanna", "Daniel L. Schacter" (2008) <strong>The Brain's Default Network: Anatomy, Function, and Relevance to Disease</strong>. <em>Annals of the New York Academy of Sciences</em>.</li>
+<li>"Michael D. Greicius", "Ben Krasnow", "Allan L. Reiss", "Vinod Menon" (2003) <strong>Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis</strong>. <em>Proceedings of the National Academy of Sciences</em>.</li>
+<li>"Stephen M. Smith", "Diego Vidaurre", "et al." (2013) <strong>Functional Connectomics from Resting-State fMRI</strong>. <em>Trends in Cognitive Sciences</em>.</li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2026 – TVB Wiki. Content available under CC BY‑SA 4.0.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/maedoc/tvb-wiki" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://arxiv.org" target="_blank" rel="noopener" title="arxiv.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M384 512H96c-53 0-96-43-96-96V96C0 43 43 0 96 0h304c26.5 0 48 21.5 48 48v288c0 20.9-13.4 38.7-32 45.3V448c17.7 0 32 14.3 32 32s-14.3 32-32 32zM96 384c-17.7 0-32 14.3-32 32s14.3 32 32 32h256v-64zm32-232c0 13.3 10.7 24 24 24h176c13.3 0 24-10.7 24-24s-10.7-24-24-24H152c-13.3 0-24 10.7-24 24m24 72c-13.3 0-24 10.7-24 24s10.7 24 24 24h176c13.3 0 24-10.7 24-24s-10.7-24-24-24z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "search.suggest", "search.highlight", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

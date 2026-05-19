@@ -1,0 +1,661 @@
+                                                                Evolution With Purpose:
+                                                Hierarchy-Informed Optimization of Whole-Brain Models
+                                                       Hormoz Shahrzad                                          Niharika Gajawelli                                   Kaitlin Maile∗
+                                                   hormoz@cs.utexas.edu                                         gajawell@stanford.edu                             kmaile@google.com
+                                              The University of Texas at Austin;                                 Stanford University                             University of Toulouse
+                                            Stanford University; Cognizant AI Lab
+
+                                                                                       Manish Saggar                                   Risto Miikkulainen
+                                                                                    saggar@stanford.edu                               risto@cs.utexas.edu
+                                                                                     Stanford University                        The University of Texas at Austin;
+arXiv:2602.11398v4 [cs.NE] 3 Apr 2026
+
+
+
+
+                                                                                                                                       Cognizant AI Lab
+
+                                        Abstract                                                                                ACM Reference Format:
+                                        Evolutionary search is well suited for large-scale biophysical brain                    Hormoz Shahrzad, Niharika Gajawelli, Kaitlin Maile, Manish Saggar, and Risto
+                                                                                                                                Miikkulainen. 2026. Evolution With Purpose: Hierarchy-Informed Opti-
+                                        modeling, where many parameters with nonlinear interactions and
+                                                                                                                                mization of Whole-Brain Models. In Genetic and Evolutionary Computation
+                                        no tractable gradients need to be optimized. Standard evolutionary                      Conference (GECCO ’26), July 13–17, 2026, San Jose, Costa Rica. ACM, New
+                                        approaches achieve an excellent fit to MRI data; however, among                         York, NY, USA, 11 pages. https://doi.org/10.1145/3795095.3805080
+                                        many possible such solutions, it finds ones that overfit to indi-
+                                        vidual subjects and provide limited predictive power. This paper
+                                        investigates whether guiding evolution with biological knowledge
+                                        can help. Focusing on whole-brain Dynamic Mean Field (DMF)                              1    Introduction
+                                        models, a baseline where 20 parameters were shared across the                           Large-scale functional brain dynamics are commonly modeled as
+                                        brain was compared against a heterogeneous formulation where                            emergent phenomena arising from the interaction between anatom-
+                                        different sets of 20 parameters were used for the seven canonical                       ical connectivity and local neural physiology. Models such as neural
+                                        brain regions. The heterogeneous model was optimized using four                         mass, neural field, and Dynamic Mean Field (DMF) successfully
+                                        strategies: optimizing all parameters at once, a curricular approach                    reproduced empirical functional connectivity and dynamics at the
+                                        following the hierarchy of brain networks (HICO), a reversed curric-                    level of resting-state networks (RSN)s [3, 7, 16, 20]. These models
+                                        ular approach, and a randomly shuffled curricular approach. While                       depend on many interacting hyperparameters that must be care-
+                                        all heterogeneous strategies fit the data well, only curricular ap-                     fully tuned to match individual neuroimaging data. Evolutionary
+                                        proaches generalized to new subjects. Most importantly, only HICO                       algorithms are well suited for this purpose because they explore
+                                        made it possible to use the parameter sets to predict the subjects’                     complex, non-differentiable fitness landscapes without gradient
+                                        behavioral abilities as well. Thus, by guiding evolution with bi-                       information [9, 13, 23, 26]. Prior work applying evolutionary strate-
+                                        ological knowledge about the hierarchy of brain regions, HICO                           gies to DMF models demonstrated improved fits to resting-state
+                                        demonstrated how domain knowledge can be harnessed to serve                             data [20], but also highlighted that such fits often fail to generalize
+                                        the purpose of optimization in real-world domains.                                      across subjects and may not predict behavior well. Similar issues of
+                                                                                                                                deception and overfitting arise in other real-world search domains.
+                                        CCS Concepts                                                                            Although evolutionary computation (EC) techniques are well suited
+                                        • Computing methodologies → Genetic algorithms; Bio-inspired                            for large, high-dimensional, and deceptive search spaces—even at
+                                        approaches; Distributed algorithms; • Mathematics of computing                          extreme scales involving thousands of states and billions of vari-
+                                        → Optimization algorithms.                                                              ables [5, 12, 23, 29, 30]—they can still converge to brittle or unin-
+                                                                                                                                formative solutions in the absence of appropriate inductive biases.
+                                        Keywords                                                                                   This work investigates a previously underexplored factor in
+                                                                                                                                evolutionary optimization of dynamical systems: the temporal or-
+                                        Evolutionary Computation, Curriculum Learning, Dynamic Mean
+                                                                                                                                der in which parameters are introduced during search. Drawing
+                                        Field Models, Whole-Brain Modeling, Cross-Subject Generalization,
+                                                                                                                                on cortical hierarchies, established in humans and primates as a
+                                        Lyapunov Stability, Human Connectome Project
+                                                                                                                                principal gradient of cortical organization [21], and incremental
+                                        ∗ Now at Google                                                                         optimization insights [12], heterogeneous optimization was com-
+                                                                                                                                pared with hierarchy-informed curriculum (HICO), reverse-phased
+                                                                                                                                curriculum, and shuffled curriculum. Although introducing hetero-
+                                                                                                                                geneity substantially improved in-sample fitness, only flat (non-
+                                        This work is licensed under a Creative Commons Attribution 4.0 International License.   curricular) heterogeneous, HICO, and reverse-phased strategies
+                                        GECCO ’26, San Jose, Costa Rica                                                         significantly outperformed the homogeneous baseline (𝑝 ≈ 10−23 –
+                                        © 2026 Copyright held by the owner/author(s).
+                                        ACM ISBN 979-8-4007-2487-9/2026/07                                                      10−25 ). Marked differences emerged, however, under leave-one-
+                                        https://doi.org/10.1145/3795095.3805080                                                 out cross-subject evaluation using cohort-averaged parameters:
+GECCO ’26, July 13–17, 2026, San Jose, Costa Rica                                                                                  Shahrzad et al.
+
+
+flat heterogeneous and homogeneous baselines failed to general-          2.3    Cortical Hierarchy and Training Curricula
+ize, whereas curriculum-based strategies remained robust. Among          For analysis, the brain is often parcellated into RSNs, i.e. functional
+these, HICO yielded the most consistent and well-structured pa-          subdivisions that are well-established in the literature [36]. Re-
+rameter solutions. Moreover, models based on HICO provided               cently, Margulies et al. [21] identified a dominant gradient ranging
+the strongest and most reliable predictions of cognitive and psy-        from unimodal (sensorimotor) to transmodal (default mode) RSNs,
+chopathology targets spanning multiple domains, including fluid          thereby providing a macroscale order for cortical organization.
+reasoning ability (as measured using the Penn Matrix Test [24]), be-        We hypothesize that this organization of RSNs provide a natural
+havioral problems related to internalization and externalization, as     basis for structured optimization. Thus, suggesting that parameters
+measured using the Achenbach Adult Self Report [2]. These results        governing sensory-motor dynamics may be more foundational than
+indicate that incorporating domain-informed structure through            those governing higher-order associative systems, or vice-versa.
+evolutionary curricula fundamentally alters search dynamics, pro-        Motivated by this hierarchy, it is possible to construct phased and
+viding a principled mechanism for scaling high-dimensional brain         reverse-phased optimization curricula that introduce RSN-specific
+models while yielding more stable, generalizable, and behaviorally       parameters in different temporal orders. This design makes it pos-
+informative solutions than flat optimization.                            sible to test whether the order of parameter introduction acts as an
+                                                                         inductive bias that shapes generalization and cross-subject stability.
+                                                                            Overall, HICO can be positioned as a domain-structured curricu-
+2     Background                                                         lum for EC that is distinct from (i) complexity-growth curricula
+                                                                         (e.g., NEAT-style complexification), and (ii) permanent variable de-
+The following background situates the proposed HICO within prior
+                                                                         composition (e.g., cooperative coevolution). Its novelty is to use
+work on whole-brain modeling and evolutionary search.
+                                                                         a biologically grounded hierarchy to define a phase ordering over
+                                                                         pre-existing parameter blocks in a whole-brain dynamical model,
+                                                                         in order to generalize across subjects better and predict behavior
+2.1     Whole-Brain Biophysical Models                                   more accurately, rather than simply fit to the data.
+A central goal of biophysical brain modeling is to explain how dis-
+tributed functional dynamics emerge from the coupling of structural      2.4    Curricula and Staged Search in Evolutionary
+connectivity and local neural processes [3, 7]. Popular frameworks              Computation
+include neural mass, neural field, and Dynamic Mean Field (DMF)          The use of curricula in EC often refers to deliberately shaping the
+approaches. The resulting models can generate resting-state activ-       search process over time so that later stages become feasible only
+ity that reproduces key empirical signatures, including functional       after earlier structure has been established. One prominent line is
+connectivity, dynamic functional connectivity, and metastability         incremental evolution or complexification, where problem difficulty
+[4, 6].                                                                  or model complexity is increased gradually, e.g. by adding degrees
+   A canonical study by Honey et al. [16] showed that structural         of freedom, structure, or task demands [32]. The idea is to help
+connectivity shapes—but does not fully determine—functional con-         evolution avoid brittle local optima early on and discover scalable
+nectivity, motivating the use of computational models to explore         representations. Related ideas appear in staged or progressive train-
+this mapping. Subsequent work has characterized how factors such         ing regimes in evolutionary robotics and neuroevolution, where
+as excitation–inhibition balance, global coupling strength, conduc-      simpler components are learned before integrating higher-level
+tion delays, and noise influence emergent functional patterns [3, 7].    behaviors, effectively regularizing the search trajectory through
+The DMF model used in this paper is one such framework, balancing        time [12].
+biological plausibility with computational tractability [8].                 HICO differs from such approaches in an important way: rather
+                                                                         than increasing task difficulty or expanding representation size,
+                                                                         it imposes a domain-derived ordering over parameter blocks that
+2.2     Challenges in Parameter Optimization                             already exist in the model. In whole-brain DMF models, parameters
+Increasing biological realism in large-scale brain models comes at       are naturally grouped by RSNs and linked to known cortical gra-
+the cost of sharply increased number of parameters. Strong nonlin-       dients; HICO leverages this structure by prioritizing higher-level
+ear interactions between parameters give rise to complex, multi-         organizational degrees of freedom before specializing RSN-specific
+modal, and highly non-convex optimization landscapes. As a result,       parameters. This makes HICO closer to structured staged optimiza-
+exhaustive search is infeasible, and gradient-based methods are          tion than to classic “easy-to-hard” curricula.
+often unsuitable due to non-differentiability, stochasticity, and nu-
+merical instability.
+                                                                         2.5    Decomposition, Cooperative Coevolution,
+   A central challenge is degeneracy: many distinct parameter con-              and Multiobjective Optimization
+figurations may yield similar emergent dynamics [1]. While such          Another major family of EC metaheuristics addresses high dimen-
+degeneracy reflects biological robustness, it complicates inference      sional search by decomposing variables into subcomponents and
+and increases the risk of overfitting idiosyncratic subject-level pat-   optimizing them with limited coordination, most notably coopera-
+terns. Steering optimization toward solutions that generalize across     tive coevolution [27]. Cooperative coevolution and its many variants
+subjects and remain dynamically stable is therefore an important         explicitly model the fact that different subsets of parameters may
+open research question.                                                  interact at different strengths, and they often rely on collaboration
+Evolution With Purpose: Hierarchy-Informed Optimization of Whole-Brain Models                                  GECCO ’26, July 13–17, 2026, San Jose, Costa Rica
+
+
+schemes to assemble partial solutions into a full candidate. Modern
+surveys emphasize decomposition design and variable-interaction
+structure learning as central to performance in high-dimensional
+domains [19].
+    HICO is conceptually aligned with this literature in that it treats
+the parameter vector as structured, but it differs operationally: rather
+than permanently decomposing the problem into concurrently
+evolving subpopulations, HICO introduces a temporal decompo-
+sition (a curriculum) that controls when each RSN-specific block is
+allowed to vary. The curriculum preserves a single coherent model
+throughout optimization while still exploiting modular structure to
+reduce destructive interference between strongly coupled parame-
+ter groups.
+    One way to obtain solutions that not only are a good fit with
+data but also generalize and predict performance would be to use
+                                                                                Figure 1: Large-scale cortical organization used to define RSN-specific pa-
+measurements of those qualities as secondary objectives. How-                   rameter blocks. (a) Surface renderings of a 400-region cortical parcellation
+ever, those objectives may not be known ahead of time. The model                mapped to the seven canonical RSNs of Yeo et al. [36], shown for lateral and
+may be used later to diagnose disorders, predict measures of cog-               medial views of both hemispheres. Colors denote Visual, Somatomotor, Dor-
+                                                                                sal Attention, Ventral Attention, Limbic, Frontoparietal Control, and Default
+nitive abilities, or propensity for psychopathology. The goal of                Mode RSNs. (b) Distribution of parcels along the principal macroscale gradient
+HICO is to guide evolution towards useful models regardless of                  of cortical organization (Gradient 1), ordered from unimodal sensory–motor
+                                                                                systems to transmodal association cortex. This gradient defines the hierarchi-
+what other metrics may later be of interest. The rationale for not              cal ordering used to construct curriculum phases in the proposed optimization
+adopting a multiobjective formulation in this setting is discussed              framework.
+in Appendix A.5, where the distinction between model fitting and
+downstream evaluation is clarified.
+                                                                                3.1     Data and Parcellation
+2.6     Evolutionary Algorithms in Neuroscience                                 Resting-state functional Magnetic Resonance Imaging (rs-fMRI)
+Evolutionary algorithms (EAs) maintain a population of candidate                and diffusion-weighted imaging (DWI) data were obtained from
+solutions that evolve under selection, mutation, and recombina-                 100 unrelated subjects from the Human Connectome Project (HCP).
+tion [15]. They are especially effective for high-dimensional, non-             The cerebral cortex was parcellated into 400 regions using the
+differentiable problems with complex fitness landscapes. Early ap-              Schaefer et al. [28] atlas, with parcels assigned to seven canonical
+plications demonstrated their value in fitting single-neuron con-               RSNs according to the Yeo et al. [36] parcellation (Fig. 1). Subject-
+ductance parameters [18, 34]. Subsequently they were used to fit                specific structural connectivity (SC) matrices were derived from
+detailed Purkinje cell models, revealing high-dimensional manifolds             tractography of the DWI data, and empirical functional connectivity
+of viable solutions [1]. Further, using the multi-objective evolution-          (FC) matrices were computed as Pearson correlations of regional
+ary approach, it was possible to match multiple electrophysiological            Blood-Oxygen-Level–Dependent (BOLD) rs-fMRI time series.
+features simultaneously [10]. At larger scales, population-based evo-
+lutionary optimization has been used to tune RSNs and whole-brain               3.2     Dynamic Mean Field Model
+models [20, 33].                                                                Each cortical region was modeled as a coupled excitatory–inhibitory
+   Among the many variants of EAs, covariance-based strategies                  neural mass using the Dynamic Mean Field (DMF) framework
+such as CMA-ES have proven highly effective in moderate dimen-                  [3, 6, 7]. The DMF model provides a mesoscale approximation to
+sional settings [13]. However, they are likely to be less effective             large populations of spiking neurons; it was shown to reproduce
+in the high-dimensional spaces such as those resulting from neu-                key properties of resting-state dynamics when driven by subject-
+roscience applications. For this reason, this paper relies on the               specific structural connectivity [6, 25].
+traditional genetic algorithms: they are scalable even with future                  Let 𝑆𝑖 (𝑡) denote the excitatory synaptic gating variable for region
+extensions to large-scale models. Further, they are flexible, and               𝑖. The excitatory population dynamics are governed by
+can thus readily accommodate structured interventions such as                                       𝑑𝑆𝑖
+the curriculum-based parameter scheduling. In any case, the ex-                                   𝜏𝐸       = −𝑆𝑖 + (1 − 𝑆𝑖 ) 𝛾 𝐻 (𝐼𝑖 (𝑡)) ,                (1)
+                                                                                                     𝑑𝑡
+periments in this paper do not rely on any optimization method
+                                                                                where 𝜏𝐸 is the excitatory time constant, 𝛾 controls synaptic gain,
+in particular; the goal is to evaluate the effect of curriculum as an
+                                                                                and 𝐻 (·) is a sigmoidal firing-rate function. Long-range coupling
+inductive bias in general.
+                                                                                between regions is defined as
+                                                                                                                                 ∑︁
+3     Method                                                                          𝐼𝑖 (𝑡) = 𝐼𝑏 + 𝑤 𝐸 𝑆𝑖 (𝑡) − 𝑤 𝐼 𝑆𝑖𝐼 (𝑡) + 𝐺    SC𝑖 𝑗 𝑆 𝑗 (𝑡 − 𝑑𝑖 𝑗 ), (2)
+                                                                                                                                  𝑗
+This section describes the data, modeling framework, optimization
+objectives, and evolutionary strategies used to compare homoge-                 where 𝐼𝑏 is a background current, 𝑤 𝐸 and 𝑤 𝐼 denote local excitatory
+neous and heterogeneous whole-brain DMF models under different                  and inhibitory coupling strengths, 𝑆𝑖𝐼 (𝑡) is the inhibitory gating
+optimization curricula.                                                         variable, 𝐺 is the global coupling parameter, SC𝑖 𝑗 is the structural
+GECCO ’26, July 13–17, 2026, San Jose, Costa Rica                                                                               Shahrzad et al.
+
+
+connectivity weight from region 𝑗 to 𝑖, and 𝑑𝑖 𝑗 represents conduc-         Homogeneous Baseline. A single set of 20 parameters was used
+tion delays. Canonical DMF constants were adopted from prior             for all RSNs. Thus, this baseline assumes that biophysical dynamics
+work [6], except for the parameters optimized in this study. See         are homogeneous throughout the brain.
+Appendix A.1 for the full specification of DMF variables and con-
+                                                                            Heterogeneous Optimization. All 140 RSN-specific parameters (20
+stants. The homogeneous model comprised 20 shared parameters
+                                                                         parameters for each of the seven RSNs) were optimized simulta-
+applied uniformly across all regions. The heterogeneous formula-
+                                                                         neously from the outset, without any curriculum structure. This
+tion comprised 140 parameters, corresponding to seven RSNs with
+                                                                         approach maximizes search dimensionality at all times and serves
+independent copies of the same 20 parameters. See Appendix A.2 for
+                                                                         as a flat baseline for assessing the impact of curriculum structure.
+the full parameter specification. In both cases, the DMF equations
+define a stochastic dynamical system that generates region-wise             Hierarchy-Informed Curriculum Optimization (HICO). Guided by
+neural activity time series whose statistical structure depends on       the principal cortical gradient described by Margulies et al. [21],
+the parameter vector Θ.                                                  parameters were optimized sequentially according to the following
+                                                                         phases:
+3.3     Simulation and Objective Function                                      • Phase I — Global Phase. This phase establishes the homo-
+For a candidate parameter vector Θ, the DMF system defined above                 geneous baseline as the starting point. Further optimizaiton
+was simulated for five minutes of biological time using an Euler–                is thus restricted to a low-dimensional, dynamically coher-
+Maruyama integration scheme [14] with a step size of 0.1 ms. The re-             ent subspace, which reduces the unstable fixed points and
+sulting excitatory synaptic activity 𝑆𝑖 (𝑡) was converted into BOLD              improves Lyapunov stability [6].
+signals using the Balloon–Windkessel hemodynamic model [11].                   • Phase II — Transmodal core (Default Mode and Limbic
+Functional connectivity matrices FC(Θ)
+                                    c       were then computed from              RSNs).
+the simulated BOLD time series by taking pairwise Pearson correla-             • Phase III — Frontoparietal control RSN.
+tions between all cortical regions, in direct analogy to the empirical         • Phase IV — Attention RSNs (DorsAttn and SalVentAttn).
+FC derived from resting-state fMRI. See Appendix A.3 for imple-                • Phase V — Visual RSN (VIS).
+mentation details. The DMF equations thus induced, via simulation              • Phase VI — Somatomotor RSN (SomMot).
+and hemodynamic transformation, a mapping                                   Within each phase, only the parameters associated with the
+                                                                         active hierarchical segment were allowed to vary, while parameters
+                               Θ ↦−→ FC(Θ),
+                                     c                                   optimized in earlier phases were held fixed. The total generation
+                                                                         budget was divided evenly across phases, such that all curricula
+from model parameters to predicted functional connectivity. Param-       were matched for overall computational cost.
+eter fitting was formulated as an inverse problem: finding Θ such
+that the FC generated by the DMF dynamics matches the empirical             Reverse-Phased Curriculum. The reverse-phased curriculum re-
+FC as closely as possible.                                               tained an identical Phase I (global parameters) but executed the
+   The optimization objective minimized the discrepancy between          remaining five hierarchy-specific phases in reverse order, begin-
+empirical and simulated FC:                                              ning with the transmodal core and progressing toward unimodal
+                                                                     sensory systems. Thus, this curriculum tested whether the direction
+              L (Θ) = 1 − corr vec(FC), vec FC(Θ)
+                                             c       ,          (3)      of hierarchical parameter release influences optimization outcomes.
+                                                                            Shuffled Curriculum. In the shuffled curriculum, Phase I (global
+where vec(·) extracts the upper triangular elements of the FC ma-        parameters) was again identical to HICO, while the remaining five
+trices. Equation (3) directly links the DMF dynamics to the opti-        hierarchy-specific phases were randomly permuted for each subject.
+mization criterion: the DMF equations generate neural activity and       This control preserved the phased structure of optimization while
+BOLD time series, these time series define FC(Θ),
+                                                c      and the loss      removing any alignment with the cortical hierarchy.
+function measures how well the resulting large-scale correlation
+structure matches empirical resting-state connectivity. See Appen-       3.5     Evolutionary Optimization Method
+dix A.4 for details of the fitness computation.
+                                                                         Model parameters were optimized using an elitist genetic algorithm
+   This FC-based objective follows standard practice in whole-brain
+                                                                         (GA). Each candidate solution is a fixed-length parameter vector:
+modeling, where functional connectivity serves as a compact sum-
+                                                                         𝑑 = 20 for the homogeneous model and 𝑑 = 140 for heterogeneous
+mary of long-range statistical dependencies induced by the un-
+                                                                         models.
+derlying neural dynamics [6, 20, 25]. Minimizing L (Θ) therefore
+                                                                            To ensure comparable search resolution across parameters with
+corresponds to calibrating the biophysical parameters of the DMF
+                                                                         different physical units, each parameter was represented in a nor-
+model so that its emergent RSN-level behavior reproduces the ob-
+                                                                         malized coordinate in [0, 1] with 1000-step precision and mapped
+served functional organization of the human brain.
+                                                                         via an affine transform to its literature-supported valid range, as
+                                                                         established in prior DMF modeling studies [3, 6, 35]. This repre-
+3.4     Optimization Curricula                                           sentation yields an effective discrete search space of 1060 possible
+This study compares multiple evolutionary optimization curricula         configurations for the homogeneous model and 10420 for the hetero-
+that differ only in the temporal ordering by which parameter subsets     geneous formulation. This scale makes the evolutionary approach
+are optimized during search.                                             a good choice for optimizing these models.
+Evolution With Purpose: Hierarchy-Informed Optimization of Whole-Brain Models                                  GECCO ’26, July 13–17, 2026, San Jose, Costa Rica
+
+
+   Although Eq. (3) is written as a loss function, evolutionary op-
+timization operated by maximizing the corresponding fitness, de-
+fined as the Pearson correlation between empirical and simulated
+functional connectivity matrices (i.e., 1 − L (Θ)). Throughout this
+work, the terms fitness and score refer to this correlation value, with
+higher scores indicating closer agreement between simulated and
+empirical FC.
+   Across all optimization curricula, the GA configuration was held
+constant as
+
+     • Population size: 𝑁 = 100 individuals per generation.
+     • Elitism: the top 𝐸 = 20 individuals (highest fitness) were               Figure 2: Distribution of fitness scores across optimization strategies when
+       carried forward unchanged to the next generation.                        models were optimized separately for each individual subject. The points
+     • Parent selection: tournament selection with tournament                   represent subjects and the boxes show the interquartile range (IQR) with
+                                                                                median (solid line) and mean (dashed line). Unpaired statistical tests against
+       size 𝑘 = 3.                                                              the homogeneous baseline indicate that the heterogeneous, HICO, and reverse
+     • Variation operators: uniform crossover and per-gene mu-                  curricula achieve significantly higher fitness, demonstrating the advantage of
+       tation.                                                                  increased model dimensionality. In contrast, the shuffled curriculum fails to
+                                                                                realize this benefit, suggesting that the curriculum needs to be systematic to
+     • Mutation rate: 𝑝 mut = 0.1 (probability of mutating each                 take advantage of such dimensionality.
+       gene).
+     • Generation budget: a fixed total number of generations
+       𝐺 total = 120 was used for all methods to ensure compute-                4.1     Fitting to Individual Subjects
+       matched comparisons.                                                     Figure 2 summarizes the distribution of fitness scores obtained
+                                                                                under each optimization approach when parameters were optimized
+   For curriculum-based strategies, 𝐺 total was divided evenly across
+                                                                                separately for each individual subject.
+six hierarchy-defined phases (as was described in Section 3.4).
+                                                                                   Relative to the homogeneous baseline, flat heterogeneous op-
+Within each phase, only the parameter subset corresponding to
+                                                                                timization, HICO, and the reverse-phased curriculum all exhibit
+the active RSN was allowed to vary, while parameters optimized
+                                                                                upward shifts in both median and mean fitness. Paired t-tests
+in prior phases were held fixed. This schedule yielded an equal
+                                                                                against the homogeneous baseline indicate that these improve-
+overall computational budget while controlling the effective search
+                                                                                ments are highly significant (Heterogeneous: 𝑝 = 2.42 × 10−23 ;
+dimensionality over time.
+                                                                                Phased: 𝑝 = 1.05 × 10−25 ; Reverse: 𝑝 = 3.96 × 10−24 ), confirming
+   All experiments were parallelized using a hub-and-spoke dis-
+                                                                                that introducing RSN-specific parameters substantially improves fit
+tributed evolutionary architecture with four concurrent evolution-
+                                                                                to individual subjects. In contrast, the shuffled curriculum shows
+ary engines [31]. In this setup, multiple worker spokes evaluate
+                                                                                substantial overlap with the homogeneous distribution and does
+candidate solutions in parallel and synchronize with a central hub
+                                                                                not achieve a statistically significant improvement over baseline
+that maintains population state and applies selection and variation.
+                                                                                (𝑝 = 0.609).
+This design increases throughput without changing the underlying
+                                                                                   These results establish two key points. First, increasing model
+optimization dynamics, and ensures identical GA settings across
+                                                                                complexity by moving from homogeneous to heterogeneous pa-
+all methods. It thus enables a controlled comparison that isolates
+                                                                                rameterizations yields a robust and statistically significant gain
+the impact of curriculum on the optimization process.
+                                                                                in fitting to individual subjects. Second, imposing a biologically
+                                                                                informed curriculum does not compromise this fit: both HICO and
+4    Results                                                                    reverse-phased optimization achieve fitness levels comparable to
+This section evaluates how different evolutionary optimization                  or exceeding those of flat heterogeneous optimization. This finding
+strategies influence model fit to individual subjects, cross-subject            provides an essential baseline for subsequent analyses, demonstrat-
+generalization, parameter geometry, and behavioral relevance in                 ing that curriculum-based strategies retain strong within-subject
+whole-brain DMF models. First, the approaches are evaluated in                  performance while enabling further investigation of their effects
+fitting to individual subjects in comparison against a homoge-                  on generalization, stability, and behavioral relevance.
+neous baseline. Second, generalization to new subjects is tested
+in leave-one-out (LOO) experiments. Third, to elucidate the mecha-              4.2     Generalization across Subjects
+nisms underlying observed failures and successes, the geometry of               Cross-subject generalization was evaluated using a leave-one-out
+learned parameter distributions is examined using low-dimensional               (LOO) parameter averaging based on a two-sided trimmed mean
+embeddings. Fourth, behavioral relevance of optimized parame-                   estimator (𝑝 = 0.1). The trimmed mean provides a robust estimate
+ters is assessed through RSN-level prediction analysis, and fifth,              of central tendency by discarding extreme values from both tails of
+through permutation-calibrated statistical testing. Together, the               the parameter distribution, reducing sensitivity to outlier solutions
+results demonstrate that while increased model dimensionality im-               while preserving the dominant structure shared across subjects
+proves within-subject fit, the temporal structure imposed by HICO               [17]. For each left-out subject, parameters fitted on the remaining
+is critical for achieving stable, generalizable, and behaviorally in-           subjects were averaged and evaluated against the empirical data of
+formative solutions.                                                            the left-out subject.
+GECCO ’26, July 13–17, 2026, San Jose, Costa Rica                                                                                          Shahrzad et al.
+
+
+                                                                                 4.3    Geometry of Solutions
+                                                                                 To probe how different optimization strategies shape the geometry
+                                                                                 of the learned parameter space, subject-level parameter vectors
+                                                                                 were embedded into two dimensions using Uniform Manifold Ap-
+                                                                                 proximation and Projection (UMAP) [22]. UMAP preserves local
+                                                                                 neighborhood structure while providing a qualitative view of large-
+                                                                                 scale organization, making it possible to see how the different
+                                                                                 methods populate parameter space.
+                                                                                     Figure 4 reveals marked differences between flat and curriculum-
+                                                                                 based strategies. Homogeneous and flat heterogeneous optimiza-
+Figure 3: Leave-one-out (LOO) fitness distributions across optimization          tions form relatively compact and well-separated clusters, indi-
+strategies. Violin plots show the distribution of LOO fitness scores across
+subjects, with embedded boxplots indicating median and interquartile range;      cating that these methods converged toward narrow regions of
+triangles denote means. Homogeneous and flat heterogeneous strategies col-       parameter space across subjects. Such concentration suggests that
+lapse to zero LOO fitness across the board, reflecting dynamical instability
+LOO fitness calculation. In contrast, curriculum-based strategies—particularly
+                                                                                 the parameter manifolds are fragile or degenerate: small perturba-
+HICO and reverse-phased curricula—maintain robust, non-degenerate LOO            tions may push the system outside dynamically stable regimes.
+performance, indicating improved cross-subject generalization.                       In contrast, HICO and other phased curricula (Reverse-Phased
+                                                                                 and Shuffled) produce embeddings that are more broadly distributed
+                                                                                 and substantially overlapping. Rather than collapsing onto a sin-
+                                                                                 gle narrow cluster, these methods populate an extended region of
+                                                                                 parameter space, suggesting that curriculum-based optimization
+                                                                                 facilitates access to a wider set of dynamically viable solutions. This
+                                                                                 organization is robust under cross-subject parameter averaging, as
+                                                                                 illustrated in Section 4.2.
+
+
+                                                                                 4.4    Predicting Behavior
+                                                                                 Behavioral relevance of optimized DMF parameters was assessed
+                                                                                 by predicting three behavioral targets from RSN-level parameter
+                                                                                 summaries: fluid reasoning ability (PMAT24_A_CR) and behavioral
+                                                                                 problems related to either internalization (inwardly directed af-
+                                                                                 fective and somatic symptoms, ASR_Intn_Raw) or externalization
+Figure 4: UMAP embedding of subject-level parameter vectors (averaged by         (outwardly directed behavioral tendencies, ASR_Extn_Raw). For
+parameter type). Each point is a subject, colored according to the approach
+used. Curriculum-based methods (HICO, Reverse, Shuffled) occupy a large
+                                                                                 each approach, parameters for the seven RSNs were averaged into
+overlapping region of parameter space, whereas homogeneous and hetero-           a single 20 dimensional vector and ridge regression models were fit
+geneous approaches form distinct, focused clusters shifted away from this        to each behavioral target separately. Predictive performance was
+region. As seen in Fig. 3, the generalization properties are very different in
+these two areas.                                                                 then quantified using the coefficient of determination (𝑅 2 ), which
+                                                                                 measures the proportion of behavioral variance explained by the
+                                                                                 model, relative to a baseline that predicts the target’s mean across
+                                                                                 subjects.
+   Figure 3 reveals a divergence between flat and curriculum-based                  Figure 5 shows a consistent advantage for HICO across all be-
+strategies under this evaluation. Despite achieving competitive fit-             havioral domains. For fluid reasoning (Fig. 5A), HICO achieved the
+ness in fitting to individual subjects, both the homogeneous baseline            highest 𝑅 2 values across all the strategies, substantially exceeding
+and flat heterogeneous optimization frequently produced averaged                 both the homogeneous baseline and the flat heterogeneous opti-
+parameter vectors with LOO fitness scores at zero. This collapse                 mization, with statistically significant improvements after multiple-
+indicates that the averaged parameters lie in dynamically unstable               comparison correction. A similar pattern was observed for behav-
+regimes of the DMF model, consistent with failure to solve the asso-             ioral problem scales, internalization scale - ASR_Intn_Raw (Fig. 5B)
+ciated Lyapunov equations and resulting in degenerate dynamics. In               and externalization scale - ASR_Extn_Raw (Fig. 5C).
+contrast, all curriculum-based strategies consistently avoided such                 Across all three behavioral targets, reverse-phased curricula
+instability, yielding no averaged parameter vectors with degenerate              achieved intermediate performance, whereas shuffled curricula
+or unstable dynamics.                                                            had lower and more variable 𝑅 2 values. These results indicate that
+   These findings identify an interesting generalization failure mode            merely increasing parameter dimensionality is insufficient to re-
+for unconstrained high-dimensional optimization: parameter con-                  cover behaviorally meaningful representations. Instead, the order-
+figurations that fit individual subjects well may not survive aver-              ing imposed by hierarchy-informed curricula plays a critical role
+aging across subjects. Curriculum-guided optimization meets this                 in shaping parameter configurations that capture individual differ-
+challenge by constraining search trajectories toward dynamically                 ences relevant to cognition and behavior. Together, these findings
+coherent regions of parameter space that remain stable when aver-                demonstrate that HICO not only stabilizes cross-subject generaliza-
+aged across subjects.                                                            tion but also results in solutions that can be interpreted behaviorally.
+Evolution With Purpose: Hierarchy-Informed Optimization of Whole-Brain Models                                      GECCO ’26, July 13–17, 2026, San Jose, Costa Rica
+
+
+
+
+Figure 5: Predicting behavior based on solutions obtained by the different optimization strategies. Each subplot reports ridge regression 𝑅 2 values (across RSNs)
+for a different behavioral target: (A) fluid reasoning ability (PMAT24_A_CR), (B) inwardly directed affective and somatic symptoms (ASR_Intn_Raw), and (C)
+outwardly directed behavioral tendencies (ASR_Extn_Raw). For each optimization strategy, colored points show the 𝑅 2 values obtained for the seven individual
+RSNs, and error bars indicate the mean ± standard deviation across RSNs. Reported 𝑝 -values and 𝑞 -values correspond to permutation-based significance testing
+with False Detection Rate (FDR) correction. Across all targets, only HICO produced solutions that encode behaviorally relevant information.
+
+
+4.5     Reliability of Predictions                                                  constraint that promotes stability, cross-subject generalization, and
+To assess whether the observed associations between optimized                       behavioral relevance.
+DMF parameters and behavioral measures exceeded chance lev-                            A natural next step is to scale this framework to larger and
+els, prediction performance was evaluated using a permutation-                      more diverse datasets. In particular, extending the analysis to the
+calibrated significance framework. More specifically, the 𝑅 2 values                full Human Connectome Project (with 𝑛 ≈ 1200 subjects) will al-
+obtained in Section 4.4 were evaluated against an empirical null dis-               low characterizing inter-individual variability more precisely, thus
+tribution generated by repeatedly permuting the behavioral labels                   making behavior predictions more accurate. In parallel, applying
+across subjects.                                                                    the proposed optimization framework to translational and clinical
+   Figure 6 summarizes the resulting RSN-wise null distributions                    datasets will make it possible to study how interventions such as
+for the three behavioral targets. Within each panel, histograms                     neuromodulation or pharmacological treatments alter the underly-
+                                 2
+represent the distribution of 𝑅null  values obtained from 10,000 per-               ing dynamical regimes, providing a pathway for using whole-brain
+                                                            2 for the
+mutations, while the vertical line indicates the observed 𝑅true                     models to assess treatment-induced changes in large-scale brain
+corresponding RSN and optimization approach. The accompanying                       organization.
+annotations report the observed 𝑅 2 as well as permutation-derived                     Complementary to these data-driven extensions, two method-
+𝑝-values and false discovery rate–corrected 𝑞-values.                               ological directions emerge naturally from the evolutionary op-
+   Across all three behavioral targets, HICO produced the most                      timization perspective. First, extending the HICO framework to
+consistent and pronounced deviations from the null distribution.                    substantially higher-dimensional parameterizations may further
+Multiple RSNs under HICO had 𝑅 2 values well in the upper tail                      improve biological significance of the solutions. As whole-brain
+of the permutation distribution. These effects are most robust for                  models incorporate finer-grained region and circuits, understand-
+fluid reasoning ability. In contrast, other optimization strategies                 ing how curricular structure scales with dimensionality will be
+yielded 𝑅 2 values that fell near the center of the null distribution,              essential for promoting stability, generalization, and relevance.
+indicating weak or unreliable parameter–behavior relationships.                        Second, the HICO framework may be combined with distributed
+   Importantly, this permutation-based analysis complements the                     attention-based approaches such as BLADE [31]. Applying BLADE
+behavioral prediction results by localizing where among the RSNs a                  within each optimization phase could selectively reduce the effec-
+behaviorally meaningful signal emerges. The findings demonstrate                    tive search dimensionality while preserving hierarchical structure,
+that the superior predictive performance of HICO is not driven by                   thereby compensating for the increased complexity of larger models.
+diffuse, nonspecific effects, but rather by structured and statistically            Such a hybrid strategy offers a principled way to balance expres-
+considerable associations within specific cortical systems. Together,               sivity and efficiency, and makes it possible to compare curriculum-
+these results indicate that solutions found by the biologically moti-               guided attention-based evolution and unconstrained optimization
+vated curriculum approach predict behavior in a statistically reliable              of higher-dimensional models. Exploring this interaction may yield
+manner.                                                                             more scalable evolutionary optimization schemes for large, struc-
+                                                                                    tured dynamical systems.
+
+5     Discussion and Future Work                                                    6     Conclusion
+The experimental results demonstrate that the curricular structure                  This study demonstrated that the curricular structure of parameter
+of parameter optimization is crucial in constructing whole-brain                    optimization plays a crucial role in generality and relevance of
+biophysical models that generalize across subjects and can be used                  whole-brain biophysical models. Biologically motivated structure
+to predict behavior. Although evolutionary algorithms are designed                  acts as a powerful inductive bias in the evolutionary optimization:
+to explore high-dimensional search spaces without explicit induc-                   it uncovers parameter regimes that generalize effectively across
+tive biases, the order in which parameter subspaces are explored can                subjects, and can be used to predict behavior. Curriculum-informed
+strongly shape the resulting search trajectory. In Dynamic Mean                     evolutionary optimization thus provides a principled approach
+Field (DMF) models, where nonlinear interactions give rise to emer-                 for scaling complex biophysical models. This framework offers
+gent large-scale dynamics, curriculum structure acts as an effective                a promising direction for future work in large-scale computational
+GECCO ’26, July 13–17, 2026, San Jose, Costa Rica                                                                                                   Shahrzad et al.
+
+
+
+
+Figure 6: Localization of permutation-calibrated parameter–behavior associations across the different RSNs. Top: fluid reasoning ability (PMAT24_A_CR).
+Middle: inwardly directed behavioral problems (ASR_Intn_Raw). Bottom: outwardly directed behavioral problems (ASR_Extn_Raw). For each RSN and optimization
+approach, histograms show the null distribution of ridge regression 𝑅 2 obtained from 10,000 permutations of behavioral labels, while vertical lines indicate the
+observed 𝑅 2 from the true data. Reported 𝑝 - and 𝑞 -values quantify statistical significance relative to the permutation null. As indicated by the vertical lines,
+biology-informed optimization results in parameter solutions that consistently exceed chance levels and provide a strong foundation for predicting behavioral.
+
+
+neuroscience and other high-dimensional scientific modeling do-                      provided by the 16 NIH Institutes and Centers that support the
+mains.                                                                               NIH Blueprint for Neuroscience Research (as part of the Human
+Acknowledgments                                                                      Connectome Project, WUMinn Consortium; Principal Investiga-
+                                                                                     tors: David Van Essen and Kamil Ugurbil; 1U54MH091657) and by
+This work was supported by National Institutes of Mental Health                      the McDonnell Center for Systems Neuroscience at Washington
+(NIMH) grant R01MH127608 and a Stanford Maternal and Child                           University. The authors also gratefully acknowledge Daniel Fink
+Health Research Institute (MCHRI) Faculty Scholar Award to M.S.                      for his engineering contributions to the platform implementation.
+Funding for the Human Connectome Project data acquisition were
+Evolution With Purpose: Hierarchy-Informed Optimization of Whole-Brain Models                                                  GECCO ’26, July 13–17, 2026, San Jose, Costa Rica
+
+
+References                                                                                       3, 29 (2018), 861. doi:10.21105/joss.00861
+ [1] Pablo Achard and Erik De Schutter. 2006. Complex parameter landscape for a             [23] Risto Miikkulainen. 2020. Creative ai through evolutionary computation. In
+     complex neuron model. PLoS computational biology 2, 7 (2006), e94. doi:10.1371/             Evolution in Action: Past, Present and Future: A Festschrift in Honor of Erik D.
+     journal.pcbi.0020094                                                                        Goodman. Springer, 265–269. doi:10.1007/978-3-030-39831-6_19
+ [2] Thomas M. Achenbach, Masha Y. Ivanova, and Leslie A. Rescorla. 2017. Empiri-           [24] Tyler M Moore, Steven P Reise, Raquel E Gur, Hakon Hakonarson, and Ruben C
+     cally based assessment and taxonomy of psychopathology for ages 1½–90+ years:               Gur. 2015. Psychometric properties of the penn computerized neurocognitive
+     Developmental, multi-informant, and multicultural findings. Comprehensive                   battery. Neuropsychology 29, 2 (2015), 235. doi:10.1037/neu0000093
+     Psychiatry 79 (2017), 4–18. doi:10.1016/j.comppsych.2017.03.006 Advances in            [25] John D Murray, Alberto Bernacchia, David J Freedman, Ranulfo Romo, Jonathan D
+     Transdiagnostic Psychopathology Research.                                                   Wallis, Xinying Cai, Camillo Padoa-Schioppa, Tatiana Pasternak, Hyojung Seo,
+ [3] Michael Breakspear. 2017. Dynamic models of large-scale brain activity. Nature              Daeyeol Lee, et al. 2014. A hierarchy of intrinsic timescales across primate cortex.
+     Neuroscience 20, 3 (2017), 340–352. doi:10.1038/nn.4497                                     Nature neuroscience 17, 12 (2014), 1661–1663. doi:10.1038/nn.3862
+ [4] Joana Cabral, Morten L. Kringelbach, and Gustavo Deco. 2014. Exploring the             [26] Martin Pelikan. 2005. Bayesian Optimization Algorithm. Springer Berlin Heidel-
+     network dynamics underlying brain activity during rest. Progress in Neurobiology            berg, Berlin, Heidelberg, 31–48. doi:10.1007/978-3-540-32373-0_3
+     114 (2014), 102–131. doi:10.1016/j.pneurobio.2013.12.005                               [27] Mitchell A. Potter and Kenneth A. De Jong. 2000. Cooperative Coevolution: An
+ [5] Kalyanmoy Deb and Christie Myburgh. 2017. A population-based fast algorithm                 Architecture for Evolving Coadapted Subcomponents. Evolutionary Computation
+     for a billion-dimensional resource allocation problem with integer variables.               8, 1 (2000), 1–29. doi:10.1162/106365600568086
+     European Journal of Operational Research 261, 2 (2017), 460–474. doi:10.1016/j.        [28] Alexander Schaefer, Ru Kong, Evan M Gordon, Timothy O Laumann, Xi-Nian
+     ejor.2017.02.015                                                                            Zuo, Avram J Holmes, Simon B Eickhoff, and B T Thomas Yeo. 2018. Local-Global
+ [6] Gustavo Deco, Viktor Jirsa, Anthony R McIntosh, Olaf Sporns, and Rolf Köt-                  Parcellation of the Human Cerebral Cortex from Intrinsic Functional Connectivity
+     ter. 2009. Key role of coupling, delay, and noise in resting brain fluctuations.            MRI. Cerebral Cortex 28, 9 (07 2018), 3095–3114. doi:10.1093/cercor/bhx179
+     Proceedings of the National Academy of Sciences 106, 25 (2009), 10302–10307.           [29] Hormoz Shahrzad, Daniel Fink, and Risto Miikkulainen. 2018. Enhanced optimiza-
+     doi:10.1073/pnas.0901831106                                                                 tion with composite objectives and novelty selection. In Artificial Life Conference
+ [7] Gustavo Deco, Viktor K. Jirsa, and Anthony R. McIntosh. 2011. Emerging concepts             Proceedings. MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA,
+     for the dynamical organization of resting-state activity in the brain. Nature               616–622. doi:10.1162/isal_a_00113
+     Reviews Neuroscience 12, 1 (2011), 43–56. doi:10.1038/nrn2961                          [30] Hormoz Shahrzad, Babak Hodjat, Camille Dollé, Andrei Denissov, Simon Lau,
+ [8] Gustavo Deco, Adrián Ponce-Alvarez, Dante Mantini, Gian Luca Romani, Patric                 Donn Goodhew, Justin Dyer, and Risto Miikkulainen. 2019. Enhanced Op-
+     Hagmann, and Maurizio Corbetta. 2013. Resting-State Functional Connectivity                 timization with Composite Objectives and Novelty Pulsation. In Proceedings
+     Emerges from Structurally and Dynamically Shaped Slow Linear Fluctuations.                  of the Genetic and Evolutionary Computation Conference (GECCO). 507–515.
+     Journal of Neuroscience 33, 27 (2013), 11239–11252. doi:10.1523/JNEUROSCI.1091-             doi:10.1145/3321707.3321836
+     13.2013 arXiv:https://www.jneurosci.org/content/33/27/11239.full.pdf                   [31] Hormoz Shahrzad and Risto P Miikkulainen. 2023. Accelerating Evolution
+ [9] Murat Demirtaş, Joshua B. Burt, Markus Helmer, Jie Lisa Ji, Brendan D. Adkin-               Through Gene Masking and Distributed Search. In Proceedings of the Genetic
+     son, Matthew F. Glasser, David C. Van Essen, Stamatios N. Sotiropoulos, Alan                and Evolutionary Computation Conference (Lisbon, Portugal) (GECCO ’23). Asso-
+     Anticevic, and John D. Murray. 2019. Hierarchical Heterogeneity across Human                ciation for Computing Machinery, New York, NY, USA, 972–980. doi:10.1145/
+     Cortex Shapes Large-Scale Neural Dynamics. Neuron 101, 6 (2019), 1181–1194.e13.             3583131.3590508
+     doi:10.1016/j.neuron.2019.01.017                                                       [32] Kenneth O. Stanley and Risto Miikkulainen. 2002. Evolving Neural Networks
+[10] Shaul Druckmann, Yochai Banitt, Albert Gidon, Felix Schürmann, Henry                        Through Augmenting Topologies. Evolutionary Computation 10, 2 (2002), 99–127.
+     Markram, and Idan Segev. 2007. A novel multiple objective optimization frame-               doi:10.1162/106365602320169811
+     work for constraining conductance-based neuron models by experimental data.            [33] Werner Van Geit, Michael Gevaert, Giuseppe Chindemi, Christian Rössert, Jean-
+     Frontiers in Neuroscience 1, 1 (2007), 7–18. doi:10.3389/neuro.01.1.1.001.2007              Denis Courcol, Eilif B. Muller, Felix Schürmann, Idan Segev, and Henry Markram.
+[11] Karl J. Friston, Lee Harrison, and William Penny. 2003. Dynamic causal modelling.           2016. BluePyOpt: Leveraging open source software and cloud infrastructure to
+     NeuroImage 19, 4 (2003), 1273–1302. doi:10.1016/S1053-8119(03)00202-7                       optimize model parameters in neuroscience. Frontiers in Neuroinformatics 10
+[12] Faustino Gomez and Risto Miikkulainen. 1997. Incremental Evolution of Com-                  (2016), 17. doi:10.3389/fninf.2016.00017
+     plex General Behavior. Adaptive Behavior 5, 3-4 (1997), 317–342. doi:10.1177/          [34] Marie C. Vanier and James M. Bower. 1999. A comparative survey of auto-
+     105971239700500305                                                                          mated parameter-search methods for compartmental neural models. Journal of
+[13] Nikolaus Hansen. 2016. The CMA Evolution Strategy: A Tutorial. arXiv preprint               Computational Neuroscience 7, 2 (1999), 149–171. doi:10.1023/A:1008972005316
+     arXiv:1604.00772 (2016). https://arxiv.org/abs/1604.00772                              [35] Kong-Fatt Wong and Xiao-Jing Wang. 2006. A recurrent network mechanism
+[14] Desmond J. Higham. 2001. An Algorithmic Introduction to Numerical Simulation                of time integration in perceptual decisions. Journal of Neuroscience 26, 4 (2006),
+     of Stochastic Differential Equations. SIAM Rev. 43, 3 (2001), 525–546. doi:10.1137/         1314–1328. doi:10.1523/JNEUROSCI.3733-05.2006
+     S0036144500378302                                                                      [36] B. T. Thomas Yeo, Fenna M. Krienen, Jorge Sepulcre, Mert R. Sabuncu, Danial
+[15] John H Holland. 1992. Adaptation in natural and artificial systems: an intro-               Lashkari, Marisa Hollinshead, Joshua L. Roffman, Jordan W. Smoller, Lilla Zöllei,
+     ductory analysis with applications to biology, control, and artificial intelligence.        Jonathan R. Polimeni, Bruce Fischl, Hesheng Liu, and Randy L. Buckner. 2011.
+     MIT press. https://mitpress.mit.edu/9780262581110/adaptation-in-natural-and-                The organization of the human cerebral cortex estimated by intrinsic functional
+     artificial-systems/                                                                         connectivity. Journal of Neurophysiology 106, 3 (2011), 1125–1165. doi:10.1152/jn.
+[16] Christopher J. Honey, Olaf Sporns, Leila Cammoun, Xavier Gigandet, Jean-                    00338.2011
+     Philippe Thiran, Reto Meuli, and Patric Hagmann. 2009. Predicting human resting-
+     state functional connectivity from structural connectivity. Proceedings of the Na-
+     tional Academy of Sciences 106, 6 (2009), 2035–2040. doi:10.1073/pnas.0811168106
+[17] Peter J. Huber and Elvezio M. Ronchetti. 2009. Robust Statistics (2nd ed.). John
+     Wiley & Sons, Hoboken, NJ. doi:10.1002/9780470434697
+[18] Naomi Keren, Noam Peled, and Alon Korngreen. 2005. Automated parameter es-
+     timation of multi-compartment models of single neurons. Journal of Neuroscience
+     Methods 146 (2005), 133–144. doi:10.1016/j.jneumeth.2005.02.006
+[19] Xiaodong Ma, Yuhui Li, Dunwei Gong, Jun Zhang, and Jun Liu. 2019. A Survey
+     on Cooperative Co-Evolutionary Algorithms. IEEE Transactions on Evolutionary
+     Computation 23, 3 (2019), 421–441. doi:10.1109/TEVC.2018.2878671
+[20] Kaitlin Maile, Manish Saggar, and Risto P. Miikkulainen. 2019. Implementing
+     Evolutionary Optimization to Model Neural Functional Connectivity. In Proceed-
+     ings of the Genetic and Evolutionary Computation Conference Companion (GECCO
+     ’19 Companion). ACM, 1731–1733. doi:10.1145/3319619.3326826
+[21] Daniel S. Margulies, Satrajit S. Ghosh, Alexandros Goulas, Magdalena Falkiewicz,
+     Julia M. Huntenburg, Georg Langs, Gleb Bezgin, Simon B. Eickhoff, F. Xavier
+     Castellanos, Michael Petrides, Elizabeth Jefferies, and Jonathan Smallwood. 2016.
+     Situating the default-mode network along a principal gradient of macroscale
+     cortical organization. Proceedings of the National Academy of Sciences 113, 44
+     (2016), 12574–12579. doi:10.1073/pnas.1608282113
+[22] Leland McInnes, John Healy, Nathaniel Saul, and Lukas Großberger. 2018. UMAP:
+     Uniform Manifold Approximation and Projection. Journal of Open Source Software
+GECCO ’26, July 13–17, 2026, San Jose, Costa Rica                                                                                        Shahrzad et al.
+
+
+                                                                            Index    Parameter   Default / Range     Description
+A     Dynamic Mean Field Parameters and Fitness                               0      𝑎𝐸          310 [200–400]       Gain of the excitatory firing-rate
+      Computation                                                                                                    input–output function.
+                                                                              1      𝑏𝐸          125 [100–150]       Offset (bias) of the excitatory
+This appendix specifies the Dynamic Mean Field (DMF) model pa-                                                       firing-rate function.
+rameters, their biological interpretation, default values and ranges,         2      𝑑𝐸          0.16 [0.1–0.3]      Curvature parameter controlling
+                                                                                                                     slope of excitatory nonlinearity.
+and the procedure used to compute functional connectivity (FC)–based          3      𝑊𝐸          1.0 [0.5–2.0]       Scaling of recurrent excitatory in-
+fitness.                                                                                                             put.
+                                                                              4      𝜏𝐸          100 ms [50–200]     Time constant of excitatory synap-
+                                                                                                                     tic gating.
+A.1      DMF State Variables and Fixed Constants                              5      𝑎𝐼          615 [400–800]       Gain of the inhibitory firing-rate
+                                                                                                                     function.
+Each cortical region 𝑖 is modeled as a coupled excitatory–inhibitory          6      𝑏𝐼          177 [150–220]       Offset (bias) of the inhibitory
+neural population. The dynamical state is described by synaptic                                                      firing-rate function.
+                                                                              7      𝑑𝐼          0.087 [0.05–0.15]   Curvature parameter of inhibitory
+gating variables 𝑆𝑖 (𝑡) (excitatory) and 𝑆𝑖𝐼 (𝑡) (inhibitory), evolving                                              nonlinearity.
+according to the DMF equations defined in Section 2.2.                        8      𝑊𝐼          0.7 [0.3–1.5]       Scaling of recurrent inhibitory in-
+   The following constants were fixed across all experiments and                                                     put.
+                                                                              9      𝜏𝐼          10 ms [5–20]        Time constant of inhibitory synap-
+adopted from prior DMF studies [3, 6, 25].                                                                           tic gating.
+                                                                              10     𝑤𝐸𝐸         1.4 [0.5–2.5]       Excitatory-to-excitatory recurrent
+      Symbol      Description                           Value                                                        coupling strength.
+      𝜏𝐸          Excitatory synaptic time constant     100 ms                11     𝑤𝐸𝐼         1.0 [0.5–2.0]       Inhibitory input strength onto ex-
+                                                                                                                     citatory population.
+      𝜏𝐼          Inhibitory synaptic time constant     10 ms                 12     𝑤𝐼 𝐸        1.0 [0.5–2.0]       Excitatory input strength onto in-
+      𝛾           Synaptic gain                         0.641                                                        hibitory population.
+      𝑎𝐸          Excitatory gain slope                 310 nC−1              13     𝑤𝐼 𝐼        0.5 [0.1–1.5]       Inhibitory-to-inhibitory recurrent
+                                                                                                                     coupling strength.
+      𝑏𝐸          Excitatory firing threshold           125 Hz
+                                                                           Table 1: Local circuit parameters optimized per RSN. These
+      𝑑𝐸          Excitatory curvature parameter        0.16 s
+                                                                           parameters control the excitatory–inhibitory population dy-
+      𝐼𝑏          Background input current              fixed
+                                                                           namics within each cortical region.
+   The sigmoidal transfer function 𝐻 (·) follows the standard DMF
+formulation [6], mapping total synaptic input to population firing
+rate.                                                                       Index    Parameter   Default / Range     Description
+                                                                              14     𝐼𝑏          0.382 [0.2–0.6]     Background (external) input cur-
+                                                                                                                     rent to excitatory population.
+A.2      Optimized Parameters per RSN                                         15     𝐽           0.15 [0.05–0.3]     Synaptic scaling factor converting
+The Dynamic Mean Field (DMF) model parameters optimized in                                                           firing rate to synaptic current.
+                                                                              16     𝛾           0.641 [0.3–1.0]     Gain of excitatory synaptic gating
+this study follow the formulation of Deco et al. [6, 7], Murray et al.                                               dynamics.
+[25]. Each RSN is associated with an identical ordered block of 20            17     𝛾𝐼          1.0 [0.5–1.5]       Gain of inhibitory synaptic gating
+parameters.                                                                                                          dynamics.
+                                                                              18     𝜎           0.01 [0.001–0.05]   Noise amplitude driving stochastic
+   For clarity, the parameters are grouped into (i) local circuit param-                                             synaptic fluctuations.
+eters (Table 1), governing excitatory–inhibitory dynamics within              19     𝑔           2.5 [0–5]           Global coupling strength applied
+                                                                                                                     to structural connectivity.
+each region, and (ii) global and long-range coupling parameters (Ta-
+ble 2), governing noise, synaptic scaling, and interactions between        Table 2: Global and long-range coupling parameters opti-
+regions. Reported ranges correspond to bounds used in prior DMF            mized per RSN. These parameters regulate noise, synaptic
+studies; default values refer to canonical settings commonly adopted       scaling, and interregional communication through the struc-
+before optimization.                                                       tural connectome.
+
+    Notes on parameter usage. In the heterogeneous formulation,
+Tables 1 and 2 together define a 20-dimensional parameter block
+that is replicated independently across the seven RSNs, yielding a           Functional connectivity matrices FC(Θ)
+                                                                                                              c      were computed as Pear-
+total of 140 free parameters. In the homogeneous baseline, a single        son correlations between regional BOLD time series, matching the
+shared instance of this block is optimized and applied uniformly           construction of empirical FC from resting-state fMRI.
+across all RSNs. All parameters were represented internally in nor-
+malized coordinates in [0, 1] and affinely mapped to the ranges            A.4      Fitness Definition and Evaluation
+listed above during fitness evaluation.                                    Although the loss function in Eq. (2) is written as a minimization
+                                                                           objective, evolutionary optimization was performed by maximiz-
+A.3      Simulation Pipeline                                               ing the Pearson correlation between empirical and simulated FC
+For a candidate parameter vector Θ, the DMF system was simu-               matrices:
+                                                                                                                             
+lated for five minutes of biological time using Euler–Maruyama                         fitness(Θ) = corr vec(FC), vec FC(Θ)
+                                                                                                                         c        .
+integration [14] with step size Δ𝑡 = 0.1 ms. The resulting excitatory
+synaptic activity 𝑆𝑖 (𝑡) was transformed into BOLD signals using           Throughout the paper, the terms fitness and score refer to this cor-
+the Balloon–Windkessel hemodynamic model [11].                             relation value.
+Evolution With Purpose: Hierarchy-Informed Optimization of Whole-Brain Models                              GECCO ’26, July 13–17, 2026, San Jose, Costa Rica
+
+
+   For leave-one-out (LOO) evaluation, subject-specific parameter               A.5    Methodological Clarifications
+vectors were aggregated using a two-sided trimmed mean (𝑝 = 0.1),               All simulations used subject-specific structural connectivity matri-
+producing a cohort-level parameter estimate 𝜃˜ (− 𝑗 ) that was then             ces derived from diffusion-weighted imaging. Behavioral predic-
+evaluated on the held-out subject using the same FC-based fitness               tion analyses and permutation-based significance testing were per-
+computation. The moments-based fitness implementation follows                   formed after all subject-level evolutionary runs were completed and
+that of Murray et al. [25].                                                     did not influence optimization dynamics. This separation ensures
+                                                                                that the learned DMF parameters define task-agnostic whole-brain
+                                                                                dynamical models suitable for downstream analysis across multiple
+                                                                                behavioral domains.
+

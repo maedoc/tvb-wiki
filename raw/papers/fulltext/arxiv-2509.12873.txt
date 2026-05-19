@@ -1,0 +1,1912 @@
+                                             Emergent complexity and rhythms in evoked and spontaneous
+                                             dynamics of human whole-brain models after tuning through
+                                                                   analysis tools
+                                              Gianluca Gagliotia,b,1,∗, Alessandra Cardinalec,d,1 , Cosimo Lupod,1,∗∗, Thierry Nieuse ,
+                                           Federico Marmoreod , Elena Focaccia,b , Robin Gutzenf , Michael Denkerg , Andrea Pigorinih,i ,
+                                            Marcello Massiminia,j,k,2 , Simone Sarassoa,2 , Pier Stanislao Paoluccid,2 , Giulia De Bonisd,2
+arXiv:2509.12873v2 [q-bio.NC] 9 Apr 2026
+
+
+
+
+                                                          a
+                                                               Dep. of Biomedical and Clinical Sciences, Univ. of Milan, Milan, Italy
+                                                                b
+                                                                  Dep. of Philosophy “Piero Martinetti”, Univ. of Milan, Milan, Italy
+                                                                         c
+                                                                           Università Campus Bio-Medico di Roma, Rome, Italy
+                                                          d
+                                                            Istituto Nazionale di Fisica Nucleare (INFN), Sezione di Roma, Rome, Italy
+                                                             e
+                                                               Dep. of Environmental Science and Policy, Univ. of Milan, Milan, Italy
+                                                                  f
+                                                                    Center for Data Science, New York University, New York, U.S.A.
+                                                    g
+                                                      Institute for Advanced Simulation (IAS-6), Jülich Research Centre, Jülich, Germany
+                                                        h
+                                                          Dep. of Biomedical, Surgical and Dental Sciences, Univ. of Milan, Milan, Italy
+                                                i
+                                                  UOC Maxillo-facial Surgery and dentistry, Fondazione IRCCS Cà Granda, Ospedale Maggiore
+                                                                                        Policlinico, Milan, Italy
+                                                                     j
+                                                                       IRCCS Fondazione Don Carlo Gnocchi ONLUS, Milan, Italy
+                                                    k
+                                                      Azrieli Program in Brain, Mind and Consciousness, Canadian Institute for Advanced
+                                                                                       Research, Toronto, Canada
+
+
+
+
+                                           Abstract
+                                           The simulation of whole-brain dynamics should reproduce realistic spontaneous and evoked
+                                           neural activity across different scales, including emergent rhythms, spatio-temporal acti-
+                                           vation patterns, and macroscale complexity. Once a mathematical model is selected, its
+                                           configuration must be determined by properly setting its parameters. A critical preliminary
+                                           step in this process is defining an appropriate set of observables to guide the selection of
+                                           model configurations (parameter tuning), laying the groundwork for quantitative calibration
+                                           of accurate whole-brain models. Here, we address this challenge by presenting a framework
+                                           that integrates two complementary tools: The Virtual Brain (TVB) platform for simulating
+                                           whole-brain dynamics, and the Collaborative Brain Wave Analysis Pipeline (Cobrawap) for
+                                           analyzing simulation outputs using a set of standardized metrics. We apply this framework
+                                           to a 998-node human connectome, using two configurations of the Larter-Breakspear neural
+                                           mass model: one with the TVB default parameters, the other tuned using Cobrawap. The
+                                           results reveal that the tuned configuration exhibits several biologically relevant features, ab-
+                                           sent in the default model for both spontaneous and evoked dynamics. In response to external
+                                           perturbations, the tuned model generates non-stereotyped, complex spatio-temporal activ-
+                                           ity, as measured by the perturbational complexity index. In spontaneous activity, it exhibits
+                                           robust alpha-band oscillations, infra-slow rhythms, scale-free characteristics, greater spatio-
+                                           temporal heterogeneity, and asymmetric functional connectivity. This work demonstrates
+
+                                                                                           1
+how combining TVB and Cobrawap can guide parameter tuning and lays the groundwork
+for data-driven calibration and validation of accurate whole-brain models.
+Keywords: whole-brain simulations, emergent complexity, brain rhythms, model tuning,
+human connectome, Larter-Breakspear model
+
+
+
+1. Introduction
+    Whole-brain computational models based on the neural mass approximation provide a
+framework for investigating the fundamental mechanisms underlying large-scale neural dy-
+namics (Breakspear, 2017; Griffiths et al., 2022). However, a crucial challenge remains: how
+to configure and adjust such a model so that it simultaneously captures key features of
+spontaneous and evoked brain activity, and ultimately match empirical data. Among the
+essential features that a biologically realistic whole-brain model should reproduce, the alpha
+rhythm (8–12 Hz) stands out as a fundamental oscillation in large-scale brain dynamics.
+First described by Berger (1929), it is closely associated with states of relaxed wakefulness
+and is thought to play a role in cognitive processes (Klimesch, 1999; Jensen and Mazaheri,
+2010). While alpha oscillations are a hallmark of resting-state dynamics, their fluctuating
+and multistable nature reflects the inherent variability and the transient state shifts of the
+brain (Freyer et al., 2009, 2011). In addition, they do not act in isolation but rather coexist
+with fluctuations occurring across multiple timescales (Fox and Raichle, 2007; Palva and
+Palva, 2012). At rest, brain activity fluctuates over time, exhibiting complex patterns of
+spontaneous variation in neuronal signals shaping the functional organization of the brain
+(Deco et al., 2017). Fluctuations also exhibit significant regional heterogeneity, with vary-
+ing degrees of signal variability influenced by anatomical connectivity and functional roles
+(Deco et al., 2011). High-fluctuation regions act as integrative hubs, crucial for coordinating
+information flow across the network (Rabuffo et al., 2021; van den Heuvel and Sporns, 2013).
+These regions may contribute to infra-slow fluctuations (< 0.1 Hz), which shape large-scale
+brain dynamics (Palva and Palva, 2012; Gutierrez-Barragan et al., 2019; Rabuffo et al., 2021;
+Väyrynen et al., 2023) and drive dynamic functional connectivity and brain state reconfigu-
+ration (Tagliazucchi et al., 2012; Gutierrez-Barragan et al., 2019). Beyond this spontaneous
+dynamics, the awake brain also exhibits sustained and spatially complex responses evoked
+by external focal perturbations, a phenomenon that has been extensively studied in exper-
+imental settings, such as in transcranial magnetic stimulation combined with simultaneous
+electroencephalography (TMS-EEG) experiments, where the spatio-temporal complexity of
+the evoked cortical response has been shown to correlate with the level of consciousness
+(Rosanova et al., 2012; Casali et al., 2013; Casarotto et al., 2016). In this context, various
+forms of external brain stimulation, including non-invasive neuromodulatory techniques, are
+
+  ∗
+    Corresponding author. Email address: gaglioti.gianluca@gmail.com.
+ ∗∗
+    Corresponding author. Email address: cosimo.lupo89@gmail.com.
+  1
+    These authors contributed equally.
+  2
+    These authors jointly supervised this work.
+capable of directly modulating these spontaneous and evoked features, producing measur-
+able changes in both the periodic and aperiodic components of neural activity, as well as in
+functional connectivity patterns (Yu et al., 2018, 2019, 2024; Liu et al., 2022; Müller et al.,
+2023; Gao et al., 2025; Kar et al., 2020; Masina et al., 2025).
+    These features – multistability, scale-free and infra-slow fluctuations, dynamic reconfig-
+uration, and complex evoked responses – have been increasingly linked to critical dynamics
+in the brain (Deco and Jirsa, 2012; O’Byrne and Jerbi, 2022). The hypothesis of brain criti-
+cality posits that neural systems operate near a critical point between order and disorder, a
+regime that supports maximal variability, long-range correlations, and optimal responsive-
+ness to external inputs (Beggs and Plenz, 2003; Chialvo, 2010; Shew and Plenz, 2012; Cocchi
+et al., 2017; Palva and Palva, 2018; Maschke et al., 2024).
+    As anticipated, a key question emerging from these considerations is whether a single,
+unified model can simultaneously reproduce both features of spontaneous and evoked brain
+activity. Indeed, traditionally, these two have been treated as separate problems in compu-
+tational modeling. However, a relationship is expected between the richness of spontaneous
+activity patterns and the ability of the brain to sustain complex responses to external per-
+turbations through its network dynamics. Therefore, capturing the interplay of spontaneous
+and evoked dynamics, while assessing their consistency with empirical data, should be con-
+sidered as a non-trivial requirement for the simulated network.
+    This assessment process grounds on an initial parameter tuning, aimed at addressing the
+correct sub-region in the parameter space, exploring how changes in model settings influence
+target observables. The set of quantitative observables – defined in the tuning to assess the
+quality of the model – will be named from now on as metrics. Tuning is followed by a calibra-
+tion, that adjusts the model parameters – ideally using an automated optimization process –
+by leveraging the metrics defined during the tuning to match a specific/personalized dataset.
+When discrepancies occur, these metrics offer feedback for refining the model and identify-
+ing its region of applicability, ensuring that the model reproduces not only isolated features,
+but also the brain broader dynamical landscape. It is worth noting that the identification
+of the starting parameter domain performed during the tuning is an essential ingredient for
+any automated calibration process that explores a high dimensional parameter space. Fi-
+nally, a more thorough validation should be performed against a range of statistical features
+to establish their agreement with respect to independent experimental data (e.g., Trensch
+et al., 2018; Gutzen et al., 2018), leveraging the wealth of heterogeneous data available and
+facilitating cross-study comparisons. This tuning/calibration/validation procedure should
+rely on a processing of simulation outputs methodologically consistent with the analysis of
+experimental outcomes, especially when aiming at embracing a wider range of case studies
+for a more precise alignment between theoretical predictions and experimental observations.
+In addition, to enhance the reproducibility and the scope of application of the simulations,
+the model setup and the metrics used for data analysis should be accessible to the broader
+neuroscientific community, standardized across the calibration/validation loops and carried
+out by a robust simulation/analysis workflow.
+    A number of frameworks address these needs for standardization, both for simulation
+and data analytics. Platforms like The Virtual Brain (TVB) (Sanz-Leon et al., 2013, 2015),
+                                              3
+the Brain Dynamics Toolbox (Heitmann et al., 2018), and Neurolib (Cakan et al., 2023)
+facilitate and standardize whole-brain simulations using neural mass models, which describe
+large-scale neural interactions via phenomenological or mean-field approaches (Breakspear,
+2017). Among the advantages of these solutions, the prebuilt, validated models offered by
+these platforms streamline calibration against empirical data, allowing researchers to focus
+on scientific questions rather than custom coding. Active user communities further enhance
+reproducibility and collaboration. Tools like MNE (Gramfort et al., 2013) for EEG/MEG,
+FreeSurfer (Fischl, 2012) for Magnetic Resonance Imaging (MRI), fMRIPrep (Esteban et al.,
+2019) and CPAC (Mainas et al., 2024) for functional MRI (fMRI), and Elephant (Denker
+et al., 2018) for electrophysiological data already provide reproducible analyses. To differ-
+ent extents, such methodologies integrate heterogeneous data, minimize inconsistencies, and
+enhance comparability, crucial for addressing the challenges of multimodal neuroscience.
+However, tools like the above are usually designed to address specific experimental cases,
+resulting in highly tailored solutions but also potentially reduced generalizability, which
+may require separate approaches when performing data versus model comparisons. Extend-
+ing this principle to complete analytics workflows, the Collaborative Brain Wave Analysis
+Pipeline (Cobrawap) (Gutzen et al., 2024, 2025a) is developed as an open-source tool pro-
+viding standardized and quantitative descriptions of brain wave phenomena in both experi-
+mental recordings and in silico data (Capone et al., 2023), addressing the growing need for
+shared and agreed metrics and methodologies in the field. Complementing this ecosystem
+of tools, broad initiatives like the Human Connectome Project (Van Essen et al., 2012), the
+Allen Brain Atlas (Sunkin et al., 2013), and EBRAINS (EBRAINS: Europe Research Infras-
+tructure for Brain Research, 2023) provide publicly available curated data and frameworks.
+    In this study, we take the first steps toward the calibration of a whole-brain model able
+to simultaneously reproduce key features of both spontaneous and evoked brain dynam-
+ics. To this end, we employ a recently developed whole-brain model implemented in TVB
+(Gaglioti et al., 2024) and identify the most relevant parameters to be tuned. Because the
+visualization and analysis tools included with TVB neither support systematic evaluation
+of metrics in response to changes in model parameters, nor allow quantitative comparison
+with experimental data, we set up an iterative approach (Fig. 1A) that leverages analy-
+sis methods already implemented in Cobrawap (adding new ones suitably developed, when
+necessary). Specifically, we identify the features that are relevant for describing both spon-
+taneous and evoked activity of the whole-brain model: alpha-band oscillations, infra-slow
+fluctuations, and the spatio-temporal complexity of evoked responses. By recognizing and
+varying the related parameters, we can drive the model simulations into activity regimes
+that show more similarities to the heterogeneous, multiscale features of large-scale brain ac-
+tivity. The approach we propose aims at offering a first tackle to the above depicted process
+of tuning/calibration/validation of TVB-based brain models, a process that is not trivial,
+as discussed in Schirner et al. (2022); Triebkorn et al. (2024), especially when aiming at
+personalized models. Our results show that an accurately tuned model can account for both
+the variability of resting-state activity and the complexity of stimulus-evoked responses, thus
+bridging a gap between traditionally separate modeling efforts for the two conditions. More-
+over, we lay the groundwork for generalizable calibration/validation metrics that provide a
+                                              4
+robust foundation for future empirical testing and integration into automated workflows.
+
+2. Materials and Methods
+    In the following, we first detail the TVB implementation of the whole-brain model to be
+later tuned, followed by a description of the analysis steps used for measuring model features
+and performances.
+
+
+
+
+Figure 1: TVB simulations and analysis with Cobrawap.
+A) The TVB-Cobrawap workflow (center) facilitates tuning, calibration and validation of TVB model pa-
+rameters; left and right diagrams sketch the sequence of actions requested, respectively, for launching TVB
+simulations and for processing TVB output with Cobrawap. The latter is adapted from Gutzen et al. (2024)
+and illustrates the sequence of stages and blocks arranged along the pipeline for the study of brain dy-
+namics; text in red highlights methods and metrics specifically implemented for addressing the TVB-tuning
+use-case, like cross correlations, parcellation reduction, complexity, in addition to what already provided by
+the Cobrawap pipeline – such as trace statistics, spectral analysis, event detection. Plots are included in the
+diagrams as exemplary for illustration purposes; detailed discussion is given later in the manuscript.
+
+
+
+
+                                                      5
+B) Illustrative examples of three spontaneous activity traces from three cortical regions of the tuned (TUN)
+configuration (BI ). These represent proxies of synaptic activity, obtained by convolving the voltage traces
+with a bi-exponential kernel (see Sec. 2.5.2) at the single-node level, and subsequently averaging the resulting
+signals across nodes belonging to each region. From top to bottom, the traces correspond to the average
+synaptic activity across left-hemisphere nodes belonging to the IP, IT, and PARC regions, respectively (see
+Suppl. Tab. A.1). The average Power Spectral Density (PSD) across all regions displays a clear peak in the
+alpha band, at approximately 12 Hz, together with an enriched infra-slow spectral component (BII ). C) Same
+as B), referred to the default (DEF) configuration. In this case, the dominant peak in the PSD is observed
+within the beta frequency band, centered around 21.6 Hz, with no relevant infra-slow activity. D-E) A brief
+stimulus (2 ms) was applied to the same nodes of the TUN and DEF configurations, to assess the spatio-
+temporal propagation of evoked activity. The post-stimulus power (see Sec. 2.5.3) of three subsets of nodes
+(specifically, the subset of stimulated nodes, a subset of far nodes connected to the stimulated nodes but in
+the same hemisphere where stimulation occurred, and the farthest set of nodes – in terms of connectome
+tracts – connected to the stimulated nodes), averaged across the same subset, displayed a consistent increase
+in all subsets in the TUN configuration with respect to DEF, together with a higher heterogeneity in the
+temporal evolution (compare DI with EI ). The extent of significant post-stimulus activity (see Sec. 2.5.5),
+computed by summing the significant activations of each node between 10 and 500 ms, was mapped onto
+the brain map for TUN (DII ) and DEF (EII ). The panels indicate a more widespread propagation in TUN
+compared to DEF.
+
+
+
+2.1. Model equations
+    We use the Larter-Breakspear (LB) model (Larter et al., 1999; Breakspear and Terry,
+2002; Breakspear et al., 2003; Breakspear and Stam, 2005), a voltage-based phenomenologi-
+cal neural mass model commonly used to simulate whole-brain activity (Honey et al., 2007;
+Honey and Sporns, 2008; Alstott et al., 2009; Honey et al., 2009; Gollo and Breakspear, 2014;
+Gollo et al., 2015; Roberts et al., 2019; Endo et al., 2020; Gaglioti et al., 2024), implemented
+within the TVB simulator.
+    Connectivity is implemented by means of a 998-node bi-hemispherical connectome (Hag-
+mann et al., 2008), where each node represents a source of signal reproducing the spontaneous
+dynamics of a neural mass model in the resting state. The connectome specifies the strength
+of connections between nodes and the corresponding time delays, globally modulated by the
+coupling parameter G. Time delays between nodes can be globally rescaled by acting on the
+global conduction velocity parameter cv .
+    The dynamics of a given node in the brain network is described by the following set of
+ordinary differential equations:
+
+
+
+
+                                                       6
+     1    dV
+             = − [gCa + (1 − C)rNMDA ae→e QV + C rNMDA ae→e QV,network ] mCa (V − VCa )
+   tscale dt
+                 − [gNa mNa + (1 − C) ae→e QV + C ae→e QV,network ] (V − VNa )
+                 − gK W (V − VK ) − gL (V − VL ) − ai→e Z QZ + an→e I + ξV ,
+                                                                                     (1a)
+
+     1     dZ
+              = b (an→i I + ai→e QV V ) + ξZ ,                                           (1b)
+    tscale dt
+
+    1     dW   ϕ (mK − W )
+             =             + ξW ,                                                        (1c)
+   tscale dt       τK
+
+
+where V and Z are the mean membrane potential of the excitatory pyramidal neurons and
+inhibitory interneurons for that node, respectively, while W corresponds to the average num-
+ber of open potassium (K) channels. The term tscale is an adimensional time-scaling factor
+that rescales the temporal dynamics of all state variables. The ratio of NMDA receptors
+to AMPA receptors is captured by rNMDA , and ax→y defines the synaptic strength between
+source population x (where x is one of e: excitatory, i: inhibitory, or n: nonspecific input)
+and target population y (where y is e or i). I represents an external input current, mod-
+eling nonspecific excitatory drive, such as subcortical or thalamic inputs, that influences
+the activity of excitatory (V ) and inhibitory (Z) populations. The dynamics of Z and W
+are governed by the constant rate terms b, τK and ϕ, which respectively represent a time
+constant for inhibitory activity (Z), a time constant for W relaxation, and a temperature
+scaling factor for the evolution of W .
+    For each ion species, gion (where ion is one of Ca: calcium, Na: sodium, or K: potassium)
+represents the maximum ion conductance and Vion represents its reversal potential. Similarly,
+gL and VL represent the maximum leakage conductance and reversal potential, respectively.
+The voltage-dependent fraction of open channels is governed by mion , following a sigmoidal
+shape function for each node:
+                                                                 
+                                       1              V (t) − Tion
+                            mion (t) =     1 + tanh                   ,                    (2)
+                                       2                  δion
+where Tion term represents the mean threshold membrane potential for a given ion channel
+population, while δion denotes its standard deviation. The mean firing rates of the excitatory
+and inhibitory node populations are governed by the voltage-dependent activation functions
+QV and QZ , respectively, which are modeled as sigmoidal as well:
+
+
+
+
+                                                 7
+                                                           
+                                1                 V (t) − VT
+                        QV (t) = QVmax 1 + tanh                 ,                        (3a)
+                                2                     δV
+
+                                                          
+                                1                 Z(t) − ZT
+                        QZ (t) = QZmax 1 + tanh                ,                         (3b)
+                                2                     δZ
+
+
+where the terms QVmax and QZmax are the maximum firing rates of the excitatory and in-
+hibitory population, respectively. The thresholds for action potential generation for these
+populations are given by VT and ZT , with corresponding standard deviations δV and δZ ,
+                                                                                   (k)
+respectively. Finally, the input to a node k coming from the rest of the network, QV,network ,
+is defined as:                                X
+                             (k)                      (j)
+                           QV,network (t) = G   uj→k QV (t − τj→k ) ,                    (4)
+                                            {j}
+
+with the sum running over all the nodes {j} connected to k with connection weight uj→k ,
+and τj→k denoting the related input delay time. G is the aforementioned global coupling
+that scales all the connection weights. The parameter C in Eq. (1) varies between 0 and 1
+and controls the balance between the strength of self-connections and the connections with
+the rest of the network. Finally, an additive Gaussian noise ξ enters in Eq. (1) through the
+stochastic Heun integration method of TVB.
+
+2.2. Model configurations and parameters
+    We implement two parameter configurations for the LB model, with their values fully
+listed in Suppl. Tab. A.2. The first configuration, referred to as the tuned configuration
+(TUN) from here on, is based on the work by Gaglioti et al. (2024), with some further refine-
+ments here. The second configuration, derived from the default parameters in TVB, follows
+the work of Alstott et al. (2009) and will be referred to as the default configuration (DEF).
+The TUN configuration is capable of generating complex evoked patterns following exter-
+nal stimulation (Gaglioti et al., 2024), resembling empirical results from the healthy awake
+brain. In this study, we focus on resting-state activity and, to better align with empirical
+data, we adjust the timescale tscale of the TUN configuration from 1.0 to 0.6 to reproduce
+the alpha-band location of the experimentally observed peak in the power spectrum of the
+global resting state activity (Berger, 1929; Klimesch, 1999; Jensen and Mazaheri, 2010).
+Notice that a time rescaling in Eq. (1) implies a coherent rescaling of the connectome con-
+duction velocity cv and of the additive Gaussian noise ξ in the TVB integrator (see Suppl.
+Tab. A.2). Consistently, the TUN configuration exhibits a peak at 11.7 Hz in the resting
+condition (Fig. 1B) and displays complex dynamics following perturbation (Fig. 1D; see the
+following section for further details on the simulation of resting-state and evoked activity).
+The corresponding measures for the DEF configuration are depicted in Figs. 1C and 1E,
+respectively.
+
+                                              8
+2.3. Model activity simulation in TVB
+    Each simulation is run in TVB (RRID: SCR_002249) with an integration time step of
+δt = 0.1 ms using the stochastic Heun integration method. A Gaussian white noise is added
+to the state variables to emulate an additional background input to the node (standard
+deviation σξ = 10−7 for the DEF configuration, then rescaled by tscale for TUN). The signal
+is then resampled to a temporal resolution of 1 ms (i.e., averaging over 1 ms time windows
+with the temporal average monitor of TVB).
+    For resting state, five minutes of continuous brain activity are simulated. Initial condi-
+tions are randomly assigned, with the values of the state variables (V , Z, W ) drawn from
+a uniform distribution between −0.1 and 0.1. A conservative choice is made based on the
+observation that the initial transient phenomenon is concluded after roughly 5 s, hence an
+initial period of 10 s is excluded.
+    For evoked activity, 200 trials are simulated. A stimulus of 1 arbitrary unit (a.u.) in
+amplitude and 2 ms in duration is applied to the 27 nodes belonging to the right superior
+parietal (rSP) cortex region. Each trial begins with random initial conditions. The onset
+timing of the stimulus is randomized within a window between 10 s and 12 s, so again allowing
+for a long enough thermalization period after the random initialization. Finally, we retain
+400 ms of pre-stimulus activity (baseline) and 700 ms of post-stimulus activity.
+
+2.4. Tuning TVB model parameters with Cobrawap
+    We use the Cobrawap framework (RRID: SCR_022966; (Gutzen et al., 2025a,b)) to im-
+plement the tuning process of TVB-simulated models. Cobrawap is an open-source Python-
+based modular analysis workflow that generates standardized quantitative descriptions of
+brain wave phenomena, so far used for heterogeneous murine datasets of both experimen-
+tal (Gutzen et al., 2024) and simulated (Capone et al., 2023) origin. Cobrawap extensibility
+to a wider variety of use-cases – among which, notably, the analysis of human data – stems
+from its modular design: it consists of a series of workflow components implemented as
+scripts, each representing an elementary analysis or visualization operation; these blocks are
+then organized into a series of sequential stages, the selection and execution order of blocks
+in each stage being suitably configurable to fit the requirements of the input data and the
+analysis goal.
+    In this work we lay the foundations for the interoperability of TVB and Cobrawap –
+acting on single blocks and on the Cobrawap structure itself – as an integrated use-case
+for the complete calibration and the validation of TVB-simulated models. Intrinsically, Co-
+brawap operates on matrices, reflecting the regular organization of sensors: each matrix
+element represents a channel associated to the spatial position corresponding to an elemen-
+tary source of experimental or simulated activity – e.g., a camera pixel or an electrode –
+sampled at discrete points in time. To map TVB output to the Cobrawap framework, the
+individual neural mass of a particular node in the model is hence associated to a channel. In
+more detail, the 3D spatial arrangement of the N connectome nodes is reorganized as a 1D
+vector containing the same number of channels, arranged following the connectome ordering
+(Hagmann et al., 2008). This simplified computational solution is sufficient for our analysis,
+
+                                              9
+since the focus is on node cross-correlations, for which only the distance among nodes in the
+connectome is relevant, together with TVB-encoded temporal delays.
+    New processing and visualization blocks are designed for this specific TVB-tuning use-
+case (see following section), improving and expanding what already available within the
+latest Cobrawap release (Gutzen et al., 2025b); these new features are currently implemented
+in a dedicated development software branch, and will be fully integrated in the official
+Cobrawap software release 0.3.0.
+
+2.5. Metrics employed for data analysis
+    The following metrics are employed to comprehensively analyze the dynamics of simu-
+lated brain activity across both spontaneous and evoked conditions in the TUN and DEF
+configurations, unless otherwise specified.
+
+2.5.1. Events
+    To characterize the node dynamics at the channel level, we identify the timestamps of
+transitions from low to high levels of activity in the signal evolution. Hereafter, we refer
+to such transitions as events. Events are detected for each node by applying a threshold
+to the phase signal derived as the angle of the complex-valued analytic signal of the node
+(obtained via a Hilbert transform operation). In this study, a threshold of −π/2 is chosen,
+corresponding to the start of the upstroke. To ensure robustness, the algorithm selects only
+the time points where the threshold is crossed in an upward direction (from smaller to larger
+values), reaching a clearly identifiable peak (phase = 0) before the next threshold downward
+crossing. We obtain the average event rate by counting the total number of events during
+the simulation divided by the time length of the simulation itself. Additionally, we define the
+time interval between events as inter-event-time (IET), and calculate the related coefficient
+of variation CVIET (see details in the following).
+
+2.5.2. Power spectral density analysis
+    According to the cortical organization principles summarized in Larkum (2013), super-
+ficial layers of the cortex are reached mainly by non-specific thalamic nuclei projections
+and inter-areal cortical association fibers, and the apical tuft of pyramidal neurons is func-
+tionally enriched for NMDA-dependent regenerative integration of these long-range paths.
+However, QV,network and QV excitatory contributions in Eq. (1a) are not endowed with the
+slow injection times that are associated to NMDA receptors. To create a better proxy for the
+EEG signal and investigate it in the frequency domain, we convolve V with a bi-exponential
+kernel aimed to mimic synaptic currents. Also, this approach enables direct compatibility
+with the output of TVB simulations representing the average membrane potential of pyra-
+midal population and not the impinging currents on that population. We select NMDA-like
+parameters to emulate the synaptic activity profile in the high-activation regime (rise time
+constant τrise = 5 ms and decay time constant τdecay = 20 ms, following Gerstner et al.,
+2014). Then, to obtain the synaptic activity profile of each cortical region, we average the
+convolved signal across all nodes corresponding to a given region (see Suppl. Tab. A.1), thus
+producing 66 regional synaptic activity profiles. The power spectral density (PSD) of this
+                                              10
+synaptic activity proxy is then computed using Welch method with time segments of 70 s
+and a 50 % overlap.
+    As an additional measure, the PSD is computed on the hemispheric event data, ob-
+tained cumulating the number of events that occur at any node of each hemisphere using
+temporal bins of 5 ms; this results in two aggregated signals (one per hemisphere) with a
+sampling resolution of 200 Hz. To detect infra-slow frequencies, Welch method is applied
+with time segments of 140 s and a 50 % overlap. On the resulting PSDs, the 1/f background
+scaling is estimated by fitting a linear function in log-log space to obtain the PSD slope,
+following Colombo et al. (2019).
+
+2.5.3. Time-frequency analysis
+     Time-frequency decomposition is performed using a continuous wavelet transform with
+complex Morlet wavelets, implemented via the PyWavelets package (Lee et al., 2019). In
+the resting state, scales (i.e., the temporal span of wavelets) are computed for frequencies
+around the main peak in the frequency spectrum (8–12 Hz for TUN and 18–22 Hz for DEF
+configurations) in 1 Hz steps; for the evoked activity, scales range instead within 8–100 Hz,
+still in 1 Hz steps, to account for a potentially wider evoked spectrum. Each wavelet is
+parameterized with a normalized bandwidth of 1 and a normalized center frequency of 1;
+normalization depends on the sampling frequency (1 kHz). The transformation is applied
+using a Fast Fourier Transform (FFT)-based method, yielding complex wavelet coefficients.
+     The time-frequency power representation is then obtained as the squared magnitude of
+the complex coefficients for each frequency, then averaged over the frequency range. Only
+for the analysis of the evoked activity, power is also averaged across all trials, to obtain the
+temporal evolution of broadband post-stimulus power. To account for baseline variability,
+trial-averaged power time-course P is normalized using a decibel (dB) transformation with
+respect to the pre-stimulus mean:
+                                                             
+                                  Pe ≡ 10 log10 Ppost /⟨Ppre ⟩ ,                             (5)
+
+where Ppost represents the post-stimulus power at each time point, while ⟨Ppre ⟩ is the time
+average from −350 ms to −50 ms with respect to the stimulus onset.
+    To assess long-range temporal correlations in resting-state neural dynamics, we apply the
+Detrended Fluctuation Analysis (DFA) to the amplitude envelope from wavelet transform
+(i.e., the frequency average of complex coefficients magnitude). DFA quantifies long-range
+temporal correlations – a hallmark of critical dynamics (Linkenkaer-Hansen et al., 2001)
+– by measuring how fluctuations persist over increasing time window sizes. We use the
+implementation provided in the neurodsp package (Cole et al., 2019), which first detrends
+the signal by removing its mean and computes the cumulative sum. The resulting signal
+is then divided into equal-sized windows, and within each, a linear trend is fitted. The
+fluctuation is computed as the mean squared deviation from this trend, and the procedure
+is repeated over multiple window sizes to estimate the scaling exponent. In our analysis, we
+use 50 window sizes, logarithmically spaced between 0.5 and 50 seconds.
+
+                                              11
+2.5.4. Correlation functions
+    The auto-correlation function quantifies the temporal correlation of a signal with itself
+across varying time lags. In this study, we apply it to channel signals from both TUN
+and DEF configurations, considering lags up to ±120 ms, in steps of 1 ms. The analysis
+focuses on identifying the largest auto-correlation peak at lags ̸= 0, and the corresponding
+optimal value of the lag is recorded for further analysis. Analogously, the cross-correlation
+function is employed to quantify the similarity between signals originating from different
+brain nodes across varying time lags, also in this case up to ±120 ms in steps of 1 ms. This
+analysis allows us to extract two key measures for each ordered pair of nodes: functional
+connectivity FC, defined as the peak value of the cross-correlation function, and functional
+lag FL, corresponding to the lag (in ms) at which the peak occurred, where the sign of
+the lag reflects the direction of the interaction (e.g., a negative lag between nodes i and
+j would indicate a directional relation from i to j). In general, this approach results in
+non-symmetric FC and FL matrices, thereby capturing the directionality of interactions
+between brain nodes. Hence, we quantify such asymmetry as FCasym ≡ FC − FC⊺ and
+FLasym ≡ FL − FL⊺ , where (·)⊺ denotes the matrix transpose. In particular, the matrix
+FCasym captures directional differences in communication, with positive values FCasym,ij > 0
+indicating that node i exerts a stronger influence on node j than vice versa, and negative
+values FCasym,ij < 0 indicating the opposite. To derive a nodal asymmetry score, we finally
+compute the sum of asymmetry values across each row of FCasym , thus projecting the 2D
+representation of the matrix into 1D vectors, and yielding a single asymmetry score per
+node:                                      X
+                                     Ai =      FCasym,ij ,                                (6)
+                                            j
+
+where Ai represents the net asymmetry of node i, with positive values indicating a global
+leading role (parent) in the network, and negative values indicating nodes behaving as “fol-
+lowers” (children).
+
+2.5.5. Complexity metrics: PCI and functional complexity
+    The Perturbational Complexity Index (PCI), originally introduced by Casali et al. (2013),
+provides a quantitative measure of the inherent complexity of spatio-temporal EEG activity
+patterns evoked by Transcranial Magnetic Stimulation (TMS). In this study, we adopt a
+similar framework, leveraging evoked whole-brain activity simulated using TVB as a proxy
+of the signal reconstructed at the “sources”. To identify the significant spatio-temporal pat-
+terns of stimulus-evoked responses, we apply the non-parametric bootstrap-based statistical
+analysis of Casali et al. (2013) on the voltage signal of each node. The procedure, also
+known as maximal statistic (Nichols and Holmes, 2001), is organized as follows. First, the
+evoked activity is rescaled with respect to the pre-stimuls baseline by subtracting the mean
+and dividing by the standard deviation of the pre-stimulus period. Second, for each node,
+pre-stimulus activities are randomly sampled with replacement (bootstrapped ) from the orig-
+inal distribution across trials and pre-stimulus time samples. Third, for each node and time
+point, the mean across trials of the bootstrapped values are computed (Jboot). Fourth, for
+each pre-stimulus time point, the maximum absolute value of Jboot across nodes is obtained.
+                                                12
+This process (steps 2, 3 and 4) is repeated 500 times to build a null distribution from which
+the (1 − α) percentile is used to define a significance threshold (we use α = 0.05). Finally,
+a binary spatio-temporal mask is obtained by marking samples exceeding this threshold
+as significant, as in Casali et al. (2013). Eventually, PCI is computed by quantifying the
+Lempel-Ziv complexity (Lempel and Ziv, 1976) of the binarized matrix representing signifi-
+cant activations, then normalized by the source entropy.
+    In addition, in order to assess the richness of interactions within functional connectivity
+matrix FC, functional complexity can be computed, which quantifies the balance between
+functional integration and functional segregation (Zamora-López et al., 2016). A low func-
+tional complexity is characterized by narrow distributions of values in the matrix, indicating
+either near-total statistical independence (⟨FC⟩ ≈ 0, i.e. total functional segregation) or
+global synchrony (⟨FC⟩ ≈ 1, i.e. total functional integration). In contrast, complex interac-
+tions arise when the collective activity is characterized by intermediate states yielding to a
+broad distribution of the FC values. Following this methodology, functional complexity is
+computed as the sum of the absolute differences over the m bins between the distribution
+of FC values and the uniform distribution over the same range, as described in Zamora-López
+et al. (2016).
+
+2.5.6. Statistical metrics
+    Standard statistical metrics are employed in this study, including the standard deviation
+(SD), representing the dispersion around the mean, and the inter-quartile range (IQR),
+describing the spread of the middle 50 % of the data. The coefficient of variation (CV)
+is used to assess relative variability (defined as the ratio of the standard deviation to the
+mean), while the median is used as a robust measure of central tendency.
+
+3. Results
+    We simulate a whole-brain model via TVB, relying on a Larter-Breakspear neural mass
+model with a 998-node human connectome (see Secs. 2.1-2.3), considering both the spon-
+taneous activity in the resting state and the evoked one (i.e., in response to an external
+perturbation). To assess the robustness of the approach, we also run a subset of the analy-
+ses on a smaller scale 74-node human connectome, as detailed in Supplementary Methods.
+We leverage Cobrawap (see Sec. 2.4) to analyze the simulation output and tune the model
+parameters so to match a set of quantitative metrics based on relevant biological features
+(see Sec. 2.5) not expressed by the initial default (DEF) model configuration. Specifically:
+in response to external perturbations, the tuned (TUN) model generates non-stereotyped,
+complex spatio-temporal activity, as quantified by the perturbational complexity index; in
+spontaneous activity, it displays robust alpha-band oscillations, infra-slow rhythms, scale-
+free characteristics, greater spatio-temporal heterogeneity, and asymmetric functional con-
+nectivity.
+    We focus the tuning procedure essentially on the connectome global coupling G, the
+connectome conduction velocity cv , the overall timescale factor tscale , and a subset of param-
+
+
+                                              13
+eters in the equations ruling the single-node dynamics. Refer to Sec. 2 for details about their
+definition, and to Suppl. Tab. A.2 for their values in both DEF and TUN configurations.
+     The relevance of properly tuning the global coupling G (here increased from 1 to 3) to
+induce complex, non-stereotyped dynamics in this model – resembling the experimentally
+observed one – has been preliminarily demonstrated in Gaglioti et al. (2024), where the
+target is to match functional and structural connectivity, along the lines proposed by Deco
+et al. (2014). In the same study (Gaglioti et al., 2024), the tuning of node parameters
+is instrumental in obtaining evoked responses comparable to TMS-EEG experiments, as
+also discussed hereafter. In addition, here we focus on reproducing the previously listed
+biological features relevant in the spontaneous resting-state activity, again acting on single-
+node equations parameters. Among them, concerning the expression of proper rhythms, we
+identify as essential parameters to be tuned the overall timescale factor tscale (moved from
+1.0 to 0.6) and the conduction velocity cv (rescaled for coherence by the same amount of
+tscale ; see Suppl. Tab. A.2).
+     In what follows, we quantitatively detail the different behavior of the two model configu-
+rations, highlighting the importance of accurately tuning the model parameters for moving
+from a stereotyped simulation toward a more biologically plausible one.
+
+3.1. Characterizing spontaneous dynamics: divergent temporal and spectral patterns in tuned
+      vs. default configurations
+    We start by examining the membrane potential traces recorded in the resting-state con-
+dition, shown for three representative nodes (picked from FUS, PREC, and RMF regions
+of the right hemisphere, respectively; see Suppl. Tab. A.1) in TUN (Fig. 2A) and DEF
+(Fig. 2C) configurations; the corresponding amplitude distributions are shown in Figs. 2B
+and 2D, respectively. Qualitatively, the TUN configuration exhibits more diverse activity
+patterns, with some nodes also displaying bursting dynamics (e.g., middle trace in Fig. 2A).
+    To identify the events of our interest, i.e. changes in the neural activity, we analyze
+the Hilbert phase of the membrane potential and apply a threshold of −π/2, following the
+methodology outlined by Gutzen et al. (2024) (see Sec. 2.5.1). Figs. 2E and 2G show the
+rasterplots of upgoing events for the two configurations, whereas Figs. 2F and 2H illustrate
+the histograms of the average event rate across nodes (see Sec. 2.5.1); cyan and orange bars
+on the left side of the two rastergrams identify nodes belonging to the two hemispheres (left
+and right, respectively). The same color coding is used in the bottom part of Figs. 2E and 2G,
+where cyan and orange traces represent the cumulated event signal of each hemisphere (see
+Sec. 2.5.2). A clear distinction emerges in the distribution of the average event rate across
+nodes: TUN shows a more heterogeneous pattern, compared to DEF (mean and standard
+deviation across channels: 9.60 ± 7.41 Hz for TUN, 18.56 ± 0.91 Hz for DEF).
+    The synaptic activity proxy (see Sec. 2.5.2) is derived from the voltage traces to approx-
+imate post-synaptic currents and obtain synaptic activity profiles for each cortical region
+(exemplary traces shown in Fig. 1B-C). We compute both the average PSD across all cor-
+tical regions (Fig. 2I for TUN, and Fig. 2L for DEF) and the PSD for specific regions of
+interest (Fig. 2J for TUN, and Fig. 2M for DEF) – here, the left and right lateral occipital
+cortex (LOCC; see Suppl. Tab. A.1). Additionally, to study the collective dynamics of
+                                              14
+the network, we compute the PSD from the cumulated event signal of the two hemispheres
+(Fig. 2K for TUN, and Fig. 2N for DEF; see Sec. 2.5.2), derived from the rasterplots of
+events. By construction of the configurations, DEF displays a dominant frequency peak at
+21.6 Hz, whereas TUN shows a peak in the alpha band at 11.7 Hz. This shift is primarily
+driven by the change in the timescale parameter tscale with respect to default setting (from
+1.0 to 0.6; see Suppl. Tab. A.2 and Sec. 2). Furthermore, TUN reveals a distinct peak at
+0.01 Hz in the PSD of the cumulated event signal – absent in DEF – highlighting infra-slow
+network fluctuations; in contrast to the dominant frequency, this effect cannot be readily
+attributed to the tuning of a single parameter. Notably, a 1/f trend is also observed in
+TUN, but is absent in DEF, suggesting scale-free dynamics in the former configuration only.
+    The spectral features of the TUN configuration, namely alpha-band power and 1/f
+scaling, also show a closer correspondence to empirical EEG recordings obtained during
+resting state with eyes closed (Suppl. Fig. A.1), further supporting its biological plausibility.
+
+
+
+
+Figure 2: Comparison of spontaneous dynamics in TUN and DEF configurations: time-domain
+and frequency-domain analyses.
+A) Voltage traces from three representative nodes from right-hemisphere FUS, PREC, and RMF regions
+(brown, red, and salmon lines, respectively) in the TUN configuration. B) The probability density functions
+of voltage distributions from nodes in A). C-D) Same as A) and B), respectively, for the DEF configuration.
+E) Rasterplots of upgoing transition events for each node (gray, top panel), alongside the cumulated number
+of detected events on the right and left hemisphere (orange and cyan, respectively, bottom panel), in the
+TUN configuration. Colored events in the upper panel are relative to the same sample traces shown in A).
+F) Histograms of the average event rate (red filled bars) across all nodes in TUN. G-H) Same as E) and
+F), respectively, for the DEF configuration. I) Average PSD of synaptic activity proxy across all regions
+
+                                                    15
+in TUN, highlighting a peak frequency at 11.7 Hz (black vertical dashed line). J) PSD of synaptic activity
+proxy of left LOCC (green line) and right LOCC (red line) in TUN, with a peak frequency at 11.7 Hz.
+The synaptic activity was averaged over the nodes of right and left LOCC before computing the PSD. K)
+PSD of the cumulated event signals from both hemispheres (right hemisphere: orange line; left hemisphere:
+cyan line), showing a low-frequency content (∼ 0.01 Hz) in TUN. The black dashed oblique line represents
+the spectral slope, obtained by fitting a line to the average PSD in log-log space, in the frequency range
+0.01–7 Hz. L-N) Same as I), J) and K), respectively, for the DEF configuration; notice the peak frequency
+at 21.6 Hz, and the absence of both the low-frequency content and the 1/f trend in the PSD of the default
+configuration.
+
+
+
+    Overall, these findings indicate that the TUN configuration supports a richer repertoire
+of dynamical activity across nodes, characterized by more heterogeneous average event rates,
+prominent infra-slow network fluctuations, and a scale-free 1/f spectral profile – hallmarks
+of dynamics closer to a critical regime (Chialvo, 2010; Palva and Palva, 2018).
+
+3.2. Signal periodicity analysis reveals spatially organized spectral features in the tuned con-
+      figuration
+    To better understand the apparent mismatch in TUN between the heterogeneous event
+rates across nodes (Fig. 2F) and the spectral peak at ∼12 Hz that dominates at the global
+scale (Figs. 2I-K), we turn to auto-correlation analysis of the spontaneous voltage activity to
+capture the degree of temporal regularity of oscillations at each node. We therefore compute
+the auto-correlation function for each node in both TUN and DEF configurations.
+    These functions are illustrated in Figs. 3A and 3B for three different nodes (the same
+as in Fig. 2, from right FUS, PREC, and RMF regions). By examining the largest auto-
+correlation peak at lag ̸= 0, we observe a median periodicity of 80 ms (12.5 Hz) in TUN and
+47 ms (21.3 Hz) in DEF. This periodicity aligns with the PSD results in Figs. 2I and 2L,
+where a peak around 12 Hz is observed for TUN, and around 22 Hz for DEF.
+    We therefore hypothesize that the median periodicity of 80 ms and 47 ms observed in
+TUN and DEF, respectively, is driven by the temporal arrangement of events in the two
+configurations. Supporting this hypothesis, the node-averaged PSD of the events (see Suppl.
+Fig. A.2) reveals peaks at approximately 12 Hz in TUN and 22 Hz in DEF. We interpret this
+as a signature of the network periodicity (as also suggested by the PSD of the hemispheric
+signal in Figs. 2K and 2N), which we suggest is predictably influenced by global model
+parameters, such as conduction velocity cv and global coupling G, as detailed in Suppl.
+Fig. A.3.
+    In addition to differences in the median peak, TUN exhibits also shorter peak latencies
+of approximately 11 ms, as shown for a node of the right PREC region in Fig. 3A (red line
+and purple circles).
+    The distribution across nodes of the latencies of the dominant auto-correlogram peaks
+(Fig. 3C, with lag > 0) highlights a clear difference between the TUN (Fig. 3C, top panel)
+and the DEF (Fig. 3C, bottom panel) configurations. In DEF the distribution is centered
+around 50 ms (median = 47 ms) with low variability (SD = 2.15 ms), while in TUN a bi-
+modal distribution emerges, with a larger standard deviation (SD = 26.48 ms) driven by the
+
+                                                   16
+Figure 3: Auto-correlation analysis and spatial distribution of periodicity in TUN and DEF.
+A-B) Auto-correlation functions of the spontaneous voltage signal from three representative nodes (same as
+in Fig. 2) for TUN (red palette) and DEF (blue palette). The largest peak at lag ̸= 0 is marked by coloured
+dots. C) Distribution of the latencies of the dominant auto-correlation peaks (lag > 0) across brain nodes,
+revealing a bimodal distribution in TUN (top), while DEF (bottom) exhibits a narrow distribution centered
+around 50 ms. D) Relationship between signal periodicity and average event rate in TUN. Boxplots depict
+the average event rate for nodes grouped by short (< 46 ms) and long (> 46 ms) auto-correlation peaks. The
+nodes exhibiting periodicity in the first mode (i.e. < 46 ms) are 17 % of the total. The vertical and horizontal
+black dashed lines on the histogram mark the median of the distributions. E) Same as D), but for DEF. Here
+nodes are considered all together, not split into subgroups according to their auto-lag peaks. F-G) Spatial
+distribution of peak latencies mapped onto brain nodes for TUN and DEF configurations. TUN displays
+structured clustering, with faster periodicities in medial-central regions and a gradient between frontal and
+posterior regions. DEF exhibits a more homogeneous distribution of periodicities across the brain.
+
+
+presence of two distinct modes centered around 11 ms and 81 ms. The underlying cause for
+this bimodality is the relative difference in the strength of the ∼80 ms and ∼11 ms auto-
+correlogram peaks, varying node by node.
+    Since the auto-lag at ∼80 ms is mainly driven by the model events, we hypothesize that
+nodes expressing a higher strength of ∼11 ms peaks are those with a low average event rate
+(i.e., lower number of events), reflecting sub-threshold activity typical of nodes with irregular
+and bursty dynamics. An example is shown in the middle trace of Fig. 2A, corresponding
+to the node in the right PREC region with a peak at 11 ms in Fig. 3A.
+    To test this, the two modes in the TUN auto-lag peak distribution are split considering
+the minimum of its Kernel Density Estimate function (found at 46 ms); this allows to sep-
+arate the nodes in two groups, depending on the dominant peak in the auto-correlogram.
+Relating the nodes of either group to their average event rate (Fig. 3D), we observe that the
+average event rate in TUN is lower for nodes in the group with short lags (median=1.38 Hz;
+mean=1.92 Hz; SD=1.93 Hz) than for nodes in the group with long lags (median=9.00 Hz;
+mean=8.66 Hz; SD=3.35 Hz). We repeat the same analysis for DEF in Fig. 3E: the unimodal-
+                                                      17
+ity of DEF in the distribution of the latency is reflected by an analogous unimodality in the
+distribution of the average event rate (median=18.78 Hz; mean=18.56 Hz; SD=0.91 Hz). In
+summary, we interpret these findings such that the broad distribution of events and auto-lag
+peaks in the TUN configuration (vertical and horizontal histograms in Fig. 3D, respectively)
+is due to a superposition of a regular alpha-band activity and a component at 11 ms, driven
+by the irregular, bursting activity of nodes exhibiting more sub-threshold dynamics (i.e.,
+lower number of events). In comparison, the DEF configuration shows a stereotyped beta
+oscillation that dominates the lags (Fig. 3E).
+    To visualize the spatial organization of these differences, we map the peak latencies onto a
+brain map (Figs. 3F and 3G), finding that TUN exhibits a more spatially organized clustering
+structure compared to DEF. Indeed, in TUN (Fig. 3F) nodes with peak latencies around
+11 ms are clustered within central-parietal areas. Additionally, considering the second mode
+after 46 ms, shorter peak latencies (corresponding to faster oscillations in the auto-correlation
+trace) are observed in frontal compared to posterior regions (Fig. 3F), an emergent feature
+of the model configuration that trends toward experimental findings (Rosanova et al., 2009;
+Frauscher et al., 2018; Capilla et al., 2022). Conversely, DEF displays a homogeneous spatial
+distribution, corresponding to more stereotypical simulated dynamics (Fig. 3G).
+    Together, these results demonstrate that the tuned configuration generates richer spatio-
+temporal dynamics characterized by i) a non-trivial spatial organization of the rhythms
+(with both frontal-posterior latency gradients and distinct central-parietal clusters showing
+shorter latencies and reduced average event rates), and ii) an enhanced overall heterogeneity
+– all contrasting sharply with the homogeneous, stereotyped activity patterns in the default
+configuration of the model.
+
+3.3. Spatio-temporal irregularity and scale-free dynamics in the tuned configuration
+    The results presented in Fig. 3 demonstrate that the TUN configuration exhibits spectral
+heterogeneity which is reflected in a distinctive spatial topography of auto-correlation peak
+latencies. To explore how this heterogeneity manifests in the temporal domain, we next
+compute the coefficient of variation of the inter-event-time (CVIET ; see Sec. 2.5.1) across
+nodes. Figs. 4A and 4B show the distribution of CVIET for TUN and DEF, respectively, while
+Figs. 4C and 4D map these values onto the brain. Once again, we observe a more pronounced
+heterogeneity in TUN, which is also reflected in a non-trivial spatial organization, in contrast
+with DEF. Specifically, TUN exhibits more irregular (i.e., higher CVIET overall, particularly
+in central-parietal areas) and spatially heterogeneous events, while DEF shows more regular
+(i.e., lower CVIET ) and spatially homogeneous event patterns.
+    Building on this observation of irregularity and heterogeneity in event timing, a com-
+plementary and related aspect to consider is the temporal fluctuation of the neural signals
+themselves. To examine these dynamics more closely, we perform a time-frequency de-
+composition using Morlet wavelet convolution to extract the power time-course within the
+frequency band associated with events, specifically, the 8–12 Hz range for TUN and the 18–
+22 Hz range for DEF, corresponding to the respective dominant frequencies in their PSDs.
+The power time-courses (see Sec. 2.5.3) of a representative node in TUN and DEF are re-
+ported in Suppl. Fig. A.4A. To quantify power fluctuations over time, we compute their
+                                               18
+Figure 4: Temporal and spatial variability of signal fluctuations in TUN and DEF.
+Signal processing steps are illustrated in the leftmost panels of each row: Top: Example traces show voltage
+fluctuations and inter-event-time (IET) used to calculate the CVIET . Middle: Example power time courses
+used to compute the CVpower , with shaded regions indicating mean ± standard deviation. Bottom: Example
+amplitude envelope traces used to estimate the DFA exponent across nodes. A-B) Histograms showing the
+coefficient of variation of inter-event-time (CVIET ) across nodes for TUN and DEF configurations. C-
+D) Spatial distribution of the CVIET mapped onto brain nodes for TUN and DEF configurations. E-F)
+Histograms showing the coefficient of variation of the power time-courses (CVpower ) across nodes, computed
+via Morlet wavelet convolution for TUN and DEF configurations. Power was obtained by summing within the
+8–12 Hz range for TUN and the 18–22 Hz range for DEF. G-H) Brain maps displaying the spatial distribution
+of CVpower in TUN and DEF configurations. I-J) Histograms showing the DFA exponent computed for
+each node on the amplitude envelope in the 8–12 Hz range for TUN and the 18–22 Hz range for DEF. K-L)
+Brain maps displaying the spatial distribution of DFA exponents for TUN and DEF configurations.
+
+
+coefficient of variation (CVpower ) across nodes (Figs. 4E and 4F) and map it onto brain maps
+(Figs. 4G and 4H). Also in this case, power exhibits a high temporal and spatial regular-
+ity for DEF configuration, resulting in a more homogeneous brain map with low and quite
+concentrated CVpower values. Conversely, we observe a heterogeneous distribution for TUN,
+with central areas displaying high CVpower values, indicative of pronounced power fluctua-
+tions. Interestingly, the average PSD across nodes of the power time-courses for TUN reveals
+significant 1/f scaling and infra-slow fluctuations (Suppl. Fig. A.4B) – mirroring the 0.01 Hz
+components observed in the network-level PSD (Fig. 2K). This pattern of fluctuations in the
+                                                    19
+TUN configuration also aligns with empirical EEG recordings: the PSD of the alpha power
+time-course in real EEG data shows a comparable 1/f scaling (Suppl. Fig. A.4B), and the
+distribution of CVpower across channels is more consistent with the TUN configuration than
+with DEF (Suppl. Fig. A.4C).
+    The dual manifestation of infra-slow rhythms across both nodal power time-courses and
+network-level activity suggests a scale-free spatio-temporal organization, where infra-slow
+fluctuations coherently modulate the dominant alpha-band dynamics in TUN. In stark con-
+trast, DEF exhibits a flat PSD profile for power time-courses, consistent with uncorrelated
+(white-noise-like) dynamics. Together with the 1/f scaling (Fig. 2K), these findings suggest
+that TUN may operate near a critical regime. To test this hypothesis, we perform Detrended
+Fluctuation Analysis (DFA) (see Sec. 2.5.3 for details) on the 8–12 Hz (18–22 Hz for DEF)
+amplitude envelope. DFA exponents in TUN (Fig. 4I) span a broad range (exponent ≈
+0.5–1.2; IQR = 0.6–0.93), encompassing uncorrelated signals (≈0.5), weak to strong long-
+range temporal correlations (≈ 0.6–1.0), and persistent trends (> 1.0). This heterogeneity
+suggests distinct dynamical sub-populations with a specific spatial distribution (Fig. 4K):
+approximately 30 % of nodes fall within the range 0.8–1.0, often associated with near-critical
+or critical dynamics and also in line with empirical values observed in EEG data (Suppl.
+Fig. A.4D), while others exhibit either noise-like (≈0.5; ∼16 % of nodes) or more persistent
+(>1.0; ∼17 % of nodes) behavior. In contrast, DEF consistently shows noise-dominated
+dynamics (exponent ∼ 0.5–0.6) across all nodes (Figs. 4J and 4L).
+
+3.4. Emergent complex and asymmetric interactions in the tuned configuration
+    Up to this point, we have analyzed the dynamics of individual nodes, without examining
+their mutual interactions. To this specific aim, by leveraging cross-correlation functions
+one can derive two key metrics: the functional connectivity (FC) and the functional lag
+(FL) between each pair of nodes (see Sec. 2.5.4 for details). This procedure is illustrated in
+Fig. 5A, where, for a given pair of nodes i and j, the cross-correlation between their time
+series is computed at different time lags.
+    The distributions of FC and FL values across all node pairs are reported in Figs. 5B
+and 5C. Coherently with what seen so far, TUN exhibits higher and more dispersed FC
+values than DEF, reflecting stronger and richer interactions.
+    It has been suggested (Zamora-López et al., 2016) that the richness of FC values can
+serve as an index of functional complexity (see Sec. 2.5.5), where the coexistence of high
+and low FC values supports a balance between functional integration (high FC values) and
+functional segregation (low FC values). We quantify this complexity during spontaneous
+activity, confirming that TUN exhibits higher functional complexity compared to DEF (inset
+of Fig. 5C).
+    The Functional Lag (FL) (absolute values) and the Functional Connectivity(FC) matrices
+are displayed in Figs. 5D-E and Figs. 5G-H, respectively, alongside with the corresponding
+asymmetry values in Figs. 5F and 5I, derived from FCasym (see Suppl. Fig. A.5) and FLasym
+(see Sec. 2.5.4 for further details). Notably, FC shows a greater asymmetry in TUN, com-
+pared to DEF configuration (IQR = 0.01 for TUN; IQR = 0.006 for DEF), highlighting a
+prominent emergence of directional interactions in the tuned configuration. This reflects
+                                             20
+an emergent network phenomenon, because TUN differs from DEF in single-node equations
+parameters, global coupling and global conduction velocity, without modifying the relative
+connection strengths and the time delays of the underlying connectome.
+   In Figs. 5J and 5K, we then quantify the asymmetry score A for each brain node in
+TUN and DEF, respectively: starting from FCasym , we marginalize its values along each
+row to obtain a single asymmetry score per node (see Sec. 2.5.4 for details). Positive values
+indicate nodes that predominantly exert influence on others (“leading” or “parent” nodes),
+
+
+
+
+Figure 5: Functional connectivity, functional lags, and asymmetry in TUN and DEF configura-
+tions.
+A) Illustration of the cross-correlation function applied to investigate pairwise interactions between nodes.
+The correlation between the time series of nodes i and j is computed at various time lags. Negative lags
+indicate a directional relation from i to j, while positive lags indicate the other way round. The functional
+connectivity (FC) is defined as the height of the maximum correlation peak, with the corresponding lag
+being the functional lag (FL). B) Distributions of functional lag values across all (ordered) node pairs for
+
+
+                                                     21
+the two configurations. C) Distributions of functional connectivity values across all (ordered) node pairs.
+TUN exhibits a broader FC distribution compared to DEF, indicating stronger and richer interactions. The
+inset shows the value of functional complexity. D-E) FL matrices (absolute values for the entries) for TUN
+and DEF configurations. F) Distributions of asymmetry values in FL matrices, derived from FLasym . G-
+H) FC matrices for TUN and DEF configurations. I) Distributions of asymmetry values in FC matrices,
+derived from FCasym . J-K) Nodal asymmetry scores A derived from FC for TUN and DEF configurations.
+L) Linear regression (r = 0.51, p = 10−66 ) between nodal asymmetry scores A and CVpower in TUN. Each
+point represents a brain node.
+
+
+
+while negative values denote nodes that are primarily influenced by others (“following” or
+“child” nodes). First, we observe differences between the left and the right hemisphere,
+with the right hemisphere expressing more “leading” nodes. Then, mapping the asymmetry
+scores of the nodes to brain regions and sorting them (see Suppl. Fig. A.6), we find that
+the posterior cingulate cortex (PC) has the highest positive asymmetry value in both the
+left and right hemispheres for the TUN configuration. This result aligns with experimental
+literature showing that the PC region is a primary driver of the spontaneous brain activity
+(Coito et al., 2018). Suppl. Fig. A.6 further highlights the differences between the left
+and the right hemisphere, already illustrated in Fig. 5J. Once again, DEF shows a more
+homogeneous behavior, with very little asymmetry values across the whole brain.
+    In Fig. 5L, eventually, we examine the relationship between the asymmetry score and
+power fluctuations, measured by CVpower . Notably, we find a significant positive correlation
+(r = 0.51, p = 10−66 ), indicating that nodes with greater power variability tend to have
+stronger leading roles for the TUN configuration. In contrast, the same analysis for DEF
+reveals a non-significant relationship (r = 0.009, p = 0.77) (see Suppl. Fig. A.7).
+
+3.5. Evoked responses reveal higher spatiotemporal complexity in the tuned configuration
+    To assess the model capacity to sustain complex stimulus-evoked dynamics, we apply 200
+independent brief (2 ms) perturbations to the right superior parietal (rSP) nodes in both
+TUN and DEF configurations. The resulting evoked activity reveals striking differences
+between the two: in the TUN configuration, the average post-stimulus voltage exhibits
+richer and less stereotyped dynamics (Fig. 6A), compared to the more uniform and rapidly
+decaying responses observed in the DEF configuration (Fig. 6B).
+    To characterize the spatio-temporal profile of the evoked activity, we derive a binary
+spatio-temporal matrix of significant activations (see Sec. 2.5.5 for details). In TUN, the
+evoked activity is sustained over a broader temporal and spatial window (Fig. 6C), whereas
+in DEF it remains spatio-temporally confined to the immediate post-stimulus period and to
+the surroundings of the perturbed region (Fig. 6D). The prolonged perturbation effects in the
+TUN configuration cannot be explained solely by the reduction of the timescale parameter:
+while tscale decreases by less than half (from 1.0 to 0.6) compared to DEF, perturbations
+in TUN persist nearly 2.5 times longer. The broader spatial extent of the TUN response
+becomes especially evident when the number of significant activations is reported onto the
+brain maps, suggesting that in TUN the stimulus propagates far from the stimulation site,
+recruiting distant regions of the network (Fig. 6E). In contrast, the DEF response remains
+                                                    22
+Figure 6: Stimulus-evoked activity in TUN and DEF configurations.
+A-B) 200 independent 2 ms perturbations (i.e. 200 trials) were applied to the right superior parietal nodes
+(rSP) of the brain model, for both TUN and DEF configurations, to assess the spatio-temporal complexity
+of the evoked activity. Voltage traces averaged across trials in TUN (A, red) and DEF (B, blue) are here
+reported for each of the 998 nodes. C-D) Binary spatio-temporal matrices of significant activations across
+nodes (y-axis) and time (x-axis), showing more sustained and spatially distributed activity in TUN (C)
+relative to DEF (D), where activations are sparse and temporally constrained. E-F) Brain maps showing
+the spatial distribution of significant activations (sum over 10–500 ms post-stimulus) across nodes. The
+smaller brain on top of the colorbar illustrates the stimulated nodes located on the rSP cortex. In TUN (E),
+the stimulus spreads across distant cortical areas, while in DEF (F), the activity remains localized around
+the stimulation site. G-H) Post-stimulus broadband power (dB) averaged across three equal-sized node
+subsets (27 nodes): directly stimulated nodes (top), nearby connected but non-stimulated nodes (middle),
+and distant connected nodes (bottom). Insets indicate node locations. TUN (G) displays higher power and
+greater temporal variability than DEF (H), where responses are weaker and more stereotyped.
+
+
+tightly localized around the stimulation site (Fig. 6F).
+    To further explore the spread and heterogeneity of the evoked activity, we compute the
+post-stimulus broadband power (see Sec. 2.5.3) in three equal-sized node subsets: the di-
+rectly stimulated nodes; a set of spatially nearby but non-stimulated nodes within the same
+hemisphere; and the most distant nodes connected to the stimulation site, as determined by
+structural connectivity (i.e., tract lengths). In all three subsets, the TUN configuration ex-
+hibits higher power overall, as well as greater variability in its temporal dynamics compared
+to the DEF configuration (Figs. 6G vs 6H).
+    Finally, we quantify the overall complexity of the evoked spatiotemporal patterns using
+the perturbational complexity index (PCI; see Sec. 2.5.5). TUN reaches PCI = 0.54, a
+substantially higher value with respect to PCI = 0.39 observed for DEF, confirming its ability
+to sustain richer, more spatially distributed and temporally diverse patterns of activity in
+response to brief perturbations. Notwithstanding an absolute comparison with PCI values
+
+                                                    23
+from literature is not reliable, due to strong dependencies on the experimental protocols for
+the EEG recording and on the inverse model employed, still the relative difference between
+the two PCI values found here are consistent with experimentally ones observed in healthy
+control individuals and subjects with reduced levels of consciousness (either responsive or
+not) (see, e.g., Casarotto et al., 2016).
+
+4. Discussion
+    This study grounds on two fundamental questions: i) How can a brain network model
+be tuned to simultaneously reproduce key characteristics of both spontaneous and exter-
+nally evoked neural activity? ii) How can we systematically evaluate the model consistency
+with expectations from biology and ultimately with empirical data? This work contributes to
+answering these questions by defining physiologically relevant metrics that are useful in guid-
+ing the exploration and the initial tuning of model parameters, thus setting up a convenient
+starting point for the calibration process. The approach is iterative, where discrepancies
+between features exhibited by the model and biological datasets provide valuable feedback
+that helps refine the model parameters and improve its accuracy in reproducing the neural
+dynamics. These metrics could be applied equally to synthetic and experimentally obtained
+data to yield directly comparable results, thereby strengthening the robustness of the model
+and exploring the boundaries of its applicability. Additionally, to enhance the reproducibil-
+ity and facilitate cross-study comparisons, these metrics should be accessible to the broader
+neuroscience community and generalizable to accommodate diverse experimental contexts.
+    To achieve this, we leverage TVB, a versatile software framework that enables the simula-
+tion of large-scale brain network models. In this study, we use TVB to simulate whole-brain
+dynamics in both spontaneous and evoked conditions, exploring how different parameter
+configurations of the same model shape the emergent neural activity. However, extracting
+meaningful insights from these simulations and quantitatively comparing them to empirical
+findings requires dedicated tools for their processing and analysis, and then back to the
+model for its calibration. Here, we use Cobrawap to process the TVB simulation output
+for tuning model parameters, aiming at matching expectations from empirical neurophysio-
+logical patterns. This approach enables meaningful comparisons between the default TVB
+configuration of the model and its tuned counterpart. Cobrawap capabilities for monitoring,
+analyzing, and visualizing dynamic variables are instrumental in ensuring that the even-
+tually selected network model configuration captures both spontaneous and evoked brain
+activity. Finally, this approach proves to be essential not only for guiding the tuning pro-
+cess, but also for revealing significant differences in the inner dynamics of the two model
+configurations, thus allowing for a deeper understanding of the model itself. Notably, both
+TVB and Cobrawap are delivered to the EBRAINS community as tools of the EBRAINS
+Software Distribution (ESD) (EBRAINS ESD, 2025). Therefore, representing a showcase of
+their integration, this work is also a proof of concept towards the construction of integrated
+workflows in EBRAINS.
+    In the following, we summarize the main outcomes obtained in this work, and we drive
+to conclusions complementing their interpretation with findings and results from literature.
+                                              24
+First, tuning is performed such that an alpha-band peak can be observed, consistent with
+empirical evidence highlighting the prominence of alpha rhythms during resting-state brain
+activity (Klimesch, 1999). This effect results from tuning the global timescale of the model
+dynamics, while at variance alpha oscillations are absent in the default model.
+    Second, the tuning also significantly influences both the spectral and spatial organiza-
+tion of brain activity. The analysis of the temporal fluctuation of transition events from
+the baseline to a higher activity regime and power spectral content reveals a clear spatial
+organization in the tuned configuration, characterized by marked heterogeneity – a feature
+consistent with more realistic brain dynamics (Zhang et al., 2025). In contrast, the default
+configuration exhibits more homogeneous and stereotyped dynamics, with reduced spatio-
+temporal variability in both events and power. Notably, these differences stem from the
+tuning of the model equation parameters, the global coupling strength, and the conduction
+velocity (as both configurations are based on the same underlying connectome, i.e. structural
+connectivity: relative weights of synaptic connections are not changed).
+    Mapping the auto-correlation peak latencies onto the brain regions further highlights
+the non-trivial spatial organization of the tuned model, where faster periodicities are ob-
+served in frontal regions, whereas slower oscillations are present in posterior regions. This
+spatio-temporal gradient is consistent with experimental observations (Rosanova et al., 2009;
+Frauscher et al., 2018; Capilla et al., 2022). Interestingly, also centro-parietal regions exhibit
+auto-correlation peak latencies shorter than the median periodicity of other cortical regions,
+thus forming a distinct cluster of cortical nodes. These populations also display lower av-
+erage event rates, indicating fewer periods of neural mass synchronization. This pattern
+corresponds to more differentiated and fluctuating dynamics, as reflected by the increased
+variability in their power time-course.
+    Furthermore, our study examines the communication between nodes using cross-corre-
+lation functions. We extract two relevant metrics to analyze nodal interactions: functional
+connectivity (FC) and functional lag (FL). Our analysis reveals that the tuned configuration
+of the model exhibits a wider distribution of functional connectivity (FC) values compared
+to the default one, suggesting a greater diversity of interactions in the former. This reflects
+a characteristic of complex brain dynamics, that maintains a balance between integration
+and segregation across the network (Zhao et al., 2010; Zamora-López et al., 2016).
+    The emergence of a greater FC asymmetry in the tuned configuration is another key
+finding. We find more directional interactions in the tuned model with respect to the default
+behavior, underscoring the effect of parameter tuning in promoting asymmetric network
+dynamics. In turn, this could indicate the presence of emergent network motifs that are
+crucial for sustaining complex neuronal patterns (Coito et al., 2018; Monma et al., 2025).
+Notably, centro-parietal regions with higher asymmetry scores also exhibit greater power
+fluctuations, as reflected by a significant correlation between asymmetry scores and the
+CVpower . This finding suggests that nodes with stronger leading roles in the network exhibit
+more variable neural activity, potentially enhancing their ability to coordinate information
+propagation, thus acting as hubs. Such variability may drive neuronal cascades – transient
+bursts of activity that could shape communication across large-scale brain networks (Rabuffo
+et al., 2021; Fousek et al., 2024). Notably, this asymmetry is particularly pronounced in the
+                                               25
+posterior cingulate cortex, consistent with previous experimental evidence (Coito et al.,
+2018).
+    Also, we observe the emergence of infra-slow rhythms (∼0.01 Hz) in the tuned configu-
+ration, well-documented in experiments (Palva and Palva, 2012; Gutierrez-Barragan et al.,
+2019). A particularly interesting question arising from these findings is whether the observed
+spatial heterogeneity in terms of temporal variability influences these infra-slow fluctuations.
+Specifically, it remains unclear whether centro-parietal regions, already identified as potential
+hubs because of their high temporal variability and stronger leading role, act as “orchestra-
+tors” of these network infra-slow rhythms, or whether they act as “gates” that facilitate the
+propagation of fronto-posterior (or postero-frontal) waves across the network. This question,
+which we intend to explore in future research, offers a promising direction for investigating
+how specific regions interact with infra-slow dynamics and contribute to the reconfiguration
+of brain states within large-scale networks (Rabuffo et al., 2021).
+    Crucially, the results on spontaneous activity are also accompanied by evidence that
+properly tuning the model parameters can generate complex, stimulus-evoked dynamics.
+In line with empirical studies of brain activity (Casali et al., 2013; Sarasso et al., 2014),
+we find that the model is able to sustain complex spatio-temporal patterns of activation in
+response to external perturbations, quantified with the PCI. Notably, in this work we reduce
+the stimulus duration from 5 ms to 2 ms – compared to the protocol used in Gaglioti et al.
+(2024) – to better match experimental conditions, including both intra- and extra-cranial
+stimulations (Comolatti et al., 2025). Despite the shorter stimulus, the model still exhibits
+a realistic complex response, further corroborating its ability to capture essential features of
+neural dynamics beyond spontaneous fluctuations.
+    A theoretical framework able to integrate our results on spontaneous and evoked dynam-
+ics is provided by criticality – a dynamical regime emerging near phase transitions, where
+systems exhibit a unique balance between ordered and disordered activity (Beggs and Plenz,
+2003; Chialvo, 2010; O’Byrne and Jerbi, 2022). In this regime, scale-free properties naturally
+arise, collectively maximizing information capacity (Shew and Plenz, 2012): 1/f spectral
+scaling (He et al., 2010), long-range temporal correlations (Linkenkaer-Hansen et al., 2001;
+Dalla Porta and Copelli, 2019), infra-slow fluctuations (Palva and Palva, 2012, 2018), and
+heightened sensitivity to external perturbations (O’Byrne and Jerbi, 2022). In the tuned
+configuration, such signatures emerge naturally in both spontaneous and evoked activity. In
+particular, the heightened sensitivity of TUN to brief external stimuli – manifested as pro-
+longed and complex responses, with longer relaxation timescales – resembles the amplified
+perturbation effects typical of the critical slowing down phenomenon (Meisel et al., 2015).
+In addition, the richness of spatio-temporal patterns measured with PCI suggests a more
+efficient signal propagation through the network. Together with empirical links between PCI
+and criticality (Maschke et al., 2024), these results seem to indicate that parameter tuning
+shifts the model toward a critical-like regime, closer to the dynamical richness of biological
+systems.
+
+
+
+
+                                               26
+4.1. Limitations and perspective
+    Our study showcases how to tune models to capture macroscopic features of brain dynam-
+ics, however it is important to acknowledge some limitations. First, we focus on reproducing
+large-scale characteristics of neural activity as resulting from the corpus of experimental
+evidence. As a proof of concept of the comparability with experimental data, we propose
+a close comparison between simulated and empirical features in Suppl. Fig. A.8, which
+also demonstrates the generalizability of our approach to other connectomes (specifically, a
+74-node connectome). Further steps toward an accurate calibration between TVB outputs
+and extra-cortical recordings (like hd-EEG) would require refined forward models (Gramfort
+et al., 2013). Nevertheless, our approach lays the foundation for such quantitative calibra-
+tion by adopting metrics that have proved effective in assessing experimental features in
+the Cobrawap framework (De Bonis et al., 2019; Celotto et al., 2020; Capone et al., 2023;
+Gutzen et al., 2024).
+    Secondly, the Larter-Breakspear model has been designed for reproducing the dynam-
+ics of cortical columns and does not include detailed contributions from subcortical inputs,
+which conversely are known to play a fundamental role in orchestrating brain rhythms and
+propagating neural activity. Some recent works (e.g., Lorenzi et al., 2025) tackle this task
+with TVB-based simulations, offering indications for incorporating some advances in the
+Larter-Breakspear framework. Nevertheless, even if the TVB simulation engine leverages
+simplified representations of cortical dynamics as neural mass models that describe synchro-
+nization processes at a population level, this abstraction still enables the study of several
+physiological and pathological conditions. Indeed, neural mechanisms relevant for brain dis-
+eases can be modeled even just by acting on easily interpretable global parameters, as the
+conduction speed or the global coupling (Deco et al., 2013; Kringelbach et al., 2015; Falcon
+et al., 2016; Stefanovski et al., 2019; Aerts et al., 2020), once more evidencing the importance
+of an accurate tuning.
+    Additionally, TVB simulations can be the basis for surgical and clinical treatments, like
+epilepsy: see the experience of EPINOV, the world’s first clinical trial on predictive brain
+modeling in epilepsy surgery (Jirsa et al., 2023). Again, careful parameter tuning – including
+personalization, toward a digital twin approach (Wang et al., 2025; Martín et al., 2026) – is
+crucial for reliable and effective results.
+    The Larter–Breakspear model employed here has been extensively used for simulating
+fMRI BOLD signals (Honey et al., 2007, 2009; Alstott et al., 2009; Roberts et al., 2019; Endo
+et al., 2020). Neural mass activity can be converted into BOLD signals using the nonlinear
+Balloon–Windkessel hemodynamic model, which translates neuronal dynamics into blood-
+oxygen-level-dependent responses (Friston et al., 2000). This model is readily available as
+a built-in monitor in TVB platform (Sanz-Leon et al., 2013), and its integration into our
+modeling framework is straightforward, as demonstrated by Gaglioti et al. (2024). Therefore,
+extending our current framework to simulate fMRI data is an easily implementable step in
+future work, enabling direct validation against empirical resting-state fMRI recordings and
+opening new avenues for clinical applications and brain-computer interface development
+(Sitaram et al., 2007).
+
+                                              27
+    Finally, our analysis primarily focuses on a stationary characterization of the model dy-
+namics, identifying fixed patterns of spontaneous activity. However, the brain does not
+operate in a steady state – it exhibits transient dynamics, shifting between different func-
+tional configurations over time. Future studies will aim to extend this work by exploring
+the temporal evolution of network states, classifying these transient states, and ultimately
+comparing them with empirical data. This will further improve model calibration and help
+refine our understanding of how large-scale neural networks reconfigure over time.
+
+4.2. Conclusion
+    In summary, this study demonstrates the importance of parameter tuning in captur-
+ing the full complexity of spontaneous and evoked brain dynamics. The use of Cobrawap
+is instrumental in refining the model and ensuring its consistency with empirical expecta-
+tions, allowing us to reproduce key brain activity features such as alpha-band oscillations,
+infra-slow rhythms, spatio-temporal heterogeneity in network activity and complex evoked
+responses. The independently developed metrics, applicable to any simulation engine, enable
+a more systematic approach that creates opportunities for iterative automatic data-driven
+refinement of model parameters through tools like the Learning-to-Learn (L2L) framework
+(Yegenoglu et al., 2022). Our findings establish a proof of concept for a structured method-
+ology that bridges computational simulations and experimental data in humans. This paves
+the way for quantitative calibration and validation of accurate, interpretable, reliable and
+personalized models of whole-brain dynamics, in both healthy and diseased conditions.
+
+CRediT authorship contribution statement
+Gianluca Gaglioti: Conceptualization, Formal analysis, Investigation, Methodology, Soft-
+ware, Visualization, Writing - Original Draft, Writing - Review & Editing. Alessandra
+Cardinale: Formal analysis, Methodology, Software, Visualization, Writing - original draft,
+Writing - review & editing. Cosimo Lupo: Conceptualization, Formal analysis, Investi-
+gation, Methodology, Software, Supervision, Writing - original draft, Writing - review &
+editing. Thierry Nieus: Conceptualization, Formal analysis, Investigation, Methodol-
+ogy, Supervision, Writing - original draft, Writing - review & editing. Federico Mar-
+moreo: Methodology, Software, Writing - review & editing. Elena Focacci: Data cura-
+tion, Methodology, Writing - review & editing. Robin Gutzen: Methodology, Software,
+Writing - review & editing. Michael Denker: Methodology, Software, Writing - review
+& editing. Andrea Pigorini: Conceptualization, Funding acquisition, Project admin-
+istration, Writing - review & editing. Marcello Massimini: Conceptualization, Fund-
+ing acquisition, Project administration, Supervision, Writing - review & editing. Simone
+Sarasso: Conceptualization, Funding acquisition, Supervision, Writing - review & editing.
+Pier Stanislao Paolucci: Conceptualization, Formal analysis, Funding acquisition, Inves-
+tigation, Methodology, Project administration, Supervision, Writing - original draft, Writing
+- review & editing. Giulia De Bonis: Conceptualization, Formal analysis, Investigation,
+Methodology, Software, Supervision, Writing - original draft, Writing - review & editing.
+
+                                             28
+Data and code availability
+    Whole-brain simulations rely on software release 2.7.2 of TheVirtualBrain (TVB) (https:
+//www.thevirtualbrain.org/tvb/zwei/brainsimulator-software), with parameters as
+in Suppl. Tab. A.2. Simulation outputs are then analyzed with dedicated tools; their in-
+tegration in the next official Cobrawap software release 0.3.0 is currently underway (the
+latest stable release is always reachable at https://doi.org/10.5281/zenodo.10198748),
+though new software features developed for this paper are already available as a devel-
+opment branch at https://github.com/APE-group/cobrawap/tree/devs/TVB. The data
+from simulations and the code for reproducing the figures presented in this paper are avail-
+able upon request.
+
+Fundings
+    This work has been co-funded by: the European Next Generation EU through Ital-
+ian MUR grants CUP B51E22000150006 (EBRAINS-Italy IR00011 PNRR Project) (CL,
+FM, PSP, GDB, AP, MM); the European Union’s Horizon Europe Programme under the
+Specific Grant Agreement No. 101147319 (EBRAINS 2.0 Project) (MD, AP); The Euro-
+pean Research Council (ERC-2022-SYG-101071900-NEMESIS) (MM); The Tiny Blue Dot
+Foundation (MM); the Ministero dell’Università e della Ricerca PRIN 2022 20228ARNXS
+“DARKSCANNER” (SS); the Italian Ministry of Foreign Affairs and International Coop-
+eration, MultiScale Brain Function (MSBFIINE) India-Italy Network of Excellence (DST-
+MAE) IN22NOE02 (TN); Progetto Di Ricerca Di Rilevante Interesse Nazionale (PRIN)
+P2022FMK77 (AP). AC is a PhD student enrolled in the National PhD in Artificial In-
+telligence, XXXVIII cycle BIS, course on Health and life sciences, organized by Università
+Campus Bio-Medico di Roma.
+
+References
+Aerts, H., Schirner, M., Dhollander, T., Jeurissen, B., Achten, E., Van Roost, D., Ritter,
+  P., Marinazzo, D., 2020. Modeling brain dynamics after tumor resection using the virtual
+  brain. NeuroImage 213, 116738. doi:10.1016/j.neuroimage.2020.116738.
+
+Alstott, J., Breakspear, M., Hagmann, P., Cammoun, L., Sporns, O., 2009. Modeling
+  the Impact of Lesions in the Human Brain. PLOS Computational Biology 5, e1000408.
+  doi:10.1371/journal.pcbi.1000408.
+
+Beggs, J.M., Plenz, D., 2003. Neuronal avalanches in neocortical circuits. The Journal of
+  Neuroscience 23, 11167–11177. doi:10.1523/jneurosci.23-35-11167.2003.
+
+Berger, H., 1929. Über das Elektrenkephalogramm des Menschen. Archiv für Psychiatrie
+  und Nervenkrankheiten 87, 527–570. doi:10.1007/BF01797193.
+
+Breakspear, M., 2017. Dynamic models of large-scale brain activity. Nature Neuroscience
+  20, 340–352. doi:10.1038/nn.4497.
+                                            29
+Breakspear, M., Stam, C.J., 2005. Dynamics of a neural system with a multiscale ar-
+  chitecture. Philosophical Transactions of the Royal Society B: Biological Sciences 360,
+  1051–1074. doi:10.1098/rstb.2005.1643.
+
+Breakspear, M., Terry, J.R., 2002. Nonlinear interdependence in neural systems: motivation,
+  theory, and relevance. The International Journal of Neuroscience 112, 1263–1284. doi:10.
+  1080/00207450290026193.
+
+Breakspear, M., Terry, J.R., Friston, K.J., 2003. Modulation of excitatory synaptic coupling
+  facilitates synchronization and complex dynamics in a biophysical model of neuronal dy-
+  namics. Network: Computation in Neural Systems 14, 703–732. doi:10.1088/0954-898X_
+  14_4_305.
+
+Cakan, C., Jajcay, N., Obermayer, K., 2023. neurolib: A Simulation Framework for Whole-
+  Brain Neural Mass Modeling. Cognitive Computation 15, 1132–1152. doi:10.1007/
+  s12559-021-09931-9.
+
+Capilla, A., Arana, L., García-Huéscar, M., Melcón, M., Gross, J., Campo, P., 2022. The
+  natural frequencies of the resting human brain: An MEG-based atlas. NeuroImage 258,
+  119373. doi:10.1016/j.neuroimage.2022.119373.
+
+Capone, C., De Luca, C., De Bonis, G., Gutzen, R., Bernava, I., Pastorelli, E., Sim-
+  ula, F., Lupo, C., Tonielli, L., Resta, F., Allegra Mascaro, A.L., Pavone, F., Denker,
+  M., Paolucci, P.S., 2023. Simulations approaching data: cortical slow waves in in-
+  ferred models of the whole hemisphere of mouse. Communications Biology 6, 266.
+  doi:10.1038/s42003-023-04580-0.
+
+Casali, A.G., Gosseries, O., Rosanova, M., Boly, M., Sarasso, S., Casali, K.R., Casarotto, S.,
+  Bruno, M.A., Laureys, S., Tononi, G., Massimini, M., 2013. A Theoretically Based Index
+  of Consciousness Independent of Sensory Processing and Behavior. Science Translational
+  Medicine 5, 198ra105. doi:10.1126/scitranslmed.3006294.
+
+Casarotto, S., Comanducci, A., Rosanova, M., Sarasso, S., Fecchio, M., Napolitani, M., Pig-
+  orini, A., Casali, A.G., Trimarchi, P.D., Boly, M., Gosseries, O., Bodart, O., Curto, F.,
+  Landi, C., Mariotti, M., Devalle, G., Laureys, S., Tononi, G., Massimini, M., 2016. Strati-
+  fication of unresponsive patients by an independently validated index of brain complexity.
+  Annals of Neurology 80, 718–729. doi:10.1002/ana.24779.
+
+Celotto, M., De Luca, C., Muratore, P., Resta, F., Allegra Mascaro, A.L., Pavone, F.S.,
+  De Bonis, G., Paolucci, P.S., 2020. Analysis and Model of Cortical Slow Waves Acquired
+  with Optical Techniques. Methods and Protocols 3, 14. doi:10.3390/mps3010014.
+
+Chialvo, D.R., 2010. Emergent complex neural dynamics. Nature Physics 6, 744–750.
+  doi:10.1038/nphys1803.
+
+
+                                             30
+Cocchi, L., Gollo, L.L., Zalesky, A., Breakspear, M., 2017. Criticality in the brain: A
+  synthesis of neurobiology, models and cognition. Progress in Neurobiology 158, 132–152.
+  doi:10.1016/j.pneurobio.2017.07.002.
+Coito, A., Michel, C.M., Vulliemoz, S., Plomp, G., 2018. Directed functional connections
+  underlying spontaneous brain activity. Human Brain Mapping 40, 879–888. doi:10.1002/
+  hbm.24418.
+Cole, S., Donoghue, T., Gao, R., Voytek, B., 2019. Neurodsp: A package for neural digital
+  signal processing. Journal of Open Source Software 4, 1272. doi:10.21105/joss.01272.
+Colombo, M.A., Napolitani, M., Boly, M., Gosseries, O., Casarotto, S., Rosanova, M.,
+  Brichant, J.F., Boveroux, P., Rex, S., Laureys, S., Massimini, M., Chieregato, A., Sarasso,
+  S., 2019. The spectral exponent of the resting eeg indexes the presence of consciousness
+  during unresponsiveness induced by propofol, xenon, and ketamine. NeuroImage 189,
+  631–644. doi:10.1016/j.neuroimage.2019.01.024.
+Comolatti, R., Hassan, G., Mikulan, E., Russo, S., Colombo, M.A., Litterio, E., Furregoni,
+  G., D’Ambrosio, S., Fecchio, M., Parmigiani, S., Sartori, I., Casarotto, S., Pigorini, A.,
+  Massimini, M., 2025. Transcranial magnetic vs intracranial electric stimulation: a direct
+  comparison of their effects via scalp eeg recordings. Brain Stimulation 18, 1444–1454.
+  doi:10.1016/j.brs.2025.07.016.
+Dalla Porta, L., Copelli, M., 2019. Modeling neuronal avalanches and long-range tempo-
+ ral correlations at the emergence of collective oscillations: Continuously varying expo-
+ nents mimic M/EEG results. PLOS Computational Biology 15, e1006924. doi:10.1371/
+ journal.pcbi.1006924.
+De Bonis, G., Dasilva, M., Pazienti, A., Sanchez-Vives, M.V., Mattia, M., Stanislao, P.P.,
+  2019. Analysis Pipeline for Extracting Features of Cortical Slow Oscillations. Frontiers
+  in Systems Neuroscience 13, 70. doi:10.3389/fnsys.2019.00070.
+Deco, G., Jirsa, V.K., 2012. Ongoing cortical activity at rest: Criticality, multistability, and
+  ghost attractors. The Journal of Neuroscience 32, 3366–3375. doi:10.1523/jneurosci.
+  2523-11.2012.
+Deco, G., Jirsa, V.K., McIntosh, A.R., 2011. Emerging concepts for the dynamical orga-
+  nization of resting-state activity in the brain. Nature Reviews Neuroscience 12, 43–56.
+  doi:10.1038/nrn2961.
+Deco, G., Jirsa, V.K., McIntosh, A.R., 2013. Resting brains never rest: computational
+  insights into potential cognitive architectures. Trends in Neurosciences 36, 268–274.
+  doi:10.1016/j.tins.2013.03.001.
+Deco, G., Kringelbach, M.L., Jirsa, V.K., Ritter, P., 2017. The dynamics of resting fluctu-
+  ations in the brain: metastability and its dynamical cortical core. Scientific Reports 7,
+  3095. doi:10.1038/s41598-017-03073-5.
+                                              31
+Deco, G., McIntosh, A.R., Shen, K., Hutchison, R.M., Menon, R.S., Everling, S., Hagmann,
+  P., Jirsa, V.K., 2014. Identification of Optimal Structural Connectivity Using Functional
+  Connectivity and Neural Modeling. Journal of Neuroscience 34, 7910–7916. doi:10.1523/
+  JNEUROSCI.4423-13.2014.
+
+Denker, M., Yegenoglu, A., Grün, S., 2018. Collaborative HPC-enabled workflows on the
+  HBP Collaboratory using the Elephant framework, in: Neuroinformatics 2018, p. P19.
+  doi:10.12751/incf.ni2018.0019.
+
+EBRAINS ESD, 2025. https://gitlab.ebrains.eu/ri/tech-hub/platform/esd.
+
+EBRAINS: Europe Research Infrastructure for Brain Research, 2023. www.ebrains.eu.
+
+Endo, H., Hiroe, N., Yamashita, O., 2020. Evaluation of Resting Spatio-Temporal Dynamics
+  of a Neural Mass Model Using Resting fMRI Connectivity and EEG Microstates. Frontiers
+  in Computational Neuroscience 13, 91. doi:10.3389/fncom.2019.00091.
+
+Esteban, O., Markiewicz, C.J., Blair, R.W., Moodie, C.A., Isik, A.I., Erramuzpe, A., Kent,
+  J.D., Goncalves, M., DuPre, E., Snyder, M., Oya, H., Ghosh, S.S., Wright, J., Durnez, J.,
+  Poldrack, R.A., Gorgolewski, K.J., 2019. fMRIPrep: a robust preprocessing pipeline for
+  functional MRI. Nature Methods 16, 111–116. doi:10.1038/s41592-018-0235-4.
+
+Falcon, M.I., Riley, J.D., Jirsa, V., McIntosh, A.R., Elinor Chen, E., Solodkin, A., 2016.
+  Functional mechanisms of recovery after chronic stroke: Modeling with the virtual brain.
+  eNeuro 3, e0158–15.2016. doi:10.1523/eneuro.0158-15.2016.
+
+Fischl, B., 2012. FreeSurfer. NeuroImage 62, 774–781. doi:10.1016/j.neuroimage.2012.
+  01.021.
+
+Fousek, J., Rabuffo, G., Gudibanda, K., Sheheitli, H., Petkoski, S., Jirsa, V., 2024. Sym-
+  metry breaking organizes the brain’s resting state manifold. Scientific Reports 14, 31970.
+  doi:10.1038/s41598-024-83542-w.
+
+Fox, M.D., Raichle, M.E., 2007. Spontaneous fluctuations in brain activity observed with
+  functional magnetic resonance imaging. Nature Reviews Neuroscience 8, 700–711. doi:10.
+  1038/nrn2201.
+
+Frauscher, B., von Ellenrieder, N., Zelmann, R., Doležalová, I., Minotti, L., Olivier, A., Hall,
+  J., Hoffmann, D., Nguyen, D.K., Kahane, P., Dubeau, F., Gotman, J., 2018. Atlas of the
+  normal intracranial electroencephalogram: neurophysiological awake activity in different
+  cortical areas. Brain 141, 1130–1144. doi:10.1093/brain/awy035.
+
+Freyer, F., Aquino, K., Robinson, P.A., Ritter, P., Breakspear, M., 2009. Bistability and
+  Non-Gaussian Fluctuations in Spontaneous Cortical Activity. Journal of Neuroscience 29,
+  8512–8524. doi:10.1523/JNEUROSCI.0754-09.2009.
+
+
+                                              32
+Freyer, F., Roberts, J.A., Becker, R., Robinson, P.A., Ritter, P., Breakspear, M., 2011.
+  Biophysical Mechanisms of Multistability in Resting-State Cortical Rhythms. Journal of
+  Neuroscience 31, 6353–6361. doi:10.1523/JNEUROSCI.6693-10.2011.
+
+Friston, K., Mechelli, A., Turner, R., Price, C., 2000. Nonlinear responses in fmri: The
+  balloon model, volterra kernels, and other hemodynamics. NeuroImage 12, 466–477.
+  doi:10.1006/nimg.2000.0630.
+
+Gaglioti, G., Nieus, T.R., Massimini, M., Sarasso, S., 2024. Investigating the Impact of
+ Local Manipulations on Spontaneous and Evoked Brain Complexity Indices: A Large-
+ Scale Computational Model. Applied Sciences 14, 890. doi:10.3390/app14020890.
+
+Gao, Y., Koyun, A.H., Roessner, V., Stock, A.K., Mückschel, M., Colzato, L., Hommel,
+ B., Beste, C., 2025. Transcranial direct current stimulation and methylphenidate interact
+ to increase cognitive persistence as a core component of metacontrol: Evidence from
+ aperiodic activity analyses. Brain Stimulation 18, 720–729. doi:10.1016/j.brs.2025.
+ 03.024.
+
+Gerstner, W., Kistler, W.M., Naud, R., Paninski, L., 2014. Neuronal dynamics: From single
+ neurons to networks and models of cognition. Cambridge University Press. doi:10.1017/
+ CBO9781107447615.
+
+Gollo, L.L., Breakspear, M., 2014. The frustrated brain: from dynamics on motifs to
+ communities and networks. Philosophical Transactions of the Royal Society B: Biological
+ Sciences 369, 20130532. doi:10.1098/rstb.2013.0532.
+
+Gollo, L.L., Zalesky, A., Hutchison, R.M., van den Heuvel, M., Breakspear, M., 2015.
+ Dwelling quietly in the rich club: brain network determinants of slow cortical fluctuations.
+ Philosophical Transactions of the Royal Society B: Biological Sciences 370, 20140165.
+ doi:10.1098/rstb.2014.0165.
+
+Gramfort, A., Luessi, M., Larson, E., Engemann, D.A., Strohmeier, D., Brodbeck, C., Goj,
+  R., Jas, M., Brooks, T., Parkkonen, L., Hämäläinen, M., 2013. MEG and EEG data
+  analysis with MNE-Python. Frontiers in Neuroscience 7, 267. doi:10.3389/fnins.2013.
+  00267.
+
+Griffiths, J.D., Bastiaens, S.P., Kaboodvand, N., 2022. Whole-Brain Modelling: Past,
+  Present, and Future. Advances in Experimental Medicine and Biology 1359, 313–355.
+  doi:10.1007/978-3-030-89439-9_13.
+
+Gutierrez-Barragan, D., Basson, M.A., Panzeri, S., Gozzi, A., 2019. Infraslow State Fluctu-
+ ations Govern Spontaneous fMRI Network Dynamics. Current Biology 29, 2295–2306.e5.
+ doi:10.1016/j.cub.2019.06.017.
+
+Gutzen, R., De Bonis, G., De Luca, C., Pastorelli, E., Capone, C., Allegra Mascaro, A.L.,
+ Resta, F., Manasanch, A., Pavone, F.S., Sanchez-Vives, M.V., Mattia, M., Grün, S.,
+                                             33
+  Paolucci, P.S., Denker, M., 2024. A modular and adaptable analysis pipeline to compare
+  slow cerebral rhythms across heterogeneous datasets. Cell Reports Methods 4, 100681.
+  doi:10.1016/j.crmeth.2023.100681.
+
+Gutzen, R., Lupo, C., Marmoreo, F., De Bonis, G., De Luca, C., Pastorelli, E., Capone,
+ C., Allegra Mascaro, A.L., Resta, F., Manasanch, A., Pavone, F.S., Sanchez-Vives, M.V.,
+ Mattia, M., Grün, S., Paolucci, P.S., Denker, M., 2025a. Cobrawap documentation.
+ https://cobrawap.readthedocs.io.
+
+Gutzen, R., Lupo, C., Marmoreo, F., De Bonis, G., De Luca, C., Pastorelli, E., Capone,
+ C., Allegra Mascaro, A.L., Resta, F., Manasanch, A., Pavone, F.S., Sanchez-Vives, M.V.,
+ Mattia, M., Grün, S., Paolucci, P.S., Denker, M., 2025b. Cobrawap official releases on
+ zenodo. doi:10.5281/zenodo.10198748.
+
+Gutzen, R., von Papen, M., Trensch, G., Quaglio, P., Grün, S., Denker, M., 2018. Repro-
+ ducible neural network simulations: Statistical methods for model validation on the level
+ of network activity data. Frontiers in Neuroinformatics 12, 90. doi:10.3389/fninf.2018.
+ 00090.
+
+Hagmann, P., Cammoun, L., Gigandet, X., Meuli, R., Honey, C.J., Wedeen, V.J., Sporns,
+  O., 2008. Mapping the Structural Core of Human Cerebral Cortex. PLoS Biology 6, e159.
+  doi:10.1371/journal.pbio.0060159.
+
+He, B.J., Zempel, J.M., Snyder, A.Z., Raichle, M.E., 2010. The temporal structures and
+  functional significance of scale-free brain activity. Neuron 66, 353–369. doi:10.1016/j.
+  neuron.2010.04.020.
+
+Heitmann, S., Aburn, M.J., Breakspear, M., 2018. The Brain Dynamics Toolbox for Matlab.
+  Neurocomputing 315, 82–88. doi:10.1016/j.neucom.2018.06.026.
+
+van den Heuvel, M.P., Sporns, O., 2013. Network hubs in the human brain. Trends in
+  Cognitive Sciences 17, 683–696. doi:10.1016/j.tics.2013.09.012.
+
+Honey, C.J., Kötter, R., Breakspear, M., Sporns, O., 2007. Network structure of cerebral
+  cortex shapes functional connectivity on multiple time scales. Proceedings of the National
+  Academy of Sciences of the United States of America 104, 10240–10245. doi:10.1073/
+  pnas.0701519104.
+
+Honey, C.J., Sporns, O., 2008. Dynamical consequences of lesions in cortical networks.
+  Human Brain Mapping 29, 802–809. doi:10.1002/hbm.20579.
+
+Honey, C.J., Sporns, O., Cammoun, L., Gigandet, X., Thiran, J.P., Meuli, R., Hagmann, P.,
+  2009. Predicting human resting-state functional connectivity from structural connectivity.
+  Proceedings of the National Academy of Sciences 106, 2035–2040. doi:10.1073/pnas.
+  0811168106.
+
+                                            34
+Jensen, O., Mazaheri, A., 2010. Shaping Functional Architecture by Oscillatory Alpha
+  Activity: Gating by Inhibition. Frontiers in Human Neuroscience 4, 186. doi:10.3389/
+  fnhum.2010.00186.
+
+Jirsa, V., Wang, H., Triebkorn, P., Hashemi, M., Jha, J., Gonzalez-Martinez, J., Guye, M.,
+   Makhalova, J., Bartolomei, F., 2023. Personalised virtual brain models in epilepsy. The
+   Lancet Neurology 22, 443–454. doi:10.1016/S1474-4422(23)00008-X.
+
+Kar, K., Ito, T., Cole, M.W., Krekelberg, B., 2020. Transcranial alternating current stim-
+ ulation attenuates BOLD adaptation and increases functional connectivity. Journal of
+ Neurophysiology 123, 428–438. doi:10.1152/jn.00376.2019.
+
+Klimesch, W., 1999. EEG alpha and theta oscillations reflect cognitive and memory per-
+  formance: a review and analysis. Brain Research Reviews 29, 169–195. doi:10.1016/
+  s0165-0173(98)00056-3.
+
+Kötter, R., 2004. Online Retrieval, Processing, and Visualization of Primate Connectivity
+  Data From the CoCoMac Database. Neuroinformatics 2, 127–144. doi:10.1385/ni:2:2:
+  127.
+
+Kringelbach, M.L., McIntosh, A.R., Ritter, P., Jirsa, V.K., Deco, G., 2015. The rediscovery
+  of slowness: Exploring the timing of cognition. Trends in Cognitive Sciences 19, 616–628.
+  doi:10.1016/j.tics.2015.07.011.
+
+Kunze, T., Hunold, A., Haueisen, J., Jirsa, V., Spiegler, A., 2016. Transcranial direct current
+ stimulation changes resting state functional connectivity: A large-scale brain network
+ modeling study. NeuroImage 140, 174–187. doi:10.1016/j.neuroimage.2016.02.015.
+
+Larkum, M.E., 2013. A cellular mechanism for cortical associations: an organizing principle
+  for the cerebral cortex. Trends in Neurosciences 36, 141–151. doi:10.1016/j.tins.2012.
+  11.006.
+
+Larter, R., Speelman, B., Worth, R.M., 1999. A coupled ordinary differential equation lattice
+  model for the simulation of epileptic seizures. Chaos 9, 795–804. doi:10.1063/1.166453.
+
+Lee, G., Gommers, R., Waselewski, F., Wohlfahrt, K., O’Leary, A., 2019. PyWavelets: A
+  Python package for wavelet analysis. Journal of Open Source Software 4, 1237. doi:10.
+  21105/joss.01237.
+
+Lempel, A., Ziv, J., 1976. On the complexity of finite sequences. IEEE Transactions on
+  Information Theory 22, 75–81. doi:10.1109/TIT.1976.1055501.
+
+Linkenkaer-Hansen, K., Nikouline, V.V., Palva, J.M., Ilmoniemi, R.J., 2001. Long-range
+  temporal correlations and scaling behavior in human brain oscillations. The Journal of
+  Neuroscience 21, 1370–1377. doi:10.1523/jneurosci.21-04-01370.2001.
+
+
+                                              35
+Liu, Y., Sun, N., Xiong, J., Zhou, Y., Ye, X., Jiang, H., Guo, H., Zhi, N., Lu, J., He, P.,
+  Yang, H., Li, Q., Sun, R., He, J., 2022. Modulation of cerebral cortex activity by acupunc-
+  ture in patients with prolonged disorder of consciousness: An fNIRS study. Frontiers in
+  Neuroscience 16, 1043133. doi:10.3389/fnins.2022.1043133.
+Lorenzi, R.M., Palesi, F., Casellato, C., Gandini Wheeler-Kingshott, C.A.M., D’Angelo, E.,
+  2025. Region-specific mean field models enhance simulations of local and global brain dy-
+  namics. npj Systems Biology and Applications 11, 66. doi:10.1038/s41540-025-00543-9.
+Mainas, F., Golosio, B., Retico, A., Oliva, P., 2024. Exploring autism spectrum disor-
+ der: A comparative study of traditional classifiers and deep learning classifiers to analyze
+ functional connectivity measures from a multicenter dataset. Applied Sciences 14, 7632.
+ doi:10.3390/app14177632.
+Martín, I., Zamora-López, G., Fousek, J., Schirner, M., Ritter, P., Jirsa, V., Deco, G., Patow,
+ G., 2026. TVB C++: A Fast and Flexible Back-End for The Virtual Brain. Advanced
+ Science 13, e06440. doi:10.1002/advs.202406440.
+Maschke, C., O’Byrne, J., Colombo, M.A., Boly, M., Gosseries, O., Laureys, S., Rosanova,
+ M., Jerbi, K., Blain-Moraes, S., 2024. Critical dynamics in spontaneous eeg predict
+ anesthetic-induced loss of consciousness and perturbational complexity. Communications
+ Biology 7, 946. doi:10.1038/s42003-024-06613-8.
+Masina, F., Napoli, E., Santacesaria, P., Giustiniani, A., Zago, S., Marino, M., Pezzetta,
+ R., Montemurro, S., Manzo, N., Cona, G., Mapelli, D., Arcara, G., 2025. Transcranial
+ alternating current stimulation selectively modulates aperiodic EEG component: Un-
+ veiling alternative mechanisms of modulation. Clinical Neurophysiology 177, 2110929.
+ doi:10.1016/j.clinph.2025.2110929.
+Meisel, C., Klaus, A., Kuehn, C., Plenz, D., 2015. Critical slowing down governs the tran-
+ sition to neuron spiking. PLOS Computational Biology 11, e1004097. doi:10.1371/
+ journal.pcbi.1004097.
+Monma, N., Yamamoto, H., Fujiwara, N., Murota, H., Moriya, S., Hirano-Iwata, A., Sato,
+ S., 2025. Directional intermodular coupling enriches functional complexity in biological
+ neuronal networks. Neural Networks 184, 106967. doi:10.1016/j.neunet.2024.106967.
+Müller, D., Habel, U., Brodkin, E.S., Clemens, B., Weidler, C., 2023. HD-tDCS induced
+ changes in resting-state functional connectivity: Insights from EF modeling. Brain Stim-
+ ulation 16, 1722–1732. doi:10.1016/j.brs.2023.11.012.
+Nichols, T.E., Holmes, A.P., 2001. Nonparametric permutation tests for functional neu-
+  roimaging: A primer with examples. Human Brain Mapping 15, 1–25. doi:10.1002/hbm.
+  1058.
+O’Byrne, J., Jerbi, K., 2022. How critical is brain criticality? Trends in Neurosciences 45,
+  820–837. doi:10.1016/j.tins.2022.08.007.
+                                              36
+Palva, J.M., Palva, S., 2012. Infra-slow fluctuations in electrophysiological recordings, blood-
+  oxygenation-level-dependent signals, and psychophysical time series. NeuroImage 62,
+  2201–2211. doi:10.1016/j.neuroimage.2012.02.060.
+
+Palva, S., Palva, J.M., 2018. Roles of brain criticality and multiscale oscillations in temporal
+  predictions for sensorimotor processing. Trends in Neurosciences 41, 729–743. doi:10.
+  1016/j.tins.2018.08.008.
+
+Rabuffo, G., Fousek, J., Bernard, C., Jirsa, V., 2021. Neuronal Cascades Shape Whole-Brain
+  Functional Dynamics at Rest. eNeuro 8, 0283–21.2021. doi:10.1523/eneuro.0283-21.
+  2021.
+
+Roberts, J.A., Gollo, L.L., Abeysuriya, R.G., Roberts, G., Mitchell, P.B., Woolrich, M.W.,
+  Breakspear, M., 2019. Metastable brain waves. Nature Communications 10, 1056. doi:10.
+  1038/s41467-019-08999-0.
+
+Rosanova, M., Casali, A.G., Bellina, V., Resta, F., Mariotti, M., Massimini, M., 2009.
+  Natural Frequencies of Human Corticothalamic Circuits. Journal of Neuroscience 29,
+  7679–7685. doi:10.1523/JNEUROSCI.0445-09.2009.
+
+Rosanova, M., Gosseries, O., Casarotto, S., Boly, M., Casali, A.G., Bruno, M.A., Mariotti,
+  M., Boveroux, P., Tononi, G., Laureys, S., Massimini, M., 2012. Recovery of cortical
+  effective connectivity and recovery of consciousness in vegetative patients. Brain 135,
+  1308–1320. doi:10.1093/brain/awr340.
+
+Sanz-Leon, P., Knock, S.A., Spiegler, A., Jirsa, V.K., 2015. Mathematical framework for
+  large-scale brain network modeling in The Virtual Brain. NeuroImage 111, 385–430.
+  doi:10.1016/j.neuroimage.2015.01.002.
+
+Sanz-Leon, P., Knock, S.A., Woodman, M.M., Domide, L., Mersmann, J., McIntosh, A.R.,
+  Jirsa, V., 2013. The Virtual Brain: a simulator of primate brain network dynamics.
+  Frontiers in Neuroinformatics 7, 10. doi:10.3389/fninf.2013.00010.
+
+Sarasso, S., Rosanova, M., Casali, A.G., Casarotto, S., Fecchio, M., Boly, M., Gosseries,
+  O., Tononi, G., Laureys, S., Massimini, M., 2014. Quantifying cortical EEG responses
+  to TMS in (un)consciousness. Clinical EEG and Neuroscience 45, 40–49. doi:10.1177/
+  1550059413513723.
+
+Schirner, M., Domide, L., Perdikis, D., Triebkorn, P., Stefanovski, L., Pai, R., Prodan, P.,
+  Valean, B., Palmer, J., Langford, C., Blickensdörfer, A., van der Vlag, M., Diaz-Pier, S.,
+  Peyser, A., Klijn, W., Pleiter, D., Nahm, A., Schmid, O., Woodman, M., Zehl, L., Fousek,
+  J., Petkoski, S., Kusch, L., Hashemi, M., Marinazzo, D., Mangin, J.F., Flöel, A., Akintoye,
+  S., Stahl, B.C., Cepic, M., Johnson, E., Deco, G., McIntosh, A.R., Hilgetag, C.C., Morgan,
+  M., Schuller, B., Upton, A., McMurtrie, C., Dickscheid, T., Bjaalie, J.G., Amunts, K.,
+  Mersmann, J., Jirsa, V., Ritter, P., 2022. Brain simulation as a cloud service: The Virtual
+  Brain on EBRAINS. NeuroImage 251, 118973. doi:10.1016/j.neuroimage.2022.118973.
+                                              37
+Shew, W.L., Plenz, D., 2012. The functional benefits of criticality in the cortex. The
+  Neuroscientist 19, 88–100. doi:10.1177/1073858412445487.
+
+Sitaram, R., Caria, A., Veit, R., Gaber, T., Rota, G., Kuebler, A., Birbaumer, N., 2007.
+  fMRI Brain-Computer Interface: A Tool for Neuroscientific Research and Treatment.
+  Computational Intelligence and Neuroscience 2007, 25487. doi:10.1155/2007/25487.
+
+Stefanovski, L., Triebkorn, P., Spiegler, A., Diaz-Cortes, M.A., Solodkin, A., Jirsa, V., McIn-
+  tosh, A.R., Ritter, P., 2019. Linking molecular pathways and large-scale computational
+  modeling to assess candidate disease mechanisms and pharmacodynamics in alzheimer’s
+  disease. Frontiers in Computational Neuroscience 13, 54. doi:10.3389/fncom.2019.
+  00054.
+
+Sunkin, S.M., Ng, L., Lau, C., Dolbeare, T., Gilbert, T.L., Thompson, C.L., Hawrylycz,
+  M., Dang, C., 2013. Allen Brain Atlas: an integrated spatio-temporal portal for exploring
+  the central nervous system. Nucleic Acids Research 41, D996–D1008. doi:10.1093/nar/
+  gks1042.
+
+Tagliazucchi, E., von Wegner, F., Morzelewski, A., Brodbeck, V., Laufs, H., 2012. Dynamic
+  BOLD functional connectivity in humans and its electrophysiological correlates. Frontiers
+  in Human Neuroscience 6, 339. doi:10.3389/fnhum.2012.00339.
+
+Trensch, G., Gutzen, R., Blundell, I., Denker, M., Morrison, A., 2018. Rigorous neural
+  network simulations: A model substantiation methodology for increasing the correctness
+  of simulation results in the absence of experimental validation data. Frontiers in Neuroin-
+  formatics 12, 81. doi:10.3389/fninf.2018.00081.
+
+Triebkorn, P., Meier, J., Zimmermann, J., Stefanovski, L., Roy, D., Solodkin, A., Jirsa, V.,
+  Deco, G., Breakspear, M., Schirner, M., McIntosh, A.R., Ritter, P., 2024. Fifty shades
+  of The Virtual Brain: Converging optimal working points yield biologically plausible
+  electrophysiological and imaging features. biorXiv doi:10.1101/2020.03.26.009795.
+
+Van Essen, D.C., Ugurbil, K., Auerbach, E., Barch, D., Behrens, T.E.J., Bucholz, R.,
+  Chang, A., Chen, L., Corbetta, M., Curtiss, S.W., Della Penna, S., Feinberg, D., Glasser,
+  M.F., Harel, N., Heath, A.C., Larson-Prior, L., Marcus, D., Michalareas, G., Moeller, S.,
+  Oostenveld, R., Petersen, S.E., Prior, F., Schlaggar, B.L., Smith, S.M., Snyder, A.Z., Xu,
+  J., Yacoub, E., WU-Minn HCP Consortium, 2012. The Human Connectome Project: a
+  data acquisition perspective. NeuroImage 62, 2222–2231. doi:10.1016/j.neuroimage.
+  2012.02.018.
+
+Väyrynen, T., Helakari, H., Korhonen, V., Tuunanen, J., Huotari, N., Piispala, J., Kallio,
+  M., Raitamaa, L., Kananen, J., Järvelä, M., Matias Palva, J., Kiviniemi, V., 2023. Infra-
+  slow fluctuations in cortical potentials and respiration drive fast cortical EEG rhythms
+  in sleeping and waking states. Clinical Neurophysiology 156, 207–219. doi:10.1016/j.
+  clinph.2023.10.013.
+
+                                              38
+Wang, H.E., Dollomaja, B., Triebkorn, P., Duma, G.M., Williamson, A., Makhalova, J.,
+ Lemarechal, J.D., Bartolomei, F., Jirsa, V., 2025. Virtual brain twins for stimulation in
+ epilepsy. Nature Computational Science 5, 754–768. doi:10.1038/s43588-025-00841-6.
+
+Yegenoglu, A., Subramoney, A., Hater, T., Jimenez-Romero, C., Klijn, W., Pérez Martín,
+  A., van der Vlag, M., Herty, M., Morrison, A., Diaz-Pier, S., 2022. Exploring Parameter
+  and Hyper-Parameter Spaces of Neuroscience Models on High Performance Computers
+  With Learning to Learn. Frontiers in Computational Neuroscience 16, 885207. doi:10.
+  3389/fncom.2022.885207.
+
+Yu, H., Li, F., Liu, J., Liu, D., Guo, H., Wang, J., Li, G., 2024. Evaluation of acupuncture
+  efficacy in modulating brain activity with periodic-aperiodic eeg measurements. IEEE
+  Transactions on Neural Systems and Rehabilitation Engineering 32, 2450–2459. doi:10.
+  1109/tnsre.2024.3421648.
+
+Yu, H., Li, X., Lei, X., Wang, J., 2019. Modulation effect of acupuncture on functional
+  brain networks and classification of its manipulation with eeg signals. IEEE Transactions
+  on Neural Systems and Rehabilitation Engineering 27, 1973–1984. doi:10.1109/tnsre.
+  2019.2939655.
+
+Yu, H., Wu, X., Cai, L., Deng, B., Wang, J., 2018. Modulation of spectral power and
+  functional connectivity in human brain by acupuncture stimulation. IEEE Transactions
+  on Neural Systems and Rehabilitation Engineering 26, 977–986. doi:10.1109/tnsre.
+  2018.2828143.
+
+Zamora-López, G., Chen, Y., Deco, G., Kringelbach, M.L., Zhou, C., 2016. Functional
+  complexity emerging from anatomical constraints in the brain: the significance of network
+  modularity and rich-clubs. Scientific Reports 6, 38424. doi:10.1038/srep38424.
+
+Zhang, J., Wu, K., Dong, J., Feng, J., Yu, L., 2025. Modeling the interplay between
+  regional heterogeneity and critical dynamics underlying brain functional networks. Neural
+  Networks 184, 107100. doi:10.1016/j.neunet.2024.107100.
+
+Zhao, M., Zhou, C., Chen, Y., Hu, B., Wang, B.H., 2010. Complexity versus modularity and
+  heterogeneity in oscillatory networks: Combining segregation and integration in neural
+  systems. Physical Review E 82, 046225. doi:10.1103/physreve.82.046225.
+
+
+
+
+                                            39
+  Emergent complexity and rhythms in evoked and spontaneous
+  dynamics of human whole-brain models after tuning through
+            analysis tools – Supplementary Material
+   Gianluca Gagliotia,b,1,∗, Alessandra Cardinalec,d,1 , Cosimo Lupod,1,∗∗, Thierry Nieuse ,
+Federico Marmoreod , Elena Focaccia,b , Robin Gutzenf , Michael Denkerg , Andrea Pigorinih,i ,
+ Marcello Massiminia,j,k,2 , Simone Sarassoa,2 , Pier Stanislao Paoluccid,2 , Giulia De Bonisd,2
+                a
+                     Dep. of Biomedical and Clinical Sciences, Univ. of Milan, Milan, Italy
+                      b
+                        Dep. of Philosophy “Piero Martinetti”, Univ. of Milan, Milan, Italy
+                               c
+                                 Università Campus Bio-Medico di Roma, Rome, Italy
+                d
+                  Istituto Nazionale di Fisica Nucleare (INFN), Sezione di Roma, Rome, Italy
+                   e
+                     Dep. of Environmental Science and Policy, Univ. of Milan, Milan, Italy
+                        f
+                          Center for Data Science, New York University, New York, U.S.A.
+          g
+            Institute for Advanced Simulation (IAS-6), Jülich Research Centre, Jülich, Germany
+              h
+                Dep. of Biomedical, Surgical and Dental Sciences, Univ. of Milan, Milan, Italy
+      i
+        UOC Maxillo-facial Surgery and dentistry, Fondazione IRCCS Cà Granda, Ospedale Maggiore
+                                              Policlinico, Milan, Italy
+                           j
+                             IRCCS Fondazione Don Carlo Gnocchi ONLUS, Milan, Italy
+          k
+            Azrieli Program in Brain, Mind and Consciousness, Canadian Institute for Advanced
+                                             Research, Toronto, Canada
+
+
+
+
+Supplementary Methods
+EEG preprocessing, 4 subjects, 62 channels
+    We recorded resting-state electroencephalography (EEG) from 4 healthy subjects with
+eyes closed. Each recording session lasted between 5 and 10 minutes. EEG measurements
+were acquired using a 64-channel EEG amplifier (Brain Products GmbH) sampled at 5000 Hz
+with hardware filtering at 1000 Hz, and electrode impedance was maintained below 10 kΩ.
+Reference and ground electrodes were placed on the forehead above the frontal sinus.
+    Resting-state EEG data were preprocessed using the MNE-Python software package
+(Gramfort et al., 2013). EEG recordings were first detrended to remove low-frequency
+drifts. A band-pass filter was applied with a high-pass cutoff at 0.5 Hz and a low-pass
+cutoff at 60 Hz. Additionally, a 50 Hz notch filter was applied to suppress line noise. Prior
+to independent component analysis (ICA), time segments containing prominent artifacts,
+
+  ∗
+    Corresponding author. Email address: gaglioti.gianluca@gmail.com.
+ ∗∗
+    Corresponding author. Email address: cosimo.lupo89@gmail.com.
+  1
+    These authors contributed equally.
+  2
+    These authors jointly supervised this work.
+such as those associated with muscle activity or other non-neural sources, were manually
+removed to improve ICA performance. The ICA decomposition was then applied to identify
+and remove remaining stereotypical artifacts, such as eye blinks and other physiological
+sources.
+
+Frequency and time-frequency analysis of EEG signals
+   Frequency and time-frequency analyses of the EEG were performed using the MNE-
+Python package. The power spectral density (PSD) was computed using Welch’s method
+with a Hamming window, 4 s segments and 75 % (i.e., 3 s) overlap. The PSD was averaged
+across channels, and both the peak frequency and spectral slope were computed to char-
+acterize the aperiodic 1/f trend of the signal. The spectral slope was calculated in the
+0.7–7 Hz range using the method described by Colombo et al. (2019), adapted for Python
+implementation.
+   Time-frequency analysis was performed by extracting the envelope and instantaneous
+power time course in the alpha band (8–12 Hz) using Morlet wavelet transforms implemented
+in MNE-Python. To quantify the temporal dynamics of these signals, we computed the
+coefficient of variation (CVpower ) of the power time course across time for each channel and
+applied detrended fluctuation analysis (DFA) to the envelope signal, as detailed in Sec. 2.5.3.
+
+Simulation and analysis using a smaller 74 parcellation connectome
+    As a proof-of-principle demonstration of the generalizability of our framework and its di-
+rect applicability to experimental data, we performed additional simulations using a reduced-
+scale connectome. This supplementary analysis serves two purposes: first, to validate that
+the parameter tuning approach remains effective when applied to a different parcellation
+scheme; second, to establish a more quantitative benchmark by directly comparing simu-
+lated and empirical neurophysiological features.
+    We employed a publicly available human connectome provided within the TVB platform.
+This connectivity matrix has been utilized in prior computational studies (Kunze et al., 2016;
+Gaglioti et al., 2024) and comprises 74 cortical regions, with 37 areas per hemisphere. The
+anatomical parcellation represents a hybrid construction that integrates diffusion spectrum
+imaging tractography and data derived from the CoCoMac neuroinformatics database (Köt-
+ter, 2004).
+    We simulated neural mass dynamics using the Larter-Breakspear model under three
+distinct parameter configurations. First, we executed the default TVB parameter set to
+establish a baseline (referred to herein as DEF). Second, we implemented the parameters
+previously tuned in Gaglioti et al. (2024) (referred to herein as TUN1). Third, to fur-
+ther refine the model match to experimental electrophysiology, we conducted a systematic
+parameter space exploration centered on three key parameters used in the main analysis:
+global coupling strength (G), conduction velocity (cv ), and the timescale of the neural mass
+dynamics (tscale ).
+    The optimal parameter combination was identified by maximizing a composite score that
+quantifies the correspondence between simulated and empirical spectral characteristics. For
+each configuration, we computed the average PSD across all regions and extracted its 1/f
+spectral slope using the same estimation procedure described in the previous section on EEG
+analysis. The score was defined as:
+                                                                             2
+                                                        slopemodel − slopeEEG
+              score ≡ rPearson (PSDmodel , PSDEEG ) −                                  (A.1)
+                                                              slopeEEG
+
+where rPearson denotes the Pearson correlation coefficient between model and EEG PSD,
+and “slope” represents the 1/f spectral slope. This metric rewards both spectral shape and
+spectral slope similarity. The parameter combination yielding the highest score was G = 3.6,
+cv = 4, and tscale = 1 (referred to herein as TUN2).
+    Following parameter selection, we computed two metrics of temporal variability for each
+model configuration: the coefficient of variation of the power time-course at the dominant
+frequency (CVpower ), and detrended fluctuation analysis (DFA) of the envelope. Both met-
+rics were calculated using the identical procedures described for the main analysis. The
+resulting values were compared directly with the corresponding experimental measurements
+to evaluate the extent to which TUN2 captures the temporal dynamics observed in real
+brain activity.
+Figure A.1: Representative empirical EEG signals and power spectra during eyes-closed rest.
+Ten-second segments from an occipital (O2, green) and a frontal (Fp2, orange) electrode are shown for each
+of the four subjects. For each subject, the right panels display the power spectral density (PSD) of all 62
+channels (thin gray lines) and their average (thick black line). The yellow shading marks the alpha band
+(8–12 Hz), which exhibits a prominent peak in all subjects. The red dashed line shows the spectral slope
+of the average PSD fitted (as in Colombo et al. (2019)) between 0.7 and 7 Hz, prior to the alpha peak, to
+capture the 1/f background scaling while avoiding the artificial 0.5 Hz peak introduced by the high-pass
+filter at 0.5 Hz. The bottom right panel shows the PSD averaged across subjects.
+Figure A.2: Power Spectral Density (PSD) of the events in TUN and DEF.
+PSDs are computed on the event time series for each node using the Welch method (with the same parameters
+as in Fig. 2), and then averaged across nodes for TUN and DEF.
+Figure A.3: Global TVB simulation parameters influence the global periodicity of the model.
+We vary the conduction velocity cv (from 1 to 6 m/s) and the global coupling G (from 1 to 5), quantifying
+the resulting changes in the median auto-correlation peak (second mode), for simulations obtained with
+TUN configuration for the model. These manipulations induce variations in periodicity: higher conduction
+velocities are associated with faster periodicities (i.e., shorter median lags) across different global coupling
+values. The star identifies the actual values eventually used for simulations in this work.
+Figure A.4: Signal fluctuations and long-range temporal correlation in EEG data (4 subjects,
+62 channels) and model.
+A) The left panel shows the time course of band-limited power, summed over the dominant frequency, in
+a node of the superior parietal cortex from the TUN configuration (8–12 Hz, red), the DEF configuration
+(18–22 Hz, blue), and the occipital electrode O2 from EEG of one subject (8–12 Hz, gray). On the right,
+the coefficient of variation of power CVpower over time is displayed for each trace, indexing the degree of
+temporal fluctuation in each condition. B) Average power spectral density (PSD) of the power time courses
+for TUN (red), DEF (blue), and EEG data (black). PSD estimates are computed using 120-s segments with
+70-s overlap. For model data, the PSD is averaged across nodes; for EEG, across channels and subjects.
+C) Distribution of CVpower across channels is shown for each EEG subject (gray), with the aggregated
+distribution across all channels and subjects shown on the right (black). D) Same as C), but for the
+detrended fluctuation analysis (DFA) exponent, calculated on the alpha envelope as described in Figs. 4E-F.
+Figure A.5: Functional connectivity asymmetry matrix in TUN and DEF configurations.
+                                                                   ⊺
+The FCasym matrix is quantified as FCasym = FC − FC⊺ , where (·) denotes the matrix transpose. Positive
+values in FCasym,ij indicate that node i has a stronger influence on node j than vice versa; negative values
+indicate the opposite.
+Figure A.6: Average asymmetry score of each cortical region in TUN and DEF.
+Values for listed regions are obtained averaging the asymmetry score across the nodes located in the given
+region. In top panels, regions are sorted in their respective descending order. In bottom panels, regions
+are sorted in descending order according to the values of the first panel (left hemisphere of the TUN
+configuration).
+Figure A.7: Relationship between asymmetry score and power fluctuations (CVpower ) in DEF.
+Linear regression (solid black line) shows a non-significant correlation (r = 0.009, p = 0.77).
+Figure A.8: Tuning a 74-node connectome against empirical EEG data.
+A) Spatial layout of the 74-node parcellation used in the supplementary analysis. B) Heatmaps of the
+parameter space exploration showing the composite score assessing spectral similarity between simulated
+and empirical PSD. Global coupling strength (G, 3.6 to 4.6, step 0.2), conduction velocity (cv , 2 to 4, step
+0.25), and timescale (tscale , 0.85 to 1.0, step 0.05) were varied. TUN1 (green dot) refers to the configuration
+of parameters used in Gaglioti et al. (2024), while TUN2 (green star) indicates the configuration with the
+maximum score. C) Average PSD across regions for the three model configurations: TUN2 (dark red),
+TUN1 (red), and the default TVB configuration (DEF, blue). The yellow line shows the fitted 1/f spectral
+slope, and black dots mark the spectral peak frequency. D) Pearson correlation coefficient (r) between
+model-simulated and empirically measured PSD for individual subjects (S1–S4) across all three model con-
+figurations. White-filled bars indicate non-significant correlations (p > 0.05). E) Distributions of the
+CVpower at the dominant oscillation frequency for each configuration. Frequencies are 8–12 Hz for TUN1,
+15–19 Hz for TUN2, and 23–27 Hz for DEF, as defined by the spectral peak in panel C. F) Boxplots com-
+paring the CVpower distributions across subjects and models. Gray boxes show individual subject values
+(S1–S4); black boxes show aggregated data across all subjects. For EEG data, all channels are included; for
+model data, all regions are included. G) Distributions of detrended fluctuation analysis (DFA) exponents
+computed on the amplitude envelope of the dominant oscillation in each configuration, analogous to panel
+E. H) Boxplots comparing DFA exponents across subjects and models, with the same layout as panel F.
+Table A.1: List of cortical regions and number of associated nodes.
+Node counts are reported separately for the left and right hemispheres. The stimulated region (SP, superior
+parietal cortex, right hemisphere) is highlighted in bold, with the 27 nodes within this region stimulated
+simultaneously.
+
+                                                                    Number of nodes
+                  Label     Description
+                                                                    Left   Right
+                  BSTS      Bank of the superior temporal sulcus      5           7
+                  CAC       Caudal anterior cingulate cortex          4           4
+                  CMF       Caudal middle frontal cortex             13          13
+                  CUN       Cuneus                                    8          10
+                  ENT       Entorhinal cortex                         3           2
+                  FP        Frontal pole                              2           2
+                  FUS       Fusiform gyrus                           22          22
+                  IP        Inferior parietal cortex                 25          28
+                  IT        Inferior temporal cortex                 17          19
+                  ISTC      Isthmus of the cingulate cortex           8           8
+                  LOCC      Lateral occipital cortex                 22          19
+                  LOF       Lateral orbitofrontal cortex             20          19
+                  LING      Lingual gyrus                            16          17
+                  MOF       Medial orbitofrontal cortex              12          12
+                  MT        Middle temporal cortex                   19          20
+                  PARC      Paracentral lobule                       11          12
+                  PARH      Parahippocampal cortex                    6           6
+                  PCAL      Pericalcarine cortex                      9          10
+                  POPE      Pars opercularis                         11          10
+                  PORB      Pars orbitalis                            6           6
+                  PTRI      Pars triangularis                         7           8
+                  PSTC      Postcentral gyrus                        30          31
+                  PC        Posterior cingulate cortex                7           7
+                  PREC      Precentral gyrus                         36          36
+                  PCUN      Precuneus                                23          23
+                  RAC       Rostral anterior cingulate cortex         4           4
+                  RMF       Rostral middle frontal cortex            19          22
+                  SF        Superior frontal cortex                  50          46
+                  SP        Superior parietal cortex                 27          27
+                  ST        Superior temporal cortex                 29          28
+                  SMAR      Supramarginal gyrus                      19          16
+                  TP        Temporal pole                             4           3
+                  TT        Transverse temporal cortex                4           3
+Table A.2: TVB and Larter & Breakspear parameters.
+TUN column reports the parameters of the LB model tuned as described in the paper, starting from
+the default (DEF) configuration in Alstott et al. (2009). Parameter values that differ between the two
+configurations are indicated in bold, and reported before the unchanged ones. The first block of rows
+refers to the global parameters of the TVB simulator (notice the rescaling of some of them, as a straight
+consequence of the time rescaling in single-node equations), followed by parameters specific to the LB model.
+
+                                                                                      Values
+ Parameter       Description
+                                                                              TUN                 DEF
+ G               Global coupling strength                                        3                   1
+ cv              Conduction velocity                                         3 · tscale          3 · tscale
+ σξ              Heun integrator noise                                     10−7 · tscale       10−7 · tscale
+ tscale          Timescale factor                                              0.6                    1
+ VCa             Ca Nernst potential                                           1.1                  1.0
+ ae→e            Excitatory-to-excitatory synaptic strength                    0.5                  0.4
+ gK              Conductance of K channels population                          2.5                  2.0
+ gL              Conductance of leak channels population                       1.1                  0.5
+ an→i            Non-specific-to-inhibitory synaptic strength          L: 0.4023; R: 0.4            0.4
+ TNa             Threshold potential for Na channels                         0.26                  0.30
+ δK              Variance of K channels threshold                              0.4                  0.3
+ VT              Threshold potential for excitatory neurons                   -0.1                  0.0
+ δZ              Variance of inhibitory threshold                            0.60                  0.65
+ gCa             Conductance of population of Ca channels                      1.1                   1.1
+ rNMDA           Ratio of NMDA to AMPA receptors                              0.25                 0.25
+ gNa             Conductance of population of Na channels                      6.7                   6.7
+ VNa             Na Nernst potential                                          0.53                 0.53
+ VK              K Nernst potential                                           -0.7                  -0.7
+ VL              Nernst potential of leak channels                            -0.5                  -0.5
+ ai→e            Inhibitory-to-excitatory synaptic strength                    2.0                  2.0
+ an→e            Non-specific-to-excitatory synaptic strength                  1.0                   1.0
+ I               Subcortical input strength                                    0.3                   0.3
+ b               Time constant scaling factor                                  0.1                   0.1
+ ae→i            Excitatory-to-inhibitory synaptic strength                    1.0                   1.0
+ TCa             Threshold potential for Ca channels                         -0.01                 -0.01
+ TK              Threshold potential for K channels                             0                     0
+ δCa             Variance of Ca channels threshold                            0.15                 0.15
+ δNa             Variance of Na channels threshold                            0.15                  0.15
+ ϕ               Temperature scaling factor                                    0.7                   0.7
+ τK              Time constant for K relaxation time                            1                     1
+ QVmax           Max firing rate for excitatory populations                     1                     1
+ δV              Variance of excitatory threshold                             0.65                 0.65
+ QZmax           Max firing rate inhibitory populations                         1                     1
+ ZT              Threshold potential for inhibitory neurons                     0                     0
+                 Strength of excitatory coupling and balance
+ C                                                                              0.1                 0.1
+                 between internal and global dynamics
+

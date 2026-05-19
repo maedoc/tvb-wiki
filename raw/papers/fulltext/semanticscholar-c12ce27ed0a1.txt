@@ -1,0 +1,1260 @@
+                                                                                                                      TYPE Original Research
+                                                                                                                      PUBLISHED 11 September 2025
+                                                                                                                      DOI 10.3389/fninf.2025.1553035
+
+
+
+
+                                                VAE deep learning model with
+OPEN ACCESS                                     domain adaptation, transfer
+                                                learning and harmonization for
+EDITED BY
+Shailesh Appukuttan,
+UMR7289 Institut de Neurosciences de la
+Timone (INT), France
+
+REVIEWED BY
+                                                diagnostic classiﬁcation from
+Gemma C. Monté-Rubio,
+Comparative Medicine and Bioimage Centre
+(CMCiB), Spain
+                                                multi-site neuroimaging data
+Caglar Uyulan,
+Izmir Kâtip Çelebi University, Türkiye
+Lindsay Munroe,                                 Gopikrishna Deshpande1,2,3,4,5,6*, Bonian Lu1 , Nguyen Huynh1
+King’s College London, United Kingdom
+                                                and D. Rangaprakash7
+*CORRESPONDENCE
+                                                1
+Gopikrishna Deshpande                             Department of Electrical and Computer Engineering, Auburn University Neuroimaging Center,
+  gopi@auburn.edu                               Auburn University, Auburn, AL, United States, 2 Department of Psychological Sciences, Auburn
+                                                University, Auburn, AL, United States, 3 Alabama Advanced Imaging Consortium, Birmingham, AL,
+RECEIVED 29 December 2024
+                                                United States, 4 Center for Neuroscience, Auburn University, Auburn, AL, United States, 5 Department of
+ACCEPTED 11 August 2025
+                                                Heritage Science and Technology, Indian Institute of Technology, Hyderabad, India, 6 Department of
+PUBLISHED 11 September 2025
+                                                Psychiatry, National Institute of Mental Health and Neurosciences, Bangalore, India, 7 Athinoula A.
+CITATION                                        Martinos Center for Biomedical Imaging, Massachusetts General Hospital, Harvard Medical School,
+Deshpande G, Lu B, Huynh N and                  Boston, MA, United States
+Rangaprakash D (2025) VAE deep learning
+model with domain adaptation, transfer
+learning and harmonization for diagnostic
+                                                In large public multi-site fMRI datasets, the sample characteristics, data
+classiﬁcation from multi-site neuroimaging
+data. Front. Neuroinform. 19:1553035.           acquisition methods, and MRI scanner models vary across sites and datasets. This
+doi: 10.3389/fninf.2025.1553035                 non-neural variability obscures neural differences between groups and leads to
+COPYRIGHT                                       poor machine learning based diagnostic classiﬁcation of neurodevelopmental
+© 2025 Deshpande, Lu, Huynh and                 conditions. This could be potentially addressed by domain adaptation, which
+Rangaprakash. This is an open-access article
+distributed under the terms of the Creative
+                                                aims to improve classiﬁcation performance in a given target domain by
+Commons Attribution License (CC BY). The        utilizing the knowledge learned from a different source domain by making
+use, distribution or reproduction in other      data distributions of the two domains as similar as possible. In order to
+forums is permitted, provided the original
+author(s) and the copyright owner(s) are
+                                                demonstrate the utility of domain adaptation for multi-site fMRI data, this
+credited and that the original publication in   research developed a variational autoencoder—maximum mean discrepancy
+this journal is cited, in accordance with       (VAE-MMD) deep learning model for three-way diagnostic classiﬁcation: (i)
+accepted academic practice. No use,
+distribution or reproduction is permitted
+                                                Autism, (ii) Asperger’s syndrome, and (iii) typically developing controls. This
+which does not comply with these terms.         study chooses ABIDE-II (Autism Brain Imaging Data Exchange) dataset as the
+                                                target domain and ABIDE-I as the source domain. The results show that
+                                                domain adaptation from ABIDE-I to ABIDE-II provides superior test accuracy of
+                                                ABIDE-II compared to just using ABIDE-II for classiﬁcation. Further, augmenting
+                                                the source domain with additional healthy control subjects from Healthy
+                                                Brain Network (HBN) and Amsterdam Open MRI Collection (AOMIC) datasets
+                                                enables transfer learning and improves ABIDE-II classiﬁcation performance.
+                                                Finally, a comparison with statistical data harmonization techniques, such as
+                                                ComBat, reveals that domain adaptation using VAE-MMD achieves comparable
+                                                performance, and incorporating transfer learning (TL) with additional healthy
+                                                control data substantially improves classiﬁcation accuracy beyond that achieved
+                                                by statistical methods (such as ComBat) alone. The dataset and the model used
+                                                in this study are publicly available. The neuroimaging community can explore the
+                                                possibility of further improving the model by utilizing the ever-increasing amount
+                                                of healthy control fMRI data in the public domain.
+
+                                                KEYWORDS
+
+                                                functional connectivity, Autism Spectrum Disorders, domain adaptation, variational
+                                                autoencoder, machine learning prediction
+
+
+
+
+Frontiers in Neuroinformatics                                          01                                                               frontiersin.org
+Deshpande et al.                                                                                                                10.3389/fninf.2025.1553035
+
+
+
+
+1 Introduction                                                                        annotated labels from an expert, and the dataset from the target
+                                                                                      domain may not have labels. The domain adaptation approach is
+    Neuroimaging has been widely used to identify structural                          jointly optimized to minimize the domain-shift eﬀect across source
+and functional alterations in the cerebral cortex and disrupted                       domain data and target domain data (Kushibar et al., 2021).
+functional connectivity in ASD (DeRamus et al., 2014; Dichter,                            Multiple studies (Gholami et al., 2020; Hoﬀman et al., 2018;
+2012; Holmes et al., 2015; Horwitz et al., 1988; Koshino et al.,                      Zhao et al., 2019; Bickel and Brückner, 2007; Rahimi and
+2008; Minshew and Keller, 2010; Pantelis et al., 2015; Raki´c                         Recht, 2008; Simonyan and Zisserman, 2015) proposed diﬀerent
+et al., 2020; Verly et al., 2014; Washington et al., 2020; Xu                         frameworks to exploit commonalities between diﬀerent data
+et al., 2019). More recently, machine learning models have been                       domains to achieve domain adaptation in various areas (Csurka,
+applied to neuroimaging data for diagnostic classiﬁcation. Deep                       2017; Tzeng et al., 2017; Ghafoorian et al., 2017; Ganin et al.,
+learning models outperform traditional machine learning methods                       2016). However, a limited number of end-to-end deep learning
+in identifying individuals with neurodevelopmental conditions,                        models incorporating domain adaptation have been developed
+including autism (Li et al., 2018; Di Martino et al., 2017; Cao et al.,               for neuroimaging data (Hangya et al., 2018; Ilse et al., 2020;
+2021; Duc et al., 2020; Eslami et al., 2019; Panta et al., 2016; Plis                 Purushotham et al., 2017; Wachinger et al., 2016). For example,
+et al., 2014; Subah et al., 2021). However, deep learning models                      Li et al. (2020) proposed a domain adaptation framework for
+require larger sample sizes to avoid overﬁtting (Karimi et al., 2020).                federated datasets across diﬀerent sites of the ABIDE dataset.
+Large public databases, such as ABIDE (Autism Brain Imaging                           Similarly, another study (Zhou et al., 2018) formulated the
+Data Exchange), have aided deep learning models in this endeavor.                     DawfMRI framework, which revealed additional insights into
+However, such large public databases have been assembled post-                        psychological similarity among the OpenfMRI project databases.
+hoc and contain diﬀerent sources of non-neural variabilities, such                    Both studies aligned diﬀerent data domains into one common
+as various sites using diﬀerent scanners and protocols. Typically,                    embedding space followed by biomarker identiﬁcation. But it was
+the samples from diﬀerent scanners or acquisition protocols do not                    achieved by training each local model individually and integrating
+follow the same distribution in most cases (Nielsen et al., 2013).                    them with an ensemble strategy. Since this is not implemented
+Moreover, if the test data and training data are drawn from diﬀerent                  as a single deep learning model; therefore, the complexity of a
+independent distributions, the performance of deep-learning, as                       model increases, and the ease of use decreases. Thus, training and
+well as traditional machine learning models, will be degraded (Li                     optimizing a deep learning model becomes more challenging.
+et al., 2018; Lanka et al., 2020). This study proposes a domain                           Existing domain adaptation approaches applied in
+adaptation technique to improve the classiﬁcation performance in                      neuroimaging-based diagnostic classiﬁcation primarily employ
+a target domain to address this issue. The proposed method utilizes                   supervised learning techniques. For example, a previous study
+the knowledge learned from the source domain and makes the data                       (Cheng et al., 2012) used the labeled Alzheimer’s Disease
+distributions in source and target domains as similar as possible                     Neuroimaging Initiative (ADNI) database to propose a robust
+(Ben-David et al., 2010; Li et al., 2020; Zhou et al., 2018).                         domain transfer support vector machine (DTSVM) model to
+    To understand domain adaptation, as illustrated in Figure 1,                      classify mild cognitive impairment (MCI). Another study (Khan
+the data distributions diﬀer in the source and the target domains,                    et al., 2019) utilized the supervised domain adaptation (SDA)
+although the two groups are separable in both domains that                            method on the pre-trained VGG network and used labeled
+are taken independently. However, the classiﬁer learned from                          MRI data to ﬁne-tune the Alzheimer’s disease prediction model.
+the source domain (the red dotted line in Figure 1a) cannot                           Nevertheless, developing prediction models on medical data is
+directly be transferred to the target domain (Figure 1b). This                        marred by the complex labeling process that is not always accurate
+aﬀects the generalizability of the classiﬁer. Thus, the objective of                  (Litjens et al., 2017). This is because the diagnosis of psychiatric
+domain adaptation is to learn the diﬀerences in data distributions                    disorders is based on behavior and not objective biomarkers
+and improve the target domain classiﬁer (black dotted line in                         that can make the labels less accurate for marginal cases and the
+Figure 1c) by jointly optimizing the classiﬁcation and domain                         stratiﬁcation of individuals in spectrum disorders. Therefore,
+fusion (illustrated by approaching and splitting arrows in Figure 1c;                 unsupervised domain adaptation (UDA) has recently gained
+Tzeng et al., 2017). In neuroimaging research, the transductive                       importance because label scarcity is a common challenge across
+scenario assumes that the dataset from the source domain has                          medical imaging studies (Choudhary et al., 2020).
+                                                                                          UDA techniques have been used to address potential
+                                                                                      inaccuracies in labels (Karimi et al., 2020; Haeusser et al., 2017;
+Abbreviations: ABIDE, Autism Brain Imaging Data Exchange; ACC, Accuracy;              Kamnitsas et al., 2017; Mahmood et al., 2018) and to increase
+ASD, Autism Spectrum Disorder; AOMIC, Amsterdam Open MRI Collection;                  the statistical power of analysis by adding more unlabeled data
+CNN, Convolutional Neural Network; DA, Domain Adaptation; DL, Deep                    (Guan and Liu, 2021). Combining supervised and unsupervised
+Learning; DMN, Default Mode Network; DNN, Deep Neural Network; DPARSF,                learning domain adaptation methods has improved discriminative
+Data Processing Assistant for Resting-State fMRI; FC, Functional Connectivity;        prediction accuracy (Choudhary et al., 2020). This method
+FDR, False Discovery Rate; HBN, Healthy Brain Network; HCP, Human                     requires limited labeled data or no labeled data from the target
+Connectome Project; ML, Machine Learning; MLP, Multilayer Perceptron;                 domain (Madani et al., 2018). Moreover, Semi-supervised domain
+MMD, Maximum Mean Discrepancy; fMRI, Functional Magnetic Resonance                    adaptation methods have been proposed and tested on deep
+Imaging; RSFC, Resting State Functional Connectivity; ROI, Region of                  learning benchmark data (Belhaj et al., 2018; Chen and Chien,
+Interest; SVM, Support Vector Machine; TL, Transfer learning; t-SNE, T-               2015). Variational auto-encoder (VAE; Kingma et al., 2014)
+distributed Stochastic Neighbor Embedding; VAE, Variational Auto-encoder.             outperformed all the other semi-supervised domain adaptation
+
+
+
+Frontiers in Neuroinformatics                                                    02                                                         frontiersin.org
+Deshpande et al.                                                                                                                    10.3389/fninf.2025.1553035
+
+
+
+
+    FIGURE 1
+    (a, b) Are the classiﬁers before domain adaptation in the source and target domains, respectively. The domain adaptation process aims to reduce the
+    domain divergence by maximizing the domain confusion as well as minimizing the classiﬁcation loss in (c). The red line in (a) illustrates the decision
+    boundary from training a source domain classiﬁer. When this is transferred to the target domain as is, it is sub-optimal. The blue line in (b) illustrates
+    the desired decision boundary from training a target domain classiﬁer. The black line in (c) shows the decision boundary result from training a
+    domain adaptation classiﬁer.
+
+
+
+
+methods. VAE model is robust against high-dimensional input                         MRI Collection (AOMIC2 ; Snoek et al., 2021). HBN provides
+data and can learn various distributions ﬂexibly. Another study                     the research community with a large-scale dataset of over 10,000
+(Louizos et al., 2016) used the learning features of VAE to                         healthy children and adolescents (ages 5–21) and shares the dataset
+develop a variational fair autoencoder (VFA). Moreover, VFA                         through an open data-sharing mode. Only a small subset of the
+was proposed to learn the features that are invariant to noisy                      subjects had an MRI from New York City area. This dataset was
+nuisance factors but retain useful information as much as possible.                 acquired to detect and characterize pathologic processes in the
+However, previous literature on the semi-supervised learning                        developing human brain (Alexander et al., 2017). HBN data were
+approach in neurodevelopmental condition classiﬁcation is scarce.                   collected from three sites: (i) Citigroup Biomedical Imaging Center
+Therefore, this study used unlabeled data during training and a                     (CBIC), (ii) Staten Island (SI), and (iii) Rutgers University (RU).
+semi-supervised approach to achieve domain adaptation in the                            AOMIC, on the other hand, contains large-scale resting-state
+target domain.                                                                      fMRI data from healthy individuals collected at the University of
+     This study proposed to use variational and adversarial                         Amsterdam over the past decade. AOMIC publicly provided both
+classiﬁcation frameworks for domain adaptation by training                          raw and well-established pre-processed forms of three datasets: (i)
+labeled data in the source domain and unlabeled data in the                         PIOP1 (Population Imaging of Psychology), (ii) PIOP2, and (iii)
+target domain. A variational inference model was used to learn                      ID1000. Each of them has speciﬁc data acquisition protocols and
+the invariant representations across information from diﬀerent                      participants. From the demographic information in Table 1, the
+sites of the ABIDE dataset while retaining the discriminative                       age range of HBN and AOMIC are close to ABIDE I and ABIDE
+information in the classiﬁcation task. This research applied a                      II. We included these two databases in the domain adaptation
+model based on VAE to separate latent feature representations                       model to increase the variety of data distribution and enhance the
+and domain variables. However, some dependencies can remain if                      model’s generalizability.
+the labels of data points are correlated with the domain variable,                      We compare and contrast the proposed method with ComBat
+which can “leak” some of the domain information into the                            harmonization (Johnson et al., 2007), which is a statistical
+latent feature representation, resulting in dependency. Thus, the                   technique used to reduce the divergence of data distributions
+proposed model uses a “maximum mean discrepancy” (Gretton                           from multi-site MRI data. This is considered a current gold
+et al., 2012) regularization term to penalize the distances between                 standard; therefore, we compared and combined the ComBat
+the latent probability distribution across the source and target                    harmonization method with the proposed deep learning approach
+domains. A maximum mean discrepancy is a measurement of                             (Johnson et al., 2007). ComBat harmonization has been applied
+divergence between two distributions. During the adversarial                        to neural imaging data across scanners and focuses on dealing
+training procedure, the domain “confusion” is maximized to ensure                   with the variability of parameters’ distributions to pool them
+that the features are domain invariant, and the classiﬁcation of                    together sites (Fortin et al., 2018). ComBat was also proposed to
+Autism Spectrum Disorder (ASD) is also optimized.                                   correct for site eﬀects in functional measurements from multi-
+    Moreover, to augment domain adaptation and improve the                          site fMRI data (Yu et al., 2018). Therefore, we applied ComBat
+generalizability of the classiﬁer, we included more data in the                     harmonization to the input data as one of the methods to reduce the
+source domain from two datasets: (i) the Healthy Brain Network                      domain shift.
+(HBN1 ; Alexander et al., 2017), and (ii) the Amsterdam Open                            Moreover, identifying important imaging features or diagnostic
+                                                                                    classiﬁcation is crucial for ASD biomarker discovery and diagnosis
+
+1   http://fcon_1000.projects.nitrc.org/indi/cmi_healthy_brain_network/             2   https://nilab-uva.github.io/AOMIC.github.io/
+
+
+
+Frontiers in Neuroinformatics                                                  03                                                                  frontiersin.org
+Deshpande et al.                                                                                                                                    10.3389/fninf.2025.1553035
+
+
+
+
+TABLE 1 ABIDE I data pooled from 15 different sites (and 18 cohorts, since some sites had more than one cohort), and ABIDE II from 11 sites.
+
+
+  Database                  Acquisition site                 Subjects                Age mean                   Age std.                    Male                   Female
+  ABIDE I                   CALTECH                               32                      26.79                      9.6                      25                        7
+
+                            CMU                                   27                      26.59                     5.58                      21                        6
+
+                            KKI                                   55                       10.1                     1.31                      42                        13
+
+                            LEUVEN_1                              29                      22.59                     3.49                      29                        0
+
+                            LEUVEN_2                              35                      14.16                      1.4                      27                        8
+
+                            Max                                   57                      26.16                     11.98                     50                        7
+
+                            NYU                                   179                     15.39                     6.59                      142                       37
+
+                            OLIN                                  36                      16.81                     3.44                      31                        5
+
+                            PITT                                  57                       18.9                     6.82                      49                        8
+
+                            SBL                                   24                        33                       6.7                      24                        0
+
+                            SDSU                                  32                      14.35                     1.85                      25                        7
+
+                            TRINITY                               42                      16.84                     3.63                      42                        0
+
+                            UCLA_1                                73                      13.16                     2.38                      63                        10
+
+                            UCLA_2                                26                      12.49                      1.5                      24                        2
+
+                            UM_1                                  107                     13.43                     2.87                      83                        24
+
+                            UM_2                                  35                      15.96                     3.27                      33                        2
+
+                            USM                                   100                     22.14                     7.67                      100                       0
+
+                            YALE                                  42                      12.96                      2.8                      30                        12
+
+                            Total                                 988                     18.43                     7.82                      840                      148
+
+  ABIDE II                  GU                                    104                     10.68                     1.62                      69                        35
+
+                            KKI                                   197                     10.34                     1.27                      128                       69
+
+                            NYU                                   27                       6.78                     1.07                      24                        3
+
+                            OHSU                                  91                      10.88                     1.99                      56                        35
+
+                            ONRC                                  43                      23.33                     3.85                      31                        12
+
+                            SDSU                                  23                      13.91                     3.85                      20                        3
+
+                            TCD                                   19                      14.45                     2.67                      19                        0
+
+                            UCD                                   32                      14.78                     1.83                      24                        8
+
+                            UCLA                                  32                       10.7                     2.36                      26                        6
+
+                            USM                                   32                      21.37                     7.74                      27                        5
+
+                            UMIA                                  23                       9.8                      2.02                      17                        6
+
+                            Total                                 623                     13.37                     2.75                      441                      182
+
+  AOMIC                     PIOP1                                 216                     21.96                     1.91                      29                        44
+
+                            PIOP2                                 226                     21.96                     1.79                      96                       129
+
+                            Total                                 442                     21.96                     1.85                      125                      173
+
+  HBN                       CBIC                                  287                     10.75                     3.73                      188                       99
+
+                            SI                                    345                     11.13                     3.82                      195                      150
+
+                            RU                                    753                      9.92                     0.42                      501                      252
+
+                            Total                                1,385                    10.60                     2.66                      884                      501
+The acquisition sites include: CALTECH, California Institute of Technology; CMU, Carnegie Mellon University; KKI, Kennedy Krieger Institute; LEUVEN, University of Leuven; MAX, Ludwig
+Maximilians University Munich; NYU, NYU Langone Medical Center; OLIN, Olin Institute of Living at Hartford Hospital; PITT, University of Pittsburgh School of Medicine; SBL, Social
+Brain Lab BCN NIC UMC Groningen and Netherlands Institute for Neurosciences; SDSU, San Diego State University; TRINITY, Trinity Center for Health Sciences; UCLA, University of
+California, Los Angles; UM, University of Michigan; USM, University of Utah School of Medicine; YALE, Yale Child Study Center; GU, Georgetown University; OHSU, Oregon Health and
+Science University; ONRC, Olin Neuropsychiatry Research Center; TCD, Trinity Center for Health Sciences; UCD, University of California Davis; UM, University of Miami. Across diﬀerent
+acquired sites, the age and gender distributions change considerably. Both AOMIC and HBN data have had multiple releases.
+
+
+
+
+Frontiers in Neuroinformatics                                                            04                                                                          frontiersin.org
+Deshpande et al.                                                                                                        10.3389/fninf.2025.1553035
+
+
+
+
+(Zhao et al., 2020; Traut et al., 2022). The interpretation of the            node and nodes in the previous layer, b corresponds to bias, and σ
+correlation between domain adaptation and selected features is                corresponds to a non-linear activation function.
+challenging (Gu et al., 2011; Li et al., 2016; Schölkopf et al., 2007;
+Sun et al., 2019). In this study, imaging features in the VAE-based
+model are diﬃcult to trace back from the output layer to the input            2.1.2 Training an MLP
+layer because of the continuous Gaussian latent variables in the                  The weights of biases of the MLP are trainable parameters,
+latent space (Li et al., 2009). Thus, we propose a statistical method         which are optimized during the training process. Usually, those
+to identify such imaging features.                                            parameters are initialized with random variables close to zero.
+    Based on the information presented above, we summarize four               After the forward computation of the MLP, the loss function
+major aspects of the proposed framework:                                      can be deﬁned as the mean squared error (MSE) in single-class
+1. We use a VAE-MMD model for domain adaptation in multi-                     scenarios and cross-entropy in multi-class scenarios. Furthermore,
+   site fMRI data for predicting the diagnostic labels from                   the MLP weights can be learned in the training procedure by
+   fMRI functional connectivity (FC) data. We demonstrate that                training with a basic error back-propagation technique for the
+   domain adaptation from the ﬁrst release of the ABIDE dataset               loss function. Back-propagation is based upon an optimization
+   (ABIDE I) to the second release (ABIDE II) will improve                    algorithm using stochastic gradient descent (Bottou, 2012) with a
+   ABIDE II’s classiﬁcation performance compared to performing                pre-deﬁned learning rate. During each round of computation, the
+   classiﬁcation solely on ABIDE II.                                          values of the network parameters can be optimized by computing
+2. We compare and contrast statistical (ComBat) with deep                     the gradient of the loss function with respect to each of them using
+   learning (VAE-MMD) approaches for domain adaptation.                       the chain rule.
+3. We test whether additional data in the source domain,                          The input data of MLP is always separated into groups, and
+   speciﬁcally healthy control data, will augment domain                      each group of samples is called a batch. The number of samples
+   adaptation and improve the generalizability of the classiﬁer in            in the input group is referred to as a batch size. After all the
+   achieving better accuracy in the target domain of ABIDE II.                data are trained, the procedure repeats a certain number of times,
+   Given a large amount of healthy control data available in the              called an epoch number. Diﬀerent from batch, an epoch indicates
+   public domain, this transfer learning approach could potentially           one iteration of the entire training dataset the ML model has
+   be used to substantially improve diagnostic classiﬁcation in               completed. The number of entire iterations is named as epoch
+   relatively smaller public datasets obtained from individuals with          number. Except for the trainable parameters optimized during
+   neurodevelopmental conditions, such as ASD.                                the training procedure, pre-deﬁned parameters such as batch size,
+4. We extract and identify imaging features diagnostically                    epoch number, or learning rate are ﬁxed during training and are
+   important for ASD prediction across diﬀerent fMRI                          referred to as hyper-parameters.
+   data distributions.
+
+                                                                              2.1.3 Overﬁtting and regularization
+2 Methods                                                                          Overﬁtting occurs when a well-trained MLP ﬁts accurately to
+                                                                              the training data but performs poorly with the unseen test data.
+2.1 The fundamental algorithm of a neural                                     Especially in neuroimaging, the training sample size is limited
+network                                                                       (Mwangi et al., 2014), which is problematic for generalizing the
+                                                                              ﬁndings to a clinical setting. There are two straightforward ways
+2.1.1 Multi-layer perceptron (MLP)                                            to address the overﬁtting problem: (i) simplifying the model, and
+    Deep learning algorithms have complex mathematical                        (ii) increasing the training sample size. In addition, overﬁtting
+structures with several processing layers that can extract data               can also be addressed by adding regularization to the objective
+features into various abstraction layers. The building block of               function. Those modiﬁcations, such as the well-known L1/L2 terms
+a deep neural network (DNN) and a multi-layer perceptron                      (Ridge and Lasso Regression), cause the model to be simpler
+(MLP; Gardner and Dorling, 1998) is a typical type of layer in                during optimization but enhances the generalizability of unseen
+feed-forward networks in which each node is connected to all the              data (Eslami et al., 2021).
+nodes in the next layer. Within each node in MLP, the input values
+are combined with weights and bias and then summed up before
+being passed to an activation function. The widely used activation            2.2 Baseline techniques for ASD
+functions include sigmoid, tangent hyperbolic (tanh; Schmidhuber,             classiﬁcation
+2015), and rectiﬁed linear unit (ReLU; Nair and Hinton, 2021). The
+output z of a node in an MLP layer can be calculated as:                           Machine learning techniques, such as SVM and MLP neural
+                                                                              networks, performed well in the previous ASD classiﬁcation studies
+                                 
+                                 m
+                        z = σ(         wi xi + b)                             (Bi et al., 2018; Chen et al., 2016; Chanel et al., 2016; Heinsfeld
+                                 i=1                                          et al., 2017). To estimate the performance of the proposed domain
+                                                                              adaptation approach, this study designated traditional SVM and
+where m refers to the number of nodes in the current layer, w                 MLP as baseline approaches. Speciﬁcally, a polynomial kernel was
+corresponds to the weights of all connections between the current             used in the SVM classiﬁer, and the hyper-parameter C was set
+
+
+
+Frontiers in Neuroinformatics                                            05                                                         frontiersin.org
+Deshpande et al.                                                                                                             10.3389/fninf.2025.1553035
+
+
+
+
+   FIGURE 2
+   A ﬂowchart representation of the complete processing and analysis of multiple datasets. The fMRI data from ABIDE I, ABIDE II, HBN, and AOMIC were
+   subjected to identical data pre-processing and FC feature extraction. Source domain training and testing use ABIDE I data. In contrast, data from
+   healthy subjects in AOMIC and HBN are used as additional training samples in the source domain to test the effect of source domain training sample
+   size on domain adaptation performance. Target domain training and testing use ABIDE II data. Note that only the target domain ABIDE II data is used
+   to identify features important for classiﬁcation.
+
+
+
+
+to 100. Likewise, the architecture of the baseline MLP method                   (low-frequency drifts, mean global signal, motion parameters,
+was the same as that of the VAE used in domain adaptation. The                  and white matter and cerebrospinal ﬂuid signals). Furthermore,
+architecture has two layers, the ﬁrst layer contains 200 nodes, and             voxel time series were temporally ﬁltered with a 0.01–0.1 Hz
+the second layer contains 500 nodes.                                            bandpass ﬁlter. ABIDE II fMRI data included 623 subjects from 11
+                                                                                diﬀerent sites. The pre-processing pipeline for this was identical
+                                                                                to that used for ABIDE I and was performed in CONN software
+2.3 Participants and data                                                       (Whitﬁeld-Gabrieli and Nieto-Castanon, 2012).
+                                                                                    This study used two additional datasets: (i) the AOMIC (Snoek
+     This study aimed to test the utility of the proposed domain                et al., 2021), and (ii) HBN datasets (Alexander et al., 2017). These
+adaptation model on the fMRI dataset. Particularly, this study used             datasets were used to test whether the model’s generalizability can
+ABIDE resting-state fMRI data (Craddock et al., 2013). We used                  be further improved by augmenting the size of the source domain
+ABIDE I (Di Martino et al., 2014; released in August 2012) as the               (adding more healthy control data). This study used AOMIC’s raw
+labeled dataset for supervised machine learning while ABIDE II (Di              forms, PIOP1 (N = 216) and PIOP2 (N = 226) datasets, instead of
+Martino et al., 2017; released in June 2016) as the unlabeled dataset           the pre-processed datasets. In addition, this study also used good
+for the semi-supervised machine learning algorithm. To investigate              quality MRI data from 1,385 subjects in HBN. The pre-processing
+the domain adaptation eﬀect of the proposed VAE-MMD model,                      pipeline for all the datasets was identical (see Figure 2). A schematic
+we set ABIDE I as the source domain and ABIDE II as the target                  of the extended pipeline including ComBat harmonization is
+domain dataset. There were 998 subjects from 15 sites in the ABIDE              provided in the Supplementary Figure S1. The use of additional
+I dataset and 623 subjects from 11 sites in the ABIDE II dataset.               source domains such as AOMIC and HBN datasets were used to test
+     ABIDE I fMRI data included 988 subjects from 15 diﬀerent sites             whether increasing the size of the source domain or the number of
+(and 18 cohorts since some sites had more than one cohort). The                 source domain subjects improves domain adaptation. Speciﬁcally,
+number distribution of subjects across multiple sites is shown in               the HBN dataset contains data from children. It may be relevant for
+Table 1.                                                                        domain adaptation when the target domain includes children’s data
+     Our preprocessing followed widely adopted standard                         (such as ABIDE or ADHD-200).
+procedures in neuroimaging (Kalcher et al., 2012; Nyúl et al.,
+2000). The FMRI dataset was pre-processed using DPARSF
+(Chao-Gan and Yu-Feng, 2010). This involved the removal of the                  2.4. Feature extraction
+ﬁrst ﬁve volumes: (i) slice timing correction, (ii) motion correction,
+(iii) co-registration to the standard MNI space, (iv) censoring of                  We used the whole-brain cc200 atlas (Craddock et al., 2012)
+high motion volumes, and (v) regressing out nuisance variables                  to reduce the dimensionality of the data. This atlas was generated
+
+Frontiers in Neuroinformatics                                              06                                                              frontiersin.org
+Deshpande et al.                                                                                                               10.3389/fninf.2025.1553035
+
+
+
+
+using spectral clustering of resting state fMRI data of healthy
+subjects. Thus, the regions of interest (ROIs) in the atlas are said
+to be functionally homogeneous. Mean time series were extracted
+from 200 ROIs of the atlas. Subsequently, we estimated FC by
+computing the Pearson’s correlation coeﬃcient between each pair
+of time series. A vector of 19,900 individual features per subject
+was constructed by reshaping the upper triangle of the 200 × 200
+connectivity matrix minus the diagonal. Only the upper triangle
+was considered since FC is a non-directional metric.
+
+                                                                                   FIGURE 3
+                                                                                   A ﬂowchart representation of the semi-supervised learning model.
+2.5 Domain adaptation VAE-MMD model                                                White variables refer to the variables without input information, and
+                                                                                   blue variables refer to those with the input information. Only some
+with semi-supervised learning                                                      of the labels of y are known, and hence y is half white and half blue.
+                                                                                   We assume the variables z2 and y are independent, while z1 and d
+                                                                                   are independent. Among them, z2 , y, and d are independent
+     This study applies the semi-supervised VAE model that was
+                                                                                   variables, and z1 is dependent on z2 and y.
+initially proposed by the authors (Kingma et al., 2014) with
+unsupervised learning. The proposed model consists of a generative
+model pθ (x|z, d) and an inference model qφ (z|x, d), where z is
+the latent variable representation, x is the input data, and d                      In the MMD deﬁnition, the divergence between two
+is the domain variation that is desired to remove. Moreover, θ                  distributions is calculated as the distances between mean
+and φ are the trainable parameters of the generative model and                  embeddings of features (Tzeng et al., 2014). Let k be a continuous,
+inference model, respectively. For semi-supervised classiﬁcation,               bounded, positive semi-deﬁnite kernel and H be the corresponding
+this study aims to construct latent variable z, which has maximum               reproducing kernel Hilbert space (Gretton et al., 2012), which
+information about the observed label y, while excluding the                     are reduced by the feature mapping from X to H. The MMD of
+information about the nuisance domain variable d. It is achieved                distributions px (x) and py (y) is deﬁned as follows:
+by adding an additional model in the generative model to correlate
+                                                                                                                         
+latent features to the classiﬁcation task (Louizos et al., 2016). The                                                          2
+                                                                                      MMD px , py = Ex∼px [ϕ (x)] − Ey∼py ϕ y 
+schematic of this model is shown in Figure 3, where the invariant                                                                                H
+feature in the ﬁrst model, M1, is referred to as z1 . M1 generates x
+                                                                                     In the VAE model, an additional MMD regularization term was
+as x ∼ pθ (x|z1 , d), and M2 generates domain invariant variable
+                                                                                applied to enforce the model to match the source and target domain
+z1 as z1 ∼ pθ (z1 |z2 , y). y is a categorical variable that denotes the
+                                                                                marginal posterior distributions of latent variables q(z1 |d = 0) and
+label of the data point x and z2 encodes the variation on z1 that is
+                                                                                (z1 |d = 1). So, the MMD term is determined as:
+independent to y. Thus, for the N labeled data points and M data
+                                                                                                       
+points without labels (i.e., unlabeled data), the objective function of                                  
+                                                                                  MMD Z1,d=0 , Z1,d=1 = Ep̃(x|d=0) [Eq(z1 |x,d=0) [ϕ (z1 )]]
+VAE becomes:
+                                                                                                                                             2
+                                                                                                                                             
+                                                                                                      − Ep̃(x|d=1) [Eq(z1 |x,d=1) [ϕ (z1 )]] 
+                                        N                                                                                                 H
+      FVAE φ, θ ; xn , xm , dn , dm , yn =   Ls φ, θ ; xn , dn , yn
+                                              n=1
+                                                                                  Where d is the domain nuisance variable. Finally, adding the
+                             
+                             M                                                MMD penalty term into the lower bound of the aforementioned
+                       +          LT φ, θ ; xm , dm
+                            m=1                                                 VAE, the proposed model becomes:
+                     
+                     N
+                +α         Eq(z1n |xn , dn ) [−logqφ (yn |z1n )]
+                     n=1                                                                                                                   
+                                                                                                      FMMD−VAE φ, θ ; xn , xm , sn , sm , yn =
+                                                                                                                                             
+where the ﬁrst and second terms denote the lost functions from                      FVAE φ, θ ; xn , xm , sn , sm , yn − β MMD Z1,s=0 , Z1,s=1
+the labeled and unlabeled data. In addition, the label predictive
+distribution qφ (y|z1n ) only contributes to the unlabeled data in              where β denotes the regularization coeﬃcient in domain
+the second term. Therefore, we compensate for this by adding                    adaptation, increasing β results in more domain confusion
+a regularization term with a weight coeﬃcient α to ensure that                  regularization compared to the classiﬁcation loss. Both α and β are
+qφ (y|z1n ) is learned from both labeled and unlabeled data. Finally,           hyper-parameters that control the trade-oﬀ between classiﬁcation
+increasing α results in more purely discriminative learning in the              loss and domain confusion loss, which are optimized through
+generative model.                                                               training and validation.
+    In the VAE inference model, we assume that variables z1 and                      The datasets input to the semi-supervised learning model are
+d are statistically independent of each other so that the marginal              illustrated in a ﬂowchart, described in Figure 2, and the entire
+posterior distribution q(z1 |d) is equal to zero. However, the                  framework is shown in Figure 4. In the training model (#1 in
+independence relationship may fail because of the correlation                   Figure 4), we input both ABIDE I with labels and ABIDE II
+between y and d. We apply an additional MMD regularization term                 without labels as training datasets into the VAE-MMD model. After
+to penalize this situation.                                                     domain adaptation, the original t-distributed Stochastic Neighbor
+
+
+
+Frontiers in Neuroinformatics                                              07                                                                 frontiersin.org
+Deshpande et al.                                                                                                               10.3389/fninf.2025.1553035
+
+
+
+
+   FIGURE 4
+   Three major steps in the VAE-MMD model. (1) For training, we input both ABIDE I with labels and ABIDE II (without labels) training datasets into the
+   VAE-MMD model. The original t-SNE ﬁgure and domain adapted t-SNE ﬁgure were generated at the beginning and last iteration of this process. The
+   total loss was constructed by semi-supervised learning loss, reconstruction loss, and MMD loss. (2) For validation, ABIDE I and ABIDE II validation
+   datasets were used for ﬁne-tuning the hyperparameters α and β. (3) For testing, ABIDE I and ABIDE II test datasets were used in testing the model to
+   evaluate the model’s performance. Subjects in orange represent healthy controls in ABIDE I and ABIDE II data, subjects in blue represent ASD subjects
+   in ABIDE I, and subjects in green represent ASD subjects in ABIDE II.
+
+
+
+
+Embedding (t-SNE) ﬁgure and the corresponding t-SNE ﬁgures                       0.0001, and each neural network layer used ReLU as an activation
+(Figure 5) were generated at the beginning and last iteration of                 function (Pedamonti, 2018). The epoch number was equal to 50,
+this process. Moreover, t-SNE (van der Maaten and Hinton, 2008)                  and the number of batches was 20. The code was constructed in
+is a dimension reduction technique to visualize the group-wise                   Python programming languages and the Theano library.
+separation of features in latent space and visually assess domain                    We set ABIDE I as the source domain dataset and ABDIE II
+adaptation’s eﬃcacy.                                                             as the target domain dataset. We aimed to reduce the non-neural
+    In the validation model (#2 in Figure 4), ABIDE I and ABIDE                  diﬀerences in data characteristics between the two domains. The
+II validation datasets were used to ﬁne-tune the hyperparameters                 ABIDE I dataset was split into 673/157/158 subjects as training,
+α and β, and ABIDE I and ABIDE II test datasets were used                        validation, and test datasets, respectively. The labeled data was used
+to measure the model’s performance (#3 in Figure 4). We used                     in the training and validation datasets, and these datasets were used
+accuracy measure to evaluate the training, validation, and testing               in a cross-validation framework for ﬁne-tuning hyperparameters.
+models to better understand the model performance.                               The ABIDE II dataset was split into 371/126/126 subjects as
+                                                                                 training, validation, and test datasets, respectively.
+                                                                                     To avoid data leakage, we strictly separated the datasets
+2.6 Model setup                                                                  for training, validation, and testing. Speciﬁcally, the VAE and
+                                                                                 VAE-MMD models were pretrained using ABIDE-I (source
+    MLPs (Nozais et al., 2021) work well on vector inputs,                       domain) and the training set of ABIDE-II (target domain), and
+while CNN’s perform better on natural images. Since functional                   additional healthy control data from the HBN and AOMIC
+connectivity inputs can be vectors and are not natural images, this              datasets as part of transfer learning. The ABIDE-II test set (126
+is why this study used MLPs. The ﬁrst layer is constructed as the                subjects) was completely held out during model development
+latent-feature discriminative model (M1) in the encoder, and the                 and hyperparameter tuning. The validation set (126 subjects from
+second layer is built as a generative semi-supervised model (M2)                 ABIDE-II) was used solely for tuning model parameters, and no
+in a stacked architecture. M1 refers to the ﬁrst layer and M2 to                 information from the test set was used at any point during training
+the second layer in the encoder of #1 in Figure 4. The dimension                 or model selection. To further prevent overﬁtting, model training
+of latent features in the ﬁrst and the second encoding layers was                was conducted using ﬁve-fold cross-validation on the combined
+equal to 2,000 and 1,000, respectively. The learning rate was set to             training data.
+
+
+
+
+Frontiers in Neuroinformatics                                               08                                                               frontiersin.org
+Deshpande et al.                                                                                                               10.3389/fninf.2025.1553035
+
+
+
+
+   FIGURE 5
+   t-SNE visualization of latent feature spaces for VAE-MMD domain adaptation model. High-dimensional data is reduced to two dimensions for
+   visualization through t-SNE. Left panel: clustering before training; right panel: clustering after training; top panel: source domain; bottom panel:
+   target domain. Red color corresponds to controls, whereas blue and green colors correspond to Asperger’s and autism patients, respectively. Circle
+   marks correspond to the source domain, and triangle marks correspond to the target domain.
+
+
+
+
+2.7 Transfer learning                                                            ABIDE dataset to be trained simultaneously. The divergences of
+                                                                                 these two datasets to the target domain data were also optimized
+    Transfer learning (TL; Ghafoorian et al., 2017) is a technique               during training, the same as ABIDE I data in the source domain.
+that applies knowledge learned from one domain and one task
+to another related domain and/or another task (Heinsfeld et al.,
+2017). HBN and AOMIC data were included as additional source                     2.8 ComBat harmonization
+domain data to improve generalizability, address overﬁtting, and
+increase sample size in the source domain. The labels of these two                   We used the publicly available MATLAB toolbox (Fortin and
+datasets are all healthy controls that were used during training. The            Foran, 2021) to achieve ComBat harmonization and used default
+number of batches of HBN and AOMIC was equal to that of the                      options. Finally, we separated harmonized data into training and
+
+
+Frontiers in Neuroinformatics                                               09                                                               frontiersin.org
+Deshpande et al.                                                                                                              10.3389/fninf.2025.1553035
+
+
+
+
+   FIGURE 6
+   t-SNE visualization of latent feature spaces for VAE-MMD domain adaptation model, with transfer learning from additional healthy control data in the
+   source domain drawn from HBN and AOMIC datasets. Left panel: clustering before training; right panel: clustering after training; top panel: source
+   domain; bottom panel: target domain. Red color corresponds to controls, whereas blue and green colors correspond to Asperger’s and autism
+   patients, respectively. Circle marks correspond to ABIDE-I subjects in the original source domain; cross marks correspond to additional HBN and
+   AOMIC healthy control subjects in the source domain, and triangle marks correspond to the target domain.
+
+
+
+
+testing datasets and input it into the deep learning model to                   der Maaten and Hinton, 2008). Second. Kullback–Leibler (KL)
+evaluate classiﬁcation performance. This metric was compared with               divergence was used to characterize the separation of features
+that obtained from the VAE-MMD model.                                           analytically. In other words, KL divergence was used to quantify
+                                                                                the diﬀerence between the target and source domains analytically.
+                                                                                Third, the models’ performance was characterized by accuracy
+2.9 Model estimation                                                            and F1 score. We compared the classiﬁcation accuracy among
+                                                                                multiple machine learning models with the same datasets. The
+    The performance of the models was estimated at three levels.                models included SVM, MLP, VAE, VAE, and MMD combination
+First, visualization of the separation of features in latent space              (VAE+MMD), VAE and ComBat harmonization combination
+of the VAE-MMD model was realized using t-SNE plots (van                        (VAE+ComBat) and domain adaptation combined with transfer
+
+Frontiers in Neuroinformatics                                              10                                                               frontiersin.org
+Deshpande et al.                                                                                                          10.3389/fninf.2025.1553035
+
+
+
+
+learning (VAE+MMD+TL). The benchmark for harmonization is                      panel), prior to (left panel) and after (right panel) training. Before
+VAE+ComBat, while VAE+MMD and VAE+MMD+TL show the                              training, there was little separation between the diagnostic groups
+improvements obtained by MMD and TL over ComBat. Additional                    in both the source and target domains. However, after the training
+combinations involving both ComBat and domain adaptation                       process, a clear separation of the diagnostic groups in latent space
+(VAE+MMD+ComBat and VAE+MMD+ComBat+TL) are                                     emerged in the source domain. This is transferred to the target
+presented in the Supplementary material for the interested reader.             domain as a visible separation between diagnostic groups [with
+    Accuracy represents how close the prediction comes to the                  some exceptions, especially between autism and Asperger’s (Note:
+true values. It is determined by the number of correct predictions             Although the term “Asperger’s syndrome” is no longer used in
+divided by the total number of predictions. Due to the class                   the DSM-5 (2013) and is now categorized under Autism Spectrum
+imbalance in the test dataset, we used F1-score to combine both                Disorder (Level 1), we retain the original label in this manuscript to
+precision and recall of each class, and the F1-score (Pedregosa et al.,        reﬂect the diagnostic terminology used in the ABIDE dataset at the
+2011) can be calculated as follows:                                            time of data collection.)] can be observed. Thus, the results revealed
+                                                                               that even with high dimensional input data, the VAE-MMD model
+                                Precision × Recall
+                    F1 = 2 ×                                                   reduced the distance between the data points from the same class
+                                Precision + Recall
+                                                                               but diﬀerent domains in latent space.
+                                                                                   Healthy control subjects from HBN and AOMIC datasets were
+                                                                               given additional source domain data as input. Since learning about
+2.10 Feature identiﬁcation                                                     healthy control subjects in one domain (HBN and AOMIC) is
+                                                                               “transferred” to another domain (ABIDE), this speciﬁc case of
+     The ﬁrst encoding layer is the most interpretable because the             domain adaptation is referred to as “transfer learning.” The t-SNE
+weights between each node of the encoding layer to the next hidden             embedding (Figure 6) shows the latent feature distributions for
+layer are considered as learned features (Montavon et al., 2018; Kim           the VAE-MMD domain adaptation model, with transfer learning
+et al., 2016). This study also analyzed the weights from the encoding          from additional healthy control data in the source domain drawn
+layer to the next hidden layer to explain the importance of features           from HBN and AOMIC datasets. As with the earlier case, there
+in the classiﬁcation as reported in the previous studies (Guo et al.,          was a little separation between groups before training, partly
+2017; Vakli et al., 2018). Furthermore, we applied permutation                 because the non-neural inter-site diﬀerences drown out the inter-
+testing to identify the statistically signiﬁcant features. Once the            group neural diﬀerences. After training, it can be observed that
+model was trained, the weights assumed values accordingly during
+                                                                               separation between groups is near perfect in the source domain and
+the training process. At the end of the training process, each weight
+                                                                               visible in the target domain (with some missed assignments to the
+had a mean value calculated over all iterations of training. This
+                                                                               wrong cluster).
+mean weight represented the “importance” of the corresponding
+                                                                                   Comparing Figures 5, 6, it is noteworthy that including
+feature in the input weight vector of size 1 × 19,900. During
+                                                                               additional healthy control data in the source domain from HBN
+permutation, the order of the input vector was randomly shuﬄed,
+                                                                               and AOMIC datasets expanded the reach of the healthy control
+and the training process was repeated after each shuﬄe. The mean
+                                                                               cluster in both the source and target domains. This implies that
+weight obtained during each permutation corresponded to the
+                                                                               the model captured a larger variance in the healthy population and
+importance of diﬀerent features in diﬀerent permutations. The
+distribution of mean weights obtained across permutations (1,000               became more generalizable in the target domain, as evidenced by
+of them) represented a null distribution of the hypothesis that all            improved target domain accuracies presented in the next section.
+features were signiﬁcantly important. The p-value of node A was                As elaborated in the discussion, we hope that with more publicly
+calculated by the number of mean weight values greater than the                available healthy control data input into the proposed model in
+true value, divided by the total number of mean weight values.                 the future, the model’s generalizability can be further improved,
+Moreover, the p-value was corrected for multiple comparisons                   leading to more realistic separation boundaries between groups.
+using the false discovery rate (FDR) method at 5%. The p-value can             Finally, this can improve performance on unseen test data in the
+be calculated as follows:                                                      target domain.
+                           NumgreatTrue
+                   PA =                  × 100%
+                          Numpermutation
+
+the NumgreatTrue refers to the number of permutations where
+                                                                               3.2 Classiﬁcation accuracy
+the mean value of weights was greater than the true value, and
+                                                                                    Table 2 shows the accuracy and F1-score from the VAE-
+Numpermutation refers to the total number of permutation tests
+                                                                               MMD model (i.e., domain adaptation) when combined with other
+(=1,000). The permutation testing procedure was identical for all
+                                                                               strategies, such as transfer learning (TL) from HBN and AOMIC
+of the proposed models.
+                                                                               datasets, as well as statistical harmonization (ComBat). Moreover,
+                                                                               the results from the baseline methods SVM and MLP are included.
+3 Results                                                                      It is worth mentioning that the baseline methods did not perform
+                                                                               well because of the domain shift between source domain data and
+3.1 Domain adaptation                                                          target domain data. Compared to the baseline methods, all other
+                                                                               techniques containing VAE obtained better results. All models have
+   Figure 5 shows t-SNE visualizations of the latent feature space             almost 100% training accuracy in the source domain, which is not
+in both the source (top panel) and target domains (bottom                      surprising since training accuracy tends to be saturated. However,
+
+Frontiers in Neuroinformatics                                             11                                                           frontiersin.org
+Deshpande et al.                                                                                                                                           10.3389/fninf.2025.1553035
+
+
+
+
+TABLE 2 Classiﬁcation results were obtained by combining domain adaptation (VAE-MMD) with other strategies such as transfer learning (TL) and
+statistical harmonization (ComBat).
+
+
+  Classiﬁcation accuracy                   Source training (%)                 Source test (%)               Target training (%)               Target test (F1-score)
+  SVM                                                    –                                –                                –                             49.32% (0.32)
+
+  MLP                                                    –                                –                                –                             62.66% (0.30)
+
+  VAE                                                  99.97                            64.56                            52.67                           65.08% (0.27)
+
+  VAE+COMBAT                                            100                             60.76                            51.56                           70.63% (0.29)
+
+  VAE+MMD                                              99.67                            50.94                            63.29                           69.05% (0.35)
+
+  VAE+MMD+TL                                            100                             60.76                            77.61                           73.81% (0.38)
+For each of the training and testing datasets (test sample size equal to 126), we compared the classiﬁcation accuracies from source and target domains. In addition, we used SVM, MLP, and VAE
+trained on source domain data and tested on target domain data. The last column shows the F1 score of each approach. Domain adaptation was not applied with SVM and MLP, so there was
+no source training, source test, and target training classiﬁcation accuracies.
+
+
+
+
+    FIGURE 7
+    The classiﬁcation accuracy using different approaches combined with domain adaptation. Blue bars refer to the training accuracy in the target
+    domain, and red bars refer to the testing accuracy in the target domain.
+
+
+
+
+the testing accuracy of the source domain is poor, given the inability                             (which is 33%) have been reported before, accuracy in independent
+to generalize based just on the source data. This agrees with prior                                test datasets rarely exceeded 70% (Abraham et al., 2017; Li et al.,
+results of standard machine learning methods for neuroimaging                                      2018; Lanka et al., 2020). If we included AOMIC and HBN datasets
+data (Lanka et al., 2020). In addition, MMD-based domain                                           into the source domain, accuracy further increased to 73.81%
+adaptation enhances the accuracy during target domain training,                                    due to transfer learning, demonstrating that there is scope within
+but the ﬁnal F1-score on the target test dataset remains comparable                                the domain adaptation framework to improve the accuracy by
+to that achieved by the ComBat harmonization technique (69.05%                                     adding more data. Considering diﬀerences in data distribution
+vs. 70.63%). For the three classes in the target domain dataset                                    between AOMIC and HBN datasets (Table 1), this study also
+(controls, autism, and Asperger’s), MMD domain adaptation can                                      investigated how much performance improvement was caused by
+increase accuracy by 4%−10% without using target domain labels.                                    HBN and AOMIC separately. Supplementary Table S2 shows the
+Incorporating transfer learning using additional healthy control                                   accuracy results separately from HBN and AOMIC datasets in the
+datasets further boosts accuracy (73.81%), outperforming ComBat                                    VAE+ComBat+MMD+TL framework.
+and demonstrating the beneﬁts of combining domain adaptation
+with transfer learning (see Table 2 and Figure 7). Combining
+transfer learning with ComBat harmonization further improves
+                                                                                                   3.3 Feature identiﬁcation
+performance, increasing accuracy from 73.81% to 75.4% (see
+Supplementary Table S1 and Supplementary Figure S2).
+                                                                                                       Figure 8 shows the importance of features for the classiﬁcation
+    However, given the smaller number of samples from Asperger’s
+                                                                                                   using the VAE+MMD+TL model. These paths also happen to
+and its similarities with autism, three-way classiﬁcation in ABIDE
+                                                                                                   be signiﬁcantly weaker (p < 0.05, FDR corrected; Benjamini
+is challenging. Although cross-validation accuracies above chance
+                                                                                                   and Hochberg, 1995) in ASD and Asperger’s than in healthy
+
+
+
+Frontiers in Neuroinformatics                                                                 12                                                                            frontiersin.org
+Deshpande et al.                                                                                                                   10.3389/fninf.2025.1553035
+
+
+
+
+   FIGURE 8
+   FC features found to be important for classiﬁcation using our VAE+MMD+TL model with the highest target testing accuracy. The ﬁgure shows
+   coronal, sagittal, and axial views of connections with colormap. The colors represent different lobes: dark blue: frontal lobe; light blue: insular lobe;
+   cyan: occipital lobe; yellow: parietal lobe; orange: subcortical; red: temporal lobe.
+
+
+
+
+controls. Except for the local connection of supramarginal gyrus to                 ASD. We identiﬁed this connection as well (shown in Figure 8).
+postcentral gyrus in the parietal lobe, most of the paths were cross-               Yoon et al. (2022) reported decreased functional connectivity
+network and cross-lobe connections, including middle frontal                        between the middle frontal gyrus (MFG) and the inferior temporal
+gyrus to inferior temporal gyrus, and BA6 to middle temporal gyrus                  lobule (ITG) in children with ASD. We also report this as an
+in the fronto-temporal network, orbito-frontal gyrus to rolandic                    important connection in Figure 8. Connectivity disruption between
+operculum in the fronto-insular network, and right precentral to                    MFG and ITG was signiﬁcantly correlated with clinical measures
+right temporal pole in the temporo-parietal network. Most of the                    such as social communication and awareness scores from the
+aﬀected regions in the frontal lobe were left-lateralized.                          Social Responsiveness Scale (SRS). Additionally, Yoon et al. found
+    The signiﬁcant connectivity patterns we identiﬁed have been                     reduced local eﬃciency in these regions, suggesting impaired
+previously reported in several studies related to deﬁcits in social,                information integration within the social brain network in ASD.
+behavioral, and communicative functioning in individuals with                       Connections between the frontal cortex and insular networks were
+ASD. For example, Noonan et al. (2009) reported hyperconnectivity                   also observed (e.g., R OFC and RolOper; R MFG and R Ins, as
+between the fusiform gyrus, an area associated with decoding                        shown in Figure 8). Altered connectivity among insular subregions
+social cues such as facial expressions (Delbruck et al., 2019), and                 has been implicated in the degradation of emotion regulation
+the superior parietal lobule (BA7) in individuals with ASD. This                    abilities in individuals with ASD (Ong and Fan, 2023; Taylor
+altered connectivity may reﬂect diﬃculties in integrating visual                    et al., 2009; Zhao et al., 2022), while frontal regions such as the
+information with attentional processes, which could contribute                      OFC and MFG have been associated with social impairments in
+to impairments in social perception and interaction observed in                     ASD (Ong and Fan, 2023). Disruptions in these fronto-insular
+
+
+
+Frontiers in Neuroinformatics                                                  13                                                                 frontiersin.org
+Deshpande et al.                                                                                                          10.3389/fninf.2025.1553035
+
+
+
+
+pathways may therefore contribute to the emotional and behavioral             models were combined, the accuracy was better than the models’
+deﬁcits characteristic of the disorder (Ong and Fan, 2023). Altered           individual performance. Speciﬁcally, Figure 7 and Table 2 showed
+connectivity between BA6 and the middle temporal gyrus (MTG)                  that learning from labeled training data in the source domain
+within the fronto-temporal network has been implicated in ASD.                improved dramatically with domain adaptation and ComBat-
+Xu et al. (2020) identiﬁed distinct subregions within the MTG                 harmonization, with the same trends seen in the target domain
+and found that individuals with ASD exhibited hypoconnectivity                with unlabeled data, but to a lesser extent (Kouw and Loog, 2021).
+between these MTG subregions and various frontal areas associated             Compared to these two methods (ComBat harmonization and
+with motor planning and social cognition. Similarly, Cheng et al.             domain adaptation approach), ComBat required minimal hardware
+(2015) reported reduced connectivity between the MTG and                      and time to complete the harmonization. In contrast, the deep
+regions involved in emotion processing and theory of mind, such as            learning model required more time due to the ﬁne-tuning of
+the ventromedial prefrontal cortex, further supporting the role of            hyper-parameters. It remains to be seen whether the improvement
+disrupted fronto-temporal interactions in the social and cognitive            in performance expected by including larger datasets in the
+impairments observed in ASD.                                                  deep learning framework will justify the additional computational
+                                                                              complexity compared to statistical ComBat harmonization.
+                                                                                  This study used a three-class classiﬁcation approach (Autism,
+4 Discussion                                                                  Asperger’s syndrome, and Controls). The Asperger’s population
+                                                                              is more similar to autism than healthy controls (Duﬀy et al.,
+     Large public databases, such as ABIDE (Autism Brain Imaging              2013). However, it is still distinctly separate from typical autism
+Data Exchange), have aided deep learning models for diagnostic                across behavioral, cognitive, and neural domains (Faridi and
+classiﬁcation with potential applications in AI-assisted clinical             Khosrowabadi, 2017). However, several studies prefer to perform
+decision systems. However, such large public databases have been              two-way classiﬁcation between controls and ASD; some studies
+assembled post-hoc and contain diﬀerent non-neural variabilities              perform three-way classiﬁcation (Wang J. et al., 2020). This
+sources, such as diﬀerent sites using diﬀerent scanners and                   study reported the performance of three-way classiﬁcation in
+protocols, which degrade the performance of deep learning as well             the relatively larger ABIDE dataset and obtained a modest
+as traditional machine learning models (Li et al., 2018; Lanka et al.,        performance. However, the relatively good three-way classiﬁcation
+2020). To address this, this study proposed and implemented a                 accuracy of deep learning vs. traditional machine learning models
+domain adaptation framework by employing a VAE-MMD deep                       in the case of ASD (over 70% accuracy) has been reported in smaller
+learning model using ABIDE I as the source domain and ABIDE                   datasets (N = 114; Isam et al., 2021). This study found that the
+II as the target domain. We demonstrated improved classiﬁcation               VAE+MMD+TL approach outperformed SVM and MLP methods
+performance in the target domain by utilizing the source domain’s             by enhancing the classiﬁcation of the Asperger’s class from <10% to
+knowledge and making data distributions in the source and target              about 60%. One of the three-way ASD classiﬁcation studies (Wang
+domains as similar as possible (Li et al., 2020; Zhou et al., 2018).          J. et al., 2020) also applied a domain adaptation approach and
+When used in combination with domain adaptation and transfer                  used functional connectivity as an input feature. Still, the authors
+learning, the ComBat statistical harmonization (Fortin et al., 2018,          reported <60% accuracy in ASD classiﬁcation. Thus, compared to
+2017, 2016) further improved the classiﬁer’s performance (see                 other three-way ASD classiﬁcation studies, the proposed approach
+Supplementary material). Finally, we also showed that additional              obtained a high accuracy of over 75% on the test dataset (see
+transfer learning from HBN and AOMIC datasets improved the                    Table 2). For comparison, the two-way classiﬁcation results for our
+classiﬁcation accuracy.                                                       model are included in the Supplementary material.
+     To analyze the eﬀect of domain shift and adaptation, we                      This study also utilized a semi-supervised domain adaptation
+compared the performance of several models. The baseline VAE                  approach that combined the advantages of UDA and SDA.
+model, trained and evaluated solely on ABIDE-II, achieved an F1-              Moreover, the proposed approach is the ﬁrst method to utilize such
+score of ∼68.06%. In contrast, training the same VAE model on                 a UDA framework in a classiﬁcation task of a neurodevelopmental
+ABIDE-I and testing it directly on ABIDE-II resulted in a lower               condition without the annotated labels in the target domain
+F1-score of 65.08%, likely due to domain shift caused by diﬀering             (Choudhary et al., 2020). According to the best of our knowledge,
+data distributions across sites. This highlights the challenges of            this research is also the ﬁrst study that used t-SNE as a visualization
+generalizing across datasets without adaptation. Incorporating a              method in the prediction of neurodevelopmental conditions. The
+Maximum Mean Discrepancy (MMD) loss into the VAE framework                    proposed approach provided higher accuracy in ASD classiﬁcation
+led to improved performance (F1-score: 69.05%) by explicitly                  than other SDA studies, such as the research by Shi et al. (2021).
+aligning latent feature distributions between the source and                  The authors (Shi et al., 2021) trained the three-way decision
+target domains. This result demonstrates that domain-invariant                domain adaptation classiﬁer with the MMD mod, then applied it
+representations learned via MMD can enhance generalization to                 to FC from the ABIDE dataset and obtained around 71% accuracy.
+unseen data.                                                                  The researchers used propagated pseudo labels to target domain
+     Even with high dimensional input features, the VAE-MMD                   data trained by an SVM classiﬁer, which did not beneﬁt from
+model was able to project data points from diﬀerent domains                   a deep learning classiﬁer to handle high-dimensional data as in
+from the same class into a closed latent space. This study                    our model. Another study (Wang M. et al., 2020) treated one
+demonstrates that the proposed approaches can improve target                  individual site as a target domain and all other sites as source
+domain classiﬁcation when used independently. When these                      domains. Then, a common low-rank latent representation was
+
+
+
+
+Frontiers in Neuroinformatics                                            14                                                            frontiersin.org
+Deshpande et al.                                                                                                            10.3389/fninf.2025.1553035
+
+
+
+
+constructed across the source and target domains, obtaining 60%               the UK Biobank would be suitable for such an analysis. Other
+to 70% accuracy. Thus, the proposed approach (at 75.4% accuracy)              neurodevelopmental cohorts, such as the NKI-Rockland Sample
+yields superior performance over these state-of-the-art domain                (Nooner et al., 2012) and the Philadelphia Neurodevelopmental
+adaptation methods applied to ASD prediction.                                 Cohort (Satterthwaite et al., 2016), may also be considered for
+    Since domain adaptation improved target domain test                       extending training and improving generalizability. We plan to
+accuracy, it raises the possibility that additional data in the               incorporate data from the UK Biobank (Miller et al., 2016) in
+source domain may further improve classiﬁcation performance.                  future research to address this limitation. Third, how dependent is
+Therefore, we augmented the source domain with additional                     the performance of the framework on the inherent heterogeneity
+healthy control data from HBN and AOMIC datasets. From                        of the (i) sample, (ii) disorder, and (iii) data acquisition and
+Table 1, it is clear that AOMIC has a higher proportion of                    pre-processing strategies need to be investigated further. Fourth,
+females and is older in mean age than the other three datasets.               the class imbalance issue was not examined to enhance the
+Despite this, we chose AOMIC, intending to improve the                        performance of the multi-class approach. For example, we observed
+generalizability of the classiﬁer (by exposing the classiﬁer to               that classiﬁcation performance for the Asperger’s class in the
+diﬀerent age/gender mixes). The results from separate datasets                target domain was lower compared to the control and autism
+are shown in Supplementary Table S2; HBN provided slightly                    classes, consistent with the limited separation observed in the t-
+better performance than AOMIC because it has similar age and                  SNE visualizations (Figures 5, 6). This suggests that distinguishing
+gender to ABIDE. Combining both AOMIC and HBN datasets,                       Asperger’s syndrome from autism remains challenging and
+transfer learning from these datasets to discrimination in the                represents a limitation of the current model, which may be driven
+target domain showed improved performance. Furthermore, If                    by the lower sample size for this group. Techniques such as
+additional data can improve performance further, it opens up the              synthetic oversampling (Chawla et al., 2002) have been proposed
+possibility of building truly generalizable classiﬁers at scale. This         to mitigate class imbalance and could be explored in future work.
+is an essential step in making machine learning models based                  Fifth, our paper does not report statistical comparisons between
+on neuroimaging data relevant for AI-based diagnostic support                 model accuracies, such as p-values or conﬁdence intervals. Since
+in the clinic, rather than being a purely academic tool (which it             the model was trained with ﬁve-fold cross-validation, the eﬀective
+is currently) for understanding discriminative features of brain              sample size for statistical testing is very small (N = 5). In such
+function in mental disorders.                                                 settings, p-values can be unstable or misleading, and conﬁdence
+    To further evaluate the contribution of each component, we                intervals may appear artiﬁcially narrow or overconﬁdent due to the
+conducted a series of ablation comparisons. The baseline VAE                  limited number of folds. We also note that many prior works in
+model trained on ABIDE-I and tested on ABIDE-II achieved a test               neuroimaging and deep learning (Alzakari et al., 2025; Farooq et al.,
+accuracy of 65.08%, indicating a strong domain shift. Incorporating           2023; Parisot et al., 2018; Shao et al., 2021; Yang et al., 2021) evaluate
+MMD (VAE+MMD) improved accuracy to 69.05%, while adding                       model performance based on the mean and standard deviation
+ComBat alone (VAE+ComBat) raised performance to 70.63%,                       across folds or repetitions without reporting p-values. We believe
+suggesting its eﬀectiveness in reducing site-related variance. When           this approach oﬀers a fair assessment of the model’s eﬀectiveness
+both MMD and ComBat were combined (VAE+MMD+ComBat),                           given the statistical limitations of ﬁve-fold cross-validation. Finally,
+accuracy reached 74.6%. Adding transfer learning from HBN and                 this study presents t-SNE plots as a qualitative visualization of
+AOMIC (VAE+MMD+TL) led to 73.81%, highlighting the beneﬁt                     how the latent features separate diagnostic groups and align
+of additional healthy control data. The full model combining all              domains before and after training. We did not include quantitative
+three elements—MMD, ComBat, and transfer learning—achieved                    clustering metrics such as the Silhouette Score or Davies–Bouldin
+the highest accuracy of 75.4%. These results support the additive             Index because our primary objective was classiﬁcation rather than
+beneﬁt of each module. We did not include a VAE+TL condition                  unsupervised clustering, and these metrics do not directly measure
+in this study, as it addresses a distinct research question beyond the        class label separability or domain alignment in supervised settings.
+scope of this manuscript.                                                     In addition, clustering metrics may be unreliable when applied
+                                                                              to t-SNE-reduced spaces, which are optimized for visualization
+                                                                              rather than preserving global data structure. Instead, we relied on
+5 Limitations and future work                                                 downstream classiﬁcation performance (accuracy and F1-score) on
+                                                                              a held-out test set as a more direct evaluation of the model’s ability
+    This study contains important limitations. First, this study              to learn discriminative and domain-invariant representations.
+analyzed the weights from the encoding layer to the next hidden
+layer to explain the importance of features in the classiﬁcation.
+While this is based on prior research (Guo et al., 2017; Vakli                6 Conclusion
+et al., 2018), one could optimize this choice further by exploring
+best interpretability algorithms for the proposed machine learning                In conclusion, the results of this study demonstrate that domain
+model and representations of domain invariant features. Second,               adaptation and transfer learning, when used in combination,
+we acknowledge that our study does not explore the limits of                  outperforms ASD classiﬁcation in test data as compared to
+performance improvements from domain adaptation and transfer                  baseline statistical harmonization methods of multi-site data such
+learning. Determining the point at which additional data ceases               as ComBat. The domain adaptation VAE-MMD model is robust
+to yield further beneﬁts would likely require access to signiﬁcantly          against sources of data distribution divergence, such as inter-site
+larger datasets comprising thousands of subjects. Currently, among            diﬀerences in data acquisition parameters and scanner models. By
+publicly available datasets, only large-scale initiatives such as             demonstrating that augmenting the source domain with additional
+
+Frontiers in Neuroinformatics                                            15                                                              frontiersin.org
+Deshpande et al.                                                                                                                                      10.3389/fninf.2025.1553035
+
+
+
+
+data leads to improved target domain accuracy due to transfer                                  Conﬂict of interest
+learning, this work opens the possibility of further improving the
+proposed model by utilizing the ever-increasing amount of healthy                                  The authors declare that the research was conducted in the
+control neuroimaging data in the public domain.                                                absence of any commercial or ﬁnancial relationships that could be
+                                                                                               construed as a potential conﬂict of interest.
+                                                                                                   The author(s) declared that they were an editorial board
+Data availability statement                                                                    member of Frontiers, at the time of submission. This had no impact
+                                                                                               on the peer review process and the ﬁnal decision.
+    The datasets presented in this study can be found in
+online repositories. The names of the repository/repositories and
+accession number(s) can be found below: ABIDE I - https://fcon_                                Generative AI statement
+1000.projects.nitrc.org/indi/abide/abide_I.html and ABIDE II -
+https://fcon_1000.projects.nitrc.org/indi/abide/abide_II.html.                                     The author(s) declare that no Gen AI was used in the creation
+                                                                                               of this manuscript.
+Author contributions                                                                               Any alternative text (alt text) provided alongside ﬁgures in
+                                                                                               this article has been generated by Frontiers with the support of
+    GD: Conceptualization, Data curation, Formal analysis,                                     artiﬁcial intelligence and reasonable eﬀorts have been made to
+Funding acquisition, Investigation, Methodology, Project                                       ensure accuracy, including review by the authors wherever possible.
+administration, Resources, Software, Supervision, Validation,                                  If you identify any issues, please contact us.
+Visualization, Writing – original draft, Writing – review & editing.
+BL: Data curation, Formal analysis, Investigation, Methodology,
+Software, Visualization, Writing – original draft, Writing – review
+                                                                                               Publisher’s note
+& editing. PH: Data curation, Formal analysis, Investigation,
+                                                                                                   All claims expressed in this article are solely those of the
+Methodology, Visualization, Writing – original draft, Writing –
+                                                                                               authors and do not necessarily represent those of their aﬃliated
+review & editing. DR: Data curation, Software, Writing – original
+                                                                                               organizations, or those of the publisher, the editors and the
+draft, Writing – review & editing.
+                                                                                               reviewers. Any product that may be evaluated in this article, or
+                                                                                               claim that may be made by its manufacturer, is not guaranteed or
+Funding                                                                                        endorsed by the publisher.
+
+    The author(s) declare that ﬁnancial support was received for
+the research and/or publication of this article. The author(s) declare                         Supplementary material
+that ﬁnancial support was received for the acquisition of data used
+in the research and/or publication of this article. Autism Brain                                   The Supplementary Material for this article can be found
+Imaging Data Exchange (ABIDE) data acquisition was supported                                   online at: https://www.frontiersin.org/articles/10.3389/fninf.2025.
+by NIMH grant # K23MH087770.                                                                   1553035/full#supplementary-material
+
+
+
+
+References
+    Abraham, A., Milham, M. P., Di Martino, A., Craddock, R. C., Samaras,                         Bi, X. A., Wang, Y., Shu, Q., Sun, Q., and Xu, Q. (2018). Classiﬁcation of autism
+D., Thirion, B., et al. (2017). Deriving reproducible biomarkers from multi-                   spectrum disorder using random support vector machine cluster. Front. Genet. 9:18.
+site resting-state data: an Autism-based example. Neuroimage 147, 736–745.                     doi: 10.3389/fgene.2018.00018
+doi: 10.1016/j.neuroimage.2016.10.045
+                                                                                                  Bickel, S., and Brückner, M. (2007). “Discriminative learning for diﬀering training
+   Alexander, L., Escalera, J., and Ai, L. (2017). An open resource for transdiagnostic        and test distributions,” in Proceedings of the 24th International Conference on Machine
+research in pediatric mental health and learning disorders. Sci. Data 4:170181.                Learning (New York, NY: ACM), 81–88. doi: 10.1145/1273496.1273507
+doi: 10.1038/sdata.2017.181                                                                       Bottou, L. (2012). “Stochastic gradient descent tricks,” in Neural Networks: Tricks of
+   Alzakari, S. A., Allinjawi, A., Aldrees, A., Zamzami, N., Umer, M., Innab,                  the Trade: Second Edition (Berlin; Heidelberg: Springer), 421–436.
+N., et al. (2025). Early detection of autism spectrum disorder using explainable                  Cao, M., Yang, M., Qin, C., Zhu, X., Chen, Y., Wang, J., et al. (2021). Using
+AI and optimized teaching strategies. J. Neurosci. Methods 413:110315.                         DeepGCN to identify the autism spectrum disorder from multi-site resting-state data.
+doi: 10.1016/j.jneumeth.2024.110315                                                            Biomed. Signal Process. Control 70:103015. doi: 10.1016/j.bspc.2021.103015
+   Belhaj, M., Protopapas, P., and Pan, W. (2018). Deep variational transfer: transfer            Chanel, G., Pichon, S., Conty, L., Berthoz, S., Chevallier, C., and Grèzes, J. (2016).
+learning through semi-supervised deep generative models. ArXiv. Available online at:           Classiﬁcation of autistic individuals and controls using cross-task characterization of
+http://arxiv.org/abs/1812.03123 (Accessed August 20, 2025).                                    fMRI activity. NeuroImage Clin. 10, 78–88. doi: 10.1016/j.nicl.2015.11.010
+   Ben-David, S., Blitzer, J., Crammer, K., Kulesza, A., Pereira, F., and Vaughan, J.             Chao-Gan, Y., and Yu-Feng, Z. (2010). DPARSF: a MATLAB toolbox
+W. (2010). A theory of learning from diﬀerent domains. Mach. Learn. 79, 151–175.               for “pipeline” data analysis of resting-state fMRI. Front. Syst. Neurosci. 4:13.
+doi: 10.1007/s10994-009-5152-4                                                                 doi: 10.3389/fnsys.2010.00013
+   Benjamini, Y., and Hochberg, Y. (1995). Controling the false discovery rate: a                 Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer, W. P. (2002).
+practical and powerful approach to multiple testing. J. R. Stat. Soc. B Stat. Methodol.        SMOTE: synthetic minority over-sampling technique. J. Artif. Intell. Res. 16, 321–357.
+57, 289–300. doi: 10.1111/j.2517-6161.1995.tb02031.x                                           doi: 10.1613/jair.953
+
+
+
+
+Frontiers in Neuroinformatics                                                             16                                                                          frontiersin.org
+Deshpande et al.                                                                                                                                                10.3389/fninf.2025.1553035
+
+
+
+
+   Chen, H., and Chien, J. (2015). “Deep semi-supervised learning for domain                               Ganin, Y., Ustinova, E., Ajakan, H., Germain, P., Larochelle, H., Laviolette, F., et al.
+adaptation,” in IEEE 25th International Workshop on Machine Learning for Signal                         (2016). Domain-adversarial training of neural networks. J. Mach. Learn. Res. 17, 1–35.
+Processing (MLSP) (Boston, MA: IEEE), 1–6. doi: 10.1109/MLSP.2015.7324325                               doi: 10.48550/arXiv.1505.07818
+   Chen, H., Duan, X., Liu, F., Lu, F., Ma, X., Zhang, Y., et al. (2016). Multivariate                     Gardner, M. W., and Dorling, S. (1998). Artiﬁcial neural networks (the multilayer
+classiﬁcation of autism spectrum disorder using frequency-speciﬁc resting-state                         perceptron)—a review of applications in the atmospheric sciences. Atmos. Environ. 32,
+functional connectivity—a multi-center study. Prog. Neuro Psychopharmacol. Biol.                        2627–2636. doi: 10.1016/S1352-2310(97)00447-0
+Psychiatry 64, 1–9. doi: 10.1016/j.pnpbp.2015.06.014
+                                                                                                           Ghafoorian, M., Mehrtash, A., Kapur, T., Karssemeijer, N., Marchiori, E.,
+   Cheng, B., Zhang, D., and Shen, D. (2012). Domain transfer learning for MCI                          Pesteie, M., et al. (2017). “Transfer learning for domain adaptation in MRI:
+conversion prediction. Med. Image Comput. Comput. Assist. Interv. 15, 82–90.                            application in brain lesion segmentation,” in International Conference on Medical
+doi: 10.1007/978-3-642-33415-3_11                                                                       Image Computing and Computer-Assisted Intervention (Cham: Springer), 516–524.
+                                                                                                        doi: 10.1007/978-3-319-66179-7_59
+   Cheng, W., Rolls, E. T., Gu, H., Zhang, J., and Feng, J. (2015). Autism: reduced
+connectivity between cortical areas involved in face expression, theory of mind, and                       Gholami, B., Sahu, P., Rudovic, O., Bousmalis, K., and Pavlovic, V. (2020).
+the sense of self. Brain 138, 1382–1393. doi: 10.1093/brain/awv051                                      Unsupervised multi-target domain adaptation: an information theoretic approach.
+                                                                                                        IEEE Trans. Image Process. 29, 3993–4002. doi: 10.1109/TIP.2019.2963389
+   Choudhary, A., Tong, L., Zhu, Y., and Wang, M. D. (2020). Advancing medical
+imaging informatics by deep learning-based domain adaptation. Yearb. Med. Inform.                          Gretton, A., Borgwardt, K., Rasch, M., and Schölkopf, B. L. A. (2012). A Kernel
+29, 129–138. doi: 10.1055/s-0040-1702009                                                                two-sample test. J. Mach. Learn. Res. 13, 723–773. doi: 10.48550/arXiv.0805.2368
+   Craddock, C., Benhajali, Y., Chu, C., Chouinard, F., Evans, A., Jakab,                                  Gu, Q., Li, Z., and Han, J. (2011). Joint feature selection and subspace learning. Int.
+A., et al. (2013). The Neuro Bureau Preprocessing Initiative: open sharing                              Joint Confer. Artif. Intell. 22:1294. doi: 10.5591/978-1-57735-516-8/IJCAI11-219
+of preprocessed neuroimaging data and derivatives. Front. Neuroinform. 7:41.
+                                                                                                           Guan, H., and Liu, M. (2021). Domain adaptation for medical image analysis: a
+doi: 10.3389/conf.fninf.2013.09.00041
+                                                                                                        survey. ArXiv. Available online at: https://arxiv.org/abs/2102.09508 (Accessed August
+   Craddock, R. C., James, G. A., Holtzheimer 3rd, P. E., Hu, X. P., and Mayberg, H. S.                 20, 2025).
+(2012). A whole brain fMRI atlas generated via spatially constrained spectral clustering.
+                                                                                                           Guo, X., Dominick, K. C., Minai, A. A., Li, H., Erickson, C. A., and Lu, L. J. (2017).
+Hum. Brain Mapp. 33, 1914–1928. doi: 10.1002/hbm.21333
+                                                                                                        Diagnosing autism spectrum disorder from brain resting-state functional connectivity
+   Csurka, G. (2017). “A comprehensive survey on domain adaptation for visual                           patterns using a deep neural network with a novel feature selection method. Front.
+applications,” in Domain Adaptation in Computer Vision Applications, ed G. Csurka                       Neurosci. 11:460. doi: 10.3389/fnins.2017.00460
+(Cham: Springer), 1–35. doi: 10.1007/978-3-319-58347-1_1
+                                                                                                           Haeusser, P., Frerix, T., Mordvintsev, A., and Cremers, D. (2017). “Associative
+   Delbruck, E., Yang, M., Yassine, A., and Grossman, E. D. (2019).                                     domain adaptation,” in IEEE International Conference on Computer Vision (Venice:
+Functional connectivity in ASD: atypical pathways in brain networks                                     IEEE), 2784–2792. doi: 10.1109/ICCV.2017.301
+supporting action observation and joint attention. Brain Res. 1706, 157–165.
+                                                                                                            Hangya, V., Braune, F., Fraser, A., and Schütze, H. (2018). Two methods for domain
+doi: 10.1016/j.brainres.2018.10.029
+                                                                                                        adaptation of bilingual tasks: delightfully simple and broadly applicable,” in Proceedings
+   DeRamus, T. P., Black, B. S., Pennick, M. R., and Kana, R. K. (2014). Enhanced                       of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1:
+parietal cortex activation during location detection in children with autism. J.                        Long Papers) (Melbourne, VIC: ACL), 810–820. doi: 10.18653/v1/P18-1075
+Neurodev. Disord. 6:37. doi: 10.1186/1866-1955-6-37
+                                                                                                           Heinsfeld, A. S., Franco, A. R., Craddock, R. C., Buchweitz, A., and Meneguzzi,
+   Di Martino, A., O’Connor, D., and Chen, B. (2017). Enhancing studies of the                          F. (2017). Identiﬁcation of autism spectrum disorder using deep learning
+connectome in autism using the autism brain imaging data exchange II. Sci. Data                         and the ABIDE dataset. NeuroImage Clin. 17, 16–23. doi: 10.1016/j.nicl.2017.
+4:170010. doi: 10.1038/sdata.2017.10                                                                    08.017
+   Di Martino, A., Yan, C. G., Li, Q., Denio, E., Castellanos, F. X., Alaerts,                             Hoﬀman, J., Mohri, M., and Zhang, N. (2018). Algorithms and theory for
+K., et al. (2014). The autism brain imaging data exchange: towards a large-scale                        multiple-source adaptation. ArXiv. Available online at: https://arxiv.org/abs/1805.
+evaluation of the intrinsic brain architecture in autism. Mol. Psychiatry 19, 659–667.                  08727 (Accessed August 20, 2025).
+doi: 10.1038/mp.2013.78
+                                                                                                           Holmes, A., Hollinshead, M., and O’Keefe, T. (2015). Brain genomics superstruct
+   Dichter, G. S. (2012). Functional magnetic resonance imaging of autism spectrum                      project initial data release with structural, functional, and behavioral measures. Sci.
+disorders. Dial. Clin. Neurosci. 14, 319–351. doi: 10.31887/DCNS.2012.14.3/gdichter                     Data 2:150031. doi: 10.1038/sdata.2015.31
+   Duc, N., Ryu, S., and Qureshi, M. (2020). 3D-deeplearningbased automatic                                Horwitz, B., Rumsey, J., Grady, C., and Rapoport, S. (1988). The cerebral metabolic
+diagnosis of Alzheimer’s disease with joint MMSE prediction using resting-state fMRI.                   landscape in autism. Intercorrelations of regional glucose utilization. Arch. Neurol. 45,
+Neuroinformatics 18, 71–86. doi: 10.1007/s12021-019-09419-w                                             749–755. doi: 10.1001/archneur.1988.00520310055018
+   Duﬀy, F. H., Shankardass, A., McAnulty, G. B., and Als, H. (2013). The relationship                     Ilse, M., Tomczak, J., Louizos, C., and Welling, M. (2020). “DIVA: domain invariant
+of Asperger’s syndrome to autism: a preliminary EEG coherence study. BMC Med.                           variational autoencoders,” in The Proceedings of Machine Learning Research (PMLR),
+11:175. doi: 10.1186/1741-7015-11-175                                                                   322–348.
+   Eslami, T., Fahad, A., Raiker, J. S., and Saeed, F. (2021). Machine learning                            Isam, M., Yahya, N., Faye, I., and Faeq Hussein, A. (2021). Identiﬁcation of autism
+methods for diagnosing autism spectrum disorder and attention- deﬁcit/hyperactivity                     subtypes based on Wavelet coherence of BOLD FMRI signals using convolutional
+disorder using functional and structural MRI: a survey. Front. Neuroinform. 14:62.                      neural network. Sensors 21:5256. doi: 10.3390/s21165256
+doi: 10.3389/fninf.2020.575999
+                                                                                                           Johnson, W. E., Li, C., and Rabinovic, A. (2007). Adjusting batch eﬀects in
+   Eslami, T., Mirjalili, V., Fong, A., Laird, A. R., and Saeed, F. (2019). ASD-DiagNet:                microarray expression data using empirical Bayes methods. Biostatistics 8, 118–127.
+a hybrid learning approach for detection of autism spectrum disorder using fMRI data.                   doi: 10.1093/biostatistics/kxj037
+Front. Neuroinform. 13:70. doi: 10.3389/fninf.2019.00070
+                                                                                                           Kalcher, K., Huf, W., Boubela, R. N., Filzmoser, P., Pezawas, L., Biswal,
+   Faridi, F., and Khosrowabadi, R. (2017). Behavioral, cognitive and neural markers                    B., et al. (2012). Fully exploratory network independent component analysis
+of Asperger syndrome. Basic Clin. Neurosci. 8, 349–360. doi: 10.18869/nirp.bcn.8.5.349                  of the 1000 functional connectomes database. Front. Hum. Neurosci. 6:301.
+   Farooq, M. S., Tehseen, R., Sabir, M., and Atal, Z. (2023). Detection of autism                      doi: 10.3389/fnhum.2012.00301
+spectrum disorder (ASD) in children and adults using machine learning. Sci. Rep.
+                                                                                                           Kamnitsas, K., Baumgartner, C., Ledig, C., Newcombe, V., Simpson, J., Kane, A.,
+13:9605. doi: 10.1038/s41598-023-35910-1
+                                                                                                        et al. (2017). “Unsupervised domain adaptation in brain lesion segmentation with
+   Fortin, J.-P., and Foran, W. (2021). ComBatHarmonization. [Online]. Available                        adversarial networks,” in Information Processing in Medical Imaging (Boone, NC:
+online at: https://github.com/Jfortin1/ComBatHarmonization (Accesed August 20,                          Springer), 597–609. doi: 10.1007/978-3-319-59050-9_47
+2025).
+                                                                                                           Karimi, D., Dou, H., Warﬁeld, S. K., and Gholipour, A. (2020). Deep learning with
+   Fortin, J. P., Cullen, N., Sheline, Y. I., Taylor, W. D., Aselcioglu, I., Cook, P. A., et al.        noisy labels: exploring techniques and remedies in medical image analysis. Med. Image
+(2018). Harmonization of cortical thickness measurements across scanners and sites.                     Anal. 65:101759. doi: 10.1016/j.media.2020.101759
+Neuroimage 167, 104–120. doi: 10.1016/j.neuroimage.2017.11.024
+                                                                                                           Khan, N. M., Abraham, N., and Hon, M. (2019). Transfer learning with
+   Fortin, J. P., Parker, D., Tunç, B., Watanabe, T., Elliott, M. A., Ruparel, K., et al.               intelligent training data selection for prediction of Alzheimer’s disease. IEEE Access 7,
+(2017). Harmonization of multi-site diﬀusion tensor imaging data. Neuroimage 161,                       72726–72735. doi: 10.1109/ACCESS.2019.2920448
+149–170. doi: 10.1016/j.neuroimage.2017.08.047
+                                                                                                           Kim, J., Calhoun, V. D., Shim, E., and Lee, J. H. (2016). Deep neural
+    Fortin, J. P., Sweeney, E. M., Muschelli, J., Crainiceanu, C. M., Shinohara, R.                     network with weight sparsity control and pre-training extracts hierarchical features
+T., and Alzheimer’s Disease Neuroimaging Initiative (2016). Removing inter-subject                      and enhances classiﬁcation performance: evidence from whole-brain resting-state
+technical variability in magnetic resonance imaging studies. Neuroimage 132, 198–212.                   functional connectivity patterns of schizophrenia. NeuroImage 124(Pt A), 127–146.
+doi: 10.1016/j.neuroimage.2016.02.036                                                                   doi: 10.1016/j.neuroimage.2015.05.018
+
+
+
+
+Frontiers in Neuroinformatics                                                                      17                                                                            frontiersin.org
+Deshpande et al.                                                                                                                                             10.3389/fninf.2025.1553035
+
+
+
+
+   Kingma, D., Rezende, D., Mohamed, S., and Welling, M. (2014). Semi-supervised                        Panta, S. R., Wang, R., Fries, J., Kalyanam, R., Speer, N., Banich, M., et al. (2016).
+learning with deep generative models. Adv. Neural Inf. Process. Syst. 4, 3581–3589.                  A tool for interactive data visualization: application to over 10,000 brain imaging
+doi: 10.48550/arXiv.1406.5298                                                                        and phantom MRI data sets. Front. Neuroinform. 10:9. doi: 10.3389/fninf.2016.00009
+                                                                                                     (Accessed August 20, 2025).
+   Koshino, H., Kana, R. K., Keller, T. A., Cherkassky, V. L., Minshew, N. J., and
+Just, M. A. (2008). fMRI investigation of working memory for faces in autism:                           Pantelis, P. C., Byrge, L., Tyszka, J. M., Adolphs, R., and Kennedy, D. P. (2015). A
+visual coding and underconnectivity with frontal areas. Cereb. Cortex 18, 289–300.                   speciﬁc hypoactivation of right temporo-parietal junction/posterior superior temporal
+doi: 10.1093/cercor/bhm054                                                                           sulcus in response to socially awkward situations in autism. Soc. Cogn. Aﬀect. Neurosci.
+                                                                                                     10, 1348–1356. doi: 10.1093/scan/nsv021
+   Kouw, W. M., and Loog, M. (2021). A Review of Domain Adaptation
+without Target Labels. IEEE Trans. Pattern Anal. Mach. Intell. 43, 766–785.                             Parisot, S., Ktena, S. I., Ferrante, E., Lee, M., Guerrero, R., Glocker, B., et al.
+doi: 10.1109/TPAMI.2019.2945942                                                                      (2018). Disease prediction using graph convolutional networks: application to
+                                                                                                     autism spectrum disorder and Alzheimer’s disease. Med. Image Anal. 48, 117–130.
+   Kushibar, K., Salem, M., Valverde, S., Rovira, À., Salvi, J., Oliver, A., et al. (2021).          doi: 10.1016/j.media.2018.06.001
+Transductive transfer learning for domain adaptation in brain magnetic resonance
+image segmentation. Front. Neurosci. 15:444. doi: 10.3389/fnins.2021.608808                             Pedamonti, D. (2018). Comparison of non-linear activation functions for deep
+                                                                                                     neural networks on MNIST classiﬁcation task. ArXiv. Available online at: https://arxiv.
+   Lanka, P., Rangaprakash, D., Dretsch, M. N., Katz, J. S., Denney, T. S., Jr.,                     org/abs/1804.02763 (Accessed August 20, 2025).
+and Deshpande, G. (2020). Supervised machine learning for diagnostic classiﬁcation
+from large-scale neuroimaging datasets. Brain Imaging Behav. 14, 2378–2416.                             Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., et al.
+doi: 10.1007/s11682-019-00191-8                                                                      (2011). Scikit-learn: machine learning in Python. J. Mach. Learn. Res. 12, 2825–2830.
+                                                                                                     doi: 10.48550/arXiv.1201.0490
+   Li, H., Parikh, N. A., and He, L. (2018). A novel transfer learning approach to
+                                                                                                        Plis, S. M., Hjelm, D. R., Salakhutdinov, R., Allen, E. A., Bockholt, H. J., Long, J.
+enhance deep neural network classiﬁcation of brain functional connectomes. Front.
+                                                                                                     D., et al. (2014). Deep learning for neuroimaging: a validation study. Front. Neurosci.
+Neurosci. 12:491. doi: 10.3389/fnins.2018.00491
+                                                                                                     8:229. doi: 10.3389/fnins.2014.00229
+   Li, J., Zhao, J., and Lu, K. (2016). “Joint feature selection and structure preservation
+                                                                                                        Purushotham, S., Carvalho, W., Nilanon, T., and Liu, Y. (2017). “Variational
+for domain adaptation,” in International Joint Conference on Artiﬁcial Intelligence
+                                                                                                     recurrent adversarial deep domain adaptation,” in The International Conference
+(New York, NY: AAAI Press), 1697–1703.
+                                                                                                     on Learning Representations. Available online at: https://openreview.net/forum?id=
+   Li, P., Ying, Y., and Campbell, C. (2009). “A variational approach to semi-supervised             rk9eAFcxg (Accessed August 20, 2025).
+clustering,” in ESANN (Bruges: d-side publi), 11–16.
+                                                                                                        Rahimi, A., and Recht, B. (2008). “Weighted sums of random kitchen sinks:
+    Li, X., Gu, Y., Dvornek, N., Staib, L. H., Ventola, P., and Duncan, J. S. (2020). Multi-         replacing minimization with randomization in learning,” in Advances in Neural
+site fMRI analysis using privacy-preserving federated learning and domain adaptation:                Information Processing Systems (Vancouver, BC: Curran Associates, Inc.), 1313–1320.
+ABIDE results. Med. Image Anal. 65:101765. doi: 10.1016/j.media.2020.101765
+                                                                                                        Raki´c, M., Cabezas, M., Kushibar, K., Oliver, A., and Lladó, X. (2020).
+    Litjens, G., Kooi, T., Bejnordi, B. E., Setio, A. A. A., Ciompi, F., Ghafoorian, M.,             Improving the detection of autism spectrum disorder by combining structural and
+et al. (2017). A survey on deep learning in medical image analysis. Med. Image Anal.                 functional MRI information. NeuroImage Clin. 25:102181. doi: 10.1016/j.nicl.2020.
+42, 60–88. doi: 10.1016/j.media.2017.07.005                                                          102181
+   Louizos, C., Swersky, K., Li, Y., Welling, M., and Zemel, R. (2016). The                              Satterthwaite, T. D., Connolly, J. J., Ruparel, K., Calkins, M. E., Jackson, C.,
+variational fair autoencoder. ArXiv. Available online at: https://arxiv.org/abs/1511.                Elliott, M. A., et al. (2016). The Philadelphia Neurodevelopmental Cohort: a publicly
+00830 (Accessed August 20, 2025).                                                                    available resource for the study of normal and abnormal brain development in youth.
+                                                                                                     Neuroimage 124, 1115–1119. doi: 10.1016/j.neuroimage.2015.03.056
+   Madani, A., Moradi, M., Karargyris, A., and Syeda-Mahmood, T. (2018).
+“Semi-supervised learning with generative adversarial networks for chest X-ray                          Schmidhuber, J. (2015). Deep learning in neural networks: an overview. Neural
+classiﬁcation with ability of data domain adaptation,” in 2018 IEEE 15th International               Netw. 61, 85–117. doi: 10.1016/j.neunet.2014.09.003
+Symposium on Biomedical Imaging (ISBI 2018) (Washington, DC: IEEE), 1038–1042.
+doi: 10.1109/ISBI.2018.8363749                                                                         Schölkopf, B., Platt, J., and Hofmann, T. (2007). “Analysis of representations for
+                                                                                                     domain adaptation,” in Advances in Neural Information Processing Systems (Cambridge,
+   Mahmood, F., Chen, R., and Durr, N. J. (2018). Unsupervised reverse domain                        MA: MIT Press), 137–144.
+adaptation for synthetic medical images via adversarial training. IEEE Trans. Med.
+Imaging 37, 2572–2581. doi: 10.1109/TMI.2018.2842767                                                    Shao, L., Fu, C., You, Y., and Fu, D. (2021). Classiﬁcation of ASD based on fMRI data
+                                                                                                     with deep learning. Cogn. Neurodyn. 15, 961–974. doi: 10.1007/s11571-021-09683-0
+   Miller, K., Alfaro-Almagro, F., and Bangerter, N. (2016). Multimodal population
+brain imaging in the UK Biobank prospective epidemiological study. Nat. Neurosci. 19,                   Shi, C., Xin, X., and Zhang, J. (2021). Domain adaptation using a three-way decision
+1523–1536. doi: 10.1038/nn.4393                                                                      improves the identiﬁcation of autism patients from multisite fMRI data. Brain Sci.
+                                                                                                     11:603. doi: 10.3390/brainsci11050603
+   Minshew, N. J., and Keller, T. A. (2010). The nature of brain dysfunction
+in autism: functional brain imaging studies. Curr. Opin. Neurol. 23, 124–130.                           Simonyan, K., and Zisserman, A. (2015). Very deep convolutional networks for
+doi: 10.1097/WCO.0b013e32833782d4                                                                    large-scale image recognition. ArXiv. Available online at: https://arxiv.org/abs/1409.
+                                                                                                     1556 (Accessed August 20, 2025).
+   Montavon, G., Samek, W., and Müller, K. (2018). Methods for interpreting
+and understanding deep neural networks. Digit. Signal Process 73, 1–15.                                 Snoek, L., van der Miesen, M. M., Beemsterboer, T., van der Leij, A., Eigenhuis,
+doi: 10.1016/j.dsp.2017.10.011                                                                       A., and Steven Scholte, H. (2021). The Amsterdam Open MRI Collection, a set
+                                                                                                     of multimodal MRI datasets for individual diﬀerence analyses. Sci. Data 8:85.
+   Mwangi, B., Tian, T. S., and Soares, J. C. (2014). A review of feature
+                                                                                                     doi: 10.1038/s41597-021-00870-6
+reduction techniques in neuroimaging. Neuroinformatics 12, 229–244.
+doi: 10.1007/s12021-013-9204-3                                                                          Subah, F., Deb, K., Dhar, P., and Koshiba, T. (2021). A deep learning approach to
+                                                                                                     predict autism spectrum disorder using multisite resting-state fMRI. Appl. Sci. 11:3636.
+   Nair, V., and Hinton, G. E. (2021). “Rectiﬁed linear units improve restricted
+                                                                                                     doi: 10.3390/app11083636
+Boltzmann machines,” in The International Conference on Machine Learning (Vienna:
+ICML), 807–814.                                                                                         Sun, F., Wu, H., Yan, Y., Du, Q., Luo, Z., and Gu, W. (2019). Informative
+                                                                                                     feature selection for domain adaptation. IEEE Access 7, 142551–142563.
+   Nielsen, J. A., Zielinski, B. A., Fletcher, P. T., Alexander, A. L., Lange, N., Bigler, E.
+                                                                                                     doi: 10.1109/ACCESS.2019.2944226
+D., et al. (2013). Multisite functional connectivity MRI classiﬁcation of autism: ABIDE
+results. Front. Hum. Neurosci. 7:599. doi: 10.3389/fnhum.2013.00599                                      Taylor, K. S., Seminowicz, D. A., and Davis, K. D. (2009). Two systems of resting
+                                                                                                     state connectivity between the insula and cingulate cortex. Hum. Brain Mapp. 30,
+   Noonan, S. K., Haist, F., and Müller, R.-A. (2009). Aberrant functional connectivity
+                                                                                                     2731–2745. doi: 10.1002/hbm.20705
+in autism: evidence from low-frequency BOLD signal ﬂuctuations. Brain Res. 1262,
+48–63. doi: 10.1016/j.brainres.2008.12.076                                                              Traut, N., Heuer, K., Lemaître, G., Beggiato, A., Germanaud, D., Elmaleh, M., et al.
+                                                                                                     (2022). Insights from an autism imaging biomarker challenge: promises and threats to
+   Nooner, K. B., Colcombe, S. J., Tobe, R. H., Mennes, M., Benedict, M. M., Moreno,                 biomarker discovery. Neuroimage 255:119171. doi: 10.1016/j.neuroimage.2022.119171
+A. L., et al. (2012). The NKI-rockland sample: a model for accelerating the pace
+of discovery science in psychiatry. Front. Neurosci. 6:152. doi: 10.3389/fnins.2012.                    Tzeng, E., Hoﬀman, J., Saenko, K., and Darrell, T. (2017). “Adversarial
+00152                                                                                                discriminative domain adaptation,” in Proceedings of the IEEE Conference on
+                                                                                                     Computer Vision and Pattern Recognition (Honolulu, HI: IEEE), 7167–7176.
+   Nozais, V., Boutinaud, P., Verrecchia, V., Gueye, M. F., Hervé, P. Y., Tzourio, C.,               doi: 10.1109/CVPR.2017.316
+et al. (2021). Deep learning-based classiﬁcation of resting-state fMRI independent-
+component analysis. Neuroinformatics 19, 1–19. doi: 10.1007/s12021-021-09514-x                          Tzeng, E., Hoﬀman, J., Zhang, N., Saenko, K., and Darrell, T. (2014). Deep domain
+                                                                                                     confusion: maximizing for domain invariance. ArXiv. Available online at: https://arxiv.
+   Nyúl, L., Udupa, J., and Zhang, X. (2000). New variants of a method of MRI scale                  org/abs/1412.3474 (Accessed August 20, 2025).
+standardization. IEEE Trans. Med. Imaging 19, 143–150. doi: 10.1109/42.836373
+                                                                                                        Vakli, P., Deák-Meszlényi, R. J., Hermann, P., and Vidnyánszky, Z. (2018).
+   Ong, L. T., and Fan, S. W. D. (2023). Morphological and functional changes of                     Transfer learning improves resting-state functional connectivity pattern analysis using
+cerebral cortex in autism spectrum disorder. Innov. Clin. Neurosci. 20:40.                           convolutional neural networks. Gigascience 7:130. doi: 10.1093/gigascience/giy130
+
+
+
+
+Frontiers in Neuroinformatics                                                                   18                                                                           frontiersin.org
+Deshpande et al.                                                                                                                                          10.3389/fninf.2025.1553035
+
+
+
+
+   van der Maaten, L., and Hinton, G. (2008). Visualizing data using t-SNE. J. Mach.                 Xu, S., Li, M., and Yang, C. (2019). Altered functional connectivity in
+Learn. Res. 9, 2579–2605.                                                                         children with low-function autism spectrum disorders. Front. Neurosci. 13:806.
+                                                                                                  doi: 10.3389/fnins.2019.00806
+    Verly, M., Verhoeven, J., Zink, I., Mantini, D., Van Oudenhove, L., Lagae, L.,
+et al. (2014). Structural and functional underconnectivity as a negative predictor for               Yang, C., Wang, P., Tan, J., Liu, Q., and Li, X. (2021). Autism spectrum
+language in autism. Hum. Brain Mapp. 35, 3602–3615. doi: 10.1002/hbm.22424                        disorder diagnosis using graph attention network based on spatial-
+                                                                                                  constrained sparse functional brain networks. Comput. Biol. Med. 139:104963.
+   Wachinger, C., Reuter, M., and Initiative, A. D. N. (2016). Domain
+                                                                                                  doi: 10.1016/j.compbiomed.2021.104963
+adaptation for Alzheimer’s disease diagnostics. Neuroimage 139, 470–479.
+doi: 10.1016/j.neuroimage.2016.05.053                                                                Yoon, N., Huh, Y., Lee, H., Kim, J. I., Lee, J., Yang, C. M., et al. (2022). Alterations
+                                                                                                  in social brain network topology at rest in children with autism spectrum disorder.
+    Wang, J., Zhang, L., Wang, Q., Chen, L., Shi, J., Chen, X., et al. (2020). Multi-class
+                                                                                                  Psychiatry Investig. 19:1055. doi: 10.30773/pi.2022.0174
+ASD classiﬁcation based on functional connectivity and functional correlation tensor
+via multi-source domain adaptation and multi-view sparse representation. IEEE Trans.                 Yu, M., Linn, K. A., Cook, P. A., Phillips, M. L., McInnis, M., Fava, M., et al. (2018).
+Med. Imaging 39, 3137–3147. doi: 10.1109/TMI.2020.2987817                                         Statistical harmonization corrects site eﬀects in functional connectivity measurements
+                                                                                                  from multi-site fMRI data. Hum. Brain Mapp. 39, 4213–4227. doi: 10.1002/hbm.24241
+   Wang, M., Zhang, D., Huang, J., Yap, P. T., Shen, D., and Liu, M. (2020).
+Identifying autism spectrum disorder with multi-site fMRI via low-rank domain                        Zhao, F., Chen, Z., Rekik, I., Lee, S. W., and Shen, D. (2020). Diagnosis of
+adaptation. IEEE Trans. Med. Imaging 39, 644–655. doi: 10.1109/TMI.2019.29                        autism spectrum disorder using central-moment features from low- and high-order
+33160                                                                                             dynamic resting-state functional connectivity networks. Front. Neurosci. 14:258.
+                                                                                                  doi: 10.3389/fnins.2020.00258
+   Washington, P., Paskov, K. M., Kalantarian, H., Stockham, N., Voss, C., Kline,
+A., et al. (2020). Feature selection and dimension reduction of social autism                        Zhao, L., Xue, S. W., Sun, Y. K., Lan, Z., Zhang, Z., Xue, Y., et al. (2022). Altered
+data. Paciﬁc Symposium Biocomput. 25, 707–718. doi: 10.1142/9789811215636_                        dynamic functional connectivity of insular subregions could predict symptom severity
+0062                                                                                              of male patients with autism spectrum disorder. J. Aﬀect. Disord. 299, 504–512.
+                                                                                                  doi: 10.1016/j.jad.2021.12.093
+    Whitﬁeld-Gabrieli, S., and Nieto-Castanon, A. (2012). Conn: a functional
+connectivity toolbox for correlated and anticorrelated brain networks. Brain Connect.                Zhao, S., Li, B., Yue, X., Gu, Y., Xu, P., Hu, R., et al. (2019). Multi-source domain
+2, 125–141. doi: 10.1089/brain.2012.0073                                                          adaptation for semantic segmentation. ArXiv. Available online at: https://arxiv.org/abs/
+                                                                                                  1910.12181 (Accessed August 20, 2025).
+   Xu, J., Wang, C., Xu, Z., Li, T., Chen, F., Chen, K., et al. (2020). Speciﬁc functional
+connectivity patterns of middle temporal gyrus subregions in children and adults with               Zhou, S., Cox, C., and Lu, H. (2018). Improving whole-brain neural decoding of
+autism spectrum disorder. Autism Res. 13, 410–422. doi: 10.1002/aur.2239                          fMRI with domain adaptation. BioRxiv. doi: 10.1101/375030
+
+
+
+
+Frontiers in Neuroinformatics                                                                19                                                                            frontiersin.org
+

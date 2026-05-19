@@ -1,0 +1,1339 @@
+                                              Diffusion-based translation between unpaired spontaneous
+                                                       premature neonatal EEG and fetal MEG
+
+                                            Benoı̂t Brebiona , Alban Gallardb , Katrin Sippelc , Amer Zaylaad , Hubert Preisslc,d,e ,
+                                                               Sahar Moghimib , Fabrice Walloisb,f , Yaël Frégiera
+                                               a Laboratoire de Mathématiques de Lens (LML), UR 2462, Université d’Artois, Lens, France
+                                                            b INSERM U1105, Université de Picardie, CURS, Amiens, France
+                                               c Department of Internal Medicine IV, University Hospital of Tübingen, Tübingen, Germany
+arXiv:2507.14224v1 [eess.SP] 16 Jul 2025
+
+
+
+
+                                            d IDM/fMEG Center of the Helmholtz Center Munich, University of Tübingen, German Center for
+
+                                                                     Diabetes Research (DZD), Tübingen, Germany
+                                              e Institute of Pharmaceutical Sciences, Department of Pharmacy and Biochemistry, Interfaculty
+
+                                                    Centre for Pharmacogenomics and Pharma Research, Eberhard Karls University
+                                                                           Tübingen, Tübingen, Germany
+                                           f INSERM U1105, Unit Exploration Fonctionnelles du Système Nerveux Pédiatrique, South University
+
+                                                                              Hospital, Amiens, France
+
+
+
+
+                                           Abstract
+                                           Background and objective: Brain activity in premature newborns has traditionally been
+                                           studied using electroencephalography (EEG), leading to substantial advances in our un-
+                                           derstanding of early neural development. However, since brain development takes root
+                                           at the fetal stage, a critical window of this process remains largely unknown. The only
+                                           technique capable of recording neural activity in the intrauterine environment is fetal
+                                           magnetoencephalography (fMEG), but this approach presents challenges in terms of data
+                                           quality and scarcity. Using artificial intelligence, the present research aims to transfer
+                                           the well-established knowledge from EEG studies to fMEG to improve understanding
+                                           of prenatal brain development, laying the foundations for better detection and treat-
+                                           ment of potential pathologies. Methods: We developed an unpaired diffusion translation
+                                           method based on dual diffusion bridges, which notably includes numerical integration
+                                           improvements to obtain more qualitative results at a lower computational cost. Models
+                                           were trained on our unpaired dataset of bursts of spontaneous activity from 30 high-
+                                           resolution premature newborns EEG recordings and 44 fMEG recordings. Results: We
+                                           demonstrate that our method achieves significant improvement upon previous results
+                                           obtained with Generative Adversarial Networks (GANs), by almost 5% on the mean
+                                           squared error in the time domain, and completely eliminating the mode collapse problem
+                                           in the frequency domain, thus achieving near-perfect signal fidelity. Conclusion: We set
+                                           a new state of the art in the EEG-fMEG unpaired translation problem, as our developed
+                                           tool completely paves the way for early brain activity analysis. Overall, we also believe
+                                           that our method could be reused for other unpaired signal translation applications.
+                                           Keywords: Unpaired Data Translation, Diffusion Models, Fetal MEG, Premature
+                                           Neonates EEG, Neurobiomarkers
+1. Introduction
+
+    Electroencephalography (EEG) in premature newborns is currently the only possi-
+bility to determine direct neural function during early neurodevelopment in humans [1].
+Recently, fetal magnetoencephalography (fMEG) opened up a new avenue of research,
+as it has the unique ability to record neural activity within the mother womb, provid-
+ing valuable insights into fetal brain maturation and distinguishing between normal and
+pathological development [2, 3, 4, 5, 6, 7, 8, 9, 10]. In particular, the importance of
+the current work is based on the recent development by switching from superconduct-
+ing quantum interference devices, which require cooling with liquid helium, to optical
+pumped magnetometer systems for fetal recordings in utero [11]. This development can
+lead to an increased interest in human fetal research with biomagnetic recordings.
+
+1.1. Early brain development
+    EEG and event-related potential research on premature infants has shown that brain
+development during the last trimester of gestation is an extremely dynamic process and
+that any disturbances in brain wiring can have profound effects on cognitive and sensory-
+motor skills later in life [12, 13, 14, 1, 15]. Before 26 to 28 weeks of gestational age
+(wGA), the functional maturation of neuronal circuits depends mainly on endogenous
+mechanisms, partly associated to spontaneous electrical activity. Later, as thalamic af-
+ferents move from the subplate to the cortical plate, maturation mechanisms become
+partially driven by sensory inputs. In addition, the differences between in-utero and
+ex-utero environments likely impact the communication and organization of neural cir-
+cuits and structures in both the fetus and premature newborn [16, 17]. Despite these
+challenges, studies have demonstrated that both EEG in preterm infants and MEG in
+fetuses can reveal how immature neural circuits process sensory stimuli, such as sounds
+and visual cues [18, 19]. In this direction, rare indications also suggest relatively similar
+signatures of spontaneous neural activity in the EEG of premature newborns and the
+MEG of fetuses at the same gestational age [20].
+    It is also acknowledged that the resting state activity of early developing neural net-
+works is characterized by discontinuity, with bursts of activity separated by quiescent
+periods, known as inter-burst intervals (IBIs), and lasting a few seconds [21, 1, 22]. Dur-
+ing these bursts, specific EEG graphoelements linked to different stages of gestation can
+be observed: theta temporal activity in coalescence with slow-waves (TTA-SW) between
+24 and 32 wGA, delta brushes (DB) between 28 and 36 wGA, and frontal transients
+(FT) between 36 and 42 wGA [23, 1, 24]. These neurobiomarkers are associated with
+spontaneous neural activities occurring at both cortical and subcortical levels [25, 26, 27],
+and could be modulated by the environment [28, 29]. Excessively long discontinuity of
+the IBIs at a given age, as well as the absence of the aforementioned EEG graphoele-
+ments can be indicative of neurological outcomes [30]. Some of these neural features,
+such as discontinuities, have also been observed in fetal MEG [20]. Although there are
+
+
+    Email addresses: benoit.brebion@univ-artois.fr (Benoı̂t Brebion),
+alban.gallard@u-picardie.fr (Alban Gallard), katrin.sippel@uni-tuebingen.de (Katrin Sippel),
+amer.zaylaa@uni-tuebingen.de (Amer Zaylaa), hubert.preissl@uni-tuebingen.de (Hubert Preissl),
+sahar.moghimi@u-picardie.fr (Sahar Moghimi), fabrice.wallois@u-picardie.fr (Fabrice Wallois),
+yael.fregier@univ-artois.fr (Yaël Frégier)
+                                              2
+established automatic techniques for detecting spontaneous neural activity [31, 32], there
+is a lack of comprehensive studies defining fetal manifestations of spontaneous activity,
+meaning brain activity patterns of the fetus are still mostly unknown.
+
+1.2. Unpaired data translation
+    To address this, we build upon the hypothesis proposed in [33] that EEG signals can be
+effectively translated into fMEG signals of similar gestational ages using Deep Learning,
+providing valuable insights into the manifestation and detection of neurobiomarkers of
+the fetus. But due to the infeasibility of simultaneous fetal EEG and MEG recordings,
+one must use unpaired datasets. The concept of unpaired translation models has gained
+significant interest over the years, especially since the introduction of the CycleGAN
+method [34]. These models allow for the mapping between two domains without requiring
+paired examples, which is particularly useful in a context like ours where such paired data
+is non-existent. Initially, this approach was used in the medical field for image-to-image
+translation [35, 36], and it has since been adapted for time series applications as well
+[37, 38, 39]. In particular, the problem of EEG-fMEG unpaired translation has been
+addressed from this point of view by [33]. However, by relying on generative adversarial
+networks (GANs) as their backbone, these models share a well known inherent issue
+called mode collapse [40], where the generator produces a limited variety of outputs
+despite the potential for a much broader spectrum. This phenomenon thus hinders the
+model’s ability to generalize effectively across diverse aspects of the data.
+    In recent years, diffusion models [41, 42, 43, 44] have emerged as the state-of-the-art
+for generative applications, offering a robust alternative to GANs [45, 46]. These models
+progressively transform noise into structured data, effectively avoiding the mode collapse
+problem. Despite their advantages, the application of diffusion models has predominantly
+focused on images, which remains the main explored area in generative research [47, 48,
+49]. One can note that diffusion models have also been used for time series in the
+literature, but only for a few main tasks: generation [50, 51, 52], forecasting [53, 54, 55,
+56], imputation [57, 58], anomaly detection [59, 60], and noise removal [61]. This image-
+centric focus is even more pronounced when considering unpaired diffusion translation
+models [62, 63, 64, 65, 66], where studies have yet to really extend their application to
+time series. It is worth mentioning that a few diffusion-based translation models for
+biosignals exists, but these models always require paired data [67, 68]. These signal-
+processing applications are still in their infancy, and there is a significant gap in research
+exploring the unpaired translation of complex neurophysiological signals like EEG and
+fMEG.
+
+1.3. Contributions
+    In this article, we introduce a diffusion-based unpaired EEG-fMEG translation tech-
+nique that greatly improves previous results obtained in [33] with CycleGAN, while
+eliminating mode collapse problems. By enabling the translation of preterm infants
+EEG signals into fetal MEG, our method can help clinicians better understand the man-
+ifestations of neural activity across different stages of early brain development. This
+could ultimately contribute to the monitoring of brain evolution and early signs of neu-
+ropathologies in the fetus, in order to subsequently provide appropriate treatment.
+
+
+                                              3
+   We also demonstrate, through an ablation study, the relevance of the improvements
+we add to the initial diffusion backbone method. Finally, we provide the source code of
+our pipeline, to encourage adaptations to other unpaired time series translation problems.
+
+2. Related work
+2.1. CycleGAN
+    CycleGAN [34] consists of two maps f : X → Y and g : Y → X between two domains
+X and Y that are trained as conditional generators: f (resp. g) is seen as a generator
+for the domain Y (resp. X), conditioned on elements of the domain X (resp. Y ) with
+GAN losses, together with a cycle consistency loss of the form:
+                             ∥f ◦ g − IdY ∥2 + ∥g ◦ f − IdX ∥2 ,                          (1)
+that aims to minimize the error between the original data and the reconstructed data
+after translations in both directions.
+
+2.2. Diffusion models
+    Diffusion models have emerged as a powerful generative modeling framework by grad-
+ually transforming a simple noise distribution into a complex data distribution through
+a series of reversible steps.
+    Denoising Diffusion Probabilistic Models (DDPM) [43] define a forward noising pro-
+cess as a Markov chain which progressively corrupts a data sample x0 by adding Gaus-
+sian noise over T timesteps. After sufficient steps, the sample xT approaches an isotropic
+Gaussian distribution. Each transition of this process can be described by the conditional
+distribution:
+                                                √
+                          q(xt |xt−1 ) = N (xt ; αt xt−1 , (1 − αt )I),                (2)
+where αt controls the noise variance at each step t. Then, a reverse denoising process is
+defined by a learnable Markov chain of the form:
+                        pθ (xt−1 |xt ) = N (xt−1 ; µθ (xt , t), Σθ (xt , t)),             (3)
+which incrementally denoises xT back to x0 by parameterizing the reverse distribution
+as a Gaussian whose mean µθ and variance Σθ are predicted by a model with parameters
+θ. The model is generally trained by minimizing a simplified objective that directly
+estimates the added noise.
+    Score-based diffusion using Stochastic Differential Equations [44] (which we refer to
+as Score SDE) can be seen as a generalization of DDPM from a discrete to a continuous
+diffusion process {x(t)}Tt=0 , where x(0) ∼ p0 and x(T ) ∼ pT with p0 the data distribution
+and pT the prior Gaussian distribution. The forward diffusion process is thus defined
+using a Stochastic Differential Equation (SDE):
+                                   dx = f (x, t)dt + g(t)dw,                              (4)
+where f (x, t) and g(t) are respectively the drift and diffusion coefficients of the SDE, and
+w is a standard Wiener process (Brownian motion). This process can then be reversed
+by solving the following reverse-time SDE [69]:
+                      dx = f (x, t) − g(t)2 ∇x log pt (x) dt + g(t)dw̄,
+                                                        
+                                                                                           (5)
+                                              4
+where w̄ is a standard Wiener process running backwards in time (from T to 0), and
+the score function ∇x log pt (x) is approximated by training a time-dependent neural
+network sθ (x, t). This reverse SDE can also be converted to a deterministic Probability
+Flow Ordinary Differential Equation (PF-ODE):
+                                                            
+                                         1
+                          dx = f (x, t) − g(t)2 ∇x log pt (x) dt,                    (6)
+                                         2
+
+which shares the same marginal distributions as the SDE. The trained network can be
+seen as a vector field, and data generation is thus performed by numerically solving either
+the reverse SDE or its equivalent PF-ODE.
+   Alongside Score SDE, Denoising Diffusion Implicit Models (DDIM) [70] introduce a
+non-Markovian design derived from DDPM, which allows for a faster and more flexible
+sampling process that can skip intermediate steps. This is achieved by defining a de-
+terministic sampling schedule, which can be viewed as a particular discretization of an
+underlying PF-ODE.
+
+2.3. Dual Diffusion Implicit Bridges
+    Dual Diffusion Implicit Bridges (DDIB) [66] is a popular technique developed for un-
+paired image-to-image translation based on DDIM [70] and diffusion Schrödinger bridges
+[71, 72].
+                                                                             (s)      (t)
+    This approach relies on the individual training of two diffusion models vθ and vθ
+on the source s and target t domains. Then, at inference, translation between those
+domains is done with a two step process. First, a forward PF-ODE is integrated using a
+numerical method ODESolve, inverting a sample x(s) from the source distribution to a
+latent version x(l) from the prior Gaussian distribution:
+                                                      (s)
+                             x(l) = ODESolve(x(s) ; vθ , 0, T ).                         (7)
+
+The integration endpoints 0 and T correspond to the noise schedule: starting from clean
+data at t = 0 and progressing to fully corrupted data at t = T . Then, a reverse PF-ODE
+is also solved, producing x(t) , the target distribution counterpart of x(s) , from x(l) :
+                                                      (t)
+                             x(t) = ODESolve(x(l) ; vθ , T, 0).                          (8)
+
+This process can also be performed from the target to the source distribution by inverting
+t and s in (7) and (8). When applied consecutively, i.e. from source x(s) to latent x(l)
+to target x(t) and then back to latent x′(l) to source x′(s) , cycle consistency x(s) = x′(s)
+is guaranteed, up to numerical errors from the ODE solvers.
+    To draw a parallel with Schrödinger Bridges, the innovation of DDIB lies in construct-
+ing an implicit bridge between two diffusion models, that have been separately trained
+on their respective domain. The term bridge here refers to a shared latent space that
+connects the noisy distributions of both models diffusion processes. During inference, an
+input sample from the source modality is mapped to a noisy representation via its for-
+ward diffusion process. This noisy representation is then interpreted as lying within the
+shared stochastic bridge and passed through the reverse diffusion process of the target
+data model, generating the translated sample. Because both models noise trajectories
+                                             5
+are implicitly aligned, the resulting output is coherent and semantically consistent with
+the source input. Crucially, this method avoids generating incorrect translations by en-
+suring that the transition through the shared noise space preserves the structural and
+semantic constraints learned by each model. In essence, the diffusion models provide a
+mechanism for finding this most probable path from source to target data.
+
+2.4. Unpaired diffusion-based translation methods
+    Other avenues have also been explored for unpaired diffusion-based translation mod-
+els. UNIT-DDPM [62] relies on a joint training of 2 DDPMs and a cycle consistency
+loss for translation. In the scope of text-conditioned diffusion models, CycleNet [73]
+also employs a cycle consistency regularization. CycleDiffusion [63] and EGSDE [64] are
+extensions of DDIB working with stochastic differential equations. SynDiff [65] uses a
+cycle-consistent architecture and an adversarial projector inspired by GANs for reverse
+diffusion sampling. UNSB [74] relies on Schrödinger Bridges but with a specific focus
+on high-resolution image translation. Finally, IBCD [75] recently proposed the use of
+distillation with DDIB to reduce the number of model steps.
+
+
+3. Method
+
+3.1. Dual Diffusion Implicit Bridges extended with Elucidated Diffusion Models
+    In the original paper [66], Dual Diffusion Implicit Bridges (DDIB) based their method
+on the parameterization proposed by Denoising Diffusion Implicit Models (DDIM) [70].
+While allowing both a forward and reverse deterministic diffusion process, and being a
+major step towards faster diffusion models, DDIM is essentially restrained to a proba-
+bilistic ODE integrated with a first-order numerical solver.
+    We instead propose to use the PF-ODE introduced in Elucidated Diffusion Models
+(EDM) [76]:                                                           
+                          ṡ(t)         2                     x
+                   dx =         x − s(t) σ̇(t)σ(t)∇x log p        ; σ(t) dt,           (9)
+                          s(t)                               s(t)
+where σ(t) and s(t) are respectively the time and scale schedules, and the dot corre-
+sponds to a time derivative. This formulation relies on the fact that the objective of the
+PF-ODE is to match a particular set of marginal distributions. As a result, it disposes of
+the functions f and g present in the original PF-ODE (6), and from which the properties
+of the marginal distributions could only be deduced indirectly. The diffusion framework
+introduced in EDM also allows the use of higher-order solvers, unlike DDIM. Conse-
+quently, through extensive experiments, they show that Heun’s 2nd order method [77] is
+a great trade-off between sampling speed and discretization error, surpassing first-order
+ODE solvers in nearly all cases. Thus, we seek to incorporate this solver into DDIB, a
+potential improvement which was already mentioned in the original paper [66] and was
+recently explored in the audio domain [78]. We are also adapting the method accordingly,
+and in particular the model used, in order to be applied with signals instead of images.
+    To summarize, our method is a 1D-adapted version of DDIB using EDM as a backbone
+instead of DDIM, enabling us to use a more efficient solver than the original version, and
+which we then apply on our EEG-fMEG problem. An overview is shown in Figure 1.
+
+
+                                            6
+                               (s)                                (t)
+           ODESolve(x(s) ; vθ , 0, T )         ODESolve(x(l) ; vθ , T, 0)
+
+
+
+        EEG: x(s)                Noised EEG: x(l)             Transl. fMEG: x(t)
+
+                                                                                                   (t)
+                                                                               ODESolve(x(t) ; vθ , 0, T )
+
+  Reconst. EEG: x′(s)                                      Noised transl. fMEG: x′(l)
+
+
+
+
+                                                 (s)
+                             ODESolve(x′(l) ; vθ , T, 0)
+
+Figure 1: Overview of our diffusion-based translation method at inference using the previously trained
+         (s)       (t)
+models vθ and vθ , here from a source EEG to a target fMEG signal. The upper part corresponds to
+the translation of the signal x(s) into its counterpart x(t) , while the lower part is optional and transforms
+the signal back into its original type x′(s) , with cycle consistency x(s) = x′(s) in theory.
+
+
+3.2. Architecture, training, and sampling details
+   Our complete pipeline is written in PyTorch. The network architecture used in this
+study is the U-Net introduced in DDPM [43], adapted for 1D signals. The EDM frame-
+work is utilized as the overall training mechanism, with Heun’s method solver corre-
+sponding to their Algorithm 1 [76]. As in DDIB, 2 models are trained separately on each
+data type, namely EEG and fMEG. Training was conducted using 1x NVIDIA RTX 8000
+(48GB) GPU for around 120 epochs (30.000 iterations with a batch size of 32), although
+VRAM needs don’t exceed 6GB. It took around 1 and a half hour of clock time to train
+each model with our settings.
+
+4. Evaluation
+
+4.1. Dataset
+    Additional details about dataset acquisition and processing are available in Supple-
+mentary Material.
+    In this work, we used high-resolution EEG recordings of 30 healthy sleeping prema-
+ture neonates aged between 34 and 37 weeks gestational age (mean age 35.47 ± 1.09
+wGA) collected at Amiens University Hospital’s neonatal intensive care unit (Amiens,
+France), with recordings lasting from 6.5 to 42.9 minutes (average 22.9 ± 9.4 minutes).
+A zero-phase band-pass filter (0.5-20 Hz) was applied, corresponding to the frequencies
+of cortical manifestations of spontaneous activity at this period of neurodevelopment
+[1], and the spatial resolution was reduced from 64/128 channels to a low-resolution 10
+bipolar-channel montage, commonly used in clinical settings to match the number of
+MEG channels reflecting brain activity [79, 80, 81]. Artifacts exceeding an amplitude
+threshold of 500 µV were removed, along with a 0.5-second window before and after each
+one detected.
+                                            7
+    We also utilized fMEG recordings of 44 fetuses aged between 34 and 37 wGA (mean
+age 35.34 ± 1.10 wGA) from Tübingen Hospital (Tübingen, Germany), with record-
+ings ranging from 6 to 27 minutes (average 22.1 ± 8.1 minutes). Cardiac artifacts that
+interfered with the measurement of brain activity were removed using the orthogonal pro-
+jection method [82, 83]. This method was applied twice consecutively given the presence
+of two distinct interfering components, namely maternal and fetal cardiac activity. The
+number of projectors used in each step was manually selected (1 to 3 for each phase) for
+optimal performance assessed through visual inspection, in order to preserve background
+neural activity. A zero-phase band-pass filter (0.5-20 Hz) was also applied, followed by
+visual inspection to eliminate any noisy artifacts that could mislead the burst-detection
+phase. Remaining artifacts were removed using a 2000 fT amplitude threshold, along
+with a 0.5-second window before and after each artifact detected.
+    To automatically detect bursts in premature EEG and fMEG recordings and retain
+only signals containing activity, a nonlinear energy operator (NLEO) was used. It char-
+acterizes bursts by combining the signal’s amplitude and spectral content at each time
+point [84, 85]. To better capture dynamic changes, signals were resampled at 256 Hz,
+and the absolute value of the NLEO index was smoothed by calculating the average over
+a sliding window of 384 samples (equivalent of 1.5 s) [85]. A threshold was then applied
+to each channel, with signals above the threshold identified as bursts and those below
+as inter-burst intervals (IBIs). This threshold was manually optimized for each subject
+through visual inspection, with mean values for EEG and fMEG signals of 0.81 ± 0.23
+µV² and 17.0 ± 6.4 fT² respectively. Based on previous reports [86, 87], and the esti-
+mated fetal head diameter at this gestational age (around 10 cm) [88], we anticipated
+that spontaneous neural activity would be detected in only a limited number of MEG
+channels. Accordingly, a 10-channel region of interest was defined on the basis of the
+spatial amplitude distribution of smoothed fMEG NLEO signals. This region was cen-
+tered around the channel with the maximum amplitude, and the nine nearest channels
+were selected to obtain the 10 fMEG channels likely to present signals corresponding to
+neural activity. A burst was then marked if it occurred simultaneously across at least
+half of the channels, and otherwise the period was labeled as an inter-burst interval (IBI).
+Bursts separated by an IBI shorter than 2 seconds were merged, and only burst periods
+were considered for further analysis.
+    Finally, to reduce the number of features provided as model inputs while maintaining
+data quality, EEG and fMEG bursts were resampled at 64 Hz and divided into 5-second
+segments with a 2.5-second overlap (bursts shorter than 5 seconds were excluded). One
+must note that we work with single-channel data, meaning each channel of a segment is
+considered as an individual burst. We also apply a normalization of range [-1,1] based
+on the minimum and maximum values of the entire segment dataset. At the end, data
+was split into 80% training and 20% testing subsets.
+
+4.2. Results
+    Using the previously trained models, we translate original EEG signals from the test
+dataset to their fMEG counterpart and then back to EEG (EEG - Translated fMEG -
+Reconstructed EEG), and we then do the same for the original fMEG signals (fMEG -
+Translated EEG - Reconstructed fMEG). Some examples of translated signals are shown
+in Figures 2 and 3.
+
+                                             8
+                   0.5
+                                               0.2                             0.2
+       EEG
+
+
+
+
+                   0.0                                                         0.0
+                                               0.0
+                                                                               0.2
+                                               0.2
+                         0   100   200   300         0   100       200   300         0   100   200   300
+                                               0.4                             0.5
+   Transl. fMEG
+
+
+
+
+                   0.2                         0.2
+                   0.0                                                         0.0
+                                               0.0
+                   0.2                         0.2                             0.5
+                         0   100   200   300         0   100       200   300         0   100   200   300
+                  0.50
+Reconst. EEG
+
+
+
+
+                  0.25                         0.2                             0.2
+                  0.00                                                         0.0
+                                               0.0
+                  0.25                                                         0.2
+                                               0.2
+                         0   100   200   300         0   100       200   300         0   100   200   300
+
+ Figure 2: Examples of original EEG signals (top row) translated into fMEG signals (middle row) and then
+ back into reconstructed EEG signals (bottom row) with our method. One can notice an excellent visual
+ similarity between original and reconstructed EEG signals, although no cycle consistency regularization
+ is applied.
+
+
+
+
+                  0.2                          0.2                             0.2
+fMEG
+
+
+
+
+                  0.0                          0.0                             0.0
+                  0.2                          0.2                             0.2
+                         0   100   200   300         0   100       200   300         0   100   200   300
+                  0.2                          0.5
+Transl. EEG
+
+
+
+
+                                                                               0.2
+                  0.0                          0.0                             0.0
+
+                  0.2                                                          0.2
+                         0   100   200   300         0   100       200   300         0   100   200   300
+Reconst. fMEG
+
+
+
+
+                  0.2                          0.2                             0.2
+                  0.0                          0.0                             0.0
+                  0.2                          0.2                             0.2
+                         0   100   200   300         0   100       200   300         0   100   200   300
+
+ Figure 3: Examples of original fMEG signals (top row) translated into EEG signals (middle row) and
+ then back into reconstructed fMEG signals (bottom row) with our method. As in Figure 2, a visually
+ perfect correlation between original and reconstructed signals can be observed.
+
+
+
+
+                                                               9
+                      CycleGAN [33] (NFE=1)           DDIB (NFE=500)               Ours (NFE=118)
+ Data   MAV (10−3 )
+                      MSE (10−3 ) ↓ Ratio (%) ↓   MSE (10−3 ) ↓ Ratio (%) ↓   MSE (10−3 ) ↓ Ratio (%) ↓
+  EEG     129 ± 122   6.96 ± 11.30  4.34 ± 4.43    0.17 ± 0.40  0.14 ± 0.06   0.01 ± 0.06 0.01 ± 0.01
+ fMEG     143 ± 133   9.04 ± 17.30  4.84 ± 5.69    0.80 ± 1.98  0.67 ± 0.57   0.07 ± 0.61 0.05 ± 0.20
+
+Table 1: Comparison with baseline models of the Mean Squared Error (MSE) between the original and
+reconstructed signals, and the ratio between the Mean Absolute Value (MAV) and MSE, for both EEG
+and fMEG modalities of the test dataset. Values are expressed as mean ± standard deviation. NFE
+stands for Number of Function Evaluations and indicates the number of passes through the model to
+translate one signal into its counterpart (e.g. EEG to translated fMEG).
+
+
+
+    We begin by analyzing the quality of reconstructed signals for both EEG and fMEG
+modalities, giving us good insights about the cycle consistent property of our method, and
+consequently if some information is lost during the translations. Ideally, reconstructed
+signals should perfectly match the original signals, as if we translate a sentence from
+one language to another and then back to the original language, the resulting sentence
+should not differ from the original one [89]. To this end, we compute the Mean Squared
+Error (MSE) between original and reconstructed signals, along with the ratio percentage
+between the MSE and the Mean Absolute Value (MAV). Results are summarized in
+Table 1, where we compare ourselves to the state of the art (SOTA) for the EEG-fMEG
+translation problem, namely CycleGAN [33], and also to the original DDIB formulation
+[66] as part of an ablation study to justify our modifications. As it can be noticed, our
+method greatly improves the values obtained with CycleGAN, by two orders of magnitude
+on the MSE, and by nearly 5% on the MSE/MAV ratios, despite not relying on a cycle
+consistency loss. We also obtain better results than the original DDIB formulation, by
+one order of magnitude on the MSE, and by up to 0.6% on the ratios, while having
+4 times less passes through the model. We talk in more details about the Number of
+Function Evaluations (NFE) and discretization error in the Discussion section below.
+    In addition to the time domain analysis, we also provide a comparison in the frequency
+domain to assess the quality of reconstructed signals. Thereby, we compute the power
+spectral density (PSD) by averaging spectrums of each signal obtained using a discrete
+Fourier transform. We then split the resulting spectrum into four frequency bands,
+namely Delta (0.5-3 Hz), Theta (3-8 Hz), Alpha (8-12 Hz) and lower Beta (12-20 Hz),
+and compute the average value of each of these bands. Results from our method can be
+found in Figure 4, and we also provide results obtained with the original DDIB framework
+in Figure 5. As in the time domain, we hugely improve previous results from the SOTA
+for the EEG-fMEG problem. Unlike [33] where important divergences could be noticed
+for the spectrums and the mean spectral power for both signal types, here we manage
+to obtain a near perfect correlation between the original and reconstructed signals. This
+analysis also highlights an important difference that could not be inferred with the MSE
+in the time domain, as a small shift can be observed with the original DDIB in Figure 5,
+resulting in a partial loss of information in the higher frequency bands. Notice that this
+shift is not present with our improvements, more on this in the Discussion section.
+    We then seek to compare the quality between original and translated signals, in other
+words between original EEG and EEG translated from fMEG as well as between original
+fMEG and fMEG translated from EEG. Since we don’t have any real pair of EEG and
+fMEG data, we are only able to study if the frequency properties are consistent, thus we
+once again compute the power spectral density. One should note that this analysis is as
+                                                  10
+                                100                                                                         100
+                                                       Original EEG                                                               Original fMEG
+                                10 1                                                                        10 1
+    PSD (normalized2/Hz)
+
+
+
+
+                                                       Reconstructed EEG
+                                                                                PSD (normalized2/Hz)
+                                                                                                                                  Reconstructed fMEG
+                                10 2                                                                        10 2
+                                10 3                                                                        10 3
+                                10 4                                                                        10 4
+                                10 5                                                                        10 5
+                                       Delta Theta Alpha        Beta                                               Delta Theta Alpha        Beta
+                                10   6                                                                      10 6
+                                       0   3      8     12                 20                                      0   3      8     12                 20
+                                               Frequency (Hz)                                                              Frequency (Hz)
+                                 100                                                                         100
+    Mean PSD (normalized2/Hz)
+
+
+
+
+                                                                                Mean PSD (normalized2/Hz)
+
+
+
+
+                                                       Original EEG                                                               Original fMEG
+                                10 1                   Reconstructed EEG                                    10 1                  Reconstructed fMEG
+                                10 2                                                                        10 2
+                                10 3                                                                        10 3
+                                10 4                                                                        10 4
+                                10 5                                                                        10 5
+                                10 6                                                                        10 6
+                                       Delta Theta Alpha         Beta                                              Delta Theta Alpha         Beta
+Figure 4: Spectral power results with our method. Original signals spectrum compared to reconstructed
+signals spectrum for EEG (top left) and fMEG (top right), with the solid lines corresponding to the
+average and the shaded areas to the standard deviation. The mean spectral power over the frequency
+bands is also included for both EEG (bottom left) and fMEG (bottom right). Notice how the original
+and reconstructed spectrums match, as well as the mean per frequency band.
+
+
+
+
+                                                                            11
+                                100                                                                         100
+                                                       Original EEG                                                               Original fMEG
+                                10 1                                                                        10 1
+    PSD (normalized2/Hz)
+
+
+
+
+                                                       Reconstructed EEG
+                                                                                PSD (normalized2/Hz)
+                                                                                                                                  Reconstructed fMEG
+                                10 2                                                                        10 2
+                                10 3                                                                        10 3
+                                10 4                                                                        10 4
+                                10 5                                                                        10 5
+                                       Delta Theta Alpha        Beta                                               Delta Theta Alpha        Beta
+                                10   6                                                                      10 6
+                                       0   3      8     12                 20                                      0   3      8     12                 20
+                                               Frequency (Hz)                                                              Frequency (Hz)
+                                 100                                                                         100
+    Mean PSD (normalized2/Hz)
+
+
+
+
+                                                                                Mean PSD (normalized2/Hz)
+
+
+
+
+                                                       Original EEG                                                               Original fMEG
+                                10 1                   Reconstructed EEG                                    10 1                  Reconstructed fMEG
+                                10 2                                                                        10 2
+                                10 3                                                                        10 3
+                                10 4                                                                        10 4
+                                10 5                                                                        10 5
+                                10 6                                                                        10 6
+                                       Delta Theta Alpha         Beta                                              Delta Theta Alpha         Beta
+Figure 5: Spectral power results with DDIB. Original signals spectrum compared to reconstructed signals
+spectrum for EEG (top left) and fMEG (top right), with the solid lines corresponding to the average and
+the shaded areas to the standard deviation. The mean spectral power over the frequency bands is also
+included for both EEG (bottom left) and fMEG (bottom right). One can observe a slight shift starting
+from the Theta band.
+
+
+
+
+                                                                            12
+                               100                                                                         100
+                                                Original EEG                                                                Original fMEG
+                               10 1                                                                        10 1
+   PSD (normalized2/Hz)
+
+                                                EEG generated from fMEG
+
+
+
+
+                                                                               PSD (normalized2/Hz)
+                                                                                                                            fMEG generated from EEG
+                               10 2                                                                        10 2
+                               10 3                                                                        10 3
+                               10 4                                                                        10 4
+                               10 5                                                                        10 5
+                                      Delta Theta Alpha        Beta                                               Delta Theta Alpha        Beta
+                               10   6                                                                      10 6
+                                      0   3      8      12                20                                      0   3      8      12                20
+                                              Frequency (Hz)                                                              Frequency (Hz)
+                                100                                                                         100
+   Mean PSD (normalized2/Hz)
+
+
+
+
+                                                                               Mean PSD (normalized2/Hz)
+                                                 Original EEG                                                                Original fMEG
+                               10 1              EEG generated from fMEG                                   10 1              fMEG generated from EEG
+                               10 2                                                                        10 2
+                               10 3                                                                        10 3
+                               10 4                                                                        10 4
+                               10 5                                                                        10 5
+                               10 6                                                                        10 6
+                                      Delta Theta Alpha         Beta                                              Delta Theta Alpha         Beta
+Figure 6: Spectral power results with our method. Original signals spectrum compared to translated
+signals spectrum for EEG (top left) and fMEG (top right), with the solid lines corresponding to the
+average and the shaded areas to the standard deviation. The mean spectral power over the frequency
+bands is also included for both EEG (bottom left) and fMEG (bottom right). As in Fig.4, notice how
+the original and translated spectrums match, as well as the mean per frequency band.
+
+
+important as the one between original and reconstructed signals. This indeed allows to
+make sure that the models don’t converge to wrong maps like the identity, in which case
+e.g. an original EEG and a reconstructed EEG signal would perfectly match because
+the translated fMEG would still in fact be the original EEG. In this way, we can ensure
+that the models are learning meaningful data features. The plot results are presented in
+Figure 6 for our method, and Figure 7 for the original DDIB formulation. We achieve
+excellent coverage across all frequency bands in the EEG and fMEG cases, whereas the
+original DDIB version suffers once again from a slight shift, especially noticeable with
+EEG. In both cases, the outcome is far more accurate than the SOTA CycleGAN [33]
+(only showed for fMEG), where discrepancies appear in all but the Delta band.
+
+
+5. Discussion
+
+5.1. Biomarkers transfer
+   In this paper, we focused on providing a method that could translate EEG and fMEG
+complex neurophysiological signals while making sure time and frequency properties of
+both types are respected. From this work, we hope to facilitate the characterization
+of brain activity patterns of the fetus. Whilst this analysis could be the subject of a
+
+                                                                           13
+                                100                                                                         100
+                                                 Original EEG                                                                Original fMEG
+                                10 1                                                                        10 1
+    PSD (normalized2/Hz)
+
+
+
+
+                                                 EEG generated from fMEG
+                                                                                PSD (normalized2/Hz)
+                                                                                                                             fMEG generated from EEG
+                                10 2                                                                        10 2
+                                10 3                                                                        10 3
+                                10 4                                                                        10 4
+                                10 5                                                                        10 5
+                                       Delta Theta Alpha        Beta                                               Delta Theta Alpha        Beta
+                                10   6                                                                      10 6
+                                       0   3      8      12                20                                      0   3      8      12                20
+                                               Frequency (Hz)                                                              Frequency (Hz)
+                                 100                                                                         100
+    Mean PSD (normalized2/Hz)
+
+
+
+
+                                                                                Mean PSD (normalized2/Hz)
+
+
+
+
+                                                  Original EEG                                                                Original fMEG
+                                10 1              EEG generated from fMEG                                   10 1              fMEG generated from EEG
+                                10 2                                                                        10 2
+                                10 3                                                                        10 3
+                                10 4                                                                        10 4
+                                10 5                                                                        10 5
+                                10 6                                                                        10 6
+                                       Delta Theta Alpha         Beta                                              Delta Theta Alpha         Beta
+Figure 7: Spectral power results with DDIB. Original signals spectrum compared to translated signals
+spectrum for EEG (top left) and fMEG (top right), with the solid lines corresponding to the average
+and the shaded areas to the standard deviation. The mean spectral power over the frequency bands is
+also included for both EEG (bottom left) and fMEG (bottom right).
+
+
+
+
+                                                                            14
+                                    Delta Brush                                  Frontal Transient
+                                                               0.50
+               0.2                                             0.25
+                                                               0.00
+               0.0
+EEG
+
+
+
+
+                                                               0.25
+               0.2                                             0.50
+                                                               0.75
+               0.4
+                     0   50   100     150    200   250   300          0   50   100    150     200    250   300
+               0.3                                              0.4
+               0.2                                              0.2
+Transl. fMEG
+
+
+
+
+               0.1                                              0.0
+               0.0                                              0.2
+               0.1                                              0.4
+               0.2                                              0.6
+                     0   50   100     150    200   250   300          0   50   100    150     200    250   300
+
+ Figure 8: Example of a sample containing a delta brush (left column) and frontal transient (right column)
+ translated from EEG (top row) to fMEG (bottom row).
+
+
+ separate paper, we seek to provide a first investigation on the transfer of well-known
+ EEG neurobiomarkers to fMEG.
+     As discussed in the Introduction section, early brain activity is marked by patterns
+ indicative of brain development status and possible neurological issues. Among these,
+ and given the gestational ages of participants in our dataset, we are able to analyze the
+ transfer of 2 specific activities, namely delta brushes (DB) and frontal transients (FT).
+ As in [33], we only inspect the results visually over a small number of events, though
+ signals frequency properties are already assessed with Figure 6. An example of transfer
+ from EEG to fMEG of a sample containing a DB and a sample containing a FT is given
+ in Figure 8. As it can be observed, the fMEG-translated DB still consists of a slow wave
+ within which faster activities are nested. This is a different result from CycleGAN [33]
+ where the fast oscillations were in fact soften. Concerning the FT in the fMEG domain,
+ we obtain a result similar to CycleGAN with the slow oscillation replicated from the
+ original EEG, and with the global appearance of small high frequencies variations.
+
+ 5.2. Function evaluations and discretization error
+     As indicated in Table 1 with the number of function evaluations (NFE), CycleGAN
+ only needs 1 pass through the model to translate a signal into its counterpart, while we
+ use respectively 500 and 118 passes in total for DDIB and our method. This is due to
+ the iterative nature of diffusion models progressively adding and removing noise at each
+ step, making them fall behind GANs in terms of efficiency.
+     If we now focus only on DDIB and our method, one can notice that our improvements
+ lead to better results while having 4 times less NFE. The most prominent problem
+ appearing with DDIB is the high frequency shift that can be observed in Figures 5 and
+ 7. Although we can draw a parallel between this and the PF-ODE discretization error,
+ as the error tends to get worse as we reduce the total number of steps, we also observed
+ that increasing the steps, while keeping reasonable numbers, would not really mitigate
+ the problem. We hypothesize that by being restrained to a first-order solver, the original
+                                             15
+DDIB framework is, to a certain extent, limited in its ability to preserve fine details, like
+the high frequencies of our EEG and fMEG signals. On the opposite side, by relying on
+Heun’s 2nd order method, our modifications allow us to not be affected by this problem,
+while having a good trade-off between the discretization error and sampling speed.
+    As a side note, distillation could be a versatile solution usable in most diffusion model
+cases to reduce the total number of steps, at a cost of a more complex training pipeline
+[90, 75].
+
+5.3. Limitations and possible enhancements
+    Our study on 1D unpaired diffusion translation models extended beyond DDIB and
+our proposed improved version. We explored original ideas as well as works derived from
+other existing methods like CycleNet [73]. But a consistent observation we noticed across
+these experiments is that unpaired translation models relying on a multi-component loss
+(similar to CycleGAN [34] which combines a loss part for data fidelity and another
+loss part for cycle-consistency) tend to be difficult to train with low-dimensional data.
+Models indeed struggle to balance the loss components, resulting either in a overemphasis
+on signal realism at the expense of coherent domain translation mappings, or simply
+collapse into learning the identity mapping.
+    Regarding the evaluation and choice of the best trained diffusion models, we consid-
+ered using the Context-FID metric [91], which is a Frechet Inception Distance (FID)-
+like score for time series. As in the original FID metric [92] used in image generation,
+Context-FID computes the distance between the distributions of real and generated data
+in the feature space of a pretrained network, more specifically a 1D Inception-style model
+trained on time series data. While this offers a convenient and automated way to assess
+the realism and diversity of generated data, FID-based methods require a sufficiently
+large number of samples (at least 10.000 if we refer to the literature) to yield meaning-
+ful estimates. Since our datasets didn’t meet this scale, we indeed observed that using
+Context-FID in our setting led to unstable evaluations that were not reliable for model
+selection. As a result, we instead based our choice on the diffusion loss and complemented
+this with a manual assessment of the power spectral density quality to ensure that the
+properties of the generated signals are correct.
+    We also want to mention that in the absence of EEG-fMEG paired data, it remains
+difficult to draw any firm conclusions about the correctness of the translated signals. We
+can still mention the possibility of using MEG with premature infants, and therefore in
+the future of having paired EEG - MEG data which could potentially help to improve
+and consolidate our work, although MEG in premature babies and fetal MEG have
+divergences related to data preprocessing and in-utero/ex-utero environment.
+    Another possibility for future improvement would be to use the multi-channel nature
+of the data, which we are not doing in our case for the sake of simplification given that
+we are among the first to explore this problem. Relevant information that could be used
+to make training more robust is certainly hidden in the interactions between the different
+channels.
+
+6. Conclusion
+  In this paper, we proposed an unpaired diffusion translation model for premature
+EEG and fetal MEG neurophysiological signals, based on dual diffusion bridges. We
+                                       16
+showed through extensive experimentation that our method produces results that are
+much more consistent and accurate than the state-of-the-art for this problem, namely
+CycleGAN, counteracting the mode collapse problem in the process. We also demon-
+strated in an ablation study that, thanks to our diffusion and numerical integration
+modifications, we improve the results obtained with the original DDIB framework while
+reducing computational costs.
+    Overall, our new state-of-the-art model for premature EEG and fetal MEG translation
+holds promise for advancing our understanding of early brain activity and potentially
+improving diagnostic tools. We believe that our method can also serve as a basis for
+other unpaired signal translation applications in a wide variety of fields.
+
+Glossary
+
+   • Cycle consistency regularization: Ensures that translating a sample to another
+     domain and back returns the original sample, promoting meaningful and reversible
+     transformations
+   • Markov chain: Stochastic process where the probability of an event depends solely
+     on the previous state
+   • Mode collapse: Failure mode observed in Generative Adversarial Networks, where
+     the model produces outputs that are less diverse than expected
+   • ODE/SDE solver: Numerical method used to approximate solutions to ordinary or
+     stochastic differential equations over time
+   • Schrödinger bridges: Most likely stochastic path connecting two probability distri-
+     butions
+   • Wiener process: Continuous-time stochastic process with independent Gaussian
+     increments, often used to model Brownian motion
+
+Acronyms
+
+   • DB: Delta brushes
+   • DDIB: Dual diffusion implicit bridges
+   • DDIM: Denoising diffusion implicit models
+   • DDPM: Denoising diffusion probabilistic models
+   • EDM: Elucidated diffusion models
+   • EEG: Electroencephalography
+   • FID: Frechet Inception distance
+   • fMEG: Fetal magnetoencephalography
+   • FT: Frontal transients
+                                           17
+   • GAN: Generative adversarial networks
+   • GB: Gigabyte
+   • GPU: Graphics processing unit
+   • IBI: Inter-burst intervals
+
+   • MAV: Mean absolute value
+   • MSE: Mean squared error
+   • NFE: Number of function evaluations
+
+   • NLEO: Nonlinear energy operator
+   • ODE: Ordinary differential equation
+   • PF-ODE: Probability flow ordinary differential equation
+   • PSD: Power spectral density
+
+   • SDE: Stochastic differential equation
+   • SOTA: State of the art
+   • TTA-SW: Theta temporal activity in coalescence with slow-waves
+
+   • VRAM: Video random access memory
+   • wGA: Weeks of gestational age
+
+
+Acknowledgments
+
+   This work was supported by joint funding from the Agence Nationale de la Recherche
+(ANR-21-CE19–0046 fMEG-OPM and ANR VIVAH) and the Deutsche Forschungsge-
+meinschaft (PR 496/11–1). This work was also supported by grants from the Région
+Hauts-de-France and the VIVAH project. This work was partially supported by the
+Helmholtz Association (Helmholtz Excellence Networks: EXNET-01-17). This work was
+performed using HPC resources from GENCI–IDRIS (Grant 2023-AD011014435). The
+authors are grateful to the Amiens University Hospital EEG technicians and Tübingen
+University Hospital MEG technicians for data acquisition. We also thank the families
+who consented to take part in the study.
+
+
+Ethical approval
+
+   The EEG study was approved by the local CPP Nord-Ouest I ethics committee, and
+one or both parents were informed about the study and provided their written informed
+consent (ID-RCB: 2021-A02556–35). The fMEG study was approved by the local ethics
+committee of the Medical Faculty of the University of Tübingen, and the consent to
+participate was signed by the mother (511/2015BO1 and 330/2010BO1).
+                                             18
+References
+ [1] F. Wallois, L. Routier, C. Heberlé, M. Mahmoudzadeh, E. Bourel-Ponchel, S. Moghimi, Back
+     to basics: the neuronal substrates and mechanisms that underlie the electroencephalogram in
+     premature neonates, Neurophysiologie Clinique = Clinical Neurophysiology 51 (2021) 5–33.
+     doi:10.1016/j.neucli.2020.10.006.
+ [2] H. Preissl, H. Eswaran, P. Murphy, J. Wilson, S. Robinson, J. Vrba, A. Fife, M. Tilotson, C. Lowery,
+     Recording of temporal-spatial biomagnetic signals over the whole maternal abdomen with sara -
+     auditory fetal brain responses, Biomedical Engineering / Biomedizinische Technik 46 (2001) 191–
+     193. doi:10.1515/bmte.2001.46.s2.191.
+ [3] H. Preissl, H. Eswaran, J. Wilson, S. Robinson, J. Vrba, P. Murphy, C. Lowery, Redefining fetal
+     evoked fields with biomagnetic recordings over the whole maternal abdomen, in: 2001 Conference
+     Proceedings of the 23rd Annual International Conference of the IEEE Engineering in Medicine and
+     Biology Society, volume 1, 2001, pp. 620–623 vol.1. doi:10.1109/IEMBS.2001.1019011.
+ [4] J. Vrba, S. E. Robinson, J. McCubbin, C. L. Lowery, H. Eswaran, J. D. Wilson, P. Murphy,
+     H. Preissl, Fetal MEG redistribution by projection operators, IEEE Trans. Biomed. Eng. 51 (2004)
+     1207–1218. doi:10.1109/TBME.2004.827265.
+ [5] J. Vrba, S. Robinson, J. McCubbin, P. Murphy, H. Eswaran, J. Wilson, H. Preißl,
+     C. Lowery,      Human fetal brain imaging by magnetoencephalography: verification of fetal
+     brain signals by comparison with fetal brain models,           NeuroImage 21 (2004) 1009–1020.
+     doi:https://doi.org/10.1016/j.neuroimage.2003.10.022.
+ [6] L. Moraru, R. Sameni, U. Schneider, J. Haueisen, E. Schleußner, D. Hoyer, Validation of fetal audi-
+     tory evoked cortical responses to enhance the assessment of early brain development using fetal meg
+     measurements, Physiological measurement 32 (2011) 1847–68. doi:10.1088/0967-3334/32/11/002.
+ [7] S. Vairavan, R. B. Govindan, N. Haddad, H. Preissl, C. L. Lowery, E. Siegel,
+     H. Eswaran, Quantification of fetal magnetoencephalographic activity in low-risk fetuses us-
+     ing burst duration and interburst interval, Clinical Neurophysiology 125 (2014) 1353–1359.
+     doi:https://doi.org/10.1016/j.clinph.2013.11.018.
+ [8] K. Linder, F. Schleger, I. Kiefer-Schmidt, L. Fritsche, S. Kümmel, M. Böcker, M. Heni, M. Weiss,
+     H.-U. Häring, H. Preissl, A. Fritsche, Gestational diabetes impairs human fetal postprandial brain
+     activity, The Journal of clinical endocrinology and metabolism (2015). doi:10.1210/jc.2015-2692.
+ [9] E. Morin, F. Schleger, H. Preissl, J. Brändle, H. Eswaran, H. Abele, I. Kiefer-Schmidt, Func-
+     tional brain development in growth-restricted and constitutionally small fetuses: A fetal magnetoen-
+     cephalography case-control study, BJOG: An International Journal of Obstetrics and Gynaecology
+     122 (2015). doi:10.1111/1471-0528.13347.
+[10] J. Frohlich, J. Moser, K. Sippel, P. A. M. Mediano, H. Preissl, A. Gharabaghi, Sex differences
+     in prenatal development of neural complexity in the human brain, Nature Mental Health (2024).
+     doi:10.1038/s44220-024-00206-4.
+[11] P. Corvilain, C. Capparini, V. Wens, L. Fourdin, M. Ferez, O. Feys, A. Delbaere, R. Lejeune,
+     D. Goldman, C. De Coninck, X. De Tiège, J. Bertels, Fetal magnetoencephalography based on
+     optically pumped magnetometers, bioRxiv (2025). doi:10.1101/2025.04.23.650121.
+[12] A. F. Bos, K. N. J. A. Van Braeckel, M. M. Hitzert, J. C. Tanis, E. Roze, Development of fine
+     motor skills in preterm infants, Dev. Med. Child Neurol. 55 Suppl 4 (2013) 1–4.
+[13] T. R. Fenton, J. H. Kim, A systematic review and meta-analysis to revise the fenton growth chart
+     for preterm infants, BMC Pediatr. 13 (2013) 59.
+[14] J. H. Gilmore, R. C. Knickmeyer, W. Gao, Imaging structural and functional brain development
+     in early childhood, Nature Reviews Neuroscience 19 (2018) 123–137. doi:10.1038/nrn.2018.1.
+[15] N. Zmyj, S. Witt, A. Weitkämper, H. Neumann, T. Lücke, Social cognition in children born preterm:
+     A perspective on future research directions, Front. Psychol. 8 (2017) 455.
+[16] M. Bouyssi-Kobar, J. De Asis-Cruz, J. Murnick, T. Chang, C. Limperopoulos, Altered func-
+     tional brain network integration, segregation, and modularity in infants born very preterm at term-
+     equivalent age, J. Pediatr. 213 (2019) 13–21.e1.
+[17] J. Sa de Almeida, D.-E. Meskaldji, S. Loukas, L. Lordier, L. Gui, F. Lazeyras, P. S. Hüppi, Preterm
+     birth leads to impaired rich-club organization and fronto-paralimbic/limbic structural connectivity
+     in newborns, Neuroimage 225 (2021) 117440.
+[18] J. McCubbin, P. Murphy, H. Eswaran, H. Preissl, T. Yee, S. E. Robinson, J. Vrba, Validation of
+     the flash-evoked response from fetal MEG, Phys. Med. Biol. 52 (2007) 5803–5813.
+[19] M. Holst, H. Eswaran, C. Lowery, P. Murphy, J. Norton, H. Preissl, Development of auditory
+
+                                                   19
+     evoked fields in human fetuses and newborns: a longitudinal MEG study, Clin. Neurophysiol. 116
+     (2005) 1949–1955.
+[20] H. Eswaran, N. I. Haddad, B. S. Shihabuddin, H. Preissl, E. R. Siegel, P. Murphy, C. L. Lowery,
+     Non-invasive detection and identification of brain activity patterns in the developing fetus, Clin.
+     Neurophysiol. 118 (2007) 1940–1946.
+[21] S. Vairavan, R. B. Govindan, N. Haddad, H. Preissl, C. L. Lowery, E. Siegel, H. Eswaran, Quan-
+     tification of fetal magnetoencephalographic activity in low-risk fetuses using burst duration and
+     interburst interval, Clin. Neurophysiol. 125 (2014) 1353–1359.
+[22] H. J. Luhmann, P. O. Kanold, Z. Molnár, S. Vanhatalo, Early brain activity: Translations between
+     bedside and laboratory, Prog. Neurobiol. 213 (2022) 102268.
+[23] N. Kane, J. Acharya, S. Benickzy, L. Caboclo, S. Finnigan, P. W. Kaplan, H. Shibasaki, R. Pressler,
+     M. J. A. M. van Putten, A revised glossary of terms most commonly used by clinical electroen-
+     cephalographers and updated proposal for the report format of the EEG findings. revision 2017,
+     Clin. Neurophysiol. Pract. 2 (2017) 170–185.
+[24] E. Bourel-Ponchel, S. Gueden, D. Hasaerts, C. Héberlé, G. Malfilâtre, L. Mony, P. Vignolo-Diard,
+     M.-D. Lamblin, Normal eeg during the neonatal period: maturational aspects from premature to
+     full-term newborns, Neurophysiologie Clinique 51 (2021) 61–88. doi:10.1016/j.neucli.2020.10.004.
+[25] L. Routier, M. Mahmoudzadeh, M. Panzani, H. Azizollahi, S. Goudjil, G. Kongolo, F. Wallois,
+     Plasticity of neonatal neuronal networks in very premature infants: Source localization of temporal
+     theta activity, the first endogenous neural biomarker, in temporoparietal areas, Hum. Brain Mapp.
+     38 (2017) 2345–2358.
+[26] R. Khazipov, M. Milh, Early patterns of activity in the developing cortex: Focus on the sensorimotor
+     system, Semin. Cell Dev. Biol. 76 (2018) 120–129.
+[27] L. Routier, M. Mahmoudzadeh, M. Panzani, B. Saadatmehr, J. Gondry, E. Bourel-Ponchel,
+     S. Moghimi, F. Wallois, The frontal sharp transient in newborns: An endogenous neurobiomarker
+     concomitant to the physiological and critical transitional period around delivery?, Cereb. Cortex
+     33 (2023) 4026–4039.
+[28] A. Kaminska, V. Delattre, J. Laschet, J. Dubois, M. Labidurie, A. Duval, A. Manresa, J.-F. Magny,
+     S. Hovhannisyan, M. Mokhtari, L. Ouss, A. Boissel, L. Hertz-Pannier, M. Sintsov, M. Minlebaev,
+     R. Khazipov, C. Chiron, Cortical auditory-evoked responses in preterm neonates: Revisited by
+     spectral and temporal analyses, Cereb. Cortex 28 (2018) 3429–3444.
+[29] S. Moghimi, A. Shadkam, M. Mahmoudzadeh, O. Calipe, M. Panzani, M. Edalati, M. Ghorbani,
+     L. Routier, F. Wallois, The intimate relationship between coalescent generators in very premature
+     human newborn brains: Quantifying the coupling of nested endogenous oscillations, Hum. Brain
+     Mapp. 41 (2020) 4691–4703.
+[30] F. Wallois, L. Routier, E. Bourel-Ponchel, Impact of prematurity on neurodevelopment, Handb.
+     Clin. Neurol. 173 (2020) 341–375.
+[31] J. Moser, K. Sippel, F. Schleger, H. Preißl, Automated detection of fetal brain signals with principal
+     component analysis, in: 2019 41st Annual International Conference of the IEEE Engineering in
+     Medicine and Biology Society (EMBC), 2019, pp. 6549–6552. doi:10.1109/EMBC.2019.8857283.
+[32] S. Vairavan, H. Eswaran, N. Haddad, D. F. Rose, H. Preissl, J. D. Wilson, C. L. Lowery, R. B.
+     Govindan, Detection of discontinuous patterns in spontaneous brain activity of neonates and fetuses,
+     IEEE Trans. Biomed. Eng. 56 (2009) 2725–2729.
+[33] A. Gallard, B. Brebion, K. Sippel, A. Zaylaa, H. Preissl, S. Moghimi, Y. Fregier, F. Wal-
+     lois,     Transforming spontaneous premature neonatal eeg to spontaneous fetal meg us-
+     ing a novel machine learning approach,             Neurophysiologie Clinique 55 (2025) 103086.
+     doi:https://doi.org/10.1016/j.neucli.2025.103086.
+[34] J. Zhu, T. Park, P. Isola, A. A. Efros, Unpaired image-to-image translation using cycle-
+     consistent adversarial networks,      in: IEEE International Conference on Computer Vision,
+     ICCV 2017, Venice, Italy, October 22-29, 2017, IEEE Computer Society, 2017, pp. 2242–2251.
+     doi:10.1109/ICCV.2017.244.
+[35] K. Armanious, C. Jiang, M. Fischer, T. Küstner, T. Hepp, K. Nikolaou, S. Gatidis, B. Yang,
+     Medgan: Medical image translation using gans, Comput. Medical Imaging Graph. 79 (2020) 101684.
+     doi:10.1016/J.COMPMEDIMAG.2019.101684.
+[36] K. Armanious, C. Jiang, S. Abdulatif, T. Küstner, S. Gatidis, B. Yang, Unsupervised medical image
+     translation using cycle-medgan, in: 27th European Signal Processing Conference, EUSIPCO 2019,
+     A Coruña, Spain, September 2-6, 2019, IEEE, 2019, pp. 1–5. doi:10.23919/EUSIPCO.2019.8902799.
+[37] M. Mohebbian, S. S. Vedaei, K. A. Wahid, A. Dinh, H. R. Marateb, K. Tavakolian, Fetal ECG
+     extraction from maternal ECG using attention-based cyclegan, IEEE J. Biomed. Health Informatics
+                                                    20
+     26 (2022) 515–526. doi:10.1109/JBHI.2021.3111873.
+[38] P. Sarkar, A. Etemad, Cardiogan: Attentive generative adversarial network with dual discriminators
+     for synthesis of ECG from PPG, in: Thirty-Fifth AAAI Conference on Artificial Intelligence, AAAI
+     2021, Thirty-Third Conference on Innovative Applications of Artificial Intelligence, IAAI 2021, The
+     Eleventh Symposium on Educational Advances in Artificial Intelligence, EAAI 2021, Virtual Event,
+     February 2-9, 2021, AAAI Press, 2021, pp. 488–496. doi:10.1609/AAAI.V35I1.16126.
+[39] C. Schockaert, H. Hoyez, Mts-cyclegan: An adversarial-based deep mapping learning network
+     for multivariate time series domain adaptation applied to the ironmaking industry, CoRR
+     abs/2007.07518 (2020).
+[40] Y. Kossale, M. Airaj, A. Darouichi, Mode collapse in generative adversarial networks: An overview,
+     in: 2022 8th International Conference on Optimization and Applications (ICOA), 2022, pp. 1–6.
+     doi:10.1109/ICOA55659.2022.9934291.
+[41] J. Sohl-Dickstein, E. A. Weiss, N. Maheswaranathan, S. Ganguli, Deep unsupervised learning using
+     nonequilibrium thermodynamics, CoRR abs/1503.03585 (2015).
+[42] Y. Song, S. Ermon, Generative modeling by estimating gradients of the data distribution, in:
+     H. M. Wallach, H. Larochelle, A. Beygelzimer, F. d’Alché-Buc, E. B. Fox, R. Garnett (Eds.),
+     Advances in Neural Information Processing Systems 32: Annual Conference on Neural Information
+     Processing Systems 2019, NeurIPS 2019, December 8-14, 2019, Vancouver, BC, Canada, 2019, pp.
+     11895–11907.
+[43] J. Ho, A. Jain, P. Abbeel, Denoising diffusion probabilistic models, in: H. Larochelle, M. Ran-
+     zato, R. Hadsell, M. Balcan, H. Lin (Eds.), Advances in Neural Information Processing Systems,
+     volume 33, Curran Associates, Inc., 2020, pp. 6840–6851.
+[44] Y. Song, J. Sohl-Dickstein, D. P. Kingma, A. Kumar, S. Ermon, B. Poole, Score-based generative
+     modeling through stochastic differential equations, in: 9th International Conference on Learning
+     Representations, ICLR 2021, Virtual Event, Austria, May 3-7, 2021, 2021.
+[45] A. Q. Nichol, P. Dhariwal, Improved denoising diffusion probabilistic models, in: M. Meila, T. Zhang
+     (Eds.), Proceedings of the 38th International Conference on Machine Learning, ICML 2021, 18-24
+     July 2021, Virtual Event, volume 139 of Proceedings of Machine Learning Research, PMLR, 2021,
+     pp. 8162–8171.
+[46] P. Dhariwal, A. Q. Nichol, Diffusion models beat gans on image synthesis, in: M. Ranzato,
+     A. Beygelzimer, Y. N. Dauphin, P. Liang, J. W. Vaughan (Eds.), Advances in Neural Informa-
+     tion Processing Systems 34: Annual Conference on Neural Information Processing Systems 2021,
+     NeurIPS 2021, December 6-14, 2021, virtual, 2021, pp. 8780–8794.
+[47] A. Ramesh, M. Pavlov, G. Goh, S. Gray, C. Voss, A. Radford, M. Chen, I. Sutskever, Zero-shot
+     text-to-image generation, in: M. Meila, T. Zhang (Eds.), Proceedings of the 38th International
+     Conference on Machine Learning, ICML 2021, 18-24 July 2021, Virtual Event, volume 139 of
+     Proceedings of Machine Learning Research, PMLR, 2021, pp. 8821–8831.
+[48] R. Rombach, A. Blattmann, D. Lorenz, P. Esser, B. Ommer, High-resolution image synthesis
+     with latent diffusion models, in: IEEE/CVF Conference on Computer Vision and Pattern Recog-
+     nition, CVPR 2022, New Orleans, LA, USA, June 18-24, 2022, IEEE, 2022, pp. 10674–10685.
+     doi:10.1109/CVPR52688.2022.01042.
+[49] C. Saharia, W. Chan, S. Saxena, L. Li, J. Whang, E. L. Denton, K. Ghasemipour, R. Gontijo Lopes,
+     B. Karagol Ayan, T. Salimans, J. Ho, D. J. Fleet, M. Norouzi, Photorealistic text-to-image diffusion
+     models with deep language understanding, in: S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave,
+     K. Cho, A. Oh (Eds.), Advances in Neural Information Processing Systems, volume 35, Curran
+     Associates, Inc., 2022, pp. 36479–36494.
+[50] Z. Kong, W. Ping, J. Huang, K. Zhao, B. Catanzaro, Diffwave: A versatile diffusion model for
+     audio synthesis, in: 9th International Conference on Learning Representations, ICLR 2021, Virtual
+     Event, Austria, May 3-7, 2021, 2021.
+[51] J. M. L. Alcaraz, N. Strodthoff,                 Diffusion-based conditional ECG generation
+     with structured state space models,             Comput. Biol. Medicine 163 (2023) 107115.
+     doi:10.1016/J.COMPBIOMED.2023.107115.
+[52] A. Coletta, S. Gopalakrishnan, D. Borrajo, S. Vyetrenko, On the constrained time-series generation
+     problem, in: A. Oh, T. Naumann, A. Globerson, K. Saenko, M. Hardt, S. Levine (Eds.), Advances
+     in Neural Information Processing Systems, volume 36, Curran Associates, Inc., 2023, pp. 61048–
+     61059.
+[53] T. Yan, H. Zhang, T. Zhou, Y. Zhan, Y. Xia, Scoregrad: Multivariate probabilistic time series
+     forecasting with continuous energy-based generative models, CoRR abs/2106.10121 (2021).
+[54] K. Rasul, C. Seward, I. Schuster, R. Vollgraf, Autoregressive denoising diffusion models for mul-
+                                                   21
+     tivariate probabilistic time series forecasting, in: M. Meila, T. Zhang (Eds.), Proceedings of the
+     38th International Conference on Machine Learning, ICML 2021, 18-24 July 2021, Virtual Event,
+     volume 139 of Proceedings of Machine Learning Research, PMLR, 2021, pp. 8857–8868.
+[55] Y. Li, X. Lu, Y. Wang, D. Dou, Generative time series forecasting with diffusion, denoise, and
+     disentanglement, in: S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave, K. Cho, A. Oh (Eds.),
+     Advances in Neural Information Processing Systems, volume 35, Curran Associates, Inc., 2022, pp.
+     23009–23022.
+[56] P. Chang, H. Li, S. F. Quan, J. Roveda, A. Li,                         TDSTF: transformer-based diffu-
+     sion probabilistic model for sparse time series forecasting,                CoRR abs/2301.06625 (2023).
+     doi:10.48550/ARXIV.2301.06625.
+[57] Y. Tashiro, J. Song, Y. Song, S. Ermon, CSDI: conditional score-based diffusion models for prob-
+     abilistic time series imputation, in: M. Ranzato, A. Beygelzimer, Y. N. Dauphin, P. Liang, J. W.
+     Vaughan (Eds.), Advances in Neural Information Processing Systems 34: Annual Conference on
+     Neural Information Processing Systems 2021, NeurIPS 2021, December 6-14, 2021, virtual, 2021,
+     pp. 24804–24816.
+[58] J. M. L. Alcaraz, N. Strodthoff, Diffusion-based time series imputation and forecasting with struc-
+     tured state space models, Trans. Mach. Learn. Res. 2023 (2023).
+[59] Y. Chen, C. Zhang, M. Ma, Y. Liu, R. Ding, B. Li, S. He, S. Rajmohan, Q. Lin, D. Zhang,
+     Imdiffusion: Imputed diffusion models for multivariate time series anomaly detection, Proc. VLDB
+     Endow. 17 (2023) 359–372.
+[60] C. Yang, T. Wang, X. Yan, DDMT: denoising diffusion mask transformer models for multivariate
+     time series anomaly detection, CoRR abs/2310.08800 (2023). doi:10.48550/ARXIV.2310.08800.
+[61] H. Li, G. Ditzler, J. Roveda, A. Li, Descod-ecg: Deep score-based diffusion model for ECG baseline
+     wander and noise removal, CoRR abs/2208.00542 (2022). doi:10.48550/ARXIV.2208.00542.
+[62] H. Sasaki, C. G. Willcocks, T. P. Breckon, UNIT-DDPM: unpaired image translation with denoising
+     diffusion probabilistic models, CoRR abs/2104.05358 (2021).
+[63] C. H. Wu, F. D. la Torre, Unifying diffusion models’ latent space, with applications to cyclediffusion
+     and guidance, CoRR abs/2210.05559 (2022). doi:10.48550/ARXIV.2210.05559.
+[64] M. Zhao, F. Bao, C. LI, J. Zhu, Egsde: Unpaired image-to-image translation via energy-guided
+     stochastic differential equations, in: S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave, K. Cho,
+     A. Oh (Eds.), Advances in Neural Information Processing Systems, volume 35, Curran Associates,
+     Inc., 2022, pp. 3609–3623.
+[65] M. Özbey, O. Dalmaz, S. U. H. Dar, H. A. Bedel, S. Öztürk, A. Güngör, T. Çukur, Unsupervised
+     medical image translation with adversarial diffusion models, IEEE Trans. Medical Imaging 42
+     (2023) 3524–3539. doi:10.1109/TMI.2023.3290149.
+[66] X. Su, J. Song, C. Meng, S. Ermon, Dual diffusion implicit bridges for image-to-image transla-
+     tion, in: The Eleventh International Conference on Learning Representations, ICLR 2023, Kigali,
+     Rwanda, May 1-5, 2023, 2023.
+[67] D. Shome, P. Sarkar, A. Etemad, Region-disentangled diffusion model for high-fidelity ppg-to-ecg
+     translation, in: M. J. Wooldridge, J. G. Dy, S. Natarajan (Eds.), Thirty-Eighth AAAI Confer-
+     ence on Artificial Intelligence, AAAI 2024, Thirty-Sixth Conference on Innovative Applications
+     of Artificial Intelligence, IAAI 2024, Fourteenth Symposium on Educational Advances in Artifi-
+     cial Intelligence, EAAI 2014, February 20-27, 2024, Vancouver, Canada, AAAI Press, 2024, pp.
+     15009–15019. doi:10.1609/AAAI.V38I13.29422.
+[68] O. Belhasin, I. Kligvasser, G. Leifman, R. Cohen, E. Rainaldi, L. Cheng, N. Verma, P. Varghese,
+     E. Rivlin, M. Elad, Uncertainty-aware PPG-2-ECG for enhanced cardiovascular diagnosis using
+     diffusion models, CoRR abs/2405.11566 (2024). doi:10.48550/ARXIV.2405.11566.
+[69] B. D. Anderson, Reverse-time diffusion equation models, Stochastic Processes and their Applica-
+     tions 12 (1982) 313–326. doi:https://doi.org/10.1016/0304-4149(82)90051-5.
+[70] J. Song, C. Meng, S. Ermon, Denoising diffusion implicit models, in: 9th International Conference
+     on Learning Representations, ICLR 2021, Virtual Event, Austria, May 3-7, 2021, 2021.
+[71] E. Schrödinger, Sur la théorie relativiste de l’électron et l’interprétation de la mécanique quantique,
+     Annales de l’institut Henri Poincaré 2 (1932) 269–310.
+[72] V. D. Bortoli, J. Thornton, J. Heng, A. Doucet, Diffusion schrödinger bridge with applications to
+     score-based generative modeling, in: M. Ranzato, A. Beygelzimer, Y. N. Dauphin, P. Liang, J. W.
+     Vaughan (Eds.), Advances in Neural Information Processing Systems 34: Annual Conference on
+     Neural Information Processing Systems 2021, NeurIPS 2021, December 6-14, 2021, virtual, 2021,
+     pp. 17695–17709.
+[73] S. Xu, Z. Ma, Y. Huang, H. Lee, J. Chai, Cyclenet: Rethinking cycle consistency in text-guided
+                                                       22
+     diffusion for image manipulation, in: A. Oh, T. Naumann, A. Globerson, K. Saenko, M. Hardt,
+     S. Levine (Eds.), Advances in Neural Information Processing Systems, volume 36, Curran Asso-
+     ciates, Inc., 2023, pp. 10359–10384.
+[74] B. Kim, G. Kwon, K. Kim, J. C. Ye, Unpaired image-to-image translation via neural schrödinger
+     bridge, in: The Twelfth International Conference on Learning Representations, ICLR 2024, Vienna,
+     Austria, May 7-11, 2024, 2024.
+[75] S. Lee, K. Kim, J. C. Ye, Single-step bidirectional unpaired image translation using implicit bridge
+     consistency distillation, CoRR abs/2503.15056 (2025). doi:10.48550/ARXIV.2503.15056.
+[76] T. Karras, M. Aittala, T. Aila, S. Laine, Elucidating the design space of diffusion-based generative
+     models, in: S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave, K. Cho, A. Oh (Eds.), Advances in
+     Neural Information Processing Systems, volume 35, Curran Associates, Inc., 2022, pp. 26565–26577.
+[77] U. M. Ascher, L. R. Petzold, Computer methods for ordinary differential equations and differential-
+     algebraic equations, SIAM, 1998.
+[78] M. Mancusi, Y. Halychanskyi, K. W. Cheuk, C. Lai, S. Uhlich, J. Koo, M. A. M. Ramı́rez, W. Liao,
+     G. Fabbro, Y. Mitsufuji, Latent diffusion bridges for unsupervised musical audio timbre transfer,
+     CoRR abs/2409.06096 (2024). doi:10.48550/ARXIV.2409.06096.
+[79] M. Sazgar, M. G. Young, Overview of EEG, Electrode Placement, and Montages, Springer Inter-
+     national Publishing, Cham, 2019, pp. 117–125.
+[80] N. Koolen, L. Oberdorfer, Z. Rona, V. Giordano, T. Werther, K. Klebermass-Schrehof, N. Steven-
+     son, S. Vanhatalo, Automated classification of neonatal sleep states using EEG, Clin. Neurophysiol.
+     128 (2017) 1100–1108.
+[81] N. J. Stevenson, M.-L. Tataranno, A. Kaminska, E. Pavlidis, R. R. Clancy, E. Griesmaier, J. A.
+     Roberts, K. Klebermass-Schrehof, S. Vanhatalo, Reliability and accuracy of EEG interpretation for
+     estimating age in preterm infants, Ann. Clin. Transl. Neurol. 7 (2020) 1564–1573.
+[82] J. Vrba, S. E. Robinson, J. McCubbin, C. L. Lowery, H. Eswaran, J. D. Wilson, P. Murphy,
+     H. Preissl, Fetal MEG redistribution by projection operators, IEEE Trans. Biomed. Eng. 51 (2004)
+     1207–1218. doi:10.1109/TBME.2004.827265.
+[83] J. McCubbin, S. E. Robinson, R. Cropp, A. Moiseev, J. Vrba, P. Murphy, H. Preissl, H. Eswaran,
+     Optimal reduction of MCG in fetal MEG recordings, IEEE Trans. Biomed. Eng. 53 (2006) 1720–
+     1724.
+[84] K. Palmu, N. Stevenson, S. Wikström, L. Hellström-Westas, S. Vanhatalo, J. M. Palva, Optimiza-
+     tion of an NLEO-based algorithm for automated detection of spontaneous activity transients in
+     early preterm EEG, Physiol. Meas. 31 (2010) N85–93.
+[85] K. Palmu, S. Wikström, E. Hippeläinen, G. Boylan, L. Hellström-Westas, S. Vanhatalo, Detection
+     of ’EEG bursts’ in the early preterm EEG: visual vs. automated detection, Clin. Neurophysiol. 121
+     (2010) 1015–1022.
+[86] S. Segovia, A. Guillamón, M. C. del Cerro, E. Ortega, C. Pérez-Laso, M. Rodriguez-Zafra, C. Beyer,
+     The development of brain sex differences: a multisignaling process, Behav. Brain Res. 105 (1999)
+     69–80.
+[87] J. Moser, F. Schleger, M. Weiss, K. Sippel, L. Semeia, H. Preissl, Magnetoencephalographic signa-
+     tures of conscious processing before birth, Dev. Cogn. Neurosci. 49 (2021) 100964.
+[88] L. S. Chitty, D. G. Altman, A. Henderson, S. Campbell, Charts of fetal size: 2. head measurements,
+     BJOG 101 (1994) 35–43.
+[89] R. W. Brislin, Back-translation for cross-cultural research, Journal of Cross-Cultural Psychology 1
+     (1970) 185–216. doi:10.1177/135910457000100301.
+[90] T. Salimans, J. Ho, Progressive distillation for fast sampling of diffusion models, in: The Tenth
+     International Conference on Learning Representations, ICLR 2022, Virtual Event, April 25-29,
+     2022, 2022.
+[91] P. Jeha, M. Bohlke-Schneider, P. Mercado, S. Kapoor, R. Nirwan, V. Flunkert, J. Gasthaus,
+     T. Januschowski, PSA-GAN: progressive self attention gans for synthetic time series, in: The
+     Tenth International Conference on Learning Representations, ICLR 2022, Virtual Event, April
+     25-29, 2022, 2022.
+[92] M. Heusel, H. Ramsauer, T. Unterthiner, B. Nessler, S. Hochreiter, Gans trained by a two time-
+     scale update rule converge to a local nash equilibrium, in: I. Guyon, U. von Luxburg, S. Bengio,
+     H. M. Wallach, R. Fergus, S. V. N. Vishwanathan, R. Garnett (Eds.), Advances in Neural Informa-
+     tion Processing Systems 30: Annual Conference on Neural Information Processing Systems 2017,
+     December 4-9, 2017, Long Beach, CA, USA, 2017, pp. 6626–6637.
+
+
+                                                   23
+  Diffusion-based translation between unpaired spontaneous
+   premature neonatal EEG and fetal MEGDiffusion-based
+translation between unpaired spontaneous premature neonatal
+                     EEG and fetal MEG
+                                 Supplementary Material
+
+ Benoı̂t Brebiona , Alban Gallardb , Katrin Sippelc , Amer Zaylaad , Hubert Preisslc,d,e ,
+                    Sahar Moghimib , Fabrice Walloisb,f , Yaël Frégiera
+    a Laboratoire de Mathématiques de Lens (LML), UR 2462, Université d’Artois, Lens, France
+                 b INSERM U1105, Université de Picardie, CURS, Amiens, France
+    c Department of Internal Medicine IV, University Hospital of Tübingen, Tübingen, Germany
+ d IDM/fMEG Center of the Helmholtz Center Munich, University of Tübingen, German Center for
+
+                          Diabetes Research (DZD), Tübingen, Germany
+   e Institute of Pharmaceutical Sciences, Department of Pharmacy and Biochemistry, Interfaculty
+
+         Centre for Pharmacogenomics and Pharma Research, Eberhard Karls University
+                                Tübingen, Tübingen, Germany
+f INSERM U1105, Unit Exploration Fonctionnelles du Système Nerveux Pédiatrique, South University
+
+                                   Hospital, Amiens, France
+
+
+
+
+Abstract
+The following pages contain the supplementary material for the “Diffusion-based trans-
+lation between unpaired spontaneous premature neonatal EEG and fetal MEG”
+
+
+
+7. Dataset
+
+7.1. Population
+    The distribution of participants per signal modality can be found in Table 2. All
+infants of the EEG study had normal birth parameters, an APGAR score above 5 at 5
+minutes, a normal clinical neurological assessment, and no risk factors for brain damage,
+with EEG evaluations confirming brain maturation corresponding to their gestational
+age. EEG assessment as part of the follow-up when leaving the neonatal intensive care
+unit had to meet the normal standards set by the EEG monitoring guidelines of the
+French Society of Clinical Neuroscience.
+    MEG study participants were recruited from Tübingen and its surrounding areas,
+with mothers having uncomplicated singleton pregnancies.
+
+
+    Email addresses: benoit.brebion@univ-artois.fr (Benoı̂t Brebion),
+alban.gallard@u-picardie.fr (Alban Gallard), katrin.sippel@uni-tuebingen.de (Katrin Sippel),
+amer.zaylaa@uni-tuebingen.de (Amer Zaylaa), hubert.preissl@uni-tuebingen.de (Hubert Preissl),
+sahar.moghimi@u-picardie.fr (Sahar Moghimi), fabrice.wallois@u-picardie.fr (Fabrice Wallois),
+yael.fregier@univ-artois.fr (Yaël Frégier)
+                                             wGA
+                          Signal type                                  Total
+                                             34 35        36    37
+                          EEG                7  9         7     7      30
+                          fMEG               13 11        12    8      44
+
+Table 2: Number of participants per signal type according to their gestational age at the recording date.
+
+
+7.2. Acquisition
+    High-resolution EEG recordings of sleeping premature neonates were performed in the
+incubator, using a 64 or 124-channel HydroCel Geodesic Sensor Net with an Electrical
+Geodesic NetAmps 200 amplifier passing a DC–50 Hz filtered digitized signal to the
+Electrical Geodesics Net Station software (Version 5). EEG was digitized at a 1000
+Hz sampling rate, with a Cz vertex electrode as the reference, while maintaining the
+electrode impedance below 5 kΩ.
+    fMEG recordings were performed using a SARA (SQUID Array for Reproductive
+Assessment, VSM MedTech Ltd., Port Coquitlam, Canada) system installed at the Uni-
+versity of Tübingen fMEG Center, and designed to adapt the established MEG technique
+to the specific requirements of fetal measurements. This system is composed of 156 pri-
+mary magnetic sensors distributed over a concave array shaped to match the form of
+the gravid abdomen, and also includes 29 reference sensors. fMEG was recorded at a
+sampling rate of 610.352 Hz, in a magnetically shielded room (Vakuumschmelze, Hanau,
+Germany) to reduce external magnetic interference.
+
+7.3. Preprocessing
+    All the EEG and fMEG pre-processing steps were carried out using MNE 1.2.1 and
+Python 3.10.6.
+    The 10 EEG channels chosen for detecting spontaneous neural activity and spanning
+the entire head are the following: Fp2-C4, Fp1-C3, C4-O2, C3-O1, Fp2-T4, Fp1-T3,
+T4-O2, T3-O1, Fz-Cz, and Cz-Pz. For each sample i of the signal, the NLEO index was
+calculated as:
+                      N LEO(x) = x(i)x(i − 3) − x(i − 1)x(i − 2)                 (10)
+We illustrate in Fig. 9 an example of the spatial distribution of the NLEO mean ampli-
+tude over the channels. The normalization of range [-1,1] is done for both datasets (EEG
+and fMEG) using the following formula:
+
+                                               x − min(x)
+                                 xnorm = 2                   −1                                     (11)
+                                             max(x) − min(x)
+
+where x is the signal amplitude before normalization, and min(x) and max(x) are the
+minimum and maximum amplitude values of the whole dataset.
+   Final subsets distribution is summarized in Table 3.
+
+
+
+
+                                                   25
+Figure 9: Spatial amplitude distribution of smoothed NLEO for one participant, with selected region of
+interest shown with black circles. The head of the mother is located on the left of the figure, her left
+on the top and her right on the bottom. In this case, the centroid is localized around the center of the
+lower abdomen of the mother.
+
+
+
+
+                             Signal type       Train      Test     Total
+                             EEG               8542       2090     10632
+                             fMEG              7684       1873     9557
+
+                   Table 3: Number of EEG and fMEG burst segments per subset.
+
+
+
+
+                                                  26
+

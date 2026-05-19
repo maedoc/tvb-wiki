@@ -1,0 +1,1482 @@
+                                             Emergent Spatiotemporal Dynamics in Large-Scale Brain
+                                              Networks with Next Generation Neural Mass Models
+                                                         Rosa Maria Delicado1 , Gemma Huguet2,3,4 , Pau Clusella2
+                                                     1
+                                                         Departament de Matemàtiques i Informàtica and Institute of Applied Com-
+                                                         puting and Community Code (IAC3), Universitat de les Illes Balears, Spain
+arXiv:2512.03907v1 [q-bio.NC] 3 Dec 2025
+
+
+
+
+                                                     2
+                                                         Departament de Matemàtiques, Universitat Politècnica de Catalunya,
+                                                         Barcelona, Spain
+                                                     3
+                                                         Institut de Matemàtiques de la UPC - Barcelona Tech (IMTech), Barcelona,
+                                                         Spain
+                                                     4
+                                                         Centre de Recerca Matemàtica, Barcelona, Spain
+
+
+
+                                              Corresponding author: rosa-maria.delicado@uib.cat
+
+                                              Keywords: large-scale brain models, next-generation neural mass models, homo-
+                                           geneous invariant manifold, transverse instabilities, Master Stability Function, Floquet
+                                           theory, complex spatiotemporal patterns, Lyapunov exponents, chaos.
+
+                                                                                     Abstract
+                                                    Understanding the dynamics of large-scale brain models remains a central chal-
+                                                lenge due to the inherent complexity of these systems. In this work, we explore the
+                                                emergence of complex spatiotemporal patterns in a large scale-brain model composed
+                                                of 90 interconnected brain regions coupled through empirically derived anatomical
+                                                connectivity. An important aspect of our formulation is that the local dynamics
+                                                of each brain region are described by a next-generation neural mass model, which
+                                                explicitly captures the macroscopic gamma activity of coupled excitatory and in-
+                                                hibitory neural populations (PING mechanism). We first identify the system’s ho-
+                                                mogeneous states—both resting and oscillatory—and analyze their stability under
+                                                uniform perturbations. Then, we determine the stability against non-uniform per-
+                                                turbations by obtaining dispersion relations for the perturbation growth rate. This
+                                                analysis enables us to link unstable directions of the homogeneous solutions to the
+                                                emergence of rich spatiotemporal patterns, that we characterize by means of Lya-
+                                                punov exponents and frequency spectrum analysis. Our results show that, compared
+                                                to previous studies with classical neural mass models, next-generation neural mass
+                                                models provide a broader dynamical repertoire, both within homogeneous states
+                                                and in the heterogeneous regime. Additionally, we identify a key role for anatomical
+                                                connectivity in cross-frequency coupling, allowing for the emergence of gamma oscil-
+                                                lations with amplitude modulated by slower rhythms. These findings suggest that
+
+
+
+                                                                                         1
+such models are not only more biophysically grounded but also particularly well-
+suited to capture the full complexity of large-scale brain dynamics. Overall, our
+study advances the analytical understanding of emerging spatiotemporal patterns
+in whole-brain models.
+
+
+1    Introduction
+Oscillatory and rhythmic activity is ubiquitous in the brain, spanning a wide range
+of frequency bands—from slow delta (1–4 Hz) and theta (4–8 Hz) rhythms to faster
+alpha (8-13 Hz), beta (13–30 Hz), and gamma (30–100 Hz) oscillations [5]. A key
+challenge in computational neuroscience is to understand how these dynamics emerge
+and interact across spatial and temporal scales, giving rise to complex spatiotempo-
+ral patterns observed in whole brain recordings [36, 59, 27, 19]. Neural mass models
+(NMMs) represent a primary modeling approach, providing low-dimensional descrip-
+tions of population-level dynamics by coarse-graining the activity of large ensembles
+of neurons and synapses. Canonical formulations such as the Wilson-Cowan [58], the
+Jansen–Rit [30], and the Wendling models (reviewed in [54]) have been especially
+successful in reproducing and fitting neuroimaging data, notably EEG and MEG,
+thereby establishing a principled link between microscopic neural mechanisms and
+macroscopic brain signals.
+    By coupling several NMMs using network topologies derived from structural
+connectomics data, one can produce large-scale brain models (also known as whole-
+brain models) in which single brain regions described by an NMM interact across
+nodes. Such models have been widely used to investigate both healthy brain function
+[36, 19, 32] and a range of pathological conditions, including Parkinson, epilepsy,
+schizophrenia or Alzheimer’s disease [8, 51, 48, 45, 38]. However, these models pose
+significant challenges for mathematical analysis due to their high dimensionality and
+the presence of features such as noise, heterogeneities, and transmission delays.
+    In [10], the authors present a simple framework to account for the emergence of
+rich dynamical phenomena, including high-dimensional chaos and traveling waves.
+By assuming normalized total inputs received by the nodes, they demonstrate that
+such complex behaviors can arise purely from network coupling. Their analysis
+builds on the study of transverse instabilities of homogeneous oscillatory solutions:
+using the Master Stability Function (MSF) formalism [39], they showed how an
+oscillatory state of identical node dynamics —modeled by the Jansen–Rit system
+[30]— can lose stability, giving rise to a diverse repertoire of spatiotemporal patterns.
+    While most large-scale brain models rely on classical neural mass formulations
+such as Jansen–Rit, recent advances in mean field theory have led to a new gener-
+ation of neural mass models that provide an exact description of the macroscopic
+activity of spiking neuronal networks [35, 14]. Unlike classical NMMs, the so-called
+next-generation NMMs (NG-NMMs) capture the exact evolution of the mean firing
+rate and membrane potential of a population of quadratic integrate-and-fire (QIF)
+neurons, with dynamics that depend on neuronal synchrony within the population,
+yielding a richer repertoire of behaviors. Their combination of accuracy and in-
+terpretability has drawn significant attention [22, 14, 3, 11, 13], and they are now
+widely used to address diverse questions in neuroscience [50, 53, 44, 26]. In particu-
+lar, incorporating NG-NMM into large-scale brain modeling frameworks represents
+a promising and rapidly emerging area of research [26, 40, 23].
+
+
+                                           2
+    Following this line of research, in the present work we investigate the dynamics
+of a large-scale brain model consisting of a network of 90 nodes, with structural
+connectivity derived from tractography data [17]. The activity of each node is
+governed by a NG-NMM composed of an excitatory and an inhibitory population
+interacting through exponentially decaying synapses. For this exploration, we adopt
+parameter values from previous studies [22, 44], thereby representing an instance of
+the Pyramidal-Interneuron Network Gamma (PING) mechanism for generation of
+gamma oscillations [56, 55, 4, 1, 7].
+    We provide a thorough analysis of the resulting network dynamics, emphasizing
+how the incorporation of NG-NMMs shapes large-scale brain activity patterns. Fol-
+lowing the approach of [10], we highlight that such models are capable of generating
+rich dynamical phenomena, including traveling waves and high-dimensional chaos,
+under minimal assumptions. Our analysis begins by identifying a homogeneous
+manifold of the system (corresponding to identical node dynamics) that serves as
+a reference structure for understanding the emergence of more complex spatiotem-
+poral behaviors. The dynamics on the manifold are captured by a low-dimensional
+nonlinear system, which we analyze using numerical continuation methods. We then
+investigate the stability of homogeneous fixed points and limit-cycles to arbitrary
+perturbations by decomposing them on a suitable basis, ultimately providing a dis-
+persion relation or Master Stability Function that links spatial modes with perturba-
+tion growth rates. Simulations and analysis of Lyapunov exponents and frequency
+spectrum reveal that when this manifold loses stability, it gives rise to a diverse
+range of dynamical patterns. Our results show that this large-scale brain model ex-
+hibits a broader repertoire of dynamical behaviors than those reported in [10], both
+within the homogeneous manifold and in the heterogeneous regime. Indeed, we find
+instabilities arising from both stationary and oscillatory states. Among the relevant
+patterns observed, we highlight the presence of fast oscillations whose amplitude is
+modulated by a slower rhythm—a pattern that cannot be generated in the isolated
+nodes. This phenomenon is a type of cross-frequency coupling (CFC) [7] widely
+observed in the brain, particularly in the hippocampus, where theta–gamma cou-
+pling structures neural firing into temporally ordered assemblies believed to underlie
+memory formation and spatial coding [34]. Our results suggest that NG-NMMs are
+not only more biophysically grounded, but also better suited for capturing the full
+complexity of large-scale brain dynamics.
+    The paper is organized as follows. In Section 2 we present the mathematical
+model. In Section 3 we study the stability of homogeneous states within the homo-
+geneous invariant manifold. In Section 4 we analyze the stability of the homogeneous
+states with respect to transverse perturbations. In Section 5, we characterize the
+heterogeneous spatiotemporal patterns that arise when synchronization is lost by
+means of computations of Lyapunov exponents and frequency spectrum analysis.
+Finally, we end with a Discussion in Section 6. The Appendix contains details of
+the linear stability analysis and MSF formalism.
+
+
+2    Large-scale brain model
+We consider a large-scale brain model consisting of a network with N “ 90 nodes,
+each representing a distinct brain region, coupled using structural connectivity data
+obtained in [17] from diffusion tensor imaging. The interactions are defined by a
+
+
+                                          3
+N ˆ N row-normalized connectivity matrix W̃ “ pw̃jk q, obtained by averaging the
+connectomes of 16 human subjects and then applying row normalization so that the
+entries of each row sum to one (as it is usually employed in large scale brain models
+[28, 32, 46, 23]), that is,
+                                     N
+                                     ÿ
+                                         w̃jk “ 1.                                (1)
+                                        k“1
+The connection weights w̃jk are non-negative and indicate the average number of
+connections from region k to region j, for j, k P t1, . . . , N u. The network topology
+is available at github.com/pclus/transverse-instabilities.
+    We assume each region is capable of generating oscillatory activity through the
+local interaction of excitatory and inhibitory neuronal populations, a mechanism
+that has been associated to the emergence of brain rhythms in the gamma fre-
+quency range [7]. Therefore, the neural activity of each node is modeled using an
+adapted form of the next-generation neural mass model presented in [22, 44]. Based
+on an exact low-dimensional description [35], this model provides the evolution of
+the mean firing rate r and mean membrane potential v of an excitatory and an in-
+hibitory population of Quadratic Integrate-and-Fire (QIF) neurons coupled through
+exponentially decaying synaptic activity s. Thus, at each node j, the dynamics are
+governed by the following 6-dimensional system of differential equations,
+           $
+                             ∆E
+           & τE r9E,j “ πτE ` 2rE,j vE,j
+           ’
+           ’
+           ’
+   (Ej )                           2                    E
+           ’
+           ’  τE v9 E,j “ η̄E ` vE,j  ` pτE πrE q2 ` Iext  ` τE pJEE sE,j ´ JEI sI,j ` Ij q
+           ’
+             τsE s9 E,j “ ´sE,j ` rE,j
+           %
+           $
+                           ∆
+           ’ τI r9I,j “ I ` 2rI,j vI,j
+           ’
+                          πτI
+           ’
+           &
+    (Ij )                        2                2   I                                    (2)
+           ’
+           ’  τ  v9
+               I I,j    “ η̄I ` vI,j ´ pτI πrI,j q ` Iext ` τI pJIE sE,j ´ JII sI,j ` Ij q
+           ’
+             τsI s9 I,j “ ´sI,j ` rI,j
+           %
+
+where rℓ,j and vℓ,j , with ℓ P tE, Iu are the mean firing rate and mean membrane po-
+tential of population ℓ in node j, respectively. The variable sℓ represents the synaptic
+current from population ℓ. Parameters τℓ and τsℓ are the membrane and synaptic
+time constants, respectively. For p, q P tE, Iu, Jpq is the connection strength from
+population q to population p. At the single neuron description, each unit receives
+a different input current, which can be either static and drawn from a Cauchy dis-
+tribution [35] or Cauchy white noise [12]. In either case, parameters ηℓ and ∆ℓ are,
+respectively, the center and width of the distribution of such inputs.
+    Coupling between nodes is mediated by synaptic projections originating from
+the excitatory populations, while inhibition acts only locally, as in similar models
+[10]. In our case, these long-range excitatory inputs target both the excitatory and
+inhibitory populations of the receiving node. The strength of the synaptic couplings
+is governed by the normalized structural connectivity matrix W̃ . Additionally, the
+overall influence of these long-range interactions is modulated by a global coupling
+parameter ε, which scales the entire connectivity matrix. Thus, the excitatory inputs
+from other nodes to population ℓ of node j are given by
+                                              N
+                                              ÿ
+                                    Ij “ ε         w̃jk sE,k ,
+                                             k“1
+
+
+                                              4
+      where w̃jk are the synaptic weights obtained from the entries of the row-normalized
+      structural connectivity matrix W̃ .
+          We study the system under the influence of the external input to the excitatory
+                   E
+      population Iext and the coupling strength ε, leaving all the other parameters fixed.
+      The parameters are chosen according to [44] and are provided in Table 1.
+
+    Parameter                                 Meaning                                              Value
+   τE , τI , τsE , τsI                     Time constants                                       8, 8, 1, 5 ms
+        η̄E , η̄I             Baseline constant current for E,I neurons                            ´5, ´5
+       ∆E , ∆I               Population heterogeneity or noise strength                               1,1
+ JEE , JEI , JIE , JII   Synaptic strength of connection between populations                     5, 13, 13, 5
+        E , II
+      Iext                  External current impinging in E/I population                        Not fixed, 0
+               ext
+            ε                     Coupling strength between nodes                                Not fixed
+
+Table 1: Parameters of the coupled next generation neural mass model in equation (2).
+
+          The row-normalized connectivity matrix ensures that all units in the network
+      receive the same total input, although distributed differently across nodes. This
+      structure guarantees the existence of an invariant manifold, with identical dynamics
+      for all nodes. We refer to this manifold as the homogeneous invariant manifold.
+      We use this manifold as a reference structure to explore how instabilities of ho-
+      mogeneous states can emerge and generate complex spatiotemporal dynamics. To
+      understand such collective behavior, we first study this simplified state of identical
+      node dynamics.
+
+
+      3     Homogeneous invariant manifold
+      In this section, we derive the equations governing the dynamics on the homogeneous
+      invariant manifold and analyze their solutions and local stability to determine which
+      homogeneous states are stable under uniform perturbations.
+           Let yj “ prE,j , vE,j , sE,j , rI,j , vI,j , sI,j q denote the variables describing the dy-
+      namics of node j. Imposing that yj “ y :“ prE , vE , sE , rI , vI , sI q for all j “
+      1, . . . , N , and using equation (1), the incoming input for each brain region in (2)
+      becomes
+                                       ÿN                         N
+                                                                  ÿ
+                                Ij “ ε      w̃j,k sE,k “ εsE         w̃j,k “ εsE ,                 (3)
+                                     k“1                   k“1
+
+      so it does not depend on the node index j anymore. Replacing expression (3) in the
+      input current Ij of both excitatory and inhibitory populations in (2), the equations
+
+
+
+
+                                                     5
+describing the dynamics on the homogeneous manifold become
+           $
+           ’ τE r9E “ ∆E ` 2rE vE ,
+           ’
+                          πτE
+           ’
+           &
+     (E)                          2                   E
+           ’
+           ’  τE v9 E “ η̄E ` vE    ´ pτE πrE q2 ` Iext  ` τE rpJEE ` εqsE ´ JEI sI s,
+           ’
+             τsE s9 E “ ´sE ` rE ,
+           %
+           $
+                         ∆I
+           & τI r9I “ πτI ` 2rI vI ,
+           ’
+           ’
+           ’
+      (I)                                         I                                      (4)
+           ’
+           ’  τI v9 I “ η̄I ` vI2 ´ pτI πrI q2 ` Iext ` τI rpJIE ` εqsE ´ JII sI s,
+           ’
+             τsI s9 I “ ´sI ` rI .
+           %
+
+    This low-dimensional system captures the dynamics of spatially homogeneous
+states of the full system (2). Local stability analysis reveals how solutions respond
+to uniform perturbations, that is, those that affect all nodes in an identical manner,
+a task we address in the next section.
+
+3.1    Dynamics on the homogeneous invariant manifold
+In this section, we analyze the dynamics of system (4) as external excitatory input
+  E
+Iext and coupling strength ε vary. We use the bifurcation analysis software AUTO-
+07p [21] to identify invariant objects of the homogeneous system (4) and explore
+their stability within the homogeneous manifold.
+    Figure 1A shows the bifurcation diagram of the uncoupled model (ε “ 0 in (4))
+     E                                    E
+as Iext   is varied. For low values of Iext  , there exists a unique stable state of the
+system given by an equilibrium point, corresponding to asynchronous activity. It
+                                                                   E
+loses stability via a supercritical Hopf bifurcation (HB1 ) at Iext    « 5. Therefore, a
+                                                  E
+stable limit cycle emerges and persists until Iext « 65, where it vanishes at another
+supercritical Hopf bifurcation (HB`  2 ) of the equilibrium point, which transitions back
+to stable. This oscillatory activity corresponds to gamma activity, with a frequency
+ranging 27-170 Hz.
+    Including coupling ε ą 0 in system (4) modifies this bifurcation scenario. In gen-
+eral, the oscillatory region becomes narrower and new invariant objects arise, which
+leads to richer and more complex behavior. Namely, for ε “ 12 (see Figure 1B), the
+                                                                                  E
+limit cycle loses stability through a period doubling bifurcation (PD1 ) at Iext     « 9.
+This bifurcation gives rise to a new limit cycle with twice the period of the first
+                        E
+periodic orbit. As Iext     increases further, successive period-doubling bifurcations
+(PD2 , PD3 , ...) occur, forming a period-doubling cascade that may signal the onset
+of deterministic chaos [52]. In Section 3.2 we provide an in-depth analysis of this
+situation.
+    As ε is increased further, there appear regions of bistability, characterized by the
+simultaneous presence of two stable attractors. Namely, for ε “ 15 (see Figure 1C),
+we observe the coexistence of two stable limit cycles and one unstable limit cycle,
+which coalesce at a pair of fold of limit cycle bifurcations (FL1 and FL2 ). For
+ε “ 26 , we encounter a region of bistability between an equilibrium point and a
+limit cycle. In this case, the bistability emerges through the second Hopf bifurcation
+(HB´ 2 ), which is now subcritical, where the equilibrium point recovers stability and
+an unstable limit cycle appears and persists until it coalesces with the stable limit
+cycle at a fold of limit cycles (FL2 ). Also for ε “ 26, two saddle-node bifurcations
+
+
+                                             6
+       of the already unstable fixed points occur within the oscillatory region (not marked
+       in the diagram).
+
+
+
+
+Figure 1: Bifurcation diagram of the homogeneous system (4). (A-D) One-parameter bifur-
+                                                E
+cation diagram of equation (4) for varying Iext     and with fixed (A) ε “ 0, (B) ε “ 12, (C) ε “ 15 and
+(D) ε “ 26. Colored dotted curves indicate stable equilibrium points (dark pink), unstable equilibrium
+point (light pink), extrema of stable limit cycle (dark purple) and extrema of unstable limit cycle (light
+purple). Dashed vertical lines indicate relevant bifurcation points (see text). (E) Two-parameter bifur-
+                                             E
+cation diagram of system (4) for varying Iext     and ε. Colored curves indicate the different bifurcations:
+supercritical Hopf (solid purple), subcritical Hopf (dashed purple), saddle-node (blue), fold of limit cycles
+(green), period doubling (red). The light purple region indicates a single periodic state, while the light
+green region indicates bistability (see text).
+
+           These dynamics can be more clearly organized in the two-parameter bifurcation
+       diagram shown in Figure 1E, which allows us to identify the regions of oscillatory
+                                         E
+       states in the parameter space pIext  , εq. Fixed points, representing asynchronous ac-
+       tivity, destabilize through Hopf bifurcations (purple curves), giving rise to gamma
+       oscillations (purple region) that may be stable or unstable depending on parameter
+       values. Solid (resp. dashed) purple curves correspond to supercritical (resp. subcrit-
+       ical) Hopf bifurcations, with the transition occurring at a generalized Hopf (GH) or
+                                                 E
+       Bautin codimension-2 bifurcation at Iext     « 8.48, ε « 22.65. Moreover, oscillations
+       also vanish or emerge through fold of limit cycles (FLC) bifurcations (green curves),
+       some of them colliding at a cusp of limit cycles (CPC) codimension-2 bifurcations.
+           Thus, oscillations occur in the purple and green regions enclosed by the Hopf and
+       FLC bifurcations. In the green region A, the system presents bistability between
+       asynchronous and oscillatory activity. There is also a tiny region (intersection of
+       purple and green region A) showing bistability between two different types of oscil-
+       lations. Indeed, in this region the system presents three limit cycles, two of them
+       stable and one unstable, in addition to the unstable equilibrium point. Within the
+       oscillatory purple region, there appear two islands of bistability (green regions la-
+       beled with B and C) bounded by FLC bifurcations that coalesce at different cusps
+       of limit cycles (indicated with black dots). For ε in the range 10 ´ 15, we identified
+       a closed curve of period-doubling bifurcations (red), with further period-doubling
+       bifurcations inside (red curves), suggesting a period-doubling cascade.
+           For large coupling values ε, two branches of saddle-node bifurcations (blue) ap-
+       pear, enclosing a region of bistability between two fixed points. These curves meet
+                                        E
+       at a cusp point (CP) around Iext     « 4.82, ε « 25.43. At higher ε, additional bifur-
+       cations arise, leading to new codimension-2 bifurcations. Nonetheless, within the
+
+
+                                                     7
+range explored using AUTO-07p, no stable periodic solutions were found beyond
+the purple and green regions depicted in Figure 1E.
+
+3.2    Period doubling cascade and deterministic chaos
+The bifurcation diagram shown in Figure 1E reveals a region of nested closed curves
+of period-doubling bifurcations, suggesting the presence of deterministic chaos. In
+this section, we investigate this phenomenon in detail.
+    We begin by exploring the chaotic region at ε “ 12, which intersects the region
+of period-doubling curves in the two-parameter bifurcation diagram (see Figure 1B),
+                 E                                    E
+while varying Iext   P r8.5, 12s. For each value of Iext , we integrate the system for 500
+ms after disregarding an initial transient. Figure 2A shows the sequence of local
+                                                                       E
+maxima of the excitatory synapse variable sE , plotted against Iext       .
+    In regions where the system exhibits stable periodic behavior, the diagram shows
+either one or two branches corresponding to either one or two local maxima per os-
+                                                    E
+cillation cycle, respectively. As we increase Iext    , the system undergoes successive
+period-doubling bifurcations, each doubling the number of maxima and generating
+a cascade that leads to deterministic chaos, reflected by the presence of dense, irreg-
+ular patterns in the diagram [52]. The chaotic dynamics are confined to a bounded
+interval of the parameter space, beyond which the system returns to periodic be-
+havior. Within the chaotic region, we also observe bands of parameter values for
+ E
+Iext in which the system maintains a stable behavior, forming islands of stability.
+    To quantitatively characterize the chaotic dynamics, Figure 2B shows the two
+largest Lyapunov exponents λ of the homogeneous system, computed numerically
+                                        E
+(see Appendix B). For values of Iext         corresponding to periodic oscillations, the
+largest Lyapunov exponent (LLE) is zero while the others remain negative. However,
+                E
+for values of Iext  that lie in the chaotic region, the LLE becomes positive and at the
+                     E
+critical values of Iext , where period-doubling bifurcations occur, the second-largest
+Lyapunov exponent becomes zero.
+    To identify the extent of the chaotic region of the homogeneous system in the two-
+                                                       E
+parameter space, Figure 2C shows the LLE over pIext       , εq. The white area corresponds
+to the region of stable periodic oscillations, as it exhibits zero LLE. Instead, the
+colored areas reveal two regions of positive LLE, which fit within the curves of
+period-doubling bifurcations detected using AUTO-07p (red curves in Figure 2C).
+These correspond to the regions of deterministic chaos in the two parameter space.
+Additionally, the diagram reveals the shape and location of the islands of stability
+within the chaotic area.
+    Instances of these chaotic states are depicted in Figures 2D and E, which show
+                                                                      E               E
+simulations of the homogeneous system for fixed ε “ 12 and Iext           “ 10 and Iext “
+10.5, respectively. The upper row of each panel provides the time evolution of the
+excitatory synaptic variable sE over 500 ms of a trajectory starting from initial
+conditions set to zero and discarding an initial transient. The lower row, depicts the
+same trajectory within the three-dimensional subspace spanned by the variables of
+the excitatory population prE , vE , sE q. In both cases, the system lies in the chaotic
+regime, exhibiting aperiodic dynamics in which the trajectory ends up densely filling
+a finite region of the phase space. Hence, the presence of a strange attractor becomes
+evident.
+
+
+
+
+                                            8
+Figure 2: Analysis of the chaotic region for the homogeneous system (4). (A) Local maxima
+of the time course of sE variable along a trajectory of system (4) after discarding an initial transient time
+                                E
+for fixed ε “ 12 and varying Iext   P r8.5, 12s with a discretization step ∆I E “ 0.001. (B) Two largest
+                                                                             ext
+                                                               E
+Lyapunov exponents of system (4) for fixed ε “ 12 and varying Iext P r8.5, 12s with a discretization
+step ∆I E “ 0.01. (C) Largest Lyapunov exponent of the homogeneous system varying both ε P r8, 12s
+       ext
+      E
+and Iext P r9, 15s with a discretization step ∆ “ 0.01. The green and red curves represent, respectively,
+the fold of limit cycles and the period doubling bifurcation curves computed with AUTO-07p. (D-E)
+                                                                           E                   E
+Simulated trajectories of the homogeneous system (4) for fixed ε “ 12 and Iext “ 10 (D) and Iext  “ 10.5
+(E) showing convergence to the attracting solution after discarding an initial transient. The top plots
+show the time series of the variable sE for 500 ms. Bottom plots display the trajectory projected onto
+the 3-dimensional space prE , vE , sE q for 5000 ms.
+
+
+
+
+                                                     9
+4     Transverse instabilities
+The different dynamical regimes and stability regions uncovered so far concern only
+perturbations acting uniformly among all brain regions. However, perturbations
+that are transverse to the homogeneous invariant manifold may drive the dynamics of
+the large-scale brain model toward heterogeneous neural activity patterns including
+traveling or chaotic waves. In this section we perform linear stability analysis of the
+homogeneous fixed points and limit cycles of the full system (2).
+    To this end, we apply a well-known technique of projecting the perturbation
+onto a suitable eigenbasis that decouples the high-dimensional stability problem into
+simpler, lower-dimensional components associated to different spatial modes. For
+fixed point solutions, this simply corresponds to the analysis of Turing instabilities in
+networked systems [37], whereas for limit cycles, the analogous procedure is usually
+known as the Master Stability Function (MSF) formalism [39]. When applying this
+procedure, coupled neural mass models differ from other common setups based on
+diffusive coupling on the choice of the eigenbasis, which here corresponds to that of
+the structural connectivity matrix instead of the widely used Laplacian [10].
+    Indeed, diffusion tensor imaging usually provides symmetric connectivities. The
+row-normalization of a symmetric matrix, W̃ , preserves some diagonalization prop-
+erties of the original matrix; in particular, W̃ is diagonalizable with real eigenvalues
+[10]. By construction, its largest eigenvalue is Λ1 “ 1, with associated eigenvector
+Φp1q “ p1, . . . , 1q. Moreover, by the Gershgorin circle theorem [57], all other eigen-
+values Λα , with α “ 2, . . . , N , are confined within the unit disk, i.e., Λα P r´1, 1s.
+The eigenvectors of the normalized structural connectivity matrix, Φpαq , are also re-
+ferred to as eigenmodes in this context, since they define spatial patterns of activity
+across the network.
+    Ultimately, the linear stability analysis based on mode decomposition provides
+                                          pαq
+the largest exponential growth rate µmax of a perturbation acting along each eigen-
+         pαq
+mode Φ       as a function of its associated eigenvalue Λα . That is,
+
+                                    FpΛα q “ µpαq
+                                              max .                                   (5)
+                                                                             pαq
+We refer to this function as the dispersion relation. A positive value of µmax implies
+the instability along the α-th eigenmode’s direction. If α ą 1, this usually results
+in the emergence of (spatially) heterogeneous dynamics. On the contrary, if all
+  pαq
+µmax ă 0 for all α “ 2, . . . , N , then small heterogeneous perturbations of the
+homogeneous state will decay exponentially. In Appendix A we provide a detailed
+derivation of the method.
+
+4.1    Transverse instabilities of homogeneous equilibrium points
+In this section, we study the stability of homogeneous equilibrium points with respect
+to heterogeneous perturbations by computing the dispersion relation in equation
+                                      pαq
+(5). In this case, the growth rate µmax corresponds to the real part of the dominant
+eigenvalue of the linearized system around the equilibrium. This quantity thus
+governs the evolution of perturbations projected onto the eigenmode Φpαq , for α “
+1, . . . , N .
+     Figure 3A-D shows the dispersion relation (5) of the stable equilibria of the
+                                                                    E
+homogeneous system (4) for selected parameter combinations pIext       , εq. Since the
+
+
+                                           10
+       uniform eigenmode, associated to Λα “ 1, corresponds to perturbations along the
+       homogeneous manifold, the largest growth rate for perturbations along this direction
+       is negative. The real part of the eigenvalues associated to the remaining eigenmodes
+       may be positive or negative.
+
+
+
+
+Figure 3: Transverse instabilities of homogeneous equilibrium points. (A-D) Dispersion
+relation (5) for homogeneous equilibrium points of system (2), showing the dependence of the growth
+       pαq
+rate µmax on the eigenvalues Λα of the structural connectivity matrix W̃ . Parameters are fixed at ε “ 8
+                                                                                E
+(A), ε “ 10 (B), ε “ 18 (C) and ε “ 30 (D) with different values of Iext            indicated in each panel.
+Continuous curves are obtained by considering a continuous range of Λα P r´1, 1s. (E-H) Numerical
+                                                                                                      E
+simulations of the large-scale brain model (2) for different combinations of the parameters pIext        , εq,
+each starting from a homogeneous equilibrium with a small random perturbation. Each plot shows the
+evolution of the variable vE (color-coded) for each node j “ 1, . . . , N (x-axis) over 100 ms (y-axis) after
+discarding an initial transient.
+
+                                                                            E
+           For ε “ 8 (Figure 3A) and ε “ 10 (Figure 3B), low values of Iext    yield negative
+       growth rates across all the eigenmodes, indicating stability of the homogeneous
+                             E
+       state. However, as Iext  increases, the dispersion curves are shifted upwards and the
+       growth rates associated to eigenmodes with low structural eigenvalues Λα become
+       positive, leading to transverse instabilities of the homogeneous state. As ε increases
+       to ε “ 18 (Figure 3C), the dispersion relation becomes negative for all eigenmodes
+
+
+                                                     11
+                                E
+across the different values of Iext explored. Therefore, the homogeneous equilibrium
+point is transversely stable for all these parameter combinations. Finally, for ε “ 30
+                                E
+(Figure 3D), high values of Iext    lead to some eigenmodes becoming unstable once
+again, indicating loss of stability for the equilibrium point.
+    To evaluate the predictions of the linear stability analysis, we compare them
+with simulations of the large-scale brain model (Figures 3E–H) for representative
+parameter combinations. All simulations start from a homogeneous equilibrium
+with a small random perturbation, and we show the last 100ms of a 60s run. For
+          E
+ε “ 8, Iext  “ 3 (blue circles in Figure 3A), the dispersion relation shows that all
+modes decay (negative growth rate), and the network dynamics decay to the stable
+homogeneous equilibrium, as seen in Figure 3E. In contrast, Figures 3F-H corre-
+spond to parameter combinations with a dispersion relation where certain modes
+have positive growth rates, leading to heterogeneous spatiotemporal dynamics. It is
+remarkable that in all cases, destabilization of the homogeneous equilibrium point
+produces oscillatory patterns with features specific to each parameter set. For exam-
+ple, for ε “ 10 (Figure 3G) and ε “ 30 (Figure 3H), some nodes exhibit oscillations
+with significantly lower amplitude than others, behavior that is not observed for
+ε “ 8 (see Figure 3F). In Section 5 we characterize some of these complex states in
+detail.
+
+4.2    Transverse instabilities of homogeneous periodic orbits
+We analyze the stability of homogeneous periodic orbits with respect to heteroge-
+neous perturbations by computing the dispersion relation in equation (5), which in
+the case of periodic orbits is also known as the Master Stability Function (MSF)
+                                       pαq
+[39]. In this case, the growth rate µmax corresponds to the real part of the largest
+Floquet exponent of the periodic orbit, which governs the evolution of perturba-
+tions applied along the α-th eigenmode. In Appendix A.1 we provide details of the
+numerical computation.
+    Figure 4A-D shows the MSF for stable periodic orbits of the homogeneous sys-
+                                                    E
+tem (4) for selected parameter combinations pIext      , εq. The largest growth rate as-
+                                                          p1q
+sociated to homogeneous perturbations (α “ 1) is µmax “ 0, according to Floquet
+theory. The Floquet exponents associated to the remaining eigenmodes may be
+positive, negative or zero.
+                                              E
+    For ε “ 5 (Figure 4A), increasing Iext        shifts the dispersion curves upward
+smoothly, preserving their shape. Notably, for larger ε (Figures 4B-D), the curves
+                                      E                                  E
+change shape more markedly with Iext     . For instance, at ε “ 9 and Iext  “ 12 (orange
+circles in Figure 4B), the first unstable mode corresponds to α “ 2, whereas for
+ E
+Iext “ 9.5 (purple circles) the instability occurs first for α “ 5. At ε “ 20 (Fig-
+                                                              E
+ure 4D), the curves display non-monotonic behavior as Iext       varies. In addition, the
+number of eigenmodes that become unstable varies for each parameter combination.
+Overall, the non-trivial shape of the dispersion relation illustrates the complexity of
+the bifurcation structure underlying transverse instabilities of the oscillatory states.
+    The high complexity exhibited by the MSF in our model for different parame-
+                     E
+ter combinations pIext  , εq may influence the types of patterns that arise when the
+homogeneous state destabilizes. To illustrate so, Figure 4E-H shows simulations of
+the large-scale brain model for representative parameter combinations.
+                     E
+    For ε “ 5 and Iext   “ 7 (red circles in Figure 4A), the dispersion relation shows
+a negative growth rate for all the structural eigenvalues and the network dynamics
+
+
+                                           12
+Figure 4: Transverse instabilities of homogeneous periodic solutions. (A-D) Dispersion rela-
+tion, known as Master Stability Function, for homogeneous periodic orbits of system (2), showing the
+                                                               pαq
+dependence of the real part of the largest Floquet exponent µmax on the structural connectivity eigenval-
+ues Λα . Parameters are fixed at ε “ 5 (A), ε “ 9 (B), ε “ 12 (C) and ε “ 20 (D) with different values
+    E
+of Iext indicated in each panel. Continuous curves are obtained by considering a continuous range of
+Λα P r´1, 1s. (E-H) Numerical simulations of the large-scale brain model (2) for different combinations
+                 E
+of parameters pIext , εq, each starting from a point on a homogeneous periodic orbit with a small random
+perturbation. Each plot shows the evolution of the variable vE (color-coded) for each node j “ 1, . . . , N
+(x-axis) over 100 ms (y-axis) after discarding an initial transient.
+
+
+                                                                                   E
+       decays to the homogeneous periodic state (see Figure 4E). In contrast, for Iext “ 13
+       (orange circles in Figure 4A), the dispersion curve presents some modes with posi-
+       tive Floquet exponents, leading to heterogeneous spatiotemporal dynamics (see Fig-
+       ure 4F). The patterns emerging from destabilization of the homogeneous oscillatory
+       state vary with parameters. Examples of other spatiotemporal patterns are shown
+       in Figures 4G–H. For instance, the dynamics for ε “ 5 (Figure 4F) and ε “ 12
+       (Figure 4G) appears rather heterogeneous, while for ε “ 20 (Figure 4H), it retains
+       some structured organization among some nodes. Section 5 provides an in-depth
+       characterization of these dynamics.
+
+
+
+                                                    13
+4.3    Bifurcation diagram for transverse instabilities
+                                                                             E
+In this section we thoroughly analyze the regions in the parameter space pIext  , εq P
+r0, 16sˆr0, 30s where we encounter transverse instabilities of the homogeneous states
+for both equilibrium points and periodic orbits.
+                                   E
+    For each pair of parameters pIext , εq we compute the dispersion relation corre-
+sponding to the homogeneous solution. Figure 5A shows, for each pair, the largest
+growth rate µ̂ among all eigenmodes (excluding the uniform one), that is,
+                                             !      )
+                              µ̂ :“ max        µpαq
+                                                max .                              (6)
+                                      α“2,...,N
+
+Two distinct color gradients are used to distinguish whether the underlying solution
+is a fixed point, µ̂EQ , or a periodic orbit, µ̂P O . For regions with bistability between
+homogeneous equilibrium and periodic orbits see supplementary figure S1. Black
+curves delimit the regions of transverse instabilities and color curves correspond to
+bifurcations of the homogeneous system, as in Figure 1E.
+    Regarding homogeneous equilibrium points, the region to the left of the Hopf
+bifurcation HB1 corresponds to a transversely stable equilibrium, as indicated by
+the strongly negative µ̂EP . In contrast, to the right of the Hopf bifurcation HB2 ,
+the equilibrium point becomes transversely unstable in two parameter regions (warm
+colors), which are separated by an intermediate band where it is stable (cold colors).
+    These findings differ from those reported in [10] for the Jansen-Rit model, where
+all stable equilibrium points in the homogeneous invariant manifold were found to
+be stable with respect to transverse perturbations.
+    Concerning homogeneous periodic orbits, the parameter regions where they be-
+come transversely unstable show several noteworthy features. In particular, the area
+with positive µ̂P O (colored in red in Figure 5A) displays several distinct lobes char-
+acterized by different magnitudes of µ̂P O . For instance, the large lower-right lobe
+displays smaller values of µ̂P O compared to the large central lobe, which surrounds
+the region where the homogeneous system exhibits chaos. Toward the upper left
+of the oscillatory region, additional lobes appear, alternating in the magnitude of
+µ̂P O . The more elongated lobes tend to correspond to higher values of µ̂P O , whereas
+shorter and rounder lobes generally present lower values. Interestingly, in the upper
+part of the diagram, regions with unstable periodic orbit are consistently surrounded
+by regions with strongly negative µ̂P O .
+    This intrincate structure of transverse bifurcations is significantly different of
+the one reported in [10] for the Jansen-Rit model, where only a single, well-defined
+region with unstable directions was observed.
+    Figure 5B shows the number of unstable directions (positive values in the dis-
+persion relation) within the regions with transverse instabilities. For equilibrium
+points, we observe a high number of unstable directions (up to 89) within the lower
+unstable region, in contrast to the few (less than 10) unstable modes of the upper
+region. For oscillations, the lower lobe exhibits few unstable directions, less than
+10. In contrast, the central lobe surrounding the chaotic region of the homogeneous
+state, shows the highest number of unstable directions, reaching up to 89 in the
+central and lower-right area. As for the upper lobes, the elongated ones display a
+higher number of unstable directions, around 30–60, while the shorter ones seem to
+present less unstable directions.
+    Finally, in Figure 5C, we investigate the mechanisms underlying the shape of
+the regions with transverse instabilities. We highlight (in orange) the regions where
+
+
+                                           14
+Figure 5: Bifurcation diagram of transverse instabilities. (A) Largest growth rate, µ̂, obtained
+from the dispersion relation (5) according to formula in equation (6), with values for equilibrium points
+(µ̂EQ ) and periodic orbits (µ̂P O ) shown using different color gradients. (B) Number of unstable directions
+from the dispersion relation (5). (C) Regions (in orange) where the second eigenmode, Λ2 , destabilizes.
+In all panels, bifurcation curves of homogeneous system are overlaid using the same color code as in
+Figure 1E.
+
+
+       the second eigenmode (α “ 2) becomes unstable. This reveals that, in the region
+       with equilibrium points, the instabilities are driven by modes associated with lower
+       values of Λα . In contrast, within the oscillatory region, the second mode is the first
+       to destabilize over a large portion of the unstable region. For instance, it completely
+       fills the lower lobe, indicating that here the bifurcation curve is determined by the
+       destabilization of the second eigenmode. However, some parts of the bifurcation
+       curve remain uncovered, thus destabilization occurs through lower values of Λα (see
+
+
+                                                     15
+Supplementary Figure S2). Again, this behavior highly contrasts with the findings
+of [10], where transverse instabilities always arose from the destabilization of the
+second eigenmode (α “ 2).
+
+
+5 Heterogeneous spatiotemporal patterns in the
+large-scale brain model
+The analysis in the previous sections identified parameter regions where synchrony
+breaks down, but it did not characterize the dynamics that follow. In this sec-
+tion, we explore the complex spatiotemporal patterns that emerge beyond the loss
+of stability of homogeneous solutions. To this end, we adopt two complementary
+approaches. First, we compute the Lyapunov exponents of system (2) to distin-
+guish chaotic dynamics, particularly high-dimensional chaos, from regular solutions.
+Then, we perform a Fourier spectral analysis to examine the frequency content of
+the emergent patterns. This allows us to better characterize whether the system ex-
+hibits coherent oscillations or broadband chaotic activity. Indeed, the emergence of
+high-dimensional chaos aligns with recent studies that highlight the role of turbulent,
+complex dynamics as an indicator of healthy brain function [19].
+
+5.1    Lyapunov exponents analysis
+When the homogeneous state destabilizes, the system can exhibit a rich variety of
+spatiotemporal patterns. Lyapunov exponents (LE) quantify the growth rates of
+infinitesimal perturbations of a system’s attractor, thus providing a rigorous tool to
+analyze the nature of these states. We compute the largest 90 Lyapunov exponents
+λ1 ď . . . ď λ90 of system (2) using the Julia package ChaosTools (see Appendix
+B for details). By examining the Largest Lyapunov exponent (LLE), λ1 , we can
+characterize the dynamics as chaotic (λ1 ą 0), periodic or quasiperiodic (λ1 “ 0),
+or stationary (λ1 ă 0).
+    In the case of chaotic dynamics, additional exponents provide valuable informa-
+tion regarding the state’s complexity. In particular, we use them to compute the
+Kaplan-Yorke dimension [31, 42], which provides an estimation of the fractal dimen-
+sion of a strange attractor by measuring how much volume in state space is actively
+being stretched and filled out by the dynamics. This measure is computed as,
+                                             řj
+                                                  λi
+                                DKY “ j ` i“1 ,                                    (7)
+                                              |λj`1 |
+where j is the largest integer such that
+                         j
+                         ÿ                        j`1
+                                                  ÿ
+                               λi ě 0      and          λi ă 0.
+                         i“1                      i“1
+
+Note that if λi ă 0 for all i, then DKY “ 0, indicating contraction in all directions
+and convergence of the dynamics to a fixed point.
+    Figure 6A-C displays the first six Lyapunov exponents (out of the 90 computed)
+                                                                                  E
+of system (2) for representative values of the coupling strength ε and varying Iext .
+We observe the onset of oscillatory activity, when the largest Lyapunov exponent
+passes from being negative to being zero, and the onset of chaotic dynamics, when
+
+
+                                           16
+Figure 6: Lyapunov exponents of the large-scale brain model. (A-D) First six largest Lyapunov
+                                          E
+exponents of system (2) as a function of Iext P r0, 16s with discretization step ∆I E “ 0.1 and fixed
+                                                                                   ext
+ε “ 5 (A), ε “ 9 (B), ε “ 12 (C) and ε “ 20 (D). For each parameter combination, the 90 largest
+Lyapunov exponents were computed starting from initial conditions near the homogeneous state with a
+small random perturbation. (E) Kaplan-Yorke dimension of the chaotic attractor, computed according
+to equation (7).
+
+
+      it becomes positive. Notably, for ε “ 5, ε “ 9, and ε “ 12 (Figures 6A-B-C, re-
+      spectively), the onset of chaotic dynamics coincides closely with the emergence of
+      transverse instabilities of periodic orbits studied in Sections 4.2 and 4.3. This can
+      be observed by comparing with a horizontal cut at the corresponding ε in Figure 5.
+      Remarkably, for ε “ 9 (Figure 6B), the largest Lyapunov exponent remains positive
+                         E
+      at high values of Iext , where we have detected transverse instabilities of the equilib-
+      rium points (see Figure 5A). For ε “ 20 (Figure 6D), the LLE remains zero over the
+      majority of the transverse instability region, indicating that the destabilization of
+      the homogeneous state gives rise to heterogeneous periodic dynamics, in this case,
+
+
+
+                                                 17
+a traveling wave.
+    To better identify the features of the chaotic attractor, Figure 6E displays the
+Kaplan-Yorke dimension of the system’s attractor. High dimensional chaotic dy-
+namics arise at ε “ 5, 9, and 12, with attractors with dimension almost 80 in some
+cases. For ε “ 9 and 12, this complexity can be traced back to the high number of
+unstable directions of the homogeneous state (see Figure 5B). Nonetheless, for ε “ 5
+the emergence of high-dimensional dynamics may be less expected, as the under-
+lying homogeneous state contains less than 10 unstable directions (see Figure 5B).
+These results show the ubiquity of high-dimensional chaos emerging from transverse
+instabilities in the parameter space, highlighting thus the dynamical complexity of
+the brain model.
+
+5.2    Frequency analysis
+To further characterize the different heterogeneous oscillatory patterns arising from
+transverse instabilities of both equilibrium points and periodic orbits, we analyze
+the frequency components present in the simulated signals. We selected some repre-
+sentative parameter combinations for which the homogeneous solutions are unstable
+for different eigenvalue characteristics.
+    The signals we analyze are obtained integrating the large-scale brain model (2)
+for 60 seconds from initial conditions near the unstable homogeneous state (we added
+a small random heterogeneous perturbation to the homogeneous solution). For each
+simulation, we compute the frequency spectrum of each node’s signal, namely the
+excitatory membrane potential vE . Figures 7 and 8 show the average of the spectra
+across all nodes, and the corresponding standard deviation. We also depict time
+series of the mean excitatory membrane potential, that is,
+                                              N
+                                           1 ÿ
+                               v̄E ptq “         vE,j ptq.
+                                           N j“1
+
+These simulations show a wide range of behaviors, including heterogeneous periodic
+patterns (Figure 7B, Figure 8B), amplitude modulated periodic patterns (Fig. 8C),
+and chaotic dynamics (Fig 7A and 8A,D). We now discuss all these cases in detail
+and examine whether the peaks observed at prominent frequencies in the spectrum
+can be associated with the unstable directions of the homogeneous solution.
+    Recall that when an equilibrium point destabilizes via a supercritical Hopf bi-
+furcation (a pair of complex eigenvalues crosses the imaginary axis) a limit cycle
+is created whose frequency close to the bifurcation can be approximated by the
+imaginary part of the corresponding eigenvalues according to the formula
+
+                                        Impµq
+                                 fµ “         (kHz).                              (8)
+                                         2π
+Similarly, when a periodic orbit loses stability due to a pair of complex-conjugate
+Floquet exponents crossing the imaginary axis, a torus (Neimark–Sacker) bifurca-
+tion typically occurs under generic conditions [33]. At this bifurcation point, a
+smooth two-dimensional invariant torus emerges from the original periodic orbit.
+The resulting dynamics on it (close to the bifurcation) are quasiperiodic and char-
+acterized by the frequency of the unstable periodic orbit and the one associated to
+the imaginary part of the critical Floquet exponents, as described by the formula
+
+
+                                            18
+above. As system parameters vary further, the invariant torus may break down,
+leading to chaotic dynamics (via the so-called torus breakdown route to chaos [47]).
+    In the case that the Floquet exponents are complex but the corresponding Flo-
+quet multipliers are negative real, a flip (period-doubling) bifurcation occurs: the
+stability of the original orbit is transferred to a new orbit with twice the period. As
+the system undergoes successive bifurcations, increasingly complex dynamics can
+develop, eventually leading to chaotic behavior.
+    For each parameter combination, we consider the unstable homogeneous solution
+and we examine both the number of unstable eigenvalues (those with positive real
+part) and whether these eigenvalues are real or complex. In cases where they are
+complex, we also consider their imaginary parts and compute the frequency accord-
+ing to the formula above. This information provides useful intuition for interpreting
+the frequency spectrum of the resulting spatiotemporal patterns, particularly for
+parameter values close to the bifurcation that yield the destabilization of the homo-
+geneous solution.
+    We consider first the case of homogeneous equilibria (Figure 7). For parameter
+           E
+values pIext , εq “ p16, 8q (Figure 7A), the homogeneous solution exhibits a large
+number of unstable directions (86 eigenvalues with positive real parts, but with
+similar imaginary parts), yielding high-dimensional chaos (see Movie M1). The time
+series of the emerging solution reveals dynamics occurring on at least two different
+timescales: a fast oscillation modulated by a slower, irregular aperiodic envelope
+(Figure 7A, top). Interestingly, the imaginary parts of the destabilizing eigenvalues
+capture the fast frequency component visible in the peaks of the power spectrum
+(gray lines in Figure 7A, bottom), while the presence of significant power at very
+low frequencies reflects the slower modulation.
+                                            E
+    In contrast, for parameter values pIext    , εq “ p14, 30q (Figure 7B), the homoge-
+neous equilibrium has a much smaller number of unstable directions (only six) but,
+as before they are complex with similar imaginary parts. In this case the time series
+exhibits a periodic orbit (Figure 7B top; see also Movie M2) with a single dominant
+fast oscillatory component, as reflected in the power spectrum, whose fundamental
+frequency is well captured by the imaginary parts of the destabilizing eigenvalues
+(Figure 7B, bottom).
+    Next, we explore patterns emerging from the destabilization of a homogeneous
+                                                           E
+periodic orbit (Figure 8). For parameter values pIext        , εq “ p13, 5q (Figure 8A),
+the number of unstable directions of the homogeneous solution is 5 and all the
+destabilizing Floquet exponents are real. Remarkably, despite the low number of
+unstable directions, this configuration leads to a chaotic solution similar to the one
+in Figure 7A (see Movie M3). The power spectrum exhibits broad peaks around the
+fast frequency which, in this case, is well captured by the frequency of the unstable
+homogeneous periodic solution (red vertical line), along with significant power at
+low frequencies (Figure 8A bottom).
+                               E
+    For parameter values pIext    , εq “ p8, 10q the system exhibits a regular periodic
+oscillation (Figure 8B top; see also Movie M4). In this case, the homogeneous
+solution has 85 unstable directions, with complex Floquet exponents corresponding
+to negative real Floquet multipliers. These indicate that the associated eigenvectors
+are flipped by the Poincaré map, a signature of a period-doubling bifurcation. This
+behavior is clearly observed in the frequency spectrum, as the fundamental frequency
+of the solution is approximately half that of the unstable periodic orbit (red vertical
+line in Figure 8B bottom).
+
+
+                                          19
+Figure 7: Frequency spectrum of patterns emerging from homogeneous unstable equilibria.
+                                         E                             E
+For the parameter combinations (A) pIext    , εq “ p16, 8q and (B) pIext , εq “ p14, 30q, top panels display
+time series of the mean excitatory membrane potential v̄E,j ptq computed across nodes for solutions of the
+large-scale brain model (2) starting near the unstable homogeneous equilibrium. Each simulation was
+run for 60 seconds with a time step of 0.01, discarding the first 10 seconds to remove transients. Bottom
+panels display the average frequency spectrum across all nodes (solid curve) with the corresponding
+standard deviation (shaded area). Vertical gray lines correspond to the frequencies obtained from the
+                                    pαq
+imaginary part of the eigenvalues µmax with positive real part. The sampling frequency is fs “ 1 ˆ 105
+samples per second and, yielding a frequency resolution of ∆f “ 0.02 Hz.
+
+
+                                    E
+           For parameter values pIext   , εq “ p12, 13q the system exhibits a regular periodic
+       fast oscillation modulated by a slower rhythm (Figure 8C, top; see also supple-
+       mentary Figure S3). In this case, the homogeneous periodic solution has a small
+       number of unstable directions (only four), all associated with complex Floquet expo-
+       nents having distinct imaginary parts. The corresponding power spectrum (Figure
+       8C, bottom) shows the characteristic signature of an amplitude-modulated signal:
+       sidebands appear on both sides of the carrier (fast) frequency, which lies near the
+       frequency of the unstable limit cycle (on the gamma range). The slow modulation
+       occurs at a frequency in the theta range (4-8 Hz), determined by the imaginary part
+       of the Floquet exponents associated with the unstable directions (grey vertical lines).
+       This behavior represents an intriguing emergent pattern: a type of cross-frequency
+       coupling, known as phase-amplitude coupling, commonly observed in brain record-
+       ings which has been associated to relevant cognitive functions such as memory and
+       information transmission (see the Discussion for more details).
+                                    E
+           For parameter values pIext  , εq “ p12, 12q (Figure 8D), the signal exhibits a power
+       spectrum with a similar structure to that in Figure 8C, but with broader spectral
+       peaks, thus signaling a chaotic behavior, also suggested by the corresponding time
+       series (compare Figures 8C and 8D, and see also supplementary Figure S4). In-
+       terestingly, in the latter case, the unstable periodic orbits presents a considerably
+       higher number unstable directions (71). In both cases (Figures 8C-D), the power is
+       higher at twice the fundamental frequency, which can be explained by a secondary
+
+
+
+                                                    20
+Figure 8: Frequency spectrum of patterns emerging from homogeneous unstable periodic
+                                                                           E                        E
+orbits. Analogous to Figure 7, for the parameter combinations (A) pIext       , εq “ p13, 5q, (B) pIext , εq “
+               E                             E
+p8, 10q, (C) pIext , εq “ p12, 13q and (D) pIext , εq “ p12, 12q, (top) time series of the mean excitatory
+membrane potential v̄E ptq computed across nodes for solutions of the large-scale brain model (2) starting
+near the unstable homogeneous periodic orbit. Each simulation was run for 60 seconds with a time
+step of 0.01, discarding the first 10 seconds to remove transients. Bottom panels display the average
+frequency spectrum across all nodes (solid curve) with the corresponding standard deviation (shaded
+area). The vertical red line corresponds to frequency of the homogeneous unstable periodic orbit, while
+the vertical gray lines correspond to the frequencies obtained from the imaginary part of the complex
+                       pαq
+Floquet exponents µmax with positive real part. The sampling frequency is fs “ 105 samples per second
+and, yielding a frequency resolution of ∆f “ 0.02 Hz.
+
+
+       peak in the temporal voltage trace (see Figures S3C and S4C).
+
+
+       6     Discussion
+       In this work, we have analyzed the emergence of complex spatiotemporal patterns
+       in a large-scale brain model. Our approach extends the analysis performed in [10],
+       which mostly focused in a model with local dynamics described by a Jansen-Rit
+       neural mass model, commonly used to simulate slower neural rhythms. In contrast,
+       here we have considered a next-generation neural mass model with the parameters
+       specifically set to reproduce gamma-band oscillations [44] via the PING mechanism.
+       This choice allows us to focus on the fast excitatory-inhibitory interactions within
+       local circuitry of nodes, and to explore the emergence of slow amplitude modulation
+       of gamma oscillations, which is thought to facilitate flexible communication between
+       distant brain regions [25, 44].
+           The analysis of the model consisted on two parts. First, we have completely
+       characterized different homogeneous solutions and their stability under uniform per-
+       turbations. With the help of AUTO-07P [21], we unveiled a rich bifurcation diagram
+       with regions of bistability, period-doubling bifurcations, and chaotic behavior. This
+       varied dynamical landscape contrasts with that obtained using the Jansen-Rit model
+       in [10], specially on the emergence of chaos within the homogeneous manifold. Then,
+       we rigorously characterized the transverse instabilities of both, homogeneous equi-
+       librium points and periodic orbits, within the large-scale brain model. Interestingly,
+       we found different regions of instabilities emerging from both types of solutions.
+
+
+                                                     21
+This, again, differs from previous work, which displayed a single region of transverse
+instabilities, and only from periodic orbits [10].
+    Additionally, we analyzed the heterogeneous spatiotemporal patterns emerging
+from the destabilization of the homogeneous states in the full system. The computa-
+tion of Lyapunov exponents revealed an ubiquitous emergence of high-dimensional
+chaos, as well as the existence of periodic traveling waves in smaller regions of the
+parameter space.
+    Overall, this work reveals the impact of the modeling choices on the ultimate
+dynamical behavior of the system, showing that next-generation neural mass models
+offer a complex and rich bifurcation landscape. Importantly, the present model is
+intrinsically capable of generating these dynamics without relying on noise [18, 20],
+fixed offset delays [18, 41] or heterogeneities in the nodes [43]. It also establishes
+transverse instabilities as an ubiquitous route for the emergence of spatiotemporal
+dynamics, thus highlighting the importance of such stability analysis for understand-
+ing, controlling, and tuning the behavior of large-scale brain models.
+    Several large-scale brain models developed in recent years have primarily sought
+to reproduce empirical observations by fitting functional connectivity (FC) and
+structural connectivity (SC) data [20, 23]. In such approaches, mathematical anal-
+ysis often plays a secondary role, since the models’ complexity makes it difficult to
+identify the mechanisms driving specific dynamical patterns from simulations alone.
+In contrast, the present work incorporates SC extracted from data but places its
+main emphasis on mathematical analysis, which provides clearer insight into the
+principles underlying the observed dynamics and forms the core contribution of this
+study. The task of fitting the model to empirical FC data is left for future work.
+    Recent studies have also employed large-scale brain models in which the nodes
+are governed by a neural mass model similar to the NG-NMM used here [26, 40,
+10, 23]. In [23], a model with additional gap junctions and synapses is shown to
+reproduce FC patterns observed in MEG and fMRI, although the analysis is limited
+to linear stability of homogeneous equilibria near Hopf bifurcations. In [40], the
+emphasis is on the effects of structural and functional heterogeneities, but without
+a detailed analytical investigation of the underlying dynamics. In [26], the node
+model is reduced to a single excitatory population, and the analysis focuses on
+transitions between low- and high-activity states associated with seizure-like events,
+thereby restricting attention to equilibrium points rather than periodic orbits. In
+contrast, our work extends the analytical treatment to include homogeneous periodic
+orbits and provides a characterization of emergent complex spatiotemporal patterns
+through Lyapunov exponents and frequency spectra. Finally, although [10] mostly
+focuses on classical NMMs, it also briefly reports on transverse instabilities emerging
+from limit-cycles in a model composed of excitation-inhibition pairs of NG-NMMs
+to illustrate the generality of the methods. The present work employs a different
+system for the single node dynamics, which includes synaptic kinetics, and offers a
+much detailed and curated analysis of the stability properties of emerging dynamical
+regimes of the brain model.
+    A particularly relevant class of solutions emerging from transverse instabilities of
+periodic orbits corresponds to nodes showing gamma oscillations whose amplitude
+are systematically modulated by slower theta (4-8Hz) or alpha (8-12Hz) oscillations
+(see Figures 8C and D). This form of rhythmic activity is commonly observed in
+the brain and is a type of cross-frequency coupling known as phase-amplitude cou-
+pling [5]. Specifically, theta–gamma coupling is believed to play a central role in
+
+
+                                          22
+coordinating neural computation and information processing, particularly within
+the hippocampus and neocortex [6, 34, 49, 29]. Remarkably, in our model, this slow
+modulation emerges spontaneously from interactions among nodes that individually
+exhibit only intrinsic gamma-generating dynamics, without the need to introduce
+a separate slower oscillator, as is typically required in other models [50, 9]. These
+findings highlight the crucial role of anatomical connectivity in shaping rhythmic
+brain patterns and motivate further exploration of its mechanistic implications.
+    Most long-range projections in the brain, including corticocortical and thalam-
+ocortical pathways, are mainly excitatory (glutamatergic) and typically innervate
+both excitatory and inhibitory neurons in their target regions. This dual target-
+ing plays a critical role in maintaining excitatory/inhibitory (E/I) balance and in
+shaping overall network activity. In our work, we highlight this connectivity by
+considering that projections from excitatory populations reach both excitatory and
+inhibitory neurons across target areas, whereas the previous work [10] focused only
+on long-range inputs to excitatory populations. Future work on this direction could
+explore the effects of having distinct coupling strengths for the excitatory (εE ) and
+inhibitory (εI ) populations, including the case where the inhibitory population re-
+ceives no long-range projections at all (εI “ 0). Exploring these variations would
+help reveal how different connectivity patterns change the dynamical landscape.
+    Another interesting direction to explore involves modifying the structural con-
+nectivity matrix and examine how the regions of transverse instabilities are affected.
+This could include comparing changes in these regions when using connectomics data
+from healthy subjects and those with psychiatric or neurological conditions.
+    Finally, we remark that we used the same neural mass model to describe the
+dynamics of each brain region. This simplification, commonly used in the field,
+overlooks the intrinsic cellular and dynamical brain heterogeneity. Nonetheless, fun-
+damental understanding of these simpler brain models and their nontrivial dynamics
+is a required step before attempting to analyze the behavior of more sophisticated
+modeling options.
+
+
+Supporting information
+Movie M1: Chaotic dynamics in the large-scale brain model (2) arising from
+the destabilization of an homogeneous equilibrium point. Spatial representation of
+the excitatory mean membrane potential of each node vE,j for j “ 1, . . . , N from
+simulations of the model corresponding to the results in Figure 7A.
+
+Movie M2: Traveling wave in the large-scale brain model (2) arising from the
+destabilization of an homogeneous equilibrium point. Spatial representation of the
+excitatory mean membrane potential of each node vE,j for j “ 1, . . . , N from simu-
+lations of the model corresponding to the results in Figure 7B.
+
+Movie M3: Chaotic dynamics in the large-scale brain model (2) arising from the
+destabilization of an homogeneous periodic orbit. Spatial representation of the exci-
+tatory mean membrane potential of each node vE,j for j “ 1, . . . , N from simulations
+of the model corresponding to the results in Figure 8A.
+
+Movie M4: Traveling wave in the large-scale brain model (2) arising from the
+destabilization of an homogeneous periodic orbit. Spatial representation of the exci-
+
+
+                                         23
+      tatory mean membrane potential of each node vE,j for j “ 1, . . . , N from simulations
+      of the model corresponding to the results in Figure 8B.
+
+
+
+
+Figure S1: Transverse instabilities in the bistable region. Largest growth rate, µ̂, for parameter
+values zoomed around the bistable region. Values for equilibrium points (µ̂EQ ) and periodic orbits
+(µ̂P O ) are shown using different color gradients. The bistable region displays the largest growth rate
+for equilibrium points, µ̂EQ (A), and for periodic orbits, µ̂P O (B). In all panels, black curves delimit
+regions of transverse instabilities, while colored curves denote bifurcations of the homogeneous system,
+following the same color code as in Figure 1E.
+
+
+
+
+Figure S2: Destabilization of eigenmodes. Colored regions indicate parameter values where the
+eigenmode associated with Λ4 (A), Λ6 (B), Λ20 (C), and Λ90 (D) destabilizes. In all panels, black curves
+delimit regions of transverse instabilities, while colored curves denote bifurcations of the homogeneous
+system, following the same color code as in Figure 1E.
+
+
+
+
+                                                   24
+                                                                 E
+Figure S3: Activity at individual network nodes for parameters pIext , εq “ p12, 13q. (A) Time
+series of the excitatory membrane potential at each network node obtained from a simulation of the
+large-scale brain model (2) starting near the unstable homogeneous periodic orbit. Colors indicated the
+magnitude of vE for a time span of 100 ms. For network nodes 41 (top) and 53 (bottom), (B-C) Times
+series of the excitatory membrane potential vE,j for a time span of (B) 1.5 s and (C) and 600 ms, (D)
+Power spectrum of the signal shown in (B) but using a simulation of 50 seconds.
+
+
+      Acknowledgements
+      Work produced with the support of the grants PID2024-155942NB-I00 and PID-
+      2021-122954NB-I00 funded by MCIN/AEI/ 10.13039/501100011033 and “ERDF: A
+      way of making Europe”, the Maria de Maeztu Award for Centers and Units of Ex-
+      cellence in R&D (CEX2020-001084-M). We also acknowledge the use of the UPC Dy-
+      namical Systems group’s cluster for research computing https://dynamicalsystems.
+      upc.edu/en/computing/.
+
+
+
+
+                                                  25
+                                                      E
+Figure S4: Activity at individual network nodes for pIext , εq “ p12, 12q. (A) Times series of
+the excitatory membrane potential at each network node obtained from a simulation of the large-scale
+brain model (2) starting near the unstable homogeneous periodic orbit. Colors indicated the magnitude
+of vE for a time span of 100 ms. For network nodes 29 (top) and 34 (bottom), (B-C) Times series of
+the excitatory membrane potential vE,j for a time span of (B) 1.5 s and (C) and 600 ms, (D) Power
+spectrum of the signal shown in (B) but using a simulation of 50 seconds.
+
+
+      Appendix
+      A      Linear stability analysis
+                          p0q           p0q
+      Consider y p0q “ py0 , . . . , y5 qT a solution of the homogeneous system (4) (either
+      an equilibrium point or a periodic orbit) and
+                                              p0q        p0q        p0q         p0q   T
+                                y p0q “ pyloooooomoooooon
+                                           0 , . . . , y5 , . . . , y 0 , . . . , y5 q ,
+                                                                    loooooomoooooon            (9)
+                                                Node 1                Node N
+
+      a homogeneous solution of the network model (2). Consider an arbitrary small
+      perturbation of y p0q ,
+                                                                                         T
+                          δy “ pδy 0,1 , . . . , δy5,1 , . . . , δy
+                                loooooooomoooooooon                 0,N , . . . , δy5,N q ,
+                                                                 looooooooomooooooooon        (10)
+                                              Node 1                   Node N
+
+
+                                                          26
+where each component δyk,j represents the perturbation acting on the k-th variable
+of the j-th node. Then, the linear evolution of the perturbation is given by
+                                d
+                                   δyptq “ J py p0q qδyptq,                            (11)
+                                dt
+where J is the full 6N ˆ 6N Jacobian matrix of the network system (2) evaluated at
+y p0q . The Jacobian matrix of the network can be decomposed in a term containing
+the Jacobian of the uncoupled system for each node and a coupling term as follows
+
+                          J py p0q q “ IN b Jpy p0q q ` εW̃ b K,                       (12)
+
+where b represents the Kronecker product, J is the 6 ˆ 6 Jacobian matrix of system
+(4) with ε “ 0, K “ pkij q is a 6 ˆ 6 matrix whose entries are given by
+                                 $
+                                 & 1 if i P t2, 5u, j “ 3
+                           kij “                                               (13)
+                                     0      otherwise,
+                                 %
+
+IN is the N ˆ N identity matrix, and W̃ is the normalized structural connectivity
+matrix.
+    In order to simplify the analysis, we follow a well-established method which
+decouples equation (11) into N first-order variational equations (each of dimension
+6), one for each eigenmode of the normalized connectivity matrix W̃ . To apply
+the method, the perturbation vector δy is expressed in the eigenbasis of W̃ . Let
+          pαq           pαq
+Φpαq “ pϕ1 , . . . , ϕN qT be a normalized eigenvector with associated eigenvalue Λα
+for α “ 1, . . . , N , then the set of eigenvectors
+                                    `                               ˘
+                               P “ Φp1q | . . . |Φpjq | . . . |ΦpN q ,
+
+constitute a basis of the vector space RN , and we have W̃ P “ P D with D “
+                                            pαq          pαq
+diagpΛ1 , . . . , ΛN q. Let upαq ptq “ pu0 ptq, . . . , u5 ptqqT for α “ 1, . . . , N be the
+coordinates of δyptq in this new basis. Then the perturbation of variable k at node
+j writes as
+                                               ÿN
+                                                   pαq     pαq
+                                  δyk,j ptq “     uk ptqϕj ,
+                                           α“1
+
+and the global perturbation vector for all the network becomes
+                                         N
+                                         ÿ
+                               δyptq “         Φpαq b upαq ptq.                        (14)
+                                         α“1
+
+Expressing system (11) in this basis yields the following N variational equations
+[10],
+                d pαq
+                  u ptq “ J py p0q , Λα q upαq ptq, for α “ 1, . . . , N,    (15)
+               dt
+where
+
+                            J py p0q , Λα q :“ Jpy p0q q ` εΛα K,
+
+is a family of 6ˆ6 Jacobians that depend on the homogeneous state of the system y p0q
+and on the eigenvalues of the structural connectivity matrix Λα . If we consider y p0q
+
+
+                                               27
+to be a fixed point, then we can analyze the stability of the homogeneous solution
+by studying the eigenvalues of the Jacobian J . If we consider y p0q “ y p0q ptq to be a
+periodic solution, then J is a periodic matrix and Floquet theory applies.
+     Our procedure consists of computing the largest real part of the eigenvalues of
+J (for equilibrium points) or Floquet exponent (for periodic orbits) for each α “
+                               pαq
+1, . . . , N , that we denote µmax thus obtaining a dispersion relation that characterizes
+                                                                                   pαq
+the stability of each mode. Therefore we obtain the largest growth rate µmax of
+                                                     pαq
+a perturbation acting along each eigenmode Φ             as a function of its associated
+eigenvalue Λα (Eq. 5 in the main text). For the case of periodic orbits, this relation
+is known as Master Stability Function (MSF) [39].
+
+A.1     Numerical computation of the MSF for periodic orbits
+In the case of periodic orbits we compute the MSF as follows: First, we compute
+an initial condition lying on a periodic orbit y0 ptq, as well as its period T . The
+variational equations (15), consist of a 6-dimensional system of linear periodic dif-
+ferential equations. Thus, we compute a fundamental matrix by solving the initial
+value problem
+                    d
+                       Uα ptq “ J py0 ptq, Λα q Uα ptq,   Uα p0q “ I6ˆ6 ,
+                    dt
+associated to each eigenvalue Λα , for α “ 1, . . . , N . Then, we compute the 6 eigen-
+                                                                               pαq
+values of the monodromy matrix Uα pT q, obtaining the Floquet multipliers tσi u6i“1 ,
+and take the largest real part of the corresponding Floquet exponents as
+                                           " ˆ                 ˙*
+                                                 1         pαq
+                        µpαq
+                          max “   max       Re       log σ i      ,
+                                 i“1,...,6      T
+where log is the complex logarithm. Repeating this procedure for every α “
+1, . . . , N , provides us with the Master Stability Function (5), each α capturing the
+largest growth rate along each eigenmode.
+
+
+B     Numerical methods
+Equations for the homogeneous system (4) were integrated numerically in Python [24]
+using the Runge-Kutta method of order 4–5 (RK45), while the equations of the large-
+scale brain model (2) were integrated numerically in Julia [2], which offers improved
+computational performance, using the Runge-Kutta method of order 4 (RK4) with
+an absolute tolerance ranging between order 10´8 and 10´9 . All the simulations of
+the large-scale brain model have been run for 50 seconds after discarding an initial
+transient time of 10 seconds. The initial conditions have been set by selecting an ho-
+mogeneous state and adding an independent random perturbation to each variable
+normally distributed with 0 mean and 0.01 standard deviation.
+    Bifurcation diagrams of the homogeneous system (4) were obtained using the
+bifurcation analysis software AUTO-07p [21].
+    Lyapunov exponents were computed using the Julia package ChaosTools [15, 16].
+Simulations for Lyapunov exponents of the full network consisted of 4 seconds of
+computation after discarding a 1 second transient, with a time step of dt “ 0.1
+ms. Time windows between consecutive QR-decomposition calls were set to 10
+
+
+                                             28
+ms. Lyapunov exponents were considered zero if their absolute value fell below the
+tolerance 10´3 .
+    All codes used in this work have been released and are publicly available at
+https://github.com/RosaDelic/LargeScaleBrainModelAnalysis.git.
+
+
+References
+ [1] M. Bartos, I. Vida, and P. Jonas. Synaptic mechanisms of synchronized gamma
+     oscillations in inhibitory interneuron networks. Nature Reviews Neuroscience,
+     8(1):45–56, 2007.
+ [2] J. Bezanson, A. Edelman, S. Karpinski, and V. B. Shah. Julia: A fresh approach
+     to numerical computing. SIAM review, 59(1):65–98, 2017.
+ [3] C. Bick, M. Goodfellow, C. R. Laing, and E. A. Martens. Understanding the
+     dynamics of biological and neural oscillator networks through exact mean-field
+     reductions: A review. The Journal of Mathematical Neuroscience, 10(1):9,
+     2020.
+ [4] C. Börgers, S. Epstein, and N. J. Kopell. Gamma oscillations mediate stimulus
+     competition and attentional selection in a cortical network model. Proceedings
+     of the National Academy of Sciences, 105(46):18023–18028, 2008.
+ [5] G. Buzsáki. Rhythms of the Brain. Oxford university press, 2006.
+ [6] G. Buzsáki. The hippocampo-neocortical dialogue. Cerebral Cortex, 6(2):81–92,
+     1996.
+ [7] G. Buzsáki and X.-J. Wang. Mechanisms of gamma oscillations. Annual Review
+     of Neuroscience, 35(1):203–225, 2012.
+ [8] J. Cabral, H. M. Fernandes, T. J. Van Hartevelt, A. C. James, M. L. Kringel-
+     bach, and G. Deco. Structural connectivity in schizophrenia and its impact on
+     the dynamics of spontaneous functional networks. Chaos: An Interdisciplinary
+     Journal of Nonlinear Science, 23(4), 2013.
+ [9] A. Ceni, S. Olmi, A. Torcini, and D. Angulo-Garcia. Cross frequency coupling
+     in next generation inhibitory neural mass models. Chaos: An Interdisciplinary
+     Journal of Nonlinear Science, 30(5):053121, 2020.
+[10] P. Clusella, G. Deco, M. L. Kringelbach, G. Ruffini, and J. Garcia-Ojalvo. Com-
+     plex spatiotemporal oscillations emerge from transverse instabilities in large-
+     scale brain networks. PLOS Computational Biology, 19(4):e1010781, 2023.
+[11] P. Clusella, E. Köksal-Ersöz, J. Garcia-Ojalvo, and G. Ruffini. Comparison
+     between an exact and a heuristic neural mass model with second-order synapses.
+     Biological Cybernetics, 2022.
+[12] P. Clusella and E. Montbrió. Exact low-dimensional description for fast neural
+     oscillations with low firing rates. Physical Review E, 109(1):014229, 2024.
+[13] S. Coombes. Next generation neural population models. Frontiers in Applied
+     Mathematics and Statistics, 9, 2023.
+[14] S. Coombes and A. Byrne. Next generation neural mass models. Springer,
+     pages 1–16, 2019.
+[15] G. Datseris. Dynamicalsystems. jl: A julia software library for chaos and non-
+     linear dynamics. Journal of Open Source Software, 3(23):598, 2018.
+
+
+                                        29
+[16] G. Datseris, E. Fosong, Y. Liu, A. Braun, A. Wagemakers, K. L. Rossi,
+     A. Singhvi, A. Hill, J. Isensee, I. Kottlarz, T. Arakaki, A. S. Rao, A. Rusu,
+     J. TagBot, and spaette. Chaostools, 2023.
+[17] G. Deco, J. Cabral, M. W. Woolrich, A. B. Stevner, T. J. Van Hartevelt, and
+     M. L. Kringelbach. Single or multiple frequency generators in on-going brain
+     activity: A mechanistic whole-brain model of empirical meg data. NeuroImage,
+     152:538–550, 2017.
+[18] G. Deco, V. Jirsa, A. R. McIntosh, O. Sporns, and R. Kötter. Key role of
+     coupling, delay, and noise in resting brain fluctuations. Proceedings of the
+     National Academy of Sciences, 106(25):10302–10307, 2009.
+[19] G. Deco and M. L. Kringelbach. Turbulent-like Dynamics in the Human Brain.
+     Cell Reports, 33(10):108471, 2020.
+[20] G. Deco, M. L. Kringelbach, V. K. Jirsa, and P. Ritter. The dynamics of
+     resting fluctuations in the brain: metastability and its dynamical cortical core.
+     Scientific Reports, 7(1), 2017.
+[21] E. J. Doedel, A. R. Champneys, F. Dercole, T. F. Fairgrieve, Y. A. Kuznetsov,
+     B. Oldeman, R. Paffenroth, B. Sandstede, X. Wang, and C. Zhang. Auto-07p:
+     Continuation and bifurcation software for ordinary differential equations. 2007.
+[22] G. Dumont and B. Gutkin. Macroscopic phase resetting-curves determine os-
+     cillatory coherence and signal transfer in inter-coupled neural circuits. PLoS
+     computational biology, 15(5):e1007019, 2019.
+[23] M. Forrester, S. Petros, O. Cattell, Y. M. Lai, R. D. O’Dea, S. Sotiropoulos, and
+     S. Coombes. Whole brain functional connectivity: Insights from next generation
+     neural mass modelling incorporating electrical synapses. PLOS Computational
+     Biology, 20(12):e1012647, 2024.
+[24] P. S. Foundation. Python language reference, version 3.11. https://www.
+     python.org/, 2023.
+[25] P. Fries. Rhythms for cognition: Communication through coherence. Neuron,
+     88(1):220–235, 2015.
+[26] M. Gerster, H. Taher, A. Škoch, J. Hlinka, M. Guye, F. Bartolomei, V. Jirsa,
+     A. Zakharova, and S. Olmi. Patient-specific network connectivity combined
+     with a next generation neural mass model to test clinical hypothesis of seizure
+     propagation. Frontiers in Systems Neuroscience, 15, 2021.
+[27] M. Halgren, I. Ulbert, H. Bastuji, D. Fabó, L. Erőss, M. Rey, O. Devinsky,
+     W. K. Doyle, R. Mak-McCully, E. Halgren, L. Wittner, P. Chauvel, G. Heit,
+     E. Eskandar, A. Mandell, and S. S. Cash. The generation and propagation of
+     the human alpha rhythm. Proceedings of the National Academy of Sciences,
+     116(47):23772–23782, 2019.
+[28] J. Hlinka and S. Coombes. Using computational models to relate struc-
+     tural and functional brain connectivity. European Journal of Neuroscience,
+     36(2):2137–2145, 2012.
+[29] J. Jackson and F. K. Skinner. Hippocampus, Theta, Gamma, and Cross-
+     Frequency Coupling, page 1–11. Springer New York, 2018.
+[30] B. H. Jansen and V. G. Rit. Electroencephalogram and visual evoked potential
+     generation in a mathematical model of coupled cortical columns. Biological
+     Cybernetics, 73(4):357–366, 1995.
+
+
+                                         30
+[31] J. L. Kaplan and J. A. Yorke. Chaotic behavior of multidimensional difference
+     equations. In H.-O. Peitgen and H.-O. Walther, editors, Functional Differ-
+     ential Equations and Approximation of Fixed Points, pages 204–227, Berlin,
+     Heidelberg, 1979. Springer Berlin Heidelberg.
+[32] T. Kunze, A. Hunold, J. Haueisen, V. Jirsa, and A. Spiegler. Transcranial direct
+     current stimulation changes resting state functional connectivity: A large-scale
+     brain network modeling study. NeuroImage, 140:174–187, 2016.
+[33] Y. A. Kuznetsov. Elements of Applied Bifurcation Theory. Springer Interna-
+     tional Publishing, 2023.
+[34] J. E. Lisman and O. Jensen.        The theta-gamma neural code.        Neuron,
+     77(6):1002–1016, 2013.
+[35] E. Montbrió, D. Pazó, and A. Roxin. Macroscopic description for networks of
+     spiking neurons. Physical Review X, 5(2):021028, 2015.
+[36] L. Muller, F. Chavane, J. Reynolds, and T. J. Sejnowski. Cortical travel-
+     ling waves: mechanisms and computational principles. Nature Reviews Neuro-
+     science, 19(5):255–268, 2018.
+[37] H. Nakao and A. S. Mikhailov. Turing patterns in network-organized activa-
+     tor–inhibitor systems. Nature Physics, 6(7):544–550, 2010.
+[38] S. Olmi, S. Petkoski, M. Guye, F. Bartolomei, and V. Jirsa. Controlling
+     seizure propagation in large-scale brain networks. PLOS Computational Bi-
+     ology, 15(2):e1006805, 2019.
+[39] L. M. Pecora and T. L. Carroll. Master Stability Functions for Synchronized
+     Coupled Systems. Physical Review Letters, 80(10):2109–2112, 1998. Publisher:
+     American Physical Society.
+[40] Y. S. Perl, G. Zamora-Lopez, E. Montbrió, M. Monge-Asensio, J. Vohryzek,
+     S. Fittipaldi, C. G. Campo, S. Moguilner, A. Ibañez, E. Tagliazucchi, B. T. T.
+     Yeo, M. L. Kringelbach, and G. Deco. The impact of regional heterogeneity
+     in whole-brain dynamics in the presence of oscillations. Network Neuroscience,
+     7(2):632–660, 2023.
+[41] S. Petkoski and V. K. Jirsa. Transmission time delays organize the brain net-
+     work synchronization. Philosophical Transactions of the Royal Society A: Math-
+     ematical, Physical and Engineering Sciences, 377(2153):20180132, 2019.
+[42] A. Pikovsky and A. Politi. Lyapunov exponents: a tool to explore complex
+     dynamics. Cambridge University Press, 2016.
+[43] A. Ponce-Alvarez, G. Deco, P. Hagmann, G. L. Romani, D. Mantini, and
+     M. Corbetta. Resting-state temporal synchronization networks emerge from
+     connectivity topology and heterogeneity.   PLOS Computational Biology,
+     11(2):e1004100, 2015.
+[44] D. Reyner-Parra and G. Huguet. Phase-locking patterns underlying effective
+     communication in exact firing rate models of neural networks. PLoS computa-
+     tional biology, 18(5):e1009342, 2022.
+[45] M. P. Richardson. Large scale brain models of epilepsy: dynamics meets connec-
+     tomics. Journal of Neurology, Neurosurgery & Psychiatry, 83(12):1238–1248,
+     2012.
+
+
+                                         31
+[46] J. A. Roberts, L. L. Gollo, R. G. Abeysuriya, G. Roberts, P. B. Mitchell, M. W.
+     Woolrich, and M. Breakspear. Metastable brain waves. Nature Communica-
+     tions, 10(1):1056, 2019.
+[47] D. Ruelle and F. Takens. On the nature of turbulence. Communications in
+     Mathematical Physics, 20(3):167–192, 1971.
+[48] V. M. Saenger, J. Kahan, T. Foltynie, K. Friston, T. Z. Aziz, A. L. Green, T. J.
+     van Hartevelt, J. Cabral, A. B. Stevner, H. M. Fernandes, et al. Uncovering the
+     underlying mechanisms and whole-brain dynamics of deep brain stimulation for
+     parkinson’s disease. Scientific reports, 7(1):9882, 2017.
+[49] R. Scheffer-Teixeira and A. B. L. Tort. Theta-Gamma Cross-Frequency Analy-
+     ses (Hippocampus), page 1–15. Springer New York, 2018.
+[50] M. Segneri, H. Bi, S. Olmi, and A. Torcini. Theta-nested gamma oscillations in
+     next generation neural mass models. Frontiers in Computational Neuroscience,
+     14, 2020.
+[51] L. Stefanovski, P. Triebkorn, A. Spiegler, M.-A. Diaz-Cortes, A. Solodkin,
+     V. Jirsa, A. R. McIntosh, P. Ritter, and for the Alzheimer’s Disease Neuroimag-
+     ing Initiative. Linking Molecular Pathways and Large-Scale Computational
+     Modeling to Assess Candidate Disease Mechanisms and Pharmacodynamics in
+     Alzheimer’s Disease. Frontiers in Computational Neuroscience, 13:54, 2019.
+[52] S. H. Strogatz. Nonlinear dynamics and chaos: with applications to physics,
+     biology, chemistry, and engineering. Chapman and Hall/CRC, 2024.
+[53] H. Taher, A. Torcini, and S. Olmi. Exact neural mass model for synaptic-based
+     working memory. PLOS Computational Biology, 16(12):e1008533, 2020.
+[54] F. Wendling, P. Benquet, F. Bartolomei, and V. Jirsa. Computational models
+     of epileptiform activity. Journal of Neuroscience Methods, 260:233–251, 2016.
+[55] M. Whittington, R. Traub, N. Kopell, B. Ermentrout, and E. Buhl. Inhibition-
+     based rhythms: experimental and mathematical observations on network dy-
+     namics. International Journal of Psychophysiology, 38(3):315–336, 2000.
+[56] M. A. Whittington, R. D. Traub, and J. G. R. Jefferys. Synchronized os-
+     cillations in interneuron networks driven by metabotropic glutamate receptor
+     activation. Nature, 373(6515):612–615, 1995.
+[57] J. Wilkinson. The Algebraic Eigenvalue Problem. Monographs on numerical
+     analysis. Clarendon Press, 1967.
+[58] H. R. Wilson and J. D. Cowan. Excitatory and Inhibitory Interactions in
+     Localized Populations of Model Neurons. Biophysical Journal, 12(1):1–24, 1972.
+[59] H. Zhang, A. J. Watrous, A. Patel, and J. Jacobs. Theta and alpha oscillations
+     are traveling waves in the human neocortex. Neuron, 98(6):1269–1281.e4, 2018.
+
+
+
+
+                                         32
+

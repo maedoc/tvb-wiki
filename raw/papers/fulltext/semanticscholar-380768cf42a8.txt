@@ -1,0 +1,783 @@
+                                                                         Renauld E, Boré A, Poirier C, et al. Tractography analysis with the scilpy toolbox.
+                                                                         Aperture Neuro. 2026;6. doi:10.52294/001c.154022
+
+
+
+
+Articles Describing Code
+
+Tractography analysis with the scilpy toolbox
+                                    a
+Emmanuelle Renauld, MSc1 , Arnaud Boré, MSc1 , Charles Poirier, MSc1 , Alex Valcourt-Caron, MSc1 ,
+Philippe Karan, MSc1 , Antoine Théberge, MSc1 , Guillaume Théaud, Ph.D2 , Manon Edde, Ph.D1 ,
+Philippe Poulin, Ph.D1 , Gabriel Girard, Ph.D1 , Jean-Christophe Houde, MSc3 , Anthony Gagnon, MSc1,4 ,
+Etienne St-Onge, Ph.D5 , Graham Little, Ph.D1 , Jon Haitz Legarreta, Ph.D6,7 , Stanislas Thoumyre, MSc1,8,
+Gabrielle Grenier, MSc1, Zineb El Yamani1 , Mario Ocampo Pineda, Ph.D9 , Matteo Battocchio, Ph.D1,10 ,
+Vincent Beaudoin1, Alexandre Joanisse1, Laurent Petit, Ph.D11,12 , François Rheault, Ph.D1,12 ‡,
+Maxime Descoteaux, Ph.D1,3,12 ‡
+1 Computer Sciences Department, Université de Sherbrooke, 2 Neuroscience Research Axis, University of Montreal Hospital Research Center
+
+(CRCHUM), 3 Imeka Solutions Inc., Sherbrooke, Canada, 4 Pediatric Department, Université de Sherbrooke, 5 Computer Science and Engineering
+Department, Université du Québec en Outaouais, 6 Department of Radiology, Brigham and Women's Hospital, 7 Harvard Medical School,
+8 Neurodegeneratives Diseases Institute, UMR 5293, Team 5 - CEA - CNRS, Université de Bordeaux, 9 Department of Biomedical Engineering,
+
+University of Basel, 10 Department of Computer Science, University of Verona, 11 CNRS, CEA, IMN, GIN, UMR 5293, Université de Bordeaux, 12 IRP
+OpTeam, CNRS Biologie, France and Université de Sherbrooke, Canada
+Keywords: image processing, DWI, dMRI, DTI, fODF, tractography, connectivity, medical imaging, collaboration, open source
+https://doi.org/10.52294/001c.154022
+
+
+
+Aperture Neuro
+Vol. 6, 2026
+
+
+                   We present scilpy, an open-source Python library for diffusion magnetic resonance
+                   imaging (dMRI) and tractography. It provides a large collection of well-documented,
+                   user-friendly scripts that support nearly every stage of the dMRI processing pipeline,
+                   from preprocessing (such as denoising, registration, and local fiber reconstruction) to
+                   tractography and post-processing of tractograms, including connectivity and bundle
+                   analyses. Scilpy leverages the strength of DIPY, is well-tested through modern continuous
+                   integration practices, and is actively maintained.
+
+
+INTRODUCTION                                                               microstructural properties in a chosen population4; analy-
+                                                                           sis of tractogram-related metrics (tractometry, profilome-
+We present scilpy, an open-source Python library for diffu-                try), which focuses on how selected metrics evolve along
+sion magnetic resonance imaging (dMRI) and tractography                    different sections of a bundle or the whole-bundle5; and
+processing.                                                                connectomics, which examines the strength of structural
+   DMRI allows analyzing water diffusion in biological tis-                connections between regions of interest (ROIs).6 The evolv-
+sues, offering valuable insight into their underlying mi-                  ing landscape of analysis methods requires scientific devel-
+crostructure. This information can be used to infer complex                opers to reimplement and provide continuous support to
+features, from local, voxel-wise properties to large-scale                 enable new discoveries (see Supplementary Table A1 for de-
+connectivity patterns, such as the organization of fibers in               finitions of technical terms relevant to this work). In ad-
+the brain white matter (WM). The earliest uses of dMRI in-                 dition to the usual, well documented initial preprocessing
+cluded basic tractography through diffusion tensor imag-                   steps, including denoising, registration, segmentation, or
+ing (DTI)1 and the reconstruction of apparent diffusion co-                reconstruction of local anisotropy information, new analy-
+efficient (ADC) and fractional anisotropy (FA) maps.1 In                   sis techniques include performing task-specific tractogra-
+recent years, the neuroimaging community has developed                     phy, filtering out outlier streamlines, segmenting bundles,
+advanced local reconstruction methods and tractography                     preparing connectivity matrices, computing bundle char-
+algorithms,2,3 along with powerful tools for analyzing the                 acteristics or underlying dMRI metrics, and more. Here,
+resulting tractograms, which consist of sets of hundreds of                we present scilpy, a Python library designed to facilitate
+thousands or even millions of streamlines. These include,                  a wide range of processing steps, with a particular focus
+among others, methods for bundle characterization, which                   on post-tractography analysis. Scripts are well documented
+involves analyzing the shape of a bundle or its underlying                 and user friendly: most options have suggested default val-
+                                                                           ues based on expert knowledge to help even newcomers use
+
+
+
+
+   ‡ Joint last authors
+   a Corresponding Author:
+     Emmanuelle Renauld
+     emmanuelle.renauld@usherbrooke.ca
+                                             Tractography analysis with the scilpy toolbox
+
+
+
+the scripts and obtain good results. Scilpy is updated reg-          SECTION 2: RELEVANCE OF SCILPY FOR THE
+ularly, allowing it to respond effectively to the new meth-
+                                                                     COMPUTATIONAL NEUROIMAGING COMMUNITY
+ods that are constantly being introduced in the compu-
+tational neuroimaging domain, and allowing researchers
+                                                                     Scilpy offers to the neuroimaging community a library with
+to follow the most recent trends in analysis. It does not
+                                                                     tools covering nearly all preprocessing or postprocessing
+aim to replace existing libraries but rather to complement
+                                                                     steps in dMRI, from local modelling to bundle analysis.
+them. It finds its place alongside other well-known libraries
+                                                                     Users may wonder when to choose scilpy over other li-
+and applications in dMRI (DIPY,7 MRtrix3,8 Tortoise,9 DSI
+                                                                     braries. Scilpy does not aim to replace other available tools,
+Studio,10 Phybers11) and more broadly in MRI, including
+                                                                     but rather to complement them. A general overview of our
+FreeSurfer,12 AFNI,13 FSL,14 ANTs15 (see Table 1). Scilpy
+                                                                     scripts and how they compare with other libraries in the
+supports many data formats (e.g., nifti, trk, tck), which
+                                                                     dMRI field is presented in Table 1.
+makes it easy to use in conjunction with other software.
+                                                                        The first necessary distinction is between scilpy and
+   A general overview of scilpy is presented in section 1.
+                                                                     DIPY.7 Scilpy serves as a platform for rapid development,
+The strength and possibilities from its numerous scripts are
+                                                                     offering access to new tools and enhancements that may
+presented in section 2. In section 3, we showcase pipelines
+                                                                     not yet be integrated into DIPY.
+resolving several dMRI tasks of interest through a series of
+                                                                        Throughout the years, many tools were developed in
+scilpy scripts. Section 4 details the organization and rigor-
+                                                                     scilpy before being mature enough to be moved into DIPY
+ous testing implemented in scilpy. Section 5 illustrates how
+                                                                     (e.g., the full spherical harmonics [SH] basis, the asymmet-
+scilpy can be used in many research collaborations. Finally,
+                                                                     ric peak direction, the Bingham model, the Stateful Trac-
+the value of scilpy for educational purposes is highlighted
+                                                                     togram, the option to save seeds in .trk files, and so on). To
+in section 6 and future perspectives are discussed in section
+                                                                     compare the current state of both libraries, we can discuss
+7.
+                                                                     scripts and Python functions. Regarding scripts, DIPY offers
+                                                                     workflows accessible in command-line interface (CLI), sim-
+SECTION 1: THE SCILPY LIBRARY                                        ilar to our scripts. In particular, they offer options for local
+                                                                     reconstruction methods and the tractography algorithm. In
+Scilpy has evolved from a private in-house repository into a         those cases, our scripts allow access to the same core func-
+renowned, robust, and publicly available library. It was cre-        tions, sometimes with added detailed documentation. But
+ated in 2012 as an internal collection of scripts of the Sher-       we also have other scripts that we created to answer needs
+brooke Connectivity Imaging Lab (SCIL). It was initially             in the community (see section 5), and we offer many post-
+hosted on Bitbucket, then transferred to a public GitHub             tractography analysis scripts. Some scripts are 100% orig-
+repository (https://github.com/scilus/scilpy) in February            inal, others rely more heavily on DIPY, but even in those
+2018, and the Bitbucket version was archived. It is sup-             cases, we complement DIPY by offering management of
+ported by a team of over 30 contributors and developers,             default values, management of data loading and saving,
+many of whom are students and collaborators of the SCIL,             verifications of input requirements (e.g., header compati-
+in Sherbrooke, Canada. Scilpy works on both Linux and ma-            bility across files), and often management of computer re-
+cOS and can be installed through PyPI. Scilpy is coded in            sources to allow multi-processing. In Supplementary Table
+Python, an easy-to-read, open-source programming lan-                A2, we list the DIPY functions accessed in our scripts. Re-
+guage. Some functions requiring faster processing are                garding functions, both scilpy and DIPY are mainly Python
+coded in Cython.                                                     libraries, and we ensure that our libraries are compatible.
+   Scilpy aims to be easy to use, and thus both the scripts          For instance, scilpy uses DIPY’s data object structures (e.g.,
+and the Python functions are well documented, and all de-            Stateful Tractograms).
+scriptions can be found online through the automatically                The second important comparison is between scilpy and
+generated API documentation (https://scilpy.readthe-                 other libraries. In Table 1, we describe the strengths and
+docs.io). The website also provides a list of tutorials and ex-      limitations of scilpy for each category of scripts. In general,
+amples of typical sequences in the use of the scripts. Scripts       scilpy particularly excels in tractogram and bundle oper-
+are prepared to offer a single task per script, making it easy       ations. We only offer a few options for dMRI volume de-
+to separate the scripts into categories (see Table 1), giving        noising, segmentation and registration, but other libraries
+a clear overview of the possibilities. Scilpy provides a de-         already offer many strong tools (e.g., FSL,14 ANTs15 and
+tailed explanation of required and optional arguments in all         others). Similarly, we offer a few visualization scripts but
+scripts. Default, well-tested values that work for a large set       no real complex interactive visualization tools. Other li-
+of healthy human adult brain analyses are provided. These            braries already offer good options (e.g., MI-Brain, MRtrix’s
+values have been modified to analyse other populations,              mrview8 or FSL’s fslview14). MRtrix8 should be mentioned
+such as pediatric16 or Alzheimer’s17 cohorts, but the scripts        in particular as a similar library to scilpy. It also offers local
+provide only limited support for animal brains. Users can            reconstruction, tractography, and connectomics analysis,
+access any script’s documentation via its “–help” option in          but it currently does not support tractometry or profilom-
+the command line. Additionally, the script scil_search_key-          etry analyses. It does, however, provide options for fixel
+words helps look for keywords throughout all scripts. As for         analysis. We cannot provide a thorough efficiency com-
+the Python functions, their docstrings include a summary,            parison (computer resource requirements, processing time,
+expected input parameters, and a list of outputs.                    quality of the results) because this would require testing
+
+
+
+                                                            Aperture Neuro                                                           2
+                                                                                                                             Tractography analysis with the scilpy toolbox
+
+
+
+Table 1. Description of the wide range of scripts available in the scilpy library. Scripts in scilpy are separated into categories, showing the possibilities offered by the library. Note that all
+scilpy’s scripts follow the scil_{category}_{description} pattern (for instance, scil_tracking_local), for a quick understanding of the goal of the script. This also allows a smooth browsing
+experience of scripts: in a terminal, entering scil_{category}_ (for instance, scil_tracking_) and hitting tab twice lists all scripts available in that category. N: Number of scripts in version
+2.2.1.
+
+       Category               Category            N                                                                   Explanation                                                                                                Comparison to other libraries and toolsa
+                               prefix
+        Volume                 volume             14         Simple operations on volumes (resampling, flipping axes, cropping, mathematical operations, etc.) and operations on                    Basic operations that can also be done by other libraries such as AFNI, (e.g., 3dcalc), MRtrix3
+    utilities (3D or            labels             6         labels (dilation, erosion, label selection, etc).                                                                                      (e.g., mrcalc), FSL (e.g., fslmath), including registration or segmentation offered by ANTs,
+           4D)                                                                                                                                                                                      FreeSurfer, AFNI, MRtrix3, DIPY, etc.
+    dMRI utilities               dwi              13         Simple operations on diffusion-weighted imaging (DWI) data accompanied by its b-values and b-vectors files, such as                    Some of these operations can also be done by dMRI libraries, particularly MRtrix3, and by
+                              gradients            9         shell extraction, outlier detection, etc. Management of b-values and b-vectors.                                                        other libraries to a lesser extent (AFNI, FSL, Tortoise, DIPY, or Freesurfer).
+       denoising              denoising           1          Access to DIPY’s NL-means denoising.                                                                                                   Other libraries already offer complete options.
+      dMRI local                 dti              32         Local reconstruction methods for microstructural properties and orientational information, using tensors, fODF and                     For single-shell or multi-shell CSD, MRtrix3 and scilpy offer similar options. MRtrix3 provides
+    reconstruction             fodf frf                      asymmetric fODF, b-tensors, freewater, NODDI, qball, and more.                                                                         more flexibility for fiber response function estimation. Scilpy stands out for its wider array of
+       methods                and more                                                                                                                                                              local diffusion methods like DKI, MEMS-MT (for multi-encoding, multi-shell, and multi-tissue),
+                                                                                                                                                                                                    freewater, and NODDI, thanks to its interface with DIPY.
+     Tractography             tracking            5          Local or PFT tracking (deterministic or probabilistic), based on tensor, fODF, or peak inputs. Scilpy’s official tracking              Scilpy, MRtrix3, and DSI Studio have comparable basic tractography options. However, scilpy
+                                                             script matches DIPY’s code’s speed (based on Cython).                                                                                  includes various algorithms (EuDx, PTT, PFT). Scilpy also offers a GPU-accelerated version of
+                                                             * Scilpy also offers PFT maps creation and manipulation scripts. * We also offer an all-Python option, slower but easier               local (probabilistic or deterministic) tractography for faster processing.
+                                                             to adapt to any user’s needs when testing new features. Better adapted for educational purposes and internship
+                                                             students.
+      Tractogram            tractogram            41         Operations on the tractogram, such as streamline filtering, resampling of the number of points per line, resampling of                 MRtrix3 offers some options (e.g., tckresample, tcktransform), but, to our knowledge, no other
+      operations                                             the number of streamlines in the tractogram, segmentation into bundles (from ROI inclusion/exclusion, or with                          library offers such a wide range of possibilities as scilpy to process streamlines and
+                                                             Recobundles / Bundleseg), segmentation into connections for connectomics projects, tractogram registration, and                        tractograms. pyAFQ18 and phybers19 offer python functions for bundle recognition, but no
+                                                             tractogram operations such as concatenation, intersection, difference, etc.                                                            script.
+       Bundle                  bundle             24         Operations on tractograms that are known to represent a single pathway, or a single bundle, such as filtering,                         Such operations and statistics are rarely offered in other libraries.
+      operations                json                         comparison to a reference, statistics (e.g., tractometry) or fixel analysis.                                                           pyAFQ18 offers python functions for tract profiling, but no script.
+    Connectomics            connectivity          12         Computation of connectivity matrices, based on various weights. Operations and statistics on matrices such as row/                     MRtrix3 offers connectivity matrix computation (tck2connectome). Graph theory measures
+                                                             columns reordering, matrix normalization, population comparison.                                                                       are available in MATLAB using the Brain Connectivity Toolbox.20
+     Visualization               viz              16         Creation of plots for some statistics based on dMRI data. Creation of mosaics of images to visualize bundles.                          Other libraries offer more complete 3D visualization tools, such as AFNI (afni), FreeSurfer
+                                                             Visualization of fODFs, streamlines, streamtubes, connectivity matrices, circle graphs (also called chord charts), and                 (Freeview), MRtrix3 (mrview), FSL (fsleyes), etc. However, few of them offer streamline
+                                                             more.                                                                                                                                  visualization. MI-Brain and TrackVis21 can be named as particularly useful for this task, but are
+                                                                                                                                                                                                    no longer maintained.
+        Other                  Surface            2          Scilpy offers utility scripts, for instance to search information throughout scripts, to read and validate headers (from
+                              and more            10         NIfTI or TRK files) or BIDS structures, or to convert between formats. Generally, our scripts accept NIfTI formats for
+                                                             volume images, and TRK and TCK formats for tractograms.
+                                                             Scilpy scripts support surface operations.
+                                                             An option to segment bundle maps directly from the fODF, without requiring tractography data, has been recently
+                                                             added. A few scripts allowing to analyse non-healthy subjects’ data have been created upon requests from
+                                                             collaborators.
+
+a Amongst the most established libraries, MRtrix3 is a good example of a command-line interface-oriented (CLI) software; DSI-Studio offers CLI options but is mainly known for its graphical user interface (GUI); and DIPY’s Python API is extensively used, but has fewer workflows available through CLI.
+
+Other libraries, such as FreeSurfer or ANTs, are named here as they have become essential for more specialised tasks, including segmentation and registration.
+
+
+
+
+                                                                                                                                              Aperture Neuro                                                                                                                                   3
+                                             Tractography analysis with the scilpy toolbox
+
+
+
+all options of all scripts, and comparing results against a             1) During data organization, the user prepares the b-val-
+ground truth, which is a known limitation in our field.22 But        ues and b-tensors text files, extracts the b0 and/or the re-
+it is worth mentioning that their tractography script runs           versed-b0 from the DWI using scil_dwi_extract_b0, and may
+faster. This is a consequence of the choice of language (MR-         choose to modify the DWI file in order to improve and facil-
+trix uses C++), but we believe that using Python helps in            itate the next processing steps with scripts such as scil_vol-
+making dMRI accessible to newcomers for educational pur-             ume_crop, scil_volume_resample, or scil_dwi_concatenate.
+poses (see section 6).                                                  2) Preprocessing of the DWI can include rejecting prob-
+    We note that scilpy supports many data formats to allow          lematic volumes with scil_dwi_detect_volume_outliers or
+compatibility with other libraries and offers scripts to con-        denoising with scil_denoising_nlmeans. The user may in-
+vert volumes or tractogram files.                                    clude other preprocessing steps of their choice, such as reg-
+    Scilpy fills a need in the community. Examples of the            istration to the MNI template with ANTS or skull-stripping
+usefulness of scilpy already appear in the literature. Bundle        with FSL. The computation of the local representation re-
+filtering tools have been used to segment and score bundles          quires the user to first convert the raw signal to SH using
+in comparison to a reference23 and to analyse WM in ag-              scil_dwi_to_sh.
+ing24; tractometry (and profilometry) tools have allowed                3) Scilpy has scripts to compute various local reconstruc-
+investigations of tau pathology25; and connectomics tools            tion methods (scil_dti_metrics, scil_dki_metrics, scil_qball_
+have been used to analyse connectivity alterations in                metrics, scil_freewater_maps, scil_NODDI_maps),1,34‑37
+epilepsy.26                                                          particularly many variations of fODFs (scil_fodf_metrics,
+                                                                     scil_fodf_msmt, scil_fodf_memsmt, scil_fodf_ssst).38 Figure
+SECTION 3: INCLUDING SCILPY INTO                                     1 shows an example using fODFs as the local represen-
+                                                                     tation, while also computing DTI to obtain crucial infor-
+SCIENTIFIC PROJECTS
+                                                                     mation such as the FA map. At this stage, the user may
+                                                                     use these results for further analysis such as fixel analysis
+An important aspect of scilpy is its emphasis on ensuring
+                                                                     (scil_bingham_metrics).39
+that each script performs a single, well-defined task. This
+                                                                        4) The next step is the tractography. Our main trac-
+granularity leads to a very high number of scripts but allows
+                                                                     tography script, scil_tracking_local, gives access to all of
+users to manipulate data exactly as they want. To organize
+                                                                     DIPY’s efficient Cython-based tracking options, and more,
+processing steps in their favorite order or to automate
+                                                                     such as particle filtering (PFT), parallel transport (PTT) and
+processes, for a single subject or for larger databases, users
+                                                                     Euler deterministic (EuDx). Alternatively, scil_tracking_lo-
+may use their favorite technology. Options range from sim-
+                                                                     cal_dev uses a slower Python loop, but is closer to how one
+ply aligning command lines sequentially in a bash script to
+                                                                     would teach tractography to a newcomer, and allows easy
+using more complex workflow management systems such
+                                                                     testing of improvement ideas for new developers. Further-
+as Nextflow,27 Nipype,28 snakemake,29 and more, which al-
+                                                                     more, this script offers an accelerated GPU-based option
+low parallel processing over various subjects for acceler-
+                                                                     or multiprocessing on CPU. Finally, the user could choose
+ated workflows. nf-neuro (https://github.com/nf-neuro) is
+                                                                     to compare results with any other library’s tractography.
+our team’s take on a Nextflow-based pipeline and will be
+                                                                     In particular, scilpy allows saving the fODFs in a SH ba-
+the subject of an upcoming publication. Users interested
+                                                                     sis, compatible with MRtrix3 to use their tractography, and
+in processing large cohorts may also discover Tractoflow,30
+                                                                     conversely, it can perform tractography on fODFs from MR-
+which includes 26 scilpy scripts and has already led to the
+                                                                     trix3.
+creation of multiple-subject databases of processed data.31,
+32
+                                                                        5) The resulting tractogram usually requires postpro-
+                                                                     cessing steps, such as the manipulations described in Ob-
+   We note that the efficiency of pipelines often depends on
+                                                                     jectives #2 - #4. The user could also choose to continue
+a clear database organization. Again, this is out of the scope
+                                                                     their pipeline with other libraries: our tractography scripts
+of scilpy, and interested users may find instructions for best
+                                                                     enable saving tractograms as either TRK or TCK to facilitate
+practices in other references, such as BIDS.33
+                                                                     interoperability with any software accepting these standard
+   In sections below, we showcase a few examples of analy-
+                                                                     formats.
+sis objectives and the sequence of scripts required to
+achieve them. The bash scripts associated with each task
+                                                                     OBJECTIVE #2: TRACTOGRAM MANIPULATIONS
+are available in the online tutorials.
+                                                                     Scilpy scripts allow users to modify tractograms in various
+OBJECTIVE 1: FROM RAW DATA TO DTI, FODF, AND                         ways based on their needs, such as shown on Figure 2.
+FULL TRACTOGRAM                                                         Some scripts allow operations on the tractogram as a
+                                                                     whole object in the brain, such as flipping it on a chosen
+Scilpy scripts allow the complete processing of raw dMRI
+                                                                     axis (scil_tractogram_flip) or creating a map of all voxels
+data in NIfTI format to obtain a full tractogram, such as
+                                                                     touched by a streamline (scil_tractogram_compute_den-
+shown on Figure 1. A complete tractography process can be
+                                                                     sity_map). Mathematical operations on two tractograms
+separated into subsections including 1) a general organi-
+                                                                     such as union, intersection, and difference can be per-
+zation of data, 2) preprocessing and denoising of the DWI
+                                                                     formed through the scil_tractogram_math script.
+data, 3) computation of the local representation, 4) tractog-
+                                                                        Other scripts allow operations on the tractogram as a set
+raphy, and 5) filtering out improbable streamlines.
+                                                                     of streamlines, such as resampling the number of stream-
+
+
+                                                            Aperture Neuro                                                       4
+                                                               Tractography analysis with the scilpy toolbox
+
+
+
+
+Figure 1. Sequence of scripts to generate a full tractogram from raw data (Objective #1).
+Simplified example of a pipeline used to generate a full tractogram from raw DWI data in NIfTI format. This pipeline can be expanded with more advanced preprocessing and recon-
+struction options. For instance, volumes can be cropped or resampled, and DWI data can be concatenated or checked for outliers before reconstruction. Beyond the DTI and single-
+shell fODF models shown, scilpy supports various local reconstruction methods, including diffusion kurtosis imaging (DKI), multi-shell and multi-tissue fODF models, NODDI, and q-
+ball ODFs, allowing for a more detailed characterization of the tissue microstructure.
+
+
+
+lines (scil_tractogram_resample, scil_tractogram_split),                                   segmenting the bundle of interest in each subject’s trac-
+separating streamlines based on various criteria (scil_trac-                               togram, 2) registering the bundles to a reference space (e.g.,
+togram_filter_by_roi,     scil_tractogram_filter_by_anatomy,                               MNI space) and analysing the inter-subject variability, 3)
+scil_tractogram_filter_by_length,         scil_tractogram_fil-                             combining them into a reference bundle template, similar
+ter_by_orientation) or segmenting a tractogram into bun-                                   to how one would average many structural MRI images to
+dles (see Objective #3).                                                                   create a brain template, and 4) analysing the results.
+   Finally, other scripts allow modifying the streamlines                                     1) The segmentation of bundles can be based on ROIs of
+themselves, for instance by resampling the number of                                       inclusion or exclusion (scil_tractogram_segment_with_ROI_
+points on each streamline (scil_tractogram_resam-                                          and_score or scil_tractogram_filter_by_roi) or based on the
+ple_nb_points, scil_tractogram_compress), or smoothing                                     general shape of the streamlines (scil_tractogram_segment_
+the streamlines’ trajectories (scil_tractogram_smooth).                                    with_recobundles, scil_tractogram_segment_with_bundle-
+   Furthermore, when using the .trk format, additional in-                                 seg).41,42 The resulting bundles can be cleaned more thor-
+formation may be stored in memory for each streamline                                      oughly than whole-brain tractograms, considering that
+(data_per_streamline [dps]) or for each individual point                                   their shapes should be quite uniform, and spurious stream-
+(data_per_point [dpp]). It is possible, for instance, to store                             lines can be discarded automatically with scil_bundle_re-
+the seeding point of each streamline as dps during the trac-                               ject_outliers or visually with scil_bundle_clean_qbx_clus-
+tography and use it later to create a map of all seeding                                   ters. The bundle could also be cut or trimmed using a binary
+points leading successfully to a streamline (scil_trac-                                    mask, allowing it to focus on a specific region, using scil_
+togram_seed_density_map). It is also possible to store a                                   tractogram_cut_streamlines. Optionally, metrics and statis-
+RGB color to each point as dpp, associated to the keyword                                  tics can be measured for each individual subject using our
+‘color’, which allows to visualise the tractogram as desired                               various scripts for bundle analysis, such as presented in Ob-
+on a visualization software (e.g., Mi-Brain40 supports the                                 jective #4.
+‘color’ keyword). Finally, is it possible to perform more                                     2) Then, registration can be performed by computing
+complex actions when analysing some metrics of interest                                    the registration matrix between the subjects’ space and the
+along the streamlines, as described in Objective #4.                                       reference space (e.g., using ANTS) and applying the same
+                                                                                           registration matrix to the tractogram’s coordinates with
+OBJECTIVE #3: CREATING A WM BUNDLE POPULATION                                              scil_tractogram_apply_transform. Inter-subject variability
+TEMPLATE AND VISUALIZING IT                                                                can be measured with scil_tractogram_pairwise_compari-
+                                                                                           son.
+Scilpy scripts enable users to create a WM bundle popu-
+lation template (see Figure 3). Such a pipeline includes 1)
+
+
+                                                                                Aperture Neuro                                                                                 5
+                                                                Tractography analysis with the scilpy toolbox
+
+
+
+
+Figure 2. Examples of tractogram manipulations (Objective #2).
+Scilpy scripts allow modifying tractograms (bundles or whole brain) in various ways. Since our scripts do simple operations, they can easily be chained together to achieve complex
+tasks.
+
+
+
+   3) The tractograms can be downsampled and concate-                                        The resulting .json file’s values can be plotted with
+nated, as described in Objective #2, and even concatenated                                   scil_plot_stats_per_point.
+to their flipped version to obtain a symmetrical template.                                      Beyond profilometry, other analysis steps could also be
+                                                                                             performed on the whole bundle. For instance, it is possible
+OBJECTIVE #4: SEGMENTING AND CLEANING A                                                      to compute the map of the head and tail of a bundle (the
+BUNDLE, AND PERFORMING PROFILOMETRY                                                          starting and ending regions of the bundle, assuming all
+                                                                                             streamlines are aligned in the same direction) with
+Using a clean bundle from a single subject, scilpy allows                                    scil_bundle_uniformize_endpoints and scil_bundle_com-
+performing a profilometry5 analysis, which is the analysis                                   pute_endpoints_map. It is also possible to extract various
+of the evolution of any dMRI metric along its subsections. A                                 information with scil_bundle_shape_measures.
+simple example is shown in Figure 4, and for further exam-
+ples of such processes, users can refer to Tractometry-flow                                  OBJECTIVE #5: ANALYSING CONNECTIVITY
+(https://github.com/scilus/tractometry_flow), a Nextflow
+process using many scilpy scripts, or to the study by                                        Connectivity analyses use whole-brain tractograms seg-
+Cousineau et. al.43 Such a pipeline includes the same sub-                                   mented based on a gray matter (GM) parcellation to create
+sections as in Objective #3 (segmentation and cleaning of                                    various connectivity matrices (see Figure 5).
+the bundles of interest in each subject), and analysis of the                                   For a very simple computation, the GM label associated
+resulting bundles.                                                                           to each endpoint of the streamlines can be used to create
+   The profilometry analysis requires segmenting the bun-                                    a connectivity matrix based on streamline count with
+dles into as many subsections as desired. This is not                                        scil_connectivity_compute_simple_matrix. However, scilpy
+straightforward, as the division of sections can be per-                                     also offers a more thorough analysis, with a more complex
+formed arbitrarily. We generally cut the section perpen-                                     analysis of endpoints and more options for the weight of
+dicularly to the direction of the bundle, measured from a                                    the connectivity matrix. It comprises the steps described
+centroid, a single streamline-like shape representing the                                    below.
+average of all streamlines in the bundle (scil_bundle_com-                                      First, the script scil_tractogram_segment_connec-
+pute_centroid, scil_bundle_label_map). Then, any metric                                      tions_from_labels is used and results in many sub-bundles,
+can be associated with the subsections. Figure 4 shows the                                   one for each pair of GM regions (each pair of labels). This
+example of the sections’ volume and diameter, or mean                                        is similar to ROI-based segmentation, but its computation
+underlying value of any given map, such as the FA map.                                       makes a more complex analysis in cases where streamlines
+
+
+
+                                                                                  Aperture Neuro                                                                                      6
+                                                                 Tractography analysis with the scilpy toolbox
+
+
+
+
+Figure 3. Sequence of scripts for the creation and visualization of a template bundle (Objective #3).
+Scilpy scripts allow creating a reference bundle template for a given population. The example above uses a ROI-based segmentation, but other options are available. Once the bundles
+are clean and registered to a common space, they are downsampled to save space before concatenating all subjects together and performing statistical analyses. It is possible to visu-
+alise the inter-subject variability by loading individual tractograms in a visualization software, or to view the spatial range of the population template and its density in each voxel.
+
+
+
+cross many GM regions. The output is saved in the HDF5                                        SECTION 4: ORGANIZATION OF FUNCTIONS,
+format for the ease of use in subsequent scripts but can
+                                                                                              TESTING, AND MAINTENANCE
+be converted back to a list of .trk files with scil_trac-
+togram_convert_hdf5_to_trk. Any manipulation can be per-
+                                                                                              By using Python as the coding language, scilpy benefits
+formed on the bundles and then they could be merged
+                                                                                              from integration with widely used and well-tested open-
+back (scil_tractogram_convert_trk_to_hdf5). Note that bun-
+                                                                                              source packages such as NumPy46 (array operations),
+dle registration and analysis presented before could also be
+                                                                                              SciPy47 (scientific computing), NiBabel48 (neuroimaging
+computed directly from the resulting HDF5 format, such as
+                                                                                              file management), and DIPY7 (denoising, white matter local
+warping (scil_tractogram_apply_transform_to_hdf5) or sta-
+                                                                                              reconstructions, tractography algorithms, bundle analysis
+tistics                computation                   (scil_bun-
+                                                                                              and spatial transform management of tractograms).
+dle_mean_fixel_afd_from_hdf5).
+                                                                                                  In scilpy, the functions are organized into clearly defined
+   Then, it is possible to compute the connectivity matrix,
+                                                                                              modules (Python files), making it easy to understand the
+using scil_connectivity_compute_matrices, using many
+                                                                                              library’s structure. Separation of functions into modules
+weights such as the streamline count, the lengths of
+                                                                                              generally follows the separation of scripts into categories
+streamlines, the volume of bundles, or the average of any
+                                                                                              (see Table 1). Scilpy’s modular structure allows users to
+underlying map or any dps/dpp stored in the data.
+                                                                                              reuse and integrate the functions in scilpy in their projects
+   It is possible to modify the matrices afterward with
+                                                                                              effortlessly.
+scripts such as scil_connectivity_math (operations such as
+                                                                                                  Scilpy has rigorous testing code through unit tests and
+threshold, addition, multiplication, interchanging rows,
+                                                                                              smoke tests in order to ensure its robustness and repro-
+etc.), scil_connectivity_filter (to binarize a list of matrices
+                                                                                              ducibility. Smoke tests are minimal tests ensuring that all
+based on conditions) or scil_connectivity_normalize (to
+                                                                                              options in scripts are properly handled and that all scripts
+modify the minimum and maximum values).
+                                                                                              can run from start to finish without error. As of October
+                                                                                              2025 (version 2.2.1), code coverage covered by smoke tests
+                                                                                              is 70%. Our goal is to reach approximately 75% coverage for
+                                                                                              smoke tests. Unit tests ensure that the results of individ-
+                                                                                              ual functions are as expected, based on numerical results. If
+                                                                                              analytical testing is not possible, scilpy’s unit tests confirm
+                                                                                              that the resulting output values remain consistent across
+
+
+                                                                                   Aperture Neuro                                                                                     7
+                                                                 Tractography analysis with the scilpy toolbox
+
+
+
+
+Figure 4. Sequence of scripts allowing to perform profilometry (Objective #4).
+This sequence of scripts allows performing profilometry for a bundle extracted with BundleSeg.44 Here, a single cleaning step is performed (step 2), using a hierarchical clustering
+method.45 In steps 3 and 4, the bundle is subdivided into sections (using a centroid to determine a Euclidean association). Finally, step 5 allows quantifying each section of the bun-
+dle (shape, volume, metrics, etc.). The JSON output allows easy plotting using any library or conversion to Excel spreadsheets.
+
+
+
+versions. Current coverage by unit tests is at 29% for the li-                                use). The design principles include having the minimal set
+brary codebase. These tests were added recently to the pro-                                   of arguments necessary towards both collaborator satisfac-
+ject, in response to scilpy’s increasing recognition and us-                                  tion and script reusability. The development process be-
+age, and unit test development is ongoing. Our goal is to                                     gins with a proof-of-concept implementation, which is then
+reach 100% of our main functions, meaning functions that                                      shared with the collaborator for iterative refinement, bug
+use DIPY sparsely (DIPY already tests its functions thor-                                     reporting, and improvements to the documentation. A con-
+oughly) and functions that are not used for visualization,                                    text-agnostic development team member reviews the new
+which is difficult to test actively. Modules lacking smoke                                    script to simulate the experience of a new user, empha-
+tests are visualization (cannot be tested automatically) and                                  sizing usability and operational behaviour. Subsequent re-
+machine learning (recently added to scilpy). Modules lack-                                    views address code optimization, modularity, input/output
+ing unit tests are post-tractography modules, but, again,                                     handling, general code quality, and implementing unit tests
+development is ongoing.                                                                       and smoke tests. This entire process typically takes a few
+                                                                                              weeks. Pull requests are generally merged in a timely fash-
+SECTION 5: EASE OF COLLABORATION USING                                                        ion and usability can be further enhanced over time as the
+                                                                                              script is reused and refined based on feedback from subse-
+SCILPY
+                                                                                              quent collaborator requests.
+                                                                                                 The objective of scilpy is to have regular releases. This
+Scilpy’s development team has a vision that supports the
+                                                                                              does require a soft reviewing style but ensures the quick
+rapid implementation of new ideas. Scripts are primarily
+                                                                                              inclusion of collaborative work to our system. On the con-
+designed to meet user needs.
+                                                                                              trary, DIPY works with a stronger reviewing process and
+   For example, a common development scenario starts
+                                                                                              more rigorous code style, resulting in a slower release fre-
+with a collaborator with limited or no computer program-
+                                                                                              quency. Such stricter requirements are necessary due to
+ming background requiring a specific feature. For instance,
+                                                                                              DIPY’s more widespread use and its functions being used
+they might request a coloring tool where each streamline is
+                                                                                              as a foundation for hundreds of projects in multiple labs
+colored according to its minimum distance to any stream-
+                                                                                              across the world, and the need to ensure stability for the
+line within a template, using a designated colormap. This
+                                                                                              users. In contrast, the faster release frequency in scilpy
+request prompts a discussion regarding input and output
+                                                                                              helps developers adapt better to rapidly evolving scientific
+data, the required reference frame for the operation, and
+                                                                                              and clinical research projects. Scripts that are not yet fully
+performance considerations (speed, robustness, and ease of
+                                                                                              tested have disclaimers in their description.
+
+
+
+                                                                                   Aperture Neuro                                                                                      8
+                                                                 Tractography analysis with the scilpy toolbox
+
+
+
+
+Figure 5. Connectivity analysis (Objective #5).
+Connectivity analysis uses parcel-to-parcel bundles, computed at step 2. After step 4, various connectivity matrices are computed. Steps 5 and 6 are useful to obtain statistics from
+the matrix.
+
+
+
+
+SECTION 6: SCILPY FOR EDUCATIONAL                                                             SECTION 7: LIMITATIONS AND FUTURE
+PURPOSES                                                                                      PERSPECTIVES
+
+Scilpy has been designed with a strong educational com-                                       We expect scilpy to continue evolving based on collabora-
+ponent in mind. Firstly, it allows research students and                                      tions and research projects at the SCIL. Having high-qual-
+collaborators to quickly become familiar with the imple-                                      ity documentation and examples are key to its adoption and
+mentation of complex theoretical aspects in dMRI and MRI                                      success, and we intend to build a set of tutorials in the near
+data management concepts (3D/4D volumes, tractograms,                                         future. Training the next generation of researchers is im-
+etc.) by providing a rich set of code examples with inte-                                     portant, and we intend to offer workshops on dMRI data
+grated input/output from common toolboxes. The use of                                         processing using scilpy tools and others. We aim to attract
+Python as a programming language also facilitates contri-                                     new developers to contribute to scilpy through its public
+butions due to its ease-of-use. Cutting-edge features can                                     GitHub repository.
+mature and survive their contributors by being integrated                                        Although many scripts already offer multiprocessing op-
+early into scilpy. Secondly, scilpy’s audience (graduate re-                                  tions, current limits in scilpy’s scripts include RAM man-
+search students, scientific and clinical researchers, compu-                                  agement and optimization. We continue actively improving
+tational scientists, and self-paced curious individuals) can                                  our scripts with every new collaboration. Another limita-
+leverage years of expertise in dMRI, embedded into the de-                                    tion from our choice of organization, is that having single-
+fault parameters, to quickly develop a prototype of their                                     step scripts inevitably creates many intermediate files that
+ideal/needed processing pipeline, regardless of their profi-                                  would not necessarily be stored on disk with more pipeline-
+ciency level. Finally, scilpy is a core component of the SCIL,                                like scripts doing multiple steps at once. This effect can be
+acting as both a practical tool and a reference implementa-                                   mitigated with good processing practices.
+tion for members and collaborators. It embodies and pro-
+motes good coding practices and open-source principles,                                       CONCLUSION
+helping to advance the field of dMRI and tractography while
+raising the standards of the scientific contributions it sup-                                 Scilpy offers unique scientific contributions, addresses crit-
+ports in terms of robustness, reproducibility, replicability,                                 ical needs in the computational neuroimaging field, and ex-
+and generalizability. These three educational components                                      emplifies the diverse impacts that open science can have on
+help increase scilpy’s educational, scientific, and academic                                  academic research. Scilpy will help the dMRI scientific com-
+impact.
+
+
+                                                                                   Aperture Neuro                                                                                       9
+                                                 Tractography analysis with the scilpy toolbox
+
+
+
+munity achieve its goals by accelerating the data process-               FUNDING SOURCES
+ing, with a wide range of well documented scripts that cover
+many scientific and clinical researchers’ needs, and with                Authors MD and FR thank their respective NSERC Discovery
+an easy development process through open-source Python                   grants (RGPIN-202004818) and the Université de Sher-
+programming.                                                             brooke institutional research chair in neuroinformatics.
+
+                                                                         CONFLICTS OF INTEREST
+
+DATA AND CODE AVAILABILITY                                               MD is co-founder and shareholder at Imeka Solutions. He
+                                                                         has no conflict of interest with respect to the content of this
+All code is available publicly on GitHub or PyPI.                        manuscript. All other authors have no conflicts of interests
+                                                                         to declare.
+ACKNOWLEDGEMENTS
+                                                                         Submitted: July 21, 2025 CST. Accepted: November 20, 2025
+Thanks to Yuzhe Wang, Hermela Gebremariam, Élise
+                                                                         CST. Published: January 08, 2026 CST.
+Cosenza, Florence Gagnon and Alexandre Gauvin for their
+contribution in the Github repository. We would like to
+thank Kurt Schilling for his useful comments on the text.
+
+
+
+
+            This is an open-access article distributed under the terms of the Creative Commons Attribution 4.0 International License
+            (CCBY-4.0). View this license’s legal deed at http://creativecommons.org/licenses/by/4.0 and legal code at http://creativecom-
+            mons.org/licenses/by/4.0/legalcode for more information.
+
+
+
+                                                                Aperture Neuro                                                               10
+                                           Tractography analysis with the scilpy toolbox
+
+
+
+
+                                                      REFERENCES
+
+
+1. Pierpaoli C, Jezzard P, Basser PJ, Barnett A, Di                   12. Dale AM, Fischl B, Sereno MI. Cortical surface-
+Chiro G. Diffusion tensor MR imaging of the human                     based Analysis: I. segmentation and surface
+brain. Radiology. 1996;201(3):637-648. doi:10.1148/                   reconstruction. NeuroImage. 1999;9(2):179-194.
+radiology.201.3.8939209                                               doi:10.1006/nimg.1998.0395
+
+2. Dell’Acqua F, Tournier JD. Modelling white matter                  13. Cox RW. AFNI: software for analysis and
+with spherical deconvolution: How and why? NMR                        visualization of functional magnetic resonance
+Biomed. 2019;32(4):e3945. doi:10.1002/nbm.3945                        neuroimages. Comput Biomed Res Int J.
+                                                                      1996;29:162-173. doi:10.1006/cbmr.1996.0014
+3. Jeurissen B, Descoteaux M, Mori S, Leemans A.
+Diffusion MRI fiber tractography of the brain. NMR                    14. Jenkinson M, Beckmann CF, Behrens TEJ,
+Biomed. 2019;32(4):e3785. doi:10.1002/nbm.3785                        Woolrich MW, Smith SM. FSL. NeuroImage.
+                                                                      2012;62:782-790. doi:10.1016/
+4. Catani M, Howard RJ, Pajevic S, Jones DK. Virtual                  j.neuroimage.2011.09.015
+in Vivo Interactive Dissection of White Matter
+Fasciculi in the Human Brain. NeuroImage.                             15. Avants B, Tustison N, Song G. Advanced
+2002;17(1):77-94. doi:10.1006/nimg.2002.1136                          Normalization Tools (ANTS). Insight J. Published
+                                                                      online 2009:1-35. doi:10.54294/uvnhin
+5. Yeatman JD, Dougherty RF, Myall NJ, Wandell BA,
+Feldman HM. Tract Profiles of White Matter                            16. Gagnon A, Grenier G, Bocti C, et al. White matter
+Properties: Automating Fiber-Tract Quantification.                    microstructural variability linked to differential
+PLOS ONE. 2012;7(11):e49790. doi:10.1371/                             attentional skills and impulsive behavior in a
+journal.pone.0049790                                                  pediatric population. Cereb Cortex.
+                                                                      2023;33(5):1895-1912. doi:10.1093/cercor/bhac180
+6. Sotiropoulos SN, Zalesky A. Building connectomes
+using diffusion MRI: why, how and but. NMR Biomed.                    17. Roy M, Rheault F, Croteau E, et al. Fascicle- and
+2019;32(4):1-23. doi:10.1002/nbm.3752                                 Glucose-Specific Deterioration in White Matter
+                                                                      Energy Supply in Alzheimer’s Disease. J Alzheimer’s
+7. Garyfallidis E, Brett M. Dipy, a library for the                   Dis. 2020;76(3):863-881. doi:10.3233/JAD-200213
+analysis of diffusion MRI data. Front
+Neuroinformatics. 2014;8:1-14. doi:10.3389/                           18. Kruper J, Yeatman JD, Richie-Halford A, et al.
+fninf.2014.00008. PMID:24600385                                       Evaluating the reliability of human brain white
+                                                                      matter tractometry. Apert Neuro. 2021;1(1).
+8. Tournier JD, Smith R, Raffelt D, et al. MRtrix3: A                 doi:10.52294/
+fast, flexible and open software framework for                        e6198273-b8e3-4b63-babb-6e6b0da10669.
+medical image processing and visualisation.                           PMID:35079748
+NeuroImage. 2019;202:116137. doi:10.1016/
+j.neuroimage.2019.116137                                              19. Guevara P, Duclap D, Poupon C, et al. Automatic
+                                                                      fiber bundle segmentation in massive tractography
+9. Irfanoglu MO, Nayak A, Jenkins J, Pierpaoli C.                     datasets using a multi-subject bundle atlas.
+TORTOISE v3: Improvements and New Features of                         NeuroImage. 2012;61(4):10831099. doi:10.1016/
+the NIH Diffusion MRI Processing Pipeline. Program                    j.neuroimage.2012.02.071
+Proc ISMRM 25th Annu Meet Exhib Honol HI USA.
+Published online April 2017.                                          20. Rubinov M, Sporns O. Complex network measures
+                                                                      of brain connectivity: Uses and interpretations.
+10. Yeh FC. Population-based tract-to-region                          NeuroImage. 2010;52(3):1059-1069. doi:10.1016/
+connectome of the human brain and its hierarchical                    j.neuroimage.2009.10.003
+topology. Nat Commun. 2022;13(1):4933. doi:10.1038/
+s41467-022-32595-4                                                    21. Wang R, Wedeen VJ. TrackVis.org. Martinos
+                                                                      Center for Biomedical Imaging, Massachusetts
+11. González Rodríguez LL, Osorio I, Cofre GA, et al.                 General Hospital.
+Phybers: a package for brain tractography analysis.
+Front Neurosci. 2024;18. doi:10.3389/                                 22. Drobnjak I, Neher P, Poupon C, Sarwar T. Physical
+fnins.2024.1333243                                                    and digital phantoms for validating tractography and
+                                                                      assessing artifacts. NeuroImage. 2021;245.
+                                                                      doi:10.1016/j.neuroimage.2021.118704
+
+
+
+
+                                                          Aperture Neuro                                                      11
+                                          Tractography analysis with the scilpy toolbox
+
+
+
+23. Renauld E, Théberge A, Petit L, Houde JC,                        34. Jensen JH, Helpern JA, Ramani A, Lu H, Kaczynski
+Descoteaux M. Validate your white matter                             K. Diffusional kurtosis imaging: The quantification of
+tractography algorithms with a reappraised ISMRM                     non-gaussian water diffusion by means of magnetic
+2015 Tractography Challenge scoring system. Sci Rep.                 resonance imaging. Magn Reson Med.
+2023;13(1):2347. doi:10.1038/s41598-023-28560-w                      2005;53(6):1432-1440. doi:10.1002/mrm.20508
+
+24. Schilling KG, Archer D, Yeh FC, et al. Short                     35. Descoteaux M, Angelino E, Fitzgibbons S, Deriche
+superficial white matter and aging: A longitudinal                   R. Regularized, fast, and robust analytical Q-ball
+multi-site study of 1293 subjects and 2711 sessions.                 imaging. Magn Reson Med. 2007;58(3):497-510.
+Aging Brain. 2023;3:100067. doi:10.1016/                             doi:10.1002/mrm.21277
+j.nbas.2023.100067
+                                                                     36. Pasternak O, Sochen N, Gur Y, Intrator N, Assaf Y.
+25. Qiu T, Liu ZQ, Rheault F, et al. Structural white                Free water elimination and mapping from diffusion
+matter properties and cognitive resilience to tau                    MRI. Magnetic Resonance in Medicine: An Official
+pathology. Alzheimers Dement. doi:10.1002/alz.13776                  Journal of the International Society for Magnetic
+                                                                     Resonance in Medicine. Published online
+26. Obaid S, Rheault F, Edde M, et al. Structural                    2009:717-730. doi:10.1002/mrm.22055
+Connectivity Alterations in Operculo-Insular
+Epilepsy. Brain Sci. 2021;11(8):1041. doi:10.3390/                   37. Zhang H, Schneider T, Wheeler-Kingshott CA,
+brainsci11081041                                                     Alexander DC. NODDI: Practical in vivo neurite
+                                                                     orientation dispersion and density imaging of the
+27. Di Tommaso P, Chatzou M, Floden EW, Barja PP,                    human brain. NeuroImage. 2012;61(4):1000-1016.
+Palumbo E, Notredame C. Nextflow enables                             doi:10.1016/j.neuroimage.2012.03.072
+reproducible computational workflows. Nat
+Biotechnol. 2017;35(4):316-319. doi:10.1038/nbt.3820                 38. Raffelt D, Tournier JD, Rose S, et al. Apparent
+                                                                     Fibre Density: A novel measure for the analysis of
+28. Gorgolewski K, Burns CD, Madison C, et al.                       diffusion-weighted magnetic resonance images.
+Nipype: A Flexible, Lightweight and Extensible                       NeuroImage. 2012;59(4):39763994. doi:10.1016/
+Neuroimaging Data Processing Framework in Python.                    j.neuroimage.2011.10.045
+Front Neuroinformatics. 2011;5. doi:10.3389/
+fninf.2011.00013                                                     39. Riffert TW, Schreiber J, Anwander A, Knösche TR.
+                                                                     Beyond fractional anisotropy: Extraction of bundle-
+29. Mölder F, Jablonski KP, Letcher B, et al.                        specific structural metrics from crossing fiber models.
+Sustainable data analysis with Snakemake.                            NeuroImage. 2014;100:176-191. doi:10.1016/
+F1000Research. 2025;10:33. doi:10.12688/                             j.neuroimage.2014.06.015
+f1000research.29032.3
+                                                                     40. Rheault F, Houde JC, Goyette N, Morency F,
+30. Theaud G, Houde J christophe, Bor A, Morency F,                  Descoteaux M. MI-Brain, a Software to Handle
+Descoteaux M. TractoFlow : A robust, efficient and                   Tractograms and Perform Interactive Virtual
+reproducible diffusion MRI pipeline leveraging                       Dissection. In: Proceedings of the ISMRM Diffusion
+Nextflow & Singularity. NeuroImage.                                  study group workshop, Lisbon; 2016.
+2020;218(March). doi:10.1016/
+j.neuroimage.2020.116889                                             41. St-Onge E, Schilling KG, Rheault F. BundleSeg: A
+                                                                     Versatile, Reliable and Reproducible Approach to
+31. Poulin P, Theaud G, Rheault F, et al.                            White Matter Bundle Segmentation. In: Karaman M,
+TractoInferno - A large-scale, open-source, multisite                Mito R, Powell E, Rheault F, Winzeck S, eds.
+database for machine learning dMRI tractography. Sci                 Computational Diffusion MRI. Springer Nature
+Data. 2022;9(1):725. doi:10.1038/                                    Switzerland; 2023:47-57. doi:10.1007/
+s41597-022-01833-1                                                   978-3-031-47292-3_5
+
+
+32. Edde M, Theaud G, Dumont M, et al. High-                         42. Garyfallidis E, Côté MA, Rheault F, et al.
+frequency longitudinal white matter diffusion- and                   Recognition of white matter bundles using local and
+myelin-based MRI database: Reliability and                           global streamline-based registration and clustering.
+variability. Hum Brain Mapp. 2023;44(9):3758-3780.                   NeuroImage. 2018;170:283-295. doi:10.1016/
+doi:10.1002/hbm.26310                                                j.neuroimage.2017.07.015
+
+
+33. Gorgolewski KJ, Alfaro-Almagro F, Auer T, et al.                 43. Cousineau M, Jodoin PM, Garyfallidis E, et al. A
+BIDS apps: Improving ease of use, accessibility, and                 test-retest study on Parkinson’s PPMI dataset yields
+reproducibility of neuroimaging data analysis                        statistically significant white matter fascicles.
+methods. PLOS Comput Biol. 2017;13(3):e1005209.                      NeuroImage Clin. 2017;16:222233. doi:10.1016/
+doi:10.1371/journal.pcbi.1005209                                     j.nicl.2017.07.020
+
+
+
+
+                                                         Aperture Neuro                                                       12
+                                         Tractography analysis with the scilpy toolbox
+
+
+
+44. Array programming with NumPy | Nature.                          47. Virtanen P, Gommers R, Oliphant TE, et al. SciPy
+Accessed April 16, 2024. https://www.nature.com/                    1.0: fundamental algorithms for scientific computing
+articles/s41586-020-2649-2                                          in Python. Nat Methods. 2020;17(3):261-272.
+                                                                    doi:10.1038/s41592-019-0686-2
+45. Côté MA, Garyfallidis E, Larochelle H, Descoteaux
+M. Cleaning up the mess : tractography outlier                      48. Brett M, Markiewicz CJ, Hanke M, et al. nipy/
+removal using hierarchical QuickBundles clustering.                 nibabel: 5.3.1. Published online October 15, 2024.
+In: Proceedings of: International Society of Magnetic               doi:10.5281/zenodo.13936989
+Resonance in Medicine (ISMRM); 2015.
+
+46. Harris CR, Millman KJ, Van Der Walt SJ, et al.
+Array programming with NumPy. Nature.
+2020;585(7825):357-362.
+
+
+
+
+                                                        Aperture Neuro                                                     13
+                                       Tractography analysis with the scilpy toolbox
+
+
+
+
+                                  SUPPLEMENTARY MATERIALS
+
+
+Supplementary Material
+Download: https://apertureneuro.org/article/154022-tractography-analysis-with-the-scilpy-toolbox/attachment/
+321869.docx
+
+
+
+
+                                                      Aperture Neuro                                           14
+

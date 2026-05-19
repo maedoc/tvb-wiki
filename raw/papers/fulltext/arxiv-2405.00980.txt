@@ -1,0 +1,715 @@
+                                                    A Hong Kong Sign Language Corpus Collected from
+                                                               Sign-interpreted TV News
+
+                                                           Zhe Niu1,*      Ronglai Zuo1,*          Brian Mak1          Fangyun Wei2
+                                                   1
+                                                       The Hong Kong University of Science and Technology 2 Microsoft Research Asia
+                                                              {zniu,rzuo,mak}@cse.ust.hk fawe@microsoft.com
+
+                                                                                            Abstract
+                                        This paper introduces TVB-HKSL-News, a new Hong Kong sign language (HKSL) dataset collected from a TV
+                                        news program over a period of 7 months. The dataset is collected to enrich resources for HKSL and support
+                                        research in large-vocabulary continuous sign language recognition (SLR) and translation (SLT). It consists of
+                                        16.07 hours of sign videos of two signers with a vocabulary of 6,515 glosses (for SLR) and 2,850 Chinese
+                                        characters or 18K Chinese words (for SLT). One signer has 11.66 hours of sign videos and the other has 4.41
+arXiv:2405.00980v1 [cs.CL] 2 May 2024
+
+
+
+
+                                        hours. One objective in building the dataset is to support the investigation of how well large-vocabulary continuous
+                                        sign language recognition/translation can be done for a single signer given a (relatively) large amount of his/her
+                                        training data, which could potentially lead to the development of new modeling methods. Besides, most parts of
+                                        the data collection pipeline are automated with little human intervention; we believe that our collection method
+                                        can be scaled up to collect more sign language data easily for SLT in the future for any sign languages if such
+                                        sign-interpreted videos are available. We also run a SOTA SLR/SLT model on the dataset and get a baseline SLR
+                                        word error rate of 34.08% and a baseline SLT BLEU-4 score of 23.58 for benchmarking future research on the dataset.
+
+                                        Keywords: Sign Language Dataset, Sign Language Recognition (SLR), Sign Language Translation (SLT).
+
+
+                                                          1.   Introduction
+                                        Sign language (SL) is the primary mode of com-
+                                        munication for many individuals who are deaf or
+                                        hard of hearing. Advances in large deep networks
+                                        demand more and larger datasets to support the
+                                        development and research of sign language recog-
+                                        nition (SLR) and sign language translation (SLT).
+                                        Consequently, several large-scale datasets (Koller
+                                        et al., 2015; Camgöz et al., 2018; Huang et al.,
+                                        2018; Zhou et al., 2021a; Albanie et al., 2021)
+                                        have been created for many sign languages such
+                                        as ASL, BSL, CSL, DGS, etc. Given that there                Figure 1: In the "TVB News Report with Sign Lan-
+                                        are currently few publicly available resources for          guage" program, a news anchor speaks on the left
+                                        Hong Kong Sign Language (HKSL) research, we                 side of the screen while an HKSL interpreter signs
+                                        introduce, in this paper, a new large-vocabulary            on the right. Chinese subtitles are displayed at the
+                                        HKSL dataset, called TVB-HKSL-News, for the de-             bottom of the screen.
+                                        velopment of SLR and SLT for HKSL.
+                                        The TVB-HKSL-News dataset contains HKSL
+                                        videos collected from the News Report with Sign             signer, given a relatively large amount of his/her
+                                        Language program (as depicted in Figure 1) from             training data. This is lacking in current HKSL re-
+                                        the Television Broadcasts Limited (TVB) over a              sources and is not common even in other sign
+                                        period of seven months. The dataset is intended             languages (with the exception of BOBSL (Albanie
+                                        to support research in large-vocabulary, signer-            et al., 2021)). With a larger amount of data avail-
+                                        dependent continuous SLR and SLT. It includes               able for a signer, researchers can explore more
+                                        16.07 hours of sign videos from two signers, with           sophisticated modeling techniques and evaluate
+                                        a vocabulary of 6,515 glosses (for SLR) and                 the impact of amount of data on SLR and SLT.
+                                        2,850/18K Chinese characters/words (for SLT).               Besides the TVB-HKSL-News dataset, we also in-
+                                        One primary objective of building the dataset is            troduce a data collection pipeline for SL data from
+                                        to investigate new modeling methods for how well            TV programs, which was utilized during the col-
+                                        large-vocabulary SLR/SLT can be done for a single           lection of our dataset. This pipeline includes an
+                                                                                                    automatic collection process for Sign Language
+                                            * Equal contribution.                                   Translation (SLT) data and a computer-assisted
+Table 1: Comparison of some existing datasets for continuous SLR and SLT with TVB-HKSL-News. The
+superscript † represents character count rather than word count, which is more suitable for gauging
+translation performance in Chinese (Li et al., 2019). The approximate word counts for CSL-Daily and
+TVB-HKSL-News are 8K and 18K, respectively. Our word counts are estimated using Jieba (Sun, 2012).
+
+          Dataset/Work              Lang.   SLR Vocab.   SLT Vocab.    Duration (h)   Resolution   FPS   #Videos   #Signers   Source
+   GSL (Adaloglou et al., 2022)     GSL        310            -            9.59        848×480     30     10K        7         Lab
+ PHOENIX-14 (Koller et al., 2015)   DGS       1,081           -           12.54        210×260     25      7K         9        TV
+PHOENIX-14T (Camgöz et al., 2018)   DGS       1,066        2,887          10.53        210×260     25      8K         9        TV
+   CSL100 (Huang et al., 2018)      CSL        178            -            100         1280×720    30     25K        50        Lab
+  CSL-Daily (Zhou et al., 2021a)    CSL       2,000        2,370†         23.27       1920×1080    30     21K        10        Lab
+   BOBSL (Albanie et al., 2021)      BSL      2,281         78K           1,467         444×444    25     1.2M       39        TV
+  SignBERT (Zhou et al., 2021b)     HKSL        55            -              -        1920×1080    30      2K         6        Lab
+     TVB-HKSL-News (ours)           HKSL      6,515        2,850†         16.07       248×360      25      7K         2        TV
+
+
+
+annotation process for Sign Language Recognition                      our dataset webpage1 .
+(SLR) data. In the initial phase, we collect SLT data
+from the TVB program, and process them to obtain                                       2.    Related Works
+sign video segments and their corresponding text                      Numerous sign language (SL) datasets have been
+transcriptions. This stage leverages various com-                     created for various tasks, including SL spotting (Vi-
+puter vision techniques to perform detection of sign                  itaniemi et al., 2014), SLR (Adaloglou et al.,
+activities, extraction of subtitles, and alignment be-                2022; Huang et al., 2018; Koller et al., 2015;
+tween sign and subtitle segments. We then engage                      Camgöz et al., 2018; Özdemir et al., 2020; Li
+professional sign language annotators and design                      et al., 2020; Albanie et al., 2021; Momeni et al.,
+an annotation software for them to label the sign                     2020), SLT (Adaloglou et al., 2022; Ko et al., 2018;
+glosses in each collected sign video segment for                      Camgöz et al., 2018; Albanie et al., 2021), and SL
+SLR research. The software presents sign video                        production (Kapoor et al., 2021). These datasets
+segments alongside the text transcriptions from                       cover a wide range of different sign languages,
+the previous stage, providing a convenient tool for                   such as ASL (Athitsos et al., 2008; Joze and Koller,
+efficient sign language glossing.                                     2019; Li et al., 2020), BSL (Momeni et al., 2020;
+Following the compilation of our dataset, we con-                     Albanie et al., 2021), DGS (Koller et al., 2015;
+duct experiments with various state-of-the-art mod-                   Camgöz et al., 2018), CSL (Huang et al., 2018;
+els (Xie et al., 2018; Chen et al., 2022b; Zuo and                    Zhou et al., 2021a), GSL (Adaloglou et al., 2022),
+Mak, 2022a) for both SLR and SLT. We establish                        TSL (Özdemir et al., 2020; Sincan and Keles,
+a strong baseline WER of 34.08% and a baseline                        2020), and ISL (Kapoor et al., 2021). Although
+BLEU-4 score of 23.58, respectively. These results                    there are some HKSL resources for educational
+serve as benchmarks for future research on the                        purposes, there are very few HKSL resources for
+TVB-HKSL-News dataset. Furthermore, we also in-                       the development of automatic SLR/SLT models,
+vestigate signer-dependent tasks, and explore the                     with the exception of the relatively small dataset
+impact of training dataset size under this setting.                   mentioned in SignBERT (Zhou et al., 2021b) and
+We demonstrate how the amount of training data                        HKU-Portable (Zhou et al., 2022). Both works
+affects performance and our findings indicate that                    collected HKSL datasets composed of 50 unique
+additional data from a different signer can also lead                 sentences. SignBERT collected data using vision-
+to small improvements. In summary, we present                         based technologies, while HKU-Portable employed
+the following contributions:                                          the Inertial Measurement Unit (IMU) data from
+                                                                      smart watches. These datasets, despite their
+• We publish a new HKSL dataset called TVB-                           important contributions, are limited in their small
+  HKSL-news to support large-vocabulary continu-                      amount of unique sentences and restricted vocab-
+  ous SLR/SLT for HKSL.                                               ulary. In contrast, our TVB-HKSL-News dataset
+                                                                      was collected from TV programs that comprises
+• We present an automated pipeline for collect-                       more diverse sign sentences with a much larger
+  ing substantial SL data from subtitled, sign-                       vocabulary size for both SLR and SLT research.
+  interpreted videos for SLT research, along with                     Several datasets such as (Athitsos et al., 2008;
+  an annotation software to facilitate sign glossing                  Joze and Koller, 2019; Li et al., 2020; Albanie
+  for SLR studies.                                                    et al., 2020; Huang et al., 2019; Sincan and Ke-
+                                                                      les, 2020) have been developed specifically for
+• We establish an SLR/SLT benchmark on the new                        isolated SLR. While these datasets are beneficial
+  dataset using a state-of-the-art SLR/SLT model.
+                                                                        1
+                                                                          Dataset webpage:          https://tvb-hksl-news.
+Instructions to access the dataset can be found on                    github.io/
+                   Table 2: Statistics of the TVB-HKSL-News train/development/test data split.
+
+                                                   Glosses for SLR                             Chinese Characters for SLT
+                    Hours   # Samples
+                                        Vocab   Running # OOVs # Singletons         Vocab       Running # OOVs # Singletons
+           Train    14.71     6,516     6,515   111,204   N/A      2,925            2,816        212,108       N/A                 466
+           Dev      0.67       322      1,091    5,222     0        471             1,279         10,003       17                  395
+           Test     0.69       322      1,130    5,391     0        518             1,276         10,199       19                  399
+        Overall     16.07     7,160     6,515   121,817   N/A      2,820            2,850        232,310       N/A                 462
+
+
+
+for training models to recognize individual signs,
+they do not capture the complex co-articulations be-
+tween signs that are inherent in continuous signing.
+Continuous sign language recognition and transla-
+tion, which recognize the natural interconnection
+between signs at the sentence level, provide the
+opportunity to gain a more comprehensive under-
+standing of sign language expression. There has
+been a recent focus on developing datasets for
+continuous SLR and SLT (Ko et al., 2018; Huang
+et al., 2018; Zhou et al., 2021a; Koller et al., 2015;
+Camgöz et al., 2018; Albanie et al., 2021) as shown
+in Table 1. Datasets, such as KETI (Ko et al., 2018),
+CSL100 (Huang et al., 2018), and CSL-Daily (Zhou
+et al., 2021a), were created by recording a fixed set
+of sign sentences in a laboratory setting. Given that
+the signers perform sentences verbatim in these
+datasets, the resulting sign language can appear
+less natural compared to everyday, free-form sign-               Figure 2: Keypoints extracted from Signer-
+ing. The datasets BOBSL (Albanie et al., 2021),                  1/Signer-2 in the first/second row, respectively.
+PHOENIX-14 (Koller et al., 2015), LSA-T (Bianco
+et al., 2022), and PHOENIX-14T (Camgöz et al.,                            Duration (h)                            # Samples
+
+2018), which were sourced from more sponta-
+                                                                        66.3%                                 67.9%
+neous environments like TV news broadcasts, fea-
+ture a more natural form of signing. However, this                                            1.1%                                  1.1%
+                                                                                             3.2%                                  3.4%
+way of data collection requires a post-glossing step                                       1.1%
+                                                                                         3.0%                                    1.1%
+                                                                                                                               3.4%
+to obtain the sign labels for SLR, which can be                                 25.2%                                  23.1%
+time-consuming. Some previous works (Bianco
+et al., 2022) lack sign glosses entirely, while oth-                 # Running Glosses (SLR)          # Running Chinese Characters (SLT)
+
+ers (Albanie et al., 2021) use an automatic sign
+                                                                        66.5%                                 67.9%
+gloss spotting method that may introduce errors.
+Our approach to data collection parallels that of                                             1.1%                                  1.1%
+                                                                                             3.3%                                  3.3%    Train, Signer-1
+BOBSL (Albanie et al., 2021), with both datasets                                           1.2%
+                                                                                         3.1%                                    1.1%
+                                                                                                                               3.3%        Train, Signer-2
+                                                                                                                                           Dev, Signer-1
+being sourced from TV programs via automated or                                 24.8%                                  23.4%               Dev, Signer-2
+                                                                                                                                           Test, Signer-1
+                                                                                                                                           Test, Signer-2
+semi-automated pipelines. However, in contrast to
+BOBSL, our methodology does not leverage the
+audio track and instead primarily employs com-                   Figure 3: Pie charts showing statistics: num-
+puter vision techniques throughout the pipeline.                 ber of samples, duration (hours), and running
+Although much smaller than BOBSL, our dataset                    glosses/characters for SLR/SLT tasks across
+has been carefully and professionally annotated at               train/dev/test sets.
+the gloss level, whereas the gloss annotations in
+BOBSL are generated through automatic spotting.
+Among the SLs listed in Table 1, our dataset has                 guage program2 . The program covers a wide range
+the largest gloss vocabulary, and is the second                  of topics, including but not limited to politics, econ-
+largest in the size of SLT vocabulary in terms of                omy, sports, and weather, with each episode run-
+words.                                                           ning approximately 20 minutes. Broadcast at a
+
+      3.      TVB-HKSL-News Dataset                                 2
+                                                                    The link to the TVB News Report with Sign Lan-
+The proposed TVB-HKSL-News dataset was                           guage: https://news.tvb.com/tc/programme/
+sourced from the TVB News Report with Sign Lan-                  newsreportwithsignlanguage.
+                                                                                       0.04                                   10 2
+                                                  0.06
+             0.15                                                                                                                                         10 3
+Proportion                                                                                                                    10 3
+             0.10                                 0.04                                                                                                    10 5
+                                                                                       0.02                                                                            Train
+                                                                                                                              10 4
+             0.05                                 0.02                                                                                                                 Dev
+                                                                                                                                                          10 7
+                                                                                                                              10 5                                     Test
+             0.00                                 0.00                                 0.00
+                       5          10         15          0         20           40            0              50                      0   2500      5000          0              2000
+                     Clip duration (seconds)              Number of glosses per clip          Number of characters per clip              Gloss index                 Character index
+
+Figure 4: The first three figures show the distribution of clip lengths, number of glosses per clip for SLR,
+and characters per clip for SLT. The last two figures show the occurrences of particular sign glosses and
+characters among the samples, sorted by their overall occurrences. Different colors represent different
+dataset splits.
+
+
+frame rate of 25 fps and a resolution of 1024×576,                                                         glosses for SLR and 2,850 Chinese characters for
+it features Chinese subtitles and an HKSL inter-                                                           SLT. We divided the dataset into training, devel-
+preter performing sign language interpretation in a                                                        opment (dev), and test sets according to a rough
+fixed 248×360 area on the right side of the screen,                                                        ratio of 90:5:5. Out-of-vocabulary (OOV) glosses
+alongside the news anchor (see Figure 1). To build                                                         are intentionally avoided in the dev and test sets
+our dataset, we acquired 206 episodes of the pro-                                                          by rejection sampling. All data splits cover both
+gram, aired from January 16 to August 17, 2020,                                                            interpreters, labeled as Signer-1 and Signer-2. Fig-
+with the permission of Television Broadcasts Lim-                                                          ure 3 shows the detailed data distribution among
+ited (TVB). These episodes featured simultaneous                                                           the three dataset splits: Signer-1 contributes 11.66
+sign interpretation by two professional HKSL inter-                                                        hours of videos, accounting for about 73% of all
+preters.                                                                                                   sign videos, while Signer-2 contributes 4.41 hours
+                                                                                                           of videos. The dataset exhibits a wide range of
+3.1.                Dataset Specifications                                                                 video durations, glosses per segment, and Chi-
+Our dataset, compiled from the source data above,                                                          nese characters per segment. As shown in Fig-
+comprises the following four data types:                                                                   ure 4, the duration of the video segments ranges
+Sign Video Clips. The sign video clips are RGB                                                             from 3–15 seconds, with a mode of 7.88 seconds;
+video segments extracted from the designated re-                                                           the number of glosses per segment ranges from
+gion of the sign interpreter on the screen. It has a                                                       1–44, with a mode of 16 glosses; the number of
+resolution of 248×360 and a frame rate of 25 fps,                                                          Chinese characters per segment ranges from 1–
+with the signer centered in the frame.                                                                     120, with a mode of 29 characters.
+Sign Keypoints. In accordance with recent re-
+search trends that emphasize human body key-                                                                  4.       Dataset Collection Methodology
+points modeling (Zhou et al., 2020; Zuo and Mak,                                                           In this section, we outline our data collection
+2022a; Chen et al., 2022b; Jiang et al., 2021; Hu                                                          methodology for both SLT and SLR. We begin by
+et al., 2021; Zuo et al., 2023), we also provide                                                           describing the SLT collection pipeline. Afterwards,
+estimated keypoints for each video frame. These                                                            we detail the glossing method we adopted to obtain
+keypoints, comprising 68 for the face, 42 for the                                                          annotations for the SLR task.
+hands, and 11 for the upper body (as depicted in
+Figure 2), are designed to be robust to variations                                                         4.1.        Data Collection for SLT
+in signer appearance, hand positions, and shapes.                                                          Obtaining Sign Video Clips. Since the sign
+Chinese Subtitles for SLT. We extract textual sub-                                                         language interpreter does not continuously sign
+titles from the sign clips using Optical Character                                                         throughout the TV news program, we need to per-
+Recognition (OCR). These subtitles transcribe the                                                          form signer activity detection. To achieve this, we
+content spoken by the news anchors and are pre-                                                            train a video clip binary classifier for each sign
+sented in the form of standard spoken Chinese                                                              language interpreter to detect his/her active and
+sentences, serving as a resource for SLT research.                                                         inactive periods. The classifier is built based on a
+Chinese Glosses for SLR. For SLR studies, we                                                               ResNet18+TCN (He et al., 2016; Lea et al., 2016)
+provide Chinese glosses, obtained from profes-                                                             model. It takes five video frames as input and
+sional sign annotators, for each of the sign clips.                                                        produces the probability that the signer is actively
+These glosses are words that describe the signs                                                            signing in the center (i.e., the third) frame. To train
+verbatim and are sequenced in the order of HKSL,                                                           the classifier, we use the data from 60 episodes
+making them suitable for SLR tasks.                                                                        with one minute per episode, which are manually
+                                                                                                           annotated with activity labels (i.e., 0 and 1). We
+3.2.                Dataset Statistics                                                                     use the trained classifier to generate these labels
+The overall statistics of our proposed dataset are                                                         for the remaining videos. The labels help us group
+presented in Table 2. The dataset consists of 6,515                                                        consecutive active frames together to create active
+1                                                                 olding and use them to segment the video into
+2
+                                                                  shorter subtitle clips. Ideally, each of these
+                                                                  clips should contain a unique subtitle (includ-
+3
+                                                                  ing the empty subtitle). Within each subtitle
+4
+                                                                  clip, we average all frames. Clips that yield a
+                                                                  pure black image, indicating that the subtitle
+Figure 5: Example of subtitle background removal.                 is absent, are subsequently removed.
+Lines 1 and 2 show an example of sample input
+and target image used for training the U-Net model.         3. Optical character recognition (OCR). After ob-
+The trained model processes Line 3 (input) to pro-             taining the averaged frame of each subtitle
+duce Line 4 (output) with background removed.                  video clip, we use the Google OCR API4 to
+                                                               recognize the text in the averaged frame.
+
+sign clips. Finally, we filter and retain only clips        4. Text Re-grouping. In practice, we find that the
+with durations ranging from 3 to 15 seconds.                   above simple thresholding method can result
+Obtaining Text from Subtitles. Text transcrip-                 in oversegmentation, where the same subtitle
+tions for SLT are obtained from the subtitles that             appears in multiple consecutive video clips.
+are embedded in a fixed 768×48 region at the bot-              To address this, we iteratively merge adjacent
+tom of the TV program screen. After cropping this              subtitles as long as their edit distance (Leven-
+fixed region from the video, we apply the following            shtein et al., 1966) is below a threshold. This
+procedure to extract the text:                                 process can form groups consisting of multiple
+                                                               subtitles. Within each group, we choose the
+    1. Subtitle Background Removal. We first train             most representative subtitle by selecting the
+       a background removal model based on the                 one that has the minimum average edit dis-
+       U-Net (Ronneberger et al., 2015). The model             tance to all the other subtitles in the group. In
+       clears the background of the subtitle with              the end, we obtain the subtitle text along with
+       black, as shown in Figure 5. To train this              the precise starting and ending timestamps
+       model, we first create a synthetic dataset con-         by considering the frame index of the first and
+       sisting of pairs of source and target images. A         last subtitle frames in the group, respectively.
+       source image comprises a non-textual TV pro-
+       gram background overlaid with random text,          Aligning Sign and Subtitle Clips. To align the
+       augmented with white noise and Gaussian             sign clips and subtitle clips, we adopt a Dynamic
+       blur. A target image is a pure black back-          Time Warping (DTW)-based algorithm. This algo-
+       ground overlaid with the same text at the same      rithm treats all the sign clips and subtitle clips within
+       position. The non-textual TV program back-          one episode as two time series, and attempts to
+       grounds are obtained by randomly cropping a         align them based on the distance between their
+       region above the subtitle on the screen, and        temporal midpoints. Notably, in our algorithm, we
+       random text is generated from the zhwiki cor-       allow multiple subtitle clips to align with a single
+       pus3 . The well-trained model is applied to         sign clip, as subtitle clips are typically shorter than
+       each frame of the episode specifically within       sign clips.
+       the subtitle region. This process effectively re-   Keypoint Extraction from Sign Videos. To ex-
+       moves the background, yielding clean subtitle       tract the facial, hand and body keypoints from sign
+       videos.                                             videos, we use HRNet (Sun et al., 2019), which is
+                                                           pre-trained on COCO-WholeBody (Jin et al., 2020),
+    2. Subtitle Segmentation. Subtitle video clips         following the approach in (Chen et al., 2022b; Hu
+       are extracted by identifying rapid transitions      et al., 2021; Zuo et al., 2023, 2024). The model pre-
+       in cleaned subtitle videos. These rapid transi-     dicts 133 keypoints, from which we discard 6 lower
+       tions include the appearance, disappearance,        body keypoints and 6 foot keypoints, as they are ir-
+       and switching of subtitles. To identify such        relevant to sign language tasks and our sign frames
+       rapid transitions, we apply a temporal Lapla-       only show the upper body of the signers. This pro-
+       cian filter to the intensity values of each pixel   cess leads to a final count of 121 keypoints per
+       across consecutive cleaned frames. We then          frame, including those for the upper body, hands,
+       take the average of all the filtered pixel val-     and face.
+       ues in each frame and use it as a measure
+       of the subtitle transition. Peaks in this mea-      4.2.     Glossing for SLR
+       sure signify rapid transitions in subtitles. We     Sign languages have their own rules for word order,
+       select frames with large transitions via thresh-    sentence structure, and grammar that are different
+
+  3                                                          4
+    The zhwiki corpus: https://dumps.wikimedia.                Google OCR API: https://cloud.google.
+org/zhwiki/                                                com/vision/docs/ocr.
+from those of spoken languages. Therefore, subti-              resentative gloss in both the hypothesis and
+tles for spoken languages cannot be directly used              reference sentences for each sample.
+as glosses for sign language recognition, where
+monotonic gloss sequences are required as train-        These post-processing rules simplify raw annota-
+ing targets. To obtain accurate gloss annotations of    tions and result in cleaner and more consistent
+the signed clips collected, we hired HKSL signers       glossing of signs, while preserving the necessary
+from SLCO Community Resources5 to annotate              information for the SLR task6 .
+them. The annotators are fluent in both HKSL and
+Cantonese (Chinese). To facilitate the annotation                       5.   Experiments
+process, we have developed a software tool for the      Here, we present our experiments on SLR and
+annotators. The software presents sign language         SLT. We first introduce the baseline models and
+video clips side by side with the corresponding         the evaluation metrics that are used to assess their
+subtitle text, which is derived from the previous       performance. We then report our experimental
+pipeline. Annotators can efficiently gloss the sign     results on the full dataset and provide a qualitative
+language videos using the tool with the subtitle text   analysis of the outcomes. Finally, we evaluate
+as a reference. During the annotation process, the      the impact of the amount of training data under a
+annotator glosses the signs in the video verbatim,      signer-dependent setting for a single signer. We
+from left to right. In addition to the common signs     hope that the experimental results will serve as
+that can be described using single Chinese words,       benchmarks for future research on this dataset.
+there are signs that require special attention. The
+glossing of these special cases is dealt with using     5.1.     Baselines and Evaluation Metrics
+the following rules:
+                                                        Video-based Baselines. Most existing deep-
+ 1. Compound signs are annotated in the form            learning-based SLR models adopt 2D- or 3D-
+    of X+Y. They are formed by combining two            CNNs (Simonyan and Zisserman, 2015; He et al.,
+    or more signs to create a phrase of distinct        2016; Carreira and Zisserman, 2017; Xie et al.,
+    meaning. During post-processing, we split           2018) for visual feature extraction. A sequen-
+    these signs into X Y.                               tial module, which is composed of, for example,
+                                                        temporal CNNs (Lea et al., 2016), Transformer
+ 2. Ill-performed signs are signs that are not          (Vaswani et al., 2017), or a mixture of them (Yu
+    signed correctly but can still be recognized by     et al., 2018), is optionally appended to the CNNs
+    the annotators. They are annotated as X(?).         for temporal modeling. In this paper, we choose
+    During post-processing, we assume they are          S3D (Xie et al., 2018) for the implementation of 3D-
+    the truly X.                                        CNNs, which is adopted as the backbone network
+ 3. Many-to-one glossing occurs when multiple           of the video/keypoint encoder in TwoStream-SLR
+    signs are glossed with the same term, repre-        (Chen et al., 2022b) (the current best model on sev-
+    sented as X(1), X(2), and so on. We choose          eral widely adopted SLR benchmarks (Koller et al.,
+    the common glossing, X, for all these varia-        2015; Camgöz et al., 2018; Zhou et al., 2021a))
+    tions.                                              due to its strong spatial-temporal modeling capabil-
+                                                        ity and high efficiency. Besides, we also implement
+ 4. One-to-many glossing arises when a single           VLT (Zuo and Mak, 2022a) as our sequential mod-
+    sign can be transcribed into multiple glosses       ule with a mixed architecture, which is the back-
+    due to the availability of various suitable gloss   bone network of C2 SLR (Zuo and Mak, 2022a);
+    words. This is annotated as a homosign group:       it uses VGG11 (Simonyan and Zisserman, 2015)
+    X(=Y=Z=...). During training, we select the         to extract frame-wise visual features and a local
+    gloss with the highest compound count for           transformer (LT) (Zuo and Mak, 2022b; Yu et al.,
+    each group (e.g., A+B+C has the compound            2018) to model temporal dependencies.
+    count of three), or the lowest lexicographical      Baselines that Utilize Keypoints. Substantial
+    order if there is a tie. In the testing phase,      visual redundancy in RGB videos may lead video-
+    we proceed by globally merging all homosign         based SLR models to overlook the key information
+    groups that share at least one common el-           for SL understanding (Chen et al., 2022b). Besides,
+    ement. The selection of the representative          the performance of video-based models may also
+    gloss for the newly merged group follows the        suffer from large variations in video backgrounds
+    same strategy used during training. Before          and signer appearances. To obtain better repre-
+    computing the score, we replace glosses ap-         sentations, some SLR works (Chen et al., 2022b;
+    pearing in any homosign group with its rep-         Zuo and Mak, 2022a; Zhou et al., 2020; Hu et al.,
+
+  5                                                        6
+    SLCO Community Resources:        https://www.            The original raw annotations are available so that
+slco.org.hk.                                            users may investigate their own post-processing rules.
+                                               Table 3: Baseline results for SLR.
+
+                                                                               Modality               WER (%)
+                             Method
+                                                                           Video Keypoints           Dev   Test
+                             S3D (Xie et al., 2018; Chen et al., 2022b)                  ✓         45.73    44.56
+                             S3D (Xie et al., 2018; Chen et al., 2022b)      ✓                     39.59    38.63
+                             VLT (Zuo and Mak, 2022a)                        ✓                     35.89    36.18
+                             C2 SLR (Zuo and Mak, 2022a)                     ✓           ✓         35.43    35.78
+                             TwoStream-SLR (Chen et al., 2022b)              ✓           ✓         34.52    34.08
+
+
+                               Table 4: Baseline results for SLT. (R: ROUGE, B: BLEU.)
+
+                                                                           Dev                                        Test
+ Method
+                                                           R      B-1      B-2     B-3       B-4        R      B-1    B-2     B-3     B-4
+ S3D (video) (Xie et al., 2018; Chen et al., 2022b)       18.64   21.98    15.17   11.18     8.79     21.61   25.39   18.59   14.57   12.10
+ S3D (keypoints) (Xie et al., 2018; Chen et al., 2022b)   15.65   18.18    11.58    8.09     6.22     16.42   19.93   13.72   10.41    8.48
+ TwoStream-SLT (Chen et al., 2022b)                       38.12   43.22    33.44   26.04     21.00    39.80   44.68   35.27   28.29   23.58
+
+
+
+2021; Jiang et al., 2021) also make use of key-                           local transformer, with both local and global con-
+points as complementary information in their mod-                         text modeling capability is preferred. For baselines
+els. In this paper, we first implement C2 SLR (Zuo                        that utilize keypoints, C2 SLR uses pre-extracted
+and Mak, 2022a) which utilizes keypoint heatmaps                          keypoint heatmaps to enforce the spatial attention
+of signers’ faces and hands as a guidance for a                           module to focus on informative sign regions. The
+spatial attention module to enforce the visual mod-                       mechanism is also effective on the proposed HKSL
+ule to focus on informative regions of a signing                          dataset with an improvement of 0.46% on the dev
+frame. Second, we implement TwoStream-SLR                                 set over the best video-based baseline. The lowest
+(Chen et al., 2022b), which also represents key-                          WERs (34.52%/34.08% on the dev/test set) come
+points as a sequence of heatmaps and shares an                            from the TwoStream-SLR model, which better ex-
+identical architecture (S3D) between the video and                        ploits the benefits of keypoints by developing a
+keypoint streams. Finally, TwoStream-SLT (Chen                            dual-S3D architecture that takes both videos and
+et al., 2022b), which simply appends an MLP and                           keypoint heatmaps as inputs. It significantly im-
+a translation network to each head of TwoStream-                          proves the performance of the S3D baseline by
+SLR is used for SLT.7 We implement all baselines                          5.07%/4.55% on the dev/test set, respectively.
+by following their original works. All models are                         SLT. Table 4 provides several SLT baseline results.
+trained on 8 NVIDIA Tesla V100 GPUs with a batch                          The TwoStream-SLT model achieves a BLEU-4
+size of 8.                                                                score of 23.58 on the test set. It outperforms the
+Evaluation Metrics. Following the usual prac-                             single-stream models by a large margin, and thus
+tice (Chen et al., 2022b; Zuo and Mak, 2022a;                             validates the effectiveness of the joint modeling of
+Zhou et al., 2020; Camgöz et al., 2018; Koller et al.,                    both videos and keypoints. The SLT performance
+2015), we adopt word (gloss) error rate (WER)                             on our new dataset is comparable to that on CSL-
+for SLR, and BLEU (Papineni et al., 2002) and                             Daily (Chen et al., 2022a) (25.79 on the test set).
+ROUGE-L (Lin, 2004) for SLT. Lower WER means                              The written texts in both datasets are Chinese,
+better SLR performance while higher BLEU and                              but the character vocabulary size of our dataset is
+ROUGE-L indicate better SLT performance.                                  about 20% larger, and our word vocabulary size is
+                                                                          more than double of CSL-Daily’s, and yet there are
+5.2.    SLR and SLT Baseline Results                                      only 2 signers in our training set whereas there are
+SLR. The baseline results for SLR are shown in                            10 signers in CSL-Daily.
+Table 3. Using S3D with keypoints as the baseline,                        Qualitative Results. SLR and SLT results on
+video inputs can lead to much better performance                          some test data using the strongest baseline,
+than keypoint heatmap inputs (44.56% → 38.63%                             TwoStream-SLR/SLT, are shown in Table 5. It is
+on the test set). The results are reasonable since                        clear that the two-stream model can yield more ac-
+RGB videos contain much more information than                             curate gloss/text predictions than both the single-
+sparse keypoints. For video-based baselines, VLT                          stream models, which only take RGB videos or
+outperforms S3D by 2.45% on the test set. The                             keypoint heatmaps as inputs. The results also sug-
+result suggests that a sequential module, e.g., a                         gest that the two modalities can complement each
+                                                                          other.
+   7
+    We only focus on the Sign2Text setting, which di-
+rectly translates sign videos into spoken languages. It                   5.3. Evaluation on Single-signer SLR/SLT
+has also been proven that it outperforms the two-stage                    One key characteristic of our HKSL dataset is
+Sign2Gloss2Text setting (Chen et al., 2022a,b).                           that it has a large amount of data for a single-
+Table 5: Qualitative results on TVB-HKSL-News. For SLR, we use different colors to represent substitu-
+tions, deletions, and insertions, respectively.
+
+     SLR                                                                                                                                              WER (%)
+                             昨天 溫度 二 十 有 濕 百分比 七 六
+     Ground Truth                                                                                                                                          -
+                             (Yesterday Temperature Two Ten Has Humidity Percentage Seven Six)
+                             以前 溫度 小 * 有 濕 百分比 七 六
+     Pred. (S3D Video)                                                                                                                                  33.33
+                             (Previously Temperature Low * Humidity Percentage Seven Six)
+                             ** 溫度 * 十 * 濕 百分比 七 九 六
+     Pred. (S3D Keypoint)                                                                                                                               44.44
+                             (** Temperature * Ten * Humidity Percentage Seven Nine Six)
+                             ** 溫度 二 十 * 濕 百分比 七 六
+     Pred. (TwoStream-SLR)                                                                                                                              22.22
+                             (** Temperature Two Ten * Humidity Percentage Seven Six)
+
+     SLT                                                                                                                                               BLEU-4
+                             而輸入個案有一宗是一名印度海員
+     Ground Truth                                                                                                                                          -
+                             (One of the imported cases was an Indian seafarer.)
+                             至於輸入個案有11宗包括印度海員
+     Pred. (S3D Video)                                                                                                                                  39.38
+                             (Regarding the imported cases, there are eleven cases including an Indian seafarer.)
+                             有輸入個案滯留印度的港人海員知道賭場重開
+     Pred. (S3D Keypoint)                                                                                                                                0.00
+                             (Some imported cases Hong Kong people seafarer stranded in India know that casinos are reopening.)
+                             至於輸入個案有一名印度海員
+     Pred. (TwoStream-SLT)                                                                                                                              63.86
+                             (Regarding the imported cases, there is one Indian seafarer.)
+
+
+
+
+signer, Signer-1, the major signer in the dataset                                                                                                                 30
+                                                                                           55                                                              Dev
+with 11.66 hours of sign videos that consists of                                                                                                           Test 25
+                                                                                 WER (%)   50                                                              OOV 20
+
+
+
+
+                                                                                                                                                                   OOV (%)
+5,350 samples. This enables studies on how well                                            45                                                                     15
+SLR/SLT performance can be achieved under the                                              40                                                                     10
+signer-dependent setting. We study the effect of                                           35                                                                     5
+the amount of training data on SLR/SLT perfor-                                                                                                                    0
+                                                                                              25             50               75             100            133
+mance using the TwoStream-SLR/SLT model and                                                                                                                       30
+                                                                                       22.5       Dev
+only Signer-1’s training data (with the exception of                                              Test                                                            25
+                                                                                       20.0       OOV                                                             20
+
+
+
+
+                                                                                                                                                                   OOV (%)
+the “133% experiment”). Performance is evaluated
+                                                                              BLEU-4
+
+
+
+
+                                                                                       17.5                                                                       15
+only on Signer-1’s test data. The results are shown                                    15.0                                                                       10
+in Figure 6 together with the corresponding OOV                                        12.5                                                                       5
+ratios (grey lines). Notice that since this evaluation                                                                                                            0
+                                                                                              25             50               75             100            133
+                                                                                          Data Amount (% Relative to Signer-1's Data Amount, where Signer-1 = 100%)
+uses Signer-1’s data only, the results shown in Fig-
+ure 6 are different from results shown in Table 3
+and 4 (as the latter use data from all signers).                           Figure 6: SLR and SLT performance of TwoStream-
+                                                                           SLR/SLT with different amount of Signer-1’s train-
+First, we notice that the maximum OOV ratio is just                        ing data. 133% means that we use all the training
+4.27% and 1.35% for SLR and SLT, respectively,                             data of both Signer-1 and Signer-2 (whose amount
+when using only 25% training data. Thus, the effect                        of data is about 33% of Signer-1’s) but evaluate
+of OOV is negligible on the SLR/SLT performance.                           the trained model only on Signer-1’s dev/test data.
+Second, we find that, as expected, the model per-
+formance on both SLR and SLT improves when
+more training data are available. Third, the addition                      be sufficient for signer-dependent SLR modeling in
+of more training data from another signer (shown                           our setting, but SLT still benefits from much more
+as 133% training data in Figure 6) can still improve                       data than SLR. This can serve as a guidance for
+the performance. We believe the use of keypoint in-                        future research on signer-dependent SLR/SLT.
+formation in the TwoStream-SLR/SLT model makes
+the SLR/SLT performance more robust to signer                                                              6.       Conclusion
+appearances. Finally, SLR performance converges                            This work introduces the TVB-HKSL-News dataset,
+with the use of 75% of the training data (which                            which is a valuable resource for advancing re-
+is around 8 hours of sign videos) but SLT perfor-                          search in continuous SLR and SLT. The dataset
+mance improves linearly with the amount of train-                          also provides a large amount of data for one of the
+ing data. For instance, increasing the amount of                           signers with manual gloss annotations, enabling
+Signer-1’s data from 75% to 100% can only lead to                          researchers to investigate new modeling methods
+a WER reduction of 1.22% (34.30% → 33.08%, or                              and evaluate the impact of the amount of train-
+3.56% relative) on the test set. On the other hand,                        ing data needed for the SLR and SLT of a single
+the corresponding BLEU-4 improvement is 2.50                               signer. Furthermore, the automated data collection
+(20.29 → 22.79, or 12.32% relative). The results                           pipeline introduced in the paper makes it easier to
+suggest that around 8 hours of training data may                           scale up the collection of a large amount of data
+for SLT in the future if sign-interpreted videos with   Vassilis Athitsos, Carol Neidle, Stan Sclaroff,
+subtitles are available. Moreover, the presented          Joan P. Nash, Alexandra Stefan, Quan Yuan,
+results of some state-of-the-art SLR/SLT models           and Ashwin Thangali. 2008. The American sign
+on the dataset serve as the benchmarks for future         language lexicon video dataset. In CVPR, pages
+research on the dataset.                                  1–8.
+
+          7.   Ethical Consideration                    Pedro Dal Bianco, Gastón Ríos, Franco Ronchetti,
+During the creation and the use of the TVB-HKSL-          Facundo Manuel Quiroga, Oscar Stanchi, Waldo
+News sign language dataset in our project, we             Hasperué, and Alejandro Rosete. 2022. LSA-T:
+have obtained informed consent from the sign lan-         the first continuous argentinian sign language
+guage interpreters involved in the dataset. They          dataset for sign language translation. In Ad-
+are aware of their data being used for academic           vances in Artificial Intelligence - IBERAMIA 2022
+research purposes. Additionally, we have imple-           - 17th Ibero-American Conference on AI, Carta-
+mented a procedure to make the dataset acces-             gena de Indias, Colombia, November 23-25,
+sible for academic research. The interested par-          2022, Proceedings, volume 13788 of Lecture
+ties are required to sign an agreement with Televi-       Notes in Computer Science, pages 293–304.
+sion Broadcasts Limited (TVB), ensuring that the          Springer.
+dataset will be used only for academic research.
+                                                        Necati Cihan Camgöz, Simon Hadfield, Oscar
+   8.     Dataset Availability Statement                 Koller, Hermann Ney, and Richard Bowden.
+The complete dataset will be hosted on a dedicated       2018. Neural sign language translation. In
+server. Authorized users can download it using           CVPR, pages 7784–7793.
+a specific URL and password, which can be re-
+quested at https://tvb-hksl-news.github.                Joao Carreira and Andrew Zisserman. 2017. Quo
+io/. To gain authorization, users must first sign         vadis, action recognition? a new model and the
+an agreement that will be available on our dataset        kinetics dataset. In CVPR.
+website, ensuring the dataset’s appropriate use.
+The copyrights for all materials in the TVB-HKSL-       Xiujuan Chai, Hanjie Wang, and Xilin Chen. 2014.
+News dataset belongs to Television Broadcasts             The devisign large vocabulary of Chinese sign
+Limited (TVB). We have obtained permission from           language database and baseline evaluations. In
+TVB for its distribution strictly for academic re-        Technical report VIPL-TR-14-SLR-001. Key Lab
+search and the data should not be used for                of Intelligent Information Processing of Chinese
+any other commercial or non-commercial pur-               Academy of Sciences (CAS). Institute of Com-
+poses.                                                    puting Technology.
+
+     9.    Bibliographical References                   Yutong Chen, Fangyun Wei, Xiao Sun, Zhirong
+                                                          Wu, and Stephen Lin. 2022a. A simple multi-
+                                                          modality transfer learning baseline for sign lan-
+Nikolas Adaloglou, Theocharis Chatzis, Ilias Pa-          guage translation. In CVPR, pages 5120–5130.
+  pastratis, Andreas Stergioulas, Georgios Th. Pa-
+  padopoulos, Vassia Zacharopoulou, George J.           Yutong Chen, Ronglai Zuo, Fangyun Wei, Yu Wu,
+  Xydopoulos, Klimnis Atzakas, Dimitris Pa-               Shujie Liu, and Brian Mak. 2022b. Two-stream
+  pazachariou, and Petros Daras. 2022. A com-             network for sign language recognition and trans-
+  prehensive study on deep learning-based meth-           lation. In NeurIPS.
+  ods for sign language recognition. IEEE TMM,
+  24:1750–1762.                                         Kaiming He, Xiangyu Zhang, Shaoqing Ren, and
+Samuel Albanie, Gül Varol, Liliane Momeni, Tri-           Jian Sun. 2016. Deep residual learning for image
+  antafyllos Afouras, Joon Son Chung, Neil Fox,           recognition. In CVPR, pages 770–778.
+  and Andrew Zisserman. 2020. BSL-1K: scaling
+  up co-articulated sign language recognition us-       Hezhen Hu, Weichao Zhao, Wengang Zhou,
+  ing mouthing cues. In ECCV, volume 12356,              Yuechen Wang, and Houqiang Li. 2021. Sign-
+  pages 35–53. Springer.                                 BERT: Pre-training of hand-model-aware repre-
+                                                         sentation for sign language recognition. In ICCV,
+Samuel Albanie, Gül Varol, Liliane Momeni, Han-          pages 11087–11096.
+  nah Bull, Triantafyllos Afouras, Himel Chowd-
+  hury, Neil Fox, Bencie Woll, Rob Cooper, Andrew       Jie Huang, Wengang Zhou, Houqiang Li, and Weip-
+  McParland, and Andrew Zisserman. 2021. BBC-              ing Li. 2019. Attention-based 3D-CNNs for large-
+  Oxford British sign language dataset. CoRR,             vocabulary sign language recognition. IEEE
+  abs/2111.03635.                                          TCSVT., 29(9):2822–2832.
+Jie Huang, Wengang Zhou, Qilin Zhang, Houqiang       Chin-Yew Lin. 2004. Rouge: A package for auto-
+   Li, and Weiping Li. 2018. Video-based sign lan-    matic evaluation of summaries. In Text summa-
+   guage recognition without temporal segmenta-       rization branches out, pages 74–81.
+   tion. In AAAI, pages 2257–2264.
+                                                     Liliane Momeni, Gül Varol, Samuel Albanie, Tri-
+Songyao Jiang, Bin Sun, Lichen Wang, Yue Bai,           antafyllos Afouras, and Andrew Zisserman. 2020.
+  Kunpeng Li, and Yun Fu. 2021. Skeleton                Watch, read and lookup: Learning to spot signs
+  aware multi-modal sign language recognition. In       from multiple supervisors. In ACCV, volume
+  CVPRW, pages 3413–3423.                               12627, pages 291–308.
+Zhenyu Jiao, Shuqi Sun, and Ke Sun. 2018. Chi-       Ogulcan Özdemir, Ahmet Alp Kindiroglu, Necati Ci-
+  nese lexical analysis with deep bi-gru-crf net-     han Camgöz, and Lale Akarun. 2020. Bospho-
+  work. arXiv preprint arXiv:1807.01882.              rusSign22k sign language recognition dataset.
+                                                      CoRR, abs/2004.01283.
+Sheng Jin, Lumin Xu, Jin Xu, Can Wang, Wentao
+  Liu, Chen Qian, Wanli Ouyang, and Ping Luo.        Kishore Papineni, Salim Roukos, Todd Ward, and
+  2020. Whole-body human pose estimation in the        Wei-Jing Zhu. 2002. BLEu: A method for auto-
+  wild. In ECCV, pages 196–214.                        matic evaluation of machine translation. In ACL,
+                                                       pages 311–318.
+Hamid Reza Vaezi Joze and Oscar Koller. 2019.
+ MS-ASL: A large-scale data set and benchmark        Olaf Ronneberger, Philipp Fischer, and Thomas
+ for understanding american sign language. In          Brox. 2015. U-net: Convolutional networks for
+ BMVC, page 100.                                       biomedical image segmentation. In MICCAI, vol-
+                                                       ume 9351, pages 234–241.
+Parul Kapoor, Rudrabha Mukhopadhyay, Sindhu B.
+  Hegde, Vinay P. Namboodiri, and C. V. Jawahar.     Zed Sevcikova Sehyr, Naomi Caselli, Ariel M
+  2021. Towards automatic speech to sign lan-          Cohen-Goldberg, and Karen Emmorey. 2021.
+  guage generation. In Interspeech, pages 3700–        The ASL-LEX 2.0 project: A database of lexical
+  3704.                                                and phonological properties for 2,723 signs in
+                                                       american sign language. The Journal of Deaf
+Sang-Ki Ko, Chang Jo Kim, Hyedong Jung, and            Studies and Deaf Education, 26(2):263–277.
+  Choong Sang Cho. 2018. Neural sign language
+  translation based on human keypoint estimation.    Karen Simonyan and Andrew Zisserman. 2015.
+  CoRR, abs/1811.11436.                                Very deep convolutional networks for large-scale
+                                                       image recognition. In ICLR.
+Oscar Koller, Jens Forster, and Hermann Ney.
+ 2015. Continuous sign language recognition:         Ozge Mercanoglu Sincan and Hacer Yalim Keles.
+ Towards large vocabulary statistical recogni-        2020. AUTSL: A large scale multi-modal Turkish
+ tion systems handling multiple signers. CVIU,        Sign Language dataset and baseline methods.
+ 141:108–125.                                         IEEE Access, 8:181340–181355.
+
+Colin Lea, René Vidal, Austin Reiter, and Gre-       Junyi Sun. 2012. Jieba chinese word segmentation
+ gory D. Hager. 2016. Temporal convolutional           tool.
+ networks: A unified approach to action segmen-      Ke Sun, Bin Xiao, Dong Liu, and Jingdong Wang.
+ tation. In ECCVW, Lecture Notes in Computer           2019. Deep high-resolution representation learn-
+ Science, pages 47–54.                                 ing for human pose estimation. In CVPR, pages
+                                                       5693–5703.
+Vladimir I Levenshtein et al. 1966. Binary codes
+  capable of correcting deletions, insertions, and   TVB News. 2023. News report with sign language.
+  reversals. In Soviet physics doklady, volume 10,     https://news.tvb.com/tc/programme/
+  pages 707–710. Soviet Union.                         newsreportwithsignlanguage.
+Dongxu Li, Cristian Rodriguez Opazo, Xin Yu, and     Ashish Vaswani, Noam Shazeer, Niki Parmar,
+  Hongdong Li. 2020. Word-level deep sign lan-         Jakob Uszkoreit, Llion Jones, Aidan N. Gomez,
+  guage recognition from video: A new large-scale      Lukasz Kaiser, and Illia Polosukhin. 2017. Atten-
+  dataset and methods comparison. In WACV,             tion is all you need. In NeurIPS, pages 5998–
+  pages 1448–1458.                                     6008.
+Xiaoya Li, Yuxian Meng, Xiaofei Sun, Qinghong        Ville Viitaniemi, Tommi Jantunen, Leena
+  Han, Arianna Yuan, and Jiwei Li. 2019. Is word       Savolainen, Matti Karppa, and Jorma Laakso-
+  segmentation necessary for deep learning of          nen. 2014. S-pot - a benchmark in spotting
+  Chinese representations? In ACL, pages 3242–         signs within continuous signing. In LREC, pages
+  3252.                                                1892–1897.
+Saining Xie, Chen Sun, Jonathan Huang, Zhuowen
+  Tu, and Kevin Murphy. 2018. Rethinking spa-
+  tiotemporal feature learning: Speed-accuracy
+  trade-offs in video classification. In ECCV, pages
+  305–321.
+Adams Wei Yu, David Dohan, Minh-Thang Luong,
+  Rui Zhao, Kai Chen, Mohammad Norouzi, and
+  Quoc V. Le. 2018. QANet: Combining local
+  convolution with global self-attention for reading
+  comprehension. In ICLR.
+Hao Zhou, Wengang Zhou, Weizhen Qi, Junfu
+ Pu, and Houqiang Li. 2021a. Improving sign
+ language translation with monolingual data by
+ sign back-translation. In CVPR, pages 1316–
+ 1325.
+Hao Zhou, Wengang Zhou, Yun Zhou, and
+ Houqiang Li. 2020. Spatial-temporal multi-cue
+ network for continuous sign language recogni-
+ tion. In AAAI, pages 13009–13016.
+
+Zhenxing Zhou, Vincent WL Tam, and Edmund Y
+  Lam. 2021b. SignBERT: a BERT-based deep
+  learning framework for continuous sign language
+  recognition. IEEE Access, 9:161669–161682.
+Zhenxing Zhou, Vincent WL Tam, and Edmund Y
+  Lam. 2022. A portable sign language collec-
+  tion and translation platform with smart watches
+  using a BLSTM-based multi-feature framework.
+  Micromachines, 13(2):333.
+Ronglai Zuo and Brian Mak. 2022a. C2SLR:
+ Consistency-enhanced continuous sign lan-
+ guage recognition. In CVPR, pages 5131–5140.
+Ronglai Zuo and Brian Mak. 2022b. Local context-
+  aware self-attention for continuous sign lan-
+  guage recognition. In Interspeech, pages 4810–
+ 4814.
+Ronglai Zuo, Fangyun Wei, and Brian Mak. 2023.
+ Natural language-assisted sign language recog-
+ nition. In CVPR.
+Ronglai Zuo, Fangyun Wei, and Brian Mak. 2024.
+ Towards online sign language recognition and
+ translation. arXiv preprint arXiv:2401.05336.
+

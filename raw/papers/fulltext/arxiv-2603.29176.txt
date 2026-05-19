@@ -1,0 +1,2007 @@
+                                              Predicting Neuromodulation Outcome for Parkinson’s Disease
+                                                                    with Generative Virtual Brain Model
+                                            Siyuan Du†1,4 , Siyi Li†4,6 , Shuwei Bai5 , Ang Li5 , Haolin Li1,4 , Mingqing Xiao8 , Yang Pan9 , Dongsheng
+                                                Li8 , Weidi Xie3,4 , Yanfeng Wang3 , Ya Zhang∗3,4,7 , Chencheng Zhang∗5 and Jiangchao Yao∗2
+                                                 1
+                                                   College of Computer Science and Artificial Intelligence, Fudan University, Shanghai, China
+                                                 2
+                                                   Cooperative Medianet Innovation Center, Shanghai Jiao Tong University, Shanghai, China
+                                                        3
+                                                          School of Artificial Intelligence, Shanghai Jiao Tong University, Shanghai, China
+                                                                             4
+                                                                               Shanghai AI Laboratory, Shanghai, China
+arXiv:2603.29176v1 [q-bio.NC] 31 Mar 2026
+
+
+
+
+                                                     5
+                                                       Ruijin Hospital, Shanghai Jiao Tong University School of Medicine, Shanghai, China
+                                                                  6
+                                                                    University of Science and Technology of China, Anhui, China
+                                             7
+                                               Institute of Artificial Intelligence for Medicine, Shanghai Jiao Tong University School of Medicine,
+                                                                                            Shanghai, China
+                                                                             8
+                                                                               Microsoft Research Asia, Shanghai, China
+                                                                      9
+                                                                        Zhongnan Hospital of Wuhan University, Hubei, China
+
+
+                                                Parkinson’s disease (PD) affects over ten million people worldwide. Although temporal interference (TI)
+                                                and deep brain stimulation (DBS) are promising therapies, inter-individual variability limits empirical
+                                                treatment selection, increasing non-negligible surgical risk and cost. Previous explorations either resort to
+                                                limited statistical biomarkers that are insufficient to characterize variability, or employ AI-driven methods
+                                                which is prone to overfitting and opacity. We bridge this gap with a pretraining-finetuning framework to
+                                                predict outcomes directly from resting-state fMRI. Critically, a generative virtual brain foundation model,
+                                                pretrained on a collective dataset (2707 subjects, 5621 sessions) to capture universal disorder patterns, was
+                                                finetuned on PD cohorts receiving TI (n=51) or DBS (n=55) to yield individualized virtual brains with high
+                                                fidelity to empirical functional connectivity (r=0.935). By constructing counterfactual estimations between
+                                                pathological and healthy neural states within these personalized models, we predicted clinical responses
+                                                (TI: AUPR=0.853; DBS: AUPR=0.915), substantially outperforming baselines. External and prospective
+                                                validations (n=14, n=11) highlight the feasibility of clinical translation. Moreover, our framework provides
+                                                state-dependent regional patterns linked to response, offering hypothesis-generating mechanistic insights.
+
+                                            1 INTRODUCTION
+                                            Parkinson’s disease (PD) is a multifactorial worldwide neurodegenerative disorder, which affects over 10 million
+                                            individuals and induces a substantial healthcare burden [1]. For its treatment, pharmacotherapy is generally
+                                            effective in the early management of progressive motor symptoms, but treatment-limiting complications
+                                            often develop with disease progression [2]. Neuromodulation therapies have therefore been considered as
+                                            promising alternatives during the moderate to advanced stages of PD. Specifically, two typical neuromodulation
+                                            modalities include deep brain stimulation (DBS) and transcranial temporal interference stimulation (TI),
+                                            where the former is an established invasive therapy that delivers chronic electrical stimulation via implanted
+                                            electrodes to improve motor function [3], whereas the latter is a non-invasive approach that seeks to modulate
+                                            deep brain circuits by exploiting interference envelopes generated by multiple high-frequency currents [4]. As
+                                            patients move toward neuromodulation, treatment planning becomes consequential and clinically sensitive.
+                                            However, the existing selection criteria to adopt neuromodulation heavily rely on the neuroscientific experiences
+                                            regarding demographic factors, disease duration, and dopaminergic responsiveness [5], while the treatment
+                                            response to both DBS and TI exhibits substantial inter-individual variability [6]. For DBS, even among
+                                            rigorously screened candidates, approximately 30–40% of patients fail to achieve clinically meaningful motor
+                                            improvement [7]. For TI, although early studies likewise report heterogeneous outcomes, there is a lack
+                                            of generally effective criteria to support patient stratification [4]. This absence of reliable pre-treatment
+                                            estimates often leaves patients facing prolonged trial-and-error before an effective therapy is identified. In turn,
+
+                                            † These authors contributed equally. ∗ Corresponding author. Email addresses: sunarker@sjtu.edu.cn (J. Yao)
+overestimation may prompt unnecessary invasive surgery with added costs and hardware-related complications
+(e.g., intracranial hemorrhage, infection, and lead failure) [8], whereas underestimation can delay effective
+treatment and potentially forfeit an optimal window for symptom control [9] as shown in Fig. 1a.
+To advance the estimation, previous clinical practice has derived digital biomarkers for PD from neuroimaging
+at the group level [10, 11]. For example, structural markers (e.g., cortical thickness, subcortical volumes)
+and tract-level features have been investigated for DBS planning and outcome association [11, 12], but
+findings are often heterogeneous across cohorts and pipelines [13]. In parallel, resting-state fMRI has enabled
+connectivity-based biomarkers, where network-level markers are extracted to characterize PD-related circuit
+dysfunction and to correlate with neuromodulation benefit [10, 14]. Nevertheless, these group-level biomarkers
+often fail to generalize well to individual patients due to inter-individual variability [15].
+For AI-driven methods, they seek to decode individual network states directly from resting-state fMRI, including
+end-to-end learning of functional connectivity [16, 17] and transformer-based representation learning for brain
+dynamics [18]. However, there are two-fold challenges remaining: 1) fMRI signals are high-dimensional, sparse,
+and confounded by site/subject-specific noise [19, 20]; 2) labeled PD neuromodulation cohorts (especially for
+TI) are severely limited, as the collection and annotation require a well-characterized setting. Consequently,
+naive AI modeling on small datasets is prone to overfitting and lacks mechanistic interpretability [21, 22].
+The difficulty presented in this area limits the advances of AI-aided PD therapy.
+These gaps motivate us to explore a more generalizable framework for precision neuromodulation. Specifically,
+we are inspired by the remarkable success of foundation models for medicine, which are first pretrained on
+large-scale data to learn broad knowledge, and then achieve impressive adaptation performance with only a
+few samples in the downstream scenarios [23, 24, 25]. In this study, we first collect a large-scale open-source
+rs-fMRI dataset encompassing a range of neurodegenerative disorders. Then, a generative foundation virtual
+brain model (FVB) that fits the BOLD signal translated from rs-fMRI is designed to learn the whole-brain
+hemodynamics. By personalizing FVB with the data of each patient, we instantiate an individualized virtual
+brain model (iVB) that breaks the inter-individual variability dilemma and accurately characterizes the
+brain dynamics for PD, which is illustrated in Fig. 1b. Furthermore, we introduce novel Counterfactual
+Brain Mismatch (CBM) features as mechanistically interpretable digital biomarkers for the neuromodulation
+outcome prediction with the appealing merit of iVBs: iVBs enable counterfactual simulations that quantify
+patient-specific deviations from normative dynamics (e.g., “what-if-healthy” and “what-if-distorted” contrasts).
+Notably, these deviations are intrinsically state-dependent and circuit-resolved, supporting not only prediction
+but also identification of state-dependent circuit signatures that explain why stimulation succeeds or fails.
+We perform extensive experiments to demonstrate the effectiveness of our method. Across both non-invasive
+and invasive stimulation (TI, n = 51; DBS, n = 55; cohort statistics are provided in Fig. 1e–g), the framework
+accurately discriminates responders from non-responders, significantly outperforming both conventional
+neuroimaging biomarkers and AI-driven methods. Crucially, the framework shows encouraging performance
+at an external center without site-specific retraining and remains feasible in a small prospective setting.
+Meanwhile, predictions arise from explicit, region-resolved deviations from normative dynamics, allowing
+clinicians to trace outcomes back to circuit-level states rather than opaque algorithmic scores. Beyond
+forecasting, this capacity enables hypothesis-generating, mechanism-oriented analyses by nominating state-
+dependent circuit signatures of benefit, yielding interpretable insights for both mechanistically opaque TI
+and established DBS. Together, our results provide evidence that generative virtual-brain modeling is a
+practical route toward data-efficient, explainable, and mechanism-informed treatment selection, advancing
+neuromodulation beyond heuristic trial-and-error toward true precision care.
+
+2 RESULTS
+The resting-state fMRI dataset to pretrain the generative foundation virtual brain model contains 5,621
+sessions from 2,707 unique participants across four public cohorts: Alzheimer’s Disease Neuroimaging Initiative
+(ADNI) [26], Parkinson’s Progression Markers Initiative (PPMI) [27], Autism Brain Imaging Data Exchange
+(ABIDE) [28], and Human Connectome Project (HCP) [29]. The statistics have been illustrated in Fig. 1c–d.
+The pretrained FVB was then finetuned on in-hospital pre-treatment fMRI data from 106 Parkinson’s disease
+patients (51 transcranial interference [TI] recipients and 55 deep brain stimulation [DBS] recipients) to acquire
+
+
+                                                                                                              |2
+     a Clinical Gap
+                                                                                                                                       Global Distribution of PD
+
+
+
+
+                                                                                                       Responder
+         PD Patients
+                                            TI
+
+                                                                  Trial
+                                                                  And
+                        Heuristic                                 Error                           Non-Responder
+                        Selection
+
+                                                                  Unnecessary          Delayed              Financial              Over 10 M                           > 30%
+          Doctors                                                  Surgery             Therapy               Burden                PD Patients Worldwide          Wasted Resources & Time
+                                        DBS
+
+     b
+         Proposed Framework
+                                    Pretrain                                               Personalize
+
+
+
+           Multi-Center Data                       Foundation Virtual Brain                                     Individual Virtual Brain                   Response Prediction
+
+
+
+                                                 Demographics                                                                                    Pre-treatment
+                    Sources                          Age, sex,                                                 Ruijin Hospital                 Resting-state
+                                                     race, …                     Medical Imaging                                                fMRI; T1
+
+                                                 Disease labels                                                                                 MDS-UPDRS
+
+                                                  HC, AD, MCI,
+                                                                                                                                                Neuromodulation
+                                                   PD, ASD,…
+
+               PPMI        HCP                   MRI scans                                                      TI           DBS                Post-treatment
+                                                   Resting-state
+                                                   fMRI, T1, …                  Individual Patients                                             MDS-UPDRS
+
+
+
+
+     c              Cohorts             e              Age distribution by sex            g           Severity composition         h             Image processing steps
+
+                                                                                                                                                              Motion correction ;
+                                                                                                                                      rs-fMRI
+                                                                                                                                                             Slice-time correction
+
+
+
+                                                                                                                                          T1                 Coregistration to MNI
+
+
+
+
+                                                                                                                                        Atlas              Extract BOLD time series
+     d              Diseases            f           MDS-UPDRS III (pre vs post)
+
+                                                                                                                                               Parcels
+
+
+
+
+                                                                                                                                                               Time
+
+
+
+
+Figure 1 | Clinical gap, proposed framework, and cohort statistics. a, Overview of trial-and-error neuromodulation
+process for PD and the clinical situation. b, Overview of the proposed framework: a generative virtual brain paradigm transfers
+dynamical priors from large-scale data to small clinical cohorts for individualized neuromodulation response prediction. c–d,
+Statistics of the pretraining cohort: sample distribution across four centers (c) and disease spectrum composition (d). e–g,
+Statistics of the Ruijin PD cohorts: age distribution stratified by sex (e), MDS-UPDRS III motor scores distribution (f ) and PD
+severity composition (g). h, Image processing pipeline: from raw BOLD acquisition to parcellated regional time series.
+
+individualized virtual brain models (iVBs) respectively. Using counterfactual simulation features computed
+from iVBs, we performed treatment outcome predictions and extracted state-dependent biomarkers.
+The following results are organized to answer three sequential questions:
+
+    • First, we evaluated whether the proposed foundation-to-individualized virtual brain pipeline can faithfully
+
+
+                                                                                                                                                                                            |3
+     reproduce patient-specific brain dynamics, because credible counterfactual inference requires a biologically
+     valid generative substrate. (See Fig. 2.)
+   • Second, we tested the central clinical question of this study: whether the iVB-based framework can
+     predict individual response to TI and DBS better than existing neuroimaging and AI baselines, and
+     whether its performance is sufficient to support potential clinical utility. (See Fig. 3 and Fig. 4.)
+   • Third, we examined what biological insights these individualized models reveal, asking whether the
+     same framework can nominate circuit-level and symptom-relevant signatures associated with treatment
+     benefit, while also supporting interpretable explanations of model predictions. (See Fig. 5.)
+
+2.1 High-fidelity brain dynamics modeling
+In this part, we systematically validated our generative virtual brain model (Fig. 2a) at both the pretraining
+level (FVB) and the individualized level (iVB) to demonstrate the ability to characterize brain dynamics,
+benchmarking against a recent state-of-the-art ANN model [30] across multiple complementary dimensions.
+Improved regional BOLD forecasting accuracy. The FVB improved regional BOLD forecasting over
+the ANN baseline, and individualized finetuning further enhanced prediction accuracy, as evaluated on a
+held-out test set (10% of pretraining cohort). Specifically, a clear performance gradient emerged across models
+when evaluating representative predictions in selected PD-relevant regions of interest (e.g., the pallidum and
+ventrolateral thalamus) alongside whole-brain error statistics (Fig. 2b). Compared with the ANN baseline
+(MAE = 0.7044), the pretrained FVB substantially reduced forecasting error (MAE = 0.6576), and further
+finetuning yielded additional improvements in iVB (MAE = 0.5346). Regional explanatory power was
+further quantified by R2 distributions across 166 brain regions (Fig. 2c). The ANN model exhibited limited
+predictive fidelity across most regions, whereas the FVB showed widespread improvement. Finetuning to
+individual subjects further shifted the distribution toward higher R2 values, as confirmed by the cumulative
+distribution function analysis (Fig. 2d). Together, these results indicate that pretraining yields the FVB that
+improves regional BOLD forecasting at the whole-brain level, while individualized finetuning further enhances
+subject-specific predictive fidelity. Notably, in PD-relevant basal ganglia-thalamic regions highlighted in
+Fig. 2b, iVB most closely tracks the observed temporal dynamics, supporting its suitability for patient-level
+modeling of neuromodulation-relevant circuits.
+Better functional connectivity reconstruction. As accurate brain simulation also requires the preservation
+of large-scale network interactions, we similarly evaluated our virtual brain model on the functional connectivity
+(FC) reconstruction task. In Fig. 2e–g, we visualized the predicted FC matrices alongside the empirical FC
+matrix, and quantified correspondence using scatter–density comparisons of FC values. As can be seen, the
+ANN baseline showed only moderate correspondence with empirical FC patterns (r = 0.630), whereas the
+FVB substantially improved reconstruction fidelity (r = 0.867) (Fig. 2e–f). After individual finetuning, iVB
+achieved a near-identical FC structure relative to empirical data (r = 0.948; Fig. 2g; all p < 10−200 ). To
+summarize connectivity at the systems level, we further mapped the AAL3 parcellation used in the 166-region
+FC matrices onto the Yeo 7-network atlas [31], enabling interpretation in terms of canonical functional systems
+(visual, somatomotor, dorsal attention, ventral attention, limbic, frontoparietal, and default mode networks)
+(Fig. 2h). This representation demonstrated that iVB preserved high-level inter-network organization closely
+matching empirical connectivity patterns. In contrast, ANN predictions showed clear deviations, while the
+FVB captured global structure but failed to fully reproduce subject-specific connectivity features. These results
+indicate that FVB establishes a strong subject-generalizable prior for whole-brain connectivity. Building on
+this foundation, iVB yields a high-fidelity, near-empirical simulation of individual network topology, thereby
+providing a realistic substrate for subsequent counterfactual simulation.
+Consistent clinical cohort personalization. We next assessed generalization to real-world clinical data by
+evaluating virtual brain performance in an in-hospital PD cohort from Ruijin Hospital (Shanghai), including
+TI-treated patients (n = 51) and DBS-treated patients (n = 55). For each patient, we rapidly finetuned the
+pretrained FVB via autoregressive prediction loss minimization on their pre-treatment resting-state fMRI
+data (≤ 30 epochs) to obtain an iVB. Across the full clinical cohort, iVB showed consistently improved
+generative fidelity relative to the zero-shot FVB (Fig. 2i): BOLD forecasting MAE decreased from 0.559
+± 0.056 (zero-shot FVB) to 0.385 ± 0.059 (iVB), R2 increased from 0.348 ± 0.128 to 0.625 ± 0.105, and
+FC correlation improved from r = 0.816 ± 0.087 to 0.935 ± 0.041 (all p < 0.001). The distributional shifts
+
+
+                                                                                                               |4
+     a                       Model Input                                                                                                  Foundation / individual Virtual Brain Model
+            Image data                               BOLD time series
+                                                    !!"#$ = [$$%&'( , ..., $$ ]
+                                                                                                                                               Cross Attention K, Q, V                                                 Self-
+                                                              Parcels      n steps                                                                                               Conditioned
+                 T1                                                                                           BOLD emb.                                                                                              Attention
+                                                                                                   Emb.                                                                            BOLD
+
+
+
+
+                                                                                                                                          Linear layer
+                                                                                                  PosEnc                                                                          Dynamic
+                                                                                                                                                                                                                     MLP Head
+              rs-fMRI
+
+                                                                        !−#+1        !
+                                                                                                                 K, V                                                                                   Model Output
+                                                                                                                                                                                                 Next step Generation: $&$'(
+                Demographics                              Disease label                                                                                                                             Parcels                 target step
+
+
+
+                                                                                                         Prefix Emb.
+                                                                                                                                                 Patient-specific emb.
+                        Age: 88                                           PD                                                                              ⊕
+                                                                                                                                                                       Q
+                                                                                                                                                                                                                              !+1
+
+
+     b                                                                                                                 !"# ∶ &. *&++
+                                                                                                                                                                   c
+             Superior View                                                                                             !"# ∶ &. ()*(
+                                                                                                                       !"# ∶ &. ),+(
+
+
+                                                 Pallidum_L
+
+
+
+
+                                                 Pallidum_R
+                                                                                                                                                                   d
+                                                 Thal_VL_R
+
+
+
+
+                                                 Thal_VL_L
+
+
+
+
+     e                                              & = %. *,%#
+                                                    ! < #×#%!"##
+                                                                                         f                                                          & = %. )**+
+                                                                                                                                                    ! < #×#%!"##
+                                                                                                                                                                         g                                             & = %. +-.+
+                                                                                                                                                                                                                       ! < #×#%!"##
+                                                                                                                           Empirical FC
+
+
+
+
+                                                                                                                                                                                                      Empirical FC
+                                  Empirical FC
+
+
+
+
+         Empirical    ANN                                                                    Empirical        FVB                                                             Empirical    iVB
+           FC          FC                                                                      FC              FC                                                               FC          FC
+
+
+
+
+                                                         ANN FC                                                                                           FVB FC                                                            iVB FC
+
+
+
+     h                Empirical                                                                ANN                                                          Zero-shot (FVB)                       Finetune (iVB)
+
+
+
+
+     i
+
+
+
+
+Figure 2 | Foundation and individualized virtual brain validation. a, Architecture of the generative virtual brain model.
+b, BOLD signal forecasting in four Parkinson’s disease–relevant regions on the test set and global MAE across 166 regions:
+ANN = 0.7044, FVB = 0.6576, iVB = 0.5346. c, Per-region R2 distribution across 166 brain areas. d, Cumulative distribution
+function (CDF) of R2 values. e–g, Functional connectivity validation for ANN (e; r = 0.630), FVB (f ; r = 0.867), and iVB
+(g; r = 0.948) against empirical data (all p < 10−200 , two-tailed Pearson correlation). h, Visualization of brain functional
+connectivity using Yeo 7-network parcellation illustrates that iVB preserves high-level connectivity patterns closely matching
+empirical data. i, Boxplots w.r.t. the performance comparison between FVB and iVB across 106 patients (TI and DBS cohorts)
+show the significant improvements in MAE, R2 , and FC correlation after finetuning (all p < 0.001, two-tailed paired t-test).
+
+
+
+
+                                                                                                                                                                                                                                          |5
+across patients indicate that the improvements were broadly observed rather than driven by a small subset of
+individuals, demonstrating robust patient-level modeling fidelity on clinically acquired fMRI data.
+
+2.2 Validation of neuromodulation outcome prediction
+Building on the validated capacity of iVBs to capture individual brain dynamics, we deployed them within
+a prediction workflow (Fig. 3a), which involves personalizing the FVB on individual neuroimaging data to
+obtain the iVB. Central to this workflow is the extraction of Counterfactual Brain Mismatch (CBM) feature
+via bidirectional counterfactual simulations (Fig. 3b), which quantified the divergence between patient-specific
+and normative brain dynamics in both What-if-healthy and What-if-distorted directions. These CBM features
+serve as the decisive inputs for predicting neuromodulation outcomes, defined as ≥ 25% improvement in
+MDS-UPDRS III scores for DBS and a reduction of ≥ 5 points for TI.
+Examining simple clinical covariates to remove confounding factors. Here, we demonstrate that
+simple clinical covariates do not distinguish responders from non-responders in either the TI or DBS cohort.
+As shown in Fig. 3c, there were no significant differences between responders and non-responders in sex
+(TI: p = 0.19; DBS: p = 0.51; Fisher’s exact test), stimulating target (GPi vs. STN; TI: p = 0.19; DBS:
+p = 0.07; Fisher’s exact test), or age (TI: p = 0.33; DBS: p = 0.27; Mann–Whitney U test). These results
+indicate that treatment outcomes are not trivially separable by these conventional clinical variables. This
+absence of association reveals a critical clinical insight: neuromodulation outcomes in PD are not governed by
+traditional demographic or anatomical targeting variables. Instead, response heterogeneity likely arises from
+individual-specific pathophysiological network states invisible to conventional covariates.
+Comprehensive comparison in neuromodulation outcome prediction. Generally, the iVB-based
+framework significantly outperformed the established AI-driven baselines, achieving robust discrimination
+of responders versus non-responders across both therapy settings. As shown in Fig. 3d–f, we compared the
+prediction performance of our iVB-based method against several baselines: ChatGPT-5.2 [32] with deep-
+thinking few-shot learning, Qwen3 [33] with deep-thinking few-shot learning, BrainLM [18] (a transformer-based
+fMRI model trained end-to-end), BrainGNN [17] (a graph neural network for fMRI classification), and GCN [34]
+(a discriminative graph convolutional network trained end-to-end on functional connectivity). In the TI cohort,
+our method achieved an ROC-AUC of 0.823 ± 0.083 and AUPR performance of 0.853 ± 0.066 (Fig. 3e, showing
+mean curves with 95% empirical confidence intervals [CI]). Consistent improvements were observed in the DBS
+cohort, where the model attained an AUC of 0.865 ± 0.072 and an AUPR of 0.915 ± 0.048 (Fig. 3f). Aggregate
+classification metrics further supported these improvements (Fig. 3d). For TI, our approach achieved higher
+ACC (0.845 vs. best baseline BrainLM 0.747), F1 (0.816 vs. 0.765), and critically, Precision (0.843 vs. 0.703
+by BrainGNN)—addressing the high cost of false positives in treatment trial-and-error. For DBS, we similarly
+improved ACC (0.836 vs. 0.727), F1 (0.847 vs. 0.744), and Precision (0.917 vs. 0.817). All comparisons against
+baselines were statistically significant (all p < 0.05, paired t-tests). To attribute these gains to our framework
+design, ablation analyses confirmed that CBM features substantially outperformed static FC, iVB-derived FC,
+or effective connectivity (Extended Data Table 1), validating the bidirectional counterfactual formulation.
+Together, these results indicate that counterfactual mismatch quantified from patient-specific virtual brains
+provides clinically informative digital features for forecasting individual neuromodulation outcomes. Our
+approach offers a novel and promising framework for the precision forecasting of individual neuromodulation.
+Stable robustness across different subgroups and effect modification. To examine whether the
+predictive performance of our model varied across clinically relevant strata, we evaluated model discrimination
+within subgroups defined by sex (M/F), stimulation target (STN/GPi), and age (median split within each
+cohort). As shown in Fig. 3g–h, the model maintained robust performance across all subgroups in both TI
+and DBS cohorts, with subgroup-specific AUC and AUPR values comparable to overall performance. We
+further tested whether subgroup membership modified the association between predicted probability and
+clinical response using logistic regression. No significant prediction–subgroup interactions were observed in
+either cohort (TI: Sex p = 0.161, Target p = 0.092, Age p = 0.534; DBS: Sex p = 0.368, Target p = 0.242,
+Age p = 0.656. All p > 0.05). These findings suggest that the predictive utility of CBM is broadly preserved
+across conventional clinical strata, supporting the robustness of the framework across patient subgroups.
+Decision curve analysis to reflect clinical utility. Decision curve analysis (DCA) in Fig. 4a demonstrates
+that the iVB-based framework yields a net clinical benefit across most threshold probabilities relevant to
+
+
+                                                                                                               |6
+   a              Pre-treatment                         iVB instantiation                           Individual          b       Counterfactual Brain Mismatch
+                                                                                                   Virtual Brain
+                                                                                                                                                              What-if-healthy?                                                     What-if-distorted?
+                                     rs-fMRI;
+                                                                   Finetune
+                                         T1
+
+                                                                  Foundation                                                    Pallidum_L                                                  Pallidum_L
+                                MDS-UPDRS
+                                                                 Virtual Brain                              CBM
+
+                                                                                                      Classifier
+
+                                                                                                                                Pallidum_R                                                  Pallidum_R
+                  Neuromodulation                       Post-treatment
+                                                                                               Response Predict                   HC iVB                                                        PD iVB
+
+                                TI          DBS                   MDS-UPDRS                                                                         Predict      Time                                        Predict                  Time
+
+
+
+   c    Non-responder                      Responder
+                                                           TI                                                                                                                           DBS
+
+                                                                                                                                                                                                                               
+                                                                                        
+                                                                                                                                                                                                                               
+
+
+                                                                                  
+
+
+
+
+                                                                                                                                                                                                                       
+                                                                                                                                                                                                                            
+
+                                                                                                                                                                                                                              
+                                                                                        
+                                                                                                                                                                                                                              
+                                                                                                                                                                                                                          
+                          Sex                           Target                                         Age                                             Sex                             Target                                                    Age
+
+   d   Methods:
+
+
+
+
+   e                                            TI response prediction                                                  f                                                        DBS response prediction
+
+
+
+
+   g                                                TI subgroups                                                        h                                                            DBS subgroups
+                  0       ))                                                                                                           0       ))
+
+                      1                                                                                                                    1
+
+                      1                                                                                                                    1
+
+
+
+
+              (                                                                                                                    (
+
+          3   (                                                                                                             3      (
+
+
+
+                                                                          2                   ..    ) .                                                                                                  2                     ..        ) .
+
+Figure 3 | Validation of predicting neuromodulation response. a, Schematic illustration of the iVB-based workflow for
+predicting neuromodulation response. b, Diagram depicting the calculation of the Counterfactual Brain Mismatch. c, Clinical
+variable comparisons between responders/non-responders in TI (n = 51) and DBS (n = 55) cohorts. Fisher’s exact test for
+sex (Male/Female) and target (GPi/STN); Mann–Whitney U test for age. All comparisons non-significant (ns; p > 0.05). d–f,
+Five-fold cross-validation performance comparing the proposed iVB-based model (Ours) with baselines. d, Summary metrics
+(mean ± 95% CI) for Accuracy (ACC), F1, and Precision. Ours achieved strong performance in both TI (ACC = 0.845, F1
+= 0.816, Precision = 0.843) and DBS (ACC = 0.836, F1 = 0.847, Precision = 0.917), significantly outperforming all baselines
+(paired t-tests, all p < 0.05). Curves show mean ROC and PR with 95% CI. e, TI cohort: AUC = 0.823 ± 0.083, AUPR =
+0.853 ± 0.066 (ours). f, DBS cohort: AUC = 0.865 ± 0.072, AUPR = 0.915 ± 0.048 (ours). g–h, Forest plots report subgroup-wise
+AUC (circles) and AUPR (squares) across five cross-validation folds for the TI (g) and DBS (h). Logistic interaction tests showed
+no significant effect modification (all p > 0.05)
+
+
+
+
+                                                                                                                                                                                                                                                                   |7
+neuromodulation decisions. Specifically, for both TI (responder rate 41.2%) and DBS (56.4%), the model
+provided a higher net benefit than the “Treat for None” strategies across nearly the entire range of thresholds.
+Compared with the “Treat for All”, net benefit was threshold-dependent: it was similar or lower at low Pt, but
+higher across most clinically relevant thresholds. The advantage for TI emerged earlier and remained broadly
+sustained, while for DBS it was most pronounced in the mid-range of thresholds, consistent with DBS being
+a higher-burden intervention where avoiding over-estimating is especially important. Overall, these results
+indicate meaningful clinical utility, improving responder targeting while reducing unnecessary procedures.
+Observed patient stratification by probabilistic confidence. Complementing the threshold-based
+insights of DCA, the predicted response probability effectively served as a robust continuous biomarker to
+stratify responders from non-responders (Fig. 4b). The separation was particularly pronounced in the TI
+cohort (Mann-Whitney U = 33.00, p < 0.001, Cohen’s d = 2.39), with non-responders concentrated near
+probability 0 (<0.2) and responders near 1 (>0.8). The DBS cohort also maintained significant stratification
+(Mann-Whitney U = 132.00, p < 0.001, Cohen’s d = 1.29). Critically, prediction confidence itself directly
+functions as a clinical biomarker: probabilities >0.85 or <0.15 achieved 94% specificity for true response
+status in TI, enabling risk-stratified patient selection. This probabilistic stratification transcends binary
+classification, offering clinicians interpretable risk gradients for personalized decision-making.
+Benchmarking against conventional neuroimaging biomarkers. The iVB-based predictor outperformed
+conventional single-pathway functional connectivity biomarkers using the identical pipeline and continuous
+MDS-UPDRS III outcomes. For this comparison, we established representative baselines reflecting standard
+clinical practice by selecting four key functional connectivity pathways previously reported to correlate with
+DBS treatment response: STN-L to GPi-L [10], STN-L to Thalamus-L [10], STN to M1 [11], and STN to
+SMA [11]. To accurately localize certain regions including STN, M1, and SMA, we adopted a combined labeling
+atlas incorporating cortical areas from Brainnetome [35] and subcortical areas from PD25 [36]. In the TI cohort
+(Fig. 4c), individual connectivity measures showed no significant correlations with clinical improvement (all
+p > 0.4). However, the iVB-based model achieved statistically significant correlation (ρ = 0.293, p = 0.0352),
+explaining approximately 8.6% of variance in the response to treatment. In the DBS cohort (Fig. 4d), individual
+connectivity pathways showed modest associations, with STN-M1 (ρ = 0.274, p = 0.043) and STN-SMA
+(ρ = 0.312, p = 0.020) connectivity reaching statistical significance. Notably, the iVB-based model substantially
+outperformed individual measures, demonstrating strong predictive capacity (ρ = 0.557, p = 1.01 × 10−5 )
+and explaining approximately 31% of variance in motor improvement outcomes. These results demonstrate
+that while single-pathway biomarkers are susceptible to noise and insufficient to capture the complexity
+of neuromodulation effects, the high-dimensional approach using CBM effectively integrates distributed
+functional features to overcome inter-individual variability.
+Competitive performance under cross-center validation. To assess real-world generalizability, we
+performed an external validation on an independent TI cohort collected at Zhongnan Hospital of Wuhan
+University (n = 14). Responders were defined as patients showing a clinically meaningful benefit after
+repeated TI sessions (MDS-UPDRS III improvement ≥ 5 points). Without using any Zhongnan data for
+training, we applied the identical preprocessing and iVB construction pipeline, and directly transferred the
+TI response predictor trained on the Ruijin cohort to this external site. We repeated inference over five
+random seeds and benchmarked against the top-performing prior baselines, BrainLM and BrainGNN. Despite
+well-known cross-center heterogeneity in resting-state fMRI that can systematically degrade the portability
+of discriminative classifiers, our model retained strong performance on the held-out center (AUC = 0.905
+± 0.053, AUPR = 0.959 ± 0.030; Fig. 4e), outperforming BrainGNN (AUC = 0.748 ± 0.017, AUPR =
+0.881 ± 0.017) and BrainLM (AUC = 0.675 ± 0.042, AUPR = 0.856 ± 0.028). Although the accuracy at
+the default 0.5 threshold was moderate (ACC = 0.700 ± 0.105), the prediction spectrum plot and strong
+AUC/AUPR indicate robust discriminative capacity despite cross-center heterogeneity. We attribute this
+robustness to our generative, state-based formulation: instead of fitting a decision boundary on raw fMRI/FC
+features, the model leverages counterfactual simulations on iVBs to quantify deviations from normative brain
+dynamics, which is less sensitive to acquisition-related nuisance variation. Together, these results support the
+transferability of the iVB-based prediction model and the potential for multicenter deployment.
+Comparison in prospective clinical validation. We conducted a prospective validation study to evaluate
+the real-world clinical utility of our TI response prediction model. The model, trained exclusively on
+
+
+                                                                                                              |8
+     a                                                            b
+
+
+
+
+     c
+
+
+
+
+     d
+
+
+
+
+     e               External Validation (n=14)                   f                  Prospective Validation (n=11)
+
+
+
+
+Figure 4 | Clinical utility and validation of the iVB-based prediction framework. a, Decision curve analysis (DCA)
+for the proposed model in TI and DBS cohorts. Our model (solid lines) outperforms reference strategies "Treat all" (dashed blue)
+and "Treat none" (dashed yellow). b, Raincloud plots of predicted response probabilities stratified by clinical response status
+(Responders vs. Non-responders). Statistical comparisons: TI cohort (Mann-Whitney U = 33.00, p < 0.001, Cohen’s d = 2.39);
+DBS cohort (Mann-Whitney U = 132.00, p < 0.001, Cohen’s d = 1.29). c–d, Comparison of individual functional connectivity
+correlations versus integrated model prediction for TI (c) and DBS (d). The first four panels show Spearman correlations
+between clinical improvement and connectivity measures from different brain regions (left STN-GPi, left STN-Thalamus, STN-M1,
+STN-SMA). The fifth panel displays the iVB-based model results pooled from a five-fold cross-validation test data, which achieves
+significantly stronger correlation with treatment outcomes compared to individual connectivity measures. e–f, Model prediction
+ROC, and Precision-Recall curves, prediction spectrum plots, for external (e, n = 14) and prospective (f, n = 11) validation.
+Curves show mean ± std over five random seeds, with BrainLM and BrainGNN as baselines.
+
+
+
+retrospective data from Ruijin Hospital, was applied to consecutive, previously unseen Parkinson’s disease
+patients (n = 11) scheduled for TI therapy. Predictions were generated before treatment administration, and
+clinical outcomes were subsequently determined based on actual post-treatment assessments. As illustrated in
+Fig. 4f, aggregating results over five random seeds, our model achieved an AUC of 0.929 ± 0.023 and AUPR
+
+
+                                                                                                                              |9
+of 0.889 ± 0.048, consistently surpassing BrainGNN (AUC = 0.793 ± 0.052, AUPR = 0.792 ± 0.043) and
+BrainLM (AUC = 0.771 ± 0.029, AUPR = 0.766 ± 0.039). The model prediction spectrum also displays
+ranked probabilities for responders and non-responders, achieving an ACC of 0.818 ± 0.081. This prospective
+demonstration provides critical evidence that virtual brain biomarkers can guide real-time therapeutic decisions
+in clinical workflows. Although larger prospective trials are warranted, these initial results establish the
+feasibility of deploying individualized virtual brain models for precision neuromodulation planning.
+
+2.3 Mechanistic insights from the iVB-based model
+Beyond predictive accuracy, a clinically actionable virtual brain model should yield mechanistically interpretable
+insights that bridge computation and neurobiology. Here, we interrogate our framework through three
+complementary lenses to establish its biological plausibility. We first identify pre-treatment regional CBM
+that predict TI response, then deconstruct model decisions via Shapley attribution to reveal neuroanatomical
+drivers, and finally map longitudinal neurodynamic shifts onto symptom-specific improvements. All regional
+analyses utilize AAL3 brain labels (anatomical descriptions in Extended Data Table 2).
+State-dependent digital biomarkers for TI response. As an emerging non-invasive neuromodulation,
+TI has been studied far less extensively than DBS, and the neural state dependencies underlying individual
+TI responses remain poorly characterized. Our iVB-based framework addresses this gap by quantifying
+patient-specific deviations from healthy brain dynamics and identifying regions where these deviations
+predict therapeutic outcomes. We identified significant associations between pre-treatment regional activity
+mismatches and TI response (Fig. 5a; statistics reported as p-values, Cohen’s d effect sizes, and FDR-corrected
+q-values). Patients who subsequently responded to TI exhibited pronounced deviations from normative
+dynamics in a distributed network centered on the basal ganglia–thalamocortical circuit and cerebellar
+territories (Fig. 5b). To balance discovery sensitivity with robustness against false positives, we employed
+a dual-threshold criterion (p < 0.05 and Cohen’s d > 0.5). Under this criterion, ten regions demonstrated
+substantial mismatch differences between responders and non-responders. The most prominent effects localized
+to cerebellar subregions (Cerebellum_3: d = 0.76, 2.16 × 10−4 ; Cerebellum_6: d = 0.60), the red nucleus
+(d = 0.66), and canonical PD nodes including the putamen (d = 0.51) and pallidum (d = 0.51). Critically,
+these data-driven findings align with established circuit neuroanatomy and prior neuromodulation evidence:
+the pallidum constitutes a core component of the basal ganglia circuitry targeted by conventional DBS [3],
+with putaminal metabolic changes previously documented during successful neuromodulation [37]. The
+involvement of the ventral anterior thalamus further supports a plausible relay-level interpretation, given that
+VA/VL nuclei constitute canonical basal ganglia output relays with structured connections to frontal premotor
+territories [38]. Moreover, the emergence of cerebellar lobules is consistent with tremor-relevant coupling
+between basal ganglia and the cerebello–thalamo–cortical loop, where GPi-related activity can propagate into
+cerebellar–thalamic circuitry [39]. The alignment of these data-driven findings with established neuroanatomy
+underscores the biological plausibility of the identified signatures and demonstrates the utility of virtual brain
+modeling for exploring mechanisms in precision neuromodulation.
+Model interpretability via Shapley analysis. Clinical deployment of AI demands transparency into
+how individual predictions are formed. Here, we leveraged Shapley value analysis [40] to deconstruct the
+model’s decision logic, which quantifies each brain region’s marginal contribution to individual predictions,
+providing a mechanistically grounded interpretation of model decisions. Specifically, we ranked regions by
+their mean absolute Shapley values and visualized the top 15 contributors to positive response predictions
+in Fig. 5c–d. Shapley attribution revealed distinct yet partially overlapping neuroanatomical drivers for the
+two therapies. For TI, the model’s positive predictions were driven by a distributed pattern across fifteen
+brain regions with remarkably uniform influence magnitudes (mean absolute SHAP range: 0.0070–0.0121;
+max/min ratio ≈1.7). Top contributors spanned thalamic relays (MDl, VL, VPL), cerebellar lobules (Crus
+VI, IV–V), and associative territories (precuneus, insula). This spatially diffuse signature aligns with TI’s
+physical mechanism: interference of two high-frequency fields generates a focal envelope deep in the brain
+while simultaneously engaging off-target pathways through volume conduction [41]. Our model thus bases its
+decision on network-wide state shifts rather than isolated node modulation. By contrast, Shapley values of DBS
+predictions exhibited a sharply concentrated contribution pattern (mean absolute SHAP range: 0.0058–0.0228;
+max/min ratio ≈3.9). The pallidum, VL thalamus, and peri-Rolandic cortices dominated the decision logic,
+
+
+
+                                                                                                               |10
+     a                                                                                                                  
+                                                                                                                                                b
+                                                                                                      
+                                                                                                                      
+
+                                                                                                                        
+
+
+
+
+                                                                                                                              
+                                                                                                                        
+
+                                                                                                                        
+
+                                                                                                                        
+
+                                                                                                                        
+
+                                                                                                                        
+
+
+
+
+      Region                              p-value              Cohen's d                             p (FDR)
+      Cerebellum_3                        2.16e-04***          0.7586                                5.82e-03
+      Red_N                               1.56e-03**           0.6604                                2.11e-02
+      Cerebellum_6                        5.45e-03**           0.5980                                3.80e-02
+      Putamen                             5.68e-03**           0.5065                                3.80e-02
+      Thal_PuM                            7.51e-03**           0.6387                                3.80e-02
+      Cerebellum_8                        8.45e-03**           0.5780                                3.80e-02
+      Thal_VA                             1.26e-02*            0.5123                                4.87e-02
+      Cerebellum_4_5                      2.10e-02*            0.5251                                5.81e-02
+      Pallidum                            2.37e-02*            0.5098                                5.81e-02
+      Thal_MGN                            3.21e-02*            0.5324                                6.67e-02
+
+     c                                                 TI                                                                                       d                                                                   DBS
+
+
+
+
+     e                                                                 f
+                                                                                                                                                                                                                                        
+
+                                                                                                                                                                                                                                        
+                                                                  )(
+
+
+
+                                                                             
+
+
+
+
+                                                                                                                                                                  
+
+
+
+
+                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                        
+
+                                                                                                                                                                                                                                        
+                                                                  (
+
+
+
+
+                                                                                                                                                                                                                                        
+
+
+                                                                                                                                                                                                                                     
+
+
+                                                                                                                                                                                                                                     
+
+                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                    
+
+
+
+
+     g                                                                 h
+                  (       (
+
+                                                                                                                                                                                                                                        
+         ()               (
+                                                                                                                                                                                                                                          
+                      (
+                                                                           
+
+
+
+
+                                                                                                                                                                                                                                  
+
+
+
+
+                                                                                                                                                                              
+                                                                                                                                                                
+
+
+
+
+                                                                                                                                                                                                                                           
+                                                                                                                                                                              
+                                                                                                                                                                                                                                            
+                                                                                                                                                                              
+
+                                                                                                                                                                                                                                         
+              (           (
+                                                                                                                                                                              
+                                                                                                                                                                                                                                          
+                                  (                                                                                                                                          
+                                                                                                                                                                                                                                         
+
+                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                              
+                                                   )
+                                           )
+
+
+
+
+                                                       )
+                                               )
+
+
+
+
+                                                           (
+                              )
+
+                                      (
+
+
+
+
+                                                       )
+                              )
+
+
+
+
+Figure 5 | Mechanistic validation of iVB-based model via prediction, attribution, and symptom dynamics. a-b,
+Pre-treatment iVB-derived regional CBM predicts TI response. a, Brain map visualizes AAL3 regions most strongly associated
+with TI response, colored by Cohen’s d; inset table lists the regions meeting the dual threshold (p < 0.05, two-sided; d > 0.5),
+reporting uncorrected p, Cohen’s d, and FDR-adjusted p. b, Violin plots show CBM deviation distributions in these regions for
+responders versus non-responders. c, Shapley value analysis of the top 15 brain regions contributing to positive predictions in the
+TI cohort. d, Same Shapley value analysis for the DBS cohort. e–h, Region-symptom associations revealed by longitudinal
+iVB analysis. e, Heatmap showing Spearman correlations (|ρ|) between changes in regional deviation (post–pre) derived from
+iVBs and improvements in MDS-UPDRS III motor scores for TI cohorts. Only associations with |ρ| ≥ 0.3 and p < 0.05 are
+displayed (non-significant values omitted). The panel shows a 6×6 submatrix of the six most frequently implicated brain regions
+and MDS-UPDRS III items. f, Representative scatter plot illustrating the strongest region-symptom association with Spearman
+correlation coefficient and p-value indicated. g, h, Same analysis as e-f for the DBS cohort, where g is the heatmap that
+characterizes the correlation and h gives the representative scatter plot.
+                                                                                                                                                                                                                                                                                                 |11
+with modest cerebellar contributions. This focal architecture reflects DBS’s localized current injection and its
+primary action on core nodes of the basal ganglia–thalamocortical motor circuit. Notably, this demonstrates
+that the model internalized therapy-specific biophysical constraints without explicit programming. Critically,
+by grounding prediction logic in established neuroanatomy and stimulation biophysics, Shapley analysis bridges
+data-driven forecasting and clinical mechanistic understanding, a prerequisite for trustworthy deployment of
+AI in neuromodulation planning.
+Longitudinal tracking reveals region-symptom mapping. Longitudinal changes in CBM-derived
+regional mismatch linked regional state normalization to symptom-specific motor improvement in both TI
+and DBS cohorts. Using pre- and post-treatment fMRI scans, we constructed patient-specific virtual brains to
+quantify deviations from normative dynamics and track how therapeutic interventions reshaped pathological
+activity toward healthy states. Strikingly, individual deviation trajectories within distinct neuroanatomical
+territories correlated with improvements in specific motor domains (Fig. 5e–h, highlighting top associations;
+full matrices in Extended Data Fig. 1), revealing a data-driven mapping between regional neurodynamics
+and symptom-specific recovery. In the TI cohort (Fig. 5e–f), symptom-linked brain regional changes were
+distributed across the basal ganglia and associative cortical territories. Notably, the mismatch change in
+pallidum/putamen showed consistent associations with improvements in rigidity and leg agility subitems,
+aligning with established striato-pallidal circuit involvement in akinetic-rigid motor features [42, 43]. Beyond
+canonical motor nodes, cortical and higher-order regions (e.g., rolandic operculum and precuneus) also appeared
+among the most frequently implicated regions, suggesting that TI-related state shifts may engage broader
+integrative networks. In the DBS cohort (Fig. 5g–h), the mapping was more concentrated in midline control
+and thalamocortical nodes. Changes in mid-cingulate co-varied with improvements in tremor-related sub-items
+and speech, consistent with the mid-cingulate contribution to cognitive aspects of motor control and action
+monitoring [44]. Supplementary motor area changes tracked gait and kinetic tremor improvement, consistent
+with its established role as a core cortical hub for motor sequencing and gait control in PD [45]. Interestingly,
+an unexpected association was observed between the fusiform gyrus and postural tremor improvement in
+both the TI and DBS cohorts, suggesting a potential role for higher-order integrative regions in modulating
+tremor through state-dependent changes. Importantly, these relationships should be interpreted as exploratory
+and hypothesis-generating rather than causal evidence, given the modest sample sizes and the absence of
+preregistered symptom-level endpoints. Nevertheless, the emergence of anatomically and clinically plausible
+mappings supports the interpretability of iVB-derived state variables for interrogating treatment mechanisms.
+Ultimately, these analyses illustrate that iVB-derived features provide interpretable state variables that can
+be mapped onto fine-grained symptom dimensions, enabling mechanistic hypothesis generation beyond binary
+outcome prediction.
+
+3 DISCUSSION
+We present a generative, transferable virtual-brain framework that predicts individual neuromodulation
+outcome from resting-state fMRI while studying the potential mechanistic interpretation. Specifically, we
+frame the outcome prediction as a dynamical-systems problem: rather than learning a cohort-specific decision
+boundary from high-dimensional fMRI features, we estimate each individual’s deviation from normative brain
+dynamics using the virtual brain models with the design of counterfactual simulation. This framework is well-
+suited to neuromodulation, where labeled cohorts are typically modest, treatment response is heterogeneous,
+and clinically useful models must remain portable and interpretable.
+A central finding is that the proposed framework consistently outperformed existing AI and neuroimaging
+baselines in comprehensive comparisons spanning various performance metrics. Across both TI and DBS,
+the iVB-based model outperformed all evaluated baselines on discrimination and, importantly, on precision-
+oriented metrics that are more relevant to treatment selection. This advantage was accompanied by robustness
+across subgroups, with no significant effect modification, and by ablation results showing that CBM features
+were more informative than static FC or alternative features. Together, these findings suggest that separating
+transferable dynamical prior learning from subject-specific instantiation yields a more stable predictive
+framework than other modeling in neuromodulation datasets.
+From a clinical perspective, the main value of the framework lies in improving responder identification under
+
+
+
+                                                                                                             |12
+realistic threshold-based decision-making. In neuromodulation, false positives may lead to unnecessary invasive
+surgery (DBS) or prolonged ineffective treatment exposure (TI), whereas false negatives may delay beneficial
+therapy. The consistent gains in AUPR and precision observed here are therefore particularly important, as
+they reflect improved identification of true responders under realistic class imbalance and clinically conservative
+operating points. Moreover, decision curve analysis suggests that the model can deliver net benefit across
+clinically plausible thresholds, supporting a practical workflow in which predicted probability serves as a
+continuous stratification biomarker: patients with high predicted benefit can be prioritized, borderline cases
+can be routed to additional evaluation, and low-probability cases can be considered for alternative strategies
+or refined targeting rather than immediate escalation.
+The framework also showed robust portability across sites and potential usability in real-world deployment
+settings. From a deployment perspective, a clinically useful predictor must remain actionable when applied to
+new patients and new acquisition settings, rather than requiring repeated site-specific retraining. In this study,
+we evaluated this practical requirement in two ways: external-center testing, where the TI predictor trained
+at Ruijin was applied to an independent cohort acquired at a different site without using any external-center
+data for model updating; and a small prospective setting, where predictions were generated before treatment
+in consecutive unseen patients and then compared against subsequently observed outcomes. Both evaluations
+provide preliminary evidence that the proposed pipeline can operate under real-world conditions with fixed
+preprocessing, iVB instantiation, CBM extraction, and probability output, without site-specific retraining.
+Beyond prediction, the framework provides interpretable, region-resolved biomarkers rather than black-box
+predictions. Unlike models that rely on latent representations with limited clinical meaning, our framework
+produces region-resolved CBM features that are explicitly defined as counterfactual state deviations relative
+to a normative reference. This structure enables transparent auditability at the patient level: for a given
+prediction, clinicians can inspect which brain territories contribute most strongly to the estimated response
+probability (e.g., via Shapley attribution over CBM features), offering a circuit-level rationale. Importantly,
+the same counterfactual iVB machinery is also hypothesis-generating. By localizing pre-treatment deviations
+associated with response and tracking post–pre CBM changes against symptom-level improvement, the model
+nominates state-dependent circuit signatures that can be studied in the future.
+Several limitations should be acknowledged. First, while transfer learning enhances data efficiency, the
+available labeled neuromodulation cohorts remain relatively small. This constraint is particularly pronounced
+for temporal interference (TI) therapy and prospective validation studies. The limited sample size reduces
+statistical power for meaningful subgroup analyses and introduces uncertainty when interpreting region-specific
+effects. Second, iVBs are predominantly constructed from neuroimaging-derived signals (resting-state BOLD
+fMRI time series), which serve only as indirect proxies for underlying neural activity [46]. Although iVBs
+demonstrate high fidelity to empirical functional connectivity, they do not elucidate causal mechanisms of
+neuromodulation. Future efforts to bridge iVB dynamics with biophysical reality might integrate concurrent
+electrophysiological recordings, biophysical stimulation field models, and structural connectivity constraints.
+Third, although the iVB formulation improves transparency (region-resolved deviations and Shapley-attributed
+contributors), the associations we report are statistical in nature and should not be interpreted as evidence of
+causal mechanisms. Given the dimensionality of regional features and modest cohort sizes, some associations
+may reflect chance correlations or residual confounding; moreover, multiple-comparison control (including
+FDR) reduces but does not eliminate false discoveries. Accordingly, these signatures are best viewed as
+hypothesis-generating leads that motivate preregistered validation in larger multi-center cohorts and targeted
+experimental tests (e.g., stimulation-parameter manipulations or multimodal corroboration).
+The evidence collected from this study signals a practical convergence between generative, transferable
+virtual-brain modeling and precision neuromodulation decision-making in PD, demonstrating that the
+individualized virtual brain can support both accurate responder stratification and clinically interpretable
+circuit readouts across TI and DBS. Looking ahead, a key opportunity is to move from prediction to
+actionable planning by using the generative framework to simulate candidate stimulation strategies (e.g.,
+targets, waveforms, dosing) and prioritize those most likely to reduce pathological deviations toward normative
+dynamics. Crucially, improving simulation realism will require iterative advances in the virtual-brain model
+itself. Future work could better bridge the model with biophysical reality by incorporating patient-specific
+structural connectivity (e.g., diffusion connectomes), biophysical stimulation field models (for DBS and
+
+
+                                                                                                                |13
+TI), and concurrent electrophysiological recordings, enabling the neuromodulation effects to more faithfully
+capture stimulation propagation and support more reliable planning. Realizing this potential will require
+larger preregistered multi-center prospective studies to establish calibration, portability, and decision impact,
+alongside comparative effectiveness evaluations against current selection practices. Together, these directions
+position the generative virtual brain model as a scalable path toward mechanism-guided, patient-specific
+neuromodulation beyond the trial-and-error manner.
+
+4 METHODS
+
+4.1 Participants
+Study overview and ethical approval. This study was conducted in accordance with the Declaration
+of Helsinki [47]. For the TI cohort, the study was approved by the ethics committee of Ruijin Hospital,
+Shanghai Jiao Tong University School of Medicine (Approval No. 2025140), and this trial was registered at
+ClinicalTrials.gov (NCT06980935). For the external validation cohort, ethical approval was obtained from
+the Medical Ethics Committee of Zhongnan Hospital of Wuhan University (Approval No. 2026022). The
+DBS cohort is a retrospective study utilizing the same cohort used in the previous research [48]. The study
+protocol was approved by the ethics committee of Ruijin Hospital, Shanghai Jiao Tong University School of
+Medicine (Approval No. 2018017). All participants provided written informed consent prior to data collection.
+Clinical data were de-identified to protect patient privacy.
+Recruitment and setting. Participants were recruited from the Center of Excellence for Parkinson’s Disease,
+Ruijin Hospital, and the Department of Neurology at Zhongnan Hospital of Wuhan University. The study
+comprised four distinct cohorts: Retrospective TI Cohort: Patients receiving Transcranial Interference (TI)
+therapy were recruited between May 2025 and December 2025 (n = 51); Prospective TI Cohort: To validate
+real-world clinical utility, a consecutive series of patients was recruited starting January 2026 (n = 11); DBS
+Cohort: Patients undergoing Deep Brain Stimulation (DBS) were recruited between September 2019 and
+December 2020 (n = 55); External Validation Cohort: An independent TI cohort was collected at Zhongnan
+Hospital of Wuhan University between June 2025 and December 2025 (n = 14); Public datasets (ADNI,
+PPMI, ABIDE, HCP) were additionally used for foundation model pretraining but were not included in the
+clinical outcome analysis.
+Eligibility criteria. Inclusion criteria for the TI Trial were: (1) diagnosis of idiopathic PD per Movement
+Disorder Society (MDS) criteria [49]; (2) Hoehn & Yahr stage ≤ 3 in the on-medication state; and (3) stable
+dopaminergic medication (≥4 weeks). Exclusion criteria for the TI Trial included: (1) prior DBS or any other
+invasive therapy; (2) unstable cardiovascular, hepatic, or renal dysfunction; (3) active psychotic symptoms
+(e.g., hallucinations or delusions); or (4) personal or family history of epilepsy. Inclusion criteria for the DBS
+trial were: (1) idiopathic PD per MDS criteria [49]; (2) clinical candidacy for DBS with bilateral quadripolar
+electrode implantation; (3) right-handedness. Exclusion criteria comprised: (1) other serious psychiatric
+disorders meeting Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition [50] (DSM-5) criteria;
+(2) other major neurological illnesses; (3) unstable vital signs; (4) excessive tremors in DBS-off/medication-off
+states; (5) any postoperative complications detected via postoperative MRI; (6) contraindications for MRI
+(e.g., non-MRI-conditional implants, except for DBS patients under specific safety protocols); (7) incomplete
+clinical follow-up data.
+Treatment protocols. For the TI cohorts, stimulation was administered using NervioX-2400 targeting
+either the STN or GPi. TI was delivered via scalp electrodes using 2 kHz and 2.13 kHz currents. Optimized
+electrode placement generated a 130-Hz interference field maximized at the STN or GPi. Current intensities
+(1–4 mA per channel) were set to the maximum tolerable level while maintaining the simulation-derived
+ratio. Each session lasted 20 minutes. For the DBS cohort, the patients underwent bilateral quadripolar DBS
+electrode implantation (Medtronic 3387, Medtronic, USA; or SceneRay 1210, SceneRay, China). Targets
+were either the GPi (N = 28) or the STN (N = 27). For scanning, DBS was turned off for at least one hour
+prior to imaging. Clinical response was defined as a ≥ 25% improvement in MDS-UPDRS III scores for DBS
+patients and a reduction of ≥ 5 points for TI patients, assessed at post-treatment.
+
+
+
+
+                                                                                                              |14
+4.2 Data overview
+Public datasets for pretraining. The foundation virtual brain (FVB) model was pretrained using resting-
+state fMRI data from four large-scale public cohorts: ADNI (n = 219 participants, 697 sessions), PPMI (n =
+579, 579), ABIDE (n = 1,097, 1,097), and the HCP (n = 812, 3,248), yielding a total of 5,621 fMRI sessions from
+2,707 unique participants spanning Alzheimer’s disease (AD), mild cognitive impairment (MCI), Parkinson’s
+disease (PD), autism spectrum disorder (ASD), and healthy controls (HC). Comprehensive demographic and
+clinical characteristics are provided in Extended Data Table 3. These heterogeneous datasets provide broad
+coverage of normative and pathological brain dynamics, enabling the FVB to learn subject-generalizable
+principles of whole-brain activity.
+Clinical cohort for finetuning and validation. Clinical validation was performed using real-world
+Parkinson’s disease cohorts from Ruijin Hospital (Shanghai) and Zhongnan Hospital (Wuhan). All four
+cohorts (Retrospective TI, n = 51; Prospective TI, n = 11; DBS, n = 55; External TI Validation, n = 14)
+underwent pre-treatment resting-state fMRI and structural T1-weighted MRI acquisition for model input.
+Additionally, the retrospective TI and DBS cohorts included post-treatment fMRI scans, which were reserved
+for mechanistic analyses of treatment-induced brain dynamics but excluded from response prediction training
+to prevent data leakage. Longitudinal MDS-UPDRS III scores were collected for all patients to define clinical
+response. Detailed demographic and clinical characteristics are summarized in Extended Data Table 4.
+
+4.3 Neuroimaging preprocessing
+Structural MRI preprocessing. For volume-based cohorts (ADNI, PPMI, ABIDE, Clinical), T1-weighted
+images were skull-stripped using FMRIB Software Library (FSL) [51]’s bet (Brain Extraction Tool). Tissue
+segmentation was performed with fast (FMRIB’s Automated Segmentation Tool) to generate bias-corrected
+images. These were registered to MNI152 space via 12-DOF affine transformation (flirt, FMRIB’s Linear
+Image Registration Tool) followed by nonlinear warping (fnirt, FMRIB’s Nonlinear Image Registration Tool).
+For the surface-based cohort (HCP), structural preprocessing was omitted as the fMRI data are stored in
+surface space.
+Resting-state fMRI preprocessing. For volume-based cohorts, preprocessing included slice-timing
+correction (slicetimer), motion correction (mcflirt), and boundary-based EPI-to-T1 coregistration (flirt
+with normalized mutual information cost function). Functional data were normalized to MNI152 space by
+combining EPI-to-T1 affine matrices with T1-to-MNI nonlinear warps (applywarp). Nuisance regression was
+performed to remove confounding signals, including head motion, white matter, and cerebrospinal fluid signals.
+Volumes with excessive head motion (framewise displacement > 0.5 mm) were excluded. For the HCP cohort,
+we utilized the preprocessed CIFTI data (grayordinate space), which inherently includes motion correction
+and surface registration.
+Time series extraction. For volume-based cohorts: Mean BOLD signals were extracted from 166 AAL3
+regions, yielding subject-specific time series matrices after detrending and bandpass filtering (0.01–0.1 Hz).
+For the HCP cohort: Since data reside in the 91,282 grayordinate surface space (fs_LR 32k mesh), we adapted
+the volumetric AAL3 atlas to this surface space to enable consistent extraction. This was achieved through a
+two-stage mapping procedure: (1) cortical AAL3 regions (MNI152 space) were resampled to the fs_LR 32k
+surface via nearest-neighbor interpolation, with medial wall vertices masked using the HCP-MMP atlas; (2)
+subcortical AAL3 labels were aligned to HCP’s subcortical mask and concatenated with cortical labels to
+form a 91,282-dimensional parcellation. Mean signals were aggregated from the surface vertices within each of
+the AAL3 adapted regions, yielding time series matrices identical in dimension to the volume-based cohorts.
+Time series standardization. To enhance model training stability and convergence, we applied per-region
+z-score normalization to all extracted time series. Specifically, for each brain region’s time series across every
+session, we subtracted the mean and divided by the standard deviation (computed over timepoints). This
+transformation ensures zero-mean and unit-variance signals, mitigating regional amplitude disparities and
+improving numerical stability during model optimization.
+
+
+
+
+                                                                                                              |15
+4.4 Foundation virtual brain structure and pretraining
+The FVB employs a transformer architecture designed to forecast whole-brain BOLD dynamics conditioned
+on clinical context. For each subject, the full resting-state fMRI time series comprises Ttotal timepoints after
+preprocessing. To eliminate hemodynamic initialization transients, the first 30 timepoints are discarded,
+yielding an effective sequence of length T = Ttotal − 30. Demographic attributes (e.g., age, sex, race) are
+transformed into a fixed-length vector d ∈ RD via z-score normalization with mean imputation for continuous
+features, and one-hot encoding with an “Unknown” category for categorical features. Formally, given a
+historical BOLD sequence Xhist = [xt−n+1 , . . . , xt ] ∈ Rn×R with t ∈ {n, . . . , T − 1} (where R = 166 for
+AAL3), disease label s, and demographic vector d, the model predicts xt+1 ∈ RR .
+Each BOLD frame Xhist is first projected into a latent embedding space using a linear projection followed by
+positional encoding:
+                                Z0 = PosEnc Linear(Xhist ) ∈ Rn×dmodel ,                                  (1)
+                                                            
+
+where Linear(·) is a learnable projection, and PosEnc(·) injects sinusoidal positional encodings. Disease context
+is encoded using patient-specific prefix embeddings Psdis ∈ Rdmodel inspired by distribution-characterizing
+representations [52], while demographics d are mapped to Pdem = MLPdem (d) ∈ Rdmodel . These embeddings
+are fused via element-wise addition:
+
+                                          P = Psdis + Pdem ∈ Rdmodel .                                        (2)
+
+Clinical context modulates spatiotemporal dynamics through J cross-attention layers. This formulation
+establishes a top-down modulation mechanism where static clinical priors actively retrieve spatiotemporal
+patterns from the BOLD sequence that are most salient to the patient’s specific condition. Specifically, the
+aggregation is defined as:
+                              cj = CrossAttn (Qj , Kj , Vj ) , j = 1, . . . , J,
+                                                  Q
+                                   Qj = cj−1 Wj
+                                   
+                                                                                                          (3)
+                              with Kj = Z0 WjK ,        , and c0 = P,
+                                   
+                                     Vj = Z0 WjV
+                                   
+
+Here, WjK , WjQ , and WjV are learnable projection matrices for the key and value of the j-th layer. The final
+output cJ ∈ R1×dmodel represents the clinical-conditioned global context. To integrate this global prior back
+into the sequence, the context vector is expanded and fused via a residual connection:
+
+                                            I = Z0 + Expand(cJ ),                                             (4)
+
+where Expand(·) broadcasts the context token to n timepoints, injecting a global clinical prior into the BOLD
+sequence. Subsequently, self-attention layers capture temporal dependencies:
+
+                                         H = SelfAttn(I) ∈ Rn×dmodel .                                        (5)
+
+To derive a robust prediction state, we employ attention-based pooling to extract a global dynamic signature
+from the refined sequence:
+                                        n
+                                      X                     exp(w⊤ Hτ )
+                                 h=        ατ Hτ , ατ = Pn           ⊤
+                                                                           ,                             (6)
+                                      τ =1                 k=1 exp(w Hk )
+
+where w ∈ Rdmodel is a learnable weight vector. The forecasting head predicts xt+1 :
+
+                                      x̂t+1 = Linear GELU(Linear(h)) .                                        (7)
+                                                                    
+
+
+The FVB was pretrained on all sessions from the ADNI, PPMI, ABIDE, and HCP datasets (totaling Nsess
+
+
+
+
+                                                                                                              |16
+sessions) with mean squared error (MSE) loss:
+
+                                                         Nsess T −1
+                                                    1    X     X         (i)     (i)
+                                   Lpretrain =                        ∥xt+1 − x̂t+1 ∥22 ,                     (8)
+                                                 Nsess · T i=1 t=n
+
+using the AdamW [53] optimizer (learning rate 5 × 10−5 , weight decay 10−4 ) and a 9:1 train-validation split.
+Early stopping was applied when validation loss plateaued.
+
+4.5 Individualized virtual brain instantiation
+Patient-specific virtual brains were instantiated via rapid finetuning of the pretrained FVB. For a target patient
+p with pre-treatment fMRI Xp , disease label sp , and demographics dp , we optimized the FVB parameters θ
+by minimizing:
+                                              T −1
+                                           1 X
+                                 Lft (θ) =         ∥xt+1 − fθ (xt−n+1:t , sp , dp )∥22 ,                       (9)
+                                           T t=n
+
+where T is the sequence length. Leveraging the robust spatiotemporal representations learned during
+pretraining, finetuning with a low learning rate (10−6 ) enabled the model to quickly adapt to individual-
+specific dynamics. This rapid convergence yields a personalized iVB that further enhances prediction accuracy
+for the target patient while avoiding overfitting through minimal parameter updates.
+
+4.6 Neuromodulation response prediction
+Our framework predicts individual response to TI/DBS by: (1) finetuning the FVB on pre-treatment fMRI to
+instantiate patient-specific iVBs, (2) computing CBM features through bidirectional virtual brain simulations,
+and (3) training a classifier that integrates CBM features with baseline clinical severity.
+CBM feature extraction. To characterize pathological brain dynamics, we introduce CBM, which computes
+a bidirectional mismatch derived from iVBs through counterfactual simulation. Our CBM captures clinically
+unobservable counterfactual scenarios: What would this patient’s brain activity look like if it followed
+healthy dynamics? And how would this patient’s brain distort normal activity patterns? By quantifying
+the mismatch between observed and counterfactual BOLD trajectories through bidirectional virtual brain
+simulations, we extract digital biomarkers that reveal hidden pathological states invisible to static imaging
+metrics. Specifically, let Mnorm denote a normative virtual brain (FVB conditioned on healthy controls;
+s = HC, dHC mean ), and let Mp denote the patient-specific iVB for subject p. For the preprocessed BOLD
+sequence Xp = [x0 , . . . , xTtotal −1 ] ∈ RT ×R , we compute two directional mismatches:
+Patient-to-Control Deviation: How much the patient’s dynamics deviate from normative expectations:
+                                    T −1
+                                  1 X
+                      δp(PtC) =         xt+1 − Mnorm (xt−n+1:t , s = HC, dHC
+                                                                          mean ) 2 ∈ R
+                                                                                      R
+                                                                                                             (10)
+                                  T t=n
+
+Control-to-Patient Deviation: How the patient’s brain model distorts healthy activity patterns. For K
+                                  (k)
+representative healthy subjects (XHC ):
+
+                                     K   T −1
+                                   1 X 1 X      (HC,k)         (HC,k)
+                       δp(CtP) =              x        − Mp (xt−n+1:t , sp , dp ) 2 ∈ RR                     (11)
+                                   K   T t=n t+1
+                                      k=1
+
+The regional CBM feature vector concatenates these directional mismatches per brain region:
+
+                                           ϕCBM = δp(PtC) , δp(CtP) ∈ R2R                                    (12)
+                                                                  
+                                            p
+
+
+Response prediction. CBM features are combined with clinical variables to predict treatment response.
+
+
+
+
+                                                                                                              |17
+For patient p, the input feature vector integrates regional CBM deviations and MDS-UPDRS III score:
+
+                                          zp = ϕCBM , upre   ∈ R2R+u ,                                        (13)
+                                                          
+                                                p      p
+
+where upre
+         p  ∈ Ru denotes the pre-treatment MDS-UPDRS III feature vector comprising u individual item
+scores or subscores. A three-layer MLP with hidden dimensions 512 and 256 maps zp to a response probability:
+
+                                                                                                              (14)
+                                                                  
+                                                ŷp = σ fpre (zp ) ,
+
+where fpre denotes the MLP function and σ is the sigmoid activation. The model is trained via binary
+cross-entropy loss:
+                                     M
+                                  1 Xh                                        i
+                         Lcls = −       ym log(ŷm ) + (1 − ym ) log(1 − ŷm ) ,                 (15)
+                                  M m=1
+
+where ym = 1 denotes responders (≥ 25% improvement in MDS-UPDRS III scores for DBS; a reduction of
+≥ 5 points for TI). Five-fold cross-validation used stratified splits preserving responder ratios.
+Improvement rate regression. Beyond binary response classification, we performed regression analysis to
+predict continuous improvement rates. For patient p, the empirical improvement rate is defined as:
+
+                                                   n P(upre − upost ) o
+                                                        p       p
+                                        Ip = max                     ,0 ,                                     (16)
+                                                           upre
+                                                        P
+                                                             p
+
+where upre
+       p   and upost
+                p    denote the pre- and post-treatment MDS-UPDRS III feature vector, respectively.
+For patient p, we construct the input feature vector zp . The predicted rate is Iˆp = ŷp = σ(fpre (zp )) as
+Equation 14. The model is trained by minimizing a hybrid loss function that combines mean squared error
+with a differentiable ranking objective:
+
+                                            Lreg = αLMSE + βLrank ,                                           (17)
+
+where α and β are weighting hyperparameters. The MSE component ensures accurate numerical prediction:
+
+                                                           N
+                                                     1 X           2
+                                           LMSE =          In − Iˆn ,                                         (18)
+                                                     N n=1
+
+while the ranking component Lrank maximizes the Spearman correlation between predicted and observed
+improvement rates. To enable gradient-based optimization, we employ a soft-ranking approximation using
+temperature-scaled sigmoid functions. For a batch of predictions {Iˆn }N
+                                                                       n=1 , the soft rank of each sample is
+computed as:
+
+                                                          N
+                                                                                !
+                                                          X         Iˆi − Iˆj
+                                          r(Iˆi ) = 1 +         σ                   ,                         (19)
+                                                          j=1
+                                                                        τ
+
+where σ(·) is the sigmoid activation and τ is the temperature parameter. The ranking loss is then defined as:
+
+                                                                                                              (20)
+                                                                     
+                                           Lrank = 1 − ρs r(Î), r(I) ,
+
+where ρs denotes the Spearman correlation coefficient computed from the soft ranks. This formulation
+encourages the model to preserve the relative ordering of improvement rates, which is particularly valuable
+given the ordinal nature of clinical outcome measures and the potential presence of outliers.
+We employed stratified five-fold cross-validation, where patients were partitioned into five folds while preserving
+the distribution of improvement rates. The model was trained on four folds and evaluated on the held-out
+
+
+                                                                                                               |18
+fold, repeating this for each fold. Final pooled performance metrics (Spearman correlation R and p-value)
+were computed by collecting predictions from all five test sets and calculating the correlation between the
+predicted and empirical improvement rates, yielding a fair comparison between other non-training biomarkers.
+
+4.7 Performance metrics
+Generative virtual brain fidelity. We evaluated the fidelity of the foundation virtual brain (FVB) and
+individualized virtual brain (iVB) in forecasting regional BOLD dynamics and reconstructing functional
+connectivity (FC). Given ground-truth next-step BOLD vector xt+1 ∈ RR and the model prediction x̂t+1 ,
+forecasting error was quantified by mean absolute error (MAE):
+
+                                                   T     R
+                                                1X 1 X
+                                       MAE =                |xt,r − x̂t,r | .                               (21)
+                                                T t=1 R r=1
+
+We additionally reported the coefficient of determination (R2 ), computed per region and then averaged across
+regions:
+                                              (xt,r − x̂t,r )2
+                                           P
+                                                                       1X
+                               R2 = 1 − Pt                   2
+                                                               , x̄r =     xt,r .                        (22)
+                                              t (xt,r − x̄r )          T t
+
+For FC reconstruction, we computed Pearson correlation between vectorized upper-triangular entries of the
+empirical FC matrix C and the predicted FC matrix Ĉ:
+                                                                
+                                   rFC = corr vec(C△ ), vec(Ĉ△ ) ,                                  (23)
+
+where △ denotes the upper triangle excluding the diagonal.
+Neuromodulation response prediction. For binary responder classification, we assessed discrimination
+using the area under the receiver operating characteristic curve (ROC-AUC) and the area under the precision–
+recall curve (AUPR), which is particularly informative under class imbalance. Threshold-dependent metrics
+included Accuracy, Precision, and F1-score. Confusion matrices were reported in normalized form. To further
+quantify decision impact, we performed decision curve analysis (DCA) and computed net benefit (NB) across
+threshold probabilities pt :
+                                                   TP      FP     pt
+                                        NB(pt ) =      −       ·     ,                                  (24)
+                                                   N        N 1 − pt
+where N is the cohort size. Reference strategies “treat all” and “treat none” were included as baselines. When
+evaluating agreement between predicted and observed continuous clinical improvement, we reported Spearman
+rank correlation (ρ) between predicted improvement and measured MDS-UPDRS III change, along with
+two-sided p-values.
+
+4.8 Statistical analysis
+All statistical tests were two-sided with a significance level of 0.05. We report summary statistics as mean
+± standard deviation (SD) or with 95% confidence intervals (CI). For comparisons of continuous variables,
+we assessed normality using the Shapiro–Wilk test. When normality was not violated, we used parametric
+tests (independent or paired t-tests as appropriate). Otherwise, we used non-parametric alternatives (Mann–
+Whitney U test for independent samples and Wilcoxon signed-rank test for paired samples). Categorical
+variables were compared using Fisher’s exact test or χ2 test. Subgroup performance was summarized across
+five cross-validation folds (mean ± SD), and effect modification was tested using logistic regression with
+prediction-subgroup interaction terms. Effect sizes for group differences were quantified using Cohen’s d for
+continuous variables. For region-wise analyses across brain parcellations, we controlled the false discovery rate
+(FDR) using the Benjamini–Hochberg procedure.
+
+
+
+
+                                                                                                             |19
+4.9 Computational hardware and software
+All MRI and fMRI data were processed on a high-performance workstation equipped with an Intel Xeon Gold
+6530 processor (128-core, 2.1 GHz) and 8 NVIDIA GeForce RTX 4090 GPUs. Our software development
+utilized Python (version 3.9.20) and the models were developed using PyTorch (version 2.1.2) and transformers
+(version 4.38.2). We used several other Python libraries to support data analysis and neuroimaging, including
+MONAI (version 1.3.0), nibabel (version 5.3.2), nilearn (version 0.12.0), pandas (version 2.2.3), scipy (version
+1.13.1), and scikit-learn (version 1.6.0). MRI and fMRI preprocessing was conducted using dcm2niix and FSL
+(version 6.0.7.18). Training the FVB model on a single RTX 4090 GPU during the pre-training phase had an
+average runtime of 3 minutes per epoch, whereas the iVB finetuning task took less than 30 seconds per epoch.
+Figures were prepared using Matplotlib and Seaborn.
+
+5 Data availability
+The ADNI, ABIDE, and PPMI datasets are publicly available through the Image & Data Archive (IDA) hosted
+by the Laboratory of Neuro Imaging (LONI) at the University of Southern California (https://ida.loni.usc.edu).
+The Human Connectome Project (HCP) Young Adult 1200 Subjects data release is accessible via the HCP
+portal (https://www.humanconnectome.org/study/hcp-young-adult/document/1200-subjects-data-release). The AAL3
+brain atlas employed in this work is publicly accessible via https://www.gin.cnrs.fr/en/tools/aal/. The PD25 atlas
+is available through the NeuroImaging&Surgical Technologies Lab (NIST) at https://nist.mni.mcgill.ca/multi-
+contrast-pd25-atlas/. The Brainnetome atlas can be accessed at https://atlas.brainnetome.org/.
+
+The fMRI data from the Ruijin Hospital and Zhongnan Hospital are not publicly available due to institutional
+data privacy regulations governing patient information. However, the study protocol, de-identified preprocessed
+fMRI derivatives, and associated clinical assessments are available from the corresponding author upon
+reasonable request, subject to ethical approval and execution of a data sharing agreement, to support
+reproducibility and independent verification.
+
+6 Code availability
+The code supporting this study is available on GitHub at https://github.com/desomeboy/Foundation-Individual-
+Generative-Virtual-Brain, under the Apache License, v.2.0 (Apache-2.0).
+
+
+7 Acknowledgements
+This work is supported by the National Key R&D Program of China (No. 2022ZD0160702), National Natural
+Science Foundation of China (No.62306178) and STCSM (No. 22DZ2229005), 111 plan (No. BP0719010).
+
+8 Author contributions
+S.D. and S.L. conceived the idea, curated public data, implemented code, developed and validated the
+framework, visualized results and wrote the manuscript. S.B., A.L. and Y.P. collected clinical data and
+administered treatment (S.B. assisted in mechanism writing; A.L. preprocessed clinical data). H.L. assisted
+in visualization and writing. M.X. designed the framework and guided experimental design. D.L. guided
+experimental design and revised the manuscript. W.X., Y.W., Y.Z., C.Z. and J.Y. guided experimental design,
+wrote and revised the manuscript.
+
+9 Competing interests
+The authors declare no competing interests.
+
+
+
+
+                                                                                                              |20
+ References
+ [1] Yuanrong Luo, Lichun Qiao, Miaoqian Li, Xinyue Wen, Wenbin Zhang, and Xianwen Li. Global, regional,
+     national epidemiology and trends of parkinson’s disease from 1990 to 2021: findings from the global
+     burden of disease study 2021. Frontiers in aging neuroscience, 16:1498756, 2025. 1
+
+ [2] Maria Eliza Freitas, Christopher W Hess, and Susan H Fox. Motor complications of dopaminergic
+     medications in parkinson’s disease. In Seminars in neurology, volume 37, pages 147–157. Thieme Medical
+     Publishers, 2017. 1
+
+ [3] Deep-Brain Stimulation for Parkinson’s Disease Study Group. Deep-brain stimulation of the subthalamic
+     nucleus or the pars interna of the globus pallidus in parkinson’s disease. New England Journal of Medicine,
+     345(13):956–963, 2001. 1, 10
+
+ [4] Ilya Demchenko, Ishaan Tailor, Sina Chegini, Haochen Yu, Fatemeh Gholamali Nezhad, Alice Rueda,
+     Anne Kever, Sridhar Krishnan, Abhishek Datta, Jed A Meltzer, et al. Human applications of transcranial
+     temporal interference stimulation: A systematic review. medRxiv, pages 2025–05, 2025. 1
+
+ [5] Robert F Dallapiazza, Philippe De Vloo, Anton Fomenko, Darrin J Lee, Clement Hamani, Renato P
+     Munhoz, Mojgan Hodaie, Andres M Lozano, Alfonso Fasano, and Suneil K Kalia. Considerations for
+     patient and target selection in deep brain stimulation surgery for parkinson’s disease. Exon Publications,
+     pages 145–160, 2018. 1
+
+ [6] Marwan Hariz and Patric Blomstedt. Deep brain stimulation for parkinson’s disease. Journal of internal
+     medicine, 292(5):764–778, 2022. 1
+
+ [7] Fahad Somaa. Deep brain stimulation in parkinson’s disease: Assessing efficacy. Research and Reviews
+     in Parkinsonism, pages 1–11, 2021. 1
+
+ [8] Neilen P Rasiah, Romir Maheshwary, Churl-Su Kwon, Joshua D Bloomstein, and Fady Girgis. Complica-
+     tions of deep brain stimulation for parkinson disease and relationship between micro-electrode tracks and
+     hemorrhage: systematic review and meta-analysis. World neurosurgery, 171:e8–e23, 2023. 2
+
+ [9] Ruth-Mary deSouza, Elena Moro, Anthony E Lang, and Anthony HV Schapira. Timing of deep brain
+     stimulation in parkinson disease: a need for reappraisal? Annals of neurology, 73(5):565–575, 2013. 2
+
+[10] John R Younce, Meghan C Campbell, Tamara Hershey, Aaron B Tanenbaum, Mikhail Milchenko, Mwiza
+     Ushe, Morvarid Karimi, Samer D Tabbal, Albert E Kim, Abraham Z Snyder, et al. Resting-state
+     functional connectivity predicts stn dbs clinical response. Movement Disorders, 36(3):662–671, 2021. 2, 8
+
+[11] Andreas Horn, Martin Reich, Johannes Vorwerk, Ningfei Li, Gregor Wenzel, Qianqian Fang, Tanja
+     Schmitz-Hübsch, Robert Nickl, Andreas Kupsch, Jens Volkmann, et al. Connectivity predicts deep brain
+     stimulation outcome in p arkinson disease. Annals of neurology, 82(1):67–78, 2017. 2, 8
+
+[12] Muthuraman Muthuraman, Günther Deuschl, Nabin Koirala, Christian Riedel, Jens Volkmann, and
+     Sergiu Groppa. Effects of dbs in parkinsonian patients depend on the structural integrity of frontal cortex.
+     Scientific reports, 7(1):43571, 2017. 2
+
+[13] Luke Andrews, Simon S Keller, Jibril Osman-Farah, and Antonella Macerollo. A structural magnetic
+     resonance imaging review of clinical motor outcomes from deep brain stimulation in movement disorders.
+     Brain Communications, 5(3):fcad171, 2023. 2
+
+[14] Qiang Wang, Harith Akram, Muthuraman Muthuraman, Gabriel Gonzalez-Escamilla, Sameer A Sheth,
+     Simón Oxenford, Fang-Cheng Yeh, Sergiu Groppa, Nora Vanegas-Arroyave, Ludvic Zrinzo, et al. Nor-
+     mative vs. patient-specific brain connectivity in deep brain stimulation. Neuroimage, 224:117307, 2021.
+     2
+
+
+
+
+                                                                                                             |21
+[15] Masoud Tahmasian, Simon B Eickhoff, Kathrin Giehl, Frank Schwartz, Damian M Herz, Alexander
+     Drzezga, Thilo van Eimeren, Angela R Laird, Peter T Fox, Habibolah Khazaie, et al. Resting-state
+     functional reorganization in parkinson’s disease: an activation likelihood estimation meta-analysis. Cortex,
+     92:119–138, 2017. 2
+[16] Atif Riaz, Muhammad Asad, SM Masudur Rahman Al-Arif, Eduardo Alonso, Danai Dima, Philip Corr,
+     and Greg Slabaugh. Fcnet: a convolutional neural network for calculating functional connectivity from
+     functional mri. In International Workshop on Connectomics in Neuroimaging, pages 70–78. Springer,
+     2017. 2
+[17] Xiaoxiao Li, Yuan Zhou, Nicha Dvornek, Muhan Zhang, Siyuan Gao, Juntang Zhuang, Dustin Scheinost,
+     Lawrence H Staib, Pamela Ventola, and James S Duncan. Braingnn: Interpretable brain graph neural
+     network for fmri analysis. Medical image analysis, 74:102233, 2021. 2, 6
+[18] Josue Ortega Caro, Antonio H de O Fonseca, Christopher Averill, Syed A Rizvi, Matteo Rosati, James L
+     Cross, Prateek Mittal, Emanuele Zappala, Daniel Levine, Rahul M Dhodapkar, et al. Brainlm: A
+     foundation model for brain activity recordings. bioRxiv, pages 2023–09, 2023. 2, 6
+[19] Kevin Murphy, Rasmus M Birn, and Peter A Bandettini. Resting-state fmri confounds and cleanup.
+     Neuroimage, 80:349–359, 2013. 2
+[20] Stephanie Noble, Dustin Scheinost, Emily S Finn, Xilin Shen, Xenophon Papademetris, Sarah C McEwen,
+     Carrie E Bearden, Jean Addington, Bradley Goodyear, Kristin S Cadenhead, et al. Multisite reliability
+     of mr-based functional connectivity. Neuroimage, 146:959–970, 2017. 2
+[21] Mohammad R Arbabshirani, Sergey Plis, Jing Sui, and Vince D Calhoun. Single subject prediction of
+     brain disorders in neuroimaging: Promises and pitfalls. Neuroimage, 145:137–165, 2017. 2
+[22] Lev Kiar Avberšek and Grega Repovš. Deep learning in neuroimaging data analysis: Applications,
+     challenges, and solutions. Frontiers in neuroimaging, 1:981642, 2022. 2
+[23] Rishi Bommasani. On the opportunities and risks of foundation models. arXiv preprint arXiv:2108.07258,
+     2021. 2
+[24] Michael Moor, Oishi Banerjee, Zahra Shakeri Hossein Abad, Harlan M Krumholz, Jure Leskovec, Eric J
+     Topol, and Pranav Rajpurkar. Foundation models for generalist medical artificial intelligence. Nature,
+     616(7956):259–265, 2023. 2
+[25] Karan Singhal, Shekoofeh Azizi, Tao Tu, S Sara Mahdavi, Jason Wei, Hyung Won Chung, Nathan
+     Scales, Ajay Tanwani, Heather Cole-Lewis, Stephen Pfohl, et al. Large language models encode clinical
+     knowledge. Nature, 620(7972):172–180, 2023. 2
+[26] Clifford R Jack Jr, Matt A Bernstein, Nick C Fox, Paul Thompson, Gene Alexander, Danielle Harvey,
+     Bret Borowski, Paula J Britson, Jennifer L. Whitwell, Chadwick Ward, et al. The alzheimer’s disease
+     neuroimaging initiative (adni): Mri methods. Journal of Magnetic Resonance Imaging: An Official
+     Journal of the International Society for Magnetic Resonance in Medicine, 27(4):685–691, 2008. 2
+[27] Kenneth Marek, Danna Jennings, Shirley Lasch, Andrew Siderowf, Caroline Tanner, Tanya Simuni, Chris
+     Coffey, Karl Kieburtz, Emily Flagg, Sohini Chowdhury, et al. The parkinson progression marker initiative
+     (ppmi). Progress in neurobiology, 95(4):629–635, 2011. 2
+[28] Adriana Di Martino, Chao-Gan Yan, Qingyang Li, Erin Denio, Francisco X Castellanos, Kaat Alaerts,
+     Jeffrey S Anderson, Michal Assaf, Susan Y Bookheimer, Mirella Dapretto, et al. The autism brain
+     imaging data exchange: towards a large-scale evaluation of the intrinsic brain architecture in autism.
+     Molecular psychiatry, 19(6):659–667, 2014. 2
+[29] David C Van Essen, Stephen M Smith, Deanna M Barch, Timothy EJ Behrens, Essa Yacoub, Kamil
+     Ugurbil, Wu-Minn HCP Consortium, et al. The wu-minn human connectome project: an overview.
+     Neuroimage, 80:62–79, 2013. 2
+
+
+                                                                                                             |22
+[30] Zixiang Luo, Kaining Peng, Zhichao Liang, Shengyuan Cai, Chenyu Xu, Dan Li, Yu Hu, Changsong Zhou,
+     and Quanying Liu. Mapping effective connectivity by virtually perturbing a surrogate brain. Nature
+     Methods, pages 1–10, 2025. 4, 25
+[31] BT Thomas Yeo, Fenna M Krienen, Jorge Sepulcre, Mert R Sabuncu, Danial Lashkari, Marisa Hollinshead,
+     Joshua L Roffman, Jordan W Smoller, Lilla Zöllei, Jonathan R Polimeni, et al. The organization of the
+     human cerebral cortex estimated by intrinsic functional connectivity. Journal of neurophysiology, 2011. 4
+[32] Aaditya Singh, Adam Fry, Adam Perelman, Adam Tart, Adi Ganesh, Ahmed El-Kishky, Aidan McLaugh-
+     lin, Aiden Low, AJ Ostrow, Akhila Ananthram, et al. Openai gpt-5 system card. arXiv preprint
+     arXiv:2601.03267, 2025. 6
+[33] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Gao,
+     Chengen Huang, Chenxu Lv, et al. Qwen3 technical report. arXiv preprint arXiv:2505.09388, 2025. 6
+[34] TN Kipf.     Semi-supervised classification with graph convolutional networks.           arXiv preprint
+     arXiv:1609.02907, 2016. 6
+[35] Lingzhong Fan, Hai Li, Junjie Zhuo, Yu Zhang, Jiaojian Wang, Liangfu Chen, Zhengyi Yang, Congying
+     Chu, Sangma Xie, Angela R Laird, et al. The human brainnetome atlas: a new brain atlas based on
+     connectional architecture. Cerebral cortex, 26(8):3508–3526, 2016. 8
+[36] Yiming Xiao, Vladimir Fonov, M Mallar Chakravarty, Silvain Beriault, Fahd Al Subaie, Abbas Sadikot,
+     G Bruce Pike, Gilles Bertrand, and D Louis Collins. A dataset of multi-contrast population-averaged
+     brain mri atlases of a parkinson’ s disease cohort. Data in brief, 12:370–379, 2017. 8
+[37] Kotaro Asanuma, Chengke Tang, Yilong Ma, Vijay Dhawan, Paul Mattis, Christine Edwards, Michael G
+     Kaplitt, Andrew Feigin, and David Eidelberg. Network modulation in the treatment of parkinson’s
+     disease. Brain, 129(10):2667–2678, 2006. 10
+[38] Nikolaus R McFarland and Suzanne N Haber. Thalamic relay nuclei of the basal ganglia form both
+     reciprocal and nonreciprocal cortical connections, linking multiple frontal cortical areas. Journal of
+     Neuroscience, 22(18):8117–8132, 2002. 10
+[39] Michiel F Dirkx, Hanneke den Ouden, Esther Aarts, Monique Timmer, Bastiaan R Bloem, Ivan Toni,
+     and Rick C Helmich. The cerebral network of parkinson’s tremor: an effective connectivity fmri study.
+     Journal of Neuroscience, 36(19):5362–5372, 2016. 10
+[40] Lloyd S Shapley et al. A value for n-person games. 1953. 10
+[41] Nir Grossman, David Bono, Nina Dedic, Suhasa B Kodandaramaiah, Andrii Rudenko, Ho-Jun Suk,
+     Antonino M Cassara, Esra Neufeld, Niels Kuster, Li-Huei Tsai, et al. Noninvasive deep brain stimulation
+     via temporally interfering electric fields. cell, 169(6):1029–1041, 2017. 10
+[42] Matthew M McGregor and Alexandra B Nelson. Circuit mechanisms of parkinson’s disease. Neuron,
+     101(6):1042–1056, 2019. 12
+[43] Rongjun Yu, Bo Liu, Lingling Wang, Jun Chen, and Xian Liu. Enhanced functional connectivity between
+     putamen and supplementary motor area in parkinson’s disease patients. PloS one, 8(3):e59717, 2013. 12
+[44] Felix Hoffstaedter, Christian Grefkes, Svenja Caspers, Christian Roski, Nicola Palomero-Gallagher,
+     Angie R Laird, Peter T Fox, and Simon B Eickhoff. The role of anterior midcingulate cortex in cognitive
+     motor control: evidence from functional connectivity analyses. Human brain mapping, 35(6):2741–2753,
+     2014. 12
+[45] Shervin Rahimpour, Shashank Rajkumar, and Mark Hallett. The supplementary motor complex in
+     parkinson’s disease. Journal of Movement Disorders, 15(1):21, 2021. 12
+[46] Nikos K Logothetis. What we can do and what we cannot do with fmri. Nature, 453(7197):869–878,
+     2008. 13
+
+
+                                                                                                          |23
+[47] World Medical Association et al. World medical association declaration of helsinki: ethical principles for
+     medical research involving human subjects. Jama, 310(20):2191–2194, 2013. 14
+
+[48] Chencheng Zhang, Yijie Lai, Jun Li, Naying He, Yu Liu, Yan Li, Hongyang Li, Hongjiang Wei, Fuhua
+     Yan, Andreas Horn, et al. Subthalamic and pallidal stimulations in patients with parkinson’s disease:
+     common and dissociable connections. Annals of Neurology, 90(4):670–682, 2021. 14
+
+[49] Ronald B Postuma, Daniela Berg, Matthew Stern, Werner Poewe, C Warren Olanow, Wolfgang Oertel,
+     José Obeso, Kenneth Marek, Irene Litvan, Anthony E Lang, et al. Mds clinical diagnostic criteria for
+     parkinson’s disease. Movement disorders, 30(12):1591–1601, 2015. 14
+
+[50] Fifth Edition et al. Diagnostic and statistical manual of mental disorders. Am Psychiatric Assoc,
+     21(21):591–643, 2013. 14
+
+[51] Mark Jenkinson, Christian F Beckmann, Timothy EJ Behrens, Mark W Woolrich, and Stephen M Smith.
+     Fsl. Neuroimage, 62(2):782–790, 2012. 15
+
+[52] Kuniaki Saito, Kihyuk Sohn, Xiang Zhang, Chun-Liang Li, Chen-Yu Lee, Kate Saenko, and Tomas
+     Pfister. Prefix conditioning unifies language and label supervision. In Proceedings of the IEEE/CVF
+     Conference on Computer Vision and Pattern Recognition, pages 2861–2870, 2023. 16
+
+[53] Ilya Loshchilov and Frank Hutter.         Decoupled weight decay regularization.          arXiv preprint
+     arXiv:1711.05101, 2017. 17
+
+
+
+
+                                                                                                            |24
+                                                                                                                            TI                                                                                                                                                                 DBS
+                                                                /                                                                                                                                                                       )
+
+                                         (            6/0               (.                                                                                                                                             8 2 33 0/
+
+                                             ( ( (2                                                                                                                                                               (        49 /
+
+                                ( ( (2                0(        2 0                                                                                                                                      (       49 2 ()4 2.
+
+                                    ( ( (2                      2 0                                                                                                                                          (    49         4 2.
+
+                                 ( ( (2                0(           2                                                                                                                                    (        49 2 ()4              (
+
+                                     ( ( (2                         2                                                                                                                                        (        49        4       (
+
+         (         0         //(                 0(         2                                                                                                                           /( 2                 /( 2 ()4 ) /
+
+              (         0        //(                        2                                                                                                                               /( 2                 /(         4) /
+
+                  .4                  2          0(         2                                                                                                                       /        06 . /43 2 ()4 ) /
+
+                       .4                    2              2                                                                                                                           /        06 . /43                   4) /
+
+  0.    2(.       3/(            2(.             0(         2                                                                                                                   20/ 4 0/ 35 / 4 0/ 2 ()4 ) /
+
+   0.    2(.           3/(           2(.                    2                                                                                                                    20/ 4 0/ 35 / 4 0/                         4) /
+
+                  .             //(                   0(        2 ..2                                                                                                                        0                   /( 2 ()4 004
+
+
+                       .            //(                         2 ..2                                                                                                                            0                /(            4 004
+
+
+                                         ( (2          0(           2                                                                                                                                (       ( 49 2 ()4                 (
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                         2. /
+                                             ( (2                   2                                                                                                                                    (       ( 49           4       (
+
+
+
+
+                                                                                                                                                                            0
+                                                                                                                                                                            /
+                                0( (                  0.                   (0                                                                                                                            2 3 /( 20.                 ) 2
+
+
+                                                                           (2                                                                                                                                                               4
+
+
+                                     0            (                        (2                                                                                                                                2         /(                   4
+
+
+                                    . 230                   2           ( (2                                                                                                                                 03452          4           49
+
+
+                                                                . 230                                                                                                                                                        03452
+
+
+                                .                0              (          (                                                                                                                             0 9       2       9 / 3
+
+
+        . 230               0        .0 0(                  2                                                                                                                       03452            2 .02 2 ()4 ) /
+
+
+          . 230                 0            .0             2                                                                                                                           03452            2 .02              4) /
+
+
+          (       2(        0        .0 0(                  2                                                                                                                           / 4          2 .02 2 ()4 ) /
+
+
+              (        2(       0            .0             2                                                                                                                               / 4          2 .02              4) /
+
+
+                       2 0           .0 0(                  2                                                                                                                                34 2 .02 2 ()4 ) /
+
+
+                            2 0              .0             2                                                                                                                                    34 2 .02                   4) /
+
+
+                            2 0              .0 0(                  2                                                                                                                             34 2 .02 2 ()4                        (
+
+
+                                2 0              .0                 2                                                                                                                                34 2 .02                   4       (
+
+
+                             2 0                 .0 (/ ) 5                                                                                                                                           34 2 .02                   3
+
+                                                                                                                                                                                             34 2 .02                  0/34 / 9
+                       2 0            .0              .         2
+
+
+
+
+                                                                                                                                                                                                                                                                                                    /
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                           5.
+                                                                                                                                                                                                                                                                                  53
+
+                                                                                                                                                                                                                                                                                           /
+
+
+
+
+                                                                                                                                                                                                                                                                                                              2
+
+
+
+                                                                                                                                                                                                                                                                                                                      5.
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                  .
+                                                                                                                                                                                                                                                            /
+
+
+
+
+                                                                                                                                                                                                                                                                                                                  5
+                                                                                    0
+
+
+
+
+                                                                                                                                                                                                                                                                                                    5.
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                      5.
+                                                                                                                                                                                                                                                       /4 35
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                    2
+                                                                                                                                                                                                                                                                                                                                02
+                                                                                                                                                                                                                                                                             2
+
+
+
+
+                                                                                                                                                                                                                                                                                                .
+                                                                                                                                          (
+                                                                               3
+
+
+
+
+                                                                                                                                                                                                                                                                                       .
+
+
+
+
+                                                                                                                                                                                                                                                                                                          5
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                    /4
+                                                                                                                                                      2
+                                                                                                                                 20
+                                                                                        20
+
+
+
+
+                                                                                                                            3/
+                                                                                                 3
+                                                                                             3
+
+
+
+
+                                                                                                                                                                                                                                                                5
+                                                                                                                                              3
+                                                                                                         0
+
+
+
+
+                                                                                                                                                                       3/
+                                                                                    /
+
+
+
+
+                                                                                                                                                                                                                                                                                 5/
+
+
+
+
+                                                                                                                                                                                                                                                                                                                          5.
+                                                                                                                                                                                                                                                                                                         /(
+                                                                                                                                                                                                                                                          /
+                                                                                                     (.
+
+
+
+
+                                                                                                                       (
+
+
+
+
+                                                                                                                                                                                                                                                                        02
+                                                                                                                                                                                                                                                02
+
+
+
+
+                                                                                                                                                                                                                                                                                           )
+                                                                                                                                                                                                                                    4
+
+
+
+
+                                                                                                                                                                                                                                                                                                                               53
+                                                                                                                                                                                                                                                                                               54
+                                                                                                 (
+
+
+
+
+                                                                                                                                                                                                                                                                                      54
+                                                                                                                                                  3
+
+
+
+
+                                                                                                                                                                                                                                                                                                              )
+                                                                         3
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                            )
+                                                                                                                                      2
+                                                                                                              32
+
+
+
+
+                                                                                                                                                                                                                                                                    )
+                                                                                                                                                              3
+
+
+
+
+                                                                                                                                                                                                                                                                        04
+                                                                                                     3
+
+
+
+
+                                                                                                                                                                                                                                    5
+                                                                                (
+
+                                                                                    2
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                2
+                                                                                                                                                                                                                                            .
+
+
+
+
+                                                                                                                                                                                                                                                                             2
+                                                                                                                                                                                                                            /(
+                                                                                                                   2
+
+
+
+
+                                                                                                                                 3
+                                                                                                                        2
+
+                                                                                                                             0
+
+
+
+
+                                                                                                                                                                   2
+
+
+
+
+                                                                                                                                                                                                                                                                                                2
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                2
+                                                                    0
+
+
+
+                                                                                    .
+
+
+
+
+                                                                                                                                                                                                                                                     20
+                                                                                                               0.
+
+                                                                                                                       0.
+
+
+
+
+                                                                                                                                                                                                                                                                                                                      2
+                                                                                                                                                                  0.
+                                                                         .
+
+
+
+
+                                                                                                                                 (
+
+
+
+
+                                                                                                                                                          0
+
+
+
+
+Extended Data Fig. 1 | Full Heatmap of absolute Spearman correlation strengths between brain regions and MDS-UPDRS                                                                                                                                                  5
+
+
+symptom measures. Rows denote individual symptoms. Columns show the top-ranked regions, defined by the number of
+associations exceeding the threshold (|ρ| ≥ 0.3 and p < 0.05). Color represents |ρ|, with darker shades indicating stronger effects.
+Associations not meeting the threshold or not confirmed by the significance table are displayed in gray. Results are presented for
+TI and DBS cohorts separately.
+
+
+
+
+Extended Data Table 1 | Ablation Study on CBM
+
+  Feature Type                                                                                               AUC                                              AUPR                   ACC                                                                                         F1                                                    Precision
+
+  Static_FC                                                                                                  0.417 ± 0.283                                    0.609 ± 0.167          0.600 ± 0.178                                                                               0.418 ± 0.378                                         0.450 ± 0.371
+
+  iVB_FC                                                                                                     0.420 ± 0.152                                    0.578 ± 0.115          0.582 ± 0.136                                                                               0.544 ± 0.276                                         0.568 ± 0.326
+
+  iVB_EC                                                                                                     0.784 ± 0.090                                    0.850 ± 0.076          0.727 ± 0.100                                                                               0.773 ± 0.074                                         0.781 ± 0.158
+
+  CBM                                                                                                        0.865 ± 0.072                                    0.915 ± 0.048          0.836 ± 0.036                                                                               0.847 ± 0.036                                         0.917 ± 0.105
+
+Ablation study on Counterfactual Brain Mismatch (CBM) features for neuromodulation response prediction. Four
+strategies evaluated via stratified 5-fold CV on retrospective DBS cohorts; all features concatenated with
+pre-treatment MDS-UPDRS III scores. Static_FC: Pre-treatment resting-state fMRI FC. iVB_FC: FC from
+iVB-generated BOLD. iVB_EC: Effective connectivity map via perturbing the iVB surrogate brain to estimate
+directed region-to-region influences, following the protocol in Luo et al. [30]. CBM: bidirectional counterfactual brain
+mismatch. Values: Mean ± SD; best in bold.
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                         |25
+Extended Data Table 2 | AAL3 Atlas Region Labels in Main Text and Corresponding Anatomical Names.
+
+ AAL3 Label           Anatomical Name                         AAL3 Label            Anatomical Name
+
+ Angular              Angular Gyrus                           Putamen               Putamen
+
+ Caudate              Caudate Nucleus                         Red_N                 Red Nucleus
+
+ Cerebellum_3         Lobule III of Cerebellar Hemisphere     Rolandic_Oper         Rolandic Operculum
+
+ Cerebellum_4_5       Lobule IV, V of Cerebellar Hemisphere   Supp_Motor_Area       Supplementary Motor Area
+
+ Cerebellum_6         Lobule VI of Cerebellar Hemisphere      Temporal_Inf          Inferior Temporal Gyrus
+
+ Cerebellum_8         Lobule VIII of Cerebellar Hemisphere    Thal_IL               Intralaminar Thalamic Nucleus
+
+ Cerebellum_9         Lobule IX of Cerebellar Hemisphere      Thal_LGN              Lateral Geniculate Nucleus
+
+ Cingulate_Mid        Middle Cingulate & Paracingulate Gyri   Thal_MDl              Mediodorsal Lateral Thalamic Nucleus
+
+ Frontal_Mid_2        Middle Frontal Gyrus                    Thal_MGN              Medial Geniculate Nucleus
+
+ Frontal_Sup_2        Superior Frontal Gyrus, Dorsolateral    Thal_PuA              Pulvinar Anterior Thalamic Nucleus
+
+ Fusiform             Fusiform Gyrus                          Thal_PuM              Pulvinar Medial Thalamic Nucleus
+
+ Insula               Insula                                  Thal_VA               Ventral Anterior Thalamic Nucleus
+
+ Pallidum             Globus Pallidus                         Thal_VL               Ventral Lateral Thalamic Nucleus
+
+ Postcentral          Postcentral Gyrus                       Thal_VPL              Ventral Posterolateral Thalamic Nucleus
+
+ Precentral           Precentral Gyrus                        Vermis_3              Lobule III of Vermis
+
+ Precuneus            Precuneus
+
+Note that each AAL3 label represents a brain region, with suffixes _L and _R denoting the left and right hemisphere,
+respectively.
+
+
+
+
+Extended Data Table 3 | Public Dataset Study Population
+
+
+
+  Dataset         n            Age (y)           Male n (%)                 Race                  Label Distribution
+                                                                      (W, B, A, I, H, O)
+
+  HCP             812          N/A               402 (49.5)           887, 193, 64, 2, 5, 45      HC: 812
+
+  PPMI            579          65.9 ± 13.9       326 (56.3)           559, 4, 7, 3, 0, 6          HC: 406; PD: 173
+                                                                                                  HC: 570;
+  ABIDE           1,097        17.0 ± 8.0        934 (85.1)           N/A
+                                                                                                  Autism: 527
+                                                                                                  HC: 82; MCI: 103;
+  ADNI            219          73.1 ± 7.2        101 (46.1)           197, 11, 4, 0, 0, 7
+                                                                                                  AD: 34
+
+Demographic characteristics and label distribution across four neuroimaging datasets. For PPMI, prodromal and
+SWEDD (Scans Without Evidence of Dopamine Deficit) cases were grouped into HC. Abbreviations: HCP, Human
+Connectome Project; PPMI, Parkinson’s Progression Markers Initiative; ABIDE, Autism Brain Imaging Data
+Exchange; ADNI, Alzheimer’s Disease Neuroimaging Initiative; HC, healthy control; MCI, mild cognitive impairment;
+AD, Alzheimer’s disease; PD, Parkinson’s disease; W, White; B, Black; A, Asian; I, Indian/Alaska Native; H, Native
+Hawaiian; O, Other/Multirace; N/A, not available.
+
+
+
+
+                                                                                                                           |26
+Extended Data Table 4 | Clinical Dataset Study Population
+
+
+
+   Dataset           Source                n        Age (y)           Male n (%)        Target n (GPi/STN)
+
+
+   Retrospective      Ruijin Hospital
+                                           51       69.84 ± 6.54      29 (56.9)        24/27
+   TI                  (Shanghai)
+
+   Retrospective      Ruijin Hospital
+                                           55       64.05 ± 8.27      37 (67.3)        28/27
+   DBS                 (Shanghai)
+
+   Prospective        Ruijin Hospital
+                                           11       60.27 ± 8.60      9 (81.8)         4/7
+   TI                  (Shanghai)
+
+
+   External TI       Zhongnan Hospital     14       N/A               8 (57.1)         2/12
+                         (Wuhan)
+
+Demographic and clinical characteristics of the real-world Parkinson’s disease cohorts used for fine-tuning and
+validation. NA, not available.
+
+
+
+
+                                                                                                                  |27
+

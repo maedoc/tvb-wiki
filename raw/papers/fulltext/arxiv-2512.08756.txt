@@ -1,0 +1,2175 @@
+                                                 Genetic Regression Analysis of Human Brain
+                                              Connectivity Using an Efficient Estimator of Genetic
+                                                                  Covariance
+                                                    Keshav Motwani, Ali Shojaie, Ariel Rokem, and Eardi Lila
+arXiv:2512.08756v1 [stat.AP] 9 Dec 2025
+
+
+
+
+                                                                                      Abstract
+                                               Non-invasive measurements of the human brain using magnetic resonance imaging
+                                               (MRI) have significantly improved our understanding the brain’s network organization
+                                               by enabling measurement of anatomical connections between brain regions (structural
+                                               connectivity) and their coactivation (functional connectivity). Heritability analyses
+                                               have established that genetics account for considerable intersubject variability in struc-
+                                               tural and functional connectivity. However, characterizing how genetics shape the rela-
+                                               tionship between structural and functional connectomes remains challenging, since this
+                                               association is obscured by unique environmental exposures in observed data. To ad-
+                                               dress this, we develop a regression analysis framework that enables characterization of
+                                               the relationship between latent genetic contributions to structural and functional con-
+                                               nectivity. Implementing the proposed framework requires estimating genetic covariance
+                                               matrices in multivariate random effects models, which is computationally intractable
+                                               for high-dimensional connectome data using existing methods. We introduce a con-
+                                               strained method-of-moments estimator that is several orders of magnitude faster than
+                                               existing methods without sacrificing estimation accuracy. For the genetic regression
+                                               analysis, we develop regularized estimation approaches, including ridge, lasso, and ten-
+                                               sor regression. Applying our method to Human Connectome Project data, we find
+                                               that functional connectivity is moderately predictable from structure at the genetic
+                                               level (max R2 = 0.34), though it is not directly predictable in the observed data (max
+                                               R2 = 0.03). This stark contrast suggests that unique environmental factors mask
+                                               strong genetically-encoded structure-function relationships.
+
+                                             Keywords— Structural and functional connectivity, variance components, genetic covariance,
+                                          genetic regression analysis
+
+
+
+                                          1    Introduction
+
+                                          Striking levels of intersubject heterogeneity have been observed in the structure and func-
+                                          tion of the human brain, even within narrowly defined groups of young and healthy subjects
+
+                                                                                           1
+(Benson et al. 2022). Brain connectivity is no exception, suggesting that a large variety
+of connectivity configurations can result in cognitively healthy subjects (Finn et al. 2015).
+Two types of connectivity are commonly studied: structural connectivity, which describes
+anatomical connections between brain regions through white matter fibers, and functional
+connectivity, which measures the degree of co-activation of brain regions. The set of connec-
+tions between pairs of macroscopic brain regions is referred to as the connectome.
+   Structural connectivity is believed to provide the physical substrate supporting functional
+organization. This structure–function coupling has been extensively characterized (Baum
+et al. 2020; Fotiadis et al. 2024; Pan et al. 2025). However, while it is well established
+that both structural and functional connectivity are influenced by genetic (Bianco et al.
+2023; Colclough et al. 2017; Elliott et al. 2018; Gu et al. 2021) and environmental factors
+(Kulick et al. 2020; Pini et al. 2023), the specific aspects of structure–function coupling
+that are genetically rooted versus those shaped by environmental exposures are not yet well
+understood. Classical analyses of structure–function coupling in neuroimaging studies may
+mask underlying relationships when genetic and environmental factors contribute differently
+to this coupling. On the other hand, univariate heritability analyses are inadequate for
+addressing this question because they fail to capture the complex and multivariate nature
+of structure–function coupling.
+   In the present work, we developed a latent genetic regression analysis framework that
+characterizes genetically encoded structure-function associations. Specifically, we represent
+observed connectomes as the sum of latent genetic and environmental components and model
+the genetic component of the functional connectome as a linear function of the genetic
+component of the structural connectome. To estimate this linear mapping, we develop a
+moment-matching genetic covariance estimator with a positive semidefinite constraint, which
+we use as a plug-in to estimate the linear regression coefficients within a ridge, lasso, or tensor
+regression framework. Our analysis reveals that functional connectomes show substantially
+
+
+                                                2
+Figure 1: Illustration of the proposed approach. Observed connectomes are modeled as the
+sum of latent genetic and environmental components. Our methodology characterizes the
+relationship between structural and functional connectivity within the genetic component
+through the proposed latent genetic regression analysis framework.
+
+higher predictability from structural connectomes at the genetic component level than at the
+phenotypic level, suggesting that strong genetically-encoded structure-function relationships
+exist but are masked by environmental heterogeneity.
+
+
+1.1    Motivating data and statistical analysis
+
+In this work, we use data from the Human Connectome Project (HCP), which contains
+multimodal imaging data from 1,200 young adults, including diffusion-weighted MRI for
+structural connectivity and resting-state functional MRI (Van Essen et al. 2012). Critically,
+the dataset includes genetically verified family structures (149 monozygotic twin pairs, 94
+dizygotic twin pairs), enabling identification of genetic and environmental contributions.
+   Figure 1 illustrates our analysis. Structural connectomes are constructed from diffusion
+MRI using tractography to count streamlines connecting each pair of regions. Functional
+
+
+                                             3
+connectomes are constructed from temporal correlations of cortical activation between re-
+gions. As we describe in Section 3.4, when we perform classical linear regression to predict
+functional connectivity from structural connectivity in the observed data, we find weak
+associations (maximum observed R2 = 0.03). This limited predictability motivates our in-
+vestigation of whether stronger structure-function associations exist at the genetic level but
+are masked by environmental effects. We therefore model the genetic component of func-
+tional connectivity as a linear function of the genetic component of structural connectivity,
+with regression coefficients capturing intrinsic structure-function associations independent
+of environmental factors.
+   Implementing the proposed genetic regression analysis at connectome scale presents a
+major computational challenge. The analysis requires estimating the joint genetic covari-
+ance matrix of structural and functional connectomes, from which the regression parameters
+can be estimated. Under our modeling choices, the structural and functional connectomes
+together constitute a 4,624-dimensional phenotype, which existing likelihood-based methods
+cannot handle. We therefore developed a computationally efficient covariance estimator that
+renders the proposed analysis tractable and enables the use of high-dimensional regression
+frameworks for our genetic regression analysis.
+
+
+1.2    Related literature
+
+Our proposed approach bridges methods for heritability analysis and estimation of vari-
+ance components. Therefore, in this section we review relevant literature from these fields.
+Heritability analyses assess the extent to which trait variation is attributable to genetic fac-
+tors, typically using additive genetics and common environment (ACE) models (Maes 2005).
+These models are an application of linear mixed models, which partition the total pheno-
+typic variance by including random effects for additive genetic (A), common environment
+(C), and unique environment (E) components, each defined by its expected covariance struc-
+
+
+                                               4
+ture. Restricted maximum likelihood (REML) is the gold standard for variance component
+estimation, but it is computationally prohibitive for multivariate traits. Method-of-moments
+estimators are faster (Lindquist et al. 2012) but may produce non-positive estimates. Re-
+cently, constrained method-of-moments-based estimators that guarantee nonnegative vari-
+ance estimates have been proposed and studied in Zou et al. (2017) and Yue et al. (2021);
+these methods improve upon estimation performance of their unconstrained variants while
+matching their computational efficiency.
+   Previous work on structure-function coupling (Gu et al. 2021) investigated the role of ge-
+netics by first estimating subject-specific structure-function correlations and then assessing
+the heritability of this univariate trait. This approach enables the use of univariate heri-
+tability models, however, it does not directly model population-level relationships between
+genetic components of structural and functional connectivity.
+   Genetic contributions to multivariate traits, such as entire connectomes, have been typi-
+cally investigated using massive univariate analyses, in which heritability is estimated sepa-
+rately for each trait. For example, numerous heritability studies of brain connectivity have
+analyzed one brain connection at a time using a univariate model; see, e.g., Colclough et al.
+(2017) and Ge et al. (2017) and Elliott et al. (2018). Extensions to multidimensional imaging
+phenotypes have recently been proposed (Tian et al. 2023; Zhao et al. 2022b,c). While these
+approaches improve estimation accuracy by borrowing information from neighboring imaging
+regions, they mostly focus on estimating heritability and not the genetic and environmental
+cross-covariance between distinct regions. Other multidimensional extensions are specifically
+designed for twin study designs (Luo et al. 2019; Risk et al. 2021). These methods either rely
+on a truncation approach to constrain the covariance estimate to be positive semi-definite,
+which may be suboptimal, or require estimating the covariance rank from the scree plot, a
+non-trivial task.
+   Massively univariate analyses do not estimate the covariance matrices of the genetic com-
+
+
+                                              5
+ponent, and thus do not provide any biological insight into the multidimensional structure
+of the genetic contributions. Since several multivariate statistical estimands are functions
+of the population covariance matrix, estimating the entire covariance matrix of the genetic
+component enables a large class of downstream analyses on the latent genetic component
+even though it cannot be directly observed. Although we focus here on linear regression
+to characterize the genetic structure-function coupling, our framework also facilitates other
+methods, such as principal component analysis and canonical correlation analysis.
+   Unlike their univariate counterparts, the estimation of the covariance matrix of latent
+multi-dimensional components has received limited attention. REML estimation of the co-
+variance matrices using lme4 (Bates et al. 2013) is computationally prohibitive with as few
+as 10 traits and 1,000 subjects. Zhou et al. (2014) proposed more efficient algorithms for
+computing the REML estimator, though their computational approach does not extend to
+models with more than two latent components, such as the additive genetics and common
+environment model considered in this work. Commonly used software packages, such as
+GCTA (Yang et al. 2011), only support up to two traits. To get around the computational
+bottleneck associated with ML-based estimators, method-of-moments-based estimators have
+been proposed (Anderson et al. 2021; Ge et al. 2016; Liégeois et al. 2019). However, these
+estimators have poor estimation performance compared to REML, particularly when using
+familial data in the additive genetics and common environment model. This is due to the
+high similarity between the kinship and shared environment indicator matrices, which is es-
+pecially relevant in the HCP data analyzed in this work (Ge et al. 2016). Furthermore, these
+methods may produce covariance estimates that are not positive semi-definite, complicating
+downstream analyses of the latent components.
+
+
+
+
+                                             6
+1.3    Our contributions
+
+We introduce a latent genetic regression analysis framework that characterizes genetically-
+encoded structure-function associations by modeling relationships between genetic compo-
+nents of structural and functional connectivity. Implementing this analysis at the connec-
+tome scale requires efficient estimation of genetic and environmental covariance matrices. To
+this end, we introduce a constrained method-of-moments estimator that guarantees positive
+semidefinite estimates, closely matches REML’s accuracy, and provides substantial computa-
+tional speedups. For q connections and n samples, our method requires O(n2 q 2 ) operations
+upfront followed by O(min(n, q)3 ) operations per iteration, compared to at least O(n3 q 3 )
+operations per iteration for REML (Bates et al. 2015).
+   To implement the proposed genetic regression analysis, we developed regularized esti-
+mation approaches based on plug-in estimates of the genetic covariance matrix, including
+ridge regression, lasso regression, and tensor regression that leverages connectome structure.
+These methods estimate linear mappings from the latent genetic component of the structural
+connectome to the latent genetic component of the functional connectome, without requiring
+direct observation of the genetic component itself.
+   Applied to HCP data, we find functional connectivity is substantially more predictable
+from structural connectivity at the genetic level than in observed data (maximum R2 : 0.34 vs
+0.02). This stark contrast suggests unique environmental factors mask genetically-encoded
+relationships, and the uncovered genetically-encoded relationships may provide insights into
+the biological architecture of structure-function coupling.
+   The remainder of the paper is organized as follows. Section 2 formulates the genetic
+regression framework and introduces our proposed genetic covariance estimator. Section 3
+applies our methodology to HCP data. Section 4 presents extensive simulations validating
+our approach. We end with some concluding remarks in Section 5. Supplementary Materials
+contain the derivation of the numerical algorithm, asymptotic theory, additional simulations,
+
+                                              7
+and extensions to function-valued phenotypes.
+
+
+2     Methodology
+2.1    Latent genetic regression analysis
+
+To disentangle genetic and environmental factors in shaping brain connectivity, we adopt
+a multivariate additive genetics and common environment model, in which a q-dimensional
+trait yi is modeled as the sum of independent genetic, common environment, and unique
+environment random components:
+
+
+                                      yi = gi + ci + ei                                   (1)
+
+
+where gi ∼ N (0, ΣG ), ci ∼ N (0, ΣC ), and ei ∼ N (0, ΣE ). Here, N (0, Σ) denotes the
+multivariate normal distribution with mean 0 and covariance matrix Σ and ΣG , ΣC and
+ΣE are unknown q × q covariance matrices. Specifically, we model the vectorized structural
+and functional connectomes as a multivariate trait yi = yiS , yiF and partition the latent
+                                                                 
+
+components conformably, e.g., gi = giS , giF .
+                                            
+
+    To characterize the association between structural and functional brain connections
+driven by genetic factors, our primary goal is to perform linear regression of the func-
+tional connectome on the structural connectome, restricted to the genetic component of
+each. Specifically, we fit separate regressions for each functional connection, using the full
+structural connectome as the predictor. Formally, for the jth functional connection, we are
+interested in the best linear approximation of its genetic component based on the genetic
+component of the entire structural connectome:
+
+                                                                         
+                                                                      2
+                                                      F
+                            β ∗G,j = arg min E       gi j − β ⊤ giS                       (2)
+                                        β                             2
+
+
+
+
+                                                 8
+and the associated proportion of genetic variance explained (genetic-R2 ):
+
+                                                              
+                                                 F
+                                            Var gi j − β ⊤ giS
+                              2
+                             RG,j (β) = 1 −         
+                                                      F
+                                                                 .                        (3)
+                                               Var gi j
+
+
+   These genetic regression coefficients capture the intrinsic associations between structural
+and functional connectomes that exist independent of environmental influences, representing
+the genetic “blueprint” of structure-function relationships.
+   In previous studies of structure–function coupling (Gu et al. 2021), the coupling is typ-
+ically characterized by a subject-specific parameter—such as the correlation between the
+observed structural and functional connectomes—and the heritability of these parameters is
+reported. These approaches implicitly assume that each functional connection influences only
+its corresponding structural connection to enable the estimation of subject-specific correla-
+tions. In contrast, genetic R2 captures more complex population-level relationships between
+structure and function. Additional details on the interpretation of these parameters in the
+context of structure–function coupling studies are left to Section 3.
+   Although the genetic regression and genetic R2 parameters are defined in terms of latent
+unobservable variables, our proposed analysis leverages the observation that they can be
+expressed in terms of specific blocks of the genetic covariance matrix, ΣG . We partition the
+genetic covariance matrix according to the structural and functional components:
+
+                                                           
+                                              ΣS,S
+                                               G     ΣS,F
+                                                      G
+                                   ΣG =             .
+                                          F ,S  F ,F
+                                         ΣG    ΣG
+
+
+The genetic regression parameter can then be identified as
+
+
+                                                                S,F
+                          β ∗G,j = arg min β ⊤ ΣS,S     ⊤   j
+                                                G β − 2β ΣG ,                             (4)
+                                     β
+
+
+
+
+                                                9
+and the genetic R2 as
+
+                                           F ,Fj          S,F
+                          2               ΣGj      −2β ⊤ ΣG j +β ⊤ ΣS,S
+                                                                    G β
+                         RG,j (β) = 1 −                  F ,Fj
+                                                                          .                (5)
+                                                        ΣGj
+
+   Therefore, estimating the genetic covariance matrix, ΣG , enables plug-in estimation of the
+genetic regression parameters. The plug-in loss minimization framework naturally accom-
+modates regularized approaches, including ridge and lasso regression, as well as extensions to
+tensor regression that respect the matrix structure of the structural connectome predictor.
+We first introduce our efficient covariance estimation methodology in the next section, then
+develop the latent regression estimation methodology in Section 2.3.
+
+
+2.2     Estimation of covariance matrices
+
+2.2.1   Observed data model
+
+Let y1 , . . . , yn be n identically distributed observations according to the model in (1) and
+define Y ∈ Rn×q as the matrix with rows yi⊤ . Similarly defining matrices G, C, and E
+for the genetic, common environmental, and unique environmental components across all
+subjects, we can write
+                                          Y = G+C+E.                                       (6)
+
+For an n × q matrix-valued random variable Z, we say Z ∼ MN (0, D, Σ) follows a matrix-
+normal distribution with row-covariance D (describing dependence between subjects) and
+column-covariance Σ (describing dependence between traits). This is formally defined as
+vec(Z) ∼ N (0, Σ ⊗D), where vec(·) denotes vectorization and ⊗ is the Kronecker product.
+   If observations were independent across subjects, we would have G ∼ MN (0, In , ΣG ),
+C ∼ MN (0, In , ΣC ), and E ∼ MN (0, In , ΣE ). However, since the row-covariances are the
+same, only the sum ΣG + ΣC + ΣE is identifiable from the data—the individual covariance
+
+
+                                                   10
+matrices cannot be separately estimated.
+   Identifying the individual covariance matrices therefore requires an experimental design
+that includes related subjects with varying degrees of genetic relatedness and shared envi-
+ronmental exposure. Let Kn and Hn be n × n positive semi-definite matrices with diagonal
+entries equal to 1, where off-diagonal entries quantify the genetic relatedness and shared
+environment status between each pair of subjects, respectively:
+
+
+    G ∼ MN (0n×q , Kn , ΣG ),    C ∼ MN (0n×q , Hn , ΣC ),    E ∼ MN (0n×q , In , ΣE ).    (7)
+
+
+   Under the model in (6) and (7), the individual covariance matrices ΣG , ΣC , and ΣE
+become identifiable provided that Kn , Hn , and In are linearly independent, which is satisfied
+when the study includes subjects with varying degrees of genetic relatedness and shared
+environmental exposure.
+   Existing methods for estimation of the covariance matrices in the multivariate random
+effects model are computationally expensive, especially with a large number of traits. To
+overcome this challenge, we propose an extension of Yue et al. (2021) to the multivariate
+setting, using a constrained method-of-moments estimator rather than maximum likelihood.
+Our approach requires only the first two moments of the data, specifically the Kronecker
+covariance structure: e.g. cov(vec(G)) = ΣG ⊗ Kn . Therefore, while normal distributions
+are used for expositional clarity, the normality assumption is not required for our estimation
+procedure.
+
+2.2.2   Restricted multivariate Haseman-Elston regression
+
+The model introduced is a special case of the more general model with K + 1 components:
+
+                                              K
+                                              X
+                                         Y=         Γk ,                                   (8)
+                                              k=0
+
+
+
+
+                                              11
+where Γk ∼ MN (0n×q , Dk , Σk ). The model in (6) can be recovered by setting D0 = In ,
+D1 = Kn and D2 = Hn so that G = Γ1 , C = Γ2 , and E = Γ0 .
+      Classical Haseman-Elston (HE) regression (Haseman et al. 1972) estimates the variance
+components in a univariate model using a generalized method-of-moments estimator that
+minimizes the squared difference between theoretical and empirical second moments. To
+generalize this to the multivariate setting, we use the fact that the second moments of Y
+under the model in (8) are given by
+
+                                                        K
+                                                        X
+                                        E[Yi,j Yl,m ] =   [Σk ]j,m [Dk ]i,l ,                                             (9)
+                                                               k=0
+
+
+for all i, l ∈ [n], j, m ∈ [q]. Therefore, a multivariate extension of HE regression would
+minimize
+
+                                               q q n X
+                                                     n                                    K
+                                                                                                                    !2
+                                               X X X                                      X
+                 Σ̂0 , . . . , Σ̂K = arg min                           Yi,j Yl,m −              [Σk ]j,m [Dk ]i,l        (10)
+                                      Σk
+                                               j=1 m=1 i=1 l=1                            k=0
+                                               q q                           K                     2
+                                               X X                           X
+                                  = arg min                  Y:,j Y⊤
+                                                                   :,m −       [Σk ]j,m Dk             .                 (11)
+                                      Σk
+                                               j=1 m=1                        k=0                  F
+
+
+The optimization problem (11) can be solved for each pair of outcome variables (j, m) ∈
+[q]×[q] separately, which can be rewritten as a least-squares linear regression. Specifically, let
+     (j,m)
+Ỹ           = vec(Y:,j Y⊤
+                         :,m ), X̃ = (vec(D0 ), . . . , vec(DK )), and σ
+                                                                         (j,m)
+                                                                               = ([Σ0 ]j,m , . . . , [ΣK ]j,m )⊤ .
+Then solving (11) is equivalent to solving
+
+                                                                    (j,m)                 2
+                                      σ̂ (j,m) = arg min Ỹ                 − X̃σ (j,m)
+                                                   σ (j,m)                                2
+
+
+
+with [Σ̂k ]j,m = [σ̂ (j,m) ]k+1 . This problem has a closed-form solution given by σ̂ (j,m) =
+                      (j,m)
+(X̃⊤ X̃)−1 X̃⊤ Ỹ             .
+      The estimator in (11) has been proposed before by Ge et al. (2016) for heritability
+
+
+                                                               12
+analyses of neuroimaging traits and has been used by Liégeois et al. (2019) and Anderson et
+al. (2021). However, this estimator does not return positive semi-definite (PSD) estimates in
+general, requiring ad-hoc corrections before performing analyses using the covariance matrix.
+A simple correction, analogous to truncating the variance estimates at 0 in the univariate
+case, is to truncate the eigenvalues of Σ̂k at 0. We refer to the truncated version of (11) as
+the multivariate Haseman-Elston (mvHE) estimator.
+    Although truncating the estimate obtained from (11) results in positive semi-definite
+estimates of the covariance matrices, these estimates do not minimize (11) subject to the
+constraint that each of the Σk is positive semi-definite (PSD). Thus, we consider solving
+(11) with positive semi-definiteness constraints, which we call the restricted multivariate
+Haseman-Elston (mvREHE) estimator:
+
+                                              q q                    K                              2
+                                              X X                    X
+                                                               ⊤
+                Σ̂0 , . . . , Σ̂K = arg min              Y:,j Y:,m −   [Σk ]j,m Dk                               (12)
+                                   Σk ⪰0
+                                              j=1 m=1                        k=0                    F
+                                              n X
+                                                n                          K                    2
+                                              X                            X
+                              = arg min                  Y⊤
+                                                          i,: Y l,: −            [Dk ]i,l Σk        .            (13)
+                                   Σk ⪰0
+                                              i=1 l=1                      k=0                  F
+
+
+    The optimization problem in (12) is no longer separable across pairs of outcome variables
+due to the PSD constraint. Therefore, to solve this optimization problem, we use a block
+coordinate descent algorithm. Specifically, we update Σz with Σk for k ̸= z held fixed at
+  (t)
+Σ̂k :
+                              n X n
+                                                                                     !                   2
+             (t+1)           X                               X                 (t)
+           Σ̂z     = arg min                  Y⊤
+                                               i,: Y l,: −          [Dk ]i,l Σ̂k         − [Dk ]i,l Σz       .   (14)
+                       Σz ⪰0
+                             i=1 l=1                         k̸=z                                        F
+
+Since the objective function in (13) is convex and differentiable, with each of the blocks
+constrained to a convex set, block coordinate descent updates will converge to the solution
+of (13). The following lemma, proved in Appendix A, allows us to compute each of these
+updates in closed form.
+
+
+
+                                                    13
+Lemma 1. The solution to
+
+                                                        W
+                                                        X
+                                      Σ̂ = arg min             ∥Sw − aw Σ∥2F
+                                              Σ⪰0       w=1
+
+
+
+is Σ̂ = UΛ+ U⊤ , where UΛU⊤ is the eigendecomposition of
+
+                                                  W
+                                                              !−1 W
+                                                  X              X
+                                        S=              a2w            aw Sw
+                                                  w=1            w=1
+
+
+and Λ+
+     j,j = max(Λj,j , 0).
+
+
+   Following Lemma 1, to solve (14), we must compute the eigendecomposition of
+
+               n X
+                 n
+                                 !−1   n X
+                                         n
+                                                                                              !
+               X                       X                                    X           (t)
+                   [Dz ]2i,l               [Dz ]i,l            Y⊤
+                                                                i,: Y l,: −  [Dk ]i,l Σ̂k
+               i=1 l=1                  i=1 l=1                            k̸=z
+                                     −1                                                        
+               n n                                           n X n                   
+              X X                        ⊤        X (t) X                            
+                             2             Y Dz Y −
+             =
+                       [Dz ]i,l 
+                                         | {z }         Σ̂k                           .
+                                                                      [Dz ]i,l [Dk ]i,l 
+               i=1 l=1                              k̸=z
+                                                              |i=1 l=1 {z
+                                          Wz                                          
+                |     {z      }                                                      }
+                         Qz,z                                                      Qz,k
+
+
+
+To expedite the computation, we can pre-compute Qk,k′ and Wk for all k, k ′ = 1, . . . K as
+                                (t)
+they do not depend on Σ̂k . If q ≫ n, the eigendecomposition may be computationally
+prohibitive. However, the following proposition allows us to compute eigendecompositions
+of n × n matrices rather than q × q matrices in each iteration, simply by computing the
+compact SVD, Y = UDV⊤ , up front, and computing the mvREHE estimator with data
+matrix Y V ∈ Rn×n . Thus, in practice, we must only compute eigendecompositions of
+min(n, q) × min(n, q) matrices.
+
+Proposition 1. Let Y = UDV⊤ be the compact SVD of Y . Then, the solution to (13) is
+VΣ̃k V⊤ where Σ̃k is the solution to (13) using YV in place of Y.
+
+   Algorithm 1 summarizes the procedure. The runtime of our algorithm is only O(nq 2 +
+
+                                                          14
+n2 min(q, n)2 +T K min(q, n)3 ), where T is the number of iterations. In comparison, an lme4-
+based implementation of REML would involve operations scaling with at least n3 q 3 in each
+iteration to simply evaluate the REML criterion. This is because REML involves computing
+the Cholesky decomposition of an nq × nq matrix (Bates et al. 2015). Even the optimized
+algorithm for REML proposed by Zhou et al. (2014), which only applies to models with 2
+components, or K = 1 in (8), has a runtime complexity of O(n3 + T1 nq 2 + T2 nq 6 ), where
+T1 is the number of expectation-maximization iterations and T2 is the number of Newton-
+Raphson iterations. The computational speed-up of our method makes it very appealing for
+high-dimensional and large sample applications.
+   Since the unrestricted mvHE estimator in (10) is obtained from a generalized estimating
+equation for observations Yi,j Yl,m (i, l ∈ [n], j, m ∈ [q]) with an identity working correlation
+matrix, we can leverage results on generalized estimating equations (Xie et al. 2003) to
+establish asymptotic properties of our estimators. Specifically, under mild assumptions on
+the row covariance matrices Dk , the mvHE estimator is consistent. Additionally, due to
+this consistency, if the true Σk are positive definite, the mvHE and mvREHE estimators are
+asymptotically equivalent and are thus both consistent. We formally state these results in
+the following proposition, relegating the proof to Appendix B.
+
+Proposition 2. Suppose the model in (8) holds and the row covariance matrices Dk each
+satisfy [Dk ]i,l ≤ ρ∗h , h = |i − l|, for a sequence {ρ∗h }∞                      ∗
+                                                           h=0 satisfying limh→∞ ρh = 0, and the true
+
+column covariance matrices are positive definite: Σk ≻ 0. Then the mvHE and mvREHE
+
+Algorithm 1 Blockwise coordinate descent algorithm for solving (13)
+X 1. For z ∈ [K], compute Wz = Y⊤ Dz Y
+X 2. Compute Q where Qz,k = ni=1 nl=1 [Dz ]i,l [Dk ]i,l for z, k ∈ [K]
+                                     P P
+
+X 3. For t = 1, . . . , T iterations (or until convergence):
+XX 3.1 For z = 1, . . . , K:
+                                                                       (t)
+XXX 3.1.1 Compute eigendecomposition UΛU⊤ = (Wz − k̸=z Qz,k Σ̂k )/Qz,z
+                                                             P
+
+XXX 3.1.2 Update Σ(t+1)  z     = UΛ+ U⊤
+
+
+                                                 15
+estimators are consistent.
+
+   The condition of Proposition 2 is commonly satisfied in genetic studies, where the dataset
+consists of individuals from many unrelated families, i.e., the genetic relatedness (Kn ) and
+shared household (Hn ) matrices are approximately block diagonal up to permutation of the
+rows/columns. Despite the asymptotic equivalence of the mvHE and mvREHE estimators,
+our simulation results in Section 4 show a clear finite sample advantage to using mvREHE.
+
+
+2.3    Estimation of latent genetic regression parameters
+
+Once we obtain an estimate Σ̂G , we can define plug-in estimates of the genetic regression
+parameters. However, rather than directly solving the plug-in version of (4), the high-
+dimensional nature of connectome data motivates the use of regularized estimators to improve
+prediction accuracy and prevent overfitting.
+   For each functional connection j, we consider the general framework where we solve:
+
+                                             S,S          S,Fj
+                       β̂ G,j = arg min β ⊤ Σ̂G β − 2β ⊤ Σ̂G     + P (β)                  (15)
+                                 β∈C
+
+
+
+where P (β) is a penalty function and C is a constraint set. This framework accommodates
+various regularization approaches, and we focus on three specific variants that are well-suited
+to connectome data.
+   The first two variants employ standard ridge and lasso penalties: P (β) = λ1 ∥β∥22 for ridge
+and P (β) = λ2 ∥β∥1 for lasso. These approaches address overfitting through shrinkage but do
+not leverage the matrix structure of brain connectivity. The ridge variant admits a closed-
+form solution, while the lasso variant can be efficiently solved using standard coordinate
+descent with active set and warm start optimizations.
+   The third variant, based on tensor regression, exploits the natural matrix organization
+of structural connectomes, where connections are arranged by their anatomical origin and
+
+                                               16
+destination regions. Rather than treating structural connections as an unstructured vector,
+this approach leverages their inherent spatial organization.
+    Specifically, let mat(giS ) ∈ Rp×p denote the matrix representation of the genetic com-
+ponent of the structural connectome, where p is the number of brain regions. For each
+functional connection j, we parameterize the linear predictor as ⟨β 1,j β ⊤          S
+                                                                          2,j , mat(gi )⟩F , where
+
+β 1,j , β 2,j ∈ Rp×r and r is the rank parameter. This factorization allows connections that
+share anatomical endpoints to have related regression coefficients, reflecting the spatial or-
+ganization of brain networks.
+    To achieve this structure, we define the constraint set as C = {β : mat(β) = β 1 β ⊤
+                                                                                       2 , β1, β2 ∈
+
+Rp×r }, which restricts the matrix form of β to have a low-rank factorization. In practice,
+we optimize over the factors β 1,j and β 2,j directly and add penalties on each factor for
+identifiability and shrinkage:
+
+                                        S,S                                  S,Fj
+β̂ 1,j , β̂ 2,j = arg min vec(β 1 β ⊤  ⊤              ⊤                 ⊤ ⊤
+                                                                                    + λ ∥β 1 ∥2F +∥β 2 ∥2F
+                                                                                                             
+                                    2 ) Σ̂G vec(β 1 β 2 ) − 2 vec(β 1 β 2 ) Σ̂G
+                β 1 ,β 2 ∈Rp×r
+                                                                                                      (16)
+    We solve this optimization problem using alternating minimization: we update β 1 while
+holding β 2 fixed, then update β 2 while holding β 1 fixed, and repeat until convergence.
+Each individual update admits a closed-form solution, making the optimization compu-
+tationally efficient despite the non-convex nature of the overall problem.                  We then set
+                       ⊤
+β̂ G,j = vec(β̂ 1,j β̂ 2,j ).
+    Although we focused on latent genetic regression parameters, these parameters can sim-
+ilarly be defined for the common environmental and unique environmental components.
+Moreover, while we focus on linear regression analysis here, the estimate Σ̂G serves as a
+summary statistic that can be used for many other multivariate data analyses of the genetic
+component gi that are functions of estimated covariance matrices, including, for instance,
+principal component analysis and canonical correlation analysis.
+
+
+                                                   17
+3     Disentangling genetic and environmental contribu-
+
+      tions in the human connectome
+3.1    Data and family structure
+
+We analyze MRI data from 955 participants in the S1200 HCP dataset, including anatom-
+ical, diffusion-weighted, and resting-state functional MRIs preprocessed using the minimal
+preprocessing HCP pipeline (Glasser et al. 2013). Cortical surfaces are registered across sub-
+jects using MSM surface matching (Robinson et al. 2014), then parcellated into 68 regions
+of interest (ROIs) using the Desikan-Killiany atlas (Desikan et al. 2006).
+    Our sample includes participants with varying genetic relatedness: monozygotic twins,
+dizygotic twins, full siblings, half-siblings, and unrelated subjects. We encode this family
+structure using a 955 × 955 kinship matrix Kn representing the expected sharing of the
+genome, calculated from the HCP pedigree data using SOLAR-ECLIPSE (Koran et al. 2014)
+with kinship values of 1 for monozygotic twins, 0.5 for dizygotic twins and full siblings, 0.25
+for half-siblings, and 0 for unrelated subjects. The shared environment matrix Hn is defined
+as [Hn ]i,l = 1([Kn ]i,l > 0), assuming siblings share the same household.
+
+
+3.2    Connectome construction
+
+We used structural connectomes that were constructed from diffusion and structural MRI,
+as previously described (Kiar et al. 2017). Using the minimally preprocessed HCP data,
+diffusion tensors were estimated in each voxel and streamline estimates of brain connection
+trajectories were propagated using the Euler delta crossings algorithm, as implemented in
+DiPy (Garyfallidis et al. 2014). Each subject’s anatomy was registered to the MNI152 atlas
+and fiber streamlines connecting each pair of regions in the Desikan-Killiany atlas were
+counted, resulting in a 68 × 68 structural connectome matrix for each subject. The subject-
+level connectomes used here are publicly available in the Neurodata portal (Vogelstein et al.
+
+
+                                              18
+2018) and through the AWS Open Data program.
+   For functional connectomes, the HCP minimally preprocessed fMRI data provide a time-
+series at each location of the mid-thickness surface describing local neuronal activity. For each
+ROI, we compute a spatially averaged time-series describing the average neuronal activity
+pattern within that ROI using fMRI data from the first session. We use the resulting time-
+series to compute a 68 × 68 correlation matrix between ROIs, which we refer to as the
+functional connectome.
+
+
+3.3     Statistical analysis
+
+3.3.1   Estimation of covariance matrices
+
+While numerous representation models for functional and structural connectomes have been
+proposed in the literature (Arsigny et al. 2006a,b; Dryden et al. 2009; Lila et al. 2022; Zhang
+et al. 2019; Zhao et al. 2022a), we adopt a simple vectorization approach commonly used in
+neuroscience studies for its interpretability (see, for example, Smith 2015; Xia et al. 2018).
+We represent each functional and structural connectome by vectorizing the full 68 × 68 con-
+nectivity matrices, yielding a 9,248-dimensional vector per subject (4,624 connections from
+each structural and functional matrix). Although this representation introduces redundancy
+due to symmetry in the connectivity matrices, it facilitates the tensor regression analysis
+without incurring a computational penalty in the covariance estimation step, as the covari-
+ance estimation runtime is dominated by the sample size rather than the feature dimension
+(see Proposition 1). We use linear regression to adjust for the effects of age, age squared, sex,
+intracranial volume, and cortical volume, as in Colclough et al. (2017), and use the residuals
+as our mean-zero yi . While we do not enforce the matrix structure of connectomes at the
+stage of covariance estimation, we leverage this structure in the downstream latent genetic
+tensor regression analysis described in Section 2.3.
+   We estimate the covariance matrices Σk using our proposed mvREHE estimator, since
+
+
+                                               19
+multivariate REML is computationally intractable with q = 9, 248 dimensions. Before ap-
+plying mvREHE, we rescale the columns of Y to have unit standard deviation, then rescale
+the final estimates back to the original scale. This is equivalent to reweighting the loss
+function (13), ensuring that estimation focuses on the correlation structure rather than be-
+ing dominated by connections with larger raw variances. The reweighted estimator remains
+consistent for the true parameter.
+
+3.3.2   Latent genetic and environmental regression analysis of structure-function
+        coupling
+
+Gu et al. (2021) previously investigated the genetics of structure-function coupling by first
+estimating the correlation between structural and functional connections for each subject—
+finding a moderate association with values up to 0.4–and then performing univariate her-
+itability analysis on these resulting coefficients. That is, they estimate how much of the
+observed within-subject structure-function coupling can be attributed to genetic factors.
+   This moderate within-subject coupling does not translate to the population level, where
+the structural connectome shows virtually no linear predictive power for functional con-
+nections across subjects (Section 3.4). In contrast, we hypothesize that a fundamental,
+genetically-encoded association between structure and function exists at the population level,
+but that it is obscured by unique environmental exposures.
+   Therefore, rather than asking, “how heritable is an individual’s summary of structure-
+function coupling? ”, as in Gu et al. (2021), we ask, “what is the population-level linear
+relationship between structural and functional connectomes that is encoded in genetics? ”
+By separating the genetic component from the environmental component, our methodology
+aims to uncover the structure-function coupling that can be inherited. This population-level
+framework also allows us to model more complex connectivity patterns in which a functional
+connection is influenced by multiple structural connections, which heritability analyses of
+
+
+
+                                             20
+subject-specific structure–function summaries cannot capture.
+   To study standardized effects, we apply the latent genetic regression framework de-
+scribed in Section 2.3, but estimate the genetic regression parameters in (2) defined with
+g̃i = diag(ΣG )−1/2 gi instead of gi . In practice, this means using the estimated genetic cor-
+relation matrix rather than the estimated genetic covariance matrix in the regularized loss
+function. This yields regression coefficients that represent the number of standard devia-
+tions the genetic component of functional connectivity changes for each standard deviation
+change in the genetic component of structural connectivity, holding the genetic component
+of all other structural connections fixed.
+   In our application to HCP data, we consider all three regularization methods (ridge,
+lasso, and tensor regression). To select the optimal regularization parameter and tuning
+parameters, we estimate the genetic correlation matrix and regression parameters on one
+half of the data and compute the genetic-R2 on the other half, averaging the estimates of
+out-of-sample genetic-R2 across splits, then choose the regularization method and tuning
+parameters that maximize this averaged out-of-sample genetic R2 . This approach allows
+us to determine which regularization strategy best captures the genetic structure-function
+relationships for each connection while avoiding overfitting.
+   We perform the same regression analysis on the common environment and unique envi-
+ronment components to compare linear predictability across latent components. This enables
+us to determine whether structure-function couplings are primarily driven by genetic factors,
+environmental factors, or a combination of both. We also perform classical linear regression
+using the observed data to compare against traditional analyses of connectome data and to
+assess how much the genetic decomposition reveals about structure-function coupling that
+would otherwise be masked in the observed data.
+   We report the out-of-sample genetic R2 values for the selected method and tuning pa-
+rameters. The resulting genetic R2 values quantify the proportion of variance in each func-
+
+
+                                              21
+tional connection’s genetic component that can be explained by a linear function of the
+genetic components of all structural connections. High genetic R2 values indicate strong
+genetically-encoded structure-function coupling, while low values suggest little evidence of a
+linear relationship between the genetic components of structural and functional connectivity.
+
+
+3.4     Results
+
+3.4.1   Genetic and environmental regression analysis of the structure-function
+        coupling
+
+Figure 2 shows the out-of-sample estimates of the proportion of variance of each functional
+connection that can be explained by all structural connections for the observed data (ob-
+served R2 ) and each latent component (genetic R2 , common environment R2 , and unique
+environment R2 ). Each R2 value represents the best performance across all three regular-
+ized latent regression methods and their respective tuning parameters for that functional
+connection. The results reveal striking differences in structure-function predictability across
+observed and latent components.
+   In the observed data, structural connections show minimal linear predictive power for
+functional connections, with most R2 values near zero and a maximum of only 0.03. However,
+when restricted to latent components, a clear pattern emerges. The genetic component
+shows the strongest structure-function coupling, with many functional connections exhibiting
+substantial predictability from structural connections (maximum R2 = 0.34). The common
+environment component shows moderate predictability (maximum R2 = 0.17), while the
+unique environment component shows virtually no linear relationship between structural
+and functional connectivity (maximum R2 = 0.04).
+   These results suggest that the apparent lack of structure-function coupling in observed
+data masks a strong genetically-encoded relationship that is obscured by unique environ-
+
+
+
+                                              22
+ a     Observed R2 (min = 0 , max = 0.03 )                         b       Genetic R2 (min = 0 , max = 0.34 )                                                 2
+                                                                                                                                      c Common Env R (min = 0 , max = 0.17 )                            d     Unique Env R2 (min = 0 , max = 0.04 )
+
+
+
+
+                                                 SMH
+
+
+
+
+                                                                                                                   SMH
+
+
+
+
+                                                                                                                                                                                      SMH
+
+
+
+
+                                                                                                                                                                                                                                                        SMH
+             COP
+
+
+
+
+                         DFM
+
+
+
+
+                                                                               COP
+
+
+
+
+                                                                                           DFM
+
+
+
+
+                                                                                                                                                  COP
+
+
+
+
+                                                                                                                                                              DFM
+
+
+
+
+                                                                                                                                                                                                                    COP
+
+
+
+
+                                                                                                                                                                                                                                DFM
+                                           PCC
+
+
+
+
+                                                                                                             PCC
+
+
+
+
+                                                                                                                                                                                PCC
+
+
+
+
+                                                                                                                                                                                                                                                  PCC
+                                     OTH
+
+
+
+
+                                                                                                       OTH
+
+
+
+
+                                                                                                                                                                          OTH
+
+
+
+
+                                                                                                                                                                                                                                            OTH
+       AUD
+
+
+
+
+                                                                         AUD
+
+
+
+
+                                                                                                                                            AUD
+
+
+
+
+                                                                                                                                                                                                              AUD
+                               FPT
+
+
+
+
+                                                                                                 FPT
+
+
+
+
+                                                                                                                                                                    FPT
+
+
+
+
+                                                                                                                                                                                                                                      FPT
+                   DAT
+
+
+
+
+                                                                                     DAT
+
+
+
+
+                                                                                                                                                        DAT
+
+
+
+
+                                                                                                                                                                                                                          DAT
+                                                       VAT
+
+
+
+
+                                                                                                                         VAT
+
+
+
+
+                                                                                                                                                                                            VAT
+
+
+
+
+                                                                                                                                                                                                                                                              VAT
+                                                             VIS
+
+
+
+
+                                                                                                                               VIS
+
+
+
+
+                                                                                                                                                                                                  VIS
+
+
+
+
+                                                                                                                                                                                                                                                                    VIS
+ AUD                                                               AUD                                                                AUD                                                               AUD
+
+ COP                                                               COP                                                                COP                                                               COP
+
+ DAT                                                               DAT                                                                DAT                                                               DAT
+
+
+
+ DFM                                                               DFM                                                                DFM                                                               DFM
+
+
+
+ FPT                                                               FPT                                                                FPT                                                               FPT
+
+ OTH                                                               OTH                                                                OTH                                                               OTH
+
+ PCC                                                               PCC                                                                PCC                                                               PCC
+
+ SMH                                                               SMH                                                                SMH                                                               SMH
+
+ VAT                                                               VAT                                                                VAT                                                               VAT
+
+
+ VIS                                                               VIS                                                                VIS                                                               VIS
+
+
+
+
+Figure 2: Proportion of variance explained (R2 ) in functional connectivity by structural
+connectivity for each functional connection. Results are shown for (a) observed data and
+decomposed latent components: (b) genetic, (c) common environment, and (d) unique envi-
+ronment. Each cell represents the out-of-sample R2 for predicting one functional connection
+using all structural connections as predictors. Darker shades of red indicate higher pre-
+dictability.
+
+mental factors affecting each individual differently.
+       Different mechanisms could explain the observed phenomenon of high predictability
+within the genetic component (Van Rheenen et al. 2019), such as horizontal pleiotropy,
+where a shared set of genes contributes directly or through intermediate endophenotypes to
+both structural and functional connectivity. Alternatively, a causal relationship could exist,
+i.e., vertical pleiotropy, although the observed high predictability may also be due to spuri-
+ous pleiotropy, such as biases in the imaging pipelines used to produce surrogate estimates
+of functional and structural connectivity.
+       Figure 3 shows the estimated genetic regression coefficients from all three regularization
+methods for a functional connection within the default mode network (DFM), which has the
+highest genetic R2 (0.34). The three methods achieved different out-of-sample genetic R2
+values: ridge regression (R2 = 0.34), lasso regression (R2 = 0.27), and tensor regression (R2
+= 0.26). We display results from all three methods to contrast their regularization effects.
+       Since the structural connectome is symmetric, we handle the coefficient visualization
+differently across methods for interpretability. For ridge and lasso (panels a-b), we sum
+
+
+
+                                                                                                                                     23
+coefficients from symmetric pairs of structural connections since only their sum affects pre-
+diction, displaying results in the lower triangle with upper triangle set to zero. For tensor
+regression (panel c), we preserve the estimated coefficient matrix to illustrate the low-rank
+structure.
+   The coefficient patterns reflect each method’s regularization properties: ridge produces
+distributed shrinkage across connections, lasso yields sparse selection, and tensor regression
+captures structured spatial relationships through its rank constraint. Interestingly, ridge re-
+gression achieves the highest performance for this DFM connection despite tensor regression’s
+incorporation of the structural connectome’s matrix structure, suggesting that distributed
+shrinkage may be more beneficial than structural constraints for this particular connection.
+   Across all functional connections, tensor regression is optimal for 44.8% of connections,
+ridge regression for 44.2%, and lasso regression for 11.0%, indicating that no single regular-
+ization approach dominates and that the optimal method depends on the specific functional
+connection being modeled. These differences demonstrate how regularization choice affects
+both the performance and interpretability of estimated structure-function coupling in the
+genetic component.
+
+
+
+
+                                              24
+    a Genetic Matrix Regression Coefficients                               b Genetic Lasso Regression Coefficients                                     c Genetic Ridge Regression Coefficients
+
+
+
+
+                                                         SMH
+
+
+
+
+                                                                                                                                   SMH
+
+
+
+
+                                                                                                                                                                                                            SMH
+                COP
+
+
+
+
+                               DFM
+
+
+
+
+                                                                                       COP
+
+
+
+
+                                                                                                      DFM
+
+
+
+
+                                                                                                                                                                   COP
+
+
+
+
+                                                                                                                                                                                   DFM
+                                                  PCC
+
+
+
+
+                                                                                                                             PCC
+
+
+
+
+                                                                                                                                                                                                      PCC
+                                           OTH
+
+
+
+
+                                                                                                                       OTH
+
+
+
+
+                                                                                                                                                                                                OTH
+          AUD
+
+
+
+
+                                                                                 AUD
+
+
+
+
+                                                                                                                                                             AUD
+                                     FPT
+
+
+
+
+                                                                                                                 FPT
+
+
+
+
+                                                                                                                                                                                          FPT
+                      DAT
+
+
+
+
+                                                                                              DAT
+
+
+
+
+                                                                                                                                                                           DAT
+                                                               VAT
+
+
+
+
+                                                                                                                                           VAT
+
+
+
+
+                                                                                                                                                                                                                     VAT
+                                                                     VIS
+
+
+
+
+                                                                                                                                                 VIS
+
+
+
+
+                                                                                                                                                                                                                           VIS
+    AUD                                                                    AUD                                                                         AUD
+
+    COP                                                                    COP                                                                         COP
+
+    DAT                                                                    DAT                                                                         DAT
+
+
+    DFM                                                                    DFM                                                                         DFM
+
+
+    FPT                                                                    FPT                                                                         FPT
+
+    OTH                                                                    OTH                                                                         OTH
+    PCC                                                                    PCC                                                                         PCC
+    SMH                                                                    SMH                                                                         SMH
+
+    VAT                                                                    VAT                                                                         VAT
+
+
+    VIS                                                                    VIS                                                                         VIS
+
+
+
+
+                            −0.005   0           0.005                                       −0.04   −0.02       0       0.02       0.04                                 −0.01   −0.005   0       0.005           0.01
+
+
+
+
+Figure 3: Estimated genetic regression coefficients for predicting a functional connection
+within the default mode network (DFM) using all structural connections as predictors. Re-
+sults shown for (a) tensor regression, (b) lasso regression, and (c) ridge regression. For ridge
+and lasso, coefficients from symmetric structural connection pairs are summed and displayed
+in the lower triangle. For tensor regression, the full coefficient matrix structure is preserved
+to illustrate the low-rank structure.
+
+4         Simulations
+
+In this section, we consider a simulation study based on a related analysis of the HCP
+data, in an effort to validate our choice of methodology. That is, we simulate data from
+the additive genetics and common environment model in (6), where the row-covariance and
+column-covariance matrices are set based on estimates from a coarser-resolution analysis of
+the HCP data.
+      We group the 68 regions into 10 functional communities and analyze the connectivity at
+this resolution. For structural connectomes, we sum all structural connections within each
+community to obtain inter-community connection strengths. For functional connectomes,
+we average the time series of all regions within each community and compute correlations on
+these averaged time series. We then apply the mvREHE estimator to estimate the genetic,
+common environment, and unique environment covariance matrices, which serve as the true
+
+
+
+                                                                                                            25
+parameters for our simulation model.
+   The genetic relatedness matrix Kn is defined as follows: if the sample size n ≤ 1, 000,
+Kn is the top left n × n block of the HCP kinship matrix; if n > 1, 000, then Kn is an n × n
+block diagonal matrix with blocks defined by the 1, 000 × 1, 000 HCP kinship matrix. As in
+Section 3.3.1, we set the common household matrix Hn to be a binarized version of Kn .
+   In each replicate, we sample observed data from the model in (6) and estimate Σk using
+mvHE and mvREHE. We do not use multivariate REML as it is computationally intractable
+with q = 200 dimensions. For comparison with existing univariate approaches, we also
+estimate the diagonal elements of Σk using univariate HE, REHE, and REML estimators
+applied separately to each trait. We perform 50 replications for each simulation setting.
+   In Figure 4a, we compare the runtime of multivariate and univariate estimators. The
+multivariate methods mvHE and mvREHE show virtually identical computational times,
+with execution times under a couple of seconds even at n = 8, 000. The positive definite
+constraint in mvREHE adds no computational burden due to our efficient algorithm. Both
+multivariate methods are orders of magnitude faster than multiple univariate estimators,
+particularly REML, while providing full covariance matrices rather than just diagonal ele-
+ments.
+   We next compare the estimation error of the entire covariance matrix using mvHE and
+mvREHE, the only computationally feasible multivariate estimators in this setting. Figure 4b
+shows results for the genetic component, with results for other components in Figure S5
+in the Supplementary Materials. The positive semi-definite constraint in mvREHE yields
+considerably lower estimation error than the truncation-based mvHE, particularly at smaller
+sample sizes, while having nearly identical runtime performance.
+   Finally, we compare the prediction performance of latent genetic regression analysis using
+mvHE and mvREHE for the plug-in covariance estimates. We evaluate all combinations of
+covariance estimation methods (mvHE vs mvREHE) and regularization approaches (ridge,
+
+
+                                             26
+ a                                                       b                                                              c                         0.4
+                                                                       12.5
+
+
+
+
+                                                                                                                              across j ∈ F
+                   3
+                                                                                                                                                  0.3
+                                                                       10.0
+  log10(seconds)
+
+
+
+
+                                                                 G 2
+                                                            ^ − Σ ||
+                   2
+                                                                                                                                                  0.2
+
+
+
+
+                                                                                                                         Gj(βGj)
+
+                                                                                                                                        Gj(βGj)
+                                                                        7.5
+
+
+
+
+                                                                                                                                            *
+                                                                                                                            ^
+                                                             G
+                   1
+
+
+
+
+                                                                                                                        R2*
+
+                                                                                                                                       R2*
+                                                          ||Σ
+                                                                                                                                                  0.1
+                                                                        5.0
+
+
+
+
+                                                                                                                                Average
+                   0
+                                                                                                                                                  0.0
+                                                                        2.5
+
+                       2000     4000    6000      8000                         2000          4000       6000     8000                                   2000     4000     6000      8000
+                                  n                                                            n                                                                   n
+
+                       Method      HE      REHE          REML                 Multivariate          Univariate   Regression Method                      matrix    lasso     ridge
+
+
+
+
+Figure 4: Performance of the proposed estimation framework across different analyses. (a)
+Runtime comparison of multivariate methods (mvHE, mvREHE) versus univariate methods
+(HE, REHE, REML), (b) spectral-norm error of estimated genetic covariance matrix Σ̂G
+comparing mvHE and mvREHE, and (c) prediction performance of latent genetic regres-
+sion analysis showing the average ratio of achieved genetic-R2 to oracle genetic-R2 across
+functional connections for different combinations of covariance estimation methods and reg-
+ularization approaches, all with varying sample size n and q = 200 fixed.
+
+lasso, tensor regression). Figure 4c shows the average ratio of achieved genetic-R2 to the
+oracle genetic-R2 across all functional connections, where the oracle represents the theoreti-
+cal maximum achievable with the true covariance matrix. Values closer to 1 indicate better
+recovery of the true predictive relationships in the genetic component. The results demon-
+strate that mvREHE consistently outperforms mvHE across all regularization methods, with
+the performance gap particularly pronounced at larger sample sizes. Results for the common
+environmental and unique environmental components are shown in Figure S6. This confirms
+that the improved covariance estimation accuracy of mvREHE translates directly into better
+downstream prediction performance across all latent components.
+              As it was not computationally feasible to directly compare mvREHE with the multivariate
+REML estimator with q = 200, we perform additional low-dimensional simulations (q ≤
+10) in Section C.2 of the Supplementary Materials. In Figure S7, we observe that the
+estimation performance of mvREHE nearly exactly matches that of multivariate REML, both
+
+
+
+                                                                                             27
+for estimation of the entire covariance matrix as well as heritability proportions, while being
+nearly three orders of magnitude faster than the when q = 5 and five orders of magnitude
+faster when q = 10.
+    In summary, these simulation results suggest that the mvREHE estimator provides the
+best of both worlds in terms of computational efficiency and estimation accuracy in the
+data-inspired settings considered.
+
+
+5     Discussion
+
+We developed a novel latent genetic regression analysis framework that characterizes re-
+lationships between genetic components of brain connectivity. Unlike previous approaches
+that estimate subject-specific structure-function coupling and then assess its heritability (Gu
+et al. 2021), our method directly models genetic contributions, additionally allowing for a
+population-level understanding of complex interaction patterns where functional connections
+can be influenced by multiple structural connections.
+    The computational feasibility of this analysis required methodological innovation in multi-
+variate variance component estimation. Existing estimators like multivariate REML are com-
+putationally intractable for high-dimensional connectome data. We introduce a constrained
+method-of-moments estimator that guarantees positive semi-definite covariance estimates.
+Simulation studies demonstrate that our block coordinate descent algorithm efficiently incor-
+porates the positive semi-definite constraint while maintaining practically identical runtime
+as the unconstrained estimator, and that the method nearly matches multivariate REML’s
+estimation accuracy while providing dramatic computational speedups.
+    Our analysis reveals that functional connectivity is substantially more predictable from
+structural connectivity when restricted to genetic components (maximum R2 = 0.34) com-
+pared to observed data, which show minimal predictive relationships (maximum R2 = 0.03).
+This finding suggests that unique environmental factors mask genetically-encoded relation-
+
+                                              28
+ships between structural and functional connectomes.
+    The proposed method extends well beyond neuroscience applications, applying to any
+multivariate setting where observed data represents the sum of latent genetic and environ-
+mental components. This enables the analysis of complex, high-dimensional phenotypes
+which can be modelled as the sum of independent latent components, which was previously
+computationally infeasible. By estimating entire covariance matrices rather than just vari-
+ances, our method enables a diverse set of multivariate analyses restricted to individual latent
+components, including principal component analysis, canonical correlation analysis, and the
+regression framework demonstrated here. These analyses fundamentally rely on covariance
+structure.
+
+
+
+6     Code availability
+
+An open-source R package implementing the proposed estimator is available at https://
+github.com/keshav-motwani/mvREHE.
+
+
+
+References
+
+Anderson, K. M. et al. (2021). “Heritability of Individualized Cortical Network Topography”.
+    In: Proceedings of the National Academy of Sciences 118.9, e2016271118.
+Arsigny, V. et al. (2006a). “Geometric Means in a Novel Vector Space Structure on Symmetric
+    Positive-Definite Matrices”. In: SIAM Journal on Matrix Analysis and Applications 29.1,
+    pp. 328–347.
+— (2006b). “Log-Euclidean Metrics for Fast and Simple Calculus on Diffusion Tensors”. In:
+    Magnetic Resonance in Medicine 56.2, pp. 411–421.
+
+
+
+
+                                              29
+Bates, D. et al. (2013). “Fast and Elegant Numerical Linear Algebra Using the Rcppeigen
+   Package”. In: Journal of Statistical Software 52.5, pp. 1–24.
+Bates, D. et al. (2015). “Fitting Linear Mixed-Effects Models Using Lme4”. In: Journal of
+   Statistical Software 67.1, pp. 1–48.
+Baum, G. L. et al. (2020). “Development of structure–function coupling in human brain
+   networks during youth”. In: Proceedings of the National Academy of Sciences 117.1,
+   pp. 771–778.
+Benson, N. C. et al. (2022). “Variability of the Surface Area of the V1, V2, and V3 Maps in
+   a Large Sample of Human Observers”. In: The Journal of Neuroscience 42.46, pp. 8629–
+   8646.
+Bianco, M. G. et al. (2023). “Heritability of Human “Directed” Functional Connectome”.
+   In: Brain and Behavior 13.5, e2839.
+Colclough, G. L. et al. (2017). “The Heritability of Multi-Modal Connectivity in Human
+   Brain Activity”. In: eLife 6, pp. 1–19.
+Desikan, R. S. et al. (2006). “An Automated Labeling System for Subdividing the Human
+   Cerebral Cortex on MRI Scans into Gyral Based Regions of Interest”. In: NeuroImage
+   31.3, pp. 968–980.
+Dryden, I. L. et al. (2009). “Non-Euclidean Statistics for Covariance Matrices, with Ap-
+   plications to Diffusion Tensor Imaging”. In: Annals of Applied Statistics 3.3, pp. 1102–
+   1123.
+Elliott, L. T. et al. (2018). “Genome-Wide Association Studies of Brain Imaging Phenotypes
+   in UK Biobank”. In: Nature 562.7726, pp. 210–216.
+Finn, E. S. et al. (2015). “Functional Connectome Fingerprinting: Identifying Individuals
+   Using Patterns of Brain Connectivity”. In: Nature Neuroscience 18.11, pp. 1664–1671.
+Fotiadis, P. et al. (2024). “Structure–function coupling in macroscale human brain networks”.
+   In: Nature Reviews Neuroscience 25.10, pp. 688–704.
+
+
+                                             30
+Garyfallidis, E. et al. (2014). “Dipy, a Library for the Analysis of Diffusion MRI Data”. In:
+   Frontiers in Neuroinformatics 8.
+Ge, T. et al. (2017). “Heritability analysis with repeat measurements and its application
+   to resting-state functional connectivity”. In: Proceedings of the National Academy of
+   Sciences 114.21, pp. 5521–5526.
+Ge, T. et al. (2016). “Multidimensional Heritability Analysis of Neuroanatomical Shape”.
+   In: Nature Communications 7.
+Glasser, M. F. et al. (2013). “The Minimal Preprocessing Pipelines for the Human Connec-
+   tome Project”. In: NeuroImage 80, pp. 105–124.
+Gu, Z. et al. (2021). “Heritability and Interindividual Variability of Regional Structure-
+   Function Coupling”. In: Nature Communications 12.1, p. 4894.
+Haseman, J. K. et al. (1972). “The Investigation of Linkage between a Quantitative Trait
+   and a Marker Locus”. In: Behavior Genetics 2.1, pp. 3–19.
+Kiar, G. et al. (2017). A High-Throughput Pipeline Identifies Robust Connectomes But Trou-
+   blesome Variability. Preprint.
+Koran, M. E. et al. (2014). “On Study Design in Neuroimaging Heritability Analyses”. In:
+   SPIE Medical Imaging. Ed. by S. Ourselin et al. San Diego, California, USA, 90342P.
+Kulick, E. R. et al. (2020). “Long-Term Exposure to Air Pollution and Trajectories of Cog-
+   nitive Decline among Older Adults”. In: Neurology 94.17, e1782–e1792.
+Liégeois, R. et al. (2019). “Resting Brain Dynamics at Different Timescales Capture Distinct
+   Aspects of Human Behavior”. In: Nature Communications 10.1.
+Lila, E. et al. (2022). “Functional Random Effects Modeling of Brain Shape and Connectiv-
+   ity”. In: Annals of Applied Statistics 16.4.
+Lindquist, M. A. et al. (2012). “Estimating and Testing Variance Components in a Multi-level
+   GLM”. In: NeuroImage 59.1, pp. 490–501.
+
+
+
+
+                                              31
+Luo, S. et al. (2019). “FSEM: Functional Structural Equation Models for Twin Functional
+   Data”. In: Journal of the American Statistical Association 114.525, pp. 344–357.
+Maes, H. H. (2005). “ACE Model”. In: Encyclopedia of Statistics in Behavioral Science. John
+   Wiley & Sons, Ltd.
+Pan, R. et al. (2025). “Mapping individual differences in intermodal coupling in neurodevel-
+   opment”. In: Imaging Neuroscience 3, IMAG–a.
+Pini, L. et al. (2023). “The pollutome-connectome axis: a putative mechanism to explain
+   pollution effects on neurodegeneration”. In: Ageing Research Reviews 86, p. 101867.
+Risk, B. B. et al. (2021). “ACE of Space: Estimating Genetic Components of High-Dimensional
+   Imaging Data”. In: Biostatistics 22.1, pp. 131–147.
+Robinson, E. C. et al. (2014). “MSM: A New Flexible Framework for Multimodal Surface
+   Matching”. In: NeuroImage 100, pp. 414–426.
+Smith, S. (2015). “Linking Cognition to Brain Connectivity”. In: Nature Neuroscience 19.1,
+   pp. 7–9.
+Tian, X. et al. (2023). Bayesian Mixed Model Inference for Genetic Association under Related
+   Samples with Brain Network Phenotype.
+Van Essen, D. C. et al. (2012). “The Human Connectome Project: A Data Acquisition
+   Perspective”. In: NeuroImage 62.4, pp. 2222–2231.
+Van Rheenen, W. et al. (2019). “Genetic Correlations of Polygenic Disease Traits: From
+   Theory to Practice”. In: Nature Reviews Genetics 20.10, pp. 567–581.
+Vogelstein, J. T. et al. (2018). “A Community-Developed Open-Source Computational Ecosys-
+   tem for Big Neuro Data”. In: Nature Methods 15.11, pp. 846–847.
+Xia, C. H. et al. (2018). “Linked Dimensions of Psychopathology and Connectivity in Func-
+   tional Brain Networks”. In: Nature Communications 9.1.
+Xie, M. et al. (2003). “Asymptotics for generalized estimating equations with large cluster
+   sizes”. In: The Annals of Statistics 31.1, pp. 310–347.
+
+
+                                             32
+Yang, J. et al. (2011). “GCTA: A Tool for Genome-wide Complex Trait Analysis”. In: The
+   American Journal of Human Genetics 88.1, pp. 76–82.
+Yao, F. et al. (2005). “Functional Data Analysis for Sparse Longitudinal Data”. In: Journal
+   of the American Statistical Association 100.470, pp. 577–590.
+Yue, K. et al. (2021). “REHE: Fast variance components estimation for linear mixed models”.
+   In: Genetic epidemiology 45.8, pp. 891–905.
+Zhang, Z. et al. (2019). “Tensor Network Factorizations: Relationships between Brain Struc-
+   tural Connectomes and Traits”. In: NeuroImage 197.April, pp. 330–343.
+Zhao, Y. et al. (2022a). Covariance-on-Covariance Regression.
+Zhao, Y. et al. (2022b). “Bayesian Sparse Heritability Analysis with High-Dimensional Neu-
+   roimaging Phenotypes”. In: Biostatistics 23.2, pp. 467–484.
+Zhao, Y. et al. (2022c). Genetic Underpinnings of Brain Structural Connectome for Young
+   Adults.
+Zhou, X. et al. (2014). “Efficient multivariate linear mixed model algorithms for genome-wide
+   association studies”. In: Nature methods 11.4, pp. 407–409.
+Zou, T. et al. (2017). “Covariance regression analysis”. In: Journal of the American Statistical
+   Association 112.517, pp. 266–281.
+
+
+
+
+                                              33
+Supplementary Materials
+A     Proof of Lemma 1
+Proof. Expressing the Frobenius norm as the trace of a quadratic form, using linearity of
+the trace operator, and applying an eigendecomposition gives us that
+                                      W
+                                      X
+                       Σ̂ = arg min         ∥Sw − aw Σ∥2F
+                              Σ⪰0     w=1
+                                                     !−1 W               2
+                                        W
+                                        X               X
+                          = arg min            a2w           aw Sw − Σ
+                              Σ⪰0       w=1            w=1
+                                                                         F
+                          = arg min ∥S − Σ∥2F
+                              Σ⪰0
+                                                        2
+                          = arg min UΛU⊤ − Σ F
+                              Σ⪰0
+                                                        2
+                          = arg min Λ − U⊤ Σ U F .
+                              Σ⪰0
+
+
+Since Λ is diagonal, we can restrict ourselves to the case where U⊤ Σ U is also diagonal.
+Note that the optimal Σ is PSD if and only if U⊤ Σ U is PSD, since U is an orthogonal
+matrix. Thus, the diagonal elements of U⊤ Σ U must be non-negative. If λj ≥ 0, then the
+best case is that the jth diagonal element of U⊤ Σ U is also λj . If λj < 0, then the best
+case is that the jth diagonal element of U⊤ Σ U is 0. Hence, the minimizer is achieved by
+Σ̂ = UΛ+ U⊤ .
+
+
+
+
+                                               34
+B       Proof of Proposition 2
+Proof. First, wePdefine some notation. Let Ẏ = vec(Y⊤ ). Then under the model in equation
+(8), Ẏ ∼ N (0, K k=0 Dk ⊗ Σk ). Let Ejl is a q by q matrix with 1 in the j, l and l, j entries
+and 0 elsewhere. Then equation (10) can be written as the solution to
+                                                      K
+                                              ⊤       X
+                             arg min∥ẎẎ −                 Dk ⊗ Σk ∥2F                                          (17)
+                                  Σk
+                                                      k=0
+                                                        K X
+                                                  ⊤     X
+                             = arg min∥ẎẎ −                     [Σk ]j,l (Dk ⊗ Ejl )∥2F                        (18)
+                                       Σk
+                                                        k=0 j≥l
+
+                             = arg min∥Ỹ − X̃σ∥22                                                               (19)
+                                       σ
+
+                                                  ⊤
+where σ g(k,j,l) := [Σk ]j,l , Ỹ = vec(ẎẎ ), and X̃:,g(k,j,l) = vec(Dk ⊗ Ejl ) and g is a function
+which linearizes the indices k ∈ {0} ∪ [K], j, l ∈ [q] with j ≥ l:
+
+                                  kq(q + 1)                    l(l − 1)
+                   g(k, j, l) =             + (l − 1)(q + 1) −          + j − (l − 1).
+                                      2                            2
+Therefore, (17) is the ordinary least squares estimate of σ in the linear model
+
+                                                  Ỹ = X̃σ + δ
+
+where cov(δ) = R. We can see that the pre-truncation mvHE estimator is the special
+case of a generalized estimating equation estimator with the identity matrix as the working
+correlation matrix. Thus, as in Yue et al. (2021), we use results from Xie et al. (2003) on
+asymptotics of generalized estimating equations.
+   One p can verify that Assumption 1 implies that the correlation of δ is bounded by
+|Ra,b / Ra,a Rb,b |< ρh with h = |a − b| for a sequence ρh with limh→∞ ρh = 0, since
+
+cov(Yi,j Yl,m , Yi′ ,j ′ Yl′ ,m′ ) = E(Yi,j Yl,m Yi′ ,j ′ Yl′ ,m′ ) − E(Yi,j Yl,m )E(Yi′ ,j ′ Yl′ ,m′ )
+                                   = E(Yi,j Yi′ ,j ′ )E(Yl,m Yl′ ,m′ ) + E(Yi,j Yl′ ,m′ )E(Yl,m Yi′ ,j ′ )
+                                   = cov(Yi,j , Yi′ ,j ′ ) cov(Yl,m , Yl′ ,m′ ) + cov(Yi,j , Yl′ ,m′ ) cov(Yl,m , Yi′ ,j ′ )
+
+and
+                   cov(Yi,j , Yl,m ) = E(Yi,j Yl,m ) = [ΣE ]j,m [In ]i,l + [ΣG ]j,m [Kn ]i,l .
+Therefore, under this assumption, the pre-truncation mvHE estimator is consistent (Xie et
+al. 2003; Yue et al. 2021). Additionally, the truncated mvHE estimator is consistent by the
+continuous mapping theorem.
+    Now we argue asymptotic equivalence of the mvHE and mvREHE estimators if the true
+Σk are positive definite. Note that the mvREHE estimate is the same as the mvHE estimate
+if the covariance matrices estimated by mvHE are PSD. By openness of the space of positive
+
+                                                            35
+definite matrices, there exists an open ball of positive definite matrices around the true
+Σk which the mvHE estimate will asymptotically belong to, by consistency. Therefore, the
+mvREHE estimate will asymptotically be the same as the the mvHE estimate, and will also
+be consistent.
+
+
+C                   Supplemental Simulation Results
+C.1                 Data-inspired simulation (described in Section 4 of main text)
+
+                               ^
+                               Σ                                       ^
+                                                                       Σ                                ^
+                                                                                                        Σ
+                                 G                                       C                                E
+
+             12.5
+                                                   6
+
+             10.0                                                                          6
+                                                   5
+       k 2
+  ^ − Σ ||
+
+
+
+
+              7.5                                  4
+                                                                                           4
+||Σk
+
+
+
+
+                                                   3
+              5.0
+
+                                                   2                                       2
+              2.5
+
+                      2000   4000    6000   8000          2000    4000       6000   8000       2000   4000    6000   8000
+                                                                       n
+
+                                                       Method         mvHE     mvREHE
+
+
+
+
+Figure S5: Estimation error of all three covariance matrices Σk (genetic, common environ-
+mental, and unique environmental components) comparing mvHE and mvREHE estimators
+with varying sample size n. Error is measured using the spectral norm of the difference
+between estimated and true covariance matrices. Results demonstrate the superior perfor-
+mance of mvREHE over mvHE across all components, particularly at smaller sample sizes.
+
+
+
+
+                                                                 36
+                                           ^
+                                           Σ                                         ^
+                                                                                     Σ                                         ^
+                                                                                                                               Σ
+                                             G                                         C                                         E
+      across j ∈ F         0.4
+                                                               0.2
+                           0.3                                                                             0.6
+
+
+                           0.2                                 0.1                                         0.4
+ kj (βkj)
+
+                kj (βkj)
+                     *
+     ^
+R2*
+
+               R2*
+
+
+
+
+                           0.1                                                                             0.2
+        Average
+
+
+
+
+                                                               0.0
+                           0.0
+                                                                                                           0.0
+
+                                 2000    4000    6000   8000             2000      4000    6000     8000            2000     4000        6000   8000
+                                                                                     n
+
+                                        Method      mvHE        mvREHE          Regression Method          matrix    lasso       ridge
+
+
+
+
+Figure S6: Prediction performance of latent regression analysis for common environmental
+and unique environmental components. Results show the average ratio of achieved R2 to
+oracle R2 across all functional connections for different combinations of covariance estimation
+methods (mvHE vs mvREHE) and regularization approaches (ridge, lasso, tensor regression)
+with varying sample size n.
+
+C.2                        Low-dimensional simulation
+In this section, we perform simulations in the low-dimensional setting, where it is possible
+to directly compare with the multivariate REML estimator. Due to its statistical efficiency,
+the multivariate REML estimator is commonly considered a gold standard, despite being
+computationally inefficient. We set the covariance matrices Σk to be scaled unstructured
+correlation matrices with q = 5, 10, 20 traits. The scaling is defined such that the multi-
+trait heritability matches that of the estimated model from the real data application. The
+unstructured correlation matrices are fixed to be a uniform draw from the space of correlation
+matrices, across all simulation replicates. We consider sample sizes ranging from 250 to 8000.
+    In Figure S7a, we show the runtime for each of the estimators considered. First, we can see
+that mvREHE has a similar runtime to mvHE — that is, imposing the positive semi-definite
+constraint does not affect the runtime in these settings. We can also see that mvREHE is
+nearly three orders of magnitude faster than the multivariate version of REML when q = 5
+and nearly five orders of magnitude faster when q = 10. With large sample sizes and q = 10
+or q = 20 with any sample size, the multivariate REML estimator cannot be computed in
+reasonable time; thus, these results are not shown. We can see that increasing the number
+of traits q does not have a large impact on the runtime of mvREHE, while for multivariate
+REML the increase in runtime is substantial. Additionally, the multivariate REML estimator
+is susceptible to convergence issues, resulting in a large number of replicates returning no
+estimates for this estimator (over 90% of replicates failing in some settings with large sample
+sizes; see Figure S2 in the Appendix). Finally, the mvREHE estimator is even faster than
+
+
+                                                                            37
+ a
+                                         q=5                                             q = 10                                         q = 20
+     log10(seconds)
+
+
+
+
+                        4
+
+                        2
+
+                        0
+
+                       −2
+                             0   2000    4000    6000      8000 0              2000      4000      6000        8000 0         2000      4000      6000   8000
+
+ b
+                                        q=5                                               q = 10                                         q = 20
+                      1.25                                       2.0
+            G 2
+       ^ − Σ ||
+
+
+
+
+                      1.00                                       1.5                                                  3
+                      0.75                                                                                            2
+                                                                 1.0
+         G
+
+
+
+
+                      0.50
+     ||Σ
+
+
+
+
+                                                                 0.5                                                  1
+                      0.25
+
+                             0   2000   4000    6000    8000           0        2000     4000      6000        8000       0    2000      4000     6000   8000
+
+ c
+                                        q=5                                              q = 10                                          q = 20
+                       0.8                                       0.9                                              1.2
+     ||h − h2||2
+
+
+
+
+                       0.7                                       0.8                                              1.0
+                       0.6                                       0.7
+                                                                                                                  0.8
+                       0.5                                       0.6
+       ^2
+
+
+
+
+                       0.4                                       0.5                                              0.6
+                                                                 0.4
+                       0.3                                                                                        0.4
+                             0   2000   4000    6000    8000           0        2000     4000      6000    8000           0    2000      4000     6000   8000
+                                                                                           n
+
+                                                  Multivariate             Univariate    Method           HE          REHE           REML
+
+
+
+
+Figure S7: (a) Runtime, (b) spectral-norm error of Σ̂G , and (c) Euclidian-norm error of the
+individual-trait heritability proportions h2 in the setting of unstructured, low-dimensional
+Σk with varying q and n.
+
+
+
+
+                                                                                    38
+fitting separate univariate models for each trait using any of the univariate estimators, while
+estimating the entire covariance matrix rather than the diagonal only.
+     Given that the mvREHE estimator is the most computationally efficient, one may ask
+if it compromises on estimation performance. In Figure S7b, we show the spectral error
+of estimating the covariance matrix of the genetic component, with results for the other
+components given in Figure S1. We can see that the PSD constraint in the mvREHE
+estimator results in a large improvement over the mvHE estimator, nearly exactly matching
+the estimation accuracy of the multivariate REML estimator in all cases where the REML
+estimate could be computed.
+     We also compare estimation performance of the individual-trait heritability proportions in
+Figure S7c, as measured by the Euclidian-norm error on the vector of heritability proportion
+of all traits. Since the heritability proportion depends only on the diagonal elements of the
+covariance matrices, we compare against the univariate estimators as well. We again see
+that mvREHE and multivariate REML have nearly identical performance, and that these
+estimators greatly outperform their commonly-used univariate counterparts. Finally, we see
+a large benefit from using a PSD constraint in mvREHE rather than simply truncating the
+estimate in mvHE.
+     In Figure S3, we present the results of a simulation akin to the one described in this
+section, but with only the genetic and unique environment components, in order to facilitate
+comparison with the optimized REML algorithm proposed by Zhou et al. (2014) which only
+applies to two component models. In the two component setting, all methods have very
+similar estimation performance. While the algorithm proposed by Zhou et al. (2014) is up to
+two orders of magnitude faster than the lme4-based implementation of REML with q = 10,
+it is still two orders of magnitude slower than mvREHE when q = 10 and four orders of
+magnitude slower than mvREHE when q = 20.
+
+
+
+
+                                              39
+                               q = 5 (Σ
+                                      ^ )
+                                        G                                     q = 5 (Σ
+                                                                                     ^ )
+                                                                                       C                                    q = 5 (Σ
+                                                                                                                                   ^ )
+                                                                                                                                     E
+
+             1.25
+
+             1.00                                           0.6                                            0.6
+
+             0.75                                           0.4                                            0.4
+             0.50
+                                                            0.2                                            0.2
+             0.25
+
+
+                               q = 10 (Σ
+                                       ^ )
+                                         G                                   q = 10 (Σ
+                                                                                     ^ )
+                                                                                       C                                    q = 10 (Σ
+                                                                                                                                    ^ )
+                                                                                                                                      E
+
+              2.0                                          1.25
+
+                                                           1.00                                           1.00
+       k 2
+
+
+
+
+              1.5
+  ^ − Σ ||
+
+
+
+
+                                                           0.75                                           0.75
+              1.0
+   k
+
+
+
+
+                                                           0.50                                           0.50
+||Σ
+
+
+
+
+              0.5                                          0.25                                           0.25
+
+
+                               q = 20 (Σ
+                                       ^ )
+                                         G                                   q = 20 (Σ
+                                                                                     ^ )
+                                                                                       C                                    q = 20 (Σ
+                                                                                                                                    ^ )
+                                                                                                                                      E
+
+                                                            2.0
+                                                                                                           1.5
+               3                                            1.5
+
+               2                                                                                           1.0
+                                                            1.0
+
+               1                                            0.5                                            0.5
+
+
+                    0   2000     4000        6000   8000          0   2000        4000      6000   8000          0   2000     4000        6000   8000
+                                                                                   n
+
+                                                       Method          mvHE              mvREHE     mvREML
+
+
+
+
+Figure S1: Estimation error of all three covariance matrices Σk in the setting of low-
+dimensional Σk with varying sample size n.
+
+
+
+
+                                                                             40
+                                                           q=5                                         q = 10
+          Proportion of convergence
+             failures for mvREML
+
+
+
+
+                                      0.75
+
+
+
+                                      0.50
+
+
+
+                                      0.25
+
+
+
+                                      0.00
+                                             250   500   1000   2000   4000   8000       250   500   1000   2000   4000   8000
+                                                                                     n
+
+
+Figure S2: Proportion of simulation replicates in low-dimensional simulation setting in which
+the multivariate REML estimator fails to converge. Note that no results are reported for
+the settings with q = 10 and n = 4000 and 8000, as REML estimation is computationally
+prohibitive in these cases.
+
+
+
+
+                                                                              41
+ a
+                                        q=5                                                  q = 10                                     q = 20
+     log10(seconds)
+
+
+
+
+                       2
+
+                       0
+
+                      −2
+                            0   2000    4000        6000       8000 0            2000        4000     6000    8000 0           2000     4000      6000   8000
+
+ b
+                                       q=5                                                   q = 10                                      q = 20
+                      0.5                                           0.8
+            G 2
+
+
+
+
+                      0.4
+       ^ − Σ ||
+
+
+
+
+                                                                    0.6                                             1.2
+                      0.3
+                                                                    0.4                                             0.8
+         G
+
+
+
+
+                      0.2
+     ||Σ
+
+
+
+
+                                                                    0.2                                             0.4
+                      0.1
+                            0   2000   4000      6000        8000         0      2000        4000     6000   8000         0      2000    4000     6000   8000
+
+ c
+                                       q=5                                                   q = 10                                      q = 20
+                      0.6                                           0.7
+     ||h − h2||2
+
+
+
+
+                      0.5                                           0.6                                             0.8
+                      0.4                                           0.5
+                                                                                                                    0.6
+                                                                    0.4
+       ^2
+
+
+
+
+                      0.3
+                                                                    0.3                                             0.4
+                      0.2
+                            0   2000   4000      6000        8000         0      2000        4000     6000   8000         0      2000    4000     6000   8000
+                                                                                               n
+
+                                              Multivariate          Univariate     Method             HE     REHE             REML      GEMMA
+
+
+
+
+Figure S3: (a) Runtime, (b) spectral-norm error of Σ̂G , and (c) Euclidian-norm error of the
+individual-trait heritability proportions h2 in the setting of unstructured, low-dimensional
+Σk with varying q and n with only the genetic and unique environmental components (two
+component model). GEMMA is the optimized algorithm for computing the multivariate
+REML estimator, proposed by Zhou et al. (2014).
+
+
+
+
+                                                                                        42
+D      Extension to function-valued traits
+Often times, neuroimaging traits can be measured along a continuum, though only discrete
+measurements are obtained. Here, we show how the proposed mvREHE estimator can be
+easily combined with ideas from functional data analysis (Yao et al. 2005) to incorporate
+smoothness into the covariance estimation step, similar to Risk et al. (2021).
+    Consider the following model for the noiseless data of the ith subject:
+
+                                      yi (t) = gi (t) + ci (t) + ei (t)
+
+for t ∈ [0, 1], where gi , ci , and ei are mean-zero Gaussian processes with smooth covariance
+functions CG , CC , and CE respectively. Suppose we observe noisy versions of yi at q discrete
+points t1 , . . . , tq , denoted as the vector yi , where
+
+                         [yi ]j = yi (tj ) + δij = gi (tj ) + ci (tj ) + ei (tj ) + δij     (20)
+
+for j = 1, . . . , q, where δij ∼ N (0, σ 2 ) are i.i.d. Then,
+                                              d
+                                          yi = gi + ci + ei + δ i                           (21)
+
+where gi ∼ N (0, ΣG ), ci ∼ N (0, ΣC ), ei ∼ N (0, ΣE ), and δ i ∼ N (0, σ 2 Iq ), and [Σk ]j,l =
+Ck (tj , tl ) for k ∈ {G, C, E}.
+    Let Y, G, C, E, and ∆ be matrices with rows yi , gi , ci , ei , and δ i , respectively. As in
+the observed data model in equation (6), we assume that G ∼ MN (0n×q , Kn , ΣG ), C ∼
+MN (0n×q , Hn , ΣC ), E ∼ MN (0n×q , In , ΣE ), and ∆ ∼ MN (0n×q , In , σ 2 Iq ). Without any
+additional assumptions, with D0 = In , it is not possible to identify E and ∆, since they both
+have the same row-covariance, therefore E +∆ also follows a matrix-normal distribution with
+the same row-covariance. However, in the functional data setting described, it is reasonable
+to assume Ck are smooth covariance functions, thus it is possible to estimate them even in
+the presence of noise. Specifically, we propose to fit model (6), but, similar to (Risk et al.
+2021; Yao et al. 2005), apply a 2D local polynomial smoother to the estimates Σ̂k with the
+diagonal removed, to obtain estimates of Ck .
+
+D.1      Simulation results
+In this section, we simulate data from the model in equation (20) with covariance functions
+defined by
+                                               50
+                                               X
+                       CG (s, t) = CE (s, t) =    k −2α cos(kπs) cos(kπt).
+                                                     k=1
+
+We consider α = 1 and α = 2, where the covariance function with α = 2 is smoother than
+that with α = 1. We set the variance of the observational noise σ 2 = 1. We sample the
+function at q = 100 timepoints equally spaced between 0 and 1.
+   To estimate the covariance functions, we define the mvHE and mvREHE estimates as
+
+                                                      43
+                                                α = 1 (Σ
+                                                       ^ )
+                                                         G                                    α = 1 (Σ
+                                                                                                     ^ )
+                                                                                                       C                                   α = 1 (Σ
+                                                                                                                                                  ^ )
+                                                                                                                                                    E
+
+                                                                           0.00016
+                                                                                                                         0.00020
+
+                                2e−04                                      0.00012                                       0.00015
+     (s, t) − Ck(s, t))2dsdt
+
+
+
+                                                                           0.00008                                       0.00010
+                                1e−04
+                                                                           0.00004                                       0.00005
+
+
+
+                                                α = 2 (Σ
+                                                       ^ )
+                                                         G                                    α = 2 (Σ
+                                                                                                     ^ )
+                                                                                                       C                                   α = 2 (Σ
+                                                                                                                                                  ^ )
+                                                                                                                                                    E
+                                                                                                                         0.00020
+                               0.00020
+⌡⌡ k
+
+
+
+
+                                                                                                                         0.00015
+⌠⌠(C
+   ^
+
+
+
+
+                                                                            1e−04
+                               0.00015
+                                                                                                                         0.00010
+                               0.00010
+                                                                            5e−05
+                                                                                                                         0.00005
+                               0.00005
+
+                                         2000    4000        6000   8000               2000    4000        6000   8000              2000    4000        6000   8000
+                                                                                                  n
+
+                                                        Method         mvHE          mvREHE        mvHE−smoothed             mvREHE−smoothed
+
+
+
+
+Figure S4: Estimation error with two covariance functions with different degrees of smooth-
+ness, where larger α means smoother. The number of discrete observations along the function
+is q = 100 with n varying.
+
+piecewise-constant functions given by the elements of the estimated Σ̂k . We compare these
+to smoothed versions of these estimators, as described in Section D. To get smooth estimates
+Ĉk , we apply a local linear smoother to the estimated Σ̂k after removing the diagonal ele-
+ments, with an Epanechnikov kernel and bandwidth chosen by generalized cross-validation.
+     In Figure S4, we show the integrated squared error of estimating Ck . We see that with low
+sample sizes, smoothing helps in estimation of the covariance functions for all components,
+and mvREHE improves over mvHE for both the smoothed and unsmoothed versions. For
+estimation of CE , smoothing helps even with large sample sizes, since it is able to recover
+the smooth covariance function which does not contain the observational noise along the
+diagonal term, as described in Section D. Note that the unsmoothed estimates of CE are
+not consistent due to the lack of identifiability without smoothness. This highlights the
+versatility of the proposed framework and its ability to be combined with other covariance
+estimation approaches to incorporate additional information about the data.
+
+
+
+
+                                                                                         44
+

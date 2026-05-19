@@ -1,0 +1,890 @@
+                                                                                                                   TYPE Review
+                                                                                                                   PUBLISHED   14 November 2025
+                                                                                                                   DOI 10.3389/fnins.2025.1623497
+
+
+
+
+                                                Review of deep learning models
+OPEN ACCESS                                     with Spiking Neural Networks for
+EDITED BY
+Badong Chen,
+Xi’an Jiaotong University, China
+                                                modeling and analysis of
+REVIEWED BY
+Anirban Das,
+                                                multimodal neuroimaging data
+Intel, United States
+Eric Jacob Bacon,
+Northeastern University, China
+                                                Ayesha Khan1 , Vickie Shim1† , Justin Fernandez1,2† ,
+*CORRESPONDENCE                                 Nikola K. Kasabov3† and Alan Wang1,4,5,6*
+Alan Wang                                       1
+                                                 Auckland Bioengineering Institute, The University of Auckland, Auckland, New Zealand, 2 Department
+   alan.wang@auckland.ac.nz
+                                                of Engineering Science and Biomedical Engineering, The University of Auckland, Auckland,
+† These authors have contributed equally to
+                                                New Zealand, 3 Knowledge Engineering and Discovery Research Institute, Auckland University of
+this work                                       Technology, Auckland, New Zealand, 4 Medical Imaging Research Center, Faculty of Medical and
+                                                Health Sciences, The University of Auckland, Auckland, New Zealand, 5 Centre for Co-Created Aging
+RECEIVED 06 May 2025                            Research, The University of Auckland, Auckland, New Zealand, 6 Centre for Brain Research, The
+ACCEPTED 22 October 2025                        University of Auckland, Auckland, New Zealand
+PUBLISHED 14 November 2025
+
+CITATION
+Khan A, Shim V, Fernandez J, Kasabov NK
+and Wang A (2025) Review of deep learning       Medical imaging has become an essential tool for identifying and treating
+models with Spiking Neural Networks
+for modeling and analysis of multimodal         neurological conditions. Traditional deep learning (DL) models have made
+neuroimaging data.                              tremendous advances in neuroimaging analysis; however, they face difficulties
+Front. Neurosci. 19:1623497.
+doi: 10.3389/fnins.2025.1623497                 when modeling complicated spatiotemporal brain data. Spiking Neural
+COPYRIGHT
+                                                Networks (SNNs), which are inspired by real neurons, provide a promising option
+© 2025 Khan, Shim, Fernandez, Kasabov and       for efficiently processing spatiotemporal data. This review discusses current
+Wang. This is an open-access article
+                                                improvements in using SNNs for multimodal neuroimaging analysis. Quantitative
+distributed under the terms of the Creative
+Commons Attribution License (CC BY). The        and thematic analyses were conducted on 21 selected publications to assess
+use, distribution or reproduction in other      trends, research topics, and geographical contributions. Results show that SNNs
+forums is permitted, provided the original
+author(s) and the copyright owner(s) are        outperform traditional DL approaches in classification, feature extraction, and
+credited and that the original publication in   prediction tasks, especially when combining multiple modalities. Despite their
+this journal is cited, in accordance with
+accepted academic practice. No use,             potential, challenges of multimodal data fusion, computational demands, and
+distribution or reproduction is permitted       limited large-scale datasets persist. We discussed the growth of SNNs in analysis,
+which does not comply with these terms.
+                                                prediction, and diagnosis of neurological data, along with the emphasis on future
+                                                direction and improvements for more efficient and clinically applicable models.
+
+                                                KEYWORDS
+
+                                                neuroimaging, multimodalities, deep learning, machine learning, spiking neurons,
+                                                Spiking Neural Networks, functional MRI, structural MRI
+
+
+
+
+                                                1 Introduction
+                                                    Medical imaging is a fundamental and widely used tool for diagnosing various
+                                                diseases and planning their treatments in the medical field. Different medical imaging
+                                                techniques, including X-ray, ultrasound, digital mammography, computed tomography
+                                                (CT), magnetic resonance imaging (MRI), positron emission tomography (PET), and
+                                                digital pathology, are used to produce images (Pham et al., 2000; Tsuneki, 2022). In
+                                                neuroscience, multimodal neuroimaging techniques, including functional MRI (fMRI),
+                                                structural MRI (sMRI), diffusion tensor imaging (DTI), and others provides distinct
+                                                yet interrelated aspects of neural anatomy and activity. Integrating these modalities
+                                                enables a more comprehensive understanding of neural mechanisms and disease processes.
+
+
+
+Frontiers in Neuroscience                                             01                                                              frontiersin.org
+Khan et al.                                                                                                                    10.3389/fnins.2025.1623497
+
+
+
+
+Furthermore, the healthcare sector focuses on adopting computer-               TABLE 1 Conceptual overview comparing deep learning (DL) and
+                                                                               Spiking Neural Networks (SNN).
+assisted tools to increase diagnostic accuracy and eÿciency because
+of the advancements in artificial intelligence and neuroimaging                 Aspect                  Deep learning              Spiking Neural
+techniques. These AI-based systems facilitate real-time disease                                                                      Networks
+prediction and thoroughly evaluate treatment options (Tsuneki,
+                                                                                Information type           Continuous              Discrete spike events
+2022; Yang and Yu, 2021).                                                                                   activation
+    Rapid progress in artificial intelligence (AI) and machine
+                                                                                Temporal modeling             Limited                Strong temporal
+learning has further advanced neuroimaging, especially through                                                                          dynamics
+deep learning (DL) techniques that automate the analysis
+                                                                                Biological realism             Low                 High (mimics neuron
+of complex, high-dimensional brain data. Compared with                                                                                    firing)
+conventional machine learning methods, DL can handle high-
+                                                                                Energy eÿciency         High computational        Neuromorphic eÿciency
+dimensional neuroimaging datasets with minimal manual
+                                                                                                               cost
+preprocessing. As a result, multiple tasks like disease classification,
+                                                                                Neuroimaging            Good for static data            Eective for
+predictive modeling, and the visualization of brain structure
+                                                                                relevance                                           spatiotemporal data
+and function can be achieved more eÿciently and with increased
+productivity (Yan et al., 2022). These advances have been supported
+by the growing availability of large-scale datasets and increased              transformed neuroimaging research. These models excel at
+computational power (Calhoun et al., 2014).                                    extracting hierarchical features from brain images and temporal
+    However, most existing DL approaches rely on static or single              sequences, enabling improvements in classification and disease
+modality data, which limits their ability to capture the complex               prediction (Yan et al., 2022; Yang and Yu, 2021). However, the
+patterns across space and time of the human brain (Plis et al.,                dynamic nature of brain data poses challenges for traditional deep
+2014). This gap highlights the requirement of the models that are              learning models, especially basic feedforward architectures. Their
+not only data-driven but also biologically interpretable Spiking               primary shortcoming is that they are unable to eÿciently learn the
+Neural Networks (SNNs) eectively transform neuroimaging                       temporal relationships that exist in spatiotemporal neurons due
+and help diagnose neurological disorders by stimulating the                    to a lack of internal state or memory. More importantly, their
+brain’s natural processing. This makes SNN highly eective                     continuous, rate-based functioning is not well suited to mimic
+for spatiotemporal data analysis. SNN enables early detection                  the sparse, event-driven communication of real neurons, where
+of conditions like dementia and predicts epileptic seizures by                 information is frequently contained in the exact timing of discrete
+identifying complex EEG patterns. Additionally, integrating SNN                spikes. Table 1 below represents a small conceptual comparison of
+with multimodal neuroimaging, such as EEG and MRI, can                         other Deep Learning (DL) and Spiking Neural Networks (SNN)
+enhance diagnostic accuracy by highlighting their transformative               models for the most relevant aspects.
+potential in neurological healthcare (Kasabov, 2019).                              Spiking Neural Networks (SNNs) process information through
+    This study aims to critically evaluate the role of SNNs in                 discrete spikes, mimicking the temporal firing patterns of biological
+multimodal MRI analysis and assess their potential to overcome                 neurons (Izhikevich, 2006). This spike-based communication
+the limitations of traditional deep learning models. The review will           allows SNNs to model time-dependent and event-driven brain
+explore:                                                                       dynamics more eectively. Especially for neuroimaging, this
+                                                                               biologically plausible computation oers a promising bridge
+      1. How have SNNs been applied to neuroimaging,                           between neuroscience and AI, making the way for interpretable and
+         particularly multimodal MRI data?                                     energy-eÿcient models (Kasabov, 2019). Traditional deep learning
+      2. What are the advantages of SNNs over conventional deep                models use continuous mathematical functions to represent neuron
+         learning models in capturing spatio-temporal features?                activations, whereas spiking neural networks transmit information
+      3. How can SNNs integrate multiple MRI modalities to                     through discrete spike events that occur over time. This dierence
+         enhance diagnostic accuracy?                                          gives SNNs a temporal dimension that is absent in most deep
+      4. What are the current challenges in implementing SNNs for              learning models. While CNNs and RNNs can provide eÿciency in
+         large-scale multimodal MRI analysis?                                  spatial or sequential pattern recognition, in contrast, SNNs capture
+                                                                               both simultaneously, enabling eective modeling of dynamic
+    By answering these questions, the review aims to highlight                 brain processes (Ghosh-Dastidar and Adeli, 2009; Kasabov et al.,
+the strengths, limitations, and clinical potential of SNNs in                  2016). Moreover, SNNs have the potential for low-power and
+neuroimaging and the findings will contribute to the advancement               neuromorphic hardware implementation, making them especially
+of biologically inspired deep learning models for more accurate,               suitable for real-time neuroimaging analysis (Ghosh-Dastidar and
+interpretable, and clinically relevant neuroimaging solutions.                 Adeli, 2009).
+
+
+
+1.1 Background                                                                 2 Literature review methodology
+   Over the past decade, deep learning (DL) models, including                     Preferred Reporting Items for Systematic Reviews and Meta-
+convolutional neural networks (CNNs), recurrent neural networks                Analyses (PRISMA) guidelines are used for conducting this review
+(RNNs), and long short-term memory (LSTM) networks, have                       (Moher et al., 2009). The primary purpose of conducting this
+
+
+Frontiers in Neuroscience                                                 02                                                                 frontiersin.org
+Khan et al.                                                                                                                10.3389/fnins.2025.1623497
+
+
+
+
+literature review is to analyze the trends and landscape of current                 However, there was a noticeable rise in research in 2021
+advancements in deep learning models with SNN for multimodal                    with four publications, suggesting increasing feasibility with
+neuroimaging data analysis.                                                     advancements in deep learning. After a drop in 2022 to only one
+     Multiple databases are used to extract articles for this study,            study (which could be due to the selected dataset), results showed
+including PubMed, IEEE Xplore, ScienceDirect, Scopus, and                       a surge in 2023 in this research area, with five studies marking
+Nature. A few of the papers were added from other internet sources.             a significant shift toward SNN applications. The most probable
+The main keywords used are “Neuroimaging,” “Spiking Neural                      reason for this growth could be the improvements in computational
+Networks,” and “Deep Learning,” refined with Boolean operators                  resources and model eÿciency.
+for accuracy. Ten years of studies are used to retrieve relevant                    However, the publication trend declined to four in the
+data (ranging from 2015 to 2025 for thematic study) to ensure                   year 2024, still reflecting that this research area is reaching
+the inclusion of comprehensive coverage of the knowledge and                    stability and reflecting the growing integration of SNNs in
+up-to-date information, as fewer relevant studies have been found               neuroimaging. Overall, the research has progressively grown
+in recent years.                                                                from initial exploration to more practical implementation and
+     Article selection followed PRISMA guidelines, with inclusion               refinement, which reflects a growing confidence in the field.
+and exclusion determined through a three-phase process. In the
+identification section, all duplications are removed. During the                3.1.2 Research field analysis
+screening phase, the title and abstract are used to identify articles               Based on classifications from the selected databases, the
+that are irrelevant for exclusion and those that are relevant for               chosen articles are linked with 10 distinctive research fields, with
+inclusion. Afterward, the full text is used to extract the most                 some spanning multiple areas. In total, 40 connections have
+relevant studies in this review. Full inclusion criteria and the list           been established between the 21 publications and these research
+of keywords are provided in the Supplementary material.                         domains. As depicted in Figure 3, many publications fall within
+                                                                                “Computer Science” (n = 14), followed by “Neuroscience” (n = 8)
+                                                                                and “Medicine” (n = 6).
+                                                                                    From the perspective of the biomedical research field, a
+3 Search results
+                                                                                collective contribution is found to make it a multidisciplinary
+                                                                                nature of studies, such as “Medicine” (n = 6), “Biochemistry,
+    Firstly, for conducting this research, the query was executed on
+                                                                                Genetics, and Molecular Biology” (n = 2), and “Immunology and
+March 10, 2025, considering the three main topics mentioned in
+                                                                                Microbiology” (n = 1).
+the above section to align the study’s objectives. As a result of the
+                                                                                    From an engineering and computational standpoint,
+query, 440 papers were retrieved from multiple databases, along
+                                                                                “Computer Science” (n = 15) and “Engineering” (n = 3) reflect a
+with three articles from other sources. The PRISMA flowchart in
+                                                                                major division of the associations.
+Figure 1 illustrates the exclusion criteria applied to articles searched
+                                                                                    Additionally, research contributions span other diverse fields,
+in each phase. After applying the exclusion criteria to the selected
+                                                                                including “Mathematics” (n = 2), “Decision Sciences” (n = 1),
+dataset in each phase, only 21 articles were chosen for this literature
+                                                                                “Multidisciplinary” (n = 1), and “Chemistry” (n = 1), further
+review.
+                                                                                highlighting the interdisciplinary scope of the selected publications.
+
+                                                                                3.1.3 Geographical publication trends
+3.1 Quantitative analysis                                                           In terms of geographical trend, each publication has been
+                                                                                linked to the countries aÿliated with its authors. The study of 21
+    This section analyzes 21 selected articles categorized into three           selected publications reveals contributions from multiple countries.
+main perspectives quantitatively. Firstly, the study represents the             A single paper can be linked to one or multiple countries, as each
+annual publication trends focusing on tracking the progress of                  publication might have multiple authors, and each author can be
+SNNs in healthcare. Secondly, research field analysis includes                  aÿliated with more than one country. However, if a paper has
+the articles’ distribution across various study domains. Lastly,                multiple authors from the same country, we only consider it once
+geographical publication trends highlight contributions from                    to avoid duplication.
+dierent parts of the world.                                                        At the point of analysis, 10 countries have contributed to at
+                                                                                least one publication. Figure 4 below categorizes the publications
+3.1.1 Annual publication trends: tracking progress                              into single-country papers and international collaboration papers,
+in SNN adoption for healthcare                                                  highlighting the involvement of dierent countries.
+    The analysis of 21 selected publications highlights the evolving                China is the most frequent among the contributing countries,
+application of Spiking Neural Networks (SNNs) in neuroimaging                   participating in 8 publications from the selected studies. Afterward,
+over the past decade, as shown in Figure 2. The citations of all 21             the highest contribution is found from the authors from
+publications were collectively analyzed, as presented in Table 2.               New Zealand and India, each contributing to 4 publications. The
+    States reveal that, from 2015 to 2017, this area of study was               United States has been involved in 3 publications. Regarding
+in the early exploration phase, as only two publications from the               international collaboration, contributions were found in this area
+selected studies were available each year. Moreover, the trend shows            of research from the United Kingdom, Iran, Australia, and
+the same results for 2018, 2019 and 2020, limiting studies to just one          New Zealand. Other contributing countries include Malaysia,
+article per year from the chosen dataset. The reason for this decline           Russia, Ghana, Spain, Bangladesh, South Korea, and Italy, all of
+could be methodological challenges.                                             whom have participated in at least one publication.
+
+
+Frontiers in Neuroscience                                                  03                                                           frontiersin.org
+Khan et al.                                                                                                                   10.3389/fnins.2025.1623497
+
+
+
+
+   FIGURE 1
+   Overview of the PRISMA flowchart for this research representing the complete process followed for selecting articles for this review paper for
+   quantitative and qualitative analysis.
+
+
+
+
+   FIGURE 2
+   Overview of the annual publication trend, X-axis shows the years whereas the Y-axis represents the total number of publications (present on the
+   bars) each year from the selected studies.
+
+
+
+
+Frontiers in Neuroscience                                                   04                                                               frontiersin.org
+Khan et al.                                                                                                                    10.3389/fnins.2025.1623497
+
+
+
+
+TABLE 2 Chronological overview of citations of the selected studies.
+
+       Years                  No. of                   Total citations   Citations ≤ 20      >20 & ≤50         >50 & ≤100         Average citations
+                            publications                                                      citations         citations             per year
+         2015                        2                           49            1                   1                  0                    24.5
+
+         2017                        2                          100            0                   1                  1                    50
+
+         2018                        1                           25            0                   1                  0                    25
+
+         2019                        1                           12            1                   0                  0                    12
+
+         2020                        1                            0            1                   0                  0                     0
+
+         2021                        4                          128            2                   2                  0                    32
+
+         2022                        1                           21            0                   1                  0                    21
+
+         2023                        5                           49            4                   1                  0                    8.17
+
+         2024                        4                            9            1                   0                  0                    2.25
+
+The bold values represent the average annual citations of the studies.
+
+
+
+    Below is the comparison between a country’s contributions vs.                    brain tumors (Ahmadi et al., 2021; Sam et al., 2023) because it
+international collaboration: -                                                       can generate images without damaging brain tissues (Dong et al.,
+                                                                                     2024). Furthermore, Kamal et al. (2023) used MRI to identify
+        • Results of single-country publications: 10 out of 21 papers                microbleeds in the brain, including the gene expression data,
+          (49%) were found to have authors solely from one country.                  making it a multimodal analysis for determining the severity of
+        • Results of international collaboration publications: 11                    Alzheimer’s disease.
+          out of 21 papers (51%) involved authors from multiple                          In addition to traditional imaging techniques, other non-
+          countries, demonstrating a strong trend of global                          invasive methods such as functional magnetic resonance
+          cooperation in this study area.                                            imaging (fMRI), diusion tensor imaging (DTI), and
+                                                                                     electroencephalography (EEG) have been used for brain
+    China is the most active in single-country and collaborative                     data collection in the recent past. These techniques played
+research, as signified by its leadership in this field from the                      a dynamic role in helping us understand the functional and
+selected studies. New Zealand and the United Kingdom are                             structural characteristics of the human brain in a better way
+heavily engaged in international collaborations, reflecting their                    (Sengupta et al., 2018). Capecci et al. (2015b) presented that
+strong global research attitude and commitment to cross-border                       EEG spatiotemporal data were used to study brain pathology
+partnerships. India and China are leading in solely conducted                        and degeneration to analyze the functional changes in the
+research, showcasing their independent research contributions and                    brain activities of the controlled and Alzheimer’s disease (AD)
+advancements in the field. Notably, the United States appears only                   groups. Furthermore, Kasabov N. K. et al. (2017) used fMRI
+in collaborative research in our selected dataset. It suggests that the              in their research to develop a methodology using the NeuCube
+US primarily participates in multinational research projects rather                  architecture of spiking neural network (SNN) for visualization,
+than independent studies.                                                            classification, and dynamic learning for spatiotemporal brain
+                                                                                     data. Guo et al. (2023) also applied fMRI like (Kasabov
+                                                                                     N. K. et al., 2017) for their study based on a fMRI based
+3.2 Thematic analysis of selected studies                                            SNN for verifying anti-damage capabilities under random
+                                                                                     attacks.
+     This section provides a detailed insight into selected studies                      In addition to the above-mentioned diseases, Sam et al. (2023)
+for the literature review. Neuroimaging, multimodal data analysis,                   presented the use of EEG signal data for the quantitative assessment
+utilization of spiking neural networks, and clinical applications are                of depression levels by examining and categorizing EEG signals,
+the focus of this review section.                                                    and Francis and Al-Hababi (2023) utilized structural magnetic
+                                                                                     resonance images (sMRI) for early detection of suicidal ideation
+3.2.1 Neuroimaging and multimodal data analysis                                      in youngsters and used depression as a biomarker in sMRI,
+    Healthcare professionals have used multiple types of medical                     respectively.
+data, including biomedical data such as electroencephalography                           Most studies used a single or a few modalities to analyze
+(EEG), electromyographic signal (EMG), electrocardiogram                             dierent areas. However, combining predictive modeling with
+(ECG), ultrasound, X-rays, computed tomography and magnetic                          multimodal brain data has great potential; research in this area
+resonance imaging (MRI), for a long time to judge patients’                          is still in its early stages due to a lack of advanced methods.
+diseases, diagnoses, and health conditions. Neuroimaging                             The major challenge in combining brain data into a single model
+techniques are one of the various types for dealing with a wide                      captured from various modalities is that each modality uses
+range of conditions in the brain. MRI has recently been the most                     dierent temporal and spatial characteristics. To address this, the
+used technique, and it is said to be a vital technique for diagnosing                recent advancement in Spiking neural network systems (SSNs)
+
+
+
+
+Frontiers in Neuroscience                                                       05                                                         frontiersin.org
+Khan et al.                                                                                                                      10.3389/fnins.2025.1623497
+
+
+
+
+   FIGURE 3
+   The figure provides an overview of 10 distinctive research fields and number of publications in each subject, selected for this review.
+
+
+
+
+   FIGURE 4
+   An overview of publication trends by geography highlights both the number of publications and the countries where the authors are based.
+
+
+
+
+makes it possible to incorporate multidimensional data within a                   capabilities (oiSTDP) to capture discriminative join information
+single model (Sengupta et al., 2018).                                             from the data through its connection strengths. Utilizing this
+                                                                                  framework, the study showcases the integration of DTI and fMRI
+3.2.2 Integration of deep learning models with                                    data of individuals who are beginning antipsychotic treatment to
+SNNs for neuroimaging                                                             develop a personalized classifier for the prediction of treatment
+    Spiking neural networks are one of the most reliable techniques               response in schizophrenia. Analysis with the SNNc network
+that computer simulations and computational models use to study                   uncovered improved connectivity in the cerebellar region, which
+the brain, e.g., brain-inspired machine learning. These techniques                suggests that the captured activity of this area can be an aid as
+can reveal and learn frequency, time, and space information                       a potential biomarker that would help in treatment response in
+usually hidden in spatiotemporal brain data (STBD) Capecci                        individuals with schizophrenia.
+et al. (2015a), Sengupta et al. (2018) presented an approach                          Kamal et al. (2023) stated that machine learning techniques are
+integrating multimodal information with a spiking neural network                  practical for analyzing Alzheimer’s disease datasets. Machine
+framework, creating a personalized SNNc-based architecture using                  learning techniques can predict the disease by detecting
+the NeuCube. This experiment was run to represent the algorithm’s                 microbleeds in the brain. The study used MRI images and
+
+
+Frontiers in Neuroscience                                                    06                                                              frontiersin.org
+Khan et al.                                                                                                               10.3389/fnins.2025.1623497
+
+
+
+
+gene expression data, making it multimodal for identifying                         Moreover, Doborjeh et al. (2021) used longitudinal
+microbleeds using SNN and decision trees. Afterward, pixel                     neuroimaging data to utilize the advancements in deep learning
+density analysis (PDA) was used to locate microbleed areas in MRI              models through brain-inspired spiking neural networks (SNNs),
+images. PDA and probabilistic graphical model (PGM) were also                  which can model structural brain data across time and space. The
+used to explain and decide on the diagnosis of microbleeds, and                study introduced a methodology and an SNN-based computational
+the severity of AD. Figure 5 represents the framework used in                  framework for developing personalized, predictive models from
+this research for identifying cerebral microbleeds and Alzheimer’s             longitudinal brain data to detect, interpret, and predict changes
+using multimodal data.                                                         in an individual’s functional brain state. The approach consists of
+     Furthermore, the study compared SNN with other state-of-                  several steps, such as clustering similar data, incorporating missing
+                                                                               values, and training a 3D brain-template SNN for classifying and
+the-art methods for performance evaluation using recall, accuracy,
+                                                                               predicting outcomes and visualizing structural brain changes.
+precision, and F-score. Table 3 below shows that SNN yielded the
+                                                                               All this information is then used to interpret results and identify
+highest performance with 96.13%, 97.02%, 97.13%, and 96.84% for
+                                                                               predictive markers at both individual and group levels. As a result,
+recall, accuracy, precision, and F-score, respectively.
+                                                                               the model successfully classified and predicted cognitive decline,
+     Whereas Turkson et al. (2021) proposed a hybrid model, a
+                                                                               for example, dementia and mild cognitive impairment (MCI),
+spiking deep convolutional neural network architecture to classify             2 years ahead with 91% and 95% accuracy.
+MRI images to detect Alzheimer’s disease. Figure 6 shows the
+general architecture proposed in this study. The Alzheimer’s disease
+                                                                               3.2.3 Clinical applications
+neuroimaging initiative (ADNI) dataset (450 scans) was used to
+                                                                                   Previous sections primarily focused on the types of modalities
+perform three binary classification tasks (AD vs. NC, AD vs. MCI,
+                                                                               used by several researchers, along with the integration of
+and NC vs. MCI). The pre-processed images were used to extract
+                                                                               machine learning models using SNN to analyze neuroimaging
+AD key features using an unsupervised spiking neural network.                  data (Doborjeh et al., 2019; Saeedinia et al., 2021; Ghazali et al.,
+The pre-trained spikes were then classified using a supervised deep            2020). Moreover, multiple studies highlight practical applications
+convolutional neural network (CNN). The SNN was tested with                    using neuroimaging and SNNs for several diseases, such as the
+two models, firstly with a model that was pre-trained with a spike,            detection of AD and the prediction of schizophrenia. However,
+and secondly with a model without a pre-trained spike, and the                 neuroimaging, multimodal data analysis, and integration of deep
+results were more accurate with a pre-trained model for three                  learning with spiking neural networks are not only vital for AD but
+binary classification tasks. The study stated that SNN improved                also for many other clinical areas, such as brain tumor classification
+performance, demonstrating the potential of spiking networks for               (Kalpana et al., 2024) or segmentation (Ahmadi et al., 2021), suicide
+reliable neuroimaging analysis.                                                ideation assessment (Francis and Al-Hababi, 2023), Depression
+
+
+
+
+   FIGURE 5
+   A framework to identify cerebral microbleeds and Alzheimer from multimodal data (Kamal et al., 2023).
+
+
+
+TABLE 3 Performance evaluation for SNN and CNN (Kamal et al., 2023).
+
+    Method              Training                 Test                 PREC                 REC                 ACC                 F-score
+       SNN                  552                   98                   97.13                96.13              97.02                  96.84
+
+                            520                  1300                  96.23                94.33              97.12                  95.14
+
+                            487                   163                  95.19                96.23              96.82                  96.04
+
+                            455                   195                  94.03                95.03              95.62                  95.14
+
+       CNN                  552                   98                   91.53                93.43              94.61                  94.05
+
+                            520                   130                  91.47                92.45              92.24                  92.46
+
+                            487                   163                  91.19                94.39              92.53                  93.24
+
+                            455                   195                  92.73                91.03              91.92                  91.47
+
+
+
+
+Frontiers in Neuroscience                                                 07                                                           frontiersin.org
+Khan et al.                                                                                                                   10.3389/fnins.2025.1623497
+
+
+
+
+   FIGURE 6
+   An overview of the proposed hybrid model, called the spiking deep convolutional neural network, is shown in the figure. It highlights three main
+   modules: raw data input, preprocessing, and the spiking model (Turkson et al., 2021).
+
+
+
+
+identification (Sam et al., 2023), Parkinson’s disease detection (Das                  Sam et al. (2023) performed a similar study to Francis and
+et al., 2024), and so on.                                                          Al-Hababi (2023) by combining long short-term memory (LSTM)
+     Kalpana et al. (2024) proposed a hybrid model integrating                     and SNN using EGG signals for depression identification. These
+SNNs with convolutional neural networks (CNNs) for brain tumor                     models were used for the first time to analyze and categorize
+classification. As per the results, the model achieved a testing                   EEG signals according to the level of depression (minimum, mild,
+accuracy of 97.50 % and a training accuracy of 97.79% with a slight                moderate, and severe). The model utilized spatial data mapping
+loss value of 0.38%. Also stated, these results present the model’s                using SNN, leading to unsupervised learning and visualization of
+strength in capturing complex data in medical imaging, which is                    spiking patterns and unique perceptions about brain mechanisms.
+promising for clinical applications within the biomedical field. On                Comparative analysis of time-space brain data showed that SNN
+the other hand, Ahmadi et al. (2021) utilized MRI for tumor area                   is more advantageous than other deep learning models. The study
+segmentation using a deep spiking neural network. The process for                  achieved higher accuracy in classifying samples from various
+achieving the results consists of preprocessing and segmentation                   groups and disclosed dierent patterns of brain activity, helping
+using DSNN. Table 4 shows the accuracy percentages compared in                     to understand the severity of depression. The findings in the
+this study for the proposed method and previous approaches.                        study have the potential for early prediction and, thus, preventing
+     Furthermore, Francis and Al-Hababi (2023) also incorporated                   depression by using the brain data acquired from dierent
+a hybrid version like Kalpana et al. (2024). However, they                         depression levels. The methodology used in this study showcases
+combined an attention mechanism (AM) with SNN for suicide                          excellent potential for application in neuroimaging and clinical
+ideation assessment using sMRI of healthy controls and depressive                  longitudinal data.
+individuals who did not show any suicide ideation (SI). The hybrid                     Apart from the above-mentioned clinical applications, SNN
+model completed the classification tasks using stratified 5-fold                   and neuroimaging are also helpful for Parkinson’s disease (PD)
+cross-validation and achieved a test accuracy of 94%, sensitivity                  detection, as presented by Das et al. (2024). This study investigated
+of 100%, specificity of 92%, and an area under the curve (AUC)                     the SEFRON (time-varying synaptic eÿcacy function based leaky
+of 0.96. The proposed algorithm provides an objective tool that                    integrate and fire neuron model) model and compared it with other
+can support clinical assessments in identifying early signs of SI                  previously used neural network models such as RBF, RNN, LSTM,
+risk among depressed patients who are currently not showing any                    and MLP. Results showed a higher accuracy for this model over
+suicidal thoughts.                                                                 others, making it reliable for clinical trials. Moreover, because of
+                                                                                   its performance, this model can help develop an automated PD
+                                                                                   detection device that physicians can utilize to diagnose PD in its
+TABLE 4 Performance evaluation for QAIS-DSNN and other methods                     early stages. However, this study has a limitation in that the sample
+(Ahmadi et al., 2021).
+                                                                                   size of the dataset used is small.
+    Accuracy (%)               Method                 Reference                        Another study proposed by Gowsikraja et al. (2025) uses MRI
+                                                                                   for AD classification using a model named SBERO_Deep SNN
+         98.20%                 GCNN                Mittal et al., 2019
+                                                                                   (skill Al-Biruni Earth Radius Optimization-enabled Deep Spiking
+              95%             3D cascaded           Wang et al., 2019              Neural Network), encompassing the benefits of SNN. Segmentation
+                               CNN-TTA
+                                                                                   was performed using a hybrid algorithm using UNeXt, combining
+         88.50%                MCCNN                  Hu et al., 2019              the Skill Optimization Algorithm (SOA) and the Al-Biruni Earth
+         96.12%               BAT-IT2FCM          Alagarsamy et al., 2019          Radius (BER). In the next step, statistical features were extracted
+              92%             ADNN-PSO            Sharif M. I. et al., 2020
+                                                                                   and classified using a Deep SNN trained with SBERO. The
+                                                                                   study achieved the highest accuracy rate compared to other
+              98%           PSO-LDA-GA-ANN         Sharif M. et al., 2020
+                                                                                   AD classification techniques. It also states that the proposed
+         98.21%               QAIS-DSNN             Proposed approach              methodology is reliable for AD identification, allowing timely
+                                                   (Ahmadi et al., 2021)
+                                                                                   intervention to slow the disease progression and improve patient
+
+
+Frontiers in Neuroscience                                                     08                                                            frontiersin.org
+Khan et al.                                                                                                                    10.3389/fnins.2025.1623497
+
+
+
+
+TABLE 5 Overview of selected literature.
+
+      References                   Models used                   Modalities                      Compared with                     Accuracy %/
+                                                                                                                                   performance
+     Ahmadi et al., 2021             QAIS-DSNN                         MRI                 KNN, Genetic algorithm, SVM, SOM,      DSNN with 98.21 %
+                                                                                              CNN, GCNN, BAT-IT2FCM
+
+      Dong et al., 2024              ONSNPSamos                        MRI                    ABC, CMA-ES, SHADE, CSO,          Eective for a Single-area
+                                                                                              RMSProp, FROFI, DAOSNPS,                brain tumor
+                                                                                            ONSNPS, FCN8s, FCNs16, FCNs32,
+                                                                                             Unet, HybridUnet, NestedUnet
+
+     Kamal et al., 2023                  SNN                 MRI & Gene expression                       CNN                             97.02%
+
+    Sengupta et al., 2018                SNN                       DTI & fMRI                        Not applicable                     Eective
+
+    Capecci et al., 2015b                SNN                           EEG                      MLP, SVM, IECF, ECMC                      100%
+
+    Capecci et al., 2015a           SNN (NeuCube)                      EEG                       MLR, SVM, MLP, ECM                     86%, 79%
+
+  Kasabov N. K. et al., 2017        SNN (NeuCube)                     fMRI                    SVM, MLP, ECF, ECMC, MLR               90%, 85%, 85%
+
+       Guo et al., 2023                  SNN                          fMRI                          SFSNN, SWSNN                     Outperformed
+
+       Sam et al., 2023                  SNN                           EEG                 CNN-TCN, CNN-LSTM, Deep CNN           98%: 96%, Eyes-Closed:
+                                                                                                                                       Eyes-Open
+
+   Francis and Al-Hababi,                SNN                          sMRI                         CNN, SVM, FCNN                         94%
+            2023
+
+    Turkson et al., 2021       Spiking deep convolutional              MRI                 SVM, CNN, random forest, KNN, NB              90.15%
+                                     neural network
+
+    Doborjeh et al., 2021                SNN                    Longitudinal MRI                     Not applicable                    95% & 91%
+
+    Doborjeh et al., 2019         Personalized SNN -                   EEG                      WWKNN, WKNN, KNN                       80% to 93%
+                                      d2WKNN
+
+    Saeedinia et al., 2021            MRI-SNNr                      MRI, EEG                     Random walk, NeuCube               Better prediction
+
+                                                                                                                                        accuracy
+
+      Murli et al., 2020           eSNN (NeuCube)                     fMRI                            SVM, MLP                            85%
+
+     Kalpana et al., 2024            Hybrid SCNN                       MRI                           Not applicable                      97.50%
+
+       Das et al., 2024          SEFRON (SNN-based)           speech measurements            RBF-NN, MLP-NN, RNN, LSTM               94% to 91.94%
+
+                                                            collected/acoustic features
+
+   Kasabov N. et al., 2017          SNN (NeuCube)                     fMRI                           Not applicable                   Compatible
+
+   Gowsikraja et al., 2025     Hybrid SBERO_Deep SNN                   MRI                  CNN+LSTM, Deep ensemble model,               90.49%
+                                                                                               Hybrid DNN, TL, Deep SNN,
+                                                                                             SOA_Deep SNN, BER_Deep SNN
+
+       Zhu et al., 2022          DenseNet-based SNN                    MRI                     Restricted DenseNet, SNN,            98.46% ± 2.05%
+
+      Dong et al., 2023            STPD-based SNN           CIFAR10 random images                MNIST, FashionMNIST                     81.45%
+
+
+
+quality of life. Table 5 represents the overview of selected studies               developing a deep learning model using SNN for real-time clinical
+below.                                                                             applications. Out of 21, only a few studies proposed the utilization
+                                                                                   of two or more modalities together for analysis. The rest of the
+                                                                                   studies focused on a single modality in their research.
+4 Discussion                                                                           The literature review reveals a significant trend toward utilizing
+                                                                                   the benefits of neuroimaging data combined with deep learning
+    This section provides a detailed discussion of principal findings,             models, specifically SNN, for understanding and diagnosing
+including neuroimaging and analysis of clinical features and use                   neurological disorders. Researchers are applying spiking neural
+of SNN. The section also discusses this review’s challenges, gaps,                 networks with MRI, EEG, fMRI, and DTI for personalized and
+future direction, and limitations.                                                 dynamic modeling of brain functionalities. A comparative analysis
+                                                                                   of the selected studies on SNNs shows that SNNs provide more
+                                                                                   accuracy than other previously used methods, such as traditional
+4.1 Principal findings                                                             CNNs, in terms of precision, recall, and accuracy. Furthermore,
+                                                                                   conventional neural networks have a significant disadvantage
+    The primary findings of the literature review of the selected 21               of slower computational speed and higher energy consumption
+studies expose a massive gap in defusing multiple modalities for                   (Xiaoxue et al., 2023).
+
+
+Frontiers in Neuroscience                                                     09                                                              frontiersin.org
+Khan et al.                                                                                                                       10.3389/fnins.2025.1623497
+
+
+
+
+4.2 Neuroimaging and clinical features                                             of clinical insights. Figure 7 represents the overview of clinical
+                                                                                   features from the selected studies.
+    Neuroimaging, including structural MRI (sMRI), fMRI, DTI,
+and EEG are important in understanding the clinical features of
+psychiatric and neurological disorders. All these modalities provide               4.3 Use of deep learning with SNN and
+a detailed map of brain structure, activity, and function, which                   neuroimaging
+is helpful for clinicians and researchers in making more accurate
+                                                                                       Spiking Neural Networks (SNNs) are computational models
+diagnoses and guiding the right treatments.
+                                                                                   consisting of spiking neurons, interconnections, and learning
+    As per the selected studies, researchers emphasize the
+                                                                                   algorithms designed for processing data (Izhikevich, 2006; Kasabov
+importance of neuroimaging in identifying biomarkers such as                       et al., 2016). Unlike traditional neural networks, SNNs capture
+microbleeds, structural abnormalities, and functional connectivity                 spatial and temporal data as inputs. SNN incorporates not
+changes. However, using multiple modalities can enhance the depth                  only neural synaptic states but also the concept of time within
+
+
+
+
+   FIGURE 7
+   Overview of the clinical features from the selected studies, X-axis represents the clinical features, and Y-axis is used to display the number of times a
+   clinical feature used in selected research articles.
+
+
+
+
+   FIGURE 8
+   A schematic diagram of a general NeuCube architecture, consisting of, input encoding module, SNN Cube, Output module, and gene regulatory
+   module (Kasabov, 2014).
+
+
+
+
+Frontiers in Neuroscience                                                     10                                                                frontiersin.org
+Khan et al.                                                                                                               10.3389/fnins.2025.1623497
+
+
+
+
+its computational framework. This computational framework                    5 Conclusion, and future research
+makes SNNs a more biologically realistic approach for modeling
+spatiotemporal brain dynamics (STBD) (Kasabov N. et al., 2017).
+                                                                             directions
+Other than that, SNN techniques oer many benefits, including
+fast information processing and memory-based processing. It                       As per the scope of this literature review, the aim was to
+also supports frequency- and time-based data, allowing for                   incorporate neuroimaging data and SNN-based models. According
+post-training analysis and data interpretation (Capecci et al.,              to the available evidence suggests that SNN-based models may
+2015b).                                                                      oer advantages over traditional neural networks when applied
+     Spiking Neural Networks (SNNs), especially implemented as               to neuroimaging data. Furthermore, these studies represent the
+NeuCube, are gaining importance due to their ability to model                integration of neuroimaging and deep learning models using
+spatiotemporal data more eÿciently and naturally (Kasabov,                   SNN for analysis, classification, feature extraction, and diagnosis
+2014). As aforementioned, SNNs process data in both space                    of diseases. Dierent types of modalities were utilized in these
+and time using discrete spike trains, oering an alternative                 studies, including MRI, fMRI, DTI, and EEG. However, MRI-
+that closely resembles neuronal communication in the brain,
+                                                                             based modalities dominated either as a single modality or by
+contrasting traditional artificial neural networks (ANNs) like
+                                                                             defusing a few others. It is observed that there are only a few
+MLPs or Transformers (Ghosh-Dastidar and Adeli, 2009;
+                                                                             studies that use multimodality, either combining MRI with DTI
+Kasabov, 2014). NeuCube provides a structured framework
+for developing models that process spatiotemporal brain data                 or EEG, or with another type of data, such as gene expression.
+(STBD). It mirrors how the brain encodes and learns information              Multiple studies on Alzheimer’s disease use only a single modality.
+through spikes, using spatial mapping and brain-inspired                     Furthermore, many studies use small or specific datasets, maybe
+learning rules. The model evolves over time, continuously                    due to the high computational power SNNs require for training.
+learning and adapting to new patterns while maintaining a                    Furthermore, it is stated that the diusion of modalities with
+spatiotemporal memory that supports the analysis of cognitive                dierent spatial and temporal resolutions remains a key barrier
+functions. The overall architecture of NeuCube is illustrated in             Sengupta et al. (2018). While current SNN studies have mainly
+Figure 8.                                                                    focused on sMRI, fMRI, or EEG, primarily using single-modality
+     Furthermore, Kasabov et al. (2016) mentioned that the
+                                                                             data for Alzheimer’s disease, the study by Li and Yap (2022),
+NeuCube can be used for the visualization of input features
+                                                                             which employs generative modeling, particularly for fMRI and DTI,
+interactions at the group level as well as the individual level.
+                                                                             oers a path toward mechanistic connectomes that extends beyond
+It provides a more profound understanding of underlying
+data relationships and their impact on the individual risk of                descriptive connectivity and explains how it captures the brain
+stroke.                                                                      connectivity changes in response to tasks, stimuli, or internal states.
+     However, this review demonstrated that SNN is also being                The presented approach could have a significant impact on future
+integrated with other models, such as CNNs and LSTMs, making                 SNN frameworks by providing better integration of multimodal
+it a hybrid model for more eÿcient spatiotemporal data modeling              data, thereby supporting improved prediction and classification
+using neuroimaging. Turkson et al. (2021), Kalpana et al. (2024)             accuracy.
+and Francis and Al-Hababi (2023) proposed a hybrid model                          Hence, the review suggests that exploring multiple modalities
+integrating other models with SNNs using neuroimaging for the                like MRI, fMRI, DTI, and perfusing MRI defusing together to
+assessment of suicidal ideations, brain tumor classification, and
+                                                                             develop a deep learning model using SNN for better analyses
+detection of Alzheimer’s diseases, showcasing better results in terms
+                                                                             and use of clinical features for disease diagnosis, prevention, and
+of accuracy than other previously used deep learning models.
+                                                                             to provide treatment plans for slower progression. Improvement
+     Likewise, SNN-based frameworks such as NeuCube (Kasabov,
+2014) and other brain-inspired models make it easy to learn and              in methods for multimodal data fusion is required. Moreover,
+utilize multiple modalities, improving accuracy even at a higher             large and more diverse datasets should be utilized to increase
+level. Capecci et al. (2015b) stated that the overall performance of         the accuracy of the models. Additionally, integrating the above-
+NeuCube was considerably better in terms of highest precision and            mentioned modalities with PET images can provide a critical
+sensitivity than other compared classification methods, including            analysis of specific disease detection, such as Alzheimer’s disease, as
+multilayer perceptron (MLP), inductive evolving classification               PET imaging techniques are a popular and non-invasive technique
+function (IECF) (Kasabov, 2007), support vector machine (SVM),               used to capture brain tissue characteristics, as explained by Song
+and evolving clustering method for classification (ECMC) (Song               et al. (2021) in their study, along with the ability to directly visualize
+and Kasabov, 2002). The literature review also uncovers the
+                                                                             AD-specific biomarkers.
+performance of SNNs in longitudinal studies and real-time
+                                                                                  Furthermore, future studies can aim to develop a sophisticated
+prediction tasks, confirming their potential for future clinical
+                                                                             AI partner for Alzheimer’s patients and their families or friends
+applications.
+     Furthermore, Kundu et al. (2024) presented the recent progress          to help them with their diagnosis, treatment plans, reports, and
+in SNN algorithms and their integration with sensor and memory               daily queries. It will be helpful support for healthcare professionals
+technologies. It underscores how SNNs enable deployable AI                   in dealing with their patients. The AI model and agent should
+systems that are energy-eÿcient, reliable, and well-suited for real-         integrate all international guidelines relating to Alzheimer’s disease
+world tasks.                                                                 treatment plans and patient care.
+
+
+Frontiers in Neuroscience                                               11                                                              frontiersin.org
+Khan et al.                                                                                                                                         10.3389/fnins.2025.1623497
+
+
+
+
+5.1 Limitations                                                                              Conflict of interest
+    Firstly, the literature review is conducted with a few limitations,                          The authors declare that the research was conducted in the
+including a narrow picture of current trends in this area, as it                             absence of any commercial or financial relationships that could be
+only considers papers in English that are published in conferences                           construed as a potential conflict of interest.
+or journals. This review may not cover all relevant work due to
+inclusion/exclusion criteria. Secondly, the review was conducted
+using specific keywords and databases, because of which many
+relevant studies might be overlooked, as limited datasets can reduce                         Generative AI statement
+external validations.
+                                                                                                  The author(s) declare that no Generative AI was used in the
+                                                                                             creation of this manuscript.
+Author contributions                                                                              Any alternative text (alt text) provided alongside figures in
+                                                                                             this article has been generated by Frontiers with the support of
+    AK: Writing – original draft, Writing – review & editing. VS:                            artificial intelligence and reasonable eorts have been made to
+Writing – review & editing. JF: Writing – review & editing. NK:                              ensure accuracy, including review by the authors wherever possible.
+Conceptualization, Supervision, Writing – review & editing. AW:                              If you identify any issues, please contact us.
+Supervision, Conceptualization, Funding acquisition, Writing –
+review & editing, Resources.
+
+                                                                                             Publisher’s note
+Funding
+                                                                                                 All claims expressed in this article are solely those of the
+    The author(s) declare financial support was received for the                             authors and do not necessarily represent those of their aÿliated
+research and/or publication of this article. This work was partially                         organizations, or those of the publisher, the editors and the
+supported by the Health Research Council of New Zealand’s Project                            reviewers. Any product that may be evaluated in this article, or
+21/144, the Marsden Fund Project 22-UOA-120, and the Royal                                   claim that may be made by its manufacturer, is not guaranteed or
+Society Catalyst: Seeding General Project 23-UOA-055-CSG.                                    endorsed by the publisher.
+
+
+
+Acknowledgments
+                                                                                             Supplementary material
+   We would like to extend their sincere gratitude to everyone
+who gave guidance and assistance throughout this research.                                       The Supplementary Material for this article can be found
+Special appreciation to family for their constant support                                    online at: https://www.frontiersin.org/articles/10.3389/fnins.2025.
+and understanding.                                                                           1623497/full#supplementary-material
+
+
+
+
+References
+  Ahmadi, M., Sharifi, A., Hassantabar, S., and Enayati, S. (2021). QAIS-DSNN:                 Das, P., Nanda, S., Panda, G., Dash, S., Ksibi, A., Alsenan, S., et al. (2024). A robust
+Tumor area segmentation of MRI image with optimized quantum matched-filter                   Parkinson’s disease detection model based on time-varying synaptic eÿcacy function
+technique and deep spiking neural network. BioMed Res. Int. 2021:6653879. doi:               in spiking neural network. BMC Neurol. 24:492. doi: 10.1186/s12883-024-04001-7
+10.1155/2021/6653879
+                                                                                               Doborjeh, M., Doborjeh, Z., Merkin, A., Bahrami, H., Sumich, A., Krishnamurthi,
+  Alagarsamy, S., Kamatchi, K., Govindaraj, V., Zhang, Y. D., and Thiyagarajan, A.           R., et al. (2021). Personalised predictive modelling with brain-inspired spiking neural
+(2019). Multi-channeled MR brain image segmentation: A new automated approach                networks of longitudinal MRI neuroimaging data and the case study of dementia.
+combining BAT and clustering technique for better identification of heterogeneous            Neural Netw. 144, 522–539. doi: 10.1016/j.neunet.2021.09.013
+tumors. Biocybernet. Biomed. Eng. 39, 1005–1035. doi: 10.1016/j.bbe.2019.05.007
+                                                                                               Doborjeh, M., Kasabov, N., Doborjeh, Z., Enayatollahi, R., Tu, E., and Gandomi,
+  Calhoun, V. D., Miller, R., Pearlson, G., and Adalı, T. (2014). The chronnectome:          A. H. (2019). Personalised modelling with spiking neural networks integrating
+Time-varying connectivity networks as the next frontier in fMRI data discovery.              temporal and static information. Neural Netw. 119, 162–177. doi: 10.1016/j.neunet.
+Neuron 84, 262–274. doi: 10.1016/j.neuron.2014.10.015                                        2019.07.021
+  Capecci, E., Kasabov, N., and Wang, G. Y. (2015b). Analysis of connectivity                  Dong, J., Zhang, G., Hu, Y., Wu, Y., and Rong, H. (2024). An optimization numerical
+in NeuCube spiking neural network models trained on EEG data for the                         spiking neural membrane system with adaptive multi-mutation operators for brain
+understanding of functional changes in the brain: A case study on opiate                     tumor segmentation. Int. J. Neural Syst. 34:2450036. doi: 10.1142/S0129065724500369
+dependence treatment. Neural Netw. 68, 62–77. doi: 10.1016/j.neunet.2015.03.
+009                                                                                            Dong, Y., Zhao, D., Li, Y., and Zeng, Y. (2023). An unsupervised STDP-
+                                                                                             based spiking neural network inspired by biologically plausible learning rules and
+  Capecci, E., Morabito, F. C., Campolo, M., Mammone, N., Labate, D., and
+                                                                                             connections. Neural Netw. 165, 799–808. doi: 10.1016/j.neunet.2023.06.019
+Kasabov, N. (2015a). “A feasibility study of using the neucube spiking neural network
+architecture for modelling alzheimer’s disease eeg data,” in Advances in neural                Francis, C., and Al-Hababi, A. Y. S. (2023). “Performance evaluation of attention
+networks: Computational and theoretical issues, eds S. Bassis, A. Esposito, and F. C.        mechanism and spiking neural networks on smri data for suicide ideation assessment,”
+Morabito (Cham: Springer International Publishing), 159–172. doi: 10.1007/978-3-             in Proceedings of the 2023 IEEE International Conference on Computing, (Langkawi:
+319-18164-6_16                                                                               IEEE), 408–413. doi: 10.1109/ICOCO59262.2023.10397625
+
+
+
+
+Frontiers in Neuroscience                                                               12                                                                           frontiersin.org
+Khan et al.                                                                                                                                            10.3389/fnins.2025.1623497
+
+
+
+
+  Ghazali, R., Nawi, N. M., Deris, M. M., and Abawajy, J. H. (2020). “Recent advances            Murli, N., Kasabov, N., and Paham, N. A. (2020). “eSNN for Spatio-temporal fMRI
+on soft computing and data mining,” in Proceedings of the 4th International Conference         brain pattern recognition with a graphical object recognition case study,” in Recent
+on Soft Computing and Data Mining (SCDM 2020), Melaka, Malaysia, January 22–23,                advances on soft computing and data mining. SCDM 2020. Advances in intelligent
+2020, (Cham: Springer International Publishing), doi: 10.1007/978-3-030-36056-6                systems and computing, vol 978, eds. R. Ghazali, N. Nawi, M. Deris, J. Abawajy (Cham:
+                                                                                               Springer). doi: 10.1007/978-3-030-36056-6_44
+  Ghosh-Dastidar, S., and Adeli, H. (2009). Spiking neural networks. Int. J. Neural
+Syst. 19, 295–308. doi: 10.1142/S0129065709002002                                                Pham, D. L., Xu, C., and Prince, J. L. (2000). Current methods in medical image
+                                                                                               segmentation. Annu. Rev. Biomed. Eng. 2, 315–337. doi: 10.1146/annurev.bioeng.2.1.
+  Gowsikraja, P., Geetha, K., and Rajan, C. (2025). SBERO skill al-biruni earth radius
+                                                                                               315
+optimization for Alzheimer’s disease classification using magnetic resonance image.
+NMR Biomed. 38:e5323. doi: 10.1002/nbm.5323                                                       Plis, S. M., Hjelm, D. R., Salakhutdinov, R., Allen, E. A., Bockholt, H. J., Long, J. D.,
+                                                                                               et al. (2014). Deep learning for neuroimaging: A validation study. Front. Neurosci.
+  Guo, L., Liu, C., Wu, Y., and Xu, G. (2023). fMRI-based spiking neural network
+                                                                                               8:229. doi: 10.3389/fnins.2014.00229
+verified by anti-damage capabilities under random attacks. Chaos Solitons Fractals
+176:114083. doi: 10.1016/j.chaos.2023.114083                                                     Saeedinia, S. A., Jahed-Motlagh, M. R., Tafakhori, A., and Kasabov, N. (2021). Design
+                                                                                               of MRI structured spiking neural networks and learning algorithms for personalized
+  Hu, K., Gan, Q., Zhang, Y., Deng, S., Xiao, F., Huang, W., et al. (2019). Brain tumor
+                                                                                               modelling, analysis, and prediction of EEG signals. Sci. Rep. 11:12064. doi: 10.1038/
+segmentation using multi-cascaded convolutional neural networks and conditional
+                                                                                               s41598-021-90029-5
+random field. IEEE Access 7, 92615–92629. doi: 10.1109/ACCESS.2019.2927433
+                                                                                                 Sam, A., Boostani, R., Hashempour, S., Taghavi, M., and Sanei, S. (2023). Depression
+  Izhikevich, E. M. (2006). Polychronization: Computation with spikes. Neural
+                                                                                               identification using EEG signals via a hybrid of LSTM and spiking neural networks.
+Comput. 18, 245–282. doi: 10.1162/089976606775093882
+                                                                                               IEEE Trans. Neural Syst. Rehabil. Eng. 31, 4725–4737. doi: 10.1109/TNSRE.2023.
+  Kalpana, T., Meghana, P., Spandana, M., and Kumar, T. S. (2024). “Biologically               3336467
+inspired spiking CNN for brain tumor classification,” in Proceedings of the 2024 5th
+                                                                                                 Sengupta, N., McNabb, C. B., Kasabov, N., and Russell, B. R. (2018). Integrating
+International Conference on Image Processing and Capsule Networks (ICIPCN), (Nepal:
+                                                                                               space, time, and orientation in spiking neural networks: A case study on multimodal
+IEEE), doi: 10.1109/ICIPCN63822.2024.00035
+                                                                                               brain data modeling. IEEE Trans. Neural Netw. Learn. Syst. 29, 5249–5263. doi: 10.
+  Kamal, M. S., Chowdhury, L., Nimmy, S. F., Hasan Rafi, T. H., and Chae,                      1109/TNNLS.2018.2796023
+D. K. (2023). An interpretable framework for identifying cerebral microbleeds and
+                                                                                                 Sharif, M., Amin, J., Raza, M., Yasmin, M., and Satapathy, S. C. (2020). An integrated
+Alzheimer’s disease severity using multimodal data. Annu. Int. Conf. IEEE Eng. Med.
+                                                                                               design of particle swarm optimization (PSO) with fusion of features for detection
+Biol. Soc. 2023, 1–4. doi: 10.1109/EMBC40787.2023.10340088
+                                                                                               of brain tumor. Pattern Recogn. Lett. 129, 150–157. doi: 10.1016/j.patrec.2019.11.
+   Kasabov, N., Scott, N. M., Tu, E., Marks, S., Sengupta, N., Capecci, E., et al.             017
+(2016). Evolving spatio-temporal data machines based on the NeuCube neuromorphic
+                                                                                                 Sharif, M. I., Li, J. P., Khan, M. A., and Saleem, M. A. (2020). Active deep
+framework: Design methodology and selected applications. Neural Netw. 78, 1–14.
+                                                                                               neural network features selection for segmentation and recognition of brain tumors
+doi: 10.1016/j.neunet.2015.09.011
+                                                                                               using MRI images. Pattern Recogn. Lett. 129, 181–189. doi: 10.1016/j.patrec.2019.11.
+  Kasabov, N., Zhou, L., Doborjeh, M. G., Doborjeh, Z. G., and Yang, J. (2017). New            019
+algorithms for encoding, learning and classification of fMRI data in a spiking neural
+                                                                                                 Song, J., Zheng, J., Li, P., Lu, X., Zhu, G., and Shen, P. (2021). An eective
+network architecture: A case on modeling and understanding of dynamic cognitive
+                                                                                               multimodal image fusion method using MRI and PET for Alzheimer’s disease
+processes. IEEE Trans. Cogn. Dev. Syst. 9, 293–303. doi: 10.1109/TCDS.2016.2636291
+                                                                                               diagnosis. Front. Digit. Health 3:637386. doi: 10.3389/fdgth.2021.637386
+  Kasabov, N. K. (2007). Evolving connectionist systems: The knowledge engineering
+                                                                                                 Song, Q., and Kasabov, N. (2002). ECM — a novel on-line, evolving clustering method
+approach, 2nd Edn. London: Springer.
+                                                                                               and its applications.
+  Kasabov, N. K. (2014). NeuCube: A spiking neural network architecture for
+                                                                                                 Tsuneki, M. (2022). Deep learning models in medical image analysis. J. Oral Biosci.
+mapping, learning and understanding of spatio-temporal brain data. Neural Netw. 52,
+                                                                                               64, 312–320. doi: 10.1016/j.job.2022.03.003
+62–76. doi: 10.1016/j.neunet.2014.01.006
+                                                                                                 Turkson, R. E., Qu, H., Mawuli, C. B., and Eghan, M. J. (2021). Classification of
+  Kasabov, N. K. (2019). Time-Space, spiking neural networks and brain-inspired
+                                                                                               Alzheimer’s disease using deep convolutional spiking neural network. Neural Process.
+artificial intelligence. Berlin: Springer.
+                                                                                               Lett. 53, 2649–2663. doi: 10.1007/s11063-021-10514-w
+   Kasabov, N. K., Doborjeh, M. G., and Doborjeh, Z. G. (2017). Mapping, learning,
+                                                                                                 Wang, G., Li, W., Ourselin, S., and Vercauteren, T. (2019). “Automatic brain tumor
+visualization, classification, and understanding of fMRI data in the neucube evolving
+                                                                                               segmentation using convolutional neural networks with test-time augmentation,” in
+spatiotemporal data machine of spiking neural networks. IEEE Trans. Neural Netw.
+                                                                                               Brainlesion: Glioma, multiple sclerosis, stroke and traumatic brain injuries, eds A.
+Learn. Syst. 28, 887–899. doi: 10.1109/TNNLS.2016.2612890
+                                                                                               Crimi, et al. (Cham: Springer International Publishing), 61–72. doi: 10.1007/978-3-
+  Kundu, S., Zhu, R. J., Jaiswal, A., and Beerel, P. A. (2024). “Recent advances in            030-11726-9_6
+scalable energy-eÿcient and trustworthy spiking neural networks: From algorithms
+                                                                                                 Xiaoxue, L., Xiaofan, Z., Xin, Y., Dan, L., He, W., Bowen, Z., et al. (2023). Review
+to technology,” in Proceedings of the ICASSP 2024-2024 IEEE International Conference
+                                                                                               of medical data analysis based on spiking neural networks. Proc. Comp. Sci. 221,
+on Acoustics, Speech and Signal Processing (ICASSP), (Korea: IEEE), doi: 10.1109/
+                                                                                               1527–1538. doi: 10.1016/j.procs.2023.08.138
+ICASSP48485.2024.10445826
+  Li, G., and Yap, P. T. (2022). From descriptive connectome to mechanistic                      Yan, W., Qu, G., Hu, W., Abrol, A., Cai, B., Qiao, C., et al. (2022). Deep learning
+connectome: Generative modeling in functional magnetic resonance imaging analysis.             in neuroimaging: Promises and challenges. IEEE Signal Process. Magazine 39, 87–98.
+Front. Hum. Neurosci. 16:940842. doi: 10.3389/fnhum.2022.940842                                doi: 10.1109/MSP.2021.3128348
+
+  Mittal, M., Goyal, L. M., Kaur, S., Kaur, I., Verma, A., and Hemanth, D. J. (2019).            Yang, R., and Yu, Y. (2021). Artificial convolutional neural network in object
+Deep learning based enhanced tumor segmentation approach for MR brain images.                  detection and semantic segmentation for medical imaging analysis. Front. Oncol.
+Appl. Soft Comp. 78, 346–354. doi: 10.1016/j.asoc.2019.02.036                                  11:638182. doi: 10.3389/fonc.2021.638182
+
+   Moher, D., Liberati, A., Tetzla, J., and Altman, D. G. (2009). Preferred reporting           Zhu, Z., Lu, S., Wang, S.-H., Gorriz, J. M., and Zhang, Y.-D. (2022). DSNN: A
+items for systematic reviews and meta-analyses: The PRISMA statement. PLoS Med.                DenseNet-based SNN for explainable brain disease classification. Front. Syst. Neurosci.
+6:e1000097. doi: 10.1371/journal.pmed.1000097                                                  16:838822. doi: 10.3389/fnsys.2022.838822
+
+
+
+
+Frontiers in Neuroscience                                                                 13                                                                             frontiersin.org
+

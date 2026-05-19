@@ -1,0 +1,924 @@
+                  Molecular Psychiatry                                                                                                  www.nature.com/mp
+
+
+
+
+                  ARTICLE                   OPEN
+
+                  Classiﬁcation of major depressive disorder using vertex-wise
+                  brain sulcal depth, curvature, and thickness with a deep and a
+                  shallow learning model
+                                                   ✉
+                  Roberto Goya-Maldonado 1 , Tracy Erwin-Grabner1, Ling-Li Zeng2,3, Christopher R. K. Ching 3, Andre Aleman4, Alyssa R. Amod 5,
+                                       6
+                  Zeynep Basgoze         , Francesco Benedetti 7, Bianca Besteher 8, Katharina Brosch 9, Robin Bülow 10, Romain Colle 11,12,
+                  Colm G. Connolly , Emmanuelle Corruble11,12, Baptiste Couvy-Duchesne 14,15, Kathryn Cullen 6, Udo Dannlowski 16,
+                                     13
+
+                  Christopher G. Davey 17, Annemiek Dols18,19, Jan Ernsting 16, Jennifer W. Evans 20, Lukas Fisch16, Paola Fuentes-Claramonte 21,
+                  Ali Saffet Gonul 22, Ian H. Gotlib 23, Hans J. Grabe24, Nynke A. Groenewold 5, Dominik Grotegerd16, Tim Hahn 16,
+                  J. Paul Hamilton25, Laura K. M. Han26,27, Ben J. Harrison17, Tiffany C. Ho28,29, Neda Jahanshad3, Alec J. Jamieson 17,
+                  Andriana Karuk 21, Tilo Kircher 9, Bonnie Klimes-Dougan 30, Sheri-Michelle Koopowitz5, Thomas Lancaster 31,32,
+                  Ramona Leenings16, Meng Li 8, David E. J. Linden 31,32,33,34, Frank P. MacMaster35, David M. A. Mehler 16,31,32,36,
+                  Susanne Meinert 16,37, Elisa Melloni7, Bryon A. Mueller 6, Benson Mwangi38, Igor Nenadić 9, Amar Ojha 39,40,
+                  Yasumasa Okamoto41, Mardien L. Oudega18,42, Brenda W. J. H. Penninx18, Sara Poletti 7, Edith Pomarol-Clotet21,
+                  Maria J. Portella 43,44, Joaquim Radua 45, Elena Rodríguez-Cano21, Matthew D. Sacchet46, Raymond Salvador21, Anouk Schrantee47,
+                  Kang Sim48,49,50, Jair C. Soares 38, Aleix Solanes 45, Dan J. Stein 5, Frederike Stein 9, Aleks Stolicyn 51,
+1234567890();,:
+
+
+
+
+                  Sophia I. Thomopoulos 3, Yara J. Toenders 26,27,52,53, Aslihan Uyar-Demir 22, Eduard Vieta 54, Yolanda Vives-Gilabert55,
+                  Henry Völzke56, Martin Walter 8, Heather C. Whalley 51, Sarah Whittle 17, Nils Winter 16, Katharina Wittfeld 24,
+                  Margaret J. Wright 57,58, Mon-Ju Wu 38, Tony T. Yang28, Carlos Zarate59, Dick J. Veltman18, Lianne Schmaal 26,27,
+                  Paul M. Thompson 3 and on behalf of the ENIGMA Major Depressive Disorder working group*
+
+                  This is a U.S. Government work and not under copyright protection in the US; foreign copyright protection may apply 2025
+
+
+
+                      Major depressive disorder (MDD) is a complex psychiatric disorder that affects the lives of hundreds of millions of individuals
+                      around the globe. Even today, researchers debate if morphological alterations in the brain are linked to MDD, likely due to the
+                      heterogeneity of this disorder. The application of deep learning tools to neuroimaging data, capable of capturing complex non-
+                      linear patterns, has the potential to provide diagnostic and predictive biomarkers for MDD. However, previous attempts to
+                      demarcate MDD patients and healthy controls (HC) based on segmented cortical features via linear machine learning approaches
+                      have reported low accuracies. In this study, we used globally representative data from the ENIGMA-MDD working group containing
+                      7012 participants from 31 sites (N = 2772 MDD and N = 4240 HC), which allows a comprehensive analysis with generalizable
+                      results. Based on the hypothesis that integration of vertex-wise cortical features can improve classiﬁcation performance, we
+                      evaluated the classiﬁcation of a DenseNet and a Support Vector Machine (SVM), with the expectation that the former would
+                      outperform the latter. As we analyzed a multi-site sample, we additionally applied the ComBat harmonization tool to remove
+                      potential nuisance effects of site. We found that both classiﬁers exhibited close to chance performance (balanced accuracy
+                      DenseNet: 51%; SVM: 53%), when estimated on unseen sites. Slightly higher classiﬁcation performance (balanced accuracy
+                      DenseNet: 58%; SVM: 55%) was found when the cross-validation folds contained subjects from all sites, indicating site effect. In
+                      conclusion, the integration of vertex-wise morphometric features and the use of the non-linear classiﬁer did not lead to the
+                      differentiability between MDD and HC. Our results support the notion that MDD classiﬁcation on this combination of features and
+                      classiﬁers is unfeasible. Future studies are needed to determine whether more sophisticated integration of information from other
+                      MRI modalities such as fMRI and DWI will lead to a higher performance in this diagnostic task.
+
+                      Molecular Psychiatry (2026) 31:1517–1529; https://doi.org/10.1038/s41380-025-03273-w
+
+
+
+
+                  INTRODUCTION                                                           allocation of the proper treatment are critical. Unfortunately, the
+                  Major depressive disorder (MDD) dramatically impacts the daily         current treatment strategies present a response rate and
+                  functioning of patients and is currently the leading cause of          remission as low as of 36.8% after a ﬁrst treatment [2–4]. Thus,
+                  disability worldwide [1]. Therefore, early diagnosis and optimal       as proposed in the realms of systems medicine, we expect that by
+
+
+                  A full list of author afﬁliations appears at the end of the paper.
+
+                  Received: 19 January 2025 Revised: 12 August 2025 Accepted: 15 September 2025
+                  Published online: 3 October 2025
+                                                    R. Goya-Maldonado et al.
+1518
+       identifying brain patterns that classify patients at the individual     Multimodal morphological feature analysis, including myelination,
+       level, we may open new biomarker-based avenues for the                  gray matter, and curvature, revealed a correlation between cortical
+       development of more personalized and effective treatments.              differences and MDD-associated genes [25]. Therefore, the
+          Neuroimaging techniques, such as magnetic resonance imaging          addition of shape modalities, such as cortical curvature and sulcal
+       (MRI), enable a non-invasive macro-scale view of human brain            depth, to cortical thickness could enhance the classiﬁcation
+       structure at the millimeter level of resolution. Initial neuroimaging   performance, as demonstrated for sex and autism classiﬁcation
+       studies used univariate approaches to reveal structural brain           [26].
+       differences in MDD compared to healthy controls (HC) [5–7],                Cortical morphological features such as sulcal depth and
+       identifying reduced hippocampal and frontal lobe volume.                gyriﬁcation, measured via local gyriﬁcation index (LGI) or
+       However, these studies had limited sample sizes and the more            curvature, have been investigated as potential biomarkers for
+       recent large sample studies have reported small effect sizes            MDD, although the literature remains limited and somewhat
+       [8–11], highlighting the absence of a single neuro-anatomical           inconsistent. Some earlier studies have suggested that sulcal
+       biomarker associated with MDD. The search for more complex              depth may be decreased in individuals with suicidality-associated
+       biomarkers, which may include the interaction between different         MDD [25]. Even so, this study included only 39 healthy controls, 40
+       neuro-anatomical features, can be conducted via machine                 depressed patients without suicidality (patient controls), and 39
+       learning (ML) algorithms - especially deep learning (DL) algorithms     with suicidality (suicidal groups) were analyzed based on SBM to
+       - applied to the MDD vs HC classiﬁcation task.                          estimate the fractal dimension, gyriﬁcation index, sulcal depth,
+          Like univariate approaches, ML and DL studies reported varying       and cortical thickness; the small sample size and range of features
+       classiﬁcation accuracies from 53–91% [12, 13]. The high variability     assessed make it prone to both type I and type II error, relative to
+       of classiﬁcation performances and the lack of consistent                the studies we have performed in thousands of patients. In terms
+       biomarkers can partly be explained by the small sample sizes, as        of gyriﬁcation, multiple studies have reported both hypo- and
+       it was demonstrated by Flint and colleagues [14]. Supplementing         hyper-gyriﬁcation in various cortical regions, including the frontal,
+       this, a study based on cortical and subcortical morphological           cingulate, insular, parietal, and temporal lobes [24, 27–31].
+       features, reported high accuracy of 75% in the small sample,            However, these ﬁndings are often region-constrained, based on
+       which was not replicated in an independent large UK Biobank             small sample sizes, and lack consistent replication across cohorts
+       dataset, achieving only 54% [15].                                       and studies. These constraints highlight the need for coordinated
+          Another factor that may inﬂate classiﬁcation accuracies are          multi-site analyses using harmonized data and advanced morpho-
+       related to study-site effects. The site-effect corresponds to site-     metric modeling approaches.
+       speciﬁc characteristics other than diagnosis – such as scanner             Hence, one promising direction is the use of more advanced
+       type, acquisition protocol, demographic differences, and inclusion      classiﬁcation algorithms. DL methods have gained popularity in
+       and exclusion criteria – which may bias classiﬁcation accuracies. A     the neuroimaging ﬁeld as a promising tool for cortical surface
+       study demonstrated how site effect may contribute to both               reconstruction [32], image preprocessing [33], and cortical
+       inﬂated and deﬂated classiﬁcation accuracies [16]. Hence,               parcellation [34]. Furthermore, DL is widely evaluated as a
+       numerous ways to tackle site-effect and improve model general-          predictive tool in psychiatry, showing higher or at least the same
+       izability exist, from linear and non-linear ComBat harmonization        classiﬁcation performance compared to linear models [26, 35–39].
+       tools [17, 18] to embedding site confounders directly to the model      The analysis of cortical morphometric features can be conducted
+       [19]. However, to overcome the difﬁcult point of the heterogeneity      via convolutional neural network (CNN) [40], designed to reveal
+       of MDD and the lack of replicability and generalization of the          complex patterns in 2D images. In order to apply such 2D CNN in
+       models, the investigation of very large samples of participants         the classiﬁcation, it requires 3D cortical features to be initially
+       with global representation is fundamental.                              projected into 2D image space. Nevertheless, this step may
+          Using a large-scale dataset from the ENIGMA-MDD consortium,          inevitably create distortion in spatial properties such as shape,
+       we compared the classiﬁcation performance of commonly used              area, distance, and direction. Several approaches were implemen-
+       ML models to predict diagnosis based on cortical and subcortical        ted before, such as latitude/longitude projection [41] and optimal
+       parcellations of morphological features (surface areas, thicknesses,    mass transport (OMT) projection [26, 42], which preserves area.
+       volumes) [20]. Overall, results showed a trend that may highlight       However, the impact of these projection methods on classiﬁcation
+       the contribution of site-effects to classiﬁcation performance.          performance were never directly compared in the
+       Speciﬁcally, there was a clear difference in classiﬁcation perfor-      neuroimaging ﬁeld.
+       mance dependent on the cross-validation splitting techniques               The main goal of this study was to distinguish MDD from HC
+       used in training. Site-splitting generally performed at close to        individuals based on integrated cortical morphological features,
+       chance level for all classiﬁers, while mixing sites across splits       including sulcal depth, curvature, and thickness. These features
+       achieved up to 62% balanced accuracy with an SVM. Of note, data         were analyzed via SVM with linear kernel and CNN architecture of
+       harmonization using ComBat removed the site effect and resulted         pre-trained DenseNet [43], which demonstrated its superiority
+       in a balanced accuracy of 52% with SVM. Based on these ﬁndings,         over simpler models in autism vs HC classiﬁcation task [26]. SVM
+       we concluded that most commonly used ML classiﬁcation                   was chosen as it is a robust shallow ML model, frequently used in
+       algorithms could not successfully discriminate MDD from HC              neuroimaging settings [44–46]. We investigated classiﬁcation
+       individuals based on morphological features organized in pre-           performance of these two methods to understand the role of
+       deﬁned Desikan-Killiany atlas parcellations. However, it remains        complex non-linear patterns in MDD manifestation. We used
+       unclear whether more ﬁne-grained information of morphometric            balanced accuracy, sensitivity, speciﬁcity and AUC as the
+       features, displayed in a vertex-wise organization, could outper-        classiﬁcation performance metrics. Higher classiﬁcation perfor-
+       form the classiﬁcation based on parcellation atlas-distributed          mance of the DenseNet model presume the presence of spatially
+       information.                                                            complex patterns in brain morphology, which are relevant for
+          There are some directions in improving classiﬁcation based on        classiﬁcation. Furthermore, we aimed to estimate the relevance of
+       morphological information. First, previous ML studies considered        integrating cortical thickness and shape characteristics (sulcal
+       surface area, thickness, and volume characteristics only, while the     depth, curvature and thickness) into the analysis by training the
+       information on the cortical shape, such as gyral and sulcal shape       models with all features combined and by considering them
+       patterns, was not integrated into analyses. Cortical gyriﬁcation        separately. Similar to our previous study [20], different cross-
+       modalities are affected by genetic and non-genetic factors              validation (CV) approaches were evaluated: Splitting the data by
+       [21, 22], alterations of which were associated with MDD [23, 24].       balancing age and sex distribution across all CV folds (Splitting by
+
+                                                                                                           Molecular Psychiatry (2026) 31:1517 – 1529
+                                                                                   R. Goya-Maldonado et al.
+                                                                                                                                                                  1519
+Age/Sex), and performing leave-sites-out CV in order to estimate                   model is trained and tested on the same demographics. Nevertheless,
+the performance on the unseen during the training sites (Splitting                 the site-related differences may bias the decision-making of the
+by Site). This approach allowed us to estimate whether the                         classiﬁcation models [20], which is directly addressed in Splitting by
+model’s performance is inﬂuenced by demographic or site-related                    Site. This strategy demonstrates how well the model trained on one set
+factors. The difference between results in both splitting strategies               of sites can be applied to the data from unseen sites. As the number of
+                                                                                   sites exceeds the number of folds, we distributed the sites across the
+presumes the presence of the site effect we addressed by                           folds to balance the number of subjects in every fold as close as possible
+harmonizing the data in both splitting strategies via ComBat. In                   by iteratively distributing the largest sites across all 10 folds. Smallest
+summary, we hypothesized that: (1) Integration of cortical                         folds were added subsequently to further even the number of subjects
+thickness and shape characteristics would contribute positively                    in every fold. Overall, the difference in the classiﬁcation results between
+to the classiﬁcation performance, and (2) DenseNet could                           these two splitting strategies may indicate the existence of the site
+differentiate MDD from HC based on the provided features.                          effect. More detailed description of both splitting strategies can be
+Additionally, we compared two projection methods, latitude/                        found elsewhere [20].
+longitude and OMT projections by performing auxiliary single-site
+sex classiﬁcation based on three of the largest cohorts to explore                 MDD vs HC classiﬁcation
+whether classiﬁcation performance may vary according to 2D                         After the data-splitting step, the primary analysis was carried out.
+projection method. We had no a priori hypothesis for the                           Firstly, we residualized all features normatively, removing linear age and
+projection results.                                                                sex dependencies. To avoid data leakage, age and sex regressors were
+                                                                                   estimated on the healthy subjects from the training set (9 CV folds) and
+                                                                                   then applied to the training and test set (1 CV fold) for patients and HC.
+                                                                                   Next, the classiﬁcation algorithms were trained on the training folds,
+MATERIAL AND METHODS                                                               and classiﬁcation performance was estimated on the test fold. As
+Study participants and study design                                                demonstrated by Dinga and colleagues, accuracy alone should be
+We analyzed a large-scale multi-site sample provided by the ENIGMA-MDD             avoided as it does not account for class frequencies [47]. Thus, the
+working group, comprising 2772 MDD and 4240 HC individuals, from 30                algorithms were evaluated according to categorical measures, including
+cohorts worldwide. Details on inclusion/exclusion criteria and sample              balanced accuracy, sensitivity, speciﬁcity, and rank-based measure –
+characteristics can be found in Supplementary Table 1. Subjects with               AUC, allowing for a broad overview of performance. For model-level
+missing information on demographic data or any of cortical surface mesh            assessment [48], we performed the classiﬁcation using all features
+ﬁles (l(r).sulc, l(r).curv, l(r).thickness) were excluded from the analysis (476   combined and then using features separately to assess the ﬁnal
+and 6% excluded).                                                                  classiﬁcation performance. We evaluated the classiﬁcation performance
+                                                                                   of a robust shallow model - SVM with linear kernel, and DL model -
+Image processing and analysis                                                      DenseNet pre-trained on natural images from ImageNet dataset [49],
+Each site acquired structural T1-weighted MRI scans of participants and            which has been shown to be a robust convolutional neural network for
+preprocessed them according to ENIGMA Consortium protocol (http://                 image classiﬁcation in both natural images and neuroimaging contexts
+enigma.ini.usc.edu/protocols/imaging-protocols/). This pipeline includes           [26, 43]. When DenseNet was trained on a single data domain, left and
+the segmentation of T1-weighted MRI volumes, tessellation, topology                right hemisphere images were propagated through corresponding left
+correction, and spherical inﬂation of the white matter surface. Detailed           and right DenseNets, the fully connected layers of which were
+information on the acquisition protocols and scanner model in each cohort          concatenated. The resulting feature vectors were then fed to the
+can be found in Supplementary Table 2. Cortical meshes were generated              output layer. For the whole-brain all-features analysis, we combined the
+during FreeSurfer preprocessing in every site. Cerebral cortex meshes were         features extracted from every feature and hemisphere, concatenate
+then extracted from the FreeSurfer unsmoothed fsaverage6 template,                 them, and fed them to the output layer. For SVM, all considered images
+effectively removing intracranial volume (ICV) differences (Supplementary          were ﬂattened and then concatenated into a single array. In this study,
+Fig. 1) and yielding 37,747 and 37,766 vertices for the left and right             we intentionally chose not to apply dimensionality reduction techni-
+hemispheres, respectively. The preprocessing pipeline applied in this study        ques (e.g., PCA or feature selection) prior to model training. This
+is consistent across all subjects, regardless of age, as the core procedures       decision was driven by the goal of preserving the full anatomical
+do not differ fundamentally between adolescents and adults. We analyzed            interpretability of vertex-wise cortical features and directly evaluating
+vertex-wise features, such as sulcal depth, curvature, and thickness, both as      the classiﬁcation potential of the complete morphometric representa-
+integrated features and separately (Fig. 1).                                       tion. To mitigate the risk of overﬁtting in this high-dimensional setting,
+   Considering the absence of well-established pre-trained on cortical             we implemented nested 10-fold cross-validation for robust perfor-
+meshes CNN models, we projected 3D cortical surfaces into 2D images and            mance estimation and hyperparameter tuning. Speciﬁcally, for the SVM,
+applied DenseNet, which was pre-trained on natural images. There are few           nine values of the regularization parameter (C) were explored, resulting
+studies applying different projection methods such as latitude/longitude           in 90 model evaluations across outer folds. For DenseNet, the grid
+project and area-preserving maps [e.g., 26, 41]. Of note, the latitude/            search spanned 54 unique hyperparameter combinations, yielding 540
+longitude method, in which cortical mesh is ﬁrst re-sampled to the sphere          model evaluations (hyperparameters in Supplementary Table 3). The
+and consequently mapped to the 2D grid, creates strong area distortions in         concept and implementation of analysis are illustrated in Fig. 1. To
+the edges and near the medial wall close to subcortical regions [41]. Both         mitigate site-related differences, which may potentially bias the
+methods may (differentially) inﬂuence subsequent classiﬁcation perfor-             classiﬁcation results, we additionally performed the analysis by
+mances, but to the best of our knowledge, no studies to date have directly         harmonizing all features via ComBat. Variance explained by age and
+compared this in one study using the same samples. Thus, we applied both           sex was preserved during this harmonization step. Next, we residualized
+2D projection methods to the cortical meshes, resulting in 224 × 224 pixels        features normatively, as described above, and trained/tested the
+images for each hemisphere. The images were normalized to present                  models. Application of ComBat differed for both splitting strategies.
+mean of 0 and standard deviation of 1.                                             In short, ComBat parameters estimated on the training set were applied
+                                                                                   to the test set directly for the Age/Sex splitting strategy. In splitting by
+                                                                                   Site, ComBat was applied twice: ﬁrst, we used ComBat to harmonize the
+Data splitting                                                                     training sites; second, we applied ComBat to adjust the test sites to the
+To assess potential biases in the model’s decision-making, we performed            harmonized training sites, i.e., using the training sites as the reference
+10-fold cross-validation (CV) by splitting the data according to (1)               batch [50]. A more detailed description of the ComBat application can
+demographic covariates, in which age and sex distribution were                     be found in our previous work [20].
+balanced and subjects from each site are equally distributed across all
+CV folds (Splitting by Age/Sex), and (2) site afﬁliation, where each site was
+contained only in one CV fold (Splitting by Site). In both strategies, 9 CV        Auxiliary analysis in projection methods
+folds were used for training, while one remaining CV fold was used as a            To explore and evaluate the potential impact of 2D projection methods on
+test set. This procedure was repeated iteratively until every CV fold was          the classiﬁcation performance, we compared both methods in their ability
+used as a test set. In the Splitting by Age/Sex strategy, effect of                to classify healthy males from healthy females in 3 of the largest cohorts
+demographic factors on the classiﬁcation performance is reduced, as the            separately. The single-site classiﬁcation was estimated via 10-fold CV on
+
+
+Molecular Psychiatry (2026) 31:1517 – 1529
+                                                          R. Goya-Maldonado et al.
+1520
+
+
+
+
+       Fig. 1 Proposed conceptualization levels and implementation of classiﬁcation procedure. Left: Higher classiﬁcation performance in MDD
+       vs HC classiﬁcation task can be achieved by implementing deep ML models, such as DenseNet, in comparison to a shallow ML model, for
+       example, SVM. Furthermore, the analysis of integrated morphometric features can provide a more detailed description of cortical organization
+       than separated features, leading to better differentiability of MDD from HC. The application of ComBat may improve the generalizability of
+       results as site-related differences are removed. Right: Cortical sulcal depth, curvature, and thickness are ﬁrst projected into the 2D grid and
+       then transformed into 2D images using OMT projection. We split the data into 10 CV folds according to age and sex (Splitting by Age/Sex) and
+       according to the site belonging (Splitting by Site). After the residualization step, where the age and sex effect are regressed out linearly, we
+       train and test SVM and DenseNet on the diagnosis classiﬁcation.
+
+       411, 723, and 397 subjects, respectively. As usual, 9 CV folds were used for     MDD vs HC classiﬁcation
+       training, while one remaining CV fold was used as a test set. This procedure     First, we compared the performance of SVM and DenseNet for
+       was repeated iteratively until every CV fold is used as a test set. To provide   different splitting strategies (Fig. 2). In Splitting by Age/Sex, SVM
+       an initial perspective on the potential classiﬁcation advantages of the pre-     achieved 0.551 ± 0.021 in balanced accuracy, while DenseNet
+       trained DenseNet, we presented the balanced accuracies obtained by two           yielded 0.578 ± 0.022. In Splitting by Site, both SVM and DenseNet
+       classiﬁers: an SVM with a linear kernel and the DenseNet [43]. Furthermore,
+       using the hyperparameters found via the sex classiﬁcation task (Supple-          models performed worse, yielding 0.528 ± 0.039 and 0.512 ± 0.019,
+       mentary Table 3), we presented the classiﬁcation performance of both             respectively. The minor difference in classiﬁcation performances
+       models.                                                                          for different splitting strategies indicated a potential site effect,
+                                                                                        which we addressed by applying ComBat. In Splitting by Age/Sex,
+                                                                                        the balanced accuracy of SVM with ComBat dropped to
+       RESULTS                                                                          0.478 ± 0.019, while the performance of DenseNet did not change
+       Participants and data splitting                                                  and yielded 0.561 ± 0.015. In splitting by Site with ComBat, the
+       We detected substantial differences in age (78% of pairwise                      performance of both models was similar and close to random
+       comparisons between cohorts were signiﬁcant, t-test, p < 0.05)                   chance, balanced accuracy yielded 0.520 ± 0.019 and 0.508 ± 0.020
+       and sex (47%, t-test, p < 0.05) across cohorts. The demographic                  for SVM and DenseNet respectively. Thus, we did not observe an
+       and clinical proﬁle is presented in Table 1. As expected, Splitting              improvement of models’ performances after data harmonization
+       by Age/Sex resulted in more balanced CV folds with respect to                    by ComBat. A full panel of results, including all classiﬁcation
+       number of subjects, age and sex distributions, while folds created               metrics, can be found in Supplementary Table 4.
+       by Splitting by Site were more uneven on these characteristics                      Next, we explored if any of the considered feature modalities
+       (Table 2).                                                                       yields greater classiﬁcation performance (Fig. 2). In Splitting by
+
+
+                                                                                                                    Molecular Psychiatry (2026) 31:1517 – 1529
+                                                                              R. Goya-Maldonado et al.
+                                                                                                                                                        1521
+ Table 1.   Participating sites.
+
+ Cohort                   N HC      N MDD    Age HC            Age MDD               N females         N females        Ethnicity        Ethnicity
+                                             (mean ± SD)       (mean ± SD)           in HC (%)         in MDD           White/Black/     White/Black/
+                                                                                                       (%)              Asian/Other/     Asian/Other/
+                                                                                                                        NA HC            NA MDD
+ AFFDIS                   44        33       39.98 ± 14.63     39.58 ± 15.42         20 (45.5%)        14 (42.4%)       NA               NA
+ Barcelona-StPau          32        62       46.03 ± 8.13      46.98 ± 7.75          23 (71.9%)        49 (79%)         16/0/0/0/16      62/0/0/0/0
+ CARDIFF                  0         39       NA                46.67 ± 12.02         NA                26 (66.7%)       NA               NA
+ CSAN                     49        60       33.2 ± 12.19      35.92 ± 13.49         34 (69.4%)        40 (66.7%)       NA               NA
+ Calgary                  52        56       15.81 ± 5.08      18.15 ± 2.53          29 (55.8%)        32 (57.1%)       22/0/5/4/7       23/1/0/1/19
+ DCHS                     70        22       31.46 ± 6.88      28.77 ± 6.34          70 (100%)         22 (100%)        0/66/0/0/4       0/21/0/0/1
+ FIDMAG                   34        36       45.94 ± 11.67     48.61 ± 12.94         22 (64.7%)        22 (61.1%)       34/0/0/0/0       36/0/0/0/0
+ FOR2107Marburg           411       327      34.76 ± 12.78     35.6 ± 12.82          257               208              411/0/0/0/0      327/0/0/0/0
+                                                                                     (62.5%)           (63.6%)
+ FOR2107Munster           221       174      28.34 ± 10.32     35.87 ± 12.92         140               109              221/0/0/0/0      174/0/0/0/0
+                                                                                     (63.3%)           (62.6%)
+ Hiroshima                169       150      39.88 ± 12.39     44.25 ± 11.99         104               71 (47.3%)       0/0/169/0/0      0/0/150/0/0
+                                                                                     (61.5%)
+ Houston                  186       108      26.75 ± 15.97     32.31 ± 16.46         104               66 (61.1%)       76/11/5/93/2     63/7/0/37/1
+                                                                                     (55.6%)
+ MODECT                   0         27       NA                74.11 ± 9.81          NA                18 (66.7%)       NA               0/0/0/0/27
+ MOODS                    32        64       35.12 ± 12.9      34.25 ± 12.45         21 (65.6%)        44 (68.8%)       25/1/2/0/0       45/11/4/0/0
+ Melbourne                9         22       20.67 ± 3.54      19.64 ± 3.11          3 (33.3%)         17 (77.3%)       0/0/0/0/9        2/0/0/0/20
+ Minnesota                40        70       15.68 ± 2         15.36 ± 1.84          26 (65%)          53 (75.7%)       25/1/3/11/0      49/7/1/13/0
+ Moraldilemma             46        24       18.5 ± 1.77       19.42 ± 2.19          46 (100%)         24 (100%)        20/2/14/2/8      18/0/4/2/0
+ Munster                  723       282      35.36 ± 12.14     37.68 ± 12.03         413               164              723/0/0/0/0      282/0/0/0/0
+                                                                                     (57.1%)           (58.2%)
+ NESDA                    65        154      40.29 ± 9.74      37.19 ± 10.49         42 (64.6%)        103              63/0/0/0/2       139/0/0/0/15
+                                                                                                       (66.9%)
+ QTIM                     286       100      21.99 ± 3.37      22.09 ± 3.17          184               74 (74%)         286/0/0/0/0      100/0/0/0/0
+                                                                                     (64.3%)
+ UCSF                     90        77       15.29 ± 1.29      15.61 ± 1.37          43 (47.8%)        51 (66.2%)       26/2/7/54/1      15/6/2/54/0
+ SanRaffaele              0         128      NA                49.84 ± 10.97         NA                84 (65.6%)       NA               128/0/0/0/0
+ SHIP_START               443       136      55.44 ± 12.82     53.59 ± 11.72         198               96 (70.6%)       443/0/0/0/0      136/0/0/0/0
+                                                                                     (44.7%)
+ SHIP_TREND               937       312      50.64 ± 14.28     49.20 ± 12.15         409               203              937/0/0/0/0      312/0/0/0/0
+                                                                                     (43.6%)           (65.1%)
+ Sexpect                  20        20       33.75 ± 7.2       38.25 ± 11.63         3 (15%)           8 (40%)          NA               NA
+ Singapore                17        23       38.53 ± 4.64      39.3 ± 8.34           9 (52.9%)         10 (43.5%)       0/0/17/0/0       0/0/23/0/0
+ Socat_dep                99        79       36.55 ± 13.65     39.66 ± 12.89         89 (89.9%)        71 (89.9%)       99/0/0/0/0       79/0/0/0/0
+ StanfFAA                 18        14       30.44 ± 10.25     35.63 ± 8.44          18 (100%)         14 (100%)        6/2/1/3/6        8/2/2/0/2
+ StanfT1wAggr             59        56       37.24 ± 10.52     37.11 ± 10.18         36 (61%)          33 (58.9%)       NA               NA
+ TAD                      0         39       NA                16.03 ± 1.15          NA                29 (74.4%)       NA               24/2/7/5/1
+ TIGER                    11        49       15.18 ± 1.08      15.73 ± 1.4           5 (45.5%)         33 (67.3%)       NA               NA
+ Jena (TiPs)              76       28         47.7 ± 16.14    43.36 ± 12.04    35 (46.1%)     14 (50%)      NA                           NA
+ Cohort                   Antidepressant free     First /        Remitted /       BDI total score      HDRS total score                Age of onset
+                          / users MDD             recurrent      acute episode    MDD                  MDD                             MDD
+                                                  episode MDD    MDD              (mean ± SD)          (mean ± SD)                     (mean ± SD)
+ AFFDIS                   1/76                    NA              0/77                  19.22 ± 14.07             9.88 ± 7.06          NA
+ Barcelona-StPau          4/58                    22/40           23/39                 NA                        13.66 ± 8.18         33.16 ± 11.43
+ CARDIFF                  0/39                    0/34            0/39                  36.16 ± 9.33              19.58 ± 4.76         28.94 ± 14
+ CSAN                     31/29                   14/46           0/60                  NA                        NA                   NA
+ Calgary                  38/18                   19/37           0/56                  26.67 ± 11.53             19.16 ± 6.66         14.33 ± 3.2
+ DCHS                     NA                      NA              NA                    NA                        NA                   NA
+ FIDMAG                   4/31                    11/23           1/35                  NA                        24.69 ± 5.78         37.06 ± 13.57
+ FOR2107Marburg           124/203                 93/200          76/251                18.67 ± 10.82             8.06 ± 6.42          27.38 ± 13.42
+ FOR2107Munster           72/102                  63/108          59/115                16.85 ± 11.72             9.72 ± 7.35          24.75 ± 11.15
+
+
+
+Molecular Psychiatry (2026) 31:1517 – 1529
+                                                           R. Goya-Maldonado et al.
+1522
+        Table 1.   continued
+        Cohort                   Antidepressant free        First /            Remitted /         BDI total score       HDRS total score       Age of onset
+                                 / users MDD                recurrent          acute episode      MDD                   MDD                    MDD
+                                                            episode MDD        MDD                (mean ± SD)           (mean ± SD)            (mean ± SD)
+        Hiroshima                10/138                     74/74              0/150              29.79 ± 9.39          18.67 ± 5.58           38.16 ± 13.25
+        Houston                  105/1                      21/43              39/37              16.5 ± 15.12          9.87 ± 7.93            21.57 ± 10.7
+        MODECT                   19/8                       0/22               0/27               NA                    NA                     NA
+        MOODS                    64/0                       32/32              0/64               NA                    26.56 ± 5.37           28.25 ± 11.54
+        Melbourne                19/3                       7/15               0/22               NA                    NA                     15.71 ± 3.85
+        Minnesota                52/16                      16/22              6/0                25.85 ± 12.12         NA                     12.39 ± 2.39
+        Moraldilemma             24/0                       8/16               0/24               NA                    NA                     NA
+        Munster                  27/231                     64/216             23/258             25.63 ± 10.18         18.96 ± 4.3            29.35 ± 11.78
+        NESDA                    98/56                      67/87              0/154              NA                    NA                     24.17 ± 10.96
+        QTIM                     70/30                      NA                 NA                 NA                    NA                     18.42 ± 3.4
+        UCSF                     77/0                       32/36              7/61               26.68 ± 11.78         NA                     13.25 ± 2.24
+        SanRaffaele              7/120                      12/116             17/111             14.88 ± 8.05          20.26 ± 6.76           35.61 ± 12.32
+        SHIP_START               113/23                     77/59              NA                 11.56 ± 10.30         NA                     38.01 ± 13.05
+        SHIP_TREND               258/54                     113/199            NA                 12.45 ± 8.11          NA                     36.19 ± 14.27
+        Sexpect                  0/20                       4/16               0/20               20.86 ± 12.4          12.9 ± 5.11            30.87 ± 11.24
+        Singapore                5/18                       8/15               NA                 NA                    6.3 ± 6.23             32.73 ± 9.51
+        Socat_dep                41/38                      19/60              33/46              24.01 ± 12.14         13.29 ± 7.55           31.63 ± 16.67
+        StanfFAA                 11/3                       0/14               0/14               28.29 ± 9.98          18.86 ± 4.22           16.29 ± 6.83
+        StanfT1wAggr             27/20                      6/48               0/56               25.76 ± 9.99          14.38 ± 5.84           19.52 ± 9.24
+        TAD                      24/15                      24/9               0/39               NA                    NA                     12 ± 2.52
+        TIGER                    29/20                      29/20              0/49               NA                    NA                     12.12 ± 2.49
+        Jena                     10/18                      5/23               NA                 21.26 ± 11.71         NA                     NA
+        The demographic and clinical information of participants across sites is presented.
+        BDI beck depression inventory, HC healthy controls, HDRS hamilton depression rating scale, MDD major depressive disorder, SD standard deviation, N number
+        of participants.
+
+
+
+
+        Table 2.   Data splitting strategies.
+        Splitting By Age/Sex                                                            Splitting by Site
+
+        Fold       Number of              Mean age (SD)          Number of Females      Fold     Number of             Mean age (SD)        Number of Females
+                   subjects                                      (%)                             subjects                                   (%)
+        0          708                    38.34 (16.41)          434 (61)               0        1249                  50.28 (13.78)        612 (49)
+        1          685                    38.41 (16.51)          395 (58)               1        1005                  36.01 (12.14)        577 (57)
+        2          692                    38.59 (16.25)          441 (64)               2        738                   36.30 (13.39)        465 (63)
+        3          709                    37.99 (16.07)          428 (60)               3        579                   55.00 (12.57)        294 (51)
+        4          704                    38.74 (15.93)          417 (59)               4        563                   33.06 (15.73)        374 (66)
+        5          708                    38.90 (16.28)          415 (58)               5        596                   26.42 (11.25)        370 (62)
+        6          693                    38.09 (16.27)          423 (61)               6        559                   36.89 (13.71)        372 (67)
+        7          716                      38.3 (16.35)         431 (60)               7        589                   35.71 (16.52)        356 (60)
+        8          689                    38.55 (16.12)          396 (57)               8        546                   28.70 (13.59)        359 (66)
+        9          708                    38.14 (16.57)          406 (57)               9        588                   33.99 (16.12)        407 (69)
+        Differences manifested in age/sex distribution and number of subjects between corresponding folds per splitting strategy.
+
+
+
+       Age/Sex, all data modalities yielded similar range of accuracies:                0.522 ± 0.038; DenseNet: 0.515 ± 0.022) also exhibited similar
+       thickness (SVM: 0.549 ± 0.020; DenseNet: 0.576 ± 0.019) compared                 range of classiﬁcation accuracies. Both models performed similarly
+       to sulcal depth (SVM: 0.543 ± 0.022; DenseNet: 0.562 ± 0.019), and               for all feature types. These results demonstrate that integration of
+       curvature (SVM: 0.531 ± 0.015; DenseNet: 0.567 ± 0.019), observed                shape modalities with cortical thickness did not beneﬁt the
+       for both classiﬁcation models. In Splitting by Site, sulcal depth                classiﬁcation models. Results from the exploratory analyses for
+       (SVM: 0.523 ± 0.016; DenseNet: 0.515 ± 0.020), curvature (SVM:                   each hemisphere and for each feature modality per hemisphere
+       0.513 ± 0.033; DenseNet: 0.516 ± 0.025) and thickness (SVM:                      showed no improvements in performance of the models
+
+
+
+                                                                                                                      Molecular Psychiatry (2026) 31:1517 – 1529
+                                                                       R. Goya-Maldonado et al.
+                                                                                                                                               1523
+
+
+
+
+Fig. 2 MDD vs HC classiﬁcation performance of SVM and DenseNet applied to vertex-wise cortical features. Balanced accuracy for both
+classiﬁcation models when trained on all features integrated with and without ComBat harmonization for both splitting strategies and when
+trained on single features. Error bars represent standard deviation.
+
+(Supplementary Table 5, Supplementary Fig. 3). In addition, we         DISCUSSION
+applied the main demographic and clinical stratiﬁcations used in       In this work, we evaluated the diagnostic classiﬁcation perfor-
+the ENIGMA-MDD working group to assess post-hoc whether                mance of DenseNet and SVM models, trained on cortical maps
+groups that are more homogeneous would achieve better                  projected via OMT, including sulcal depth, curvature, and
+classiﬁcation metrics (Supplementary Table 6).                         thickness, from a multi-site global dataset. Our analysis included
+                                                                       7012 participants from 31 sites worldwide, allowing for a
+Auxiliary sex prediction task                                          comprehensive and realistic overview of classiﬁcation perfor-
+As an initial step, we also conducted a sex classiﬁcation to explore   mances. Both models were evaluated in parallel using two
+which projection method (latitude/longitude, OMT) yields higher        different CV splitting strategies. In Splitting by Age/Sex, we
+classiﬁcation performance for both SVM and DenseNet (Supple-           obtained CV folds with comparable demographics; thus, the
+mentary Fig. 2). There was no clear difference between projection      performance of the models should not be affected by these
+methods; however, we observed a consistently higher classiﬁca-         demographic variables. In Splitting by Site, sites were distributed
+tion performance of DenseNet compared to SVM for all types of          across folds. Therefore, models were trained and tested on
+features and hemispheres. Considering previous success of OMT          different sets of sites. This strategy is closer to application of
+projection as a projection method applied on cortical surface and      diagnostic classiﬁcation models in clinical practice, and allowed for
+its property to preserve distances between vertices [26], we           realistic estimation of classiﬁcation performance on unseen sites.
+conducted our main analysis with OMT projection.                       Overall, the classiﬁcation performances of both models were
+
+
+
+Molecular Psychiatry (2026) 31:1517 – 1529
+                                                    R. Goya-Maldonado et al.
+1524
+       similar: In Splitting by Age/Sex, DenseNet achieved 58 vs 55% for       approaches could also lead to stronger differentiability between
+       SVM; in Splitting by Site, the difference was even more negligible,     MDD and HC. Moreover, subject-speciﬁc parcellation schemes
+       DenseNet achieved 51 vs 52% for SVM. Both models performed              could be applied to compute structural and functional con-
+       better in Splitting by Age/Sex, implying the presence of a              nectomes [59], and further analyzed by suitable sophisticated
+       confounding site effect, most likely arising from differences in        classiﬁcation models taking into account the neural architecture
+       scanner vendors or image acquisition parameters. In this sense,         e.g., with graph neural network [60].
+       ComBat approximated the classiﬁcation results of the two splitting
+       strategies, but did not improve the accuracy of the models.             Data splitting and site effect
+       Ultimately, the classiﬁcation performances of both models for all       Several multi-site psychiatric neuroimaging studies directly
+       integrated morphometric features, both in Splitting by Age/Sex          demonstrated how different splitting strategies might introduce
+       and in Splitting by Site, revealed similar classiﬁcation levels of      unwanted biases in inﬂated classiﬁcation performances
+       single-features.                                                        [20, 36, 61]. In Splitting by Age/Sex, trained models are unbiased
+                                                                               regarding demographic factors; while in Splitting by Site the site
+       Cortical morphological maps as diagnostic biomarkers                    afﬁliation is controlled, therefore we addressed the generalizability
+       for MDD                                                                 of the models applied to unseen sites. Similar to the results from
+       To the best of our knowledge, this is the ﬁrst study to combine         our previous study [20], the classiﬁcation performance of both
+       cortical thickness, sulcal depth, and curvature features in order to    SVM and DenseNet was higher in Splitting by Age/Sex, up to 58%,
+       classify MDD vs HC. Furthermore, previous ML studies with large         compared to Splitting by Site, close to random chance. This
+       samples only incorporated low-resolution atlas-based thickness          discrepancy indicates the existence of hidden site-related biases
+       characteristics. In our approach, we analyzed vertex-wise informa-      inﬂuencing classiﬁcation performance. As this nuisance-based
+       tion, providing a richer and more detailed description of brain         phenomenon appears in multi-site mega-analyses [36, 62] for its
+       characteristics than atlas-derived regional measures. Even so, the      better comprehension, we strongly encourage the application of
+       integration of complementary cortical characteristics did not lead      different splitting strategies in future multi-site ML studies.
+       to higher classiﬁcation performances compared to the accuracies            The low accuracy of both models in Splitting by Site strategy is
+       obtained from the single cortical features, regardless of the data      either due to the presence of a strong site-effect, hindering the
+       splitting strategy and the classiﬁcation model. In Splitting by Site,   ability of the models to capture diagnosis-related differences, or
+       no feature yielded an accuracy substantially higher than random         due to the general inability of both models to ﬁnd meaningful
+       chance accuracy, indicating the failure of both models to capture       alterations associated with MDD. Therefore, we addressed site-
+       MDD-speciﬁc alterations. Furthermore, the analysis of ﬁner-             effect via ComBat. Thus, the possibility remains that subject-level
+       grained cortical maps, even for thickness alone, did not result in      prediction based on cortical features is unfeasible. As Combat has
+       higher classiﬁcation performance, compared to ML performance            never been applied to vertex-wise cortical projections, we visually
+       levels observed in our previous study [20]. Thus, the assumption        inspected its effect on a single pixel for every feature type
+       that higher resolution would lead to greater classiﬁcation              (Supplementary Fig. 4). The application of ComBat resulted in
+       performance did not hold in this study, as all results were close       more homogenous value distribution across cohorts, in line with
+       to the chance level, in line with previous attempts in classifying      previous studies analyzing the effects on atlas-based features
+       MDD [14, 15, 20]. Furthermore, stratiﬁcation of the sample              [17, 20]. Nevertheless, this harmonization step did not lead to
+       according to demographic (sex) and clinical characteristics (age        improvement in accuracies. While demographic covariates were
+       of onset, antidepressant use, and number of depressive episodes)        preserved, ComBat may over-correct the data [63], causing a part
+       did not yield better differentiability between HC and MDD, in line      of MDD-related associations to be removed along with the site-
+       with our previous study [20]. This new evidence suggests the            effect. Against this, more careful consideration of the site-effect is
+       absence of prominent gray matter alterations that alone may             required in the future studies.
+       serve as diagnostic tool in patients with MDD. Combining features          In Splitting by Age/Sex, the balanced accuracy of both models
+       such as sulcal depth, curvature, and thickness in vertex-wise,          dropped (SVM: 55–48%; DenseNet: 58–56%) when ComBat was
+       unfolded cortical maps, and including them within a deep                applied. The decrease of model’s performances near the levels in
+       learning framework, is highly original. It advances prior work          Splitting by Site indicates that initial higher classiﬁcations are most
+       [24, 25, 27–29, 31] by integrating these complementary morpho-          likely driven by site-related biases. To further validate this
+       metric dimensions in a way few studies have, potentially clarifying     assumption, we performed the classiﬁcation with balanced ratio
+       whether these combined metrics can yield robust, clinically             between HC and MDD in every site in Splitting by Age/Sex, which
+       actionable biomarkers.                                                  resulted in close to random chance accuracies in DenseNet and
+          Although we combined complementary characteristics in the            SVM. Noticeably, DenseNet was less affected by the application of
+       analysis, the interaction between thickness and shape was not           ComBat in the original analysis, reﬂecting potential non-linear site-
+       addressed here. According to recent evidence, local cortical shape      related differences that remained in the dataset after harmoniza-
+       may correlate with thickness [51]. So, combined thickness-shape         tion, which is in line with previous ﬁndings [64]. Therefore, we
+       patterns should be further explored for the classiﬁcation of MDD.       recommend ComBat only be applied when combining more linear
+       Furthermore, reduced myelination was associated with MDD                models, such as SVM, while more sophisticated models alone
+       [52–54], which could lead to structural reorganization of cortical      should directly incorporate site information as an additional input.
+       features, making it a potential classiﬁcation aspect to be
+       investigated. In addition, subcortical morphological characteristics    SVM vs DenseNet
+       may improve the classiﬁcation by taking into account structural         Previous ML mega-analyses based on structural MDD vs HC
+       modiﬁcations in cortico-subcortical loops associated with MDD [8].      classiﬁcations considered only shallow linear and non-linear ML
+          Integration of morphological characteristics with cytoarchitec-      models, such as SVM, penalized logistic regression and decision
+       tonic and functional information may allow better contextualiza-        tree [14, 15, 20]. In this study, we extended the diagnostic
+       tion of MDD-related alterations, as demonstrated in                     classiﬁcation approach by comparing the performance of shallow
+       transdiagnostic study [55], with the potential to achieve higher        linear model - SVM with a linear kernel to a highly non-linear deep
+       classiﬁcation performance [56, 57]. Brain topology can be               DenseNet classiﬁer applied to vertex-wise cortical information. The
+       described via the connectome - a whole-brain connectivity               explorative results of sex classiﬁcation applied to HC revealed
+       architecture of the brain. As nodes of brain connectome exhibited       higher classiﬁcation performance of the DenseNet compared to
+       elevated susceptibility to brain disorders [58], graph analytical       the SVM (Supplementary Fig. 2) for all data modalities. The higher
+
+                                                                                                            Molecular Psychiatry (2026) 31:1517 – 1529
+                                                                        R. Goya-Maldonado et al.
+                                                                                                                                                                1525
+accuracy suggests that DenseNet was able to capture non-linear          boundaries of what these ﬁner-grained representations currently
+sex dependencies that were present in the cortical maps. The            offer in this domain.
+superiority of DenseNet over SVM in the sex classiﬁcation task was         Although we did not apply dimensionality reduction in the
+in line with previous study conducted on the same vertex-wise           present analysis, we acknowledge that this remains a promising
+cortical maps [26]. Conversely, another large sample study              avenue for future research. Prior work has employed PCA,
+revealed no advantage of using any deep architectures over              spherical harmonic decomposition [67], surface eigenmodes
+simpler models in predicting demographic factors [37]; therefore,       [68], cortical gradients [69], and deep generative models such
+further tests in even bigger samples are required. Nevertheless, in     as variational autoencoders [70] to reduce feature dimension-
+this study both models exhibited a similar range of accuracies,         ality while preserving meaningful structure. The potential
+close to random chance, for the main task of MDD versus HC              impact of these dimensionality reduction approaches on
+classiﬁcation. Therefore, the application of DenseNet did not yield     classiﬁcation performance should be explored in dedicated
+the expected improvement for detecting combined (nor sepa-              follow-up studies.
+rated) structural cortical features that discriminate patients from        A potential limitation of this study is the absence of modeling
+controls.                                                               based on MDD subtypes. While studies have proposed various
+   Similar performance of the linear SVM and non-linear DenseNet        subtyping schemes to address the clinical and biological
+model may be due to the absence of non-linear interactions              heterogeneity of MDD, there is a wide range of subtyping
+between different cortical regions, signiﬁcant for the MDD              approaches and most were derived from small samples (e.g., [71]),
+detection. Furthermore, the analyzed sample is highly hetero-           with limited replication or independent validation. For this reason,
+geneous in terms of demographic and clinical covariates,                we intentionally chose not to include a subtyping step. This
+potentially interfering with the main task and lowering the             decision avoids reliance on uncertain stratiﬁcation and reﬂects a
+classiﬁcation performance. In this vein, there are several possible     key strength of the approach: classiﬁcation performance could
+directions for improving DenseNet performance. First, the               have direct clinical applicability, independent of MDD subtype
+considered model was pre-trained only on natural images from            deﬁnitions. Nonetheless, we acknowledge that the presence of
+ImageNet. The model could be subsequently pre-trained on                unmodeled heterogeneity within the MDD group may have
+cortical projections from an independent large sample using             contributed to the lack of discriminative performance observed.
+immediate task, for example predicting sex as it was performed in       Another important limitation is the lack of detailed ethnic and
+Gao’s study [26]. Furthermore, one could use more than one              genetic information across the full sample. Sociocultural and
+intermediate task to optimize the weights of the neural network,        genetic diversity are known to inﬂuence both brain morphology
+for example, predicting demographic or clinical covariates. This        and disease expression, and their absence may affect the
+approach is broadly known as multi-task learning [65], the              generalizability of the ﬁndings. These remain open challenges
+usefulness of which in the neuroimaging domain was already              for future research aiming to enhance the speciﬁcity and
+demonstrated [19, 35].                                                  robustness of neuroimaging-based classiﬁers for MDD. In parti-
+   Secondly, the multi-task approach could be used to “unlearn”         cular, large-scale studies incorporating diverse populations and
+undesired biases. In our analysis, site-related differences were        robust subtyping frameworks may offer insights with broader
+removed via ComBat. One could train the network to perform the          international applicability.
+main task while unlearning the scanner parameters, as was
+successfully demonstrated by Dinsdale and colleagues [66].
+Furthermore, one could replace the residualization step in the          CONCLUSION
+same manner by making the network unlearn age and sex                   In this study, we tested if more advanced classiﬁcation algorithms
+dependencies. In line with our previous analysis, we linearly           applied to high-resolution morphometric shape characteristics can
+regressed out age and sex dependencies from the cortical features       improve MDD vs HC classiﬁcation. Splitting the data according to
+using normative approach [20]. Considering the greater perfor-          demographic variables and according to site allowed a compre-
+mance of the DenseNet model in predicting sex, we can speculate         hensive analysis of model’s performances and biases. We detected
+the presence of non-linear male-female differences in cortical          site effects, which we addressed at least partially with the ComBat
+morphology. Thus, unlearning age- and sex-related dependencies          harmonization tool, but did not increase classiﬁcation metrics.
+could improve classiﬁcation performance.                                Both shallow and deep ML models exhibited low, close to chance
+                                                                        accuracies. Most importantly, the integration of high-resolution
+Further strengths and limitations                                       cortical thickness and shape features from vertices did not lead to
+Here we were interested in using a pre-trained deep learning            greater classiﬁcation performance over previously analyzed atlas-
+model—speciﬁcally, DenseNet—to see if it could effectively              based cortical features. According to our results, it seems unlikely
+classify major depressive disorder (MDD) from healthy brains            that structural MRI alone will provide diagnostic biomarkers of
+using ﬁner-grained, unfolded cortical surface maps, and whether         MDD. Thus, further investigation is required into the classiﬁcation
+such information, when combined, could offer complementary              performance applied to the fusion of other MRI modalities,
+classiﬁcatory value compared to previously examined features.           including fMRI and DWI.
+This approach extends the methodology of our prior study [20],
+where we employed more conventional structural MRI-derived
+features such as cortical thickness, surface area, and subcortical      DATA AVAILABILITY
+volumes from whole-brain regions-of-interest (ROIs). Our current        The datasets generated and/or analyzed during the current study are not publicly
+                                                                        available due to site restrictions but data may be available from the corresponding
+approach is original and methodologically relevant, particularly in
+                                                                        sites on reasonable request.
+light of increasing interest in surface-based neuroimaging
+analyses that go far beyond standard ROI measures. And by
+employing more detailed cortical maps from different sources—           REFERENCES
+such as sulcal depth and curvature—and projecting them in                1. Friedrich MJ. Depression is the leading cause of disability around the world.
+unfolded 2D space, we sought to assess whether such reﬁnements              JAMA. 2017;317:1517 https://doi.org/10.1001/jama.2017.3826
+in cortical representation could provide additional or differentially    2. Machado M, Iskedjian M, Ruiz I, Einarson TR. Remission, dropouts, and adverse
+informative patterns for diagnostic classiﬁcation. While the                drug reaction rates in major depressive disorder: a meta-analysis of head-to-head
+classiﬁcation performance did not surpass that of previous studies,         trials. Curr Med Res Opin. 2006;22:1825–37. https://doi.org/10.1185/
+this negative ﬁnding is itself valuable, helping to delineate the           030079906X132415
+
+
+Molecular Psychiatry (2026) 31:1517 – 1529
+                                                                 R. Goya-Maldonado et al.
+1526
+        3. Mendlewicz J. Towards achieving remission in the treatment of depression.               23. Depping MS, Thomann PA, Wolf ND, Vasic N, Sosic-Vasic Z, Schmitgen MM, et al.
+           Dialogues Clin Neurosci. 2008;10:371–5.                                                     Common and distinct patterns of abnormal cortical gyriﬁcation in major
+        4. Rush AJ, Trivedi MH, Wisniewski SR, Nierenberg AA, Stewart JW, Warden D, et al.             depression and borderline personality disorder. Eur Neuropsychopharmacol.
+           Acute and longer-term outcomes in depressed outpatients requiring one or                    2018;28:1115–25. https://doi.org/10.1016/j.euroneuro.2018.07.100
+           several treatment steps: a STAR*D report. Am J Psychiatry. 2006;163:1905–17.            24. Zhang Y, Yu C, Zhou Y, Li K, Li C, Jiang T. Decreased gyriﬁcation in major
+           https://doi.org/10.1176/ajp.2006.163.11.1905                                                depressive disorder. Neuroreport. 2009;20:378–80. https://doi.org/10.1097/
+        5. Coffey CE, Wilkinson WE, Weiner RD, Parashos IA, Djang WT, Webb MC, et al.                  WNR.0b013e3283249b34
+           Quantitative cerebral anatomy in depression: a controlled magnetic resonance            25. Li J, Seidlitz J, Suckling J, Fan F, Ji GJ, Meng Y, et al. Cortical structural differences
+           imaging study. Arch Gen Psychiatry. 1993;50:7–16. https://doi.org/10.1001/                  in major depressive disorder correlate with cell type-speciﬁc transcriptional sig-
+           archpsyc.1993.01820130009002                                                                natures. Nat Commun. 2021;12:1647 https://doi.org/10.1038/s41467-021-21943-5
+        6. Sheline YI, Gado MH, Kraemer HC. Untreated depression and hippocampal volume            26. Gao K, Fan Z, Su J, Zeng LL, Shen H, Zhu J, et al. Deep transfer learning for
+           loss. Am J Psychiatry. 2003;160:1516–8. https://doi.org/10.1176/appi.ajp.160.8.1516         cerebral cortex using area-preserving geometry mapping. Cereb Cortex.
+        7. Zhang X, Yao S, Zhu X, Wang X, Zhu X, Zhong M. Gray matter volume                           2021;31:3953–65. https://doi.org/10.1093/cercor/bhab394
+           abnormalities in individuals with cognitive vulnerability to depression: a voxel-       27. Nixon NL, Liddle PF, Nixon E, Worwood G, Liotti M, Palaniyappan L. Biological
+           based morphometry study. J Affect Disord. 2012;136:443–52. https://doi.org/                 vulnerability to depression: linked structural and functional brain network ﬁnd-
+           10.1016/j.jad.2011.11.005                                                                   ings. Br J Psychiatry. 2014;204:283–9. https://doi.org/10.1192/bjp.bp.113.129965
+        8. Ho TC, Gutman B, Pozzi E, Grabe HJ, Hosten N, Wittfeld K, et al. Subcortical shape      28. Long J, Xu J, Wang X, Li J, Rao S, Wu H, et al. Altered local gyriﬁcation index and
+           alterations in major depressive disorder: ﬁndings from the ENIGMA major                     corresponding functional connectivity in medication-free major depressive dis-
+           depressive disorder working group. Hum Brain Mapp. 2022;43:341–51. https://                 order.       Front       Psychiatry.       2020;11:585401        https://doi.org/10.3389/
+           doi.org/10.1002/hbm.24988                                                                   fpsyt.2020.585401
+        9. Schmaal L, Hibar DP, Sämann PG, Hall GB, Baune BT, Jahanshad N, et al. Cortical         29. Kang Y, Kang W, Kim A, Tae WS, Ham BJ, Han KM. Decreased cortical gyriﬁcation
+           abnormalities in adults and adolescents with major depression based on brain                in major depressive disorder. Psychol Med. 2023;53:7512–24. https://doi.org/
+           scans from 20 cohorts worldwide in the ENIGMA major depressive disorder                     10.1017/S0033291723001216
+           working group. Mol Psychiatry. 2017;22:900–9. https://doi.org/10.1038/                  30. Shen X, Reus LM, Cox SR, Adams MJ, Liewald DC, Bastin ME, et al. Subcortical
+           mp.2016.60                                                                                  volume and white matter integrity abnormalities in major depressive disorder:
+       10. Schmaal L, Veltman DJ, van Erp TGM, Sämann PG, Frodl T, Jahanshad N, et al.                 ﬁndings from UK Biobank imaging data. Sci Rep. 2017;7:5547 https://doi.org/
+           Subcortical brain alterations in major depressive disorder: ﬁndings from the                10.1038/s41598-017-05507-6
+           ENIGMA major depressive disorder working group. Mol Psychiatry.                         31. Shen A, Shi K, Xia Q, Gong W, Huang Y, Wang Y, et al. Surface-based analysis of
+           2016;21:806–12. https://doi.org/10.1038/mp.2015.69                                          early cortical gyriﬁcation and thickness alterations in treatment-naïve, ﬁrst-
+       11. Winter NR, Leenings R, Ernsting J, Sarink K, Fisch L, Emden D, et al. Quantifying           episode depressive patients during emerging adulthood. J Affect Disord.
+           Deviations of Brain Structure and Function in Major Depressive Disorder Across              2025;372:402–8. https://doi.org/10.1016/j.jad.2024.12.003
+           Neuroimaging Modalities. JAMA Psychiatry. 2022;79:879–88.                               32. Cruz RS, Lebrat L, Bourgeat P, Fookes C, Fripp J, Salvado O DeepCSR: a 3D deep
+       12. Gao S, Calhoun VD, Sui J. Machine learning in major depression: from classiﬁ-               learning approach for cortical surface reconstruction. Proc IEEE/CVF Winter Conf
+           cation to treatment outcome prediction. CNS Neurosci Ther. 2018;24:1037–52.                 Appl Comput Vis. 2021;806–15. https://doi.org/10.48550/arXiv.2010.11423
+           https://doi.org/10.1111/cns.13048                                                       33. Henschel L, Conjeti S, Estrada S, Diers K, Fischl B, Reuter M. FastSurfer: a fast and
+       13. Kambeitz J, Cabral C, Sacchet MD, Gotlib IH, Zahn R, Serpa MH, et al. Detecting             accurate deep learning based neuroimaging pipeline. Neuroimage.
+           neuroimaging biomarkers for depression: a meta-analysis of multivariate pattern             2020;219:117012 https://doi.org/10.1016/j.neuroimage.2020.117012
+           recognition studies. Biol Psychiatry. 2017;82:330–8. https://doi.org/10.1016/           34. Williams LZJ, Fawaz A, Glasser MF, Edwards AD, Robinson EC Geometric deep
+           j.biopsych.2016.10.028                                                                      learning of the Human Connectome Project multimodal cortical parcellation. In:
+       14. Flint C, Cearns M, Opel N, Redlich R, Mehler DMA, Emden D, et al. Systematic                Abdulkadir A, Kia SM, Habes M, Kumar V, Rondina JM, Tax C, Wolfers T, eds.
+           misestimation of machine learning performance in neuroimaging studies of                    Machine learning in clinical neuroimaging, lecture notes in computer science.
+           depression. Neuropsychopharmacology. 2021;46:1510–7. https://doi.org/                       Cham: Springer; 2021. pp. 103-12. https://doi.org/10.1007/978-3-030-87586-2_11
+           10.1038/s41386-021-01020-7                                                              35. Pinaya WHL, Mechelli A, Sato JR. Using deep autoencoders to identify abnormal
+       15. Stolicyn A, Harris MA, Shen X, Barbu MC, Adams MJ, Hawkins EL, et al. Automated             brain structural patterns in neuropsychiatric disorders: a large-scale multi-sample
+           classiﬁcation of depression from structural brain measures across two indepen-              study. Hum Brain Mapp. 2019;40:944–54. https://doi.org/10.1002/hbm.24423
+           dent community-based cohorts. Hum Brain Mapp. 2020;41:3922–37. https://                 36. Qin K, Lei D, Pinaya WHL, Pan N, Li W, Zhu Z, et al. Using graph convolutional
+           doi.org/10.1002/hbm.25095                                                                   network to characterize individuals with major depressive disorder across mul-
+       16. Solanes A, Palau P, Fortea L, Salvador R, González-Navarro L, Llach CD, et al.              tiple imaging sites. EBioMedicine. 2022;78:103977 https://doi.org/10.1016/
+           Biased accuracy in multisite machine-learning studies due to incomplete removal             j.ebiom.2022.103977
+           of the effects of the site. Psychiatry Res Neuroimaging. 2021;314:111313 https://       37. Schulz MA, Yeo BTT, Vogelstein JT, Mourao-Miranada J, Kather JN, Kording K, et al.
+           doi.org/10.1016/j.pscychresns.2021.111313                                                   Different scaling of linear models and deep learning in UK Biobank brain images
+       17. Pomponio R, Erus G, Habes M, Doshi J, Srinivasan D, Mamourian E, et al. Har-                versus machine-learning datasets. Nat Commun. 2020;11:4235 https://doi.org/
+           monization of large MRI datasets for the analysis of brain imaging patterns                 10.1038/s41467-020-18037-z
+           throughout the lifespan. Neuroimage. 2020;208:116450 https://doi.org/10.1016/           38. Wen J, Thibeau-Sutre E, Diaz-Melo M, Samper-González J, Routier A, Bottani S,
+           j.neuroimage.2019.116450                                                                    et al. Convolutional neural networks for classiﬁcation of Alzheimer’s disease:
+       18. Radua J, Vieta E, Shinohara R, Kochunov P, Quidé Y, Green MJ, et al. Increased              overview and reproducible evaluation. Med Image Anal. 2020;63:101694 https://
+           power by harmonizing structural MRI site differences with the ComBat batch                  doi.org/10.1016/j.media.2020.101694
+           adjustment method in ENIGMA. Neuroimage. 2020;218:116956 https://doi.org/               39. Yan W, Calhoun V, Song M, Cui Y, Yan H, Liu S, et al. Discriminating schizophrenia
+           10.1016/j.neuroimage.2020.116956                                                            using recurrent neural network applied on time courses of multi-site fMRI data.
+       19. Ma Q, Zhang T, Zanetti MV, Shen H, Satterthwaite TD, Wolf DH, et al. Classiﬁcation          EBioMedicine. 2019;47:543–52. https://doi.org/10.1016/j.ebiom.2019.08.023
+           of multi-site MR images in the presence of heterogeneity using multi-task               40. LeCun Y, Bottou L, Bengio Y, Haffner P. Gradient-based learning applied to
+           learning.     Neuroimage       Clin.    2018;19:476–86.      https://doi.org/10.1016/       document recognition. Proc IEEE. 1998;86:2278–324. https://doi.org/10.1109/
+           j.nicl.2018.04.037                                                                          5.726791
+       20. Belov V, Erwin-Grabner T, Aghajani M, Aleman A, Amod AR, Basgoze Z, et al.              41. Seong SB, Pae C, Park HJ. Geometric convolutional neural network for analyzing
+           Multi-site benchmark classiﬁcation of major depressive disorder using machine               surface-based neuroimaging data. Front Neuroinform. 2018;12:42 https://doi.org/
+           learning on cortical and subcortical measures. Sci Rep. 2024;14:1084 https://               10.3389/fninf.2018.00042
+           doi.org/10.1038/s41598-023-47934-8                                                      42. Su Z, Wang Y, Shi R, Zeng W, Sun J, Luo F, et al. Optimal mass transport for shape
+       21. Kremen WS, Prom-Wormley E, Panizzon MS, Eyler LT, Fischl B, Neale MC, et al.                matching and comparison. IEEE Trans Pattern Anal Mach Intell. 2015;37:2246–59.
+           Genetic and environmental inﬂuences on the size of speciﬁc brain regions in                 https://doi.org/10.1109/TPAMI.2015.2408346
+           midlife: the VETSA MRI study. Neuroimage. 2010;49:1213–23. https://doi.org/             43. Huang G, Liu Z, Van Der Maaten L, Weinberger KQ Densely connected con-
+           10.1016/j.neuroimage.2009.09.043                                                            volutional networks. In: Proc IEEE Conf Comput Vis Pattern Recognit (CVPR). IEEE;
+       22. White T, Andreasen NC, Nopoulos P. Brain volumes and surface morphology in                  2017;2261-9. https://doi.org/10.1109/CVPR.2017.243
+           monozygotic twins. Cereb Cortex. 2002;12:486–93. https://doi.org/10.1093/               44. Lu X, Yang Y, Wu F, Gao M, Xu Y, Zhang Y, et al. Discriminative analysis of
+           cercor/12.5.486                                                                             schizophrenia using support vector machine and recursive feature elimination on
+
+
+
+
+                                                                                                                                          Molecular Psychiatry (2026) 31:1517 – 1529
+                                                                                            R. Goya-Maldonado et al.
+                                                                                                                                                                                      1527
+    structural MRI images. Medicine (Baltimore). 2016;95:e3973 https://doi.org/             66. Dinsdale N, Jenkinson M, Namburete A. Deep learning-based unlearning of
+    10.1097/MD.0000000000003973                                                                 dataset bias for MRI harmonisation and confound removal. Neuroimage.
+45. Sacchet MD, Prasad G, Foland-Ross LC, Thompson PM, Gotlib IH. Support vector                2020;228:117689 https://doi.org/10.1016/j.neuroimage.2020.117689
+    machine classiﬁcation of major depressive disorder using diffusion-weighted             67. Thompson PM, Toga AW. A surface-based technique for warping three-
+    neuroimaging and graph theory. Front Psychiatry. 2015;6:21 https://doi.org/                 dimensional images of the brain. IEEE Trans Med Imaging. 1996;15:402–17.
+    10.3389/fpsyt.2015.00021                                                                    https://doi.org/10.1109/42.511745
+46. Wottschel V, Chard DT, Enzinger C, Filippi M, Frederiksen JL, Gasperini C, et al.       68. Müller EJ, Munn BR, Aquino KM, Shine JM, Robinson PA. The music of the
+    SVM recursive feature elimination analyses of structural brain MRI predicts near-           hemispheres: cortical eigenmodes as a physical basis for large-scale brain activity
+    term relapses in patients with clinically isolated syndromes suggestive of mul-             and connectivity patterns. Front Hum Neurosci. 2022;16:1062487 https://doi.org/
+    tiple sclerosis. Neuroimage Clin. 2019;24:102011 https://doi.org/10.1016/                   10.3389/fnhum.2022.1062487
+    j.nicl.2019.102011                                                                      69. Margulies DS, Ghosh SS, Goulas A, Falkiewicz M, Huntenburg JM, Langs G, et al.
+47. Dinga R, Penninx B, Veltman D, Schmaal L, Marquand A Beyond accuracy:                       Situating the default-mode network along a principal gradient of macroscale
+    measures for assessing machine learning models, pitfalls and guidelines. bioRxiv:           cortical organization. Proc Natl Acad Sci USA. 2016;113:12574–19. https://doi.org/
+    [Preprint]. 2019. Available from: https://doi.org/10.1101/743138                            10.1073/pnas.1608282113
+48. Kohoutová L, Heo J, Cha S, Lee S, Moon T, Wager TD, et al. Toward a uniﬁed              70. Zhu X, Kim Y, Ravid O, He X, Suarez-Jimenez B, Zilcha-Mano S, et al.
+    framework for interpreting machine-learning models in neuroimaging. Nat Pro-                Neuroimaging-based classiﬁcation of PTSD using data-driven computational
+    toc. 2020;15:1399–435. https://doi.org/10.1038/s41596-019-0289-5                            approaches: a multisite big data study from the ENIGMA-PGC PTSD consortium.
+49. Deng J, Dong W, Socher R, Li LJ, Li K, Fei-Fei L ImageNet: a large-scale hierarchical       Neuroimage. 2023;283:120412 https://doi.org/10.1016/j.neuroimage.2023.120412
+    image database. In: Proc IEEE Conf Comput Vis Pattern Recognit (CVPR). IEEE;            71. Yu C, Arcos-Burgos M, Licinio J, Wong ML. A latent genetic subtype of major
+    2009. 248-55. https://doi.org/10.1109/CVPR.2009.5206848                                     depression identiﬁed by whole-exome genotyping data in a Mexican-American
+50. Zhang Y, Jenkins DF, Manimaran S, Johnson WE. Alternative empirical Bayes                   cohort. Transl Psychiatry. 2017;7:e1134 https://doi.org/10.1038/tp.2017.102
+    models for adjusting for batch effects in genomic studies. BMC Bioinformatics.
+    2018;19:262 https://doi.org/10.1186/s12859-018-2263-6
+51. Demirci N, Holland MA. Cortical thickness systematically varies with curvature
+                                                                                            ACKNOWLEDGEMENTS
+    and depth in healthy human brains. Hum Brain Mapp. 2022;43:2064–84. https://
+                                                                                            We would like to sincerely thank Vladimir Belov for his invaluable contributions to
+    doi.org/10.1002/hbm.25776
+                                                                                            this work. ENIGMA MDD: This work was supported by NIH grants U54 EB020403
+52. Ho TC, Sisk LM, Kulla A, Teresi GI, Hansen MM, Wu H, et al. Sex differences in
+                                                                                            (PMT), R01MH116147 (PMT), and R01 MH117601 (NJ & LS), and the NSFC grants
+    myelin content of white matter tracts in adolescents with depression. Neu-
+                                                                                            61722313 (LLZ), and 62036013 (LLZ). LH was funded by the Rubicon award (grant
+    ropsychopharmacology. 2021;46:2295–303. https://doi.org/10.1038/s41386-021-
+                                                                                            number 452020227) from the Dutch NOW. AFFDIS: This study was funded by the
+    01078-3
+                                                                                            University Medical Center Göttingen (UMG Startförderung) and VB and RGM are
+53. Sacchet MD, Gotlib IH. Myelination of the brain in major depressive disorder: an
+                                                                                            supported by German Federal Ministry of Education and Research (Bundesminister-
+    in vivo quantitative magnetic resonance imaging study. Sci Rep. 2017;7:2200
+                                                                                            ium für Bildung und Forschung, BMBF: 01 ZX 1507, “PreNeSt - e:Med”). Calgary: This
+    https://doi.org/10.1038/s41598-017-02062-y
+                                                                                            study was supported by Alberta Children’s Hospital Foundation, Canadian Institutes
+54. van Velzen L, Kelly S, Isaev D, Aleman A, Aftanas L, Bauer J, et al. White matter
+                                                                                            for Health Research. Cardiff: This work was supported by a Medical Research Council
+    disturbances in major depressive disorder: a coordinated analysis across 20
+                                                                                            (G 1100629) grant to DEJ Linden and a PhD studentship by Health Research Wales
+    international cohorts in the ENIGMA MDD working group. Mol Psychiatry.
+                                                                                            (HS/14/20) for DMEM. CSAN: This work was supported by grants from Johnson &
+    2020;25:1511–25. https://doi.org/10.1038/s41380-019-0477-2
+                                                                                            Johnson Innovation (S.E.), the Swedish Medical Research Council (S.E.: 2017–00875,
+55. Hettwer MD, Larivière S, Park BY, van den Heuvel OA, Schmaal L, Andreassen OA,
+                                                                                            M.H.: 2013–07434, 2019–01138), the ALF Grants, Region Östergötland M.H., J.P.H.),
+    et al. Coordinated cortical thickness alterations across six neurodevelopmental
+                                                                                            National Institutes of Health (R.D.: R01 CA193522 and R01 NS073939), MD Anderson
+    and psychiatric disorders. Nat Commun. 2022;13:6851 https://doi.org/10.1038/
+                                                                                            Cancer Support Grant (R.D.: P30CA016672). Dep-arrest clin: BCD is supported by a
+    s41467-022-34367-6
+                                                                                            NHMRC CJ Martin fellowship (app 1161356). DCHS: supported by the Medical
+56. Ayyash S, Davis AD, Alders GL, MacQueen G, Strother SC, Hassel S, et al. Exploring
+                                                                                            Research Council of South Africa. The DCHS was funded by the Bill and Melinda Gates
+    brain connectivity changes in major depressive disorder using functional-
+                                                                                            Foundation (OPP1017641), and received additional support from the South African
+    structural data fusion: a CAN-BIND-1 study. Hum Brain Mapp. 2021;42:4940–57.
+                                                                                            Medical Research Council. ENIGMA Central/USC: This work was supported by the
+    https://doi.org/10.1002/hbm.25590
+                                                                                            National Natural Science Foundation of China (61722313 and 62036013). ETPB:
+57. Zhang YD, Dong Z, Wang SH, Yu X, Yao X, Zhou Q, et al. Advances in multimodal
+                                                                                            Funding for this work was provided by the Intramural Research Program at the
+    data fusion in neuroimaging: overview, challenges, and novel orientation. Inf
+                                                                                            National Institute of Mental Health, National Institutes of Health (IRP-NIMH-NIH; ZIA-
+    Fusion. 2020;64:149–87. https://doi.org/10.1016/j.inffus.2020.07.006
+                                                                                            MH002857), by a NARSAD Independent Investigator to Dr. Zarate, and by a Brain &
+58. Fornito A, Zalesky A, Breakspear M. The connectomics of brain disorders. Nat Rev
+                                                                                            Behavior Mood Disorders Research Award to Dr. Zarate. Suported by the NIMH
+    Neurosci. 2015;16:159–72. https://doi.org/10.1038/nrn3901
+                                                                                            Intramural Research Program. FIDMAG: This work was supported by the Generalitat
+59. Wig GS, Laumann TO, Cohen AL, Power JD, Nelson SM, Glasser MF, et al. Par-
+                                                                                            de Catalunya (2014 SGR 1573) and Instituto de Salud Carlos III (CPII16/00018) and
+    cellating an individual subject’s cortical and subcortical brain structures using
+                                                                                            (PI14/01151 and PI14/01148). PFC was supported by a Sara Borrell grant (CD19/
+    snowball sampling of resting-state correlations. Cereb Cortex. 2014;24:2265–78.
+                                                                                            00149, Instituto de Salud Carlos III) and a fellowship from “la Caixa” Foundation (ID
+    https://doi.org/10.1093/cercor/bht056
+                                                                                            100010434, fellowship code LCF/BQ/PR22/11920017). FOR2107-Marburg: This work
+60. Zhou J, Cui G, Zhang Z, Yang C, Liu Z, Wang L, et al. Graph neural networks: a
+                                                                                            was funded by the German Research Foundation (DFG grant FOR2107, speaker Tilo
+    review of methods and applications. arXiv:1812.08434. [Preprint]. 2019. https://
+                                                                                            Kircher KI588/14-1, KI588/14-2, KI588/20-1, KI588/22-1 to Tilo Kircher, NE 2254/1-2 to
+    doi.org/10.1016/j.aiopen.2021.01.001
+                                                                                            Igor Nenadic, and SFB/TRR 393, speaker Tilo Kircher, project grant no 521379614).
+61. Mårtensson G, Ferreira D, Granberg T, Cavallin L, Oppedal K, Padovani A, et al. The
+                                                                                            FOR2107-Muenster: This work was funded by the German Research Foundation
+    reliability of a deep learning model in clinical out-of-distribution MRI data: a
+                                                                                            (DFG), Udo Dannlowski (co-speaker FOR2107, DA 1151/5-1, DA 1151/5-2, DA1151/9-1,
+    multicohort study. Med Image Anal. 2020;66:101714 https://doi.org/10.1016/
+                                                                                            DA1151/10-1 and DA1151/11-1, and SFB/TRR 393, project grant no 521379614) and
+    j.media.2020.101714
+                                                                                            the Interdisciplinary Center for Clinical Research (IZKF) of the medical faculty of
+62. Nakano T, Takamura M, Ichikawa N, Okada G, Okamoto Y, Yamada M, et al.
+                                                                                            Münster (grant Dan3/022/22 to UD). Houston: JCS has received research grants from
+    Enhancing multi-center generalization of machine learning-based depression
+                                                                                            Compass, Alkermes, and Allergan. Melbourne: This work was supported by National
+    diagnosis from resting-state fMRI. Front Psychiatry. 2020;11:594865 https://
+                                                                                            Health and Medical Research Council of Australia (NHMRC) Project Grants (1064643)
+    doi.org/10.3389/fpsyt.2020.594865
+                                                                                            to BJH and to CGD (1024570). Minnesota: The study was funded by the National
+63. Bayer JMM, Thompson PM, Ching CRK, Liu M, Chen A, Panzenhagen AC, et al. Site
+                                                                                            Institute of Mental Health (K23MH090421), the National Alliance for Research on
+    effects how-to and when: an overview of retrospective techniques to accom-
+                                                                                            Schizophrenia and Depression, the University of Minnesota Graduate School, the
+    modate site effects in multi-site neuroimaging analyses. Front Neurol.
+                                                                                            Minnesota Medical Foundation, and the Biotechnology Research Center (P41
+    2022;13:923988 https://doi.org/10.3389/fneur.2022.923988
+                                                                                            RR008079 to the Center for Magnetic Resonance Research), University of Minnesota,
+64. Solanes A, Gosling CJ, Fortea L, Ortuño M, Lopez-Soley E, Llufriu S, et al. Removing
+                                                                                            and the Deborah E. Powell Center for Women’s Health Seed Grant, University of
+    the effects of the site in brain imaging machine-learning – measurement and
+                                                                                            Minnesota. Modal dilemma: This study was supported by the Brain and Behavior
+    extendable benchmark. Neuroimage. 2022;263:119800 https://doi.org/10.1016/
+                                                                                            Research Foundation and by the National Health and Medical Research Council ID
+    j.neuroimage.2022.119800
+                                                                                            1125504 to SLW. Munster: This work was funded by the German Research Foundation
+65. Caruana R. Multitask learning. Mach Learn. 1997;28:41–75. https://doi.org/
+                                                                                            (SFB-TRR58, Project C09 to UD). NESDA: This study was supported by the Brain and
+    10.1023/A:1007379606734
+                                                                                            Behavior Research Foundation and by the National Health and Medical Research
+
+
+Molecular Psychiatry (2026) 31:1517 – 1529
+                                                                   R. Goya-Maldonado et al.
+1528
+       Council ID 1125504 to SLW. QTIM: The QTIM dataset was supported by the Australian              COMPETING INTERESTS
+       National Health and Medical Research Council (Project Grants No. 496682 and                    PMT and NJ received a research grant from Biogen, Inc. for research unrelated to this
+       1009064) and US National Institute of Child Health and Human Development (R01                  manuscript. HJG has received travel grants and speakers’ honoraria from Fresenius
+       HD050735). Singapore: KS was supported by National Healthcare Group, Singapore                 Medical Care, Neuraxpharm, Servier and Janssen Cilag as well as research funding
+       (SIG/15012) for the project. Stanford: IHG is supported in part by National Institutes of      from Fresenius Medical Care unrelated to this manuscript. JCS has served as a
+       Health (R37MH101495). MDS is supported by the National Institute of Mental Health              consultant for Pﬁzer, Sunovion, Sanoﬁ, Johnson & Johnson, Livanova, and Boehringer
+       (Project Number R01MH125850), Dimension Giving Fund, Ad Astra Chandaria                        Ingelheim. The remaining authors declare no conﬂict of interest.
+       Foundation, Brain and Behavior Research Foundation (Grant Number 28972), BIAL
+       Foundation (Grant Number 099/2020), Emergence Benefactors, The Ride for Mental
+       Health, and Gatto Foundation. USFC, TIGER: UCSF Weill Institute for Neurosciences              ETHICS APPROVAL AND CONSENT TO PARTICIPATE
+       Weill Award for Investigators in the Neurosciences Impacted by COVID-19 Setbacks to            The study was approved by the Ethics Committee of the University Medical Center
+       TTY; this work was supported by the National Center for Complementary and                      Göttingen (UMG), Germany. The study was approved by the Ethics Committee of the
+       Integrative Health (NCCIH) R21AT009173, R61AT009864, and 4R33AT009864-03 to                    University Medical Center Göttingen (UMG), Germany. In accordance with the current
+       TTY, by the National Center for Advancing Translational Sciences (CTSI), National              version of the Declaration of Helsinki, all methods in the participating cohorts were
+       Institutes of Health, through UCSF-CTSI UL1TR001872 to TTY, by the American                    approved by the respective institutional review boards and local ethics committees,
+       Foundation for Suicide Prevention (AFSP) SRG-1-141-18 to TTY, by UCSF Research                 and written informed consent was obtained from all participants. For participants
+       Evaluation and Allocation Committee (REAC) and J. Jacobson Fund to TTY, by the                 under 18 years of age, written informed consent was additionally provided by a
+       National Institute of Mental Health (NIMH) R01MH085734 and by the Brain and                    parent and/or legal guardian.
+       Behavior Research Foundation (formerly NARSAD) to TTY. Support for the TIGER study
+       includes the Klingenstein Third Generation Foundation the National Institute of
+       Mental Health K01MH117442, the Stanford Maternal Child Health Research Institute
+                                                                                                      ADDITIONAL INFORMATION
+       and the Stanford Center for Cognitive and Neurobiological Imaging; TCH receives
+       partial support from the Ray and Dagmar Dolby Family Fund. TCH: This work is                   Supplementary information The online version contains supplementary material
+       supported in part by the National Institute of Mental Health (K01MH117442), the                available at https://doi.org/10.1038/s41380-025-03273-w.
+       Klingenstein Third Generation Foundation, Stanford Maternal Child Research Institute
+       (Early Career Award, and K Support Award), the UCSF Research Evaluation and                    Correspondence and requests for materials should be addressed to
+       Allocation Committee (REAC), the Raschen-Tiedeman Fund, and the Mofﬁtt Memorial                Roberto Goya-Maldonado.
+       Fund. SHIP is part of the Community Medicine Research net of the University of
+       Greifswald, Germany, which is funded by the Federal Ministry of Education and                  Reprints and permission information is available at http://www.nature.com/
+       Research (grants no. 01ZZ9603, 01ZZ0103, and 01ZZ0403), the Ministry of Cultural               reprints
+       Affairs and the Social Ministry of the Federal State of Mecklenburg-West Pomerania.
+       MRI scans in SHIP and SHIP-TREND have been supported by a joint grant from                     Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims
+       Siemens Healthineers, Erlangen, Germany and the Federal State of Mecklenburg-                  in published maps and institutional afﬁliations.
+       West Pomerania.
+
+                                                                                                                         Open Access This article is licensed under a Creative Commons
+                                                                                                                         Attribution 4.0 International License, which permits use, sharing,
+       AUTHOR CONTRIBUTIONS                                                                           adaptation, distribution and reproduction in any medium or format, as long as you give
+       RGM conceived and designed the study, acquired, analyzed, and interpreted the data,
+                                                                                                      appropriate credit to the original author(s) and the source, provide a link to the Creative
+       and drafted the manuscript. TEG, LLZ, CRKC, AA, ARA, ZB, FB, BB, KB, RB, RC, CGC, EC,
+                                                                                                      Commons licence, and indicate if changes were made. The images or other third party
+       BCD, KC, UD, CGD, AD, JE, JWE, LF, PFC, ASG, IHG, HJG, NAG, DG, TH, JPH, LKMH, BJH,
+                                                                                                      material in this article are included in the article’s Creative Commons licence, unless
+       TCH, NJ, AJJ, AK, TK, BKD, SMK, TL, RL, ML, DEJL, FPM, DMAM, SM, EM, BAM, BM, IN, AO,
+                                                                                                      indicated otherwise in a credit line to the material. If material is not included in the
+       YO, MLO, BWJHP, SP, EPC, MJP, JR, ERC, MDS, RS, AS, KS, JCS, DJST, FS, AS, SIT, YJT, AU, EV,
+                                                                                                      article’s Creative Commons licence and your intended use is not permitted by statutory
+       YVG, HV, MW, HCW, SW, NW, KW, MJW, MJWu, TTY, CZ, EP, DJV, LS, and PMT acquired
+                                                                                                      regulation or exceeds the permitted use, you will need to obtain permission directly
+       data, contributed to data analysis or interpretation, revised the manuscript for
+                                                                                                      from the copyright holder. To view a copy of this licence, visit http://
+       important intellectual content, and approved the ﬁnal version for submission. LS and
+                                                                                                      creativecommons.org/licenses/by/4.0/.
+       PMT helped conceive and design the study and supervised the project.
+
+                                                                                                      This is a U.S. Government work and not under copyright protection in the US; foreign
+       FUNDING                                                                                        copyright protection may apply 2025
+       Open Access funding enabled and organized by Projekt DEAL.
+
+
+       1
+         Laboratory of Systems Neuroscience and Imaging in Psychiatry (SNIP-Lab), Department of Psychiatry and Psychotherapy, University Medical Center Göttingen (UMG),
+       Georg-August University, Göttingen, Germany. 2College of Intelligence Science and Technology, National University of Defense Technology, Changsha 410073, China.
+       3
+         Imaging Genetics Center, Mark & Mary Stevens Neuroimaging and Informatics Institute, Keck School of Medicine, University of Southern California, Marina del Rey, CA
+       90274, USA. 4Department of Biomedical Sciences of Cells and Systems, University Medical Center Groningen, University of Groningen, Groningen, the Netherlands.
+       5
+         Department of Psychiatry & Mental Health, Neuroscience Institute, University of Cape Town, Cape Town, South Africa. 6Department of Psychiatry and Behavioral Science,
+       University of Minnesota Medical School, Minneapolis, MN, USA. 7Division of Neuroscience, IRCCS Scientiﬁc Institute Ospedale San Raffaele, Milano, Italy. 8Department of
+       Psychiatry and Psychotherapy, Jena University Hospital, Jena, Germany. 9Department of Psychiatry and Psychotherapy, University of Marburg, Rudolf Bultmann Str. 8, 35039
+       Marburg, Germany. 10Institute for Radiology and Neuroradiology, University Medicine Greifswald, Greifswald, Germany. 11MOODS Team, CESP, INSERM U1018, Faculté de
+       Médecine, Univ Paris-Saclay, Le Kremlin Bicêtre 94275, France. 12Service Hospitalo-Universitaire de Psychiatrie de Bicêtre, Hôpitaux Universitaires Paris-Saclay, Assistance
+       Publique-Hôpitaux de Paris, Hôpital de Bicêtre, Le Kremlin Bicêtre F-94275, France. 13Department of Biomedical Sciences, Florida State University, Tallahassee, FL, USA.
+       14
+          Sorbonne University, Paris Brain Institute - ICM, CNRS, Inria, Inserm, AP-HP, Hôpital de la Pitié Salpêtrière, F-75013 Paris, France. 15Institute for Molecular Bioscience, the
+       University of Queensland, St Lucia, QLD, Australia. 16Institute for Translational Psychiatry, University of Münster, Münster, Germany. 17Melbourne Neuropsychiatry Centre,
+       Department of Psychiatry, the University of Melbourne, Parkville, VIC, Australia. 18Department of Psychiatry, Amsterdam UMC, Vrije Universiteit Amsterdam, Amsterdam
+       Neuroscience, Amsterdam Public Health Research Institute, Amsterdam, the Netherlands. 19Department of Psychiatry, UMC Utrecht Brain Center, University Utrecht, Utrecht,
+       the Netherlands. 20Experimental Therapeutics and Pathophysiology Branch, National Institute for Mental Health, National Institutes of Health, Bethesda, MD, USA. 21FIDMAG
+       Germanes Hospitalàries Research Foundation, Centro de Investigación Biomédica en Red de Salud Mental (CIBERSAM), Instituto de Salud Carlos III, Barcelona, Catalonia,
+       Spain. 22SoCAT Lab, Department of Psychiatry, School of Medicine, Ege University, Izmir, Turkey. 23Department of Psychology, Stanford University, Stanford, CA, USA.
+       24
+          Department of Psychiatry and Psychotherapy, University Medicine Greifswald, Greifswald, Germany. 25Center for Social and Affective Neuroscience, Department of
+       Biomedical and Clinical Sciences, Linköping University, Linköping, Sweden. 26Centre for Youth Mental Health, the University of Melbourne, Parkville, VIC, Australia. 27Orygen,
+       Parkville, VIC, Australia. 28Department of Psychiatry and Behavioral Sciences, Division of Child and Adolescent Psychiatry, Weill Institute for Neurosciences, University of
+       California, San Francisco, CA, USA. 29Department of Psychology, University of California, Los Angeles, CA, USA. 30Department of Psychology, University of Minnesota,
+       Minneapolis, MN, USA. 31Cardiff University Brain Research Imaging Centre, Cardiff University, Cardiff, UK. 32MRC Centre for Neuropsychiatric Genetics and Genomics, Cardiff
+
+
+
+                                                                                                                                            Molecular Psychiatry (2026) 31:1517 – 1529
+                                                                                           R. Goya-Maldonado et al.
+                                                                                                                                                                                    1529
+University, Cardiff, UK. 33Division of Psychological Medicine and Clinical Neurosciences, Cardiff University, Cardiff, UK. 34School of Mental Health and Neuroscience, Faculty of
+Health, Medicine and Life Sciences, Maastricht University, Maastricht 6229 ER, the Netherlands. 35Departments of Psychiatry and Pediatrics, University of Calgary, Calgary, AB,
+Canada. 36Department of Psychiatry, Psychotherapy and Psychosomatics, Medical School, RWTH Aachen University, Aachen, Germany. 37Institute for Translational
+Neuroscience, University of Münster, Münster, Germany. 38Center Of Excellence on Mood Disorders, Louis A. Faillace, MD, Department of Psychiatry and Behavioral Sciences
+at McGovern Medical School, the University of Texas Health Science Center at Houston, Houston, TX, USA. 39Center for Neuroscience, University of Pittsburgh, Pittsburgh, PA,
+USA. 40Center for Neural Basis of Cognition, University of Pittsburgh, Pittsburgh, PA, USA. 41Department of Psychiatry and Neurosciences, Hiroshima University, Hiroshima,
+Japan. 42GGZ inGeest Mental Health Care, Amsterdam, the Netherlands. 43Sant Pau Mental Health Research Group, Institut de Recerca de l’Hospital de la Santa Creu i Sant
+Pau, Barcelona, Catalonia, Spain. 44CIBERSAM, Madrid, Spain. 45Imaging of Mood- and Anxiety-Related Disorders (IMARD) Group, Institut d’Investigacions Biomèdiques
+August Pi i Sunyer (IDIBAPS), Barcelona, Spain. 46Meditation Research Program, Department of Psychiatry, Massachusetts General Hospital, Harvard Medical School, Boston,
+MA, USA. 47Amsterdam University Medical Centers, location AMC, Department of Radiology and Nuclear Medicine, Amsterdam, the Netherlands. 48West Region, Institute of
+Mental Health, Singapore, Singapore. 49Yong Loo Lin School of Medicine, National University of Singapore, Singapore, Singapore. 50Lee Kong Chian School of Medicine,
+Nanyang Technological University, Singapore, Singapore. 51Division of Psychiatry, Centre for Clinical Brain Sciences, University of Edinburgh, Scotland, UK. 52Developmental
+and Educational Psychology, Leiden University, Leiden, the Netherlands. 53Erasmus School of Social and Behavioral Sciences, Erasmus University Rotterdam, Rotterdam, the
+Netherlands. 54Hospital Clinic, Institute of Neuroscience, University of Barcelona, IDIBAPS, CIBERSAM, Barcelona, Catalonia, Spain. 55Intelligent Data Analysis Laboratory
+(IDAL), Department of Electronic Engineering, Universitat de València, Valencia, Spain. 56Institute for Community Medicine, University Medicine Greifswald, Greifswald,
+Germany. 57Queensland Brain Institute, the University of Queensland, Brisbane, QLD, Australia. 58Centre for Advanced Imaging, the University of Queensland, Brisbane, QLD,
+Australia. 59Section on the Neurobiology and Treatment of Mood Disorders, National Institute of Mental Health, Bethesda, MD, USA. *A list of authors and their afﬁliations
+appears at the end of the paper. ✉email: roberto.goya@med.uni-goettingen.de
+
+
+
+THE ENIGMA MAJOR DEPRESSIVE DISORDER WORKING GROUP
+Roberto Goya-Maldonado 1 ✉, Tracy Erwin-Grabner1, Ling-Li Zeng2,3, Christopher R. K. Ching3, Andre Aleman4, Alyssa R. Amod 5,
+Zeynep Basgoze 6, Francesco Benedetti 7, Bianca Besteher 8, Katharina Brosch 9, Robin Bülow 10, Romain Colle 11,12,
+Colm G. Connolly13, Emmanuelle Corruble11,12, Baptiste Couvy-Duchesne 14,15, Kathryn Cullen 6, Udo Dannlowski 16,
+Christopher G. Davey 17, Annemiek Dols18,19 and Jan Ernsting16, Jennifer W. Evans 20, Lukas Fisch16, Paola Fuentes-Claramonte 21,
+Ali Saffet Gonul 22, Ian H. Gotlib 23, Hans J. Grabe24, Nynke A. Groenewold 5, Dominik Grotegerd16, Tim Hahn 16,
+J. Paul Hamilton25, Laura K. M. Han26,27, Ben J. Harrison17, Tiffany C. Ho28,29, Neda Jahanshad3, Alec J. Jamieson 17, Andriana Karuk 21,
+Tilo Kircher 9, Bonnie Klimes-Dougan 30, Sheri-Michelle Koopowitz5, Thomas Lancaster 31,32, Ramona Leenings16, Meng Li 8,
+David E. J. Linden 31,32,33,34, Frank P. MacMaster35, David M. A. Mehler 16,31,32,36, Susanne Meinert 16,37, Elisa Melloni7,
+Bryon A. Mueller 6, Benson Mwangi38, Igor Nenadić 9, Amar Ojha 39,40, Yasumasa Okamoto41, Mardien L. Oudega18,42,
+Brenda W. J. H. Penninx18, Sara Poletti 7, Edith Pomarol-Clotet21, Maria J. Portella 43,44, Joaquim Radua 45, Elena Rodríguez-Cano21,
+Matthew D. Sacchet46, Raymond Salvador21, Anouk Schrantee47, Kang Sim48,49,50, Jair C. Soares 38, Aleix Solanes 45, Dan J. Stein 5,
+Frederike Stein 9, Aleks Stolicyn 51, Sophia I. Thomopoulos3, Yara J. Toenders 26,27,52,53, Aslihan Uyar-Demir 22, Eduard Vieta 54,
+Yolanda Vives-Gilabert55, Henry Völzke56, Martin Walter8, Heather C. Whalley 51, Sarah Whittle 17, Nils Winter 16,
+Katharina Wittfeld 24, Margaret J. Wright 57,58, Mon-Ju Wu 38, Tony T. Yang28, Carlos Zarate59, Dick J. Veltman18,
+Lianne Schmaal 26,27 and Paul M. Thompson3
+
+
+
+
+Molecular Psychiatry (2026) 31:1517 – 1529
+

@@ -1,0 +1,342 @@
+                                         Decoding Listener’s Identity: Person Identification from EEG Signals Using a
+                                                              Lightweight Spiking Transformer
+                                                                                  Zheyuan Lin1 , Siqi Cai∗,1 , Haizhou Li1,2,3
+                                                     1
+                                                         School of Data Science, The Chinese University of Hong Kong, Shenzhen, China
+                                                                    2
+                                                                      Machine Listening Lab, University of Bremen, Germany
+                                                               3
+                                                                 Department of ECE, National University of Singapore, Singapore
+                                                           zheyuanlin@link.cuhk.edu.cn, caisiqi@ieee.org, haizhouli@cuhk.edu.cn
+
+                                                                   Abstract                                    ity. Additionally, ANNs typically require substantial computa-
+                                                                                                               tional resources and may not fully capture the temporal dynam-
+                                         EEG-based person identification enables applications in secu-         ics inherent in EEG signals.
+                                         rity, personalized brain-computer interfaces (BCIs), and cog-
+arXiv:2510.17879v1 [cs.NE] 17 Oct 2025
+
+
+
+
+                                                                                                                    Spiking Neural Networks (SNNs), inspired by the brain’s
+                                         nitive monitoring. However, existing techniques often rely on         neural architecture, offer a promising alternative due to their
+                                         deep learning architectures at high computational cost, limit-        event-driven nature and potential for energy-efficient process-
+                                         ing their scope of applications. In this study, we propose a          ing. Previous studies have demonstrated the effectiveness of
+                                         novel EEG person identification approach using spiking neu-           SNNs in EEG classification tasks, which show higher per-
+                                         ral networks (SNNs) with a lightweight spiking transformer for        formance with less energy consumption than conventional
+                                         efficiency and effectiveness. The proposed SNN model is ca-           ANNs [10, 11]. Recent advances in SNNs include models
+                                         pable of handling the temporal complexities inherent in EEG           like the Spike-driven Transformer [12], which integrates trans-
+                                         signals. On the EEG-Music Emotion Recognition Challenge               former mechanisms with spiking neurons to efficiently process
+                                         dataset, the proposed model achieves 100% classification accu-        sequential data and achieve state-of-the-art performance across
+                                         racy with less than 10% energy consumption of traditional deep        various tasks.
+                                         neural networks. This study offers a promising direction for
+                                                                                                                    This study investigates SNN-based person identification us-
+                                         energy-efficient and high-performance BCIs. The source code
+                                                                                                               ing EEG recordings collected during music listening—a chal-
+                                         is available at https://github.com/PatrickZLin/Decode-Listener-
+                                                                                                               lenging benchmark task that demands biometric identification
+                                         Identity.
+                                                                                                               across different individuals. To our knowledge, this represents
+                                         Index Terms: Brain-computer interface, EEG, Person identifi-          the first exploration of SNNs for EEG-based person identifi-
+                                         cation, Spiking neural network                                        cation. We adopt a lightweight spiking transformer, an end-
+                                                                                                               to-end architecture optimized for efficiency and performance.
+                                                              1. Introduction                                  This architecture is designed to efficiently process temporal se-
+                                         Electroencephalography (EEG) serves as a non-invasive method          quences, making it particularly suitable for handling EEG data,
+                                         for monitoring and interpreting brain activity, offering in-          which inherently involves complex temporal dynamics. The re-
+                                         sights into cognitive states and enabling the development of          sults demonstrate SNNs’ potential as a robust tool for biometric
+                                         brain–computer interfaces (BCIs) [1]. Within this domain,             recognition, advancing the development of more personalized
+                                         EEG-based person identification has emerged as a critical chal-       and adaptive BCI systems.
+                                         lenge, aiming to recognize individuals through their unique neu-           The remainder of this paper is organized as follows: Section
+                                         rophysiological signatures [2]. This capability is crucial for per-   2 outlines the methodology, detailing the spiking transformer
+                                         sonalized BCI applications, where robust user-specific adapta-        architecture for EEG analysis. Section 3 describes the exper-
+                                         tion is required.                                                     imental setup, including the EEG dataset specifications, data
+                                               Neuroscience research suggests that auditory stimuli can        preprocessing, and training protocol. Results are reported in
+                                         evoke individualized neural responses [3].            Studies on      Section 4. Section 5 discusses the implications of our findings
+                                         song identification, stimulus-response relationships, and inter-      and concludes the paper.
+                                         subject variability during music listening [4, 5] have demon-
+                                         strated distinct neural patterns influenced by subjective expe-                           2. Methodology
+                                         riences. These findings support the feasibility of identifying
+                                                                                                               As illustrated in Figure 1, the proposed lightweight spiking
+                                         listeners based on EEG signals recorded during music engage-
+                                                                                                               transformer takes a window of EEG signals as input and per-
+                                         ment.
+                                                                                                               forms person identification through multi-class classification.
+                                               Traditional machine learning approaches, particularly arti-
+                                         ficial neural networks (ANNs), have been extensively employed
+                                                                                                               2.1. Spiking Neurons
+                                         for EEG-based person identification [6, 7]. For instance, con-
+                                         volutional neural networks (CNNs) have demonstrated success           The core of SNNs is built on spiking neurons, which simulate
+                                         in user identification tasks due to their ability to extract spa-     the behavior of biological neurons more closely than traditional
+                                         tial features from high-dimensional EEG data [8]. A large-scale       artificial neurons [13]. The spiking neuron layer adopted in our
+                                         study [9] analyzed EEG recordings from 109 subjects using a           model follows the standard Leaky Integrate-and-Fire (LIF) neu-
+                                         multilayer fully connected neural network, achieving competi-         ron model [14]. It integrates temporal and spatial inputs; its
+                                         tive classification accuracy across all subjects. However, these      membrane potential inherently performs temporal integration,
+                                         approaches often rely on handcrafted features (e.g., statistical,     crucial for capturing the dynamics of EEG data. Spikes are gen-
+                                         frequency, or wavelet descriptors), which limits generalizabil-       erated based on this potential, driving computations forward. Its
+                                                                       Figure 2: Outline of the Spike-Driven Self-Attention (SDSA)
+                                                                       block, RepConv stands for re-parameterization convolution.
+
+
+                                                                       samples within a window. SN (·) represents a layer of LIF neu-
+                                                                       rons as in Section 2.1. ConvPW and ConvDW denote the point-
+Figure 1: Architecture overview of the proposed lightweight            wise and depthwise convolution operations, respectively.
+spiking transformer for EEG-based person identification. It
+                                                                            Channel Convolution combines spatial and channel-wise
+takes a window of EEG signals as input, and performs multi-  L         information, allowing the model to learn deeper, more abstract
+class classification to determine the individual’s identity.
+                                                                       features. It applies standard convolutions (kernel 3x3, stride 1)
+stands for shortcuts.
+                                                                       to process the output from the SepConv layer, ensuring that spa-
+                                                                       tial patterns are effectively captured:
+synergy can be represented by:
+                                                                           ChannelConv(E′′ ) = Conv SN Conv SN(E′ )
+                                                                                                                             
+                                X                                                                                                    (4)
+        V [n + 1] = βV [n] +          wj Sjin [n] − Reset[n]    (1)
+                                  j                                       After the two convolution-based SNN blocks, the input
+                                                                       EEG E is transformed into the feature map feature F.
+               S out [n + 1] = θ(V [n + 1] − Vth )              (2)
+The membrane potential V of each neuron is updated based on            2.2.3. Transformer-based SNN block
+the previous potential, the weighted sum of incoming spikes,           Spike-driven self-attention (SDSA) replaces the traditional
+and a reset term. β represents the leakage factor, wj are the          Query (Q), Key (K), and Value (V) matrix operations used in
+synaptic weights, and Sjin [n] denotes the incoming spikes to the      standard attention mechanisms, as illustrated in Figure 2. It op-
+neuron at time step n. Vth denotes the firing threshold. Reset[n]      erates on the spike tensor form Q, K, and V directly, and com-
+ensures that the neuron’s voltage is set to a lower value after fir-   putes interactions between tokens using sparse additions instead
+ing. A spike is emitted when the membrane potential exceeds a          of the dense, computationally expensive dot products found in
+threshold, at which point an output spike S out [n+1] is activated.    standard self-attention:
+This is controlled by θ, the Heaviside step function.
+                                                                                           Qs = SN(RepConv(F))
+2.2. Model Architecture
+                                                                                           Ks = SN(RepConv(F))                       (5)
+2.2.1. Overall Model                                                                       Vs = SN(RepConv(F))
+As illustrated in Figure 1, we adopt a lightweight spiking trans-
+former for EEG-based person identification. This architecture                     SDSA(F) = RepConv(SN(Qs (KTs Vs )))                (6)
+is based on the established designs of Spike-driven Transformer
+V2 [12] and Spikformer [15]. The model combines both Conv-             where RepConv(·) is re-parameterization convolution (kernel
+based and Transformer-based SNN blocks to enhance perfor-              size 3x3, stride 1) [17]. Unlike conventional Transformers, this
+mance and versatility, drawing inspiration from both traditional       avoids expensive operations like softmax and scaling, as spike-
+CNN and Vision Transformer (ViT) [16] architectures. The               form matrix multiplication can be converted to additions using
+first two stages use Conv-based SNN blocks, while the last two         addressing algorithms [18], making it energy-efficient.
+leverage Transformer-based SNN blocks.                                      Following the SDSA operation, a two-layer MLP is applied
+                                                                       to the output. It operates on the channel dimension of the feature
+2.2.2. Conv-based SNN block                                            maps, improving the model’s ability to understand the interac-
+                                                                       tions between different features across channels:
+Separable Convolution (SepConv) is used to extract features
+from each channel and merge features across channels in the
+                                                                                      MLP(F′ ) = SN(SN(F′ )W1 )W2                    (7)
+Conv-based SNN blocks. It combines depthwise convolution
+(kernel size 7x7, stride 1), which performs convolution inde-
+pendently for each input channel, and pointwise convolution,           where W1 ∈ RC×rC and W2 ∈ RrC×C are learnable parame-
+which merges the channels:                                             ters with MLP expansion ratio r = 4.
+                                                                            After passing through the two Transformer-based SNN
+ SepConv(E′ ) = ConvPW (ConvDW (SN (ConvPW (SN(E)))))                  blocks, the feature map F was further modified as G, which
+                                                         (3)           serves as the refined feature representation.
+where E represents a window of EEG signal E ∈ RC×T , with                   Subsequently, G is processed by a linear classification
+C denoting the number of EEG channels and T representing the           layer, producing the final prediction.
+2.2.4. Parameter Reduction                                             3.3. Training Protocol
+To enhance efficiency in EEG-based person identification, we           The training of the proposed lightweight spiking trans-
+streamlined our model by reducing channel dimensions and op-           former was conducted over 300 epochs using surrogate
+timizing downsampling parameters. Compared to the Spike-               gradient[19], which facilitates backpropagation through the
+driven Transformer V2 baseline [12], which contains 30.9 mil-          non-differentiable spiking activity inherent in SNNs. This ap-
+lion parameters, our approach achieves computational feasibil-         proach enables efficient learning while preserving the temporal
+ity with just 3.91M parameters while preserving discrimina-            characteristics of the EEG data.
+tive EEG feature learning and maintaining competitive perfor-               For the loss function, we employed a CrossEntropyLoss
+mance.                                                                 with class count balancing to mitigate any potential class im-
+     Overall, this novel architecture, combining the strengths of      balances within the dataset. This ensured that the model did not
+spiking neural networks with transformer-based attention mech-         favor any particular subject during training, maintaining fair-
+anisms, enables efficient and accurate processing of EEG sig-          ness and robustness in classification.
+nals for person identification tasks. The integration of spiking            Optimization was carried out using the Adam optimizer,
+neurons allows the model to process temporal information in            chosen for its adaptive learning rate capabilities and overall ef-
+a biologically plausible manner, while the transformer mecha-          ficiency in handling sparse gradients. In addition, a ReduceL-
+nism ensures that long-range dependencies within the data are          ROnPlateau learning rate scheduler was integrated into the
+captured effectively.                                                  training process. This scheduler dynamically adjusts the learn-
+                                                                       ing rate when the validation performance plateaued, thereby en-
+            3. Dataset and Experiments                                 hancing convergence and preventing overfitting.
+                                                                            Together, these components of the training proto-
+3.1. Dataset                                                           col—surrogate gradient-based learning, balanced CrossEn-
+                                                                       tropyLoss, Adam optimization, and adaptive learning rate
+This study utilizes the EEG-Music Emotion Recogni-                     scheduling—enabled robust and efficient training of the SNN
+tion Challenge dataset1 for the task of Person Identifica-             model, culminating in high-performance EEG-based person
+tion—determining the identities of 26 subjects based on EEG            identification.
+responses elicited by musical stimuli.
+     EEG signals were recorded in a controlled laboratory en-
+vironment using a 32-channel EPOC Flex system with saline                                       4. Results
+sensors, with data sampled at 128 Hz. Electrode placements fol-        4.1. Person Identification Accuracy
+lowed the international 10-20 system. Each subject participated
+in 16 trials lasting 90 seconds each. The trials were divided          The performance of the models was evaluated using the EEG-
+into two categories: personal trials, selected based on the sub-       Music Emotion Recognition Challenge dataset, with the pri-
+ject’s own music preferences, and non-personal trials, chosen          mary objective of accurately identifying the subject based
+randomly from the playlists of other participants.                     on EEG signals. In this study, we assessed our proposed
+                                                                       lightweight spiking transformer and compared its performance
+3.2. Data Preprocessing                                                against several other models, including conventional ANNs like
+                                                                       the Compact Convolutional Transformer, as well as SNNs such
+The EEG signals utilized in this study were obtained from the          as the Spike-driven Transformer V2 [12].
+official EEG-Music Emotion Recognition Challenge dataset,                   Compact Convolutional Transformer: CCT model has
+which were underwent preprocessing using an FIR filter (0.5-           demonstrated superior performance in a variety of tasks, out-
+40 Hz) and artifact removal through Independent Component              performing many contemporary transformer models [20]. In
+Analysis (ICA). Moreover, the EEG signals were normalized              this study, we incorporate the CCT model in our experimental
+for each trial within each subject. Each raw EEG trial, approx-        setup and further reduce its size to align with the scale of our
+imately 90 seconds in length, was segmented into 10-second             proposed lightweight transformer.
+windows, each containing 1280 time points.                                  Spike-driven Transformer V2: Spike-driven Transformer
+     The training dataset comprises 294 trials collected from 26       V2 combines transformer-based architecture with spike-driven
+subjects, with each subject contributing roughly 12 labeled tri-       processing, improving computational efficiency while main-
+als. These trials are used to train models to identify subjects        taining high accuracy across various vision tasks [12]. We com-
+based on their distinct EEG signatures. For validation, a set          pared its performance to that of our proposed lightweight spik-
+was extracted from the training data (10%), ensuring a diverse         ing transformer to evaluate both efficiency and effectiveness in
+and representative sample to evaluate model performance dur-           the task of person identification.
+ing training.                                                               As summarized in Table 1, our lightweight spiking trans-
+     The test dataset consists of 104 held-out trials, all coming      former achieved 100% accuracy in the person identification
+from the 26 subjects seen during training. Additionally, 44 extra      task. Compared to Spike-driven Transformer V2, which also
+trials are included in the test set, some of which lack stimulus in-   reached 100% accuracy, our model significantly reduces the pa-
+formation or self-assessed emotion labels. This additional data        rameter count from 30.9 million to 3.91 million—a nearly 90%
+further challenges the model, testing its robustness and gener-        reduction in model size—while maintaining the same level of
+alization capabilities. Person identification results are reported     performance.
+on the testing set.                                                         In contrast, both variants of the CCT exhibited lower accu-
+                                                                       racy. The smaller CCT model, despite having a similar param-
+  1 EEG-Music Emotion Recognition Challenge. (n.d.). EEG-Music         eter count to ours, achieved only 98.65%. This result further
+Emotion Recognition. Retrieved February 18, 2025, from https://eeg-    underscores the effectiveness of SNNs in balancing computa-
+music-challenge.github.io/eeg-music-challenge/dataset                  tional efficiency and classification accuracy.
+  Table 1: Comparison of different models in terms of person identification performance, parameter count, and energy consumption.
+
+        Methods                  Architecture                    Parameter count (M)    Energy consumption (µJ)       Accuracy
+                                   CCT[20]                              22.0                    38414.6                99.32%
+            ANN
+                                    CCT 1                               3.24                     8248.3                98.65%
+                       Spike-driven transformer V2[12]                  30.9                     6065.1                 100%
+            SNN
+                     Ours (Lightweight spiking transformer)             3.91                     760.7                  100%
+        1
+            CCT model with reduced model size.
+
+4.2. Model Efficiency                                                   rameters, significantly lowering computational and energy costs
+                                                                        while maintaining 100% accuracy. The results emphasize the
+We further compare the computational costs of different mod-
+                                                                        effectiveness of downsampling and parameter pruning in creat-
+els, evaluating their inference cost for a single forward pass.
+                                                                        ing a lightweight yet highly accurate model with improved ef-
+The inference cost is measured by the number of floating-point
+                                                                        ficiency. Further reductions in downsampling dimensions were
+operations per second (FLOPs), based on the standard 45nm
+                                                                        explored but led to severe accuracy degradation, indicating that
+CMOS process [21, 22]. Notably, for SNNs, neurons are acti-
+                                                                        the 3.91 million parameter configuration achieves an optimal
+vated only when the input spikes surpass a threshold, allowing
+                                                                        balance between efficiency and performance.
+inactive neurons to enter low-power modes, thus are expected
+to reduce power consumption.                                                 Impact of Conv-based SNN Blocks: To evaluate the ne-
+     As shown in Table 1, our proposed lightweight spiking              cessity of the dual Conv-based SNN blocks in the original ar-
+transformer, with 3.91 million parameters, demonstrates re-             chitecture, we tested a variant with only one Conv-based block.
+markable energy efficiency, consuming only 760.7 µJ during              This further reduced the model size to 2.85 million parame-
+inference. This low energy consumption can be attributed to             ters (a 27% decrease from the 3.91M version) but resulted in
+the inherent efficiency of our SNN design, which simplifies             a 2.03% drop in accuracy. These findings highlight the role of
+traditional multiply-accumulate (MAC) operations into more              Conv-based SNN blocks in capturing hierarchical temporal fea-
+energy-efficient accumulation (AC) operations. Moreover, the            tures and demonstrate the trade-off between extreme parameter
+SNN operates with an average firing rate of just 7.18%, meaning         reduction and performance retention.
+that only a small fraction of the network’s spiking neurons are
+active at any given time, further minimizing both computational
+load and energy usage.                                                            5. Discussion and Conclusion
+     In contrast, the energy consumption of the CCT model
+was significantly higher than that of the SNN transformer               SNNs offer distinct advantages for EEG-based classification
+models, with the 22.0 million parameter version consuming               tasks due to their ability to capture the temporal dynamics in-
+38,414.6 µJ per forward pass. Even the smaller 3.24 million             herent in neural signals. EEG data is rich with time-dependent
+parameter variant, while more efficient, still required 8,248.3         patterns, and SNNs, which process information through event-
+µJ—substantially more than the SNN-based models. Notably,               driven, spike-based mechanisms, are particularly well-suited to
+our model consumed only about 10% of this energy, highlight-            model these temporal dependencies. This alignment enables
+ing its superior efficiency.                                            SNNs to effectively represent the brain’s intricate activity over
+     In summary, our proposed model distinguishes itself                time, leading to enhanced accuracy in classifying EEG signals.
+through its exceptional energy efficiency. Its low power con-
+sumption, enabled by streamlined computational operations and                Another significant benefit of SNNs is their efficiency. The
+minimal neuronal firing rates, makes it well-suited for real-time,      lightweight SNN transformer model in this study achieved high
+energy-constrained applications such as BCIs, where both high           performance while significantly reducing computational and
+performance and low energy usage are essential for effective            energy costs compared to analogous ANN models. This ef-
+deployment.                                                             ficiency is critical for deploying EEG-based systems on edge
+     The optimized SNN transformer model stands out for its             devices, such as wearables or speech processors, where power
+superior energy efficiency. Its low energy consumption, driven          consumption and real-time processing are key constraints. The
+by simplified computational operations and low neuronal fir-            low firing rate of spiking neurons, coupled with simplified op-
+ing rates, makes it a highly attractive option for real-time,           erations, makes SNNs particularly suitable for deployment in
+energy-constrained applications such as brain-computer inter-           resource-constrained environments, ensuring that they can op-
+faces, where both high performance and low power consump-               erate effectively in portable and energy-efficient settings.
+tion are crucial.
+                                                                             However, despite these promising advantages, several limi-
+                                                                        tations must be considered. While the model performed well on
+4.3. Ablation Study
+                                                                        the 26-subject dataset used in this study, its generalizability to
+To evaluate the impact of architectural modifications on the            larger and more diverse populations remains uncertain. To fully
+spiking transformer, we conducted an ablation study focusing            assess the robustness and scalability of the model, further test-
+on two critical aspects: (1) downsampling strategy and (2) the          ing with more extensive datasets that incorporate a wider range
+role of Conv-based SNN blocks.                                          of demographic and physiological variability is needed. Addi-
+     Downsampling Strategy and Parameter Efficiency:                    tionally, future research should investigate the adaptability of
+Compared to Spike-driven Transformer V2, one of the key mod-            SNNs to other EEG-based applications and explore their per-
+ifications in our lightweight spiking transformer was the se-           formance in environments with varying noise levels and signal
+lection of smaller downsampling dimensions. This adjustment             quality. This would provide a more comprehensive understand-
+reduced the model size from 30.9 million to 3.91 million pa-            ing of the potential of SNNs in real-world EEG applications.
+                 6. Acknowledgements                                       [13] A. Tavanaei, M. Ghodrati, S. R. Kheradpisheh, T. Masquelier, and
+                                                                                A. Maida, “Deep learning in spiking neural networks,” Neural
+This work is supported by National Natural Science Foun-                        Networks, vol. 111, pp. 47–63, 2019.
+dation of China (Grant No. 62401377), internal Project of
+                                                                           [14] P. Dayan and L. F. Abbott, Theoretical neuroscience: Computa-
+Shenzhen Research Institute of Big Data, internal project of                    tional and mathematical modeling of neural systems. Cambridge:
+the Guangdong Provincial Key Laboratory of Big Data Com-                        MIT Press, 2001.
+puting under the Grant No. B10120210117-KP02, The Chi-                     [15] Z. Zhou, Y. Zhu, C. He, Y. Wang, S. Yan, Y. Tian,
+nese University of Hong Kong, Shenzhen (CUHK-Shenzhen),                         and L. Yuan, “Spikformer: When spiking neural network
+Shenzhen Stability Science Program 2023, Shenzhen Key Lab                       meets transformer,” ArXiv, vol. abs/2209.15425, 2022. [Online].
+of Multi-Modal Cognitive Computing, Shenzhen Science and                        Available: https://api.semanticscholar.org/CorpusID:252668422
+Technology Program (Shenzhen Key Laboratory, Grant No.                     [16] A. Dosovitskiy, “An image is worth 16x16 words: Transformers
+ZDSYS20230626091302006), Shenzhen Science and Technol-                          for image recognition at scale,” arXiv preprint arXiv:2010.11929,
+ogy Research Fund (Fundamental Research Key Project, Grant                      2020.
+No. JCYJ20220818103001002), Program for Guangdong In-                      [17] X. Ding, X. Zhang, N. Ma, J. Han, G. Ding, and J. Sun, “Repvgg:
+troducing Innovative and Entrepreneurial Teams, Grant No.                       Making vgg-style convnets great again,” in 2021 IEEE/CVF Con-
+2023ZT10X044, and Guangdong S&T Program under Grant                             ference on Computer Vision and Pattern Recognition (CVPR),
+2023B0303040002.                                                                2021, pp. 13 728–13 737.
+                                                                           [18] C. Frenkel, D. Bol, and G. Indiveri, “Bottom-up and top-
+                        7. References                                           down approaches for the design of neuromorphic processing
+                                                                                systems: Tradeoffs and synergies between natural and artificial
+ [1] Y. An, J. Wong, and S. H. Ling, “Development of real-time brain-           intelligence,” Proceedings of the IEEE, vol. 111, pp. 623–
+     computer interface control system for robot,” Applied Soft Com-            652, 2021. [Online]. Available: https://api.semanticscholar.org/
+     puting, vol. 159, p. 111648, 2024. [Online]. Available: https://           CorpusID:258685271
+     www.sciencedirect.com/science/article/pii/S1568494624004228           [19] E. O. Neftci, H. Mostafa, and F. Zenke, “Surrogate gradient learn-
+ [2] Y.-Y. Yang, A. Hwang, C.-T. Wu, and T.-R. Huang, “Person-                  ing in spiking neural networks: Bringing the power of gradient-
+     identifying brainprints are stably embedded in eeg mindprints,”            based optimization to spiking neural networks,” IEEE Signal Pro-
+     Scientific Reports, vol. 12, 10 2022.                                      cessing Magazine, vol. 36, no. 6, pp. 51–63, 2019.
+ [3] P. Pandey, G. Sharma, K. P. Miyapuram, R. Subramanian, and            [20] A. Hassani, S. Walton, N. Shah, A. Abuduweili, J. Li,
+     D. Lomas, “Music identification using brain responses to initial           and H. Shi, “Escaping the big data paradigm with compact
+     snippets,” in ICASSP 2022-2022 IEEE International Conference               transformers,” ArXiv, vol. abs/2104.05704, 2021. [Online].
+     on Acoustics, Speech and Signal Processing (ICASSP). IEEE,                 Available: https://api.semanticscholar.org/CorpusID:233210459
+     2022, pp. 1246–1250.                                                  [21] M. Horowitz, “1.1 computing’s energy problem (and what we can
+ [4] J. Warren, “How does the brain process music?”            Clinical         do about it),” in 2014 IEEE international solid-state circuits con-
+     Medicine, vol. 8, no. 1, pp. 32–36, 2008.                                  ference digest of technical papers (ISSCC). IEEE, 2014, pp.
+                                                                                10–14.
+ [5] P. Vuust, O. A. Heggli, K. J. Friston, and M. L. Kringelbach, “Mu-
+     sic in the brain,” Nature Reviews Neuroscience, vol. 23, no. 5, pp.   [22] M. Yao, G. Zhao, H. Zhang, Y. Hu, L. Deng, Y. Tian, B. Xu, and
+     287–305, 2022.                                                             G. Li, “Attention spiking neural networks,” IEEE Transactions
+                                                                                on Pattern Analysis and Machine Intelligence, vol. 45, no. 8, pp.
+ [6] B. Kaur, D. Singh, and P. Roy, “A novel framework of EEG-based             9393–9410, 2023.
+     user identification by analyzing music-listening behavior,” Multi-
+     media Tools and Applications, vol. 76, 12 2017.
+ [7] I. Jayarathne, M. Cohen, and S. Amarakeerthi, “Person identifi-
+     cation from EEG using various machine learning techniques with
+     inter-hemispheric amplitude ratio,” PLoS ONE, vol. 15, 2020.
+     [Online]. Available: https://api.semanticscholar.org/CorpusID:
+     221636638
+ [8] G. Sharma, P. Pandey, R. Subramanian, K. P. Miyapuram, and
+     A. Dhall, “Neural encoding of songs is modulated by their enjoy-
+     ment,” in Proceedings of the 2022 International Conference on
+     Multimodal Interaction, 2022, pp. 414–419.
+ [9] Y. Akbarnia and M. R. Daliri, “EEG-based identification system
+     using deep neural networks with frequency features,” Heliyon,
+     vol. 10, no. 4, p. e25999, 2024. [Online]. Available: https://www.
+     sciencedirect.com/science/article/pii/S2405844024020309
+[10] S. Cai, P. Li, and H. Li, “A bio-inspired spiking attentional neu-
+     ral network for attentional selection in the listening brain,” IEEE
+     Transactions on Neural Networks and Learning Systems, vol. 35,
+     no. 12, pp. 17 387–17 397, 2024.
+[11] F. Faghihi, S. Cai, and A. A. Moustafa, “A neuroscience-inspired
+     spiking neural network for EEG-based auditory spatial attention
+     detection,” Neural Networks, vol. 152, pp. 555–565, 2022.
+[12] M. Yao, J. Hu, T. Hu, Y. Xu, Z. Zhou, Y. Tian, B. XU,
+     and G. Li, “Spike-driven transformer v2: Meta spiking
+     neural network architecture inspiring the design of next-
+     generation neuromorphic chips,” in The Twelfth International
+     Conference on Learning Representations, 2024. [Online].
+     Available: https://openreview.net/forum?id=1SIBN5Xyw7
+

@@ -1,0 +1,721 @@
+                                                                    SABER: Spatial Attention, Brain, Extended Reality*
+                                              Tom Bullock1,2,3                 Emily Machniak1,2,4        You-Jin Kim5      Radha Kumaran6                              Justin Kasowski1
+                                             Apurv Varshney6                  Julia Ram 1     Melissa M. Hernandez    1     Stina Johansson1                             Neil M. Dundon1,3
+                                                                                      Tobias Höllerer2,6           Barry Giesbrecht1,2
+                                                  1 Department of Psychological and Brain Sciences, University of California, Santa Barbara, Santa Barbara, CA, United States.
+                                                       2 Institute for Collaborative Biotechnologies, University of California, Santa Barbara, Santa Barbara, CA, United States.
+                                                            3 Department of Social and Psychological Sciences, University of Huddersfield, Huddersfield, United Kingdom
+                                                                    4 Department of Human Systems Engineering, Arizona State University, Mesa, AZ, United States.
+                                                                             5 School of Computing, University of Nebraska–Lincoln, Nebraska, United States.
+                                                            6 Department of Computer Science, University of California, Santa Barbara, Santa Barbara, CA, United States.
+arXiv:2603.24830v1 [cs.HC] 25 Mar 2026
+
+
+
+
+                                                 Figure 1: A participant is shown superimposed into a virtual environment, standing on a platform wielding a pair of virtual sabers
+                                                 anchored to HTC Vive Controllers. They are required to strike incoming spheres using either saber while their brain activity is
+                                                 recorded at the scalp using electroencephalography (EEG).
+
+                                         A BSTRACT                                                                           involving both static and dynamic 3D stimuli. We then used a com-
+                                         Tracking moving objects is a critical skill for many everyday tasks,                putational modeling approach to reconstruct moment-by-moment
+                                         such as crossing a busy street, driving a car or catching a ball. At-               attention to the locations of stationary and moving objects from os-
+                                         tention is a key cognitive function that supports object tracking;                  cillatory brain activity, demonstrating the feasibility of precisely
+                                         however, our understanding of the brain mechanisms that support                     tracking attention in a 3D space. These results validate SABER,
+                                         attention is almost exclusively based on evidence from tasks that                   and provide a foundation for future research that is critical not only
+                                         present stable objects at fixed locations. Accounts of multiple ob-                 for understanding how attention works in the physical world, but is
+                                         ject tracking are also limited because they are largely based on be-                also directly relevant to the development of better VR applications.
+                                         havioral data alone and involve tracking objects in a 2D plane. Con-                The insights gained here can potentially inform the design of more
+                                         sequently, the neural mechanisms that enable moment-by-moment                       intuitive interfaces, effective training simulations, and immersive
+                                         tracking of goal-relevant objects remain poorly understood. To ad-                  experiences optimized for the human attention system.
+                                         dress this knowledge gap, we developed SABER (Spatial Atten-
+                                         tion, Brain, Extended Reality), a new framework for studying the                    1   INTRODUCTION
+                                         behavioral and neural dynamics of attention to objects moving in
+                                                                                                                             Attending to moving objects, continuously updating their positions,
+                                         3D. Participants (n=32) completed variants of a task inspired by
+                                                                                                                             and predicting their trajectories are critical for goal-directed actions
+                                         the popular virtual reality (VR) game Beat Saber, where they used
+                                                                                                                             in everyday life. In the physical world, simply walking down a
+                                         virtual sabers to strike stationary and moving color-defined target
+                                                                                                                             busy street requires us to navigate amongst multiple moving ob-
+                                         spheres while we recorded electroencephalography (EEG). We first
+                                                                                                                             jects, such as other pedestrians, cyclists and vehicles. This chal-
+                                         established that standard univariate EEG metrics which are typi-
+                                                                                                                             lenge extends to the digital world. When playing a VR first-person
+                                         cally used to study spatial attention to static objects presented on
+                                                                                                                             shooter, one must track and target an enemy player while simulta-
+                                         2D screens, can generalize effectively to an immersive VR context
+                                                                                                                             neously monitoring other players on the battlefield. Similarly, in
+                                             * This is a preprint version of this article. The final version of this paper   a rhythm game such as Beat Saber, players must track multiple
+                                         can be found in the Proceedings of IEEE VR 2026. For citation, please re-           incoming targets and anticipate their positions to prepare and exe-
+                                         fer to the published version. This work was initially made available on the         cute precise actions. The human capacity to construct stable mental
+                                         author’s personal website [yujnkm.com] on February 2024, and was subse-             representations that support the tracking of one, or even multiple,
+                                         quently uploaded to arXiv for broader accessibility.                                dynamic objects is well-documented [53, 38, 13], while impaired
+                                                                                                                             object tracking is often associated with various brain disorders and
+                                                                                                                             injuries [2, 35, 41]. Given the fundamental importance of object
+                                                                                                                             tracking in both our physical and digital worlds, it is critical that we
+                                                                                                                             understand the brain mechanisms that enable this function.
+    Evidence from cognitive psychology and neuroscience suggests             to be tracked, while WM supports the sustained representation of
+that our ability to track objects is heavily dependent on visual at-         behaviorally relevant objects [1, 21, 49, 71]. However, accounts of
+tention and working memory (WM) [4, 21, 38]. These processes                 object tracking based on MOT are limited primarily because they
+support selective sampling, or prioritizing, of behaviorally relevant        largely involve participants tracking objects on a 2D plane (but see
+sensory evidence from the environment, integrating this evidence             [61]) and are typically based on behavioral data alone, with rela-
+with expectations about the object, maintaining the representation           tively few studies also recording brain data ( [21]). Indeed, while
+over time, and then potentially executing a behavioral action [21].          the MOT task provides an excellent methodology for studying the
+Unfortunately, current accounts of visual attention and working              behavioral dynamics of object tracking, the task by its very nature
+memory are almost exclusively based on evidence from tasks us-               is not well-suited for studying the neural dynamics of tracking a
+ing stable objects at fixed locations [16, 24, 46, 58, 70, 3] and there      specific object.
+is limited evidence about the moment-by-moment neural dynamics                  Contemporary theories of attention and WM provide limited in-
+that support the tracking of dynamic objects. Neural explanations            sight on the tracking of dynamic objects because they are primarily
+from multiple object tracking (MOT) studies are also limited be-             based on static objects presented at fixed locations [16, 24, 46, 58,
+cause these studies are largely based on behavioral data alone and           70]. Consequently, there is a significant gap in our understanding
+involve tracking objects in a 2D plane [13, 38, 53, 52]. Thus, de-           of how the brain handles dynamic stimuli. Indeed, simplifying at-
+spite the fundamental importance of tracking dynamic objects in              tention to the perception of still, 2D images overlooks that attention
+the environment, and the disruption of this capacity by disease and          must operate dynamically over time to prioritize relevant informa-
+injury, our understanding of the perceptual, cognitive and action-           tion and use it when most needed [19].
+related mechanisms underlying these processes is limited.                       SABER is specifically designed with the goal of analyzing both
+    To address this knowledge gap, we present a new approach, in-            the behavioral and neural dynamics of moment-by-moment object
+spired by Beat Saber, which combines VR and EEG to study the                 tracking. This will allow for the moment-by-moment modeling of
+neural mechanisms of spatial attention to dynamic objects in an              attention to a specific goal-relevant 3D target object that is either
+immersive 3D environment. We refer to this approach as SABER                 tracked within the environment in isolation or amongst multiple
+(Spatial Attention, Brain, Extended Reality). We validate this ap-           other goal-irrelevant objects. The hope is that this study and fu-
+proach with results from an experiment where a sample of healthy             ture work based around this approach will provide insight into how
+young adults (n=32) used virtual sabers to strike color-defined tar-         known mechanisms from static object processing extend to contexts
+get spheres while we recorded electrical brain activity at 64 scalp          involving dynamic interactions with 3D moving objects. This work
+locations using EEG. Targets appeared in one of two ways: they               will inform contemporary models of spatial attention and WM.
+either emerged directly in front of the participants or moved toward
+them from a distance. These targets were presented either alone or           2.2   EEG Approaches to Studying Spatial Attention
+surrounded by an array of distractors (different colored spheres that
+participants were instructed to ignore).                                     EEG is a method for noninvasive measurement of brain activity
+    We first demonstrate that standard univariate EEG methods—               from electrodes placed on the scalp [5]. The measured signal cap-
+typically used to study spatial shifts in attention to static objects pre-   tures post-synaptic electrical activity from large populations of neu-
+sented on 2D screens—can also be successfully applied to analyze             rons that are synchronously activated [50]. The acquired signal has
+brain responses to both static and dynamic objects in immersive 3D           a high temporal resolution and is a direct measure of neural activity.
+VR. We then apply a multivariate computational method to show                In cognitive neuroscience, there are two main features of the EEG
+that both static and moving object locations and trajectories can be         signal that have been used to inform the fundamental understand-
+reconstructed from patterns of alpha brain activity recorded at the          ing of sensory, perceptual, and cognitive phenomena: time-varying
+scalp. Together, these results validate SABER, opening up exciting           amplitude and oscillatory power.
+future opportunities to test hypotheses about how the brain sup-                 Time-varying amplitude. To extract the voltage associated with
+ports attention to dynamic objects. The potential insights that can          specific task events, EEG studies have used the Event-Related Po-
+be gained from this new approach to studying attention are critical          tential (ERP) technique [45]. This technique involves averaging
+for two key reasons. First, they provide insights into how attention         EEG activity that has been time-locked to an event, such as an shape
+operates in dynamic scenarios in the physical world. Second, they            appearing on a screen. By averaging across many repetitions of the
+will aid the development of better virtual and mixed-reality appli-          event (i.e., trials), random background activity in the EEG signal
+cations, informing the design of more intuitive interfaces, effective        is canceled out, and what remains is a time-varying waveform that
+training simulations, and immersive experiences that are optimized           represents the neural response to the specific event. Additional an-
+for the human attention system. Ultimately, the insights gained              alytical steps can then be taken to control for stimulus differences
+from this work have broad interdisciplinary relevance, with im-              and provide more anatomical specificity by leveraging the known
+plications for cognitive neuroscience and psychology, human fac-             systematic mapping of the visual field in cortical visual areas [67].
+tors, and the development of extended reality (XR) applications and          In ERP studies of visual attention, one common step leverages the
+brain-computer interfaces (BCI).                                             contralateral organization of visual cortex [45] by comparing brain
+                                                                             activity over electrodes contralateral (i.e., opposite side) to the loca-
+2     RELATED WORK                                                           tion of an attended stimulus versus activity in electrodes ipsilateral
+                                                                             (i.e., same side). The difference between these two signals is re-
+2.1    Multiple Object Tracking                                              ferred to as lateralization and has been leveraged to gain insight
+In both the physical and virtual worlds, achieving our goals and             into the neural mechanisms that underpin spatial attention. One
+avoiding potential dangers often requires that we attend to and track        particularly useful ERP component that is based on this approach
+moving objects. This ability relies heavily on spatial attention and         is the N2pc, which is a consistently larger negative deflection of
+WM [4, 21, 38], and the majority of the evidence implicating vi-             the waveform between around 200-350 ms at posterior electrode
+sual attention and visual working memory comes from studies using            sites contralateral to an attended stimulus and is thought to reflect
+the MOT task [4, 21, 38]. In this simple computer task, partici-             the enhancement of the target signal from distracting information
+pants are typically shown multiple objects and cued to track one or          [22, 47]. While the ERP technique provides valuable insight into
+more objects as they move on a computer screen. The MOT litera-              the mechanisms of spatial attention, a key limitation is that it is typ-
+ture is large and has provided important insights into attention and         ically only be applied to stimuli that have an abrupt onset. This
+WM. Spatial attention supports the initial selection of the targets          makes it unsuitable for studying the moment-by-moment fluctua-
+tions of attention over time, as it cannot be used with gradual or       on sedentary participants who are required to remain as still as pos-
+continuous stimuli.                                                      sible to minimize movement artifacts. As a result, current cognitive
+    Oscillatory power. The EEG signal can also be converted into         models largely fail to account for the impact of movement on brain
+the frequency domain to quantify oscillatory activity and this ap-       activity, despite increasing evidence that physical activity can have
+proach is also well-suited to capturing the neural dynamics of spa-      profound effects on multiple aspects of brain and behavior [32, 31].
+tial attention. In this approach, the EEG signal is converted into       Indeed, recent work has shown that even the simple act of standing
+the frequency domain using various transformation methods, in-           versus sitting while completing a task can impact task-specific brain
+cluding Fourier, Hilbert, or Morelet wavelet transforms [15]. It         activity [23, 72]. Together, these limitations in traditional labora-
+is well-established that activity in the alpha frequency band (∼8-       tory based tasks highlight a significant knowledge gap in cognitive
+13 Hz) tracks both the locus and timing of covert spatial attention      neuroscience regarding the neural basis of natural human behavior
+[63, 55]. Specifically, alpha builds up at posterior sites ipsilateral   in dynamic, real-world conditions.
+to the attended location, which has lead to the view that it reflects       A combined VR and mobile brain imaging approach offers a
+gating/suppression of irrelevant visual information [27], although       promising solution to this problem, allowing for the study of more
+it could also reflect signal enhancement [25]. Examining later-          naturalistic behavior [60, 62]. VR offers advantages over tradi-
+alized alpha responses provides insight into moment-by-moment            tional lab methods because it offers greater ecological validity while
+fluctuations in attention over time, which means it can be applied       maintaining high levels of experimental control. VR uniquely com-
+to gradual or continuous stimuli. However, lateralization is still a     bines environmental immersion with experimental rigor: it allows
+relatively crude metric in the sense that it limits our understanding    participants to interact with complex, dynamic 3D stimuli within
+of spatial attention to ”attend left vs. attend right” and does not      a standardized framework where events can be precisely replicated
+provide insight into the quality of the representation.                  across trials. Concurrently, advances in mobile EEG technology
+    Amplitude and oscillatory features have traditionally been ana-      allow for non-invasive, wireless recording of brain activity from
+lyzed using univariate statistical techniques, but more recently, re-    active humans, with numerous studies successfully demonstrating
+searchers have been using multivariate analytic techniques to in-        that movement and environmental noise artifacts can be minimized
+vestigate patterns of brain activity. One technique used in cognitive    to achieve a good signal-to-noise ratio (e.g., [68, 17]). Although
+neuroscience is the Inverted Encoding Model (IEM). Originally de-        studies directly comparing VR with traditional 2D displays are
+veloped for fMRI to recover feature-selective responses in visual        sparse, emerging evidence suggests that VR can elicit even more
+cortex [6], this method assumes that the aggregate signal measured       potentiated brain responses [56, 57], indicating that a combined
+at the scalp (EEG) reflects the summed activity of underlying neural     VR-EEG approach is a promising method for studying naturalistic
+populations, each governed by specific tuning properties (e.g., spa-     human brain and behavior.
+tial receptive fields). Specifically, the goal of IEM is to determine       Our new approach, SABER, combines VR and EEG to allow for
+the extent to which the data conform to an a priori formulation of       multimodal data sampling from freely moving participants in an
+what the response to the stimulus conditions should look like. This      immersive environment. This provides a platform to study the neu-
+methods allows researchers to visualize the ”quality” or ”fidelity”      ral mechanisms that underpin tracking and engaging with dynamic
+of the population-level representation of the stimulus directly. In      3D objects, in a reproducible, yet more naturalistic manner.
+the context of attention, IEMs have been used to demonstrate that
+topographic patterns of alpha-band oscillations can be used to re-       3     METHODS
+construct spatially selective neural responses to both attended ob-      3.1    Participants
+ject orientations [29, 8] and spatial locations [54], as well as their
+                                                                         Thirty-three healthy adults (24 female, 32 right-handed, Mage =
+encoding and maintenance [26, 48, 30, 12]. Crucially for our study,
+                                                                         22.12, SDage = 3.10) were recruited. Participants reported normal
+IEMs applied to scalp EEG have proven robust to noise artifacts that
+                                                                         or corrected-to-normal vision. Informed consent was provided at
+are common in physically active tasks, including motion artifacts
+                                                                         the beginning of each session. All procedures were approved by
+and sweating [8, 30].
+                                                                         the UC Santa Barbara Ethics Committee and the U.S. Army Hu-
+    In this paper, we apply both univariate (ERP, lateralization) and    man Research Protection Office. Participants received $20/hr for
+multivariate (IEM) techniques—typically used for stationary ob-          time spent in the lab (∼2.5 hrs total per participant).
+jects on 2D screens—to EEG data collected during our task. Our              The sample size was based on a power analysis which revealed
+goal is to determine the extent to which these methods can be            that with a significance level of α = .05 and power of .80, we needed
+adapted to study spatial attention to both static and moving objects     a minimum of 34 participants to detect a medium effect and 15 par-
+in an immersive 3D VR environment.                                       ticipants to detect a large effect. We aimed to recruit 32 participants
+                                                                         as this allowed us to counterbalance the order of the four exper-
+2.3   Virtual Reality and Mobile Brain Imaging                           imental conditions (see next section), but ended up recruiting an
+A key goal of cognitive neuroscience is to understand the brain          extra participant due to a technical error during one recording re-
+mechanisms that support natural human behavior. By building              sulting in no trigger codes being sent, hence 33 participants total.
+models of how we acquire, process, store and apply information,          With the participant with the technical error excluded, the final sam-
+these findings can help solve real-world problems, such as design-       ple was 32 participants. We further reasoned that this sample size
+ing better interfaces for technology, developing therapeutic inter-      was sufficient for validating our approach, as it meets or exceeds
+ventions for cognitive disorders and improving educational tech-         those of foundational studies using these methods. For instance,
+niques. Several decades of laboratory research have provided valu-       seminal work on the N2pc [22], alpha lateralization [55], and In-
+able insights into the human brain and behavior. However, tradi-         verted Encoding Models [54] relied on sample sizes of 10–11, 22,
+tional laboratory experiments are often a poor reflection of reality.    and 8 subjects, respectively.
+These experiments typically rely on stationary 2D stimuli presented
+to participants on a flat screen, requiring simple responses that are    3.2    Task and Procedure
+disconnected from natural responses (e.g., pressing buttons on a         The experimenter welcomed the participant, providing a detailed
+keyboard, clicking a mouse). This approach delivers high inter-          explanation of the study and obtaining their informed consent. The
+nal validity, but limited ecological validity, meaning that the neural   participant was then equipped with the VR headset (HTC Vive
+mechanisms underlying natural behavior are unclear [62]. Further-        Eye Pro, HTC Vive, Taoyuan City, Taiwan) and controllers, and
+more, traditional brain imaging studies have been largely conducted      guided through single practice blocks of the ”Dynamic-Multiple”
+                                                                         was manually adjusted and headset position optimized. All par-
+                                                                         ticipants successfully completed the calibration routine, confirming
+                                                                         adequate visual clarity and alignment according to the Vive soft-
+                                                                         ware (mean IPD = 59.9 mm, SD IPD = 3.1 mm).
+                                                                             The participant was first positioned on a platform in a dark,
+                                                                         sparse virtual room (Figure 1). They were handed a pair of Vive
+                                                                         controllers, which transformed into virtual sabers measuring 1.5 m
+                                                                         in length, the end of each saber anchored to a controller. Both
+                                                                         sabers were the same color as the targets (counterbalanced red/blue
+                                                                         between participants). They were instructed to position themselves
+                                                                         over a white circle on the platform and maintain fixation on a fix-
+                                                                         ation sphere (2 m circumference) positioned at a distance of 30
+                                                                         m and a height of 1 m. They then completed blocks of the four
+                                                                         task conditions (order counterbalanced between participants). Each
+                                                                         block was initiated with a trigger press, and was comprised of a
+                                                                         continuous stream of stimuli.
+                                                                             In the Static-Single condition, on each trial a lone target sphere
+                                                                         (0.4 m circumference) abruptly appeared in one of six possible
+                                                                         pseudo-random locations (centered 1 m from the fixation sphere)
+                                                                         and they were instructed to strike the sphere as quickly as possi-
+                                                                         ble using either saber (Figure 2B). The target color was either red
+                                                                         or blue, counterbalanced between participants. If the target was
+                                                                         struck by a saber within the response window (1 s), it disappeared,
+                                                                         and the participant received haptic feedback (a short buzz on the
+                                                                         striking controller) to signal their successful target strike. The next
+                                                                         target then appeared in another pseudo-random location, and the
+Figure 2: VR-EEG setup, cognitive tasks and protocol. (a) A partic-      sequence continued. In the Dynamic-Single condition, the target
+ipant engaged in the task while wearing an EEG cap and VR head-          sphere emerged from a distant fixation point and moved towards
+set. (b) Schematic examples of trials in the Static- Single and Mul-     one of the six location bins, and participants were instructed to
+tiple conditions. A red target sphere appeared in front of the par-      strike it as it traveled past them (Figure 2C). At the point of saber
+ticipant either in isolation or flanked by non-targets and the partic-   contact, the moving target sphere was approximately the same dis-
+ipant used either saber to strike the target as quickly as possible.     tance from fixation as in the Static condition (1 m). Successful saber
+(c) Schematic examples of trials in the Dynamic- Single and Multi-       strikes triggered a short confirmatory buzz on the striking controller.
+ple conditions. On each trial a target sphere appeared at a distance,    The Static-Multiple and Dynamic-Multiple conditions were iden-
+either in isolation or flanked by non-targets, and moved towards the     tical to the Static-Single and Dynamic-Single conditions in terms
+participant. They used either saber to intercept the target when it      of trial structure and timing, but on each trial five distractor spheres
+came within reach. (d) Experimental workflow. Curved arrows depict       appeared at the same time as the target sphere, one in each of the
+the between-participants counterbalancing of the four main condi-        remaining location bins. The distractor colors were green, magenta,
+tions.                                                                   cyan, yellow and either blue if the assigned target color was red, or
+                                                                         red if the assigned target color was blue.
+and ”Dynamic-Single” conditions (see below) of the task. All par-            The participant was instructed to maintain gaze on the fixation
+ticipants successfully completed the practice blocks and proceeded       sphere and minimize eye and head movements throughout each
+to the full experiment.                                                  trial block. Fixation breaks caused the sphere to turn from white
+   The participant then removed the VR headset, sat in a comfort-        to grey, which was intended to prompt the participant to re-fixate
+able chair, and was fitted with an EEG cap consisting of 64 scalp        on the sphere. Fixation breaks were defined as gaze deviations ex-
+electrodes arranged according to the 10-20 system (ActiChamp,            ceeding 5 degrees of visual angle from the center of the fixation
+Brain Products, Berlin, Germany). Two electrodes were placed di-         sphere. In all conditions the target destination was one of six differ-
+rectly on the mastoids. Electrode FCz was used as an online ref-         ent stimulus locations, which were determined by pseudorandomly
+erence. A wireless EEG transmitter (MOVE, Brain Products) was            selecting one of six locations [30°, 90°, 150°, 210°, 270°, 330°]
+then attached. The participant then stood up and the experimenter        and then adding a random amount of jitter [+/- 10°]. Target loca-
+positioned the VR headset over the EEG cap (see Figure 2A) and           tion sequences were pseudo-randomized to ensure equal sampling
+handed them a Vive controller for each hand. This VR-EEG setup           across bins while preventing repetition of the same bin on consecu-
+is consistent with previous studies [17, 42].                            tive trials. A unique sequence was generated for each participant
+   The participant then completed the main experimental task while       and condition. Each condition consisted of 6 blocks, and each
+we continuously sampled EEG at 1000 Hz. The task was controlled          block contained 102 trials. Condition order was counterbalanced
+using custom scripts for Unity (Unity Technologies, San Francisco,       across four possible permutations to control for sequence effects
+USA) that were written with functions from the Simple XR toolbox         (SS = Static-Single, SM = Static-Multiple, DS = Dynamic-Single,
+(https://github.com/simpleOmnia/sXR) [40]. A Dell XPS Desk-              DM = Dynamic-Multiple): [SS,SM,DS,DM; SM,SS,DM,DS;
+top 8960 PC (NVIDIA RTX4090 GPU, Intel i9 Processor and 64               DS,DM,SS,SM; DM,DS,SM,SS]. Participants were distributed
+GB Ram) was used to run the VR setup. Event timing codes were            across these four orders. They were given the opportunity to
+sent from the Unity PC to the EEG amplifier using custom code            take breaks between blocks during each condition, and also longer
+for Unity. Eye-tracking data from the Vive headset were recorded         breaks between conditions, including temporarily removing the VR
+throughout the experiment at 90 Hz, as were the positions of all rel-    headset if required. In the static conditions, the 1 s response win-
+evant objects in the environment. Prior to completing the first con-     dow was determined via pilot testing. All four conditions took ∼1
+dition, the participant ran through the built-in Vive eye-tracker cal-   hr total to complete. Participants tolerated the experimental proto-
+ibration routine, where the physical inter-pupillary distance (IPD)      col well, and no sessions were terminated due to simulator sickness
+or adverse reactions.                                                     of the target sphere. Consistent with standard guidelines for mea-
+                                                                          suring lateralized visual attention components [45] , we analyzed
+3.3   EEG Data Preprocessing                                              both components at lateral occipito-parietal electrodes PO7/PO8
+EEG data were processed offline with custom scripts that use func-        and P7/P8, where they are typically maximal.
+tions from the EEGLAB Toolbox [18] and MATLAB (version                    3.5 Lateralization
+2023a, The MathWorks, Inc., Natick, MA, US). First, EEG event
+markers were shifted to compensate for the latency between the            We examined alpha-band lateralization as this provides a moment-
+event codes sent from Unity to the amplifier to mark the onset of         by-moment measure of spatially selective attention that, unlike the
+each stimulus on each trial, and the actual rendering of each stim-       ERP analyses described in the previous section, is not strictly time-
+ulus in the VR headset. This correction was based on independent          locked to abrupt stimulus onsets. This allows us to measure at-
+validation using a photodiode, which revealed a mean lag of 25.56         tention in the static conditions but, also critically in the dynamic
+ms (SD = 2.02 ms) across 102 trials. The EEG data were down-              conditions, where we want to attend to objects that start at fixation
+sampled to 250 Hz to reduce processing and memory demands.                and gradually move into the periphery.
+The data were then re-referenced to the average mastoid signal, and          Alpha oscillations are extensively involved in voluntary atten-
+low- and high- pass filters were applied at 30 Hz and 0.1 Hz, respec-     tional allocation [27], such that the distribution of alpha power
+tively. The Automatic Artifact Removal (AAR) toolbox [33] was             across parieto-occipital scalp regions changes when attention is fo-
+then applied to remove ocular artifacts. Specifically, ocular artifacts   cused on stimuli located on either side of the visual field [55, 63].
+were corrected using the AAR toolbox’s conventional recursive             To examine the role of alpha oscillations in our data we computed a
+least squares (CRLS) regression algorithm, which uses the recorded        lateralization index [63, 36]. We first averaged alpha power across
+EOG channels (Fp1 and Fp2) as a reference to adaptively estimate          parieto-occipital and occipital electrodes where alpha lateralization
+and subtract ocular noise from the EEG data. Next, electrodes with        is known to be most evident [ [63, 55]; left ROI: PO3, PO7, O1;
+excessive noise were identified using the clean rawdata function in       right ROI: PO4, PO8, O2]. Then, we computed the degree of later-
+EEGLAB, whereby an electrode was considered abnormal if it flat-          alization over the trial duration using the following equation:
+lined for >5 s, had values exceeding 4 standard deviations of the to-
+tal channel population, or failed to correlate at r > .85 with a recon-                             I psilateralPower −ContralateralPower
+struction of it based on other channels. Thresholds were selected          LateralizationIndex =
+                                                                                                    I psilateralPower +ContralateralPower
+based on standard default recommendations for clean rawdata.
+   Electrode rejection rates were 6.5 ± 2.6 electrodes (mean ± SD).       3.6 Inverted-Encoding Modeling
+For alpha lateralization analyses, noisy electrodes were interpolated     Here, we used IEM to estimate spatially selective neural responses
+to ensure a consistent electrode array across all participants, en-       based on topographical patterns of alpha activity across the scalp
+abling the calculation of alpha lateralization indices using standard-    [54, 26, 48, 30]. An IEM attempts to determine whether the input
+ized electrode clusters (Section 3.5). However, these noisy elec-         features are carrying information with specific characteristics for
+trodes were excluded from all IEM analysis to prevent the inclusion       each of the stimulus conditions and, in the process, the method can
+of potentially inaccurate reconstructed electrode data in the model       be used to reconstruct a specific feature that the brain is representing
+(Section 3.6). The data were then epoched from 0.5 s prior to stim-       at a moment in time. This provides a quantitative estimation of
+ulus onset to 2 s post-stimulus offset and the mean pre-stimulus          whether the information conforms to an specific expected pattern.
+baseline (-0.2 - 0 s) was subtracted. Trials with unsuccessful saber      A visualization of the IEM pipeline is shown in (Figure 3) and more
+strikes were removed. A threshold-based artifact rejection function       detail about each step is described below.
+was then used to eliminate epochs in the remaining electrodes that            We prepared the data for the IEM by first organizing the spectral
+exhibited amplitudes surpassing ± 150 µV (Trial rejection rates per       data into location bins, ensuring the number of trials per bin was
+condition: C1 = 5.6 ± 7.5 %, C2 = 6.9 ± 9.3 %, C3 = 4.9 ± 6.6 %,          equal. To enhance the signal-to-noise ratio and reduce computa-
+C4 = 6.4 ± 8.8 %).                                                        tional demands, each bin was then randomly split into three sets of
+   For the lateralization and IEM analyses, we first submitted the        trials, which were averaged to create 18 total inputs for the IEM (6
+cleaned, epoched data to a third-order Butterworth filter to isolate      locations x 3 averaged trials). This trial selection process was re-
+the alpha (8-12 Hz) frequency band. A Hilbert transformation was          peated 10 times, with a new, random set of trials in each iteration,
+then applied to extract instantaneous amplitude and phase values.         to ensure the model’s results were not influenced by any specific
+Data were then sorted by location bin. To mitigate bias due to po-        set of trials. This robust approach improved the reliability of our
+tential trial number discrepancies caused by artifact rejection, trial    model’s outcomes.
+numbers were equalized across bins. The bin with the fewest trials            An IEM was run for every time point within the 2.5 s trial epoch,
+was identified, and an (n-1) sized subsample was randomly selected        resulting in 625 (250 Hz x 2.5 s) separate models per condition
+from each bin. This ensured every bin contributed a random sub-           and participant. For model validation, we used an k-fold cross-
+sample, including the one with the least trials. Total alpha power        validation approach, where k = 4. We divided the averaged trials
+(non-phase-locked oscillations) was then computed by squaring the         into four folds, with each fold containing one averaged trial per
+absolute values from the Hilbert transform.                               location bin. The model was trained on three of these folds and
+                                                                          then tested on the single remaining ”left-out” fold. This process
+3.4   Event-Related Potentials                                            was repeated four times, ensuring that each fold was used once as
+We used the ERP technique to analyze time-locked neural re-               the test set.
+sponses to targets in the Static conditions. This was possible only           We ran two separate models: one for the static conditions and
+for the Static conditions because those tasks featured abruptly on-       one for the dynamic conditions. Each model was trained using
+setting lateralized targets. Specifically, we examined the visual N1      an equal number of trials from both conditions within its pair.
+and N2pc components - negative deflections occurring at parieto-          This ”fixed” encoding model approach helps to minimize potential
+occipital scalp locations between 150-300 ms after the presentation       bias from variations in signal-to-noise ratio (SNR) between condi-
+of a visual stimulus that provide precise time=locked signatures of       tions [44, 59]. For each participant and condition, we defined the
+spatial attention [22, 39]. We isolated these components by aver-         following variables: m represents the number of EEG electrodes;
+aging brain responses across trials at electrodes both contralateral      n1 and n2 represent the number of trials in the training and testing
+(i.e., opposite side) and ipsilateral (i.e., same side) to the location   sets, respectively. We then define a basis set. Let j be the number
+of hypothetical response channels (C1 , j × n1 ), comprised of half-
+sinusoidal channels raised to the seventh power. This basis set was
+comprised of six channels representing equally-spaced locations
+(i.e., j=6). The training and test sets are represented by B1 (m × n1)
+and B2 (m × n2), respectively. A general linear model (GLM; stan-
+dard implementation) was then used to estimate a weight matrix
+(W, m × j) using the basis set (C1 ). Specifically:
+
+                              B1 = WC1
+   The ordinary least-squared estimate of W can be computed as
+follows:
+
+                        Ŵ = B1C1T (C1C1T )−1
+  Using the estimated weight matrix (ŵ) and the test data (B2 ), the
+channel responses (C2 , j × n2 ) can be estimated by the following:        Figure 3: Inverted Encoding Modeling (IEM) Sequence. The IEM
+                                                                           assumes brain responses can be modeled as a set of hypothetical
+                                  T    −1
+                        Ĉ2 = (Ŵ Ŵ ) Ŵ B2                               information channels [59]. The first step is to estimate to what extent
+                                                                           a linear combination of predetermined channel responses (the basis
+   After calculating the estimated channel responses Ĉ2 for each          set, (a)) captures the underlying structure of the observed EEG data.
+location bin, we circularly shifted the channel response function          This process generates regression weights for each electrode and
+(CRF) for each averaged trial to align with a stimulus-centered ref-       channel, which essentially represent the contribution of each elec-
+erence frame. Centered CRFs were then averaged across trials for           trode to each location-specific channel (b). Next, these weights are
+each participant and condition. This entire modeling process was           used to estimate channel responses from the observed EEG data (c).
+repeated for every time point in the trial. To ensure the model’s          Spatially selective responses are then quantified by circularly shifting
+output was not biased by any particular trial selection, we ran the        the CRFs to a common center (0 degrees), folding them at the center
+model ten times, each with a different random selection of trials. A       and computing the linear slope (d).
+final centered CRF was then generated by averaging results across
+the ten iterations.                                                        4 RESULTS AND DISCUSSION
+   The IEM sequence was also repeated with randomly permuted
+location bin labels. We ran this null model ten times, each time           We present an integrated results and discussion section to create a
+using a different set of randomly shuffled bin labels, following the       more coherent narrative. This approach allows us to immediately
+same trial randomization protocol. This entire process was repeated        explain the significance of each key result alongside the data, di-
+five times using a new set of shuffled labels each time. The resulting     rectly connecting our findings to the existing literature. We then
+CRFs were averaged across all iterations and permutations to gen-          synthesize the results in a General Discussion section and discuss
+erate ”permuted” CRFs. This randomization is expected to remove            their broader implications.
+any spatial selectivity, resulting in flat channel response profiles.         The static and dynamic tasks differed significantly in nature, tim-
+Permuted CRFs then served as a baseline for hypothesis testing,            ing, and instructions. The static tasks required participants to re-
+allowing comparison of ”real” CRFs against a null model with no            spond as quickly and accurately to each target as possible, whereas
+spatial selectivity.                                                       the dynamic tasks required waiting until a target came within reach.
+   To quantify spatial selectivity, estimated CRFs were then folded        Due to these fundamental differences in structure and timing, we
+around 0° offset. This transformed the responses from [-120°, -            analyze the static and dynamic tasks as separate pairs.
+60°, 0°, 60°, 120°, 180°] into [0°, 60°, 120°, 180°] by averaging
+responses at corresponding offsets (note that ±60° and ±120° were          4.1 Behavior
+averaged, but 0° and 180° were not). The slope was then calculated         Accuracy was near ceiling in both Static conditions, hence mean-
+using a linear regression of the resulting alpha power across the          ingful statistical comparison of accuracy was not possible due to
+offset values. Larger slope values indicate greater spatial selectivity.   lack of variance. Responses were faster in the Static-Single com-
+                                                                           pared to Static-Multiple condition [t(31) = 9.34, pnull < .001] (Fig-
+3.7 Hypothesis Testing                                                     ure 4a). Accuracy was not statistically different across Dynamic-
+We used a non-parametric permutation-based resampling technique            Single and Dynamic-multiple conditions [t(31) = 1.86, pnull > .05],
+to empirically approximate null distributions for our statistical tests    but responses were slightly faster in the Dynamic-Multiple condi-
+(e.g., [26, 11, 10, 9]). For pairwise analyses, we shuffled condition      tion, albeit by <1ms [t(31) = 3.46, pnull < .01] (Figure 4b).
+labels within subjects and ran 1,000 iterations to generate null dis-
+tributions of t-statistics. For multivariate techniques, such as IEM,      4.2 Evoked Brain Responses to Static Targets
+the model was trained and tested for 1,000 iterations, with condi-         We analyzed ERPs time-locked to the onset of static targets to con-
+tion labels shuffled in each iteration to create a matrix of permuted      firm that our 3D VR stimuli produced brain responses consistent
+null channel response functions. We then determined statistical sig-       with those observed in classic 2D studies of spatial attention. In-
+nificance by calculating the probability (pnull ) of obtaining our ob-     spection of contralateral and ipsilateral responses across posterior
+served t-statistics from these null distributions. The standard F          electrodes to targets presented either in isolation or with distrac-
+and t-statistics are reported alongside the critical p-value (labeled      tors revealed substantial differences between conditions (Figure 5).
+pnull ). Where appropriate, effect sizes are reported as Cohen’s d.        The initial positive deflection around 100 ms post-stimulus (P1 ERP
+We acknowledge that performing repeated comparisons across the             component) in both conditions is thought to reflect early sensory
+time-course increases the risk of Type I errors. However, our con-         processing and attentional allocation in the brain [37]. In the Static-
+clusions are not based on isolated significant timepoints, but rather      Single condition, this was a highly lateralized response because the
+on sustained temporal clusters of significance. The consistency of         target appeared in isolation, leading to a rapid orientation of atten-
+these effects across contiguous windows mitigates the likelihood of        tion. In contrast, the Static-Multiple condition, which required a
+spurious results arising from multiple comparisons.                        sequential search, showed a non-lateralized P1 because the onset
+Figure 4: Behavior. Response times and accuracy for (a) Static-
+Single (SS) and Static-Multiple (SM) conditions, and (b) Dynamic-
+Single (DS) and Dynamic-Multiple (DM) conditions. Gray and white
+lines in boxplots represent group medians and means, respectively.
+**pnull < .01, ***pnull < .001
+
+
+of all six stimuli drove the response. These patterns are broadly
+consistent with previous work [14]. Both conditions then show
+large subsequent negative-going lateralized deflections (i.e., larger
+negative-going amplitude in contralateral than ipsilateral). These        Figure 5: Event-Related Potentials. ERP Waveforms depict averaged
+deflections are broadly consistent with the posterior lateralized N1      contralateral and ipsilateral brain responses to target onsets in the
+and N2pc components, which are thought to reflect sensory gain            Static-Single (a) and Static-Multiple (b) conditions. Horizontal black
+control processes and the enhancement of the target signal from           bars at the base of each plot mark timepoints where the lateralized
+distracting information [22, 47, 69]. The classic N2pc typically          responses are statistically different. Topographic maps to the right of
+involves separation of the contralateral and ipsilateral waveforms at     the ERP plots show mean activation across posterior scalp regions
+the second negative-going component in the waveform. In our data,         for the large negative-going deflection averaged across the indicated
+                                                                          timepoints. Contralateral and ispilateral electrodes used to compute
+the large negative deflection is the first and only negative compo-
+                                                                          waveforms are marked with red and black circles, respectively.
+nent in the Static-Single condition, which is consistent with the vi-
+sual N1; whereas in the Static-Multiple condition it is the third com-
+ponent. The difference in timing and also order likely reflect addi-      non-targets. The earlier plateau and decline immediately prior to re-
+tional stages of attentional processing required for selecting a target   sponse may reflect attentional capture by the looming non-targets,
+amongst distractors (volitional, sequential search) versus selecting      drawing attention from the target and causing it to be spread else-
+an isolated target (reflexive, no search). Changes in the timing and      where.
+order of lateralized negative-going brain responses to spatial stimuli
+have also been observed in previous work [22, 66]. Furthermore,           4.4   Reconstructing Attended Target Locations
+the notion that search for a target amongst distractors requires addi-
+                                                                          We examined location-selective responses to determine the extent
+tional stages of attentional processing is consistent with slower RTs
+                                                                          to which the target location was represented in patterns of alpha
+in the Static-Multiple condition (Figure 4a).
+                                                                          activity during each time point in the trial. CRF heatmaps and slope
+                                                                          plots allow us to quantify and compare the strength of this location-
+4.3   Lateralized Alpha Tracks Target Locations                           specific coding throughout the trial (Figure 7).
+We examined lateralized responses in the alpha band to determine             In the Static-Single condition, robust location-selective recon-
+if these could be used to track the moment-by-moment allocation of        structions were observed at target onset and endured well beyond
+spatial attention to both static and dynamic target objects presented     the mean saber strike RT. As with our previous lateralization analy-
+in either left or right visual field locations.                           sis, the observation of a location-selective reconstruction appearing
+    In the Static-Single condition, alpha power increased contralat-      slightly before stimulus onset is interpreted as an artifact of tem-
+eral to the cue at target onset, then shifted ipsilateral to the cue      poral smearing caused by the Butterworth filter. The CRF slopes
+(∼0.3 s) and remained lateralized well beyond the mean RT (Fig-           peaked between ∼0.2 and 0.3 s before declining and leveling off
+ure 6a). The observation of alpha lateralization appearing slightly       (Figure 7a). In contrast, in the Static-Multiple condition, location-
+before stimulus onset is interpreted as an artifact of temporal smear-    selective responses emerged much more slowly, with robust recon-
+ing caused by the Butterworth filter. The later ipsilateral shift was     structions emerging at ∼0.25 s and persisting until after the saber
+expected and indicates allocation of attention to the attended loca-      strike. Together, these data indicate that it takes participants longer
+tion, consistent with previous work (e.g., [63, 55]). The earlier         to orient attention to targets surrounded by distractors compared to
+contralateral activation was unexpected and to our knowledge has          isolated targets. This is consistent with the previously presented
+not been observed previously in screen-based spatial tasks. In the        behavioral and EEG data.
+Static-Multiple condition alpha did not lateralize until later in the        In the Dynamic-Single condition, location-selective information
+trial (∼0.65 s), indicating lateralization is delayed if search is de-    was present from ∼0.25 s post-stimulus and was sustained through
+layed.                                                                    the end of the trial (Figure 7b). The CRF slopes initially peaked
+    In the Dynamic-Single condition, alpha shifted ipsilateral from       around 0.45 s and then peaked again just prior to target inter-
+the target from ∼0.3 s and the lateralization index continued to in-      ception, before dropping off. In the Dynamic-Multiple condition,
+crease until around the time of the response, where it plateaued          location-selective information also emerged from ∼0.25 s, peaked
+before starting to decline (Figure 6b). The monotonic increase sug-       just slightly after the Dynamic-Single condition and then sustained
+gests that alpha tracks the location of the target as it approaches       through the end of the trial. Notably, CRF slopes diverged be-
+from the center of the visual field and moves towards the periphery.      tween the two conditions around the time of target interception (∼1
+In the Dynamic-Multiple condition alpha lateralized slightly later        to 1.5 s), with a clear peak in the Dynamic-Single relative to the
+(∼0.4 s to 0.5 s), before dropping, then building up again until the      Dynamic-Multiple condition, indicating stronger focus or orienta-
+response (∼.625 to 1.175). The delayed lateralization likely reflects     tion of attention to a lone target. This divergence may reflect dif-
+the challenge of initially identifying and tracking the target amongst    fusion of attention away from the target when it is surrounded by
+Figure 6: Alpha Lateralization. Plots show lateralization for (a) Static and (b) Dynamic conditions. Topographic maps show the distribution of
+alpha across posterior scalp sites related to one example target location (red target, 90°). At the base of each plot, condition-specific color-coded
+bars indicate timepoints where the lateralization index was significantly different from zero, while grey bars mark time points where lateralization
+differed significantly between conditions. Additionally, condition-specific color-coded vertical dashed lines indicate the mean saber strike reaction
+times for each condition.
+
+distractors around the time of interception, despite the target al-           eralized alpha activity as a proxy for attentional allocation, the pre-
+ready having been identified earlier in the trial. This may reflect           cise functional role of these oscillations remains a subject of debate.
+participants being unable to disengage attention from the looming             Although there is consensus that alpha tracks the spatiotemporal dy-
+distractor stimuli, suggesting these stimuli capture attention despite        namics of covert orienting, current evidence cannot definitively dis-
+their task irrelevance. This is consistent with previous behavioral           tinguish between mechanisms of distractor suppression and target
+work showing capture by looming stimuli [43, 28].                             signal enhancement [25]. Alpha oscillations likely represent just
+                                                                              one of several components of a multifaceted attention system, and
+5   GENERAL DISCUSSION                                                        while alpha does appear to support a causal role in control of spa-
+                                                                              tial attention, the specific processing stages and temporal dynamics
+The goal of this paper was to assess the feasibility of the SABER             governing this effect remain to be fully characterized [51].
+framework for studying the neural mechanisms of object tracking                   Multivariate methods indicated that it was possible to track
+in immersive VR. Participants used virtual sabers to strike target            moment-by-moment spatial attention to 3D static and dynamic ob-
+spheres, which appeared either abruptly or loomed from a distance,            jects with greater spatial specificity. Unlike traditional univariate
+both alone and with distractors. Participants performed well at the           measures which often provide only coarse hemispheric contrasts
+tasks, striking targets with high accuracy. We then demonstrated              (attend left vs. right), the IEM approach allowed us to recover pre-
+that methods previously used to study spatial attention to static ob-         cise spatial reconstructions of attended targets from the patterns of
+jects on 2D screens could be applied to study both static and moving          alpha oscillations recorded across the scalp. The IEM results are
+3D objects in immersive VR. Our results validate this approach by             particularly encouraging for cognitive neuroscientists, as they show
+demonstrating a consistency in neural mechanisms with previous                it is possible to reconstruct dynamic 3D target locations despite the
+2D studies while also providing novel insight into spatial attention          increased visual complexity and potential noise inherent to VR en-
+to dynamic 3D objects. This paper thus provides a crucial foun-               vironments. This capability is essential for studying the dynamics
+dation for future research, enabling new hypotheses about how the             of spatial attention, paving the way for future research into how the
+brain supports attention to dynamic objects to be tested.                     brain continuously updates priority maps during naturalistic ’atten-
+   Traditional univariate EEG methods confirmed that our static and           tional smooth pursuit’ of dynamic targets moving in 3D.
+dynamic 3D VR stimuli produced reliable brain responses consis-
+tent with the existing literature. The ERP analyses served as an
+                                                                              5.1   Limitations and Future Directions
+important reality check on timing, showing that expected sensory-
+evoked responses unfolded on a plausible timeline following the               While this study maintained high experimental rigor, we acknowl-
+abrupt onset of targets. This finding gives us confidence in the tem-         edge several limitations that could be addressed in future versions
+poral precision of our integrated VR-EEG hardware, despite the                of SABER. First, to isolate covert attention and minimize ocular
+temporal smearing inherent in oscillatory analyses. Furthermore,              artifacts known to disrupt alpha-band activity, we required partic-
+lateralization analyses confirmed that alpha power shifted across             ipants to maintain central fixation [48, 12]. We recognize that en-
+the posterior scalp as participants attended to targets, a pattern con-       forcing fixation limits ecological validity, as natural attention in-
+sistent with previous work. A key novel result from this analy-               volves overt eye movements; however, this constraint was neces-
+sis was demonstrating that, in the dynamic conditions, the extent             sary to minimize noise in this proof-of-concept study and allowed
+of alpha lateralization tracks the target’s eccentricity from fixation.       for direct methodological comparison with foundational screen-
+Additionally, the unexpected rise in contralateral alpha power fol-           based paradigms [22, 54, 63]. Aspects of gaze control could be
+lowing target onset in the Static-Single condition represents a novel         refined depending on future research goals. To ensure stricter con-
+finding that has not been documented in prior literature. The ex-             trol in future versions of SABER aimed at isolating covert atten-
+act cause of this effect is unclear, but we reason that this is a gen-        tion, a self-paced, gaze-contingent approach will be implemented,
+uine physiological effect rather than a methodological artifact, as           where trials automatically terminate upon broken fixation, thereby
+very similar processing pipelines yielded no such patterns in our             ensuring participants strictly adhere to the central fixation require-
+previous screen-based experiments using comparable single-target              ment. Conversely, future adaptations of the task targeting natural-
+paradigms [12, 48]. Replication and further examination of this un-           istic, free-viewing behavior will eliminate fixation requirements,
+expected effect will be important. Note that while we interpret lat-          thereby enabling participants to overtly attend to targets. Further
+Figure 7: Reconstructing Object Locations from Alpha-Band Power with Inverted Encoding Modeling. CRF heatmaps and slope plots are shown
+for Static (a) and Dynamic (b) conditions. Heatmaps depict spatially selective responses for targets reconstructed from topographic patterns of
+alpha, with darker red along the preferred location (0 degs) indicating stronger spatial selectivity. Line plots depict linear slopes of folded CRFs
+for each condition (solid lines) and their permuted counterparts (dashed lines). Higher slopes indicate more selective responses. At the base
+of each plot, condition-specific color-coded bars mark timepoints where there is a robust location-selective responses to the target (i.e., CRF
+slopes are significantly different to their permuted counterparts). Gray bars mark timepoints where CRF slopes differed significantly between
+conditions. Additionally, condition-specific color-coded vertical dashed lines indicate the mean saber strike reaction times for each condition.
+
+work will also strictly control low-level visual properties by equat-        and physiological state [31, 32, 7] influence attention and working
+ing stimuli for luminance and contrast. Second, our sample was               memory, it is critical to adopt more dynamic and embodied tasks to
+predominantly composed of young, healthy, female adults, which               gain a comprehensive understanding of these cognitive functions.
+may limit the generalizability of our findings. Future iterations will
+prioritize recruiting a demographically representative sample with           6   CONCLUSION
+a balanced sex ratio and broader age range, if possible. Third, de-
+                                                                             Tracking dynamic objects relies heavily on spatial attention and
+spite its immersive nature, VR differs from reality and remains a
+                                                                             WM [4, 21, 38] yet contemporary theories of attention and work-
+novel experience for many participants, which may impact behav-
+                                                                             ing memory are primarily based on static objects presented at fixed
+ior. The extended duration of the VR session (∼ 1 hour) likely con-
+                                                                             locations [16, 24, 46, 58, 70]. This paper introduces and validates
+tributed to participant fatigue, while the standing posture required
+                                                                             SABER, a new framework that merges a dynamic Beat Saber in-
+for the task may have taxed attentional resources and introduced
+                                                                             spired VR task with EEG recording to elucidate the neural mecha-
+additional variability into the neural data [23, 72]. While we are
+                                                                             nisms that underpin real-time tracking of dynamic objects in an im-
+not yet capturing true real-world behavior, this VR-EEG approach
+                                                                             mersive 3D environment. We show how EEG techniques typically
+does go a long way towards bridging the gap between traditional
+                                                                             applied to study spatial attention to 2D static stimuli can be suc-
+lab-based studies and naturalistic human functioning. Fourth, de-
+                                                                             cessfully used to study dynamic stimuli moving in 3D. These find-
+spite the generally clean EEG signals, the VR headset design may
+                                                                             ings validate the SABER framework and open up new avenues for
+have compromised electrode contact in specific areas, notably un-
+                                                                             research into how the brain supports attention to dynamic objects.
+der the overhead strap and face pad. Fifth, the HTC Vive Pro Eye
+                                                                             This approach reveals how known neural mechanisms for static ob-
+has a physical minimum IPD of 60.7 mm. As our sample included
+                                                                             ject processing extend and adapt to dynamic contexts, while im-
+participants with IPDs sightly below this threshold (mean = 59.9
+                                                                             portantly allowing us to challenge the notion that attentional mech-
+mm), a subset of participants viewed stimuli with a slight optical
+                                                                             anisms operate identically in static versus dynamic settings [20].
+misalignment. While this offset (typically < .04 mm per eye) gener-
+                                                                             This approach is critical because the insights it can generate will
+ally remains within the sweet spot of the Fresnel lenses, it may have
+                                                                             not only advance our understanding of how attention operates in
+introduced minor optical aberrations for participants with signifi-
+                                                                             the physical world but will also have practical applications in the
+cantly smaller IPDs. While this is not ideal, since all comparisons
+                                                                             design of more intuitive interfaces, effective training simulations,
+were within-subjects, any minor optical discrepancies were consis-
+                                                                             and immersive experiences optimized for the human attention sys-
+tent across conditions and did not introduce experimental bias. We
+                                                                             tem. Ultimately, this work is relevant across a broad range of fields,
+also obtained verbal confirmation from participants that the stimuli
+                                                                             including cognitive neuroscience, human factors, and extended re-
+were not blurry each time the headset was repositioned.
+                                                                             ality (XR) and brain-computer interface (BCI) development.
+   Despite limitations, this paper provides proof-of-concept for a
+new framework for studying attention in dynamic 3D VR. While
+the primary focus was validating SABER for spatial attention re-             ACKNOWLEDGMENTS
+search, this approach also opens the door to investigating the inter-        The authors wish to thank Elise Kormos, Paola Belmontes and
+play between attention, working memory, and action goals. Recent             Catherine Wen for their assistance with data collection.This re-
+hypotheses on working memory propose that a neural mechanism                 search was sponsored by the U.S. Army Research Office and ac-
+exists to track stored items across space and time [3], and our ap-          complished under contract W911NF-09-D-0001 for the Institute for
+proach provides evidence to support this. Furthermore, considering           Collaborative Biotechnologies. Additional support came from NSF
+accumulating evidence that action goals [34, 64, 65], movement,              award IIS-1911230 and ONR grant N00014-23-1-2118.
+R EFERENCES                                                                           2021. doi: 10.1111/ejn.15190 3, 4
+                                                                                 [18] A. Delorme and S. Makeig. EEGLAB: an open source toolbox for
+ [1] R. Allen, P. Mcgeorge, D. G. Pearson, and A. Milne. Multiple-Target              analysis of single-trial EEG dynamics including independent compo-
+     Tracking: A Role for Working Memory? Quarterly Journal of Ex-                    nent analysis. Journal of neuroscience methods, 134(1):9–21, Mar.
+     perimental Psychology, 59(6):1101–1116, June 2006. doi: 10.1080/                 2004. doi: 10.1016/j.jneumeth.2003.10.009 5
+     02724980543000097 2                                                         [19] R. N. Denison. Visual temporal attention from perception to compu-
+ [2] M. M. Alnawmasi and S. K. Khuu. Deficits in multiple object-tracking             tation. Nature Reviews Psychology, 3(4):261–274, Mar. 2024. doi: 10
+     and visual attention following mild traumatic brain injury. Scientific           .1038/s44159-024-00294-0 2
+     Reports, 12(1):13727, Aug. 2022. doi: 10.1038/s41598-022-18163-2            [20] Z. Djebbara, D. C. Huynh, A. Koselevs, Y. Chen, L. B. Fich, and
+     1                                                                                K. Gramann. Turning corners in built environments shifts spatial at-
+ [3] E. Awh and E. K. Vogel. Working memory needs pointers. Trends                    tention costs. NeuroImage, 322:121549, Nov. 2025. doi: 10.1016/j.
+     in Cognitive Sciences, 29(3):230–241, Mar. 2025. doi: 10.1016/j.tics.            neuroimage.2025.121549 9
+     2024.12.006 2, 9                                                            [21] T. Drew and E. K. Vogel. Neural Measures of Individual Differ-
+ [4] M. Belledonne, E. Butkus, B. J. Scholl, and I. Yildirim. Adaptive                ences in Selecting and Tracking Multiple Moving Objects. The Jour-
+     computation as a new mechanism of dynamic human attention. Psy-                  nal of Neuroscience, 28(16):4183–4191, Apr. 2008. doi: 10.1523/
+     chological Review, June 2025. doi: 10.1037/rev0000572 2, 9                       JNEUROSCI.0556-08.2008 2, 9
+ [5] H. Berger. Über das Elektrenkephalogramm des Menschen. Archiv              [22] M. Eimer. The N2pc component as an indicator of attentional selectiv-
+     für Psychiatrie und Nervenkrankheiten, 87(1):527–570, Dec. 1929.                ity. Electroencephalography and clinical Neurophysiology, 99:225–
+     doi: 10.1007/BF01797193 2                                                        234, 1996. 2, 3, 5, 7, 8
+ [6] G. J. Brouwer and D. J. Heeger. Decoding and reconstructing color           [23] S. Fakorede, F. Alkhameys, K. Liao, L. Martin, and H. Devos. Neural
+     from responses in human visual cortex. The Journal of neuroscience               evidence for attentional resource allocation to postural control using
+     : the official journal of the Society for Neuroscience, 29(44):13992–            brain-body imaging. Behavioural Brain Research, 494:115716, Oct.
+     14003, 2009. ISBN: 1529-2401 (Electronic)\r1529-2401 (Linking).                  2025. Publisher: Elsevier BV. doi: 10.1016/j.bbr.2025.115716 3, 9
+     doi: 10.1523/JNEUROSCI.3577-09.2009 3                                       [24] I. C. Fiebelkorn and S. Kastner. Functional Specialization in the At-
+ [7] T. Bullock, H. Cecotti, and B. Giesbrecht. Multiple stages of informa-           tention Network. Annual Review of Psychology, 71(1):221–249, Jan.
+     tion processing are modulated during acute bouts of exercise. Neuro-             2020. doi: 10.1146/annurev-psych-010418-103429 2, 9
+     science, 307:138–150, Oct. 2015. doi: 10.1016/j.neuroscience.2015.          [25] J. J. Foster and E. Awh. The role of alpha oscillations in spatial atten-
+     08.046 9                                                                         tion: limited evidence for a suppression account. Current Opinion in
+ [8] T. Bullock, J. C. Elliott, J. T. Serences, and B. Giesbrecht. Acute Exer-        Psychology, 29:34–40, 2019. Publisher: Elsevier Ltd. doi: 10.1016/j.
+     cise Modulates Feature-selective Responses in Human Cortex. Jour-                copsyc.2018.11.001 3, 8
+     nal of Cognitive Neuroscience, 29(4):605–618, Apr. 2017. doi: 10.           [26] J. J. Foster, D. W. Sutterer, J. T. Serences, E. K. Vogel, and E. Awh.
+     1162/jocn a 01082 3                                                              The topography of alpha-band activity tracks the content of spatial
+ [9] T. Bullock, B. Giesbrecht, A. E. Beaudin, B. G. Goodyear, and M. J.              working memory. Journal of Neurophysiology, 115(1):168–177, Jan.
+     Poulin. Effects of changes in end-tidal PO2 and PCO2 on neural re-               2016. ISBN: 6135336215. doi: 10.1152/jn.00860.2015 3, 5, 6
+     sponses during rest and sustained attention. Physiological Reports,         [27] J. J. Foxe and A. C. Snyder. The Role of Alpha-Band Brain Oscilla-
+     9(21):1–25, Nov. 2021. doi: 10.14814/phy2.15106 6                                tions as a Sensory Suppression Mechanism during Selective Attention.
+[10] T. Bullock, E. Machniak, J. Passananti, K. Yu, R. Kumaran, Y.-J. Kim,            Frontiers in Psychology, 2, July 2011. Publisher: Frontiers. doi: 10.
+     J. Garrett, M. Viswesvaran, J. Ram, T. Höllerer, and B. Giesbrecht.             3389/fpsyg.2011.00154 3, 5
+     Electrophysiological evidence for differential semantic processing of       [28] S. L. Franconeri and D. J. Simons. Moving and looming stimuli cap-
+     words and objects presented in augmented reality. Computers in Hu-               ture attention. Perception & Psychophysics, 65(7):999–1010, Oct.
+     man Behavior Reports, p. 100677, Apr. 2025. Publisher: Elsevier BV.              2003. doi: 10.3758/BF03194829 8
+     doi: 10.1016/j.chbr.2025.100677 6                                           [29] J. O. Garcia, R. Srinivasan, and J. T. Serences. Near-real-time feature-
+[11] T. Bullock, M. H. MacLean, T. Santander, A. P. Boone, V. Babenko,                selective modulations in human cortex. Curr Biol, 23(6):515–22, Mar.
+     N. M. Dundon, A. Stuber, L. Jimmons, J. Raymer, G. N. Okafor, M. B.              2013. doi: 10.1016/j.cub.2013.02.013 3
+     Miller, B. Giesbrecht, and S. T. Grafton. Habituation of the stress         [30] J. Garrett, T. Bullock, and B. Giesbrecht. Tracking the contents of
+     response multiplex to repeated cold pressor exposure. Frontiers in               spatial working memory during an acute bout of aerobic exercise. J
+     Physiology, 13:752900, Jan. 2023. doi: 10.3389/fphys.2022.752900                 Cogn Neurosci, 33:1271–1286, 2021. doi: 10.1162/jocn a 01714 3, 5
+     6                                                                           [31] J. Garrett, C. Chak, T. Bullock, and B. Giesbrecht. A systematic re-
+[12] T. Bullock, K. Pickett, A. Salimian, C. Gregory, M. H. MacLean, and              view and Bayesian meta-analysis provide evidence for an effect of
+     B. Giesbrecht. Eye movements disrupt EEG alpha-band coding of                    acute physical activity on cognition in young adults. Communica-
+     behaviorally relevant and irrelevant spatial locations held in working           tions Psychology, 2(1):1–21, Aug. 2024. Publisher: Nature Publishing
+     memory. Journal of Neurophysiology, 129(5):1191–1211, May 2023.                  Group. doi: 10.1038/s44271-024-00124-2 3, 9
+     doi: 10.1152/jn.00302.2021 3, 8                                             [32] B. Giesbrecht, T. Bullock, and J. Garrett. Physically activated modes
+[13] P. Cavanagh and G. Alvarez. Tracking multiple targets with multifocal            of attentional control. Trends in Cognitive Sciences, 29(3):295–307,
+     attention. Trends in Cognitive Sciences, 9(7):349–354, July 2005. doi:           Mar. 2025. doi: 10.1016/j.tics.2024.11.006 3, 9
+     10.1016/j.tics.2005.05.009 1, 2                                             [33] G. Gomez-Herrero, W. Clercq, H. Anwar, O. Kara, K. Egiazarian,
+[14] V. P. Clark, S. Fan, and S. a. Hillyard. Identification of early vi-             S. Huffel, and W. Paesschen. Automatic Removal of Ocular Artifacts
+     sual evoked potential generators by retinotopic and topographic anal-            in the EEG without an EOG Reference Channel. Proceedings of the
+     yses. Human Brain Mapping, 2(3):170–187, 1995. doi: 10.1002/hbm                  7th Nordic Signal Processing Symposium - NORSIG 2006, pp. 130–
+     .460020306 7                                                                     133, June 2006. doi: 10.1109/NORSIG.2006.275210 5
+[15] M. X. Cohen. Analyzing Neural Time Series Data: Theory and Prac-            [34] T. C. Handy, S. T. Grafton, N. M. Shroff, S. Ketay, and M. S. Gaz-
+     tice. The MIT Press, Jan. 2014. doi: 10.7551/mitpress/9609.001.0001              zaniga. Graspable objects grab attention when the potential for action
+     3                                                                                is recognized. Nature Neuroscience, 6(4):421–427, Apr. 2003. doi: 10
+[16] M. Corbetta and G. L. Shulman. Control of goal-directed and                      .1038/nn1031 9
+     stimulus-driven attention in the brain. Nature reviews. Neuroscience,       [35] S. Harenberg, J. St. Onge, J. Robinson, O. Eguakun, A. Feinstein,
+     3(3):201–15, Mar. 2002. doi: 10.1038/nrn755 2, 9                                 K. Dorsch, R. S. Kakar, R. Abdulhakim, Z. Rehman, M. Shawush,
+[17] A. Delaux, J. De Saint Aubert, S. Ramanoël, M. Bécu, L. Gehrke,                and V. Pillay. Effectiveness of Three-Dimensional Multiple-Object
+     M. Klug, R. Chavarriaga, J. Sahel, K. Gramann, and A. Arleo. Mobile              Tracking in Patients with Multiple Sclerosis. International Journal of
+     brain/body imaging of landmark-based navigation with high-density                MS Care, 23(4):143–149, July 2021. doi: 10.7224/1537-2073.2020
+     EEG. European Journal of Neuroscience, 54(12):8256–8282, Dec.                    -007 1
+[36] A. M. Harris, P. E. Dux, C. N. Jones, and J. B. Mattingley. Distinct        [55] P. Sauseng, W. Klimesch, W. Stadler, M. Schabus, M. Doppelmayr,
+     roles of theta and alpha oscillations in the involuntary capture of goal-        S. Hanslmayr, W. R. Gruber, and N. Birbaumer. A shift of visual spa-
+     directed attention. NeuroImage, 152:171–183, May 2017. doi: 10.                  tial attention is selectively associated with human EEG alpha activity.
+     1016/j.neuroimage.2017.03.008 5                                                  The European journal of neuroscience, 22(11):2917–26, Dec. 2005.
+[37] S. A. Hillyard, E. K. Vogel, and S. J. Luck. Sensory gain control (am-           doi: 10.1111/j.1460-9568.2005.04482.x 3, 5, 7
+     plification) as a mechanism of selective attention: electrophysiological    [56] D. Schubring, M. Kraus, C. Stolz, N. Weiler, D. A. Keim, and
+     and neuroimaging evidence. Philosophical Transactions of the Royal               H. Schupp. Virtual Reality Potentiates Emotion and Task Effects of
+     Society of London. B. Biological Sciences, 353:1257–1270, 1998. 6                Alpha/Beta Brain Oscillations. Brain Sciences, 10(8):537, Aug. 2020.
+[38] A. Holcombe. Attending to Moving Objects. Cambridge University                   Number: 8 Publisher: Multidisciplinary Digital Publishing Institute.
+     Press, 1 ed., Feb. 2023. doi: 10.1017/9781009003414 1, 2, 9                      doi: 10.3390/brainsci10080537 3
+[39] S. Johannes, T. Münte, H. Heinze, and G. Mangun. Luminance                 [57] B. Schöne, J. Kisker, L. Lange, T. Gruber, S. Sylvester, and R. Osin-
+     and spatial attention effects on early visual processing. Cognitive              sky. The reality of virtual reality. Frontiers in Psychology, 14, Feb.
+     Brain Research, 2(3):189–205, July 1995. doi: 10.1016/0926-6410                  2023. Publisher: Frontiers. doi: 10.3389/fpsyg.2023.1093014 3
+     (95)90008-X 5                                                               [58] S. Shomstein, X. Zhang, and D. Dubbelde. Attention and platypuses.
+[40] J. Kasowski and M. Beyeler. SimpleXR: An open-source Unity tool-                 WIREs Cognitive Science, 14(1), Jan. 2023. doi: 10.1002/wcs.1600
+     box for simplifying vision research using augmented and virtual real-            2, 9
+     ity. Journal of Vision, 23(9):5518, Aug. 2023. doi: 10.1167/jov.23.9.       [59] T. C. Sprague, K. C. S Adam, J. J. Foster, M. Rahmati, D. W. Sut-
+     5518 4                                                                           terer, and V. A. Vo. Assaying population-level stimulus representa-
+[41] O. Kelemen, O. Nagy, A. Mátyássy, I. Bitter, G. Benedek,                       tions Title: Inverted encoding models assay population-level stimulus
+     Z. Vidnyánszky, and S. Kéri. How well do patients with schizophre-             representations, not single-unit neural tuning. pp. 0–10, 2018. doi: 10
+     nia track multiple moving targets? Neuropsychology, 21(3):319–325,               .1523/ENEURO.0098-18.2018 5, 6
+     May 2007. doi: 10.1037/0894-4105.21.3.319 1                                 [60] M. Stangl, S. L. Maoz, and N. Suthana. Mobile cognition: imaging
+[42] M. Liang, M. J. Starrett, and A. D. Ekstrom. Dissociation of frontal-            the human brain in the ‘real world’. Nature Reviews Neuroscience,
+     midline delta-theta and posterior alpha oscillations: A mobile EEG               Apr. 2023. doi: 10.1038/s41583-023-00692-y 3
+     study. Psychophysiology, 55(9):e13090, Sept. 2018. doi: 10.1111/            [61] L. E. Thomas and A. E. Seiffert. Self-motion impairs multiple-object
+     psyp.13090 4                                                                     tracking. Cognition, 117(1):80–86, Oct. 2010. doi: 10.1016/j.cogni-
+[43] J. Y. Lin, S. Franconeri, and J. T. Enns. Objects on a Collision                 tion.2010.07.002 2
+     Path With the Observer Demand Attention. Psychological Science,             [62] K. Thurley. Naturalistic neuroscience and virtual reality. Frontiers
+     19(7):686–692, July 2008. Publisher: SAGE Publications Inc. doi: 10              in Systems Neuroscience, 16:896251, Nov. 2022. doi: 10.3389/fnsys.
+     .1111/j.1467-9280.2008.02143.x 8                                                 2022.896251 3
+[44] T. Liu, D. Cable, and J. L. Gardner. Inverted encoding models of            [63] G. Thut, A. Nietzel, S. a. Brandt, and A. Pascual-Leone. Alpha-
+     human population response conflate noise and neural tuning width.                band electroencephalographic activity over occipital cortex indexes
+     The Journal of Neuroscience, 38(2):2453–17, 2017. doi: 10.1523/                  visuospatial attention bias and predicts visual target detection. The
+     JNEUROSCI.2453-17.2017 5                                                         Journal of neuroscience : the official journal of the Society for Neu-
+[45] S. J. Luck. An introduction to the event-related potential technique.            roscience, 26(37):9494–502, Sept. 2006. doi: 10.1523/JNEUROSCI.
+     MIT press, 2014. 2, 5                                                            0875-06.2006 3, 5, 7, 8
+[46] S. J. Luck, N. Gaspelin, C. L. Folk, R. W. Remington, and                   [64] C. Trentin, L. Falanga, J. Jeske, C. N. Olivers, and H. A. Slagter. Ac-
+     J. Theeuwes. Progress toward resolving the attentional capture de-               tion similarity warps visual feature space in working memory. Pro-
+     bate. Visual Cognition, 29(1):1–21, Jan. 2021. doi: 10.1080/13506285             ceedings of the National Academy of Sciences, 121(49):e2413433121,
+     .2020.1848949 2, 9                                                               Dec. 2024. doi: 10.1073/pnas.2413433121 9
+[47] S. J. Luck and S. A. Hillyard. Electrophysiological correlates of fea-      [65] C. Trentin, H. A. Slagter, and C. N. Olivers. Visual working memory
+     ture analysis during visual search. Psychophysiology, 31(3):291–308,             representations bias attention more when they are the target of an ac-
+     May 1994. doi: 10.1111/j.1469-8986.1994.tb02218.x 2, 7                           tion plan. Cognition, 230:105274, Jan. 2023. doi: 10.1016/j.cognition
+[48] M. H. MacLean, T. Bullock, and B. Giesbrecht. Dual Process Coding                .2022.105274 9
+     of Recalled Locations in Human Oscillatory Brain Activity. The Jour-        [66] R. Verleger, B. Żurawska Vel Grajewska, and P. Jaśkowski. Time-
+     nal of Neuroscience, 39(34):6737–6750, Aug. 2019. doi: 10.1523/                  course of hemispheric preference for processing contralateral relevant
+     JNEUROSCI.0059-19.2019 3, 5, 8                                                   shapes: P1pc, N1pc, N2pc, N3pc. Advances in Cognitive Psychology,
+[49] H. S. Meyerhoff, F. Papenmeier, and M. Huff. Studying visual atten-              8(1):19–28, Mar. 2012. doi: 10.5709/acp-0098-9 7
+     tion using the multiple object tracking paradigm: A tutorial review.        [67] B. A. Wandell, S. O. Dumoulin, and A. A. Brewer. Visual Field Maps
+     Attention, Perception, & Psychophysics, 79(5):1255–1274, July 2017.              in Human Cortex. Neuron, 56(2):366–383, Oct. 2007. doi: 10.1016/j.
+     doi: 10.3758/s13414-017-1338-1 2                                                 neuron.2007.10.012 2
+[50] P. L. Nunez and R. Srinivasan. Electric fields of the brain: The neu-       [68] S. Wang, Z. Djebbara, G. Sanches De Oliveira, and K. Gramann. Hu-
+     rophysics of EEG. Oxford University Press, Jan. 2006. doi: 10.1093/              man brain dynamics dissociate early perceptual and late motor-related
+     acprof:oso/9780195050387.001.0001 2                                              stages of affordance processing. European Journal of Neuroscience,
+[51] C. Peylo, Y. Hilla, and P. Sauseng. Cause or consequence? Al-                    p. ejn.16461, July 2024. doi: 10.1111/ejn.16461 3
+     pha oscillations in visuospatial attention. Trends in Neurosciences,        [69] E. Wascher, S. Hoffmann, J. Sänger, and M. Grosjean. Visuo-spatial
+     44(9):705–713, Sept. 2021. doi: 10.1016/j.tins.2021.05.004 8                     processing and the N1 component of the ERP. Psychophysiology,
+[52] Z. W. Pylyshyn. Perception, Representation, and the World: The                   46(6):1270–1277, Nov. 2009. doi: 10.1111/j.1469-8986.2009.00874.
+     FINST That Binds. In D. Dedrick and L. Trick, eds., Computation,                 x7
+     Cognition, and Pylyshyn, pp. 3–48. The MIT Press, June 2009. doi:           [70] J. M. Wolfe. Guided Search 6.0: An updated model of visual search.
+     10.7551/mitpress/8135.003.0004 2                                                 Psychonomic Bulletin & Review, 28(4):1060–1092, Aug. 2021. doi:
+[53] Z. W. Pylyshyn and R. W. Storm. Tracking multiple independent tar-               10.3758/s13423-020-01859-9 2, 9
+     gets: Evidence for a parallel tracking mechanism. Spatial Vision,           [71] H. Zhang, Y. Xuan, X. Fu, and Z. W. Pylyshyn. Do objects in work-
+     3(3):179 – 197, 1988. Place: Leiden, The Netherlands Publisher:                  ing memory compete with objects in perception? Visual Cognition,
+     Brill. doi: 10.1163/156856888X00122 1, 2                                         18(4):617–640, Apr. 2010. doi: 10.1080/13506280903211142 2
+[54] J. Samaha, T. C. Sprague, and B. R. Postle.               Decoding and      [72] A. Zinchenko, N. Busch, G. Dodwell, and T. Geyer. Withstand Con-
+     Reconstructing the Focus of Spatial Attention from the Topog-                    text: Standing Posture Improves Contextual Cueing in Challenging
+     raphy of Alpha-band Oscillations. Journal of Cognitive Neuro-                    Visual Search. 2025. 3, 9
+     science, 28(8):1090–1097, Aug. 2016. arXiv: 1511.04103 ISBN:
+     9780192880512. doi: 10.1162/jocn a 00955 3, 5, 8
+

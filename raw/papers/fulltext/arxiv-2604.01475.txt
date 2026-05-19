@@ -1,0 +1,1687 @@
+                                                   Interpretable Electrophysiological Features of
+                                                   Resting-State EEG Capture Cortical Network
+                                                         Dynamics in Parkinson’s Disease
+                                                                          Antonios G. Dougalis1,2*
+                                            1
+                                             Computational Neuroscience, Institute of Applied and Computational Mathematics,
+                                            Foundation for Research and Technology – Hellas (FORTH), 70013, Heraklion, Greece
+                                                             2
+                                                               Independent Researcher, 50131, Lefkopigi, Greece
+arXiv:2604.01475v2 [q-bio.NC] 10 Apr 2026
+
+
+
+
+                                            * Correspondence, antoniosdougalis@med.uoc.gr; antoniosdougalis@gmail.com, orcID:
+                                                                          0000-0002-2139-1616
+
+
+
+                                            Abstract
+                                            Background/Objectives: Parkinson’s disease (PD) alters cortical neural dynamics, yet
+                                            reliable non-invasive electrophysiological biomarkers remain elusive. Resting-state elec-
+                                            troencephalography (EEG) can capture complementary spectral, connectivity, and dy-
+                                            namical properties reflecting disease-related neural alterations and medication effects.
+                                            This study examined whether interpretable EEG features capturing complementary as-
+                                            pects of neural dynamics can discriminate Parkinsonian neural states and provide insight
+                                            into underlying electrophysiological differences. Methods: Resting-state EEG record-
+                                            ings from healthy controls and PD patients recorded in both off- and on-medication
+                                            states were analyzed. A comprehensive set of interpretable features was extracted from
+                                            each electrode and grouped into Standard descriptors (spectral power, phase synchro-
+                                            nization, time-domain statistics) and Dynamical descriptors (aperiodic activity, cross-
+                                            frequency coupling, scale-free dynamics, neuronal avalanche statistics, and instanta-
+                                            neous frequency measures). A multi-head attention transformer classifier was trained us-
+                                            ing strict leave-one-subject-out validation. Feature complementarity was assessed using
+                                            random ablation analyses and pairwise correlation measures. Group-level comparisons
+                                            were performed to identify electrophysiological differences associated with disease and
+                                            medication state. Results: Standard and Dynamical feature sets achieved comparable
+                                            classification performance. Standard features showed strongest performance in discrimi-
+                                            nating medication states (PDoff vs PDon), whereas Dynamical features performed com-
+                                            petitively in contrasts between PD patients and healthy controls. Random feature abla-
+                                            tion analyses indicated that Dynamical descriptors provide complementary information
+                                            distributed across features while correlation analysis revealed low redundancy within
+                                            both feature sets. Group-level comparisons revealed medication-sensitive reductions in
+                                            delta power and voltage variance, modulation of neuronal avalanche statistics, persistent
+                                            increases in theta phase synchronization in PD patients, and disease-related alterations
+                                            in cross-frequency interactions. Conclusions: Distributed electrophysiological descrip-
+                                            tors derived from resting-state EEG capture complementary aspects of Parkinsonian
+                                            neural dynamics. Traditional spectral and synchronization features primarily reflect
+                                            medication-related neural modulation, whereas dynamical descriptors reveal broader
+                                            alterations in cortical network organization associated with disease but also with medi-
+                                            cation. These findings support multivariate EEG representations as a promising frame-
+                                            work for developing non-invasive biomarkers of Parkinson’s disease.
+
+
+
+
+                                                                                                                               1/34
+Keywords
+Neural dynamics; Transformer models; Functional connectivity; Cross-frequency cou-
+pling; Leave-one-subject-out validation; Neuronal avalanches
+
+
+Introduction
+Parkinson’s disease (PD) is the second most common neurodegenerative disorder and it
+is the fastest growing neurological disease in prevalence and disability worldwide (Kowal
+et al., 2013, GBD 2016). The most recent projection data from the modelling study
+of Global Burden of Disease Study 2021 (Su et al., 2025) estimate around 25 million
+PD patients living worldwide by 2050 (112% increase from 2021) with a forecasted
+prevalence of 267 per 100,000 of population (a rise of 76% from 2021). The increase is
+attributed primarily to population ageing (89%) followed by population growth (20%)
+and changes in disease prevalence (3%) (Su et al., 2025).
+    PD is characterized by the accumulation of α-synuclein aggregates and progressive
+motor impairment resulting from degeneration of dopaminergic neurons within the ni-
+grostriatal pathway and destabilization of neuronal activity in the basal ganglia (Dick-
+son, 2012, Stocchi et al., 2024). The disease exhibits substantial heterogeneity in clinical
+phenotype, disease progression, and treatment response. Early and accurate diagnosis
+remains challenging, particularly during the prodromal and early symptomatic stages,
+since clinical examination alone may lack sufficient sensitivity while PET (Positron
+Emission Tomography) and SPECT (Single-Photon Emission Computed Tomography)
+imaging are expensive, often unavailable and, more importantly, unsuitable for repeated
+longitudinal assessment due to radiation exposure (Brucke et al., 2020; Waninger et al.,
+2020; Stocchi et al., 2024). Thus, identification of reliable non-invasive biomarkers capa-
+ble of detecting PD pathology and tracking disease progression would have substantial
+clinical value, particularly for evaluating the effectiveness of emerging disease-modifying
+therapies in clinical trials (Stocchi et al., 2024).
+    Electroencephalography (EEG), especially during resting-state scalp EEG recordings,
+is a promising noninvasive candidate modality because it can capture cortical oscillatory
+dynamics which can be directly influenced by basal ganglia–thalamo–cortical circuits.
+For instance, elevated phase-amplitude coupling (PAC) between beta (13-30Hz) and
+broadband gamma bands (50-150Hz) registered in invasive electrocorticography (ECoG)
+in the motor cortex (de Hemptinne et al., 2013) is responsive to deep brain stimulation
+treatment (de Hemptinne et al., 2015) and can be detected in scalp EEG recordings from
+electrodes nearest the motor cortex (Swann et al., 2015). Similarly, features of beta oscil-
+latory band waveform shape recorded over the somatosensory cortex exhibited distinct
+sharpness asymmetry and responded to changes in PD medication in resting-state EEG
+studies in PD patients (Jackson et al., 2019) Furthermore, scalp EEG recordings have
+detected widespread cortical increase in beta (13-30 Hz) and gamma(30-45Hz) band
+coherence in PD patients against controls that were positively correlated with disease
+severity markers and impaired dopaminergic tone measured by dopamine transporter
+PET imaging (Waninger et al., 2020)
+    Despite these promising observations, consistent EEG biomarkers for PD remain
+elusive. Many conventional EEG metrics fail to reliably differentiate patients from
+healthy individuals at the global scalp level or at a localized level near the somatosensory
+cortex. For instance, studies have reported no consistent differences on beta and gamma
+band power in scalp EEG recordings (de Hemptinne et al., 2013; George et al., 2013; de
+Hemptinne et al., 2015; Swann et al., 2015), although changes in theta and alpha bands
+in posterior lobes (parietal & occipital) have been detected in PD patients (Babiloni
+et al., 2011). These findings highlight that detectable EEG signatures of PD may
+
+
+
+
+                                                                                      2/34
+be subtle, spatially heterogeneous, clinically divergent and highly dependent on the
+particular signal feature examined. These observations also suggest that single-feature
+EEG analyses may capture only partial aspects of Parkinsonian neural dynamics. The
+reliance on narrowly defined spatial or spectral features poses a challenge for biomarker
+development.
+    An alternative approach is to treat the EEG not as a source of single candidate
+biomarkers, but rather as a high-dimensional representation of neural dynamics from
+which multiple complementary features can be extracted. In the present study, a mul-
+tivariate perspective is adopted to investigate EEG signatures in Parkinson’s disease.
+Using a publicly available resting-state EEG database from healthy controls and Parkin-
+son’s disease patients recorded in both on- and off-medication states (George et al.,
+2013), a comprehensive set of physiologically interpretable electrophysiological features
+was extracted from each electrode. These features encompass oscillatory and aperiodic
+spectral properties, temporal signal statistics, functional connectivity metrics, scale-
+free dynamics, excitation–inhibition(E/I) balance proxies, cross-frequency coupling mea-
+sures, neuronal avalanche characteristics, and metrics of criticality dynamics. Rather
+than focusing on isolated candidate biomarkers, this approach treats EEG recordings
+as high-dimensional representations of neural activity from which complementary phys-
+iological descriptors of brain dynamics can be derived.
+    To evaluate whether these distributed electrophysiological descriptors contain dis-
+criminative information about Parkinsonian neural states, an attention-head transformer
+encoder model was utilized, a deep learning architecture increasingly applied in EEG
+feature integration and classification (Lyu et al., 2026). In addition to assessing classi-
+fication performance, group-level analyses of the extracted features were conducted to
+examine how specific electrophysiological descriptors differ between healthy controls and
+Parkinson’s disease patients and how they are modulated by dopaminergic medication.
+These statistical comparisons were performed independently of the model-training pro-
+cedure and serve to provide physiological interpretation of the feature representations.
+The extracted features were organized into two conceptual groups: standard features,
+including spectral power, time-domain statistical descriptors, and phase-based func-
+tional connectivity measures; and dynamical features, capturing higher-order properties
+of neural signal organization such as scale-free dynamics, cross-frequency interactions,
+and neuronal avalanche statistics. Classification performance was evaluated across both
+binary and three-class tasks distinguishing healthy controls, PD patients off medication,
+and the same patients during dopaminergic treatment. Model evaluation was conducted
+using a strict leave-one-subject-out (LOSO) cross-validation protocol, ensuring that all
+recordings from a given participant were excluded from training when that subject was
+used for testing. To further assess the contribution and complementarity of these fea-
+ture groups, models were trained using both the full feature set and systematically
+reduced feature sets generated through random ablation in which 50% of features were
+removed. It is hypothesized that combinations of physiologically interpretable EEG fea-
+tures reflecting complementary aspects of oscillatory activity, network connectivity, and
+dynamical signal organization contain sufficient information to differentiate PD from
+healthy neural activity and to capture medication-related neural state changes under a
+rigorous subject-level validation framework.
+
+
+Materials and Methods
+Participants
+An openly available, previously published, resting-state EEG dataset was used for the
+analysis (openNeuro Accession Number ds002778). The dataset includes EEG data
+
+
+
+
+                                                                                     3/34
+from 15 PD patients (eight female, mean age of 63.2 ± 8.2 years) on and off dopamin-
+ergic medication and 16 healthy, age-matched, control participants (nine female, mean
+age of 63.5 ± 9.6 years) and has been described extensively (George et al., 2013, Swann
+et al., 2015). All PD patients had been diagnosed by a movement disorder specialist
+at Scripps clinic in La Jolla, California. Participants provided written consent in accor-
+dance to the Institutional Review Board of the University of California, San Diego and
+the Declaration of Helsinki. For additional patient information the original study by
+George and colleagues (2013) can be consulted.
+
+Data collection
+Data from PD patients on and off medication were collected on different days with a
+counterbalanced order. For the on-medication recordings, patients continued their typi-
+cal medication regimen. For the off-medication state, patients discontinued medication
+use at least 12 h before the session. Control participants were tested once. EEG data
+were acquired using a 32-channel BioSemi ActiveTwo system and were sampled at 512
+Hz. Resting data were recorded for at least 3 min. During data collection, the par-
+ticipants were seated comfortably and told to fixate on a cross presented on a screen.
+Participants also completed several other assessments described in the previously pub-
+lished report (George et al.,2013), but these were not analyzed in the present report.
+
+EEG Data Preprocessing
+Raw EEG data (BioSemi .bdf format) were imported and preprocessed using the MNE-
+Python library (v1.11.0, mne.io.read raw bdf). Analyses were conducted using NumPy
+(v2.2.2) and SciPy (v1.13.1). After visual inspection of channel integrity, non-EEG ex-
+ternal electrodes (EXG channels) were excluded from further analysis. Data were re-
+referenced to the common average reference using mne.set eeg reference(’average’,
+projection=False). Continuous EEG signals were band-pass filtered between 0.5–45
+Hz using a zero-phase finite impulse response (FIR) filter (mne.filter(l freq=0.5,
+h freq=45, method=’fir’)). The filter was applied using forward–reverse convolu-
+tion to avoid phase distortion, equivalent to two-pass filtering as implemented in MAT-
+LAB’s filtfilt. Independent component analysis (ICA) was performed using the
+FastICA algorithm (mne.preprocessing.ICA(method=’fastica’)), which internally
+relies on the FastICA implementation from scikit-learn (v1.7.2). Prior to ICA decom-
+position, dimensionality reduction was performed via principal component analysis re-
+taining 99.99% of explained variance (n components=0.999). This procedure mirrors
+the extended Infomax/FastICA decomposition framework commonly used in EEGLAB,
+while operating within the MNE environment. Automatic component rejection was im-
+plemented based on three quantitative metrics computed from the ICA decomposition.
+Specifically, the projection power (sum of squared mixing matrix weights), kurtosis (via
+scipy.stats.kurtosis) and high-frequency muscle ratio (ratio of power at frequency
+range 25-45Hz over 1-15Hz) derived from Welch spectral estimates (scipy.signal.welch)
+were evaluated (Supplementary Figure S1). Projection power and kurtosis components
+exceeding percentile-based thresholds (95th percentile) and high frequency muscle ra-
+tio exceeding the threshold of three were marked for exclusion and removed during
+signal reconstruction with the accepted component only (ica.apply()). The cleaned
+continuous data were segmented into consecutive 5 s epochs with 1 s overlap, down-
+sampled to 256 Hz and stored as 3D NumPy arrays (epochs × channels × time points).
+Epochs exceeding ±15 standard deviations were rejected from further analysis. The
+EEG dataset preprocessing scripts are publicly accessible at the authors’ GitHub repos-
+itory (https://github.com/antoniosdougalis/Parkinson-s-Project.git).
+
+
+
+
+                                                                                    4/34
+EEG feature extraction
+Preprocessed EEG epochs (NumPy arrays: epochs × 32 channels × 1280 samples) were
+subjected to a structured feature extraction pipeline routine implemented in Python
+(v3.10.18) using NumPy (v2.2.2), SciPy (v1.13.1), NeuroDSP (v2.3.0), PyBispectral
+(v1.3.0) and FOOOF (v1.1.1) libraries.
+
+Time-domain statistics
+For each epoch and channel, mean, variance, and interquartile range (IQR = Q3-Q1)
+were computed using NumPy (np.mean, np.var, np.percentile) to quantify central
+tendency and signal dispersion. These measures quantify baseline amplitude character-
+istics and variability of ongoing neuronal activity. Changes in variance or dispersion
+may reflect altered cortical excitability or signal stability in pathological conditions.
+
+Estimation of spectral aperiodic & periodic components
+Power spectral density (PSD) was estimated using Welch’s method (scipy.signal.welch)
+using a Hann window, 50% overlap and 0.5 Hz frequency resolution (nperseg = 512
+sample points, nfft = 2*nperseg). The PSD was subsequently utilized for computa-
+tion of the aperiodic (offset, exponent) and aperiodic-corrected dominant peak periodic
+component using the FOOOF library as described previously (Donoghue et al., 2020).
+The model estimated, aperiodic offset and exponent, dominant spectral peak (center
+frequency [CF], bandwidth [BW], peak power [PW]) and goodness-of-fit (R²). Periodic
+peak threshold was set at 0.5dB and epochs with aperiodic fits with R² ¡ 0.85 were
+rejected. Only a single dominant peak was allowed to be detected per epoch. The anal-
+ysis separates periodic oscillatory activity from the aperiodic 1/f background component.
+The aperiodic exponent is thought to reflect synaptic excitation–inhibition balance (Gao
+et al., 2017), whereas oscillatory peaks represent structured rhythmic network activity.
+
+Phase-based functional connectivity (PLV & PLI)
+Narrowband phase time series were extracted using frequency-domain convolution with
+complex Morlet wavelets (fft, ifft, np.angle via NumPy/SciPy) following Cohen’s method
+(2019). Four-second-long complex-valued Morlet wavelets (cMWs) were constructed by
+applying a Gaussian taper to a complex sine wave centered at a single frequency for
+each of the five canonical bands (central frequencies: delta, 2 Hz; theta, 6 Hz; alpha,
+10 Hz; beta, 20 Hz; gamma, 38 Hz). The full width at half maximum (FWHM) of the
+Gaussian in the time domain (delta, 1.45 s; theta, 0.48 s; alpha, 0.25 s; beta, 0.22 s;
+gamma, 0.18 s) was selected to yield approximately 3–7 cycles per wavelet, enabling
+stable phase estimation and defining the effective frequency bandwidth of each filter
+(Supplementary Figure S2). Phase-locking value (PLV) and phase-lag index (PLI) be-
+tween any pairs of electrodes across delta (1-4 Hz), theta (4-8 Hz), alpha (8-12 Hz),
+beta (13-30Hz) and gamma (30-45Hz) frequency bands were computed as proxies of
+inter-regional phase synchronization and connectivity.
+    PLV is defined as:
+                                             N
+                                         1 X j(ϕk (t)−ϕm (t))
+                           PLVkm =              e
+                                         N t=1
+   PLI is defined as:
+                                     N
+                                  1 X                             
+                        PLIkm =         sign Im{ej(ϕk (t)−ϕm (t)) }
+                                  N t=1
+
+
+
+
+                                                                                   5/34
+    where ϕk (t) and ϕm (t) are instantaneous phase time series (N sample points) of elec-
+trode k and m, j is the imaginary unit, and Im{·} denotes the imaginary part. PLV and
+PLI are implemented in Python using the formulas PLV = abs(mean(exp(1j*∆phase)))
+and PLI = abs(mean(sign(imag(exp(1j*∆phase))))), where ∆phase is the instantaneous
+phase difference between electrode pairs. PLV reflects consistency of phase differences
+between regions, indexing functional coupling. PLI reduces sensitivity to zero and 2π
+radians-lag synchronization that often reflect volume conduction effects at the expense
+of losing information on true zero/2π lag interactions.
+
+Surface Laplacian transform
+To evaluate whether phase synchronization effects could be influenced by spatial spread
+of scalp potentials, an additional analysis was performed on Laplacian-transformed EEG
+signals. The surface Laplacian provides an estimate of the second spatial derivative of
+the scalp potential distribution and acts as a spatial high-pass filter that attenuates
+broadly distributed fields arising from volume conduction while emphasizing more local
+cortical activity (Supplementary Figure S3). The transform was computed using the
+spherical spline interpolation method of Perrin and colleagues (Perrin et al., 1989) im-
+plemented in Python following the modified formulation described by Cohen (2014a).
+Electrode coordinates were projected onto a unit sphere and Legendre polynomial ex-
+pansions were used to construct the spline weighting matrices that map scalp potentials
+to current source density estimates. A small smoothing parameter (10−5 ) was applied
+to stabilize the inversion of the spline matrix.
+    The resulting Laplacian-transformed signals were then used to recompute phase-
+based connectivity metrics (PLV and PLI) using the same procedures described above.
+In addition, for these transformed signals only, the weighted Phase Lag Index (wPLI)
+was computed as:
+                                                                              
+                         E Im{ei(ϕk (t)−ϕm (t)) } · sign Im{ei(ϕk (t)−ϕm (t)) }
+            wPLIkm =                                           
+                                       E Im{ei(ϕk (t)−ϕm (t)) }
+
+    where ϕk (t) and ϕm (t) are the instantaneous phase time series of electrodes k and m,
+i is the imaginary unit, Im{·} extracts the imaginary part, sign(·) is the sign function,
+and E[·] denotes the expectation value over time (sample mean). wPLI was computed in
+Python as wpli = np.abs(np.mean(np.sin(∆phase))) / np.mean(np.abs(np.sin(∆phase))),
+where ∆phase is the instantaneous phase difference between electrode pairs. This anal-
+ysis was performed only on Laplacian-transformed data to assess whether the observed
+PLV and PLI effects could be explained by volume conduction. The wPLI was not com-
+puted for the untransformed EEG, and its inclusion here allows a more robust evaluation
+of true near-zero-lag versus lagged phase synchrony after spatial leakage was reduced.
+
+Long-range temporal correlations (LRTC) via Detrended Fluctu-
+ation Analysis (DFA)
+Detrended fluctuation analysis was performed using SciPy and NeuroDSP as described
+previously (Cole et al., 2019; Hardstone et al., 2012). First, narrowband signals were ex-
+tracted using a 3rd-order Butterworth bandpass filter (scipy.signal.butter, filtfilt). The
+amplitude envelope was then computed via the Hilbert transform (scipy.signal.hilbert)
+and DFA was computed across ten logarithmically spaced window sizes (window time
+length min-max, 2–90 s). DFA exponents were computed for canonical frequency bands:
+delta (1-4 Hz), theta (4-8 Hz), alpha (8-12 Hz), beta (13-30Hz) and gamma (30-45Hz).
+The DFA exponent reflects scale-free persistence in neuronal dynamics, often interpreted
+as proximity to critical network states (Hardstone et al., 2012).
+
+
+
+
+                                                                                    6/34
+Functional excitation–inhibition ratio (fE/I)
+The fE/I metric (Bruining et al., 2020) was implemented in Python based on publicly
+available MATLAB code. Narrowband filtering was performed via Gaussian frequency-
+domain filtering at canonical frequency bands. The amplitude normalized detrended
+signal profile and normalized fluctuation function were computed per overlapping 5 s
+windows (80% overlap) and fE/I was computed as:
+
+fE/I = 1 − Pearson’s correlation(amplitude envelope, normalized fluctuation function)
+
+   The fE/I metric estimates the dynamic balance between excitatory and inhibitory
+processes by relating amplitude envelopes to normalized fluctuation functions. Devia-
+tions may indicate dysregulated cortical gain control mechanisms.
+
+Phase–amplitude coupling (PAC)
+Cross-frequency coupling was estimated using antisymmetrized-corrected, normalized
+bicoherence implemented via PyBispectral as described previously (Binns et al., 2025).
+PAC strength was defined as the magnitude of normalized bispectral coefficients be-
+tween low-frequency phase and high-frequency amplitude bands. PAC measures whether
+slow oscillatory phase modulates high-frequency amplitude, reflecting hierarchical cross-
+frequency communication. This mechanism is central to coordinating local processing
+(gamma) within slower large-scale network rhythms.
+
+Neuronal avalanche and critical dynamics analysis
+Neuronal avalanches were detected from broadband EEG signal for every epoch via am-
+plitude threshold crossings (5% of maximum epoch amplitude) based on previously de-
+scribed methods (Bruining et al., 2020; Shew et al., 2009). Avalanche size and duration
+were computed per electrode. The κ index of criticality was estimated by comparing em-
+pirical cumulative avalanche size distributions to a reference power-law (exponent −1.5)
+across ten logarithmically spaced bins (from min to max avalanche size). Avalanche
+analysis assesses whether neuronal activity follows scale-free power-law distributions
+consistent with criticality. The κ index quantifies deviation from theoretical critical
+dynamics.
+
+Instantaneous frequency (IF) analysis (frequency sliding)
+Temporal fluctuations in oscillatory frequency were quantified using the frequency slid-
+ing method described by Cohen (2014b). Narrowband filtered signals were obtained via
+frequency-domain convolution with appropriate filter kernels at canonical frequencies
+and IF was computed from the temporal derivative of the unwrapped Hilbert phase:
+                                                            
+                                     d unwrap(∠(H[y(t)]))
+                        f (t) = fs ·
+                                     dt          2π
+
+   where y is the bandpass-filtered signal, H denotes the Hilbert transform, unwrap
+removes the circular discontinuities in the phase and presents it as a continuous func-
+tion, ∠ represents the angle of the phase (i.e., the phase at each instance), and fs is
+the sampling frequency. IF time series were evaluated at 125 time points per 5-second
+epoch (effective sampling rate 25 Hz). The function is implemented in Python as fs*
+(np.diff( np.unwrap( np.angle( hilbert(y) ) ))/(2*np.pi)). Multiscale median smoothing
+in ten windows covering 10 to 100 sample points was applied as described previously
+to smooth the resultant IF time series from abrupt off-range angle difference values
+
+
+
+
+                                                                                   7/34
+(Cohen, 2014b). Amplitude-weighted frequency estimates were computed to reduce
+bias from low-amplitude segments. Inter-electrode coordination was quantified using
+pairwise Spearman correlations of instantaneous frequency time series. This procedure
+yields a square correlation matrix describing inter-electrode coordination of instanta-
+neous frequency fluctuations.
+    To characterize dynamic frequency behavior, three additional quantitative descrip-
+tors were extracted per epoch, electrode, and frequency band. First, the range of IF
+fluctuations was computed as IFrange = P95 (f (t)) − P5 (f (t)), using np.percentile, index-
+ing the amplitude of frequency excursions. Second, the temporal smoothness (frequency
+jitter index) was computed via np.diff and np.nanmean as IF diff = ”mean”(—f(t)-f(t-
+1)—), quantifying short-timescale variability of frequency changes. Last, the second-
+order modulation frequency (frequency of the frequency), representing the dominant
+modulation frequency of the instantaneous frequency time series, was extracted from
+the peak of its Fourier spectrum (np.fft.rfft, np.argmax ), excluding the lowest frequen-
+cies. This measure captures rhythmic structure in frequency fluctuations themselves.
+    The frequency sliding method captures moment-to-moment fluctuations in oscilla-
+tory frequency rather than static band power. Coordinated frequency fluctuations
+across electrodes may reflect dynamic network reconfiguration. Instantaneous frequency
+reflects moment-to-moment changes in network excitability and oscillatory pacing. The
+range indexes flexibility of oscillatory generators, the jitter index captures temporal sta-
+bility versus instability, and the modulation frequency quantifies higher-order rhythmic
+organization of frequency dynamics.
+
+Harmonic frequency ratio locking analysis (n:m instantaneous fre-
+quency locking)
+Harmonic locking between oscillatory bands was quantified from instantaneous fre-
+quency time series derived via frequency sliding. The approach follows the framework
+proposed by Scheffer-Teixeira & Tort (2016), in which integer frequency ratios are in-
+terpreted as a mechanism facilitating cross-frequency coordination. For each epoch and
+electrode, instantaneous frequency ratios were computed as:
+
+                                              fhigh (t)
+                                     R(t) =
+                                              flow (t)
+    Two harmonic relationships were evaluated at alpha/theta (2:1) and gamma/theta
+(5:1). Ratios were rounded to one decimal precision (np.round) and time points were
+classified as harmonically locked when R(t) equaled the expected integer ratio (2.0 or
+5.0). Binary masks were segmented into contiguous events using connected-component
+labeling (scipy.ndimage.label ). Although event counts and total durations were com-
+puted, the primary outcome measure used in statistical analyses was the percentage of
+epoch time spent in harmonic locking, defined as:
+                                       Number of locked samples
+                        %HL = 100 ×
+                                           Total samples
+Integer frequency relationships are proposed to enable stable phase alignment across
+oscillatory bands, facilitating inter-frequency communication and dynamic integration
+of neuronal processes. Increased harmonic locking reflects stronger hierarchical coordi-
+nation between slow and fast rhythms.
+
+EEG feature sets for Deep Learning (DL) classification
+Resting-state EEG recordings were processed using the multi-stage feature extraction
+pipeline designed to capture oscillatory, scale-free, and network-level dynamics. For each
+
+
+
+
+                                                                                      8/34
+subject, features were extracted independently from 32 scalp electrodes per epoch and
+were average per subject forming a three-dimensional tensor of subjects × electrodes
+× features. Connectivity measures were summarized per source electrode by averaging
+connectivity of the square matrix with all other target electrodes. This preserves global
+integration properties while reducing dimensionality and maintaining compatibility with
+token-based transformer modelling. Seventy-seven features were computed, including
+time-domain statistics, relative and absolute spectral power, phase-based connectivity
+metrics, IF measures, aperiodic exponent and periodic-corrected dominant peak char-
+acteristics, DFA, functional excitation–inhibition ratio (fEI), phase–amplitude coupling,
+neuronal avalanche metrics (size and κ) and harmonic instantaneous frequency locking.
+To reduce redundancy and improve interpretability of the feature sets for deep learning
+classification, features exhibiting extremely high correlations were removed prior to fi-
+nal set formation. Specifically, pairwise correlations were computed across all subjects,
+and features with correlations approaching ρ ≈ 1 were considered redundant and ex-
+cluded. For example, in the time domain, interquartile range and variance were highly
+correlated, while many phase–amplitude coupling and phase–phase connectivity ratios
+similarly showed near-perfect correlations. Following this pre-screening, 40 features were
+retained: 17 for the Standard set (time-domain, spectral power, and phase connectivity
+measures) and 23 for the Dynamical set (aperiodic, scale-free, cross-frequency, neuronal
+avalanche, and instantaneous frequency descriptors). This procedure ensures that the
+final sets capture largely complementary aspects of EEG dynamics while minimizing
+multicollinearity, thereby improving the interpretability and stability of downstream
+deep learning models.
+
+Handling of missing feature values
+Occasional missing values due to instability in feature estimation were imputed inde-
+pendently per electrode–feature pair using local interpolation across subjects. Missing
+entries were replaced by the mean of up to four neighboring subjects (two preceding,
+two subsequent). Boundary cases used all available neighbors. This preserved electrode-
+specific feature distributions while minimizing distortion of inter-subject variability.
+
+Feature normalization
+Features were standardized via z-score normalization independently for each electrode–feature
+pair. Means and standard deviations were computed across subjects and applied to
+transform features to zero mean and unit variance, preserving spatial specificity while
+ensuring comparable numerical scales.
+
+Multi-Head Attention Transformer-based classification model
+All DL activities, including construction of the multi-head attention transformer model
+and running of training, were executed in Python using the PyTorch library (v2.4.1) ei-
+ther locally, on a personal computer equipped with an AMD Ryzen 5 PRO processor and
+16 GB RAM, or in Google Colab using CUDA-enabled GPU acceleration when required.
+Membership classification was performed using a custom transformer encoder architec-
+ture with multi-head self-attention, based on the original description by Vaswani and
+colleagues (Vaswani et al., 2017). Each electrode was treated as a token represented by
+its corresponding feature vector. Electrode feature vectors were projected into a shared
+embedding space using a linear embedding layer. The encoder consisted of six stacked
+transformer blocks, each comprising multi-head self-attention and a feed-forward mul-
+tilayer perceptron. Each transformer block contained a feed-forward multilayer percep-
+tron with hidden dimensionality of 256 units. Layer normalization preceded each sub-
+
+
+
+
+                                                                                    9/34
+module and residual connections were used throughout, following the pre-normalization
+transformer architecture described by Vaswani et al. (2017). Multi-head self-attention
+employed six parallel heads operating on 60-dimensional embeddings (10 dimensions per
+head). Following encoding, electrode embeddings were aggregated via mean pooling and
+passed through layer normalization and a final linear classification layer mapping the
+60-dimensional pooled embedding to three output classes: control (CN), PD off med-
+ication (PDoff), and PD on medication (PDon). Dropout regularization (rate = 0.1)
+was applied throughout the encoder layers. The full implementation of the transformer
+model and training procedure is publicly available at the authors’ GitHub repository (
+https://github.com/antoniosdougalis/Parkinson-s-Project.git ).
+
+Model training and leave-one-subject-out (LOSO) cross-validation
+strategy
+Data were presented to the transformer model in batches of six subjects during training.
+A Cross-entropy loss function from the PyTorch library was used for raw logits classifi-
+cation (nn.CrossEntropyLoss()). An Adam optimizer was used with a learning rate of
+0.0001. An adaptive learning-rate scheduler ((torch.optim.lr scheduler.ReduceLROnPlateau
+was employed to help the model escape local minima. The scheduler halved the learn-
+ing rate after two consecutive epochs without improvement in loss (threshold = 0.01).
+Model performance was evaluated using leave-one-subject-out cross-validation (LOSO).
+For each fold, one subject was held out for testing and the remaining subjects used
+for training. Normalization parameters were computed exclusively on training data to
+prevent information leakage. Fifty training epochs were employed for each subject for
+both two-class and three-class classification runs. Training was stopped early when both
+conditions loss < 0.03 and accuracy > 99.7% were met.
+
+Generation of random reduced feature sets
+To evaluate feature importance, random subsets containing 50% of the features were
+generated (np.random.choice). Classification was performed on each reduced set and
+mean accuracy of the random sets was compared to that of the full set. One hundred
+random reductions were performed for each group contrast comparison for each feature
+set in order to keep computational time to a minimum.
+
+Statistical analysis
+Assessing model performance
+All analyses were conducted in Python using scikit-learn (v1.6.1) and statsmodels (v0.14.5).
+Confusion matrices (sklearn.metrics.confusion matrix) were computed per condi-
+tion. Using True Positive (TP), False Positive (FP), True Negative (TN) and False
+Negative (FN), the following metrics were calculated: Accuracy = (TP + TN) / (TP +
+TN + FP + FN); Recall (Sensitivity) = TP / (TP + FN); Precision = TP / (TP + FP);
+F1 = 2 × (Precision × Recall) / (Precision + Recall) ; Specificity = TN / (TN + FP).
+Macro-averaged metrics were computed across classes. Balanced accuracy was defined
+as mean recall, and macro-F1 as mean class-wise F1. ROC–AUC (roc auc score from
+sklearn.metrics) was computed using predicted probabilities. Binary AUC used the
+positive class probability. Multiclass AUC employed a weighted one-vs-rest approach
+(multi class=’ovr’, average=’weighted’).
+
+
+
+
+                                                                                   10/34
+Statistical comparisons of model performance & Confidence In-
+tervals (CI)
+Performance differences between models utilizing different sets of features were evalu-
+ated using McNemar’s test (statsmodels.stats.contingency tables.mcnemar, exact=True)
+Subject-level 2×2 contingency tables were constructed from paired correctness labels
+of the two models being compared. The McNemar’s test evaluates symmetry of dis-
+cordant pairs (b = c under H0 )), testing whether misclassifications favor one model
+over the other. CIs of model accuracy were estimated via non-parametric bootstrap-
+ping (sklearn.utils.resample, 5000 iterations, resampled with replacement). For
+each resample, accuracy was recomputed and 95% CIs were derived from the 2.5th and
+97.5th percentiles (np.percentile). Similarly, paired subject-level accuracy differences
+of model A and B were computed as:
+
+                             diffi = correctA,i − correctB,i
+   where i indexes each subject. Mean ΔAccuracy represents overall performance differ-
+ence between two model conditions with a paired bootstrap procedure (5000 iterations,
+resampled with replacement) providing the 95% CIs.
+
+Statistical analysis of the random feature ablations
+To evaluate whether the full feature sets carry more predictive information than random
+subsets, the accuracy of the full model was compared to one hundred models trained
+on randomly reduced feature sets (50% of features removed). For each condition and
+feature set, the empirical p-values were calculated as the proportion of random models
+that achieved accuracy greater than or equal to the full model:
+
+                     (# random accuracies ≥ full model accuracy) + 1
+                p=
+                          (number of random permutations) + 1
+
+Feature correlation analysis
+Spearman correlation coefficient and corresponding p values were computed for all pairs
+of features across all subjects (spearmanr, from scipy.stats). Multiple comparisons
+were controlled using false discovery rate (FDR) correction (fdrcorrection, from
+statsmodels.stats.multitest) using the Benjamini/Hochberg method. Additionally,
+95% CI of the correlation coefficient were estimated via bootstrapping (5000 resamples)
+for each pairwise comparison. Correlation matrices were visualized with lower-triangle
+coefficients and upper-triangle confidence intervals, with significance maps displayed
+separately. A redundancy index was computed for each feature set as the mean abso-
+lute pairwise correlation coefficient (mean —ρ—) across all unique feature pairs.
+
+Statistical analysis of group comparisons
+Group differences in EEG-derived features were evaluated using non-parametric statis-
+tical tests. For each feature, subject-level values were obtained by averaging across
+electrodes (either across the full electrode set or within the sensorimotor region of in-
+terest). Pairwise comparisons were then performed between the three study groups:
+healthy controls (CN), Parkinson’s disease patients off medication (PDoff), and the
+same patients on medication (PDon). Comparisons between independent groups (CN
+vs PDoff and CN vs PDon) were assessed using the Wilcoxon rank-sum test whereas
+comparisons between medication states within patients (PDoff vs PDon) were assessed
+
+
+
+
+                                                                                  11/34
+using the Wilcoxon signed-rank test for paired samples. To control for multiple compar-
+isons, false discovery rate (FDR) correction was applied within predefined families of
+related features (e.g., across frequency bands within the same connectivity metric). Ef-
+fect sizes for pairwise comparisons were quantified using Cliff’s delta (δ) for independent
+samples (CN vs PD comparisons) and the matched-pairs rank-biserial correlation for
+paired comparisons (PDoff vs PDon), with confidence intervals estimated via bootstrap
+resampling (5000 iterations). This approach provides both statistical significance and
+an estimate of the magnitude and reliability of observed effects.
+
+
+Results
+Classification Performance and Between–Feature Set Compar-
+isons
+Overall classification performance across diagnostic contrasts is summarized in Table 1
+and illustrated in Figure 1, with corresponding ROC curves shown in Figure 2. Prior to
+model training, features were pre-screened only to remove highly redundant measures,
+resulting in 17 Standard and 23 Dynamical features that capture complementary aspects
+of EEG dynamics, ensuring that subsequent classification performance reflects distinct
+information rather than redundancy. Models were trained using the Standard and Dy-
+namical EEG feature sets, and a Fusion configuration combining their decision outputs.
+Direct comparisons between feature configurations are presented in Table 2. Across
+most diagnostic contrasts, differences between feature sets did not reach statistical sig-
+nificance after FDR correction, indicating that neither the Standard nor the Dynamical
+feature configuration consistently outperformed the other across all classification tasks.
+Nevertheless, the pattern of results differed depending on the diagnostic contrast. The
+clearest effect was observed in the PDoff vs PDon comparison, where the Standard fea-
+ture set significantly outperformed the Dynamical set, as indicated by McNemar’s test
+after FDR correction. In the same contrast, the Standard configuration also significantly
+exceeded the Fusion model. This suggests that features capturing traditional spectral
+power and synchronization properties may be particularly informative for distinguish-
+ing medication states within Parkinson’s disease. In contrast, no statistically significant
+differences were observed between configurations in the three-class classification or in
+the CN–PDoff and CN–PDon contrasts, despite differences in observed accuracy values.
+In these tasks, the Dynamical feature set often showed numerically higher performance
+for contrasts involving cognitively normal participants and Parkinson’s disease patients,
+although these differences did not reach statistical significance.
+    Overall, these findings indicate that the relative contribution of feature configura-
+tions depends on the specific diagnostic contrast, with the Standard set providing a
+clear advantage for discriminating medication states within Parkinson’s disease, while
+the Dynamical features show competitive (or numerically stronger) performance to the
+Standard Set in contrasts involving healthy controls.
+
+Comparison of Full Feature Sets with Random Ablations
+To further evaluate whether model performance depended on the full feature configura-
+tions, classification accuracies were compared with models trained on randomly reduced
+feature subsets, in which 50% of the features were removed. These results are summa-
+rized in Table 3 and visualized in Figure 3. For contrasts involving cognitively normal
+participants and Parkinson’s disease patients (CN–PDoff and CN–PDon ), the Dynamical
+feature set consistently performed near the upper range of the random-ablation distri-
+butions, with the full model accuracy exceeding the mean accuracy obtained from the
+
+
+
+
+                                                                                    12/34
+                                   Standard Features
+
+                     CN vs              CN vs         CN vs PDon        PDoff vs
+                    PDoff vs            PDoff                            PDon
+                     PDon
+
+     Overall       52.17 [39.13,      64.52 [48.39,    61.29 [45.16,   66.67 [50.0,
+  Accuracy [CI        67.39]             80.65]           77.42]         83.33]
+   low, high]
+   Balanced           52.34              64.58            61.25           66.67
+   Accuracy
+   Macro F1           52.38              64.52            61.25           66.67
+   ROC-AUC            72.52              78.75            75.83           59.56
+
+                               Dynamical Features
+
+     Overall       36.96 [23.91,      67.74 [51.61,    70.97 [54.84,   33.33 [16.67,
+  Accuracy [CI         50.0]             83.87]            87.1]           50.0]
+   low, high]
+   Balanced           36.81               67.5            70.62           33.33
+   Accuracy
+   Macro F1           37.08              67.44            70.48           33.33
+   ROC-AUC            45.96              68.75            63.33           23.56
+
+                               Fusion model output
+
+     Overall       45.65 [30.43,      70.97 [54.84,    64.52 [48.39,   46.67 [30.0,
+  Accuracy [CI        60.87]              87.1]           80.65]         63.33]
+   low, high]
+   Balanced           45.56              70.83            64.17           46.67
+   Accuracy
+   Macro F1           46.13              70.85            63.92           46.43
+   ROC-AUC            63.25              74.58            69.58            48.0
+Table 1. Classification performance across diagnostic contrasts (3-Class, CN–PDoff ,
+CN–PDon , PDoff –PDon ) using the Standard and Dynamical feature sets and Fusion.
+Fusion corresponds to the model output obtained by averaging the softmax probabil-
+ities of the Standard and Dynamical feature sets. Overall accuracy is reported with
+95% bootstrap confidence intervals, along with balanced accuracy, macro-F1 score, and
+weighted ROC–AUC.
+
+
+
+
+                                                                                  13/34
+Figure 1. Classification accuracy across diagnostic conditions using EEG feature con-
+figurations in a multi-head attention transformer model. Performance is shown for
+four tasks: three-class classification (CN, PDoff , PDon ) and pairwise contrasts (CN–
+PDoff , CN–PDon , PDoff –PDon ). Models were trained separately on the Standard and
+Dynamical feature sets using strict leave-one-subject-out (LOSO) cross-validation. Fu-
+sion corresponds to the decision-level model output obtained by averaging the softmax
+probabilities of the Standard and Dynamical feature sets. Bars indicate mean accuracy
+with 95% bootstrap confidence intervals (5000 samples). Statistical comparisons were
+performed using McNemar’s test on contingency tables of classification correctness with
+FDR correction (*p < 0.05; NS, not significant).
+
+
+randomly reduced feature sets. In contrast, the Standard feature set showed little sepa-
+ration from the random-ablation distributions, with the full model accuracy lying close
+to the middle or lower portion of the random accuracy range. This pattern is consistent
+with the interpretation that the predictive performance of the Dynamical feature config-
+uration in these contrasts depends on the joint contribution of multiple complementary
+features, such that removing random subsets of features tends to degrade classification
+performance. In contrast, the Standard feature configuration appears less sensitive to
+random feature removal in these contrasts, indicating weaker complementarity between
+individual features. A different pattern was observed in the PDoff vs PDon contrast,
+where the Standard feature set showed clearer separation from the random-ablation
+distributions, whereas the Dynamical configuration performed similarly to its random
+subsets. This finding mirrors the statistical comparison results described above, where
+the Standard feature set significantly outperformed the Dynamical configuration in this
+task. In the 3-class contrast, both the Standard and the Dynamical feature configura-
+tions sets showed good separation from the random-ablation distributions.
+
+
+
+
+                                                                                 14/34
+                   % ∆Acc, ∆Acc CI [low, high], p-McNemar’s (FDR-corrected)
+
+                                            Standard vs. Fusion
+
+   CN vs PDoff vs                 CN vs PDoff               CN vs PDon               PDoff vs PDon
+          PDon
+   6.52, [-6.52, 19.57]         -6.45, [-19.35, 6.45]    -3.23, [-19.35, 9.68]      20.0, [6.67, 33.33]
+      0.508 (0.508)                  0.625 (1)                   1 (1)                0.031 (0.047)
+
+                                            Dynamical vs. Fusion
+
+   CN vs PDoff vs                 CN vs PDoff               CN vs PDon               PDoff vs PDon
+          PDon
+   -8.7, [-21.74, 4.35]         -3.23, [-16.13, 9.68]    6.45, [-6.45, 19.35]       -13.33, [-30.0, 3.33]
+      0.344 (0.508)                     1 (1)               0.625 (0.938)              0.289 (0.289)
+
+                                    Dynamical vs. Standard Features
+
+   CN vs PDoff vs                 CN vs PDoff               CN vs PDon               PDoff vs PDon
+         PDon
+  -15.22, [-32.61, 2.17]        3.23, [-16.13, 22.58]    9.68, [-9.68, 29.03]      -33.33, [-53.3, -13.33]
+      0.167 (0.501)                     1 (1)               0.508 (0.938)              0.013 (0.039)
+
+Table 2. Pairwise classification accuracy differences between EEG configurations across
+diagnostic contrasts. Comparisons are shown for Dynamical vs Fusion, Standard vs
+Fusion, and Dynamical vs Standard. Fusion corresponds to the model output obtained
+by averaging the softmax probabilities of the Standard and Dynamical feature sets.
+Values report mean % ∆Accuracy, 95% bootstrap confidence intervals, and McNemar’s
+test p-values (FDR-corrected). Positive ∆Accuracy indicates higher accuracy for the
+first feature set listed in each comparison.
+
+
+
+
+    Full Set Accuracy, Random Set Accuracy (mean ± St.D), emp.p-val
+
+                              CN vs                 CN vs          CN vs PDon             PDoff vs
+                             PDoff vs               PDoff                                  PDon
+                              PDon
+
+   Standard                52.17, (44.72       64.52, (64.19       61.29, (67.0 ±      66.67, (50.1 ±
+   Features                ± 6.52), 0.129      ± 7.42), 0.624       6.93), 0.861        10.12), 0.089
+  Dynamical                36.96, (30.63       67.74, (56.77       70.97, (61.26       33.33, (34.0 ±
+   Features                ± 6.5), 0.198       ± 7.07), 0.109      ± 7.1), 0.119        9.07), 0.663
+     Fusion                45.65, (45.09       70.97, (63.87       64.52, (62.0 ±      46.67, (53.63
+                           ± 7.05), 0.564      ± 8.49), 0.317       8.23), 0.436       ± 8.42), 0.842
+Table 3. Comparison of full feature configurations with randomly reduced feature sets
+across diagnostic contrasts (3-Class, CN–PDoff, CN–PDon, PDoff–PDon). For each
+feature set (Standard, Dynamical) and Fusion (decision-level output obtained by aver-
+aging the softmax probabilities of Standard and Dynamical sets), the table reports the
+accuracy of the full model, the mean ± SD accuracy from one hundred random feature
+reductions (50% features removed) and the empirical permutation p-value, defined as
+the proportion of random models achieving accuracy greater than or equal to the full
+model.
+
+
+
+
+                                                                                                     15/34
+Figure 2. Receiver operating characteristic (ROC) curves for transformer models
+across diagnostic conditions. Curves are shown for models trained on the Standard and
+Dynamical feature sets and for Fusion, which corresponds to the decision-level model
+output obtained by averaging the softmax probabilities of the Standard and Dynamical
+feature sets. For the three-class problem, ROC curves were computed using a one-vs-
+rest strategy for each group (CN, PDoff , PDon ). Performance is summarized by the
+weighted ROC–AUC (TPR, True Positive Rate; FPR, False Positive Rate).
+
+
+    Taken together, the ablation analysis suggests that the informational structure of
+the two feature configurations differs. In contrasts involving Parkinson’s disease ver-
+sus controls, the Dynamical feature set appears to rely on complementary information
+distributed across features, such that random feature removal reduces classification per-
+formance. In contrast, the Standard feature set appears less dependent on such comple-
+mentary interactions between features in these tasks, while showing greater sensitivity
+in the medication-state contrast.
+
+Correlations Between Features: A case of non-redundancy
+To assess potential redundancy among features within each configuration, pairwise corre-
+lations were computed across all subjects for both the Standard and Dynamical feature
+
+
+
+
+                                                                                  16/34
+Figure 3. Accuracy of EEG feature configurations compared with random feature
+reductions across diagnostic contrasts (3-Class, CN–PDoff , CN–PDon , PDoff –PDon ) us-
+ing the Standard and Dynamical feature sets and Fusion. Fusion corresponds to the
+decision-level output obtained by averaging the softmax probabilities of the Standard
+and Dynamical sets. For each feature set, the solid horizontal line indicates the accuracy
+of the full model. Scatter points represent accuracies from one hundred models trained
+on randomly reduced feature subsets (50% features removed). The dashed horizontal
+line indicates the mean accuracy of the random ablations while the vertical lines repre-
+sent its standard deviation.
+
+
+sets (Figures 4 and 5). Within the Standard feature set, pairwise correlations were
+generally moderate, with the largest observed correlations occurring between α-band
+synchronization and power measures (e.g., α-PLV vs α relative power, ρ ≈ 0.77; α-PLI
+vs α relative power, ρ ≈ 0.76). Most feature pairs exhibited correlations well below
+|0.5|, and the overall redundancy index (mean |ρ| = 0.263) indicates limited overlap
+among descriptors derived from different spectral bands or methodological families. In
+the Dynamical feature set, the majority of feature pairs also showed modest correla-
+tions. A few isolated pairs exhibited higher correlations, such as α-band instantaneous
+frequency range vs α-band instantaneous frequency difference (ρ ≈ 0.95) and neuronal
+avalanche size vs aperiodic spectral offset (ρ ≈ 0.88). Aside from these exceptions,
+most pairwise associations remained modest, consistent with a low overall redundancy
+index (mean |ρ| = 0.260), indicating that the features capture largely complementary
+aspects of neural dynamics. Across all pairwise comparisons, 26 of 136 unique feature
+pairs (≈ 19%) in the Standard feature set and 47 of 253 pairs (≈ 19%) in the Dynami-
+cal feature set showed statistically significant correlations after FDR correction. Thus,
+although some relationships reached statistical significance, the majority of pairwise
+associations remained modest, supporting the interpretation that the included features
+capture distinct and complementary aspects of EEG dynamics rather than redundant
+measurements of the same signal properties.
+
+Group-level EEG feature differences across conditions
+Group-level comparisons revealed systematic differences between healthy controls (CN)
+and Parkinson’s disease patients, as well as between PD patients on and off medication.
+These comparisons were performed independently of the deep learning classification
+analyses and are reported to provide physiological context for the extracted EEG fea-
+
+
+
+
+                                                                                   17/34
+Figure 4. Pairwise correlations among features of the Standard EEG feature set.
+(A) Spearman correlation matrix computed across all subjects. The lower triangle dis-
+plays correlation coefficients (ρ), while the upper triangle shows the corresponding 95%
+bootstrap confidence intervals (5000 resamples). (B) Matrix of FDR-corrected p-values
+(Benjamini–Hochberg) for the same pairwise comparisons, shown for the lower triangle
+only. The Standard feature set includes relative spectral power (δ, θ, α, β, γ bands),
+phase synchronization metrics—phase locking value (PLV) and phase lag index (PLI)
+for the same frequency bands—and time-domain signal statistics (mean voltage and
+variance). Relative power represents the percentage of each frequency band power to
+the total spectral power.
+
+
+tures. Analyses were performed on subject-level means across all electrodes. Pairwise
+comparisons were controlled using FDR correction within feature families, and effect
+sizes (Cliff’s delta) with 95% confidence intervals are reported in Tables 4 (Standard
+features) and 5 (Dynamical features).
+    Across the Standard feature set, comparison between PDoff vs PDon contrast cap-
+tured medication-related effects. Specifically, absolute delta power and voltage variance
+were higher in PDoff compared to PDon groups, indicating that dopaminergic ther-
+apy reduced slow-wave power and overall voltage variability (Figure 6A, B). Similarly,
+other spectral bands (alpha, beta and gamma) exhibited modest medication-induced
+decreases, suggesting normalization of high-frequency activity with therapy. Notably,
+relative spectral power did not reproduce the medication-related differences observed
+in absolute spectral power. In the PDoff vs PDon contrast, relative-band effects were
+attenuated across frequencies and did not survive correction, consistent with the nor-
+malization inherent in relative power measures that redistribute variance across bands.
+Beta and gamma relative power showed near-threshold effects (FDR-corrected p ≈ 0.09),
+with the polarity of beta differing from the absolute metric, likely reflecting this nor-
+malization rather than a reversal of the underlying spectral change. In comparisons
+between CN and PD patients, prominent differences emerged primarily in theta phase
+synchrony (PLV), which was higher in both PDoff and PDon relative to CN. Increased
+synchrony was also observed in the delta and gamma PLV between CN and PD patients
+off medication (Figure 6C). While the CN vs PDon contrasts showed trends toward lower
+synchrony, these differences were only marginally insignificant, indicating that the ele-
+vated synchrony largely persists despite dopaminergic therapy. Overall, the Standard
+feature set captured both medication-sensitive and disease-related spectral and syn-
+chrony dynamics, particularly in delta and theta bands. To evaluate whether these
+phase synchrony differences could reflect volume conduction rather than true neural
+coupling, PLV and PLI were recomputed after applying a surface Laplacian transform.
+
+
+
+
+                                                                                  18/34
+             Cliff’s delta or rank-biserial corr, CI [low, high], p-val FDR-corrected
+
+  Standard Features          CN vs PDoff              CN vs PDon              PDoff vs PDon
+                              0.325 [-0.46, 1.3]       0.4 [-0.32, 1.41]       0.2 [-0.14, 0.33]
+  Relative Delta Power
+                                   0.6160                   0.1445                  0.3461
+                            -0.225 [-1.04, 0.26]    -0.458 [-1.43, -0.17]    -0.467 [-0.84, -0.13]
+  Relative Theta Power
+                                   0.7147                   0.1445                  0.0923
+                            0.025 [-0.83, 0.92]        0.0 [-0.79, 0.95]      0.067 [-0.2, 0.26]
+  Relative Alpha Power
+                                   0.9056                   1.0000                  0.8469
+                              0.1 [-0.45, 1.03]         0.0 [-0.89, 0.8]     -0.467 [-0.74, -0.02]
+  Relative Beta Power
+                                   0.7941                   1.0000                  0.0923
+                             -0.125 [-1.0, 0.69]     0.242 [-0.46, 1.16]      0.467 [0.13, 1.04]
+ Relative Gamma Power
+                                   0.7941                   0.4195                  0.0923
+                            -0.275 [-1.22, 0.22]     0.108 [-0.37, 0.96]      0.867 [0.47, 1.23]
+  Absolute Delta Power
+                                   0.1921                   0.7591                  0.0005
+                           -0.492 [-1.39, -0.42]    -0.492 [-1.33, -0.28]     0.067 [-0.13, 0.35]
+ Absolute Theta Power
+                                   0.0672                   0.0985                  0.7615
+                            -0.358 [-1.56, 0.28]     -0.258 [-1.49, 0.53]     0.733 [0.06, 0.54]
+ Absolute Alpha Power
+                                   0.1115                   0.4765                  0.0168
+                           -0.383 [-1.58, -0.01]     -0.225 [-1.23, 0.27]     0.467 [0.05, 0.68]
+  Absolute Beta Power
+                                   0.1115                   0.4765                  0.0441
+                           -0.467 [-1.37, -0.15]     0.017 [-0.92, 0.56]        0.6 [0.1, 1.04]
+    Absolute Gamma
+                                   0.0672                   0.9370                  0.0441
+         Power
+                           -0.525 [-1.68, -0.43]    -0.367 [-1.28, 0.13]      0.333 [-0.33, 0.95]
+       Delta PLV
+                                    0.0295                 0.1025                     0.8904
+                            -0.675 [-2.6, -0.66]    -0.667 [-2.32, -0.74]     -0.067 [-0.28, 0.56]
+      Theta PLV
+                                    0.0070                 0.0080                     0.8904
+                             -0.25 [-1.21, 0.47]     -0.292 [-1.24, 0.48]       -0.2 [-0.25, 0.35]
+      Alpha PLV
+                                    0.2357                 0.1665                     0.8904
+                            -0.342 [-1.53, 0.16]    -0.408 [-1.81, -0.06]      -0.467 [-0.84, 0.0]
+       Beta PLV
+                                    0.1314                 0.0880                     0.4165
+                              -0.5 [-1.71, 0.06]     -0.458 [-1.74, 0.17]     0.067 [-0.35, 0.61]
+      Gamma PLV
+                                    0.0295                 0.0742                     0.8904
+                            -0.217 [-1.01, -0.0]    -0.325 [-0.99, -0.23]     -0.067 [-0.94, 0.25]
+       Delta PLI
+                                    0.5713                 0.6160                     0.9780
+                              -0.2 [-0.87, 0.22]     0.025 [-0.75, 0.54]      -0.067 [-0.28, 0.57]
+       Theta PLI
+                                    0.5713                 0.9056                     0.9780
+                             0.133 [-0.5, 1.17]      0.208 [-0.24, 1.28]        0.2 [-0.01, 0.46]
+       Alpha PLI
+                                    0.5800                 0.6408                     0.4220
+                              0.3 [-0.05, 1.22]      -0.108 [-0.71, 0.57]    -0.733 [-1.46, -0.38]
+       Beta PLI
+                                    0.5713                 0.7591                     0.0100
+                            -0.117 [-1.13, 0.64]     -0.183 [-1.18, 0.57]        -0.2 [-0.9, 0.58]
+      Gamma PLI
+                                    0.5800                 0.6408                     0.9780
+                              0.3 [-0.09, 1.36]      0.125 [-0.47, 0.89]      -0.333 [-1.14, 0.08]
+  Time-Domain Voltage
+                                    0.1547                 0.5532                     0.3028
+         Mean
+                            -0.483 [-1.6, -0.29]    -0.192 [-1.03, 0.41]      0.733 [0.26, 1.08]
+  Time-Domain Voltage
+                                  0.0329                  0.5450                   0.0051
+       Variance
+
+Table 4. Comparative summary of group-level comparisons using the Standard feature
+set across diagnostic contrasts (unpaired: CN–PDoff, CN–PDon; paired: PDoff–PDon).
+Values represent Cliff’s delta or matched-pairs rank-biserial correlation (unpaired or
+paired respectively) with 95% confidence intervals and Wilcoxon (rank sum or signed
+rank sum) FDR-corrected p-values (Benjamini–Hochberg method).
+
+
+
+
+                                                                                               19/34
+             Cliff’s delta or rank-biserial corr, CI [low, high], p-val FDR-corrected
+
+ Dynamical Features          CN vs PDoff              CN vs PDon              PDoff vs PDon
+                              0.3 [-0.12, 1.33]      0.092 [-0.41, 0.9]       -0.333 [-0.9, 0.59]
+   Aperiodic exponent
+                                   0.4561                  0.6637                   0.3894
+                            -0.217 [-1.27, 0.27]      -0.1 [-0.7, 0.72]       0.067 [0.07, 0.81]
+    Aperiodic offset
+                                   0.4561                  0.6637                   0.3786
+                            0.308 [-0.06, 1.41]      0.483 [0.33, 1.65]         0.2 [-0.08, 1.0]
+  Periodic Peak Central
+                                   0.3633                  0.0657                   0.5995
+     Frequency (CF)
+                            -0.192 [-1.3, 0.31]     -0.275 [-1.63, 0.24]      -0.2 [-0.59, 0.11]
+   Periodic Peak Band
+                                  0.3633                  0.2059                    0.5995
+       power (BP)
+                            0.192 [-0.58, 1.17]      0.267 [-0.37, 1.44]      0.067 [-0.16, 0.59]
+     Periodic Peak
+                                  0.3633                   0.2059                   0.5995
+    Bandwidth (BW)
+                             -0.067 [-0.8, 0.46]     -0.05 [-0.85, 0.63]      0.067 [-0.68, 0.77]
+  Delta DFA exponent
+                                    0.7820                 0.9056                    0.9341
+                             -0.35 [-1.56, 0.15]    -0.333 [-1.58, 0.13]       -0.2 [-0.56, 0.43]
+  Theta DFA exponent
+                                    0.2422                 0.2053                    0.9341
+                            -0.058 [-0.82, 0.86]     0.025 [-0.89, 0.87]      0.067 [-0.52, 0.45]
+  Alpha DFA exponent
+                                    0.7820                 0.9056                    0.9341
+                            -0.283 [-1.27, 0.23]    -0.325 [-1.44, 0.09]     -0.333 [-0.82, 0.51]
+   Beta DFA exponent
+                                    0.2983                 0.2053                    0.9341
+                            -0.408 [-1.5, -0.04]     -0.333 [-1.5, 0.22]      0.067 [-0.41, 0.72]
+ Gamma DFA exponent
+                                    0.2422                 0.2053                    0.9341
+                            -0.108 [-0.95, 0.58]    -0.067 [-0.98, 0.49]       -0.2 [-0.76, 0.58]
+       Delta fE/I
+                                    0.7518                 0.7518                    0.9780
+                             -0.15 [-1.09, 0.38]    -0.275 [-1.41, 0.22]      0.067 [-0.78, 0.36]
+       Theta fE/I
+                                    0.7518                 0.6710                    0.9780
+                             -0.167 [-1.1, 0.39]    -0.233 [-1.44, 0.51]     -0.067 [-0.79, 0.55]
+       Alpha fE/I
+                                    0.7518                 0.6710                    0.9780
+                             0.067 [-0.51, 0.9]      0.15 [-0.47, 1.13]       0.333 [-0.53, 0.84]
+       Beta fE/I
+                                    0.7518                 0.7518                    0.9780
+                             0.175 [-0.51, 1.24]    -0.067 [-0.57, 0.91]     -0.333 [-0.62, 0.32]
+      Gamma fE/I
+                                    0.7518                 0.7518                    0.9780
+                            -0.192 [-1.16, 0.55]     0.075 [-0.85, 0.93]      -0.067 [-0.6, 0.85]
+   Delta/gamma PAC
+                                    0.7907                 0.9370                    0.9341
+                             0.008 [-0.91, 0.59]    -0.017 [-0.87, 0.47]     -0.067 [-0.64, 0.42]
+   Theta/gamma PAC
+                                    0.9685                 0.9370                    0.9138
+                             0.042 [-0.48, 0.75]     0.442 [0.17, 1.33]       0.733 [0.13, 1.03]
+     Theta IF range
+                                    0.8433                 0.1086                    0.0045
+                             -0.142 [-1.1, 0.67]    -0.008 [-0.96, 0.65]      0.333 [-0.25, 0.4]
+     Alpha IF range
+                                    0.7524                 0.9685                    0.5995
+                              -0.3 [-1.21, 0.17]      -0.15 [-1.03, 0.6]      0.067 [-0.26, 0.88]
+    Gamma IF range
+                                    0.4641                 0.7152                    0.5995
+                             0.517 [0.25, 1.31]      0.583 [0.48, 1.77]       0.333 [0.04, 0.72]
+ Theta IF rate of change
+                                    0.0429                 0.0171                    0.1662
+                            -0.117 [-0.96, 0.75]    -0.025 [-0.91, 0.79]     -0.067 [-0.25, 0.33]
+ Alpha IF rate of change
+                                    0.5800                 0.9056                    0.8469
+                            -0.142 [-0.84, 0.54]     0.083 [-0.68, 0.72]      0.333 [-0.12, 0.8]
+   Gamma IF rate of
+                                    0.5800                 0.9056                    0.2814
+      change
+                             -0.3 [-1.46, 0.24]     -0.108 [-0.85, 0.43]       0.2 [-0.16, 0.99]
+   Theta IF frequency
+                                   0.2498                  0.9056                   0.6387
+                            -0.292 [-1.19, 0.05]     -0.025 [-0.93, 0.7]      0.067 [-0.44, 1.12]
+   Alpha IF frequency
+                                   0.2498                  0.9056                   0.6387
+                              0.1 [-0.62, 1.2]       0.292 [-0.35, 1.36]       0.2 [-0.56, 0.98]
+  Gamma IF frequency
+                                   0.6353                  0.4995                   0.6387
+                             0.558 [0.44, 2.16]      0.575 [0.47, 2.15]       0.067 [-0.09, 0.12]
+     Alpha/theta IF
+                                   0.0162                  0.0108                   0.7615
+     harmonic lock
+                             -0.5 [-2.0, -0.21]     -0.558 [-2.19, -0.41]     0.067 [-0.26, 0.19]
+    Gamma/theta IF
+                                  0.0236                   0.0108                   0.7615
+     harmonic lock
+                            0.308 [-0.44, 1.15]     -0.167 [-1.14, 0.25]      -0.6 [-1.46, -0.26]
+   Avalanche Duration
+                                  0.2321                  0.4526                    0.0188
+                            0.183 [-0.38, 0.93]     -0.158 [-1.19, 0.32]     -0.733 [-1.22, -0.39]
+       Kappa Size
+                                  0.3845                  0.4526                    0.0045
+
+Table 5. Comparative summary of group-level comparisons using the Dynamical
+feature set across diagnostic contrasts (unpaired: CN–PDoff, CN–PDon; paired: PD-
+off–PDon). Values represent Cliff’s delta or matched-pairs rank-biserial correlation (un-
+paired or paired respectively) with 95% confidence intervals and Wilcoxon (rank sum
+or signed rank sum) FDR-corrected p-values (Benjamini–Hochberg method).
+
+
+
+
+                                                                                              20/34
+Figure 5. Pairwise correlations among features of the Dynamical EEG feature set.
+(A) Spearman correlation matrix computed across all subjects. The lower triangle dis-
+plays correlation coefficients (ρ), while the upper triangle shows the corresponding 95%
+bootstrap confidence intervals (5000 resamples). (B) Matrix of FDR-corrected p-values
+(Benjamini–Hochberg) for the same pairwise comparisons, shown for the lower triangle
+only. The Dynamical feature set includes measures of spectral aperiodic activity (aperi-
+odic exponent and offset), aperiodic-corrected spectral peak characteristics (central fre-
+quency, bandwidth, and power), long-range temporal correlations via detrended fluctu-
+ation analysis (DFA), functional excitation–inhibition balance (fEI), bicoherence phase–
+amplitude coupling (bicPAC), instantaneous frequency dynamics (range[rng freqSld],
+rate of change[dif freqSld], inter-electrode correlation[corr freqSld], and modulation fre-
+quency[mod freqSld]), harmonic locking between frequency bands (HarmLock), and neu-
+ronal avalanche statistics, including avalanche size and deviation from a power-law scal-
+ing (κ size).
+
+
+PLV effects persisted following this spatial filtering, while PLI remained nonsignificant
+(Supplementary Table 1), indicating that the observed near-zero-lag synchrony likely
+reflects genuine neural interactions rather than artefactual volume conduction.
+    In the Dynamical features, the PDoff vs PDon contrast revealed medication-related
+modulation of theta-band dynamics. The effective frequency range of the theta instanta-
+neous frequency (IF), quantified through frequency sliding, decreased with medication,
+while the critical dynamics quantified via neuronal avalanche duration and deviation
+from power law distribution (kappa size) metrics were elevated suggesting a recovery
+of theta spectro-temporal stability and increase in the large-scale network criticality
+(Figure 6D, F). The rate of change of theta IF was lower in PD patients (both on or
+off medication) compared to controls, indicating decreased responsiveness of temporal
+oscillatory variability in pathology that is resistant to medication. Measures of cross-
+frequency coupling displayed distinct disease-specific patterns: alpha/theta harmonic
+locking was reduced in PD patients relative to controls, whereas gamma/theta har-
+monic locking increased, indicating a shift in large-scale cross-frequency coordination
+in Parkinson’s disease (Figure 6E). Other dynamical metrics, including aperiodic com-
+ponents, DFA exponent or inhibition-excitation balance metrics (fE/I), did not show
+significant medication-related or disease-related changes at the global electrode level
+after FDR corrections suggesting that these properties may either be less sensitive to
+dopaminergic modulation or more specific to spatially restricted brain topologies.
+    Taken together, these results indicate complementary contributions of Standard and
+Dynamical features in the delineation of differences of PD states. Standard features
+were particularly informative in capturing medication-related effects (e.g., delta power,
+
+
+
+
+                                                                                    21/34
+Figure 6. Group differences in representative Standard and Dynamical EEG features.
+Boxplots showing the distribution of selected EEG-derived features for healthy controls
+(CN), Parkinson’s disease patients assessed off medication (PDoff ), and the same patients
+assessed on dopaminergic medication (PDon ). Panels from the Standard feature set
+include time-domain variance (A), absolute γ-band Welch power (B), and γ-band phase-
+locking value (PLV) (C). Panels from the Dynamical feature set include frequency sliding
+instantaneous θ-band frequency rate of change (D), percentage time of γ–θ harmonic
+lock (E), and avalanche κ size metric (F). In each boxplot, the central line indicates the
+median, the box represents the interquartile range (25th–75th percentiles), and whiskers
+extend to 1.5× the interquartile range. Pairwise statistical comparisons were performed
+using Wilcoxon rank-sum tests for independent group comparisons (CN vs PDoff and CN
+vs PDon ) and Wilcoxon signed-rank tests for the paired comparison between medication
+states (PDoff vs PDon ). Multiple comparisons were controlled using false discovery
+rate (FDR) correction within feature families. Significant comparisons are indicated by
+asterisks (NS, not significant > 0.05, *p < 0.05, **p < 0.01).
+
+
+voltage variance), while Dynamical features highlighted disease-specific network alter-
+ations (e.g., harmonic locking, Kappa size, theta IF dynamics). Across all contrasts, on
+a global electrode analysis, the directionality of Cliff’s delta supports the interpretation
+that dopaminergic therapy dampens to a different degree both slow-wave & higher fre-
+quency spectral activity whereas PD is associated with enhanced multiband synchrony
+and altered cross-frequency interactions relative to healthy controls, features that are
+unresponsive to correction by dopaminergic medication.
+
+
+Discussion
+The present study examined whether physiologically interpretable EEG features cap-
+turing complementary aspects of neural dynamics can discriminate Parkinsonian neu-
+ral states under a strict subject-level validation framework. In addition to evaluating
+classification performance using transformer-based models, the study also examined
+
+
+
+
+                                                                                     22/34
+group-level differences in these electrophysiological descriptors to provide a physiolog-
+ical interpretation of the EEG features that contribute to the discrimination between
+Parkinson’s disease patients and healthy controls and between medication states. Us-
+ing a transformer-based classifier trained on two conceptually distinct feature fami-
+lies—Standard electrophysiological descriptors and Dynamical measures of neural signal
+organization—classification performance was evaluated across multiple diagnostic con-
+trasts and examined the informational structure of the extracted feature sets. The re-
+sults indicate that multivariate EEG representations contain discriminative information
+about Parkinsonian neural activity, while also revealing that different feature families
+contribute preferentially to different diagnostic contrasts.
+
+Multivariate EEG representations capture discriminative infor-
+mation about Parkinsonian neural states
+Consistent with the central hypothesis of this work, EEG-derived feature representa-
+tions enabled classification between Parkinson’s disease patients and cognitively nor-
+mal individuals, as well as between medication states within the same patients. Al-
+though classification performance varied across contrasts, the results demonstrate that
+distributed electrophysiological descriptors extracted from resting-state EEG contain
+measurable information related to Parkinsonian neural dynamics as seen previously by
+others (Bunterngchit et al., 2025; Mukherjee & Roy, 2025). Importantly, these results
+support the notion that EEG signatures of Parkinson’s disease are unlikely to mani-
+fest as single robust biomarkers, but instead may emerge from the joint contribution
+of multiple partially independent signal features. This observation is consistent with
+prior reports suggesting that electrophysiological alterations in Parkinson’s disease are
+spatially heterogeneous, spectrally distributed, and dependent on the specific analytic
+metric employed (Babiloni et al., 2011; Jackson et al., 2019; Waninger et al., 2020). By
+integrating a broad range of interpretable descriptors—including spectral, connectivity,
+and dynamical signal properties—the present study adopts a multivariate perspective
+that may better capture the complex alterations in cortical activity associated with
+basal ganglia dysfunction.
+
+Differential contribution of Standard and Dynamical EEG de-
+scriptors
+A central aim of the study was to examine whether traditional EEG descriptors and dy-
+namical measures of neural activity provide complementary information about Parkin-
+sonian brain states. The results suggest that the relative contribution of these fea-
+ture families depends on the specific classification problem. For the discrimination
+between PD patients off and on dopaminergic medication, the Standard feature con-
+figuration—comprising spectral power and synchronization measures—produced the
+strongest classification performance and significantly outperformed the Dynamical fea-
+ture set. This observation may reflect the well-established sensitivity of oscillatory
+synchronization and spectral power changes to dopaminergic modulation within basal
+ganglia–thalamo–cortical circuits. Dopamine replacement therapy and/or deep brain
+stimulations are known to alter functional brain gradients (Orlando et al., 2025), corti-
+cal beta-band oscillatory activity and network synchronization (Silberstein et al., 2005;
+George et al., 2013; Miller et al., 2019) or basal ganglia-thalamus-cortical network ac-
+tivity (de Hemptinne et al., 2015), phenomena that are often detectable through con-
+ventional spectral and connectivity metrics (Stoffers et al., 2007; Jackson et al., 2019;
+Zhang et al., 2022).
+    In contrast, the Dynamical feature set performed competitively with the Standard
+
+
+
+
+                                                                                  23/34
+configuration in contrasts involving healthy controls and Parkinson’s disease patients.
+These features quantify higher-order aspects of neural activity such as scale-free tem-
+poral correlations, cross-frequency interactions, and neuronal avalanche statistics. Such
+descriptors may capture broader changes in the organization of neural population activ-
+ity rather than specific oscillatory signatures associated with dopaminergic tone. This
+interpretation is consistent with theoretical perspectives suggesting that neurodegener-
+ative processes can alter the dynamical regime of neural networks (Kim et al., 2017;
+Sadeghi et al., 2025), including properties related to criticality (Zimmern, 2020), excita-
+tion–inhibition balance (Mohanty et al., 2025), and large-scale coordination of activity
+(Zhu et al., 2021; Akgüller et al., 2024).
+    Importantly, these findings do not indicate that Dynamical features are inferior to
+traditional EEG metrics. Rather, the results suggest that different feature families
+capture distinct physiological aspects of Parkinsonian neural activity, with Standard de-
+scriptors appearing particularly sensitive to medication-induced changes in oscillatory
+synchronization, while Dynamical descriptors capture broader alterations in neural sig-
+nal organization.
+
+Evidence for complementary information within dynamical fea-
+ture representations
+The feature ablation analysis provides additional insight into the informational struc-
+ture of the two feature configurations. In contrasts involving healthy controls and
+Parkinson’s disease patients, the Dynamical feature configuration showed a consistent
+pattern in which the full model accuracy exceeded the mean accuracy obtained from
+randomly reduced feature subsets. This indicates that the predictive performance of
+the Dynamical configuration depends on the combined contribution of multiple features
+rather than a small number of dominant descriptors. In contrast, the Standard feature
+configuration showed comparatively weaker separation between the full model and ran-
+domly reduced feature subsets in these contrasts. This suggests that removing random
+subsets of traditional spectral and synchronization features does not substantially de-
+grade classification performance, implying that these descriptors may contain partially
+overlapping information. Taken together, these results suggest that dynamical descrip-
+tors capture complementary aspects of neural signal organization, such that their joint
+inclusion improves classification performance. This observation aligns with theoretical
+views of brain activity as a complex dynamical system in which multiple interacting pro-
+cesses—oscillatory, scale-free, and network-level dynamics—collectively shape observed
+electrophysiological signals (Hardstone et al., 2012; Zimmern, 2020).
+
+Low redundancy among extracted EEG features
+The correlation analysis further supports the interpretation that the extracted features
+represent largely distinct descriptors of EEG dynamics. Across both feature configura-
+tions, most pairwise correlations were moderate, with only a small fraction of feature
+pairs exhibiting strong associations. Importantly, the majority of pairwise correlations
+remained well below levels typically considered indicative of strong redundancy. These
+observations confirm that the feature sets were constructed to capture complementary
+rather than redundant information about neural activity. Even within related method-
+ological families—such as spectral power and phase synchronization—correlations re-
+mained moderate rather than approaching unity. The Dynamical feature set similarly
+showed limited redundancy despite including multiple descriptors derived from related
+analytical frameworks. Together with the ablation results, this finding supports the in-
+terpretation that classification performance arises from the integration of multiple par-
+
+
+
+
+                                                                                    24/34
+tially independent electrophysiological descriptors, rather than from isolated features
+dominating model predictions.
+
+Physiological interpretation of group-level EEG differences
+Inspection of the group-level contrasts provides additional context for the classification
+results by clarifying which electrophysiological properties differ between Parkinson’s
+disease (PD) patients and controls and which are modulated by dopaminergic therapy.
+Importantly, the group-level comparisons reported here were conducted independently
+of the feature-selection process used for classification. The EEG features included in
+the model were defined a priori based on physiologically motivated descriptors of neural
+dynamics, and the statistical comparisons were performed post hoc to aid physiological
+interpretation of the feature representations. Several effects were clearly sensitive to
+medication state. In particular, dopaminergic therapy reduced absolute delta power
+and global voltage variance, indicating that the unmedicated Parkinsonian state is char-
+acterized by stronger slow-wave activity and greater amplitude variability. Medication
+also reduced the range of theta instantaneous frequency fluctuations, suggesting sta-
+bilization of oscillatory dynamics. In contrast, neuronal avalanche statistics showed
+increased kappa size under medication, consistent with a shift toward larger-scale ac-
+tivity cascades and a more prominent supercritical dynamical regime. Together, these
+findings suggest that dopamine primarily modulates global spectral amplitude and as-
+pects of large-scale network stability.
+    Other electrophysiological differences appeared to reflect disease-related network al-
+terations that were largely resistant to dopaminergic normalization. Most notably, theta-
+band phase synchrony was elevated in PD patients both on and off medication relative
+to controls, indicating increased large-scale coupling in this frequency band. Additional
+synchrony differences were observed in the delta and gamma bands in the unmedicated
+state with the corresponding CN vs PD contrasts showing only marginal differences,
+indicating that elevated synchrony largely persists despite therapy. PLV/PLI contrasts
+suggested that these effects depend on near-zero-lag coupling. Laplacian filtering con-
+firmed that PLV effects persisted while PLI did not show any differences, indicating
+that the observed synchrony likely reflects genuine neural coupling rather than volume
+conduction. Several dynamical descriptors also showed persistent disease-related alter-
+ations. The rate of change of theta instantaneous frequency was reduced in PD patients
+regardless of medication status, indicating slower modulation of oscillatory dynamics. In
+addition, cross-frequency coupling patterns differed systematically from controls, with
+reduced alpha–theta harmonic locking and increased gamma–theta coupling, both of
+which remained largely unchanged with dopaminergic therapy.
+    Taken together, these findings suggest a distinction between electrophysiological
+properties that primarily reflect dopaminergic state, such as slow-wave power, signal
+variability and avalanche dynamics, and those that reflect more stable disease-related
+changes in cortical network coordination, including altered theta synchrony and cross-
+frequency interactions. This pattern is consistent with the classification analyses, where
+traditional spectral descriptors showed the strongest sensitivity to medication contrasts,
+whereas dynamical descriptors performed comparably in disease classification but were
+less sensitive to medication effects. Within the dynamical feature set, instantaneous fre-
+quency dynamics and neuronal avalanche statistics primarily reflected medication state,
+while cross-frequency coupling measures differentiated Parkinson’s disease patients from
+healthy controls.
+
+
+
+
+                                                                                   25/34
+Implications for EEG biomarker development in Parkinson’s dis-
+ease
+The results of the present study contribute to ongoing efforts to identify EEG-based
+biomarkers for Parkinson’s disease. Beyond traditional spectral and connectivity fea-
+tures, this study also examines dynamical descriptors of cortical activity that have not
+previously been systematically characterized in Parkinson’s disease using EEG. Notably,
+theta instantaneous frequency dynamics and neuronal avalanche statistics (duration and
+kappa size) differentiated medication states (PDoff vs PDon ), indicating sensitivity to
+dopaminergic modulation of large-scale cortical dynamics. In contrast, cross-frequency
+coupling measures involving instantaneous frequency (reduced alpha–theta harmonic
+locking and increased gamma–theta coupling) differentiated Parkinson’s disease patients
+from healthy controls, suggesting that these interactions reflect more stable disease-
+related alterations in network coordination. While many previous studies have focused
+on specific oscillatory/connectivity features or spatially localized spectral changes (Ba-
+biloni et al., 2011; Swann et al., 2015; Jackson et al., 2019; Zhang et al., 2022), the cur-
+rent findings suggest that global multivariate electrophysiological representations may
+provide a more informative characterization of Parkinsonian brain dynamics. Impor-
+tantly, the use of a strict leave-one-subject-out validation framework ensures that clas-
+sification results reflect generalizable subject-level patterns rather than within-subject
+overfitting. This methodological choice addresses a common limitation in EEG classifi-
+cation studies, where subject-level independence is not always maintained during model
+evaluation. From a translational perspective, EEG-based multivariate models could po-
+tentially complement existing clinical assessments by providing non-invasive measures
+sensitive to both disease-related neural alterations and medication effects. Such ap-
+proaches may ultimately contribute to objective biomarkers capable of tracking disease
+progression or treatment response.
+
+Limitations and Future Directions
+A number of limitations should be considered when interpreting the present findings.
+First, the analysis was conducted on a single publicly available resting-state EEG
+dataset, which limits the ability to assess the generalizability of the proposed feature
+representations across independent cohorts, recording systems, and clinical populations.
+Replication in larger multi-center datasets will therefore be necessary to determine the
+robustness of the observed electrophysiological patterns. Second, the present study fo-
+cused on global electrode-level summaries of EEG features, which may obscure spatially
+localized cortical effects that could contribute additional discriminative information.
+Future work incorporating spatially resolved analyses or source-reconstructed signals
+may provide deeper insight into the cortical generators underlying the observed feature
+differences. Third, although the transformer classifier integrates multiple interpretable
+descriptors, the study does not attempt to infer causal mechanisms linking the extracted
+features to specific neurophysiological processes within basal ganglia–thalamo–cortical
+circuits. Finally, the dataset included only resting-state recordings, and it remains
+possible that task-related or movement-related EEG paradigms may reveal additional
+disease-specific neural signatures. Future research combining multimodal imaging, lon-
+gitudinal datasets, and larger patient cohorts may help determine whether multivariate
+electrophysiological representations can serve as reliable biomarkers for disease progres-
+sion or treatment response in Parkinson’s disease.
+
+
+
+
+                                                                                     26/34
+Conclusions
+In summary, this study shows that multivariate representations of resting-state EEG
+capture discriminative information about Parkinsonian neural states when evaluated
+under strict subject-level validation. Traditional spectral and synchronization descrip-
+tors were most sensitive to medication-related neural modulation, whereas dynamical
+descriptors—including instantaneous frequency dynamics, cross-frequency interactions,
+and neuronal avalanche statistics—provided complementary information reflecting both
+medication and disease-related network alterations. The low redundancy between these
+features suggests that Parkinsonian cortical dynamics are best characterized by integrat-
+ing multiple interpretable electrophysiological dimensions rather than relying on single
+metrics. Multivariate EEG representations may therefore provide a promising non-
+invasive framework for studying disease-related cortical dynamics and developing objec-
+tive biomarkers of Parkinson’s disease. Future validation across independent datasets
+will be essential to determine whether such multivariate electrophysiological representa-
+tions can serve as robust clinical biomarkers.
+
+Author Contributions
+A.G.D is the sole author of this manuscript and performed the following tasks: concep-
+tualization, methodology, software development and implementation, validation, formal
+analysis, investigation, resources, data curation, writing—original draft preparation,
+writing—review and editing, visualization, project administration, and acquisition of
+funding.
+
+Funding
+No external public or private funding sources were involved in the completion of this
+work.
+
+Institutional Review Board Statement
+This study utilized a publicly available resting-state EEG dataset (openNeuro, Accession
+Number ds002778). The original study was conducted in accordance with the Institu-
+tional Review Board of the University of California, San Diego, and the Declaration of
+Helsinki.
+
+Informed Consent Statement
+Participants provided written informed consent in accordance with the Institutional
+Review Board of the University of California, San Diego. For more information on the
+study interested readers can consult the work of George and colleagues (George et al.,
+2013).
+
+Data Availability Statement
+This study was completed using publicly available EEG data (openNeuro, Accession
+Number ds002778). The scripts implementing the Multi-Head Attention Transformer
+architecture and the complete deep learning training and analysis routine are openly
+available at the author’s GitHub repository (https://github.com/antoniosdougalis/
+Parkinson-s-Project.git). Scripts for feature extraction routines are described in the
+manuscript and are available from the author upon reasonable request.
+
+
+
+
+                                                                                  27/34
+Acknowledgments
+The author thanks Dr. Mike X. Cohen for his invaluable guidance and educational
+support on deep learning algorithms, EEG analysis and statistical methods.
+
+Conflicts of Interest
+The author declares no conflicts of interest.
+
+
+References
+Akgüller, Ömer, Mehmet Ali Balcı, and Gabriela Cioca (Dec. 4, 2024). “Functional Brain
+   Network Disruptions in Parkinson’s Disease: Insights from Information Theory and
+   Machine Learning”. In: Diagnostics 14.23, p. 2728. issn: 2075-4418. doi: 10.3390/
+   diagnostics14232728.
+Babiloni, Claudio et al. (Dec. 2011). “Cortical sources of resting state electroencephalo-
+   graphic rhythms in Parkinson’s disease related dementia and Alzheimer’s disease”. In:
+   Clinical Neurophysiology: Official Journal of the International Federation of Clinical
+   Neurophysiology 122.12, pp. 2355–2364. issn: 1872-8952. doi: 10.1016/j.clinph.
+   2011.03.029.
+Binns, Thomas S. et al. (Aug. 20, 2025). “PyBispectra: A toolbox for advanced electro-
+   physiological signal processing using the bispectrum”. In: Journal of Open Source
+   Software 10.112, p. 8504. issn: 2475-9066. doi: 10.21105/joss.08504. url: https:
+   //joss.theoj.org/papers/10.21105/joss.08504 (visited on 03/08/2026).
+Brücke, T. et al. (Sept. 2000). “SPECT and PET imaging of the dopaminergic system
+   in Parkinson’s disease”. In: Journal of Neurology 247 Suppl 4, pp. IV/2–7. issn:
+   0340-5354. doi: 10.1007/pl00007769.
+Bruining, Hilgo et al. (June 8, 2020). “Measurement of excitation-inhibition ratio in
+   autism spectrum disorder using critical brain dynamics”. In: Scientific Reports 10.1,
+   p. 9195. issn: 2045-2322. doi: 10.1038/s41598-020-65500-4.
+Bunterngchit, Chayut et al. (May 28, 2025). “A Hybrid Convolutional-Transformer Ap-
+   proach for Accurate Electroencephalography (EEG)-Based Parkinson’s Disease De-
+   tection”. In: Bioengineering 12.6, p. 583. issn: 2306-5354. doi: 10.3390/bioengineering1206
+Cohen, Michael X. (2014a). Analyzing neural time series data: theory and practice. 1st.
+   Issues in clinical and cognitive neuropsychology. Cambridge, Mass. [u.a]: MIT Press.
+   isbn: 978-0-262-01987-3 978-0-262-31955-3.
+— (July 2, 2014b). “Fluctuations in oscillation frequency control spike timing and co-
+   ordinate neural networks”. In: The Journal of Neuroscience: The Official Journal of
+   the Society for Neuroscience 34.27, pp. 8988–8998. issn: 1529-2401. doi: 10.1523/
+   JNEUROSCI.0261-14.2014.
+— (Oct. 1, 2019). “A better way to define and describe Morlet wavelets for time-
+   frequency analysis”. In: NeuroImage 199, pp. 81–86. issn: 1095-9572. doi: 10.1016/
+   j.neuroimage.2019.05.048.
+Cole, Scott et al. (Apr. 17, 2019). “NeuroDSP: A package for neural digital signal
+   processing”. In: Journal of Open Source Software 4.36, p. 1272. issn: 2475-9066.
+   doi: 10.21105/joss.01272. url: http://joss.theoj.org/papers/10.21105/
+   joss.01272 (visited on 03/08/2026).
+Dickson, Dennis W. (Aug. 1, 2012). “Parkinson’s disease and parkinsonism: neuropathol-
+   ogy”. In: Cold Spring Harbor Perspectives in Medicine 2.8, a009258. issn: 2157-1422.
+   doi: 10.1101/cshperspect.a009258.
+
+
+
+
+                                                                               28/34
+Donoghue, Thomas et al. (Dec. 2020). “Parameterizing neural power spectra into pe-
+   riodic and aperiodic components”. In: Nature Neuroscience 23.12, pp. 1655–1665.
+   issn: 1097-6256, 1546-1726. doi: 10 . 1038 / s41593 - 020 - 00744 - x. url: https :
+   //www.nature.com/articles/s41593-020-00744-x (visited on 03/08/2026).
+Gao, Richard, Erik J. Peterson, and Bradley Voytek (Sept. 2017). “Inferring synaptic
+   excitation/inhibition balance from field potentials”. In: NeuroImage 158, pp. 70–78.
+   issn: 1095-9572. doi: 10.1016/j.neuroimage.2017.06.078.
+George, Jobi S. et al. (2013). “Dopaminergic therapy in Parkinson’s disease decreases
+   cortical beta band coherence in the resting state and increases cortical beta band
+   power during executive control”. In: NeuroImage. Clinical 3, pp. 261–270. issn: 2213-
+   1582. doi: 10.1016/j.nicl.2013.07.013.
+Hardstone, Richard et al. (2012). “Detrended fluctuation analysis: a scale-free view on
+   neuronal oscillations”. In: Frontiers in Physiology 3, p. 450. issn: 1664-042X. doi:
+   10.3389/fphys.2012.00450.
+Hemptinne, Coralie de, Elena S. Ryapolova-Webb, et al. (Mar. 19, 2013). “Exaggerated
+   phase-amplitude coupling in the primary motor cortex in Parkinson disease”. In:
+   Proceedings of the National Academy of Sciences of the United States of America
+   110.12, pp. 4780–4785. issn: 1091-6490. doi: 10.1073/pnas.1214546110.
+Hemptinne, Coralie de, Nicole C. Swann, et al. (May 2015). “Therapeutic deep brain
+   stimulation reduces cortical phase-amplitude coupling in Parkinson’s disease”. In:
+   Nature Neuroscience 18.5, pp. 779–786. issn: 1546-1726. doi: 10.1038/nn.3997.
+Jackson, Nicko et al. (2019). “Characteristics of Waveform Shape in Parkinson’s Dis-
+   ease Detected with Scalp Electroencephalography”. In: eNeuro 6.3, ENEURO.0151–
+   19.2019. issn: 2373-2822. doi: 10.1523/ENEURO.0151-19.2019.
+Kim, Jinhee et al. (Nov. 1, 2017). “Abnormal intrinsic brain functional network dynam-
+   ics in Parkinson’s disease”. In: Brain: A Journal of Neurology 140.11, pp. 2955–2967.
+   issn: 1460-2156. doi: 10.1093/brain/awx233.
+Kowal, Stacey L. et al. (Mar. 2013). “The current and projected economic burden of
+   Parkinson’s disease in the United States”. In: Movement Disorders: Official Journal
+   of the Movement Disorder Society 28.3, pp. 311–318. issn: 1531-8257. doi: 10.1002/
+   mds.25292.
+Lyu, RuiFang (2025). “Deep learning approaches for EEG-based healthcare applications:
+   a comprehensive review”. In: Frontiers in Human Neuroscience 19, p. 1689073. issn:
+   1662-5161. doi: 10.3389/fnhum.2025.1689073.
+Miller, Andrew M. et al. (July 1, 2019). “Effect of levodopa on electroencephalographic
+   biomarkers of the parkinsonian state”. In: Journal of Neurophysiology 122.1, pp. 290–
+   299. issn: 1522-1598. doi: 10.1152/jn.00141.2019.
+Mohanty, Biswaranjan et al. (Oct. 21, 2025). “Parkinsonism disrupts the balance be-
+   tween excitatory and inhibitory activity within the primary motor cortex during
+   movement”. In: Proceedings of the National Academy of Sciences of the United States
+   of America 122.42, e2510287122. issn: 1091-6490. doi: 10.1073/pnas.2510287122.
+Mukherjee, Prithwijit and Anisha Halder Roy (Sept. 10, 2025). “A robust deep learning-
+   driven framework for detecting Parkinson’s disease using EEG”. In: Computer Meth-
+   ods in Biomechanics and Biomedical Engineering, pp. 1–19. issn: 1476-8259. doi:
+   10.1080/10255842.2025.2556310.
+Orlando, Isabella F. et al. (2025). “Dopamine alters functional gradients in Parkinson’s
+   disease”. In: Imaging Neuroscience 3, imag a 00564. issn: 2837-6056. doi: 10.1162/
+   imag_a_00564.
+Perrin, F. et al. (Feb. 1989). “Spherical splines for scalp potential and current density
+   mapping”. In: Electroencephalography and Clinical Neurophysiology 72.2, pp. 184–
+   187. issn: 0013-4694. doi: 10.1016/0013-4694(89)90180-6.
+
+
+
+
+                                                                                  29/34
+Sadeghi, Fatemeh et al. (2025). “The arrow of time in Parkinson’s disease”. In: NeuroIm-
+   age. Clinical 47, p. 103834. issn: 2213-1582. doi: 10.1016/j.nicl.2025.103834.
+Scheffer-Teixeira, Robson and Adriano Bl Tort (Dec. 7, 2016). “On cross-frequency
+    phase-phase coupling between theta and gamma oscillations in the hippocampus”.
+    In: eLife 5, e20515. issn: 2050-084X. doi: 10.7554/eLife.20515.
+Shew, Woodrow L. et al. (Dec. 9, 2009). “Neuronal avalanches imply maximum dynamic
+    range in cortical networks at criticality”. In: The Journal of Neuroscience: The Offi-
+   cial Journal of the Society for Neuroscience 29.49, pp. 15595–15600. issn: 1529-2401.
+    doi: 10.1523/JNEUROSCI.3864-09.2009.
+Silberstein, Paul et al. (June 2005). “Cortico-cortical coupling in Parkinson’s disease and
+    its modulation by therapy”. In: Brain: A Journal of Neurology 128 (Pt 6), pp. 1277–
+   1291. issn: 1460-2156. doi: 10.1093/brain/awh480.
+Stocchi, Fabrizio et al. (Dec. 2024). “Parkinson disease therapy: current strategies and
+    future research priorities”. In: Nature Reviews. Neurology 20.12, pp. 695–707. issn:
+   1759-4766. doi: 10.1038/s41582-024-01034-x.
+Stoffers, D. et al. (July 2007). “Slowing of oscillatory brain activity is a stable charac-
+    teristic of Parkinson’s disease without dementia”. In: Brain: A Journal of Neurology
+   130 (Pt 7), pp. 1847–1860. issn: 1460-2156. doi: 10.1093/brain/awm034.
+Vaswani, Ashish et al. (Aug. 2, 2023). Attention Is All You Need. doi: 10.48550/arXiv.
+   1706.03762. arXiv: 1706.03762[cs]. url: http://arxiv.org/abs/1706.03762
+   (visited on 03/08/2026).
+Waninger, Shani et al. (2020). “Neurophysiological Biomarkers of Parkinson’s Disease”.
+    In: Journal of Parkinson’s Disease 10.2, pp. 471–480. issn: 1877-718X. doi: 10.3233/
+   JPD-191844.
+Zhang, Juanli, Arno Villringer, and Vadim V. Nikulin (2022). “Dopaminergic Modula-
+    tion of Local Non-oscillatory Activity and Global-Network Properties in Parkinson’s
+    Disease: An EEG Study”. In: Frontiers in Aging Neuroscience 14, p. 846017. issn:
+   1663-4365. doi: 10.3389/fnagi.2022.846017.
+Zhu, Junlan et al. (2021). “Altered Brain Functional Network in Subtypes of Parkinson’s
+    Disease: A Dynamic Perspective”. In: Frontiers in Aging Neuroscience 13, p. 710735.
+    issn: 1663-4365. doi: 10.3389/fnagi.2021.710735.
+Zimmern, Vincent (2020). “Why Brain Criticality Is Clinically Relevant: A Scoping
+    Review”. In: Frontiers in Neural Circuits 14, p. 54. issn: 1662-5110. doi: 10.3389/
+    fncir.2020.00054.
+
+
+
+
+                                                                                    30/34
+Supplementary Materials
+
+
+
+
+Supplementary Figure S1. EEG signal artifact removal via application of robust crite-
+ria and Independent Component Analysis (ICA) algorithms. Example of filtered EEG
+traces (1-45 Hz bandpass, blue) taken from five channels showing the resultant signal
+(orange) after artifact reduction via Independent Component Analysis (ICA) using a
+combined triple criterion based on percentile-based thresholds of the component pro-
+jection power & kurtosis and on a fixed high frequency muscle spectral power ratio
+(25-45Hz over 1-15Hz) to unmix neuronal and muscular sources. The component pro-
+jection and kurtosis thresholds were set at the 95th percentile and the muscle spectral
+ratio threshold at three.
+
+
+
+
+                                                                                31/34
+Supplementary Figure S2. Construction and design of complex-valued Morlet Wavelets
+(cMWs) for phase extraction. Complex-valued Morlet wavelets were constructed as 4-
+second-long complex sine waves tapered with a Gaussian window and centered at the
+canonical frequencies of 2, 6, 10, 20, and 38 Hz (corresponding to delta, theta, alpha,
+beta, and gamma bands, respectively). The Gaussian taper was defined by a fixed full
+width at half maximum (FWHM) in the time domain, which determines the effective
+bandwidth of each wavelet in the frequency domain. The left column shows the time-
+domain representation of each cMW, including the real and imaginary components of
+the complex wavelet, along with the Gaussian envelope used for tapering. The blue
+horizontal dashed line indicates the half-maximum level for visual estimation of the
+FWHM (delta, 1.45 s; theta, 0.48 s; alpha, 0.25 s; beta, 0.22 s; gamma, 0.18 s). The
+right column shows the corresponding frequency-domain representations, illustrating
+the spectral profile and effective bandwidth of each wavelet (bandwidth at half-max
+along central frequency[from-to range], delta, 1 Hz [from 1.50 to 2.50 Hz]; theta, 2
+Hz[from 5.00 to 7.00 Hz]; alpha, 4 Hz[from 8.00 to 12.00 Hz]; beta, 4.5 Hz[from 17.75
+to 22.25 Hz]; gamma, 5 Hz[from 35.50 to 40.50 Hz]).
+
+
+
+
+                                                                                32/34
+Supplementary Figure S3. Topographical voltage maps (top, plotted time point at
+0.5s) and z-scored voltage time series (bottom) from a representative electrode (P8)
+before (left) and after Laplacian (right) spatial filtering of EEG data according to the
+method of Perrin (Perrin et al., 1989) to remove any volume conduction artifacts before
+connectivity analysis.
+
+
+
+
+                                                                                 33/34
+                               Cliff’s delta or rank-biserial corr, CI [low, high], p-val FDR-corrected
+  Laplacian Corrected
+                               CN vs PDoff                    CN vs PDon                   PDoff vs PDon
+  Connectivity Metric
+                           -0.542 [-1.82, -0.21],
+      Delta PLV                                        -0.292 [-1.06, 0.26], 0.2081    0.6 [-0.47, 1.26], 0.2675
+                                  0.0255
+                           -0.658 [-2.55, -0.57],
+      Theta PLV                                        -0.642 [-2.15, -0.6], 0.0115    -0.2 [-0.23, 0.51], 0.8904
+                                  0.0090
+      Alpha PLV         -0.217 [-1.07, 0.63], 0.3041   -0.175 [-1.01, 0.69], 0.4065   0.067 [-0.15, 0.35], 0.7984
+                                                                                         -0.333 [-0.85, -0.06],
+      Beta PLV           -0.3 [-1.37, 0.3], 0.1934     -0.417 [-1.81, 0.12], 0.1202
+                                                                                                0.2675
+     Gamma PLV          -0.375 [-1.48, 0.22], 0.1255   -0.325 [-1.6, 0.43], 0.2053    0.067 [-0.41, 0.79], 0.7984
+      Delta PLI         -0.333 [-1.31, 0.28], 0.2845   -0.242 [-0.95, 0.03], 0.7947   0.067 [-0.88, 0.61], 0.9780
+      Theta PLI         -0.092 [-0.9, 0.44], 0.6637     0.05 [-0.7, 0.77], 0.8433      -0.2 [-0.26, 0.65], 0.9780
+      Alpha PLI         0.183 [-0.46, 1.17], 0.5657     0.2 [-0.24, 1.29], 0.7947      0.2 [-0.03, 0.46], 0.4220
+                                                                                         -0.733 [-1.46, -0.35],
+       Beta PLI         0.375 [0.01, 1.34], 0.2845     -0.042 [-0.75, 0.68], 0.8433
+                                                                                                0.0215
+     Gamma PLI          -0.158 [-1.14, 0.67], 0.5657   -0.15 [-1.04, 0.63], 0.7947    -0.067 [-0.58, 0.7], 0.9780
+      Delta wPLI        -0.408 [-1.39, 0.18], 0.1580   -0.25 [-0.95, 0.06], 0.8125     0.2 [-0.85, 0.78], 0.9780
+     Theta wPLI         -0.142 [-0.98, 0.31], 0.5271   -0.05 [-0.74, 0.65], 0.8125    -0.067 [-0.23, 0.66], 0.9780
+     Alpha wPLI         0.183 [-0.47, 1.19], 0.5271     0.2 [-0.28, 1.29], 0.8125      0.2 [-0.05, 0.43], 0.6310
+      Beta wPLI         0.392 [0.01, 1.33], 0.1580     -0.083 [-0.79, 0.63], 0.8125   -0.6 [-1.59, -0.39], 0.0215
+    Gamma wPLI          -0.133 [-1.19, 0.65], 0.5271   -0.142 [-1.08, 0.64], 0.8125   -0.067 [-0.46, 0.73], 0.9780
+Supplementary Table 1. Comparative summary of group-level comparisons using Phase-
+based connectivity metrics after Laplacian transform of EEG data across diagnostic
+contrasts. Values represent Cliff’s delta or matched-pairs rank-biserial correlation (un-
+paired or paired respectively) with 95% confidence intervals and Wilcoxon (rank sum or
+signed rank sum) FDR-corrected p-values (Benjamini–Hochberg method). PLV, Phase
+Locking value; PLI, Phase Lag Index; wPLI, weighted Phase Lag Index; CN, Control;
+PDoff, Parkinson’s patient off medication; PDon, Parkinson’s patient on medication.
+
+
+
+
+                                                                                                           34/34
+

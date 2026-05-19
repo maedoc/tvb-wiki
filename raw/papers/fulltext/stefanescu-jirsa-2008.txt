@@ -1,0 +1,885 @@
+A Low Dimensional Description of Globally Coupled
+Heterogeneous Neural Networks of Excitatory and
+Inhibitory Neurons
+Roxana A. Stefanescu1, Viktor K. Jirsa1,2,3*
+1 Department of Physics, Florida Atlantic University, Boca Raton, Florida, United States of America, 2 Theoretical Neuroscience Group, Movement Science Institute, CNRS,
+UMR6233, Marseille, France, 3 Center for Complex Systems and Brain Sciences, Florida Atlantic University, Boca Raton, Florida, United States of America
+
+
+
+     Abstract
+     Neural networks consisting of globally coupled excitatory and inhibitory nonidentical neurons may exhibit a complex
+     dynamic behavior including synchronization, multiclustered solutions in phase space, and oscillator death. We investigate
+     the conditions under which these behaviors occur in a multidimensional parametric space defined by the connectivity
+     strengths and dispersion of the neuronal membrane excitability. Using mode decomposition techniques, we further derive
+     analytically a low dimensional description of the neural population dynamics and show that the various dynamic behaviors
+     of the entire network can be well reproduced by this reduced system. Examples of networks of FitzHugh-Nagumo and
+     Hindmarsh-Rose neurons are discussed in detail.
+
+  Citation: Stefanescu RA, Jirsa VK (2008) A Low Dimensional Description of Globally Coupled Heterogeneous Neural Networks of Excitatory and Inhibitory
+  Neurons. PLoS Comput Biol 4(11): e1000219. doi:10.1371/journal.pcbi.1000219
+  Editor: Karl J. Friston, University College London, United Kingdom
+  Received May 7, 2008; Accepted September 30, 2008; Published November 14, 2008
+  Copyright: ß 2008 Stefanescu, Jirsa. This is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits
+  unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+  Funding: The research reported herein was supported by ATIP (CNRS), Program Neuroinformatique (CNRS), and the Brain Network Recovery Group through the
+  James S. McDonnell Foundation.
+  Competing Interests: The authors have declared that no competing interests exist.
+  * E-mail: viktor.jirsa@univmed.fr
+
+
+
+
+Introduction                                                                           who introduced an order parameter capturing the degree of
+   Information processing associated with higher brain functions is                    synchronization as a function of the coupling strength or frequency
+believed to be carried out by large scale neural networks [1–4].                       distribution (see [8] and [9] for a comprehensive review). More
+Significant theoretical and computational efforts have been                            generally, Pecora et al. [10] (see also Belykh et al. [11]) have
+devoted over the years to understand the dynamical behavior of                         derived the master stability equation, serving as a stability
+such networks. While any modeling attempt aspires to preserve the                      condition for the synchronized state of an arbitrary network.
+most relevant physical and dynamical characteristics of these                          Recently, Hennig et al. [12] derive similar conditions considering
+networks, certain simplifying hypothesis are usually employed in                       the connectivity as well as heterogeneous inputs. Another direction
+order to decrease the overwhelming complexity of the problem. In                       for describing the dynamical behavior of such networks involves
+particular, computational models of large scale networks make use                      the derivation of the equations for the synchronized state
+of the implicit assumption of ‘‘neurocomputational unit’’. Such a                      (described by the mean field or by a synchronization manifold)
+unit designates a population of thousands of neurons which exhibit                     along with the equations describing the deviations from synchrony
+a similar behavior. A large scale network is then defined by these                     [13,14]. These approaches are suitable only when the deviation
+units and their interconnections. In order to describe the dynamics                    from the synchronized state is not very strong. On the other hand,
+of the unit, further assumptions are employed. For instance, the                       there exists another class of approaches based on mean field theory
+neurons may be regarded as identical entities, the nature and                          ([15]; see also [6] for a review). The traditional mean field
+strength of their connections may be neglected and the temporal                        approaches are incapable of addressing synchronized neural
+details of their spiking activity considered irrelevant for the                        activity, since their basic assumption is that the incoming spike-
+dynamics of the large network. Consequently, a small neural                            train to a given neuron in the network is Poissonian and hence
+network with these properties will show a very well synchronized                       uncorrelated. Other dynamical behaviors far from synchrony,
+dynamics which can be easily captured by a conventional neural                         such as multi-clustering in the phase for instance, also require
+mass model (for a comprehensive review see [5] and [6]).                               expansions of the current approaches. First attempts to do so
+   A remarkable amount of scientific work has been devoted to the                      include the consideration of higher orders in the mean field
+understanding of the behavior of neural networks when some of                          expansion [16] or mode decompositions of the network dynamics
+these assumptions are dismissed. Many of these studies consider                        in the phase space [17]. The latter approach by Assisi et al. [17]
+either the inhomogeneities in the network connectivity, or                             successfully identified network modes of characteristic behavior,
+heterogeneous inputs and give a special attention to the                               but has been limited to biologically unrealistic situations such as
+synchronized state of the network. Among the first attempts, one                       purely excitatory or inhibitory networks and simplistic neuron
+may consider the studies on coupled oscillators by Kuramoto [7]                        models. While it is true that strong reductionist assumptions are
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                          1                       November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                       Heterogeneous Neural Network Dynamics
+
+
+
+  Author Summary                                                            Results
+  Nowadays we know that most cognitive functions are not                    The Dynamic Behavior of the FitzHugh-Nagumo Neural
+  represented in the brain by the activation of a single area               Population
+  but rather by a complex and rich behavior of brain                           We begin our investigations by considering a mixed population
+  networks distributed over various cortical and subcortical                of globally coupled N1 excitatory and N2 inhibitory FitzHugh-
+  areas. The communication between brain areas is not                       Nagumo neurons (see Materials and Methods for more details
+  instantaneous but also undergoes significant signal                       regarding the architecture of the network). The neurons are not
+  transmission delays of up to 100 ms, which increase the
+                                                                            identical and differ in the degree of membrane excitability Ii. In
+  computation time for brain network models enormously.
+  In order to allow the efficient investigation of brain                    normal physiological conditions, this variability may reflect
+  network models and their associated cognitive capabilities,               different levels of expression of certain types of receptors [26,27]
+  we report here a novel, computationally parsimonious,                     or differences in regulatory effects induced by internal [28,29] or
+  mathematical representation of clusters of neurons. Such                  external [30,31] neuromodulatory processes. Some pathological
+  reduced clusters are called ‘‘neural masses’’ and serve as                conditions elicited by specific genetic mutations or by drug abuse
+  nodes in the brain networks. Traditional neural mass                      are also known to be related to significant modifications of the
+  descriptions so far allowed only for a very limited                       level of neural membrane excitability [32,33]. In the framework of
+  repertoire of behaviors, which ultimately rendered their                  theoretical and computational neural modelling, this parameter is
+  description biologically unrealistic. The neural mass model               usually instantiated by an external current, constant in time, which
+  presented here overcomes this limitation and captures a                   affects directly the dynamics of the variable describing the neural
+  wide range of dynamic behaviors, but in a computationally                 membrane potential. In general, excitatory or inhibitory subpop-
+  efficient reduced form. The integration of novel neural                   ulations may be characterized by different parameter distributions.
+  mass models into brain networks represents a step closer                  For the purpose of this paper the parameter distribution is called
+  toward a computational and biologically realistic realiza-                g(I) and is Gaussian, unless specified differently. The standard
+  tion of brain function.
+                                                                            deviation of the distribution quantifies the degree of dispersion.
+                                                                            The values of the coupling strengths, the dispersion and the mean
+common (sacrificing dramatically on the biological realism of a             of the membrane excitability for each subpopulation constitute a
+network node’s dynamics) in large-scale network modeling [18–               parametric space in which the dynamics of the entire population
+25], these assumptions on the network node’s dynamics are usually           may exhibit various significant characteristics. Because of the
+made adhoc and limit the network dynamics to a small range.                 multidimensional nature of this parametric space, a complete
+   Evidently a reduced small scale network model is desirable to            treatment of the system’s dynamics is difficult and some
+serve as a node in a large scale network simulation whereby                 simplifications shall be considered to lower the complexity of the
+displaying a sufficiently rich dynamic repertoire. Here it is of less       analysis (see the section ‘‘Materials and Methods: The architecture
+importance to find a quantitatively precise reduced description of          of the network’’ for more details). First, we neglect the coupling
+a neural population; rather more importantly, we seek a                     within the inhibitory subpopulation (K22.0), which is motivated
+computationally inexpensive population model (this means                    by the small number of inhibitory neurons, second, the coupling
+typically low-dimensional) which is able to display the major               strength describing the interactions between the neurons within
+qualitative dynamic behaviors (synchronization, rest state, multi-          the excitatory subpopulation K11 is comparable with the coupling
+clustering, etc.) for realistic parameter ranges as observed in the         strength K21 between the excitatory neurons and the neurons in
+total population of neurons. Here it is also desirable to include           the inhibitory subpopulation; third, rather than allowing arbitrary
+biologically more realistic neuron dynamics such as bursting                values for the connectivity strengths K11 and K12, we pick a
+behavior, since novel phenomena on the small scale network level                                                                        K12
+may occur, which need to be captured by the reduced population              reference value K12 and manipulate the ratio n~                 . In
+                                                                                                                                        K11
+model.                                                                      particular, two parametric regimes may be distinguished: one for
+   In this paper we extend the approach by Assisi et al. [17]               which the excitatory coupling is stronger then the inhibitory one
+towards biologically more realistic network architectures including         (n,1), and the opposite situation corresponding to n.1. Lastly, we
+mixed excitatory and inhibitory networks, as well as more realistic         assume that the distributions of the membrane excitability levels in
+neuron models capable of displaying spiking and bursting                    the excitatory and inhibitory subpopulations have the same mean
+behavior. Our reduced neural population models not only account             and dispersion parameters. Given the small cortical volume
+for a correct reproduction of the mean field amplitude of the               occupied by the neural network considered here, this simplification
+original networks but also capture the most important temporal              will be precise, if the concentration changes of neuromodulatory
+features of its dynamics. In this way, complex dynamical                    factors influencing the degree of membrane excitability will have
+phenomena such as multi-clustered oscillations, multi-time scale            identical effects on the two neural subpopulations. Motivated by
+synchronization and oscillation death become available for                  the simple intrinsic dynamics of the FitzHugh-Nagumo neuron
+simulations of large scale neural networks at a low computational           (see Figure 1A), where the stability of the rest state is lost via a
+cost. We start by investigating first, the main features of the             Hopf bifurcation, we allow a zero mean for these distributions
+dynamic behavior of a globally coupled heterogeneous neural                 (m = 0) and different degrees of dispersion.
+population comprising both excitatory and inhibitory connections.              Considering these approximations we proceed by investigating
+Then, using mode decomposition techniques, we derive analyti-               how the collective behavior of a population of 200 neurons (150
+cally a low dimensional representation of the network dynamics              excitatory and 50 inhibitory neurons) depends on the system’s
+and we show that the main features of the neural population’s               parameters. For small values of the inhibition/excitation ratio
+collective behavior can be captured well by the dynamics of a few           (n#0.5) the entire population behaves similar to a purely
+modes. Two different neuronal models, a network of FitzHugh-                excitatory population as studied in [17] and summarized in the
+Nagumo neurons and a network of Hindmarsh-Rose neurons are                  following. In the parametric space of connectivity strengths K11,
+discussed in detail.                                                        K12 and dispersion s, three distinct regions can be identified in
+
+
+      PLoS Computational Biology | www.ploscompbiol.org                 2                    November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                                 Heterogeneous Neural Network Dynamics
+
+
+
+
+                                                                     x
+
+
+
+
+                                                                     x
+
+
+
+
+                                                                       x
+
+
+
+
+                                                                         x
+
+
+
+
+                                                                         x
+
+
+
+
+                                                                         x
+
+
+
+
+Figure 1. FitzHugh-Nagumo and Hindmarsh-Rose neural models. (A) The intrinsic dynamics of a neuron according to FitzHugh-Nagumo
+model. Two trajectories in the phase space (left) and their corresponding time series (right) are represented. (B) Hindmarsh-Rose model: the constant
+parameters used are: (a = 1; b = 3; c = 1; d = 5; s = 4; r = 0.006; x0 = 21.6). Different dynamic behavior is obtained for different values of the parameter I.
+doi:10.1371/journal.pcbi.1000219.g001
+
+which the amplitude of the mean field as well as the oscillatory                  clusters, one that will perform large oscillations on the limit cycle
+status of the population differs significantly (see Figure 2). The                and a ‘‘quiescent’’ cluster that performs small oscillations around
+regions are characterized by more than 90% of all neurons                         the fixed point. By increasing the connectivity strength, more and
+showing a behavior particular for a region. In the first region (low              more neurons from the quiescent group will be recruited by the
+values for connectivity strength) the population groups in two                    oscillatory cluster, while the oscillations of these neurons become
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                      3                      November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                           Heterogeneous Neural Network Dynamics
+
+
+
+
+                            x
+
+
+
+
+                                                                                                   x
+
+                           R III                               R II
+
+
+
+
+                                                                                                    x
+                                                             RI
+
+
+
+
+Figure 2. Dynamical regimes of a dominantly excitatory neural population. Contour map of the mean field amplitude calculated for the
+ratio n = 0.3 and mean m = 0 are displayed as function of connectivity strengths K11, K12 and strength of dispersion s. Three different regions with
+specific oscillatory behavior are identified. Examples of time series for neurons with low (black) and high (red) value of the I parameter are given.
+doi:10.1371/journal.pcbi.1000219.g002
+
+more synchronized. Consequently, the amplitude of the mean field of            1.2. In spite of these lower values, for this regime, all neurons are
+the population increases. The maximum value is reached in the                  actually oscillating on limit cycles but clustered in several groups
+second region in which all neurons oscillate synchronously. Finally, a         performing, most of the time, antiphase oscillations (Figure 5). While
+third region can be identified for relatively large values of the              most of the neurons within clusters are synchronized for the entire
+connectivity strength and small to medium values of dispersion. Here,          time, we find also neurons which are exchanging the clusters at
+all the neurons will rest at the stable fixed point hence the mean field       various moments. In other words, while the cluster dynamics persists
+amplitude is zero. In Figure 3 we present the amplitude color coded            and is invariant, single neurons perform cluster hopping by residing
+time series for all the neurons calculated for specific parameter values       within a given cluster for a longer time duration (& then the
+that fall in each of these regions. The neurons in each subpopulation          oscillation period of a cluster) followed by a quick change from one
+are ordered according to the value of their membrane excitability I.           cluster to the other. This complex multi-clustered network dynamics
+Adjacently, we show the time series of the entire population mean              and cluster hopping can not be observed in a purely excitatory
+field (X(t)) defined by the equation (6) in Materials and Methods              population [17]. A final observation regards region II which
+section. Transitions from one region to another can be realized by             corresponds to a maximum value of the mean field amplitude. This
+appropriate changes in the values of parameters. For instance, for             region is much smaller than the one observed in a mainly excitatory
+large values of the coupling strength a decrease in the value of               population and is obtained for different values of coupling strengths
+dispersion parameter may induce the sudden transition from region              and dispersion parameters. More than this, the neurons oscillate
+II (where all neurons are oscillating synchronously) to region III             synchronously only for certain periods of time, while for other periods
+(where all neurons are quiescent) which is sometimes called oscillation        the dynamics develops in a two cluster regime similar with the one
+death of the neural population [34,35].                                        found in region I. The increased complexity of the network dynamics
+   When the ratio of coupling strengths favors a more inhibitory               can be observed even for lower values of inhibiton/excitation ratio. In
+regime, that is for increasing n, we observe a significant change in the       Figure 6, we show amplitude color coded time series for all neurons
+mean field amplitude landscape (see Figure 4). Once again several              calculated for a ratio n = 1.3, a dispersion s = 0.3 and values for
+regions characterized by different values of the mean field amplitude          coupling strengths that correspond to different regimes of behavior.
+and qualitatively different oscillatory behavior may be identified.               The abundant dynamic behavior obtained for a mainly
+   Regions I and III, corresponding to dynamics of bi-clustering and           inhibitory population may suggest that inhibition does not only
+oscillation death, have been identified and discussed in the previous          play a role in decreasing the firing rate of a certain group of
+case as well. In addition we can indicate an interesting region IV that        neurons but it may also enrich the global dynamics of the network.
+corresponds to values of the mean field amplitude between 0.8 and              The additional dynamical features may be further exploited to
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                   4                     November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                             Heterogeneous Neural Network Dynamics
+
+
+
+
+Figure 3. Temporal dynamics of a dominantly excitatory neural population. Left: amplitude color coded time series for all neurons
+calculated for the following parameter values (starting from bottom to top): K11 = 0.5 (Region I); K11 = 0.9 (Region I); K11 = 2.1 (Region II); K11 = 3.5
+(Region III); for all subfigures n = 0.3, m = 0 and s = 0.3. Right: the time series of the mean field of the entire population calculated for the same
+parameters.
+doi:10.1371/journal.pcbi.1000219.g003
+
+accommodate for more complex neural functions. The diverse                     the ratio n, this region extends towards all the values of the
+dynamical features of the network in the extreme situations of                 dispersion parameter and smaller values of the coupling strength
+mainly excitatory or mainly inhibitory connectivity motivates a                (see Figure 7E). As discussed above, the mechanism responsible for
+further, more systematic analysis for the intermediate regimes.                a lower value of the mean field amplitude is not the decreasing
+Contour maps of the mean field amplitude have been calculated                  number of oscillatory neurons but the emergence of a multiple
+for increasing values of the inhibition/excitation ratio n and                 cluster dynamics. For even larger values of the inhibition/
+different values of coupling strengths and dispersion parameters               excitation ratio (n.1.5), a new region of zero amplitude of the
+(Figure 7). Several important features can be identified. Starting             mean field appears for large coupling strengths (see Figure 7F–H).
+with a mainly excitatory network and increasing the strength of the            This region is extended towards smaller values of the connectivity
+inhibitory coupling relative to the excitatory one, we can observe a           strength leading eventually (for n.8) to the shut down of the entire
+reduction of the region III in favor of the extension of region II,            population for any arbitrary values of the other parameters.
+leading to it’s complete disappearance for values of n closer to 1
+(see Figure 7A–C). When the inhibition strength becomes grater
+then the excitation (n.1), the landscape of the mean field                     The Reduced System
+amplitude contour becomes more irregular due to an enlarged                       Proceeding with the mode decomposition technique discussed
+sensitivity to the initial conditions. A lower amplitude region starts         in detail in Materials and Methods we arrive at a reduced
+to emerge at first only for large values of both dispersion and                representation of the network dynamics instantiated by the
+coupling strength (see Figure 7D). Increasing further the value of             following set of equations:
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                   5                      November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                            Heterogeneous Neural Network Dynamics
+
+
+
+
+                                                                                                      x
+                                              R III
+
+
+
+
+                                                                     R IV                             x
+                               R II
+
+                                                           RI
+
+
+
+
+                           x                                                                        x
+
+
+
+
+Figure 4. Dynamical regimes of a dominantly inhibitory neural population. Contour map of the mean field amplitude calculated for ratio
+n = 2.5 and mean m = 0 are displayed as function of connectivity strengths K11, K12 and strength of dispersion s. Four different regions with specific
+oscillatory behavior are identified. Examples of time series for neurons with low (black) and high (red) value of the I parameter are given.
+doi:10.1371/journal.pcbi.1000219.g004
+
+                                                                                 mean field (Mr) reconstructed using equations (1).
+                                 !        "                      #
+                         j3i                  X
+                                              3
+        j_ i ~c ji {ei         {gi zK11             Aik jk {ji
+                                                                                                                         1 XX
+                                                                                                                              p   q
+                         3                    k~1                                           AE~jM{Mrj;          MAE~                AEij ;
+                    "                 #                                                                                  pq i~1 j~1
+                     X3
+             {K12            Bik ak {ji zcIEi                                                        MAE
+                     k~1                                                                NMAE~                                                     ð2Þ
+                                                                                                   Mmax {Mmin
+              1
+        g_ i ~ ðji {bgi zmi Þ
+              c                                                                  Further, we quantify the overall error for a certain scenario using
+                              "              #
+                      a3i        X3                                              the normalized mean absolute error (NMAE) defined in equation
+        a_ i ~c ai {fi {bi zK21      Cik ji {ai zcIIi                            (2), where p and q stands for the maximum dimensions of the
+                      3          k~1                                             parametric space investigated. Inspecting Figure 8 we note a good
+              1                                                                  reproduction of the main characteristics of the mean field
+        b_ i ~ ðai {bbi zni Þ                                          ð1Þ       amplitude landscape across all connectivity conditions as judged
+              c
+                                                                                 by visual inspection. The topology of the landscape is captured
+where i = 1,2,3 and the quantitative expressions for the coefficients            and all qualitatively different network behaviors are represented.
+are given in Text S1. Here the variables ji,gi (and ai,bi) describe              For a more quantitative evaluation, we compute the normalized
+the dynamics of a given type i for the excitatory (and inhibitory)               mean absolute error (NMAE) which ranges from 9.76% to a
+subpopulation of neurons. Using this reduced system we                           maximum of 18.72%. Most of the significant errors occurs at the
+reconstruct in Figure 8 the mean field amplitude for a few                       borders between regions characterized by different dynamical
+parameter scenarios explored in Figure 7. The absolute error of                  features (see Regions I to IV identified in Figure 2 and Figure 4).
+reconstruction (AE), presented in the bottom panels, has been                    Besides a good approximation of the mean field amplitude of the
+evaluated at every point in the parametric space as the absolute                 entire population, one may ask how well is the reduced system
+difference between the mean field amplitude (M) generated with                   capturing the cluster behavior of the full system. In order to
+equations (5) described in Materials and Methods section and the                 address this question we make a comparison between the time
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                     6                    November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                             Heterogeneous Neural Network Dynamics
+
+
+
+
+Figure 5. Example of multi-cluster dynamics. Multi-cluster dynamics in phase space with neural cluster exchange obtained for the following
+parameters: n = 1.3; K11 = 3; m = 0; s = 0.3.
+doi:10.1371/journal.pcbi.1000219.g005
+
+series generated by the equations (1) and the ones obtained by              interesting behavior is revealed considering a mean value of m = 3.2
+direct projection of the time series of the full system on the chosen       and a low value for dispersion s = 0.15. In this condition, if
+modes. Examples are given in Figure 9 and in more detail in                 uncoupled, most of the neurons will oscillate chaotically. As a
+Figure S1 from the supporting material (Text S1). The modes                 function of the inhibition/excitation ratio, the globally coupled
+capture well the amplitude of the corresponding set of neurons,             mixed population shows different behaviors. For small values of this
+though the phase seems to drift indicative of (potentially nonlinear)       ratio (e.g. n = 0.5), increase in the excitatory coupling synchronizes
+frequency contributions compared to the complete network.                   the population with a loss of chaotic behavior (see Figure 11A). By
+Simulations consistently show that although the amplitude is                contrast, for a large value of this ratio (e.g. n = 1.5), an increase in the
+correctly reproduced even for a more complicated dynamics (see              excitatory coupling will induce small amplitude oscillations in the
+Figure S1), this might not be always the case with the frequency of         inhibitory neurons while the excitatory subpopulation exhibits a
+the oscillations. In general, one may see periods in which the two          chaotic regime (see Figure 11B). Simulations show that across all
+time series (stemming from the full and the reduced network                 mean values considered, in a mainly excitatory configuration an
+simulations) are synchronized followed by periods of less degree in         increase in the connectivity strength will result in a larger degree of
+the phase synchronization. This observation may be relevant when            burst-spike synchronization within and between subpopulations, and
+transient aspects of phase synchrony play a role in large scale             consequently in a larger value of the mean field amplitude. By
+network simulations, but else may not be significant.                       contrast, in a mainly inhibitory configuration, the increase of
+                                                                            coupling strength induces a disorder in the spiking train of
+Hindmarsh-Rose Neural Population Model                                      oscillation. This dynamics has also been observed in purely
+   To reinforce our approach we will consider in the following the          excitatory/inhibitory spiking networks with global coupling [13].
+case of a mixed population of Hindmarsh-Rose neurons which are
+known to show spike-burst behavior (see Materials and Methods               The Reduced System
+for more details). As in the previous case analyzed, each neuron is            As in the previous case, we turn now our attention towards the
+distinguishable from all others due to the value of parameter I             derivation of a reduced system that can capture the dynamics
+which may be interpreted as the degree of membrane excitability             analyzed above. Applying the mode decomposition technique
+or an external input.                                                       discussed in Materials and Methods, we find the equations of the
+   The bifurcation diagram corresponding to an uncoupled                    reduced representation to be the following:
+Hindmarsh-Rose neuron (see Figure 1B) suggests that the behavior
+of the globally coupled mixed population may depend significantly                                                       "                      #
+on the mean value (m) of the membrane excitability distribution                                                             X
+                                                                                                                            3
+
+g(I). Hence, in our attempt to derive a reduced representation of                   j_ i ~gi {ai j3i zbi j2i {ti zK11             Aik jk {ji
+                                                                                                                            k~1
+the network dynamics that will capture well the main features of                                "                  #
+the entire system behavior, we must consider all the possible                                       X
+                                                                                                    3
+
+situations. We start by allowing the mean value for the membrane                         {K12             Bik ak {ji zIEi
+                                                                                                    k~1
+excitability distribution to be m = 1.1. In this case, if uncoupled,
+part of the neurons will move to the fixed point and part of them                   g_ i ~ci {di j2i {gi
+will oscillate in a spike-burst manner. The simulations of the                                                                                      ð3Þ
+globally coupled neural population show indeed a clustering                         t_ i ~rsji {rti {mi
+behavior (Figure 10) for low values of the coupling strength                                                            "                  #
+                                                                                                                            X
+                                                                                                                            3
+(n = 0.5; K11 = 0.5) and large values of the dispersion parameter                   a_ i ~bi {ei a3i zfi a2i {ci zK21             Cik jk {ai zIIi
+(s = 0.5). This regime is rapidly left with the increase of coupling                                                        k~1
+strength in favor of a more synchronized dynamics. Unlike the
+case of the previous model discussed, this two-cluster phenomenon                   b_ i ~hi {pi a2i {bi
+can not be found for other configurations of parameters. An                         c_ i ~rsai {rci {ni
+
+
+      PLoS Computational Biology | www.ploscompbiol.org                 7                      November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                             Heterogeneous Neural Network Dynamics
+
+
+
+
+Figure 6. Temporal dynamics of a dominantly inhibitory neural population. Left: Amplitude color coded time series for all neurons
+calculated for the following parameter values (starting from bottom to top): K11 = 0.5 (Region I); K11 = 0.9 (Region I); K11 = 2.1 (Region II); K11 = 3.0
+(Region III); for all subfigures n = 1.3, m = 0 and s = 0.3. Right: the time series of the mean field of the entire population calculated for the same
+parameters.
+doi:10.1371/journal.pcbi.1000219.g006
+
+
+where the analytical expression for the coefficients can be found in           generated for different parametric scenarios (see Figure 13 as well
+Text S1. Here again the index i = 1,2,3 codes for the dynamics of              as in Figure S2 from the Supporting Information (Text S1)) show a
+type i. Using the reduced system we reconstruct in Figure 12 the               very good reproduction of different dynamical features of the
+mean field amplitude contours for different parameter configura-               system including clustering and spike-burst behavior.
+tions and show the corresponding absolute error (AE) surfaces. As
+in the case of the previous model analyzed, one may observe a                  Discussion
+good reproduction of the amplitude landscape for a mainly
+excitatory population while the mean of the input distribution (m)                One of the most common assumption employed in computa-
+takes various values. The normalized mean absolute error                       tional simulations of large neural networks is the idea that neurons
+(NMAE) evaluated according to equation (2) takes values between                from a small ensemble (sometimes called a ‘‘neurocomputational
+12.89% and 19.63%. For the case of a mainly inhibitory network                 unit’’) exhibit a sufficiently similar dynamical behavior. Conse-
+the approximation still captures well the amplitude obtained for               quently, the network that instantiates this ensemble, consisting of
+low coupling strengths but fails for stronger values                           thousands of excitatory and inhibitory neurons, it is considered to
+(NMAE = 42.63%). This situation occurs because the excitatory                  display a synchronized behavior with no other significant temporal
+subpopulation oscillates chaotically for this parametric configura-            features for the dynamics of the large scale network. The main
+tion. Projections of the full system’s time series (calculated with            reason for this assumption, is the impractical large computational
+equations 8) on the modes considered have been compared with                   time arising from too many details considered in the network
+the time series of the reduced system (equations 3). The results               architecture.
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                   8                      November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                                      Heterogeneous Neural Network Dynamics
+
+
+
+
+Figure 7. Effects of connectivity on the mean field amplitude. Contour maps of the mean field amplitude of 150 excitatory and 50 inhibitory
+neurons calculated for different values of the inhibition/excitation ratio ((A) n = 0.2, (B) n = 0.6, (C) n = 0.9, (D) n = 1, (E) n = 1.5, (F) n = 2, (G) n = 2.5, (H)
+n = 5). Every map is displayed as a function of the coupling strengths K11, K12 and dispersion of membrane excitability distribution s. The mean of the
+membrane excitability distribution used is m = 0.
+doi:10.1371/journal.pcbi.1000219.g007
+
+   In this paper, we have analyzed the behavior of a neural                           system which captures the most important network dynamics. First
+network that serves as a good example of such a unit, namely a                        exploratory calculations suggested that a reduction based on the
+mixed heterogeneous neural population with global coupling,                           first two modes for the excitatory and inhibitory subpopulation will
+using two neuron models widely employed in theoretical and                            be insufficient. Significant better results are obtained however, by
+computational neuroscience. We found that the dynamical                               retaining the first three modes for every subpopulation.
+features of the network are far more complex then the ones                               Our detailed analyses demonstrated that the reduced represen-
+corresponding to synchronized or rest state behavior. The network                     tation manages to recreate correctly the topology of the mean field
+dynamics depends significantly on the ratio of excitation and                         amplitudes of the original system for various parameter scenarios.
+inhibition; in fact, the synchronized state can be found only for a                   To be more specific, more then 80% of the mean field amplitude
+mainly excitatory coupling and for a specific range of parameters                     distributions have been well reproduced across most of the
+typically involving a large value for the connectivity strength. On                   parameter configurations investigated (NMAE,20%). In addition,
+the other hand, a mainly inhibitory neural population may exhibit                     the low dimensional population model is also able to emulate well
+distinct dynamical features such as multi-clustered behavior (in the                  the main features of the temporal dynamics of the neural network.
+case of FitzHugh-Nagumo network) or a chaotic regime (in the                          Certainly the overall performance of the reduced system can be
+case of a Hindmarsh-Rose network). This result suggests that in                       improved quantitatively by considering additional modes in the
+the real neural networks, inhibition is not only responsible for                      decomposition. Obviously the choice of modes is an important
+shutting down the neural activity but may also make alternative                       factor in the development and the efficiency of the representation.
+dynamic behaviors available to the network, which are unacces-                        Guidance for the particular choice of modes can be taken from
+sible in a mainly excitatory connectivity. Such dynamical behavior                    cluster analysis in the phase space, in which the minimal number
+may have a significant contribution to the dynamics of a large                        of modes corresponds to the number of clustered neurons in the
+scale neural network and consequently, it should be implemented                       phase space for a particular parameter configuration. When the
+in the computational models. In order to address the problem of                       modes are chosen to be orthogonal, then the reduced equations
+the high computational cost of such an implementation, we have                        decouple linearly. For non-orthogonal modes, the use of a bi-
+further developed a self-consistent low-dimensional neural popu-                      orthogonal mode system will have the same effect. Certain
+lation model following [17], but incorporating a higher degree of                     dynamical regimes observed in mixed neural populations, can not
+realism. Rather than finding the most appropriate type and                            be accounted for by a low dimensional system. We have pointed
+number of modes that could minimize a certain error function, we                      out an example, obtained for the Hindmarsh-Rose neural
+have focussed our attention on constructing a reduced model                           population in the condition of a mainly inhibitory coupling (see
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                         9                       November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                       Heterogeneous Neural Network Dynamics
+
+
+
+     A                                B                                    C                                D
+
+
+
+
+AE                               AE                                   AE                                   AE
+
+
+
+
+Figure 8. Mean field amplitude landscapes of complete and reduced populations of FitzHugh-Nagumo neurons. Comparison between
+contour maps of the mean field amplitude obtained using the entire population (upper row) and the reduced system (middle row) for different
+values of the inhibition/excitation ratio n and mean of membrane excitability distribution m = 0. Every map is displayed as a function of the
+connectivity strengths K11, K12 and the magnitude of dispersion s. The corresponding surfaces of absolute error (AE) are presented on the bottom
+row. The values of the normalized mean error (NMAE) calculated for every scenario are: (A) 9.76%, (B) 15.4%, (C) 18.72%, (D) 18.58%.
+doi:10.1371/journal.pcbi.1000219.g008
+
+Figure 12D), when for larger coupling strengths, the reduced               currently used in the literature. We emphasize here that because of
+model fails to reproduce the mean field amplitude of the network.          the ‘‘near to synchrony’’ assumption, neural mass models can not
+Another example is the situation of cluster hopping of individual          capture complex dynamical features such as multi-clustering,
+neurons. This phenomenon corresponds to a traveling wave in the            oscillator death or multi-time scale synchronization. By compar-
+space spanned by the individual modes, in which a particular               ison, our model offers the possibility to account for such features at
+neuron shows intermittently the characteristic dynamics of a given         a very low computational cost. Therefore, the reduced represen-
+mode. To decrease the complexity of analysis of the neural                 tation discussed in this paper qualifies as a good candidate for a
+network dynamical behavior in the multidimensional parameter               ‘‘neural unit’’ in computational simulations of large scale neural
+space, we have employed certain assumptions. For instance, we              networks.
+have ignored the connectivity between the neurons within the
+inhibitory subpopulation and we have assumed similar values for            Materials and Methods
+the mean of the membrane excitability distributions for both
+excitatory and inhibitory subpopulations. Following the method             The Architecture of the Network
+outlined in the paper, we can derive reduced representation for the           To reflect biophysically realistic architectures, we model the
+original system even when these assumptions are removed, in fact           connectivity in the mixed population as follows: every neuron from
+ensuring a convenient generality of the procedure.                         the excitatory subpopulation is linearly coupled with any other
+   From a more general perspective, despite its limitations, our           neuron; each inhibitory neuron is driven only by the coupling with
+approach may offer a viable alternative to the neural mass models          its excitatory partners [36] (for a schematic cartoon see Figure 14).
+
+
+      PLoS Computational Biology | www.ploscompbiol.org               10                    November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                        Heterogeneous Neural Network Dynamics
+
+
+
+
+Figure 9. Time series of complete and reduced populations of FitzHugh-Nagumo neurons. Comparison between the temporal series
+calculated according to the reduced system (black line) and the ones obtained by projecting the time series of the entire system on the modes (red
+line). The parameters used are the following: n = 0.3; K11 = 0.9; m = 0; s = 0.3.
+doi:10.1371/journal.pcbi.1000219.g009
+
+This architecture is motivated by the presence of roughly 90%               neglect any possible couplings within the inhibitory subpopulation
+excitatory and 10% inhibitory neurons in a typical volume                   (K22.0), reflecting the small probability of interneuron-interneu-
+element of cortex [37]. The linear coupling captures precisely              ron connections due to the characteristic sparseness of these
+electric coupling through gap junctions and approximatively                 neurons in a small cortex volume (see [38] for a comprehensive
+synaptic coupling when the average population activity is                   review).
+constrained to a small signal range. We wish to emphasize that
+the connectivity is instantaneous, hence our network cannot                 Neural Network of FitzHugh-Nagumo Neurons
+account for any phenomena related to synaptic transmission delay.             FitzHugh-Nagumo model [39,40] provides one of the simplest
+The latter become relevant when considering large scale networks.           and most widely used representation of an excitable neural system.
+For small networks as considered here, the transmission delays are          The dynamics is governed by two differential equations:
+negligible. In the brain, the communication between any two
+neurons in the cortex is achieved typically via monosynaptic                                    
+couplings. The position on the dendritic tree, the dimension of the                           x3                       1
+                                                                                      x_ ~c x{ {y zcI;             y_ ~ ðx{byzaÞ:             ð4Þ
+synaptic terminal and the distribution and type of synaptic                                   3                        c
+receptors are just a few factors that can determine the efficacy of
+every synapse. Here we consider averages of all these properties            where the variables x and y evolves on a fast and respectively slow
+over each neural subpopulation and we absorb them in our models             time scale. According to the value of the parameter I which may
+by the connectivity strength parameters Kij with i, j = 1,2.                be considered either an external input or the neural membrane
+Regarding anatomical constraints, we make the following                     excitability, the system may oscillate (on a limit cycle) or reach an
+considerations: The strength of connectivity between neurons                equilibrium state (a stable fixed point) (see Figure 1A). This
+within the excitatory subpopulation (K11) may differ from the               parameter determines the position of the cubic nullcline and
+connectivity strength between excitatory and inhibitory neurons             through such, the fixed points and their nature.
+                                                         K12
+(K12). We capture their interdependence by the ratio n~       . The            Employing this model for the network following the architecture
+                                                         K11
+excitatory-inhibitory couplings may not be necessarily bidirection-         described above, and considering as well the average activity Xi of
+al hence another value of the connectivity between inhibitory and           the ith subpopulation, we can describe the dynamics of the system
+excitatory neurons (K21) is considered separately. Finally, we              by the following set of equations:
+
+
+       PLoS Computational Biology | www.ploscompbiol.org               11                    November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                               Heterogeneous Neural Network Dynamics
+
+
+
+
+Figure 10. Clustering behavior in a population of Hindmarsh-Rose neurons. Left: Amplitude of the variables x,y,z in time for all neurons
+ordered according to the value of the parameter I. The values of the other parameters are: n = 0.5; K11 = 0.5; m = 1.1; s = 0.5; Right: Time series for each
+variable of the first ten (in black) and the last ten excitatory neurons (in red) calculated for the same parameters as in the left figure.
+doi:10.1371/journal.pcbi.1000219.g010
+
+
+
+
+x                                                                                x
+
+
+
+x                                                                                x
+
+
+x                                                                                x
+
+
+x                                                                                x
+
+
+x                                                                                x
+
+
+
+Figure 11. Effects of changing coupling strength in populations of Hindmarsh-Rose neurons. Left: Mainly excitatory coupling: an increase
+in the coupling strength leads to synchronization within and between the neurons in the excitatory (red) and inhibitory (black) subpopulations. Right:
+Mainly inhibitory coupling: an increase in the coupling strength induces small amplitude oscillations in the inhibitory subpopulation (black) and a
+chaotic regime in the excitatory neurons (red).
+doi:10.1371/journal.pcbi.1000219.g011
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                    12                     November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                           Heterogeneous Neural Network Dynamics
+
+
+
+          A                                        B                             C                                D
+
+
+
+
+    AE
+                                               AE                               AE                              AE
+
+
+
+
+Figure 12. Mean field amplitude landscapes of complete and reduced populations of Hindmarsh-Rose neurons.Comparison between
+contour maps of the mean field amplitude obtained using the entire population (upper row) and the reduced system (middle row) for different
+values of the inhibition/excitation ratio n and the mean m of membrane excitability distribution. Every map is displayed as a function of the
+connectivity strengths K11, K12 and the magnitude of dispersion s. The corresponding surfaces of absolute error (AE) are presented on the bottom
+row. The values of the normalized mean error (NMAE) calculated for every scenario are: (A) 12.89%, (B) 19.63%, (C) 13.44%, (D) 42.63%.
+doi:10.1371/journal.pcbi.1000219.g012
+
+                     
+              x3
+x_ i1 ~c xi1 { i1 {yi1 z½K11 ðX1 {xi1 Þ{K12 ðX2 {xi1 ÞzcIi1                    are the mean fields of the excitatory and inhibitory subpopula-
+               3                                                                tions, respectively the mean field of the entire neural population.
+       1                                                                           The first two equations describe the time dependence of the fast
+y_ i1 ~ ðxi1 {byi1 zaÞ            i1~1,::,N1                                    and slow variables for every excitatory neuron while the last two
+       c
+                              !                                      ð5Þ        equations specify the dynamics of the same variables correspond-
+                  x3j2                    
+x_ j2 ~c xj2 {            {yj2 zK21 X1 {xj2 zcIj2                               ing to every inhibitory neuron.
+                      3
+          1                                                                   Neural Network of Hindmarsh-Rose Neurons
+y_ j2 ~      xj2 {byj2 za         j2~N1 z1,::,N                                   The Hindmarsh-Rose model [41,42] is another example of
+          c
+                                                                                excitable system often employed to account for a more complex
+where N = N1+N2 is the total number of neurons, a = 0.45, b = 0.9,              phenomenon, namely neuronal bursting oscillations. The model
+c = 3 are constants and                                                         consists of a set of three differential equations:
+
+              1 X  N1
+                                      1 X   N
+                                                            1X N                x_ ~y{ax3 zbx2 {zzI; y_ ~c{dx2 {y; z_ ~r½sðx{x0 Þ{z; ð7Þ
+      X1 ~            xi ,    X2 ~              xj ,   X~         xk ð6Þ
+              N1 i ~1 1               N2 j ~N z1 2          N k~1
+                  1                      2     1                                where the variables x and y are evolving on a fast time
+
+
+          PLoS Computational Biology | www.ploscompbiol.org                13                    November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                        Heterogeneous Neural Network Dynamics
+
+
+
+
+Figure 13. Time series of complete and reduced populations of Hindmarsh-Rose neurons. Comparison between the time series evaluated
+with the reduced system (red line) and the ones obtained by projecting the time series of the entire system on the chosen modes (black).
+doi:10.1371/journal.pcbi.1000219.g013
+
+scale while z is a slow variable. As a function of the parameter              This model has often been considered in studies
+I, the system may exhibit a fixed point dynamics (I,1.32), a spike          regarding neural systems showing transitions from rest state
+burst behavior (I.1.32) with a chaotic regime for 2.92,I,3.40               to a firing state consisting in a burst of several spikes [13,43,
+and a simple oscillatory dynamics for I.3.4 (see Figure 1B).                44].
+
+
+
+
+Figure 14. Schematic of the network architecture. In red we represent the excitatory neurons and in black the inhibitory ones. The mean field
+X1 of the excitatory subpopulation (pink) is driving every neuron, while the mean field X2 of the inhibitory subpopulation (gray) affects only the
+excitatory neurons.
+doi:10.1371/journal.pcbi.1000219.g014
+
+
+       PLoS Computational Biology | www.ploscompbiol.org               14                    November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                              Heterogeneous Neural Network Dynamics
+
+
+  Employing the same connectivity model as the one described in                amplitude for the excitatory and inhibitory subpopulation as
+the first section, we can describe the dynamics of the population              follows:
+with the following set of equations:
+                                                                                          ð?                                  ð?
+                                                                                   X1 ~        g1 ðI Þq1 ðt,I ÞdI   X2 ~           g2 ðI Þq3 ðt,I ÞdI:   ð12Þ
+x_ i1 ~yi1 {ax3i1 zbx2i1 {zi1 z½K11 ðX1 {xi1 Þ{K12 ðX2 {xi1 ÞzIi1                        {?                                  {?
+
+y_ i1 ~c{dx2i1 {yi1                                                            where g1(I) and g2(I) are the excitatory respectively inhibitory
+                                                                               parametric distributions.
+z_ i1 ~r½sðxi1 {xi0 Þ{zi1   i1~1,::,N1                                           This reformulation of the network state vector in a continuous
+                                                                  ð8Þ
+x_ j2 ~yj2 {ax3j2 zbx2j2 {zj2 zK21 X1 {xj2 zIj2 ,                              parametric space allows as to use mode decomposition techniques
+                                                                               to find the dominant patterns of the behavior of the entire
+y_ j2 ~c{dx2j2 {yj2                                                            population. We begin by expressing the state vector of each
+                                                                           subpopulation as a superposition of a finite number of modes.
+z_ j2 ~r s xj2 {xj0 {zj2        j2~N1 z1,::,N                                  Given the fact that the initial distribution of the I parameter for
+                                                                               each subpopulation may lie in a different range of values, the
+where N = N1+N2 is the total number of neurons, a = 1; b = 3; c = 1;           significant modes for each subpopulation may differ. Hence, we
+d = 5; s = 4; r = 0.006; x0 = 21.6 are constants and                           will consider the set of modes vi for the excitatory subpopulation
+                                                                               and the set uj for the inhibitory one with their corresponding time
+                                                                               dependent coefficients. In this framework, the state vectors can be
+            1 X  N1
+                                     1 X   N
+                                                           1X N
+                                                                               written as:
+     X1 ~           xi ,      X2 ~             xj ,   X~         xk ð9Þ
+            N1 i ~1 1                N2 j ~N z1 2          N k~1
+                1                       2   1                                                                0            1
+                                                                                                                 ji (t)
+are the mean fields of the excitatory and inhibitory subpopula-                                          m B
+                                                                                                         X          C
+                                                                                                           B gi (t) C
+tions, respectively the mean field of the entire neural population.                         Q1 ðt,I Þ~     B        Cvi ðI ÞzR1 ðt,I Þ;
+                                                                                                       i~1
+                                                                                                           @        A
+   The first three equations describe the time evolution for every                                              ..
+neuron in the excitatory subpopulation while the remaining                                                       .
+                                                                                                           0        1                                    ð13Þ
+equations account for the dynamics of the neurons in the                                                     aj (t)
+inhibitory subpopulation.                                                                              Xm B         C
+                                                                                                           B bj (t) C
+                                                                                            Q2 ðt,I Þ~     B        Cuj ðI ÞzR2 ðt,I Þ
+                                                                                                           @        A
+The Reduced System of the Neural Population                                                            j~1       ..
+   We start by recalling that the distinction between the neurons in                                              .
+the same subpopulation is due solely to the value of the Ii
+                                                                               where R1(t,I) and R2(t,I) represents the residuals of the decompo-
+parameter. Thus, we can consider an ordering of the neurons
+                                                                               sition accounting for the spatiotemporal dynamics not captured by
+according to the magnitude of this parameter such that Ii+1.Ii.                the first m modes.
+The state vector for the ith and jth neuron in the excitatory
+                                                                                   In general, the modes considered above  zare
+                                                                                                                                not  orthogonal.
+                                                                                                                                         
+respectively inhibitory subpopulation may be reformulated in
+                                                                               However, an appropriate adjoint basis         vi , uz  i     may be
+terms of this parametric dependence as follows:
+                                                                               constructed to insure the biorthogonality condition.
+0         1 0             1 0          1 0                 1
+  xi1 (t)     q1 (t,Ii1 )      xj2 (t)     qN1 z1 (t,Ij2 )                                     ð?
+B         C B             C B          C B                 C
+B yi1 (t) C?B q2 (t,Ii1 ) C; B yj2 (t) C?B qN1 z2 (t,Ij2 ) C                                         vz
+                                                                                                      k ðI Þvl ðI ÞdI~dkl ;
+@         A @             A @          A @                 A       ð10Þ                         {?
+     ..            ..             ..             ..                                            ð?                                                        ð14Þ
+      .             .              .              .                                                  uz
+                                                                                                      k ðI Þul ðI ÞdI~dkl ;        k,l~1,::,m
+                                                                                               {?
+For a large enough system, the sets {Ii1} and {Ij2} can be treated as
+a continuous variable I[R and each subnetwork state vector as a                Commonly, arbitrary mode decomposition techniques may be
+continuous vector field:                                                       chosen, which have the property to minimize an error function.
+                                                                               However to allow for a functional interpretation of the modes it is
+          0                1 0              1                                  desirable, if the modes correspond to characteristic clusters in
+              q1 (t,I1 )         q1 (t,I)
+          B             C B             C                                      phase space as shown in Figure 5. Simply put, neurons with a
+          B q2 (t,I1 ) C B q2 (t,I) C                                          higher firing threshold will be less likely to be found in the strongly
+          B             C B             C
+          B             C?B             C:Q1 (t,I);                            firing (i.e. oscillatory) cluster and more likely to be a member of the
+          B      ..     C B      ..     C
+          B       .     C B       .     C                                      quiescent cluster. For this reason, the partitioning of the I axis into
+          @             A @             A
+                                                                               disjunct, non-overlapping modes is a promising first approach.
+            qN1 (t,I1 )      qN1 (t,I)
+                                                                   ð11Þ           In the following we utilize three modes per population type, in
+          0                 1 0                  1
+            qN1 z1 (t,I2 )          qN1 z1 (t,I)                               which we distinguish regimes of parameter I corresponding to
+          B                 C B                  C                             small, medium and high I-values. In this particular case, the modes
+          B qN1 z2 (t,I2 ) C B qN1 z2 (t,I) C
+          B                 C B                  C                             have been chosen to be approximatively non-overlapping
+          B                 C?B                  C:Q2 ðt,I Þ;
+          B         ..      C B          ..      C                             rectangular functions (see Figure S3 from the supporting material
+          B          .      C B           .      C
+          @                 A @                  A                             (Text S1) for more details).
+            qN1 zN2 (t,I2 )       qN1 zN2 (t,I)                                   Introducing equations (12) and (13) into (5) and (8), multiplying
+                                                                               with the adjoint of each mode and integrating over the entire
+Considering the fact that for a Gaussian distribution the first                space we obtain the equations (1) and (3) (see Results section) that
+moment is equal with its mean, we can reformulate the mean field               describes the temporal evolution of the mode coefficients
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                  15                     November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                                              Heterogeneous Neural Network Dynamics
+
+
+corresponding to the FitzHugh-Nagumo neural population,                                     K11 = 0.8; s = 0.35; (B) m = 2.2; n = 1.3; K11 = 0.6; s = 0.25; (C)
+respectively the Hindmarsh-Rose network. We emphasize here,                                 m = 3.2; n = 0.4; K11 = 1.5; s = 0.4; (D) m = 3.8; n = 0.5; K11 = 2.3;
+that the cross terms resulting from the nonlinearities in equations                         s = 0.3.
+(5) and (8) disappear because of the bi-orthogonality condition                             Found at: doi:10.1371/journal.pcbi.1000219.s002 (4.68 MB EPS)
+instantiated by equation (12).
+                                                                                            Figure S3 Example of modes of decomposition and membrane
+                                                                                            excitability parametric distribution used for the excitatory
+Supporting Information                                                                      subpopulation. (A) Values of the I parameter for every neuron
+Figure S1    Time series of complete and reduced populations of                             versus initial neural index. (B) Ordered values of the I parameter
+FitzHugh-Nagumo neurons evaluated for different parametric                                  for every neuron versus reassigned neural index. The three modes
+regimes. Comparison between the temporal series calculated                                  used in decomposition analysis: v1(I)(blue), v2(I)(green), v3(I)(red)
+according to the reduced system described by equations (1) (red                             are superimposed on the ordered I parametric distribution. (C)
+line) and the ones obtained by projecting the time series of the                            Histogram of the Gaussian distribution of membrane excitability.
+entire system (equations (5)) on the modes (black line). The                                (D) The modes used in the decomposition ananlysis are
+following parametric regimes are considered: (A) n = 0.3;                                   superimposed on the integrable form of the Gaussian parametric
+K11 = 1.2; s = 0.3; (B) n = 0.6; K11 = 2; s = 0.25; (C) n = 1.5;                            distribution.
+K11 = 1.5; s = 0.3.                                                                         Found at: doi:10.1371/journal.pcbi.1000219.s003 (1.07 MB EPS)
+Found at: doi:10.1371/journal.pcbi.1000219.s001 (5.00 MB EPS)
+                                                                                            Text S1 Supporting information
+Figure S2 Time series of complete and reduced populations of                                Found at: doi:10.1371/journal.pcbi.1000219.s004 (0.06 MB PDF)
+Hindmarsh-Rose neurons evaluated for different parametric
+regimes. Comparison between the temporal series calculated                                  Author Contributions
+according to the reduced system described by equations (3) (red
+line) and the ones obtained by projecting the time series of the                            Conceived and designed the experiments: RAS VKJ. Performed the
+                                                                                            experiments: RAS. Analyzed the data: RAS VKJ. Wrote the paper: RAS
+entire system (equations (8)) on the modes (black line). The
+                                                                                            VKJ.
+following parametric regimes are considered: (A) m = 1.2; n = 0.8;
+
+References
+ 1. Bressler S, Kelso J (2001) Cortical coordination dynamics and cognition. Trends         21. Sotero RC, Trujillo-Barreto NJ, Iturria-Medina Y, Carbonell F, Jimenez JC
+    Cogn Sci 5: 26–36.                                                                          (2007) Realistically coupled neural mass models can generate EEG rhythms.
+ 2. Bressler SL (1990) The gamma wave: a cortical information carrier? Trends                   Neural Comput 19: 478–512.
+    Neurosci 13: 161–162.                                                                   22. Babajani A, Soltanian-Zadeh H (2006) Integrated MEG/EEG and fMRI model
+ 3. Bressler SL, Tognoli E (2006) Operational principles of neurocognitive networks.            based on neural masses. IEEE Trans Biomed Eng 53: 1794–1801.
+    Int J Psychophysiol 60: 139–148.                                                        23. Zavaglia M, Astolfi L, Babiloni F, Ursion M (2006) A neural mass model for the
+ 4. Bullmore ET, Rabe-Hesketh S, Morris RG, Williams SC, Gregory L, et al.                      simulation of cortical activity estimated from high resolution EEG during
+    (1996) Functional magnetic resonance image analysis of a large-scale                        cognitive or motor tasks. J Neurosci Methods 157: 317–329.
+    neurocognitive network. Neuroimage 4: 16–33.                                            24. Honey CJ, Kotter R, Breakspear M, Sporns O (2007) Network structure of
+ 5. Breakspear M, Jirsa VK (2007) Neural dynamics and brain connectivity. In:                   cerebral cortex shapes functional connectivity on multiple time scales. Proc Natl
+    Handbook of Brain Connectivity. Jirsa VK, McIntosh AR, eds. New York:                       Acad Sci U S A 104: 10240–10245.
+    Springer. pp 3–64.                                                                      25. Izhikevich EM, Edelman GM (2008) Large-scale model of mammalian
+ 6. Deco G, Jirsa VK, Robinson PA, Breakspear M, Friston K (2008) The dynamic                   thalamocortical systems. Proc Natl Acad Sci U S A 105: 3593–3598.
+    brain: From spiking neurons to neural masses and cortical fields. PLoS Comput           26. Andrade R (1998) Regulation of membrane excitability in the central nervous
+    Biol 4: e1000092. doi:10.1371/journal.pcbi.1000092.                                         system by serotonin receptor subtypes. Ann N Y Acad Sci 861: 190–203.
+ 7. Kuramoto Y (1984) Chemical Oscillations, Waves, and Turbulence. Berlin:                 27. Bickmeyer U, Heine M, Manzke T, Richter DW (2002) Differential modulation
+    Springer-Verlag.                                                                            of Ih by 5-HT receptors in mouse CA1 hippocampal neurons. Eur J Neurosci 16:
+ 8. Acebron JA, Bonilla LL, Perez Vicente JC, Ritort F, Spigler R (2005) The                    209–218.
+    kuramoto model: a simple paradigm for synchronization phenomena. Rev Mod                28. Nelson TJ, Cavallaro S, Yi CL, McPhie D, Schreurs BG, et al. (1996) Calexcitin:
+    Phys 77: 137–185.                                                                           a signaling protein that binds calcium and GTP, inhibits potassium channels,
+ 9. Strogatz SH (2000) From kuramoto to crawford: exploring the onset of                        and enhances membrane excitability. Proc Natl Acad Sci U S A 93:
+                                                                                                13808–13813.
+    synchronization in populations of coupled oscillators. Physica D 143: 1–20.
+                                                                                            29. Yamamoto K, Hashimoto K, Nakano M, Shimohama, Kato N (2002) A distinct
+10. Pecora LM, Carroll TL (1998) Master stability functions for synchronized
+                                                                                                form of calcium release down-regulates membrane excitability in neocortical
+    coupled systems. Phys Rev Lett 80: 2109–2112.
+                                                                                                pyramidal cells. Neuroscience 109: 665–676.
+11. Belykh VN, Belykh IV, Hasler M (2004) Connection graph stability method for
+                                                                                            30. Ma L, Shalinsky MH, Alonso A, Dickson CT (2006) Effects of serotonin on the
+    synchronized coupled chaotic systems. Physica D 195: 159–187.
+                                                                                                intrinsic membrane properties of layer II medial entorhinal cortex neurons.
+12. Hennig D, LG (2008) Implications of heterogeneous inputs and connectivity on                Hippocampus 17: 114–129.
+    the synchronization in excitable networks. Physica A 387: 967–981.                      31. Zhou FM, Hablitz JJ (1999) Dopamine modulation of membrane and synaptic
+13. Jirsa VK (2008) Dispersion and time delay effects in synchronized spike-burst               properties of interneurons in rat cerebral cortex. J Neurophysiol 81: 967–976.
+    networks. Cogn Neurodyn 2: 29–38.                                                       32. Stutzmann GE, Caccamo A, LaFerla FM, Parker I (2004) Dysregulated IP3
+14. DeMonte S, d’Ovidio F, Mosekilde E (2003) Coherent regimes of globally                      signaling in cortical neurons of knock-in mice expressing an Alzheimer’s-linked
+    coupled dynamical systems. Phys Rev Lett 90: 054102.                                        mutation in presenilin1 results in exaggerated Ca2+ signals and altered
+15. Brunel N, Wang X (2001) Effects of neuromodulation in a cortical network                    membrane excitability. J Neurosci 24: 508–513.
+    model of object working memory dominated by recurrent inhibition. J Comput              33. Nasif FJ, Sidiropoulou K, Hu XT, White FJ (2005) Repeated cocaine
+    Neurosci 11: 63–85.                                                                         administration increases membrane excitability of pyramidal neurons in the
+16. Heasegawa H (2004) Dynamical mean-field approximation to small-world                        rat medial prefrontal cortex. J Pharmacol Exp Ther 312: 1305–1313.
+    networks osf spiking neurons: from local and/or from regular to random                  34. Yamaguchi Y, Shimizu H (1984) Theory of self-synchronization in the presence
+    couplings. Phys Rev E 70: 066107.                                                           of native frequency distribution and external noises. Physica D 11: 212–226.
+17. Assisi CG, Jirsa VK, Kelso JAS (2005) Synchrony and clustering in                       35. Ermentrout G (1990) Oscillator death in populations of ‘‘all to all’’ coupled
+    heterogeneous networks with global coupling and parameter dispersion. Phys                  oscillators. Physica D 41: 219–231.
+    Rev Lett 94: 018106.                                                                    36. Abeles M (1991) Probability for synaptic contact between neurons in the cortex.
+18. Nunez PL (2000) Toward a quantitative description of large-scale neocortical                In: Corticonics: neural circuits of the cerebral cortex. Cambridge, UK:
+    dynamic function and EEG. Behav Brain Sci 23: 371–437.                                      Cambridge University Press. pp 65–91.
+19. David O, Friston KJ (2003) A neural mass model for MEG/EEG: coupling and                37. Abeles M (1991) Anatomy of the cerebral cortex. In: Corticonics: neural circuits
+    neural dynamics. Neuroimage 20: 1743–1755.                                                  of the cerebral cortex. Cambridge, UK: Cambridge University Press. pp 52–59.
+20. Sotero R, Trujillo-Barreto N (2008) Biophysical model for integrating neural            38. Markram H, Rodriguez MT, Wang Y, Gupta A, Silberg G, et al. (2004)
+    activity, EEG, fMRI and metabolism. Neuroimage 39: 290–309.                                 Interneurons of the neocortical inhibitory system. Nat Rev Neurosci 5: 793–807.
+
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                              16                        November 2008 | Volume 4 | Issue 11 | e1000219
+                                                                                                                       Heterogeneous Neural Network Dynamics
+
+
+39. FitzHugh R (1961) Impulses and physiological states in theoretical models of        42. Hindmarsh JL, Rose RM (1982) A model of the nerve impulse using two first-
+    nerve membrane. Biophys J 1: 445–466.                                                   order differential equations. Nature 296: 162–164.
+40. Nagumo J, Arimoto S, Yoshizawa S (1962) An active pulse transmission line           43. Dhamala M, Jirsa VK, Ding M (2004) Transitions to synchrony in coupled
+    simulating nerve axon. Proc IRE 50: 2061–2070.                                          bursting neurons. Phys Rev Lett 92: 028101.
+41. Hindmarsh JL, Rose RM (1984) A model of neuronal bursting using three               44. Dhamala M, Jirsa VK, Ding M (2004) Enhancement of neural synchrony by
+    coupled first order differential equations. Proc R Soc Lond B Biol Sci 221:             time delay. Phys Rev Lett 92: 074104.
+    87–102.
+
+
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                          17                      November 2008 | Volume 4 | Issue 11 | e1000219
+

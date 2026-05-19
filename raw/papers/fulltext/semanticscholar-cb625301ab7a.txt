@@ -1,0 +1,2331 @@
+Artificial Intelligence Review (2025) 58:255
+https://doi.org/10.1007/s10462-025-11143-8
+
+
+
+
+Multiple sclerosis classification and segmentation in
+neuroimaging MRI using different machine and deep
+learning techniques: a review
+
+Rezq Muhammed Thabet1                · Howida A. Shedeed1           · Maryam Al-Berry1   ·
+Dina Khattab1
+
+Accepted: 6 February 2025 / Published online: 28 May 2025
+© The Author(s) 2025
+
+
+Abstract
+Multiple Sclerosis (MS) is a type of brain disease that affects both the brain and spinal
+cord. In order to diagnose MS, many modalities are used, including Magnetic Resonance
+Imaging (MRI). MRI modalities are noninvasive medical tests that provide physicians
+with detailed images containing essential details on the anatomy and physiology of the
+brain. Diagnosing with MRI of the brain is crucial since it is laborious, time-consuming,
+and, above all, prone to manual or human error. In the past ten years, Artificial Intelligence
+(AI)- based Computer Aided Diagnostic (CAD) tools have been increasingly popular due
+to their low manual error rate and ability to produce accurate and dependable findings for
+diagnosing Multiple Sclerosis (MS) using MRI neuroimaging modalities. Automated MS
+diagnosis in AI is performed using both traditional and contemporary AI. Machine Learn-
+ing (ML) approaches, which rely on selecting and extracting features through trial and
+error, were utilized in classical AI. Meanwhile, modern AI uses Deep Learning (DL) tech-
+niques, which extract and select suitable features automatically, save time and are more
+efficient than standard classical ML approaches. In this work, we give a summary of recent
+automated MS diagnosis approaches that combine MRI neuroimaging modalities with ML
+and DL algorithms. Segmentation and classification are two of the main categories into
+which AI techniques for MS medical diagnosis can be roughly divided, where each one of
+them is divided based on whether a supervised learning, un-supervised learning or both are
+used together to get better analysis for MS diagnosis. We briefly discuss the related work
+in each category, and finally, we present the important drawbacks and challenges for each
+work as well as some proposed ideas that can solve the drawbacks and challenges faced.
+
+Keywords Multiple sclerosis · MRI modalities · CAD tools · Machine learning · Deep
+learning
+
+
+
+
+Extended author information available on the last page of the article
+
+
+                                                                                             13
+255 Page 2 of 49                                                                         R. M. Thabet et al.
+
+
+1 Introduction
+
+The chronic autoimmune disease known as multiple sclerosis (MS) is caused by the immune
+system attacking the brain and spinal cord because of an erroneous action (BetterHealth
+Channel 2021). Multiple sclerosis usually results in damage to the neurological system,
+which includes the myelin sheath, nerve fibers, and cells that make up myelin. If these inju-
+ries are not particularly severe, they go away in a few days to a few weeks; if they are, they
+may result in lasting alterations to the spinal cord. The condition is also known as multiple
+sclerosis because the lesions, which are irreversible alterations, occur in multiple locations
+in the brain. Four MS characteristics were taken into account: Clinical Isolated Syndrome
+(CIS) (Efendi 2016), Relapsing Remitting MS (RRMS) (Cunill et al. 2018), Secondary Pro-
+gressive MS (SPMS) (Ziemssen et al. 2022), and Primary Progressive MS (PPMS) (Maca-
+ron and Ontaneda 2019).
+    Over the last decade, MRI modalities have been used in the medical field, where phy-
+sicians mainly depend on discovering non-invasive and critical pathologies. Many MRI
+modalities were existed including T1- weighted (T1-w) (Chen et al. 2018a), Fluid Attenu-
+ated Inversion Recovery (FLAIR) (Bailey 2007), T2- weighted (T2-w) (Chen et al. 2018b).
+Figure 1. Shows different MRI modalities. The brain seems to have a brighter core and
+darker surrounding areas on T1 and T2 images. With FLAIR scans, the opposite happens,
+with lighter tones surrounding and darker portions in the center. High-fat tissues, such as
+white matter, look bright on T1-w scans, and water-filled compartments are visible. Accord-
+ing to (Hrishi and Sethuraman 2019), cerebrospinal fluid (CSF) looks dark. This works well
+to illustrate anatomy. Tissues having a high fat content, such white matter, look dark on a
+T2-w scan, while compartments filled with water, like CSF compartments, seem bright. This
+is a great method to show pathology because most, but not all, lesions (damaged tissue)
+have a tendency to cause edema and are associated with an increase in water content. As of
+right now, this order is the most accurate method for assessing the brain for demyelinating
+illnesses like multiple sclerosis.
+    Physicians find it difficult and time-consuming to manually diagnose and report MS
+regions in MRI neuroimaging modalities. Therefore, CAD tools are required to address
+these issues. For this reason, in order to precisely pinpoint these locations, experts are com-
+ing up with new approaches. AI methods are becoming a valuable diagnostic tool for a range
+of diseases when used in conjunction with medical professionals. To obtain better analysis
+for MS diagnosis, AI methods for diagnosing disorders can be broadly classified into (i) ML
+
+
+
+
+Fig. 1 Different MRI modalities, the order from left to right as follows: T1-weighted, T2-weighted, and
+FLAIR modalities, respectively. MRI modalities can be generated from the same device but with different
+protocol settings
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…      Page 3 of 49 255
+
+
+methods and (ii) DL techniques, or both together. DL is one of the newest areas of AI that
+has been very popular for using medical data to identify a wide range of disorders.
+    While many literatures have applied different techniques, they generally follow a stan-
+dard manner which is described briefly in Fig. 2. First any CAD system takes an MRI image
+as an input. Then, it is decided whether a pre-processing technique(s) will be applied or
+not. The next step is to choose whether to extract features manually or automatically. Then,
+the desired ML algorithm is applied to the manually extracted features or applying any DL
+model extract automatic features. Additional ML algorithms may then be used, if required,
+then the required task (classification or segmentation) is performed. Finally, the CAD tool is
+assessed to measure how well the model is performing.
+    This paper introduces a thorough analysis of all research works done in the direction of
+MS identification in the last five years (2019—2023). The rest of the paper is structured
+as follows: Sect. 2 introduces the datasets used. Section 3 provides an overview of the
+preprocessing methods usually used. Section 4 gives a general overview of features extrac-
+tion mechanisms and how MS diagnosis research works were organized. Section 5 reviews
+different research paradigms used for MS identification. Section 6 presents a comparative
+analysis between different methods used in the literature along with the evaluation measures
+used. Section 7 discusses the challenges and limitations existing in the domain of MS iden-
+tification, while Sect. 8 provides promising research directions which can be used to face
+these challenges and provide better solutions and performance. Section 9 concludes with
+some final thoughts.
+
+
+2 Datasets
+
+This section contains a list of most of the datasets that have been used to diagnose MS using
+different MRI neuroimaging modalities. Many datasets are publicly available, including
+3D-MR-MS (Laboratory of Imaging Technologies 2023a), eHealth Lab (Research Center
+of Excellence 2012), ISBI 2015 (Smart-Starts-Tools 2022), IXI (Brain-development 2016),
+long-MR MS (Laboratory of Imaging Technologies 2023b), MICCAI 2008 (NITRC: Neuro-
+imaging Tools & Resources Collaboratory 2015), MICCAI 2016 (MSSEG) (Shanoir 2023),
+
+
+
+
+Fig. 2 The general workflow of a CAD system for diagnosis of MRI images
+
+
+                                                                                  13
+255 Page 4 of 49                                                                           R. M. Thabet et al.
+
+
+MICCAI 2021 (MSSEG 2) (Shanoir 2023), Myelitis (Kaggle 2023a), BraTs Kaggle (2023b)
+and OASIS-3 (OASIS: Open Access Series Imaging Studies 2007). Figure 3. Shows a sam-
+ple of patient MRI volume has MS, it shows the brain from different aspects axial, coronal,
+and sagittal, respectively. In the following sub-sections, each dataset is described briefly.
+Table 1 also offers an overview of these datasets.
+
+2.1 3D-MR-MS
+
+A new public MRI dataset of MS participants whose lesion segmentations were determined
+by multi-rater consensus is called the 3D-MR-MS dataset. The MR scans of thirty MS
+patients are included in the 3D-MR-MS described as follows: each patient has his/her own
+raw MRI image using 4 different modalities (FLAIR, T1-w, T1-wKS, and T2-w), brain
+mask image, consensus white matter lesions segmentation mask and preprocessed versions
+of the four modality images.
+
+
+
+
+Fig. 3 A sample patient from the 3D-MR-MS dataset (Laboratory of Imaging Technologies 2023a). Rep-
+resenting three different volume/voxel views from top to bottom row including: axial, coronal, and sagit-
+tal, respectively. Each row has five columns defined as follows from left to right, FLAIR, T1w, T1wKS
+and T2w modalities, and (e) ground truth segmentation mask for MS lesions
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…          Page 5 of 49 255
+
+Table 1 Charachteristics of the public datasets used for MS diagnosis
+Dataset                           #. Cases         MRI Modalities
+                                                   FLAIR        T1-w      T2-w   PD-w     Other
+3D-MR-MS                          30               √            √         √      –        √
+eHealth Lab                       38               –            –         √      –        –
+ISBI 2015                         19               √            √         √      √        √
+IXI                               600              –            √         √      √        –
+long-MR-MS                        20               √            √         √      –        –
+MICCAI 2008                       25               √            √         √      –        –
+MICCAI 2016 (MSSEG)               53               √            √         √      –        –
+MICCAI 2021 (MSSEG-2)             100              √            –         –      –        –
+Myelitis                          409              √            √         √      √        –
+BraTs                             259              √            √         √      –        –
+OASIS-3                           1098             √            √         –      –        –
+
+
+2.2 eHealth lab
+
+The T2-w MRI modalities of 38 patients (17 males and 21 females) with MRI brain lesions
+and a mean age of 34.1 ± 10.5 years are available in the eHealth Lab dataset. The modalities
+were recorded twice, with a gap of 6–12 months.
+
+2.3 ISBI 2015
+
+Nineteen MRI scans of MS patients with two tests and a training package are included in
+the ISBI 2015 dataset. There are five subjects in the training set: four have four time points
+each, and one has five time points. Ten subjects make up Test Set A: eight have four time
+points, one has five time points, and one has six time points. There are four subjects in
+test set B: two have five time points and three have four. T1-wi MPRAGE, T2-w & PD-w
+DSE, T2-w, and FLAIR modalities are present in all participants. Both the original and the
+pre-processed photos are included in this collection. Also, two specialists have carried out
+manual segmentation.
+
+2.4 IXI
+
+Almost 600 MRI pictures of healthy, normal patients are included in the IXI dataset. For
+every subject, the MR image acquisition routine consists of T1-w, T2- w, PD-w, MRA, and
+diffusion-weighted images. Three distinct hospitals in London have provided the data: the
+Institute of Psychiatry, which used a GE 1.5 T system, Guy's Hospital, which used a Philips
+1.5 T system, and Hammersmith Hospital, which used a Philips 3 T system.
+
+2.5 long-MR-MS
+
+The longitudinal MRI images of 20 MS patients with matching ground truth segmentations
+of changes in white matter lesions are included in the long-MR-MS dataset. Every patient
+has undergone two independent imaging sessions. Each patient's folder has a collection of
+photographs. Co-registered and N4 corrected T1-w, T2-w, and FLAIR images for both MR
+
+
+
+
+                                                                                        13
+255 Page 6 of 49                                                                 R. M. Thabet et al.
+
+
+tests are included in each patient's folder. RAW photos in their native space, brain mask, and
+white matter lesion change mask.
+
+2.6 MICCAI 2008
+
+MRI images from Boston Children's Hospital (CHB) and the University of North Carolina
+(UNC) were gathered for the MICCAI 2008 dataset. A CHB expert and two UNC experts
+each segmented every image in the collection. Twenty samples total—ten CHB and ten
+UNC samples—were manually separated from the CHB expert in the training database.
+There is no segmentation present in the test dataset, which consists of 25 samples (15 CHB
+samples and 10 UNC samples). All of the T1-w, T2-w, FLAIR, DTI-derived FA, and MD
+image modalities are included in the dataset. On this database, numerous pre-processing
+procedures have also been carried out.
+
+2.7 MICCAI 2016 (MSSEG)
+
+Three sequences are available in the MICCAI 2016 (MSSEG) dataset: T1-w, T2-w, and
+FLAIR. It contains 53 MS sufferers' MRI pictures. Three 3 T magnets and one 1.5 T mag-
+net are included in these photos, which were produced by Siemens, Philips, and GE, three
+distinct French centers. MRI images that have already been manually segmented by seven
+professionals are included in this collection. Additionally, it underwent preprocessing using
+the following techniques: image denoising, image registration, intensity standardization,
+and skull stripping. There are training and testing versions of this dataset. sets of, corre-
+spondingly, 15 and 38 patients. Every patient also has access to the modalities (T1-w, T2-w,
+and FLAIR) that were previously described.
+
+2.8 MICCAI 2021 (MSSEG-2)
+
+One hundred patients' worth of MRI neuroimaging data make up the MICCAI 2021
+(MSSEG-2) dataset. Every patient has had two sets of 3D FLAIR images taken, with vari-
+able amounts of time elapsed between the two scans: a first timepoint 3D FLAIR sequence
+and a second timepoint (1 to 3 years following the first one). Following that, those pic-
+tures were registered in the space between the two time points. New MS lesions (those that
+appeared at the second time-point but not at the first) were manually segmented by four
+specialists. Lesions identified by three out of four experts were chosen, and the remaining
+lesions (those identified by two or fewer experts) were examined by a different expert for
+confirmation or rejection. 60% of the lesions in the dataset are part of the testing set after it
+has been separated into a testing set and a training set.
+
+2.9 Myelitis
+
+The brain scans of 1068 MS patients that were obtained during a sizable clinical study
+including multiple centers and scanners make up the Myelitis dataset. MR scans were taken
+at baseline, at the conclusion of the first and second years of the trial, and throughout the
+two years of the trial. The following 2746 MR pictures are provided by this dataset: A total
+of 1373 pictures were taken of MS patients (73 female and 55 male), myelitis patients (68
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…     Page 7 of 49 255
+
+
+female and 63 male) with a mean age of 35.7 ± 5.22 years, and healthy patients (75 female
+and 75 male) with a mean age of 34.4 ± 3.16 years. For every subject and timepoint, there
+are multiple MR sequences accessible, including T1-w, T2-w, PD-w, and FLAIR modalities.
+
+2.10 BraTs
+
+The MICCAI 2019 Grand Challenge (Grand Challenge 2020) gathered the BraTs dataset.
+There were 259 high-grade glioblastoma (GBM) and 76 low-grade glioblastoma individuals
+in the current study. The MRI scans in this publicly available dataset were gathered from
+19 different institutions, co-registered to a common anatomical template, interpolated to
+a resolution of 1 × 1 × 1 mm3, stripped of the skull, and then cropped to a constant size of
+240 × 240 × 155.
+
+2.11 OASIS-3
+
+A longitudinal dataset for biomarkers, clinical, cognitive, and neuroimaging aspects of
+Alzheimer's disease and normal aging is called OASIS-3. Among the participants are 489
+people in varying phases of cognitive deterioration, ages 42 to 95, and 609 adults with cog-
+nitive normalcy. More than 2000 MR sessions, including FLAIR and T1-w, are included in
+the dataset.
+
+
+3 Preprocessing
+
+The learning process to machines is the backbone process that makes any ML/DL model
+capable of being efficient and powerful enough to deal with real-world problems. Typically,
+any real-world dataset may require some preprocessing techniques to prepare the incoming
+data for efficient learning or even for production. In the medical field, especially MRI neu-
+roimaging, some problems (e.g., random noise, low-frequency variation in signal intensity,
+existence of unimportant brain parts, scanner-dependent intensity variations) can affect the
+data negatively. This requires applying a set of preprocessing methods to solve these prob-
+lems. In the next sub-sections, the set of preprocessing techniques which have been used by
+the literature are being discussed.
+
+3.1 Data augmentation
+
+While medical MS diagnosis is suffering from lack of huge data, such a technique is
+required to handle it or somehow reduces the gap. In data augmentation, we have a small
+number of dataset instances and try to increase it by applying some traditional geometrical
+transformation (Shear, Flipp, Rotation, and/or translation) or some other techniques. (Barile
+et al. 2021a) used GANs to generate new images. This would lead to increase performance
+when the model learns new features by adding new data to the existing one (Mikołajczyk
+and Grochowski 2018).
+
+
+
+
+                                                                                  13
+255 Page 8 of 49                                                                           R. M. Thabet et al.
+
+
+3.2 Image registration
+
+While MRI can be generated from different protocol settings. Different modality types are
+acquired such as (T1-w, T2-w, and FLAIR images). Therefore, we need to combine these
+different modalities into one single image or in other words to place them into one standard
+space before MS diagnostic process (Zhang et al. 2019; Dağdeviren et al. 2015).
+
+3.3 Skull stripping
+
+In MRI neuroimaging studies, the most important area is the brain tissue because it contains
+all the important features. Thus, to improve the accuracy of the automated MS diagnosis,
+non-brain tissues such the mouth, nose, eyes, and skull are removed (Kalavathi and Prasath
+2015). Figure 4. Shows an example of applying skull stripping to a brain MR image.
+
+3.4 Bias correction
+
+The intensity of inhomogeneity is referred to as the bias field. An extremely smooth, low
+frequency signal known as the bias field signal has the ability to contaminate MRI images,
+particularly those obtained with outdated MRI equipment (Manson et al. 2022). Segmen-
+tation, texture analysis, and classification techniques in image processing that rely on the
+gray level values of picture pixels will not yield acceptable outcomes. Before presenting
+damaged MRI images to a model, a pre-processing procedure is essential to fix the bias field
+signal (Vovk et al. 2007). The N4 bias field correction algorithm is a widely used technique
+for rectifying bias or gain fields, which are low frequency intensity non-uniformities found
+in MRI image data (Tustison et al. 2010).
+
+3.5 Intensity standardization
+
+An essential preprocessing step in brain MRI analysis is intensity standardization. Signifi-
+cant intensity differences may occur when multiple scanners or parameters are utilized to
+scan the same subject at different times or different subjects at different times during MR
+image collection. The performance of subsequent MRI processing and population analysis,
+including image registration, segmentation, and tissue volume assessment, is seriously com-
+
+
+
+
+Fig. 4 An example of the skull stripping method where the left image is the original brain MRI image, and
+the right image is the brain MRI image after stripping the skull part
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…                 Page 9 of 49 255
+
+
+
+
+Fig. 5 An example of applying the re-orientation method to an MRI image. Left is the original MRI image
+and right is the obtained one after applying re-orientation
+
+
+
+
+Fig. 6 An example of an MRI image denoising where the left is the original brain MRI image, and the
+right is the denoised one
+
+
+promised by these intensity changes. For this reason, a method like this is needed to solve
+the issue. Histogram matching algorithms are widely employed for the purpose of standard-
+izing intensity in MRI modalities (Park et al. 2019).
+
+3.6 Re-orientation
+
+Diverse orientation aspects can result from variations in the picture registration process
+parameters. All photos must have the same direction since variations in direction can cause
+misregistration. Reorientation strategies are therefore used (Park et al. 2019). Figure 5.
+Gives a simple illustration for re-orientation method.
+
+3.7 Image denoising
+
+During MRI recording process, it is possible to have some corruption to the images by a
+variety of erratic noises. Thus, several techniques are used to eliminate these noises. Such as
+low pass filters (McVeigh et al. 1985; Rajeshwari and Sharmila 2013), Wavelets (McVeigh
+et al. 1985; Cobo et al. 2014), and Fourier transform (McVeigh et al. 1985; Stetter et al.
+1985). Figure 6. Shows a simple example of MR image denoising.
+
+
+
+
+                                                                                             13
+255 Page 10 of 49                                                                          R. M. Thabet et al.
+
+
+3.8 Brain segmentation
+
+This could be an important step to segment every object in MRI image to set of four classes:
+White Matter (WM), cortical Gray Matter, subcortical Gray Matter (GM), and CSF, which
+can be helpful to extract useful information when we focus only in the main part containing
+useful information about MS diagnosis (Yazdani et al. 2015; Hua et al. 2021).
+
+
+4 Features extraction and diagnosis
+
+Extraction of features from the processed or raw data is the next stage. Two trends were fol-
+lowed to extract features, manual and automatic feature extraction. Manual feature extrac-
+tion requires human intervention. Meanwhile automatic feature extraction does not require
+any human intervention instead DL mechanisms are used to automatically extract features
+from images. The diagnosis process for MS in the reviewed literature is mainly divided
+into two parts, segmentation, and classification where each of them is divided to supervised
+and un-supervised learning methods as shown in detail in Fig. 7. The next section briefly
+discusses these concepts.
+
+
+5 Related works
+
+The research literature that is using AI approaches for MS medical diagnosis can be mainly
+split into two main categories. These categories are (i) segmentation and (ii) classification,
+where each one of them is divided based on whether a supervised learning (Vakili et al.
+2023), un- supervised learning (Eshaghi et al. 2021) or both is used together to get better
+analysis for MS diagnosis. In this section, the top 3 research works for each technique are
+reviewed among all research works based on the systematic taxonomy shown in Fig. 7.
+
+
+
+
+Fig. 7 A general illustration for MS CAD tools systemic taxonomy including five main tasks of segmenta-
+tion, synthetic MRI generation, disease progression, classification, and anomaly detection. According to
+literature, segmentation involves supervised and un-supervised learning methods. Two well-known meth-
+ods are used underlaying supervised learning including U-Nets and pure CNNs or Hybrid CNNs-RNNs.
+Meanwhile, the un-supervised learning method is represented by autoencoders. For the classification task,
+two main methods are used including classical ML and modern DL
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…    Page 11 of 49 255
+
+
+5.1 Multiple sclerosis lesions segmentation
+
+This section presents two subgroups of learning techniques—supervised and unsupervised
+learning—that are utilized for automatic MS segmentation on MRI neuroimaging. Each of
+them is branched into different techniques. In the supervised approach, different methods
+have been used such as CNN architectures (Long et al. 2015; Yang et al. ) or U-Nets (Ron-
+neberger et al. 2015). Meanwhile, for literature following unsupervised learning approach,
+they applied pure Autoencoders architectures (Bank et al. 2021) or hybrid Autoencoders
+with RNNs (Sherstinsky 2020).
+
+5.1.1 Supervised learning methods
+
+The majority of the research on supervised learning techniques concentrated mostly on
+two well-known techniques: (i) pure CNN/hybrid CNN-RNN and (ii) U- Net architectures,
+which will be covered in more detail in the next subsections. Moreover, Table 2 and Table 3
+provide comparison between research works in each sub-category according to the used
+dataset, preprocessing techniques used, and the proposed methodology.
+
+5.1.1.1 Pure CNNs or hybrid CNNs-RNNs Rondinella et al. (2023) used a Hybrid version
+of CNN-RNN architecture where they proposed a framework that exploited an adaptive ver-
+sion of CNN architecture with a convolutional Long Short-Term Memory (LSTM) (Shi et
+al. 2015) layer and attention mechanism (Zhong et al. 2020). Magnetic resonance imaging
+of multiple sclerosis lesions was able to be segmented and quantified using the framework
+that was applied. They applied their model on ISBI 2015 dataset and used a set of prepro-
+cessing techniques such as image registration, bias correction, and skull stripping.
+
+    Fenneteau et al. (2020) used CNN model with lesion patches extraction. Their model was
+a modification of U-Net architecture. They applied the proposed model on MICCAI 2008,
+MICCAI 2016 (MSSEG), ISBI 2015, OASIS-3, BraTS 2017, and clinical (private) datasets.
+Afterward they used a preprocessing tool called FSL (Jenkinson and Smith 2001; Greve and
+Fischl 2009; Jenkinson et al. 2002).
+    The work of Afzal et al. (2021) consisted of two parallel 2D-CNNs where the first one
+segmented MS lesions accurately and the second one increased the segmentation efficiency
+by reducing lesions’ false positive rate. One pathway, which was connected to the second,
+was essential to its construction. CNN had taken the position of the fully connected layer
+by the end. The model was fed three distinct MRI sequences: T1-w, T2-w, and FLAIR. Two
+public datasets were used including ISBI 2015 and MICCAI 2016 (MSSEG). Finally, the
+patch extraction method was applied before feeding data to the model.
+    It can be concluded that most literature in 2019 and 2020 used CNNs and their variations.
+Most of the works preferred to work with their private clinical datasets where ISBI 2015
+is the most publicly used dataset. For preprocessing, most of the works used bias field cor-
+rection, image registration, and skull stripping as they show a great effect on performance.
+Another remarkable note is that using CNNs along with RNNs gave a significant improve-
+ment due to its ability to capture spatial and temporal features at the same time.
+    Of all reviewed literature in this sub-section, most of them used traditional CNN archi-
+tectures with variations in the dataset used and the preprocessing technique which did not
+
+
+                                                                                  13
+255 Page 12 of 49                                                              R. M. Thabet et al.
+
+
+achieve very good results. Using a hybrid version of CNN along with RNN with a limited
+size of MRI data appears to boost the performance as this approach gives the system the
+ability to capture not only the spatial features; usually generated by CNNs, but also the tem-
+poral features which keep tracking the lesion changes through time and are able to detect
+new or enlarged lesions in the future.
+
+5.1.1.2 U-Nets With a 2D U-Net architecture, Narayana et al. (2020a) used a fully convo-
+lutional neural network to autonomously separate lesions, GM, WM, and CSF across 1000
+MS patients. Fifteen combinations of FLAIR, T1-w, T2-w, and PD-w pictures made up the
+network's input. They applied a variety of preprocessing methods, including skull stripping,
+bias correction, intensity standardization, image denoising, and data augmentation.
+
+    Kumar et al. (2019) presented a Dense U-Net which consisted mainly of dense blocks
+and U-Net which was a modification of the original U-Net. First, their model took four inde-
+pendent input image modalities (T1-w, T2-w, T1-c, and FLAIR) and passed them to a dense
+block where they applied some convolutions and skip connection operations. Afterwords,
+they passed the output to the max pooling layer in the network. The same operation was
+repeated until they reached the bottleneck in the encoding part. The decoding part applied
+the same operation but in reverse manner. Their model replaced the first 3 convolution lay-
+ers at the beginning and the end of the original U-Net with dense blocks. They used MIC-
+CAI 2016 (MSSEG) as their dataset, while applying some preprocessing methods such as
+removing null data samples, scaling intensity values towards zero (Reinhold et al. 2019),
+and data augmentation.
+    Narayana et al. (2020b) also presented another version of U-Net architecture with a small
+modification making it multiclass U-Net which was different from the original U-Net. The
+model was used to semantically segment four different classes GM, WM, CSF, and MS
+lesions. They used a clinically private dataset consisting of FLAIR, T2-w, PD-w, and T1-w
+in total of 1008 images. The dataset was preprocessed before feeding to the model using
+skull stripping, bias correction, intensity standardization, and image denoising.
+    It can be concluded that U-Nets were more popular than CNNs due to their ability and
+efficiency to work with complex segmentation problems, especially medical problems. Most
+of the works preferred to work with their private clinical datasets as well as ISBI 2015 pub-
+lic dataset, and for preprocessing, most of the works used skull stripping, data augmenta-
+tion, bias field correction, and image registration as they show a great effect on performance.
+    It can be estimated from the top three works that the third and the first group of authors
+(Narayana et al. (2020b) and Narayana et al. (2020a), respectively) applied two different
+approaches with the same dataset and slight differences in the U-Net architecture, Narayana
+et al. (2020b) validated the need for a large set of MRI images to perform well while using
+FLAIR and T1w modalities. However, using dense blocks along with U-Net and multi-
+modal MRIs as input even with a small set of data made a good performance by Kumar et
+al. (2019). The work by Narayana et al. (2020a) achieved the top performance using the
+same method of multimodal MRI inputs but with a large enough dataset and different U-Net
+architecture. Figure 8. Shows the output for a UNETR (Hatamizadeh et al. 2022) model tak-
+ing MRI input image and segment.
+
+
+
+
+13
+     Table 2 Summary of segmentation techniques for MS diagnosis using cnns
+     Ref                           Year of Publication             Dataset(s)               Preprocessing                         Proposed
+                                                                                                                                  Technique
+     Aslani et al. (2019)          2019                            1) ISBI 2015             1) Skull Stripping                    - 2D-CNN
+                                                                   2) Clinical              2) Image Registration                 (Modification of
+                                                                                            3) Decomposition of 3D Images to 2D   ResNet)
+     Valverde et al. (2019)        2019                            1) MICCAI 2008           1) Skull Stripping                    - 3D-CNN for Do-
+                                                                   2) MICCAI 2016 (MSSEG)   2) Bias Correction                    main Adaptation
+                                                                   3) ISBI 2015
+                                                                   4) Clinical
+     McKinley et al. (2019)        2019                            1) MICCAI 2016 (MSSEG)   1) FreeSurfer                         - DeepSCAN
+                                                                   2) Clinical              2) Image Registration                 (Cascade of two
+                                                                                                                                  CNNs)
+     Gros et al. (2019)            2019                            1) Clinical              1) Image Denoising                    - Two CNNs (In-
+                                                                                            2) Bias Correction                    spired by U-Net)
+     Hou et al. (2019)             2019                            1) ISBI 2015             1) Data Augmentation                  - Cross Attention
+                                                                                                                                  Densely Con-
+                                                                                                                                  nected Networks
+     McKinley et al. (2020a)       2020                            1) Clinical              –                                     - DeepSCAN
+                                                                                                                                  (FCNN)
+     Nair et al. (2020)            2020                            1) Clinical              –                                     - FCNN
+     Brown et al. (2020)           2020                            1) Clinical              1) Image Registration                 - 3D CNN
+                                                                                                                                                      Multiple sclerosis classification and segmentation in neuroimaging MRI…
+
+
+
+
+                                                                                            2) Bias Correction
+     Essa et al. (2020)            2020                            1) MICCAI 2008           1) Skull Stripping                    - Two parallel
+                                                                                            2) Bias Correction                    R-CNNs (Yang et
+                                                                                            3) Intensity Standardization          al. 2020) + ANFS
+                                                                                                                                  (Jang 1993)
+     Ulloa et al. (2020)           2020                            1) ISBI 2015             1) Intensity Standardization          - V-Net (3D CNN)
+                                                                                            2) Bias Correction
+                                                                                            3) Skull Stripping
+                                                                                            4) Patch Extraction
+                                                                                            5) Image Registration
+                                                                                            6) Data Augmentation
+
+
+
+
+13
+                                                                                                                                                      Page 13 of 49 255
+     Table 2 (continued)
+     Ref                        Year of Publication   Dataset(s)                 Preprocessing                  Proposed
+                                                                                                                Technique
+
+
+
+
+13
+     Fenneteau et al. (2020)    2020                  1) MICCAI 2008,            1) FSL for Bias Correction     - 3D-CNN
+                                                      2) MICCAI 2016 (MSSEG)     2) Intensity Standardization
+                                                      3) ISBI 2015               3) Skull Stripping
+                                                                                                                                     255 Page 14 of 49
+
+
+
+
+                                                      4) Clinical                4) Image Registration
+                                                      5) OASIS-3                 5) Patch Extraction
+                                                      6) BraTS
+     Gessert et al. (2020a)     2020                  1) Two Clinical Datasets   1) Image Registration          - Attention-Guided
+                                                                                 2) Lesions Extraction          Two Path CNNs
+     McKinley et al. (2020b)    2020                  1) MICCAI 2016 (MSSEG)     1) FSL                         - DeepSCAN
+                                                      2) Clinical                                               (CNN)
+     Afzal et al. (2021)        2021                  1) ISBI 2015               1) 2D Patches Extraction       - Two 2D-CNNs
+                                                      2) MICCAI 2016 (MSSEG)
+     Rondinella et al. (2023)   2023                  1) ISBI 2015               1) Image Registration          - Squeeze and
+                                                                                 2) Bias Correction             Attention (SA)
+                                                                                 3) Skull Stripping             Module + Hybrid
+                                                                                                                CNN-RNN
+                                                                                                                                     R. M. Thabet et al.
+     Table 3 Summary of segmentation techniques for MS diagnosis using U-NETs
+     Ref                         Year of Publication              Dataset(s)              Preprocessing                         Proposed
+                                                                                                                                Technique
+     Sander et al. (2019)        2019                            1) Clinical              1) Image Denoising                    - MD-GRU
+                                                                                          2) Data Augmentation                  (Modified
+                                                                                                                                U-Net + GRU
+                                                                                                                                (Chung et al.
+                                                                                                                                (2014)))
+     Zhang et al. (2019)         2019                            1) Clinical              1) Image Registration                 - Recurrent
+                                                                                                                                Slice-Wise
+                                                                                                                                Attention
+                                                                                                                                (RSA) + 3D
+                                                                                                                                U-Net
+     Feng et al. (2019)          2019                            1) ISBI 2015             1) Scaling Intensity Values [0–1]     - 3D U-Net
+     Kats et al. (2019)          2019                            1) ISBI 2015             –                                     - 2D U-Net
+     Kumar et al. (2019)         2019                            1) MICCAI 2016 (MSSEG)   1) Removing Null Data Samples         - Dense U-Net
+                                                                                          2) Scaling Intensity Values [0–1],    (Dense-
+                                                                                          3) Data Augmentation                  Blocks + U-Net
+                                                                                                                                modification)
+     Ghosal et al. (2019)        2019                            1) MICCAI 2016 (MSSEG)   1) Image Concatenation and Resizing   - light
+                                                                                          2) Removing Null Data Samples         weighted
+                                                                                          3) Scaling Intensity Values [0–1],    U-Net (Modi-
+                                                                                          4) Intensity Standardization          fied U-Net)
+                                                                                                                                                 Multiple sclerosis classification and segmentation in neuroimaging MRI…
+
+
+
+
+     Abolvardi et al. (2019)     2019                            1) Clinical              1) Data Augmentation                  - 3D U-Net
+     Gabr et al. (2019)          2019                            1) Clinical              1) Skull Stripping                    - U-Net FCNN
+                                                                                          2) Bias Correction                    network
+                                                                                          3) Intensity Standardization
+                                                                                          4) Image Denoising
+                                                                                          5) Data Augmentation
+     Vincent et al. (2020)       2020                            1) Clinical              1) Data Augmentation                  - FiLMed-Unet
+     Sepahvand et al. (2020)     2020                            1) Clinical              –                                     - NE SubNet
+                                                                                                                                (Modified
+                                                                                                                                U-Net)
+
+
+
+
+13
+                                                                                                                                                 Page 15 of 49 255
+     Table 3 (continued)
+     Ref                       Year of Publication   Dataset(s)               Preprocessing                  Proposed
+                                                                                                             Technique
+
+
+
+
+13
+     Coronado et al. (2020)    2020                  1) Clinical              1) Skull Stripping             - 3D U-Net
+                                                                              2) Bias Correction
+                                                                              3) Intensity Standardization
+                                                                                                                              255 Page 16 of 49
+
+
+
+
+                                                                              4) Image Denoising
+     Narayana et al. (2020b)   2020                  1) Clinical              1) Skull Stripping             - Multiclass
+                                                                              2) Bias Correction             U-Net
+                                                                              3) Intensity Standardization
+                                                                              4) Image Denoising
+                                                                              5) Data Augmentation
+     Ackaouy et al. (2020)     2020                  1) MICCAI 2016 (MSSEG)   –                              - Seg-JDOT
+                                                                                                             (Modified
+                                                                                                             U-Net)
+     La Rosa et al. (2020a)    2020                  1) Clinical              1) Data Augmentation           - 3D U-Net
+     Narayana et al. (2020a)   2020                  1) Clinical              1) Skull Stripping             - 2D U-Net
+                                                                              2- Bias Correction
+                                                                              3) Intensity Standardization
+                                                                              4) Image Denoising
+                                                                              5) Data Augmentation
+     La Rosa et al. (2020b)    2020                  1) Clinical              1) Data Augmentation           - 3D U-Net
+     Vang et al. (2020)        2020                  1) ISBI 2015             –                              - SynergyNet
+                                                     2) Clinical                                             (U-Net + Mask
+                                                                                                             R-CNN)
+     Salem et al. (2020)       2020                  1) Clinical              1) Skull Stripping             - FCNN (Two
+                                                                              2) Bias Correction             3D U-Nets)
+                                                                              3) Image Registration,
+                                                                              4) 3D Patches Extraction
+     Hu et al. (2020)          2020                  1) ISBI 2015             1) Data Augmentation           - 3D Attention
+                                                                                                             Context U-Net
+                                                                                                             (ACU-Net)
+                                                                                                                              R. M. Thabet et al.
+     Table 3 (continued)
+     Ref                      Year of Publication   Dataset(s)                 Preprocessing                       Proposed
+                                                                                                                   Technique
+     Salem et al. (2022)      2022                  1) MICCAI 2021 (MSSEG-2)   1) Patches Extraction               -2
+                                                                               2) Skull Stripping                  FCNNs + 3D
+                                                                               3) Bias Correction                  Registration
+                                                                               4) Intensity Standardization        Net. (3D
+                                                                                                                   U-Net)
+     Valencia et al. (2022)   2022                  1) MICCAI 2021 (MSSEG-2)   1) Image Registration               - GAN (for
+                                                    2) Clinical                2) Skull Stripping                  Generating
+                                                                               3) Scaling Intensity Values [0–1]   new synthetic
+                                                                                                                   T1-w) + 3D
+                                                                                                                   U-Net (for
+                                                                                                                   Lesion
+                                                                                                                   Segmentation)
+     Basaran et al. (2022)    2022                  1) MICCAI 2021 (MSSEG-2)   1) Skull Stripping                  - 3D U-Net
+                                                                               2) Bias Correction
+                                                                               3) Image Registration
+                                                                               4) Data Augmentation
+                                                                               5) ROI Extraction
+     Hitziger et al. (2022)   2022                  1) MICCAI 2021 (MSSEG-2)   1) Image Registration               - 2D U-Net
+                                                                               2) FOV Cropping
+                                                                               3) Scaling Intensity Values [0–1]
+                                                                                                                                   Multiple sclerosis classification and segmentation in neuroimaging MRI…
+
+
+
+
+     La Rosa et al. (2022)    2022                  1) Clinical                1) Image Registration               - 3D U-Net
+                                                                               2) Skull Stripping
+                                                                               3) Scaling Intensity Values [0–1]
+                                                                               4) Intensity Standardization
+     Hashemi et al. (2022)    2022                  1) ISBI 2015               1) Removing Non-MS Images           - Attention
+                                                                                                                   U-Net
+     Kamraoui et al. (2022)   2022                  1) ISBI 2015               1) Image Denoising                  - 3D U-Net
+                                                    2) MICCAI 2016 (MSSEG)     2) Image Registration
+                                                    3) Clinical                3) Skull Stripping
+                                                                               4) Bias Correction
+                                                                               5) Data Augmentation
+
+
+
+
+13
+                                                                                                                                   Page 17 of 49 255
+     Table 3 (continued)
+     Ref                       Year of Publication   Dataset(s)               Preprocessing            Proposed
+                                                                                                       Technique
+
+
+
+
+13
+     Raab et al. (2022)        2022                  1) ISBI 2015             –                        - 2D U-Net
+                                                     2) MICCAI 2016 (MSSEG)
+     Krishnan et al. (2023)    2023                  1) Clinical              1) Bias Correction       - 3D Multi-
+                                                                                                                        255 Page 18 of 49
+
+
+
+
+                                                     2) ISBI 2015             2) Image Registration    Arm U-Net
+                                                     3) MICCAI 2016 (MSSEG)   3) Skull Stripping
+     Hindsholm et al. (2023)   2023                  1) Clinical              1) Re-Orientation        - 3D U-Net
+                                                                              2) Skull Stripping
+                                                                              3) Image Registration
+     Sarica et al. (2023)      2023                  1) ISBI 2015             –                        - Dense-Resid-
+                                                     2) MICCAI 2016 (MSSEG)                            ual U-Net (3D
+                                                                                                       U-Net + Re-
+                                                                                                       sidual
+                                                                                                       Blocks + ECA
+                                                                                                       module + ASPP
+                                                                                                       module)
+     Thabet et al. (2024)      2024                  1) 3D-MR-MS              1) Skull Stripping       - UNETR
+                                                                              2) Re-orientation        (Hatamizadeh
+                                                                              3) Brain Area Cropping   et al. 2022)
+                                                                              4) Patches Extraction
+                                                                                                                        R. M. Thabet et al.
+Multiple sclerosis classification and segmentation in neuroimaging MRI…                Page 19 of 49 255
+
+
+5.1.2 Un-supervised learning methods
+
+The research based on un-supervised learning methods mainly depends on Autoencoders
+only. The top 3 literature will be briefly discussed along with a table summary to show all
+research literature in terms of used dataset, preprocessing techniques, and the proposed
+methodology as shown in Table 4.
+   Gessert et al. (2020b) developed a combined version of Gated Recurrent Unit (GRU) and
+Autoencoder models to improve MS lesion segmentation performance by incorporating the
+temporal features with the spatial ones. They used a clinical dataset and did not apply any
+preprocessing to the data.
+   Aslani et al. (2020) presented architecture of Autoencoder and Regularization Network.
+This architecture depended on three different parts encoder, decoder, and regularization net-
+work. Encoder and decoder are the main part of autoencoder network where the regulariza-
+tion network is the main core to enhance the MS lesion segmentation task's performance.
+The regularization network consisted of three perceptron layers and a softmax layer. The
+main goal was to take the output feature vector of the encoder and feed it to the regulariza-
+tion network then feed the output to the decoder. This improved the results significantly as
+the additional network helped to prevent overfitting. They used a clinical dataset and applied
+only two preprocessing methods including skull stripping and image registration.
+   Andresen et al. (2022) proposed an autoencoder with a small modification where their
+architecture depended on an encoder that consisted of baseline, follow up, and their subtrac-
+tion image. It had two separate decoders, each taking the output of the encoder and produc-
+ing separate outputs. Creating the diffeomorphic deformation field for baseline registration
+and providing it for follow-up was the first one's function, whilst the second one created
+a segmentation mask with all MS lesions, if any, if they were present. They applied their
+methodology on MICCAI 2021 (MSSEG-2) dataset, while applying image registration and
+data augmentation.
+   According to Table 4 it can be noted that Autoencoders are not preferable options com-
+pared to CNNs and U-Nets. Most of the researchers preferred to work with their private
+
+
+
+
+Fig. 8 An example of segmenting MS from an MRI image using the UNETR method (Hatamizadeh et
+al. 2022). a the original MRI image, b the ground truth MS lesion masks, c the prediction mask, d false-
+positive pixels (in red) and false-negative pixels (in green)
+
+
+                                                                                              13
+13
+                                                                                                                                                        255 Page 20 of 49
+
+
+
+
+     Table 4 Summary of segmentation techniques For MS diagnosis using autoencoders
+     Ref                                Year of Publication            Dataset(s)             Preprocessing                       Proposed Technique
+     Gessert et al. (2020b)             2020                           Clinical               –                                   - Enc-convGRU-Dec
+     Aslani et al. (2020)               2020                           Clinical               1) Skull Stripping                  - Autoencod-
+                                                                                              2) Image Registration               er + Regularization
+                                                                                                                                  Network (for domain
+                                                                                                                                  generalization)
+     Krüger et al. (2020)               2020                          Clinical                1) Data Augmentation                - 3D Encoder-De-
+                                                                                                                                  coder (Modified 3D
+                                                                                                                                  U-Net)
+     Ashtari et al. (2022)              2022                          MICCAI 2021 (MSSEG-2)   1) Intensity Standardization        - Encoder-Decoder
+                                                                                              2) Data Augmentation
+     Andresen et al. (2022)             2022                          MICCAI 2021 (MSSEG-2)   1) Image Registration               - ANCR-Net (En-
+                                                                                              2) Data Augmentation                coder + 2 Decoders)
+     Schlaeger et al. (2023)            2023                          Clinical                1) Image Registration               - 3D Encoder-Decod-
+                                                                                              2) Patches Extraction               er (Modified U-Net)
+     Luo et al. (2023)                  2023                          - IXI                   1) Skull Stripping                  - Autoencoder
+                                                                      - BraTs                 2) Image Registration
+                                                                      - Clinical              3) Scaling Intensity Values [0–1]
+                                                                                                                                                        R. M. Thabet et al.
+Multiple sclerosis classification and segmentation in neuroimaging MRI…    Page 21 of 49 255
+
+
+clinical datasets, and for preprocessing, most of the works used image registration and data
+augmentation.
+   Most of the reviewed literature used traditional Autoencoders with slight differences in
+the architectures except for the top work by Gessert et al. (2020b), where they proposed a
+good approach by combining RNN based method with Autoencoder and achieved the best
+performance among works using Autoencoders.
+   At the end of the segmentation sub-section, it can be concluded that (i) U-Nets are the
+most popular and powerful methods even with the small datasets’ sizes where the perfor-
+mance was much better than the most of the other segmentation approaches like CNNs
+and Autoencoders, (ii) integrating recurrent networks such as GRU or LSTM with tradi-
+tional segmentation model can enhance the performance significantly, and (iii) using multi-
+sequence (i.e., multimodal) enhances the performance as it helps the model to capture more
+hidden and complex features for the disease from multiple modalities/sequences.
+
+5.2 Multiple sclerosis classification
+
+In this section, two learning methods are presented for the classification task of MS using
+MRI neuroimaging, including classical ML and modern DL learning. The use of classi-
+cal ML techniques requires extracting input features manually and then applying one of
+the classical ML algorithms. Meanwhile, modern DL methods are efficient and intelligent
+enough to learn information from any input automatically and without any human interven-
+tion. In the next sub-sections, both approaches are described along with summary tables for
+each approach by the end of each section.
+
+5.2.1 Classical machine learning
+
+The works that applied classical ways to classify MS, used both supervised and unsuper-
+vised methods. The research works that used classical ML techniques are summarized for
+comparison in Table 5.
+   Barile et al. (2021b) proposed a new approach by applying Diffusion Tensor Imaging
+(DTI) (Cao et al. 2017; Kocevar et al. 2016) methodology and Non-negative Tensor Factor-
+ization (NTF) on structural graph data. The brain white matter regions impacted by notable
+longitudinal fluctuations allowed them to identify abnormal patterns. They performed unsu-
+pervised classification of the MS into one of 3 phenotypes (CIS, RRMS, or SPMS) using a
+clinical (private) dataset and K-Means algorithm (Silveira et al. 2020).
+   Barile et al. (2022a) developed another approach for classifying MS clinical profiles
+(CIS, RRMS, SPMS, and PPMS) utilizing six global graph metrics that were taken from the
+cerebral Gray Matter (GM) morphological connectome of MS patients. This study showed
+that by integrating four basic machine learning models— (Logistic Regression (LR) (Cox
+1958), Random Forest (RF) (Breiman 2001), SVM (Cortes and Vapnik 1995), and Ada-
+Boost (Schapire 2013) —GM morphological connectivity data may yield good classifica-
+tion performances, without the cost of long and complex MRI techniques, such as MRI
+diffusion (Baliyan et al. 2016), and/or deep learning architectures. They applied their meth-
+odology on a clinical (private) dataset while performing some of the well-known prepro-
+cessing methods such as skull stripping, bias correction, image registration, and intensity
+standardization.
+
+
+                                                                                  13
+13
+                                                                                                                                                                    255 Page 22 of 49
+
+
+
+
+     Table 5 Summary of classification techniques for MS diagnosis using classical ML
+     Ref                             Year of Publication            Dataset(s)          Preprocessing                  Proposed Technique
+     Barile et al. (2021b)           2021                           1) Clinical         –                              - K-Means
+     Barile et al. (2022a)           2022                           1) Clinical         1) Skull Stripping             - Ensemble (LR + RF + SVM + AdaBoost)
+                                                                                        2) Bias Correction
+                                                                                        3) Image Registration
+                                                                                        4) Intensity Standardization
+     Barile et al. (2022b)          2022                           1) Clinical          1) Brain Segmentation          - GBoost + XGBoost + CatBoost + LightBoost
+                                                                                        2) Skull Stripping
+                                                                                        3) Bias Correction
+                                                                                                                                                                    R. M. Thabet et al.
+Multiple sclerosis classification and segmentation in neuroimaging MRI…    Page 23 of 49 255
+
+
+   Barile et al. (2022b) developed an ensemble of four boosting-based models (Gradient
+Boosting Machine (GBM) (Friedman 2001), Extreme Gradient Boosting (XGBoost) (Chen
+and Guestrin 2016), Categorical Gradient Boosting (CatBoost) (Dorogush et al. 2018), and
+Light Gradient Boosting (Light-Boost) (Ke et al. 2017). They were organized following a
+stacking generalization scheme and using DTI based structural connectivity data to per-
+form classification task among five classes (Healthy Control (HC), CIS, RRMS, SPMS,
+or PPMS). They applied their methodology on a clinical (private) dataset. Also, a set of
+preprocessing techniques were used such as brain segmentation, skull stripping, and bias
+correction.
+   It is important to note that classical ML techniques are not much preferable by most
+works as it can be noted from Table 5. This could be due to many reasons for example, the
+lack of medical data which led to a very small number of patients/samples. Also, the nature
+of the classification problem itself as it requires more complex feature extraction where the
+modern DL methods can fit more as a much flexible and powerful tool than classical ML.
+
+5.2.2 Modern deep learning
+
+Most of the work done in MS classification has been done using DL. The research works
+used classical ML techniques are summarized for comparison in Table 6.
+   Shrwan and A. Gupta (2021) developed a 2D-CNN architecture to distinguish and clas-
+sify between two classes: pituitary tumor and MS. They used a clinical (private) dataset and
+applied a preprocessing technique such as image resizing.
+   Alijamaat et al. (2020) presented a new approach to detect and classify two classes
+Healthy Control (HC) and MS. Their approach mainly depended on extracting more fea-
+tures using Haar Wavelet Transform (HWT) by incorporating it in the CNN network. This
+method performed well and achieved significant results for both the eHealth Lab dataset of
+MS and a clinical one for HC cases. They applied some preprocessing methods such as data
+augmentation, Histogram Stretching (HS) (Wikipedia 2006), and Discrete Wavelet Trans-
+form (DWT) (Wikipedia 2005).
+   Ye et al. (2020) developed a new method to classify three different clinical profiles
+(RRMS, PPMS, or SPMS) and classify the lesion subtypes (i.e., Normal Appearing White
+Matter (NAWM), Acute Black Holes (ABH), Acute Gray Holes (PGH), Non-Black or gray
+Holes (NBH), and Persistent Black Holes (PBH)) and Normal Appearing White Matter
+(NAWM) from T1-w MRI input image. Their method incorporated Diffusion Basis Spec-
+trum Imaging (DBSI) (Sun et al. 2020) method with Artificial Neural Networks (ANNs) to
+classify the previously mentioned classes. They applied their methodology on a clinical (pri-
+vate) dataset by applying the intensity standardization as the only preprocessing technique.
+   It can be concluded from the reviewed literature that almost all works except two pre-
+ferred to work with their own dataset. Skull stripping, image registration, and bias field
+correction are the most preferred preprocessing methods. Also, it is notable that the most
+preferred DL method is CNN due to its simplicity and powerful nature of extracting features
+and performing classification tasks.
+   At the end of the classification sub-section, it can be concluded that (i) modern DL is
+the most popular and powerful approach among all reviewed literature and (ii) modern DL
+models have the capability of capturing and dealing with the complex and hidden features,
+
+
+
+
+                                                                                  13
+     Table 6 Summary of classification techniques for MS diagnosis using modern DL
+     Ref                      Year of Publication         Dataset(s)             Preprocessing                                                     Proposed Technique
+     Eitel et al. (2019)      2019                        1) Clinical            1) Bias Correction                                                - 3D-CNN
+                                                                                 2) Image Registration
+
+
+
+
+13
+                                                                                 3) Data Augmentation
+     Marzullo et al. (2019)   2019                        1) Clinical            1) Bias Correction                                                - Graph CNN
+                                                                                                                                                                            255 Page 24 of 49
+
+
+
+
+                                                                                 2) Skull Stripping                                                (GCNN) (Scarselli et
+                                                                                 3) Brain Structural Connectivity Graph (Giacopelli et al. 2020)   al. 2009)
+                                                                                 4) Graph Local Features (Zhang et al. 2022)
+     Siar et al. (2019)       2019                        1) Clinical            –                                                                 - CNN
+     Narayana et al. (2020c) 2020                         1) Clinical            1) Data Augmentation                                              - Two CNNs
+     Barquero et al. (2020)   2020                        1) Clinical            1) Image Registration                                             - RimNet (two parallel
+                                                                                 2) Data Augmentation                                              CNNs)
+     Alijamaat et al. (2020)  2020                        1) eHealth Lab         1) Data Augmentation                                              - Wavelet-CNN
+                                                          1) Clinical            2) Histogram Stretching
+                                                                                 3) Discrete Wavelet Transform (DWT)
+     Ye et al. (2020)         2020                        1) Clinical            1) Intensity Standardization                                      - DBSI-DNN (ANNs)
+     Shrwan et al. (2021)     2021                        1) Clinical            1) Image Resizing                                                 - 2D-CNN
+     Barile et al. (2021a)    2021                        1) Clinical            –                                                                 - GAN + RF
+     Zhuo et al. (2022)       2022                        1) Clinical            –                                                                 - MultiResU-
+                                                                                                                                                   Net (Modified
+                                                                                                                                                   U-Net) + DenseNet121
+     Krishnamoorthy et al.     2023                       1) Clinical             1) ITK-SNAP (for Images Conversion from 3 to 2D)                 - VGG16 + KNN (Guo
+     (2023)                                                                       2) Skull Stripping                                               et al. (2003)) + RF
+     Payares‐Garcia et al.     2023                       1) Clinical             1) Bias Correction                                               - 3D SBNN (Spatially
+     (2023)                                                                       2) Image Registration                                            informed Bayesian
+                                                                                  3) Skull Stripping                                               Neural Network)
+                                                                                  4) Intensity Standradization
+                                                                                  5) Brain Segmentation
+     Seok et al. (2023)        2023                       1) Clinical             1) Image Registration                                            - 2D-CNN (ResNet18)
+                                                                                  2) Re-Orientation
+                                                                                  3) Intensity Standardization
+                                                                                                                                                                            R. M. Thabet et al.
+     Table 6 (continued)
+     Ref                        Year of Publication   Dataset(s)       Preprocessing                             Proposed Technique
+     Castellano et al. (2023)   2023                  1) OASIS-3       1) Skull Stripping                        - Autoencoders
+                                                      1) MICCAI 2016   2) Image Registration
+                                                      (MSSEG)          3) Scaling Intensity Values [0–1]
+     Coll et al. (2023)         2023                  1) Clinical      1) Bias Correction                        - 3D-CNN
+                                                                       2) Skull Stripping
+                                                                       3) Image Registration
+     Kushol et al. (2023)       2023                  1) Clinical      1) Bias Correction                        - 3D-CNN
+                                                                       2) Image Normalization
+                                                                       3) Skull Stripping
+                                                                       4) Spatial and Frequency Transformation
+                                                                       5) Patches Extraction
+     Tatli et al. (2024)        2024                  1) Myelitis      –                                         - MSNet (DenseNet2
+                                                                                                                 01 + ResNet50 + SVM
+                                                                                                                 + KNN)
+                                                                                                                                       Multiple sclerosis classification and segmentation in neuroimaging MRI…
+
+
+
+
+13
+                                                                                                                                       Page 25 of 49 255
+255 Page 26 of 49                                                             R. M. Thabet et al.
+
+
+that is why the results range using DL is significantly higher than those obtained by classi-
+cal ML.
+
+5.3 Other machine learning based analysis for multiple sclerosis diagnosis
+
+Beyond segmentation and classification, machine learning has expanded its application
+in MS research to include disease progression prediction, synthetic image generation, and
+anomaly detection. Predictive models, such as those by Zhang et al. (2023), utilize time-
+series and recurrent neural networks to forecast disease progression, offering insights for
+personalized treatment. Given the limited availability of MS datasets, studies like Salem
+et al. (2019) employed an encoder decoder U-Net to create synthetic MRI images, improv-
+ing model robustness. Additionally, anomaly detection models, such as those developed
+by Castellano et al. (2023), use autoencoders to distinguish between MS cases from those
+are being healthy. These advancements illustrate the breadth of ML applications in MS
+research, enhancing both the accuracy and scope of analysis.
+
+
+6 Evaluation metrics and achieved results
+
+This section shows all the metrics used for evaluating the MS identification performance
+that have been used in all literature. Furthermore, the experimental results for all related
+works are compared based on the previously shown taxonomy. Finally, these results are
+discussed and analyzed.
+
+6.1 Metrics
+
+There are many evaluation metrics that have been used in literature. These metrics are gen-
+erally mathematical formulas used to evaluate the performance of their methods by compar-
+ing the obtained outcomes or results with the true or expected ones. A set of commonly used
+terms should be considered such as (i) True Positive (TP) which indicates the number of
+samples correctly predicted as a positive class either by a ML or DL model, (ii) True Nega-
+tive (TN) indicates the number of samples correctly predicted as a negative class, (iii) False
+Positive (FP) indicates the number of samples incorrectly predicted as a positive class, and
+(iv) False Negative (FN) indicates the number of samples incorrectly predicted as a nega-
+tive class. In the next sub-section, we describe these metrics and give their mathematical
+formula.
+   Recall/Sensitivity (Sen.)/True positive rate (TPR):
+   Indicates the number of true positives in the prediction of the MS over the total number
+of the ground truth positives.
+
+                                                 TP
+                              Sensitivity =            (1)
+                                               TP + FN
+
+Specificity (Spec.)/True negative rate (TNR):
+  Shows the proportion of true negatives (TN) to total ground truth negatives in the non-
+MS lesion area forecast.
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…       Page 27 of 49 255
+
+                                                        TN
+                                   Specif icity =             (2)
+                                                      TN + FP
+
+Precision (Prec.)/Positive predictive value (PPV)
+   Indicates the number of true positives among all positive predictions.
+
+                                                       TP
+                                    P recision =                                           (3)
+                                                     TP + FP
+
+F1-Score
+   It displays the correctness of a model. It integrates a model's precision and recall ratings.
+Excellent precision and recall are indicated by a large F1 score of 1, whereas poor model
+performance is indicated by a low score.
+
+                                              2 × P recision × Recall
+                          F 1 − Score =                               (4)
+                                                P recision + Recall
+
+Root mean square error (RMSE)
+   Is a non-negative value indicating the squared misclassification rate between the ground
+truth (yi) and predicted samples (yi ) among all observations (N). Less value of RMSE indi-
+cates better learning.
+                                        
+                                           N
+                                        1              2
+                                RM SE =      (yi − yi ) (5)
+                                          N
+                                                     i=1
+
+
+False positive rate (FPR)
+   Indicates the number of false positives among all ground truth negatives.
+
+                                                    FP
+                                       FPR =              (6)
+                                                  FP + TN
+
+Accuracy (Acc.)
+  Represents the percentage of the model's total predictions that were accurate.
+
+                                                 TP + TN
+                            Accuracy =                        (7)
+                                            TP + FP + TN + FN
+
+Dice similarity coefficient (DSC)
+   It is computed using a prediction's recall and precision. Where, it scores the overlap
+between predicted segmentation and ground truth (i.e., TP indicates overlapped areas where
+the model correctly segmented/predicted them as MS lesions, FP indicates the wrongly seg-
+mented areas as MS lesion and their ground truth are not MS, and FN indicates the wrongly
+segmented areas as not MS where their ground truth has MS lesions).
+
+
+
+
+                                                                                    13
+255 Page 28 of 49                                                              R. M. Thabet et al.
+
+                                              2T P
+                              DSC =                      (8)
+                                        2T P + F P + F N
+
+Jaccard
+   The Jaccard similarity gauges how similar two sets of data are in order to identify which
+members are unique and shared.
+
+                                               TP
+                             Jaccard =                 (9)
+                                          FP + TN + FN
+
+Area under the curve (AUC)
+    Shows a binary classifier's capacity to discriminate between positive and negative classes.
+Its value falls between 0 and 1, with a larger value denoting better performance.
+
+6.2 Segmentation results
+
+This section provides a complete comparative analysis of the achieved results of all related
+works related to segmentation task that were described in Sect. 5. The set of used metrices
+for segmentation evaluation are DSC, PPV, TPR, FPR, f1-score, and Jaccard. Note that
+these metrics are important but the most important metric in segmentation task is the DSC
+where it is sometimes called the segmentation accuracy.
+
+6.2.1 Convolutional neural networks (CNNs) with or without recurrent neural
+networks (RNNs)
+
+A summary of all results obtained by the works used CNNs/RNNs are provided in Table 7.
+Also, a comparative analysis and a discussion of top results is provided. Note that results are
+sorted ascendingly based on DSC, f1-score, and TPR.
+    As we can see in Table 7, the work of Rondinella et al. (2023) achieved the highest DSC
+and PPV/precision scores with 89% and 91%, respectively. Their methodology depended on
+a modified version of U- Net, where they incorporated U-Net and LSTM. By using LSTM,
+it helped to extract spatial correlation of sequentially axial slices between 3 input FLAIR
+MRI input images. In such a way these features enhance knowledge extraction. Also, the use
+of Squeeze-and- Attention (SA) module boosted their methodology because SA attempts to
+suppress non-informative channels and highlight those with useful properties. Thus, detect-
+ing and segmenting lesions true positives were increased, and, as a result, they managed to
+achieve the highest performance.
+    McKinley et al. (2020a) got the best TPR score with 100% where they incorporated a
+new method by adding a dense block to their CNN architecture which improved its ability
+to detect and segment MS lesions accurately.
+    The lowest FPR was acquired by Aslani et al. (2019) with a score of 8.42%. The multi-
+branch down sampling feature in their proposed CNN allowed the network to encode data
+from different modalities independently. To merge feature maps from various modalities
+at various network stages, multi-scale feature fusion blocks are suggested. Subsequently,
+multi-scale feature up-sampling blocks are incorporated to enlarge combined feature maps,
+
+
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…         Page 29 of 49 255
+
+Table 7 Comparision of the segmentation results for MS diagnosis using CNNs
+Ref                          DSC          F1-score      TPR           PPV      FPR       Jaccard
+Brown et al. (2020)          –            –             –             –         –        74%
+Ulloa et al. (2020)          –            –             68.51%        –         –        –
+Nair et al. (2020)           –            –             80%           –         –        –
+McKinley et al. (2020a)      –            –             100%          59%       –        –
+Essa et al. (2020)           –            83.25%        61.8%         –         –        –
+McKinley et al. (2019)       59%          –             50%           68%       –        –
+McKinley et al. (2020b)      60%          57%           –             –         –        –
+Gros et al. (2019)           60.4%        –             –             –         –        –
+Gessert et al. (2020a)       62.2%        –             74.2%         –        26.4%     –
+Valverde et al. (2019)       63%          91.3%         48%           79%       –        –
+Hou et al. (2019)            64.3%        –             44.1%         87.9%     –        48.6%
+Aslani et al. (2019)         66.5%        –             44.65%        80.32%   8.42%     –
+Afzal et al. (2021)          67%          –             45%           90%       –        –
+Fenneteau et al. (2020)      67.63%       –             61.47%        79.3%     –        –
+Rondinella et al. (2023)     89%          –             86%           91%       –        –
+
+
+thereby utilizing information from lesion shape and position. This decreases the likelihood
+of accurately identifying non-lesion areas.
+    The best F1-score was achieved by Valverde et al. (2019) with 91.3%. In this paper they
+analyzed the effect of intensity domain adaptation (Ghafoorian et al. 2017; Kamnitsas et
+al. 2017) on their recently proposed CNN-based MS lesion segmentation method. They
+started by training a source model using two publicly available MS datasets. Afterwards,
+they looked at whether the CNN model could be used for other MRI modalities, particularly
+in cases where their dataset was tiny. Their model achieved good segmentation results for
+both precision and recall (i.e., a good f1-score).
+    The best Jaccard was acquired by Brown et al. (2020) with a score of 74%. They pro-
+posed a CNN model with an algorithm for intensity calibration (Nyul et al. 2000; Miller et
+al. 2003; Ge et al. 2002), with the aim of minimizing as much as possible the technical influ-
+ences on image intensity, while maintaining the biological factors, such as lesion regions,
+convincingly.
+
+6.2.2 U-Nets
+
+A summary of all results obtained by the works used U-Nets is provided in Table 8. Also, a
+comparative analysis and a discussion of top results are provided.
+    The work of Sander et al. (2019) achieved the best DSC score among all literatures used
+U-Nets but it is only for brainstem segmentation not a result for MS segmentation. Thus,
+Narayana et al. (2020a) achieved the highest DSC among all literatures with a score value
+of 90%. They proposed a U-Net architecture with four multi-contrast MRI input images
+(i.e., FLAIR, PD-w, T1-w, and T2-w). Here, they experimented with a different set of input
+combinations to the network (i.e., 15 different possible combinations) where they tried the
+presence and the absence of each MRI modality to the others when the data is being fed to
+the network. They found that the best result was obtained when they used a combination
+of all four MRI input sequences. This is because the network was able to detect and extract
+more hidden features from these MRI sequences when they were used together. Hindsholm
+
+
+                                                                                       13
+255 Page 30 of 49                                                                     R. M. Thabet et al.
+
+Table 8 Comparision of the segmentation results for MS diagnosis using U–NETs
+Ref                          DSC         F1–score       TPR           PPV       FPR            Jaccard
+La Rosa et al. (2020a)       –           –              67%           –         42%            –
+Valencia et al. (2022)       –           –              81%           86%       14%            –
+Sepahvand et al. (2020)      –           –              97.74%        –         –              –
+Hitziger et al. (2022)       –           54.1%          –             –         –              –
+Salem et al. (2022)          42%         50%            53%           52%       –              –
+Rosa et al. (2022)           47%         –              73%           –         33%            –
+Basaran et al. (2022)        51%         55.2%          –             –         –              –
+Ackaouy et al. (2020)        = 52%
+                             ∼           = 20%
+                                         ∼              –             –         –              –
+Salem et al. (2020)         55%         –             83.09%       –            9.36%          –
+Kats et al. (2019)          57.8%       –             46.6%        83.8%        –              –
+Abolvardi et al. (2019)     61.4%       –             –            –            –              –
+Vang et al. (2020)          61.52%      –             67.39%       42.27%       18.64%         –
+La Rosa et al. (2020b)      62%         –             76%          –            –              –
+Krishnan et al. (2023)      62.3%       –             68.1%        –            –              –
+Hu et al. (2020)            63.45%      92.6%         47.87%       86.82%       12.99%         –
+Raab et al. (2022)          64%         –             55%          85%          20%            –
+Sarica et al. (2023)        66.88%      –             60.64%       86.5%        –              –
+Kamraoui et al. (2022)      67%         –             –            84%          –              –
+Hindsholm et al. (2023)     68%         78%           70%          90%          –              –
+Feng et al. (2019)          68.4%       –             60.2%        78.2%        27.2%          53.3%
+Zhang et al. (2019)         71.05%      –             –            –            –              –
+Vincent et al. (2020)       72%         –             –            –            –              –
+Ghosal et al. (2019)        76%         –             65%          –            –              –
+Coronado et al. (2020)      77%         –             –            –            –              –
+Thabet et al. (2024)        81.7%       –             62.4%        68.1%        –              –
+Gabr et al. (2019)          82%         –             –            –            –              –
+Hashemi et al. (2022)       82.3%       –             86.5%        –            –              –
+Narayana et al. (2020b)     86%         –             –            –            –              –
+Kumar et al. (2019)         86.6%       –             85.6%        –            –              –
+Narayana et al. (2020a)     90%         –             81%          –            28%            –
+Sander et al. (2019)        97%         –             –            –            –              –
+
+
+et al. (2023) achieved the best PPV/precision among all literatures used PPV metric as one
+of their evaluation metrics with a score of 90%. They applied their U-Net architecture with
+four multi-contrast MRI input images (i.e., T1- w, T2-w, and FLAIR). Multi- contrast gave
+their network an advantage of extracting more features and to be robust to data from unseen
+scanners. They followed a similar approach to the previously discussed work but with a
+smaller number of images (i.e., training and evaluation) and 3 sequences instead of 4.
+   Sepahvand et al. (2020) got the highest TPR value of 97.74%. They developed a modi-
+fied version of U-Net to detect and segment new and enlarge MS lesions in a present MRI
+image (i.e., follow-up) based on a history MRI image (i.e., baseline). Thus, their method
+depended on two different time points MRI images. The idea of their methodology is to
+subtract the baseline image from the follow-up one. Then, the baseline, follow-up, and their
+subtraction image were fed to the network. The proposed network was able to learn how to
+directly distinguish between actual structural change and artifactual change, in a result, a
+
+
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…            Page 31 of 49 255
+
+
+high TPR value was obtained where it indicates the efficiency of locating and segmenting
+MS lesion areas.
+   Salem et al. (2020) build an architecture which mainly comprises two U-Nets. The first
+one is responsible for learning deformation (DFs) fields then the second model receives the
+provided DFs together with the baseline and follow-up MRI images to learn how to segment
+MS lesion areas. This approach led to a reasonable TPR of 83.09% and lower FPR of 9.36%.
+   The highest Jaccard value was obtained by Feng et al. (2019) with a score of 53.3%. They
+proposed a multi- contrast MRI image (i.e., T1-w, T2-w, PD-w, and FLAIR) as an input to
+a U-Net model, along with a new approach called “Sequence Dropout” which was inspired
+by the famously dropout method used in training CNNs, the idea is to apply the same man-
+ner of dropout by randomly drop a sequence image during training. This helped to achieve
+a remarkable Jaccard.
+
+6.2.3 Autoencoders
+
+Also, a summary table for all results obtained using Autoencoders are provided in Table 9
+with a detailed comparative analysis and a discussion for each top result.
+   Gessert et al. (2020b) proposed a method that depended on constructing a 4D input to
+a model of which it is a combination of GRU and autoencoder to detect and segment MS
+lesion activity. They constructed the 4D input by taking 3 different time points MRI FLAIR
+images with 3D depth where the fourth dimension is the time space. Time space is the
+3 timepoints MRI images which can be described as follows a follow-up (FU), baseline
+(BL), and history (HS) images where HS was acquired before BL. Their model’s input can
+be defined as follows x ∈ RT ×H×W ×D where T is the time dimension, H defines image
+height, W is the image width, and D is the Image depth. Thus, their model takes 4D input
+and its task is to detect and segment MS lesion activity between BL and FU using a spatio-
+temporal tensor x ∈ RT ×H×W ×D . The idea of constructing 4D spatio-temporal is to extract
+more reliable and hidden features by learning the activity of MS lesion through time. Their
+methodology achieved the best DSC, TPR, and FPR scores with scores of 64%, 64%, and
+19%, respectively.
+   Schlaeger et al. (2023) proposed a 3D autoencoder which consisted of an encoder and
+one decoder. Two different MRI sequences were taken patch extraction operation were made
+to both then the same encoder path was fed these extracted patches with shared weights. The
+decoder received the concatenated feature maps for the T1-weighted and FLAIR input. The
+predicted segmentation mask showed lesions that enhanced the MS contrast. This meth-
+odology helped them to extract more reliable and informative features from two different
+sequences. They achieved the highest PPV/precision with a score of 91%.
+
+Table 9 Comparision of the segmentation results for MS diagnosis using autoencoders
+Ref                          DSC          F1–score       TPR           PPV          FPR     Jaccard
+Schlaeger et al. (2023)      –              –            75%           91%          –       –
+Ashtari et al. (2022)        40.3%        48.1%          47.5%         53.6%        –       –
+Krüger et al. (2020)         45%            –            60%           –            41%     –
+Luo et al. (2023)            46.2%          –            82.2%         74.1%        –       –
+Andresen et al. (2022)       47%            –            –             –            –       –
+Aslani et al. (2020)         50%            –            –             –            –       –
+Gessert et al. (2020b)       64%            –            84%           –            19%     –
+
+
+                                                                                          13
+255 Page 32 of 49                                                                     R. M. Thabet et al.
+
+
+   Ashtari et al. (2022) achieved the best f1-score of 48.1%. They proposed an encoder-
+decoder model which takes 2 FLAIR MRI images from different time points and detect
+and segment new MS lesions. Their model has 4 levels, each of which is in the encoder
+or the decoder. They presented a new approach used in each level which is composed of a
+Pre-U-Net block which consisted of two convolutional layers with kernel sizes of 3 × 3 × 3,
+with LeakyReLU activation (Xu et al. 2015) coming before each convolutional layer and
+after Group Normalization (Wu and He 2019). Their proposed idea reduced overfitting
+more significantly, which resulted in reduced test error but a little increased training loss at
+convergence.
+
+6.3 Classification results
+
+This section provides complete comparative analysis of the results achieved of all related
+work related to classification tasks that were described in Sect. 5. The set of metrics that
+were used for classification task are Accuracy (Acc), AUC, Precision/PPV, Specificity/TNR,
+F1-score, Recall/Sensitivity/TPR and RMSE. Note results are sorted ascendingly based on
+accuracy score, f1-score then AUC.
+
+6.3.1 Classical machine learning
+
+In this sub-section a summary table showing all results for all works done in the field of
+MS classification is provided in Table 10 along with a complete discussion for top results.
+   Barile et al. (2021b) achieved the highest AUC, precision, recall/sensitivity, and f1-score
+with values of 76.33%, 79.33%, 76.17%, and 76.67%, respectively. They presented a meth-
+odology that uses an NTF-based recursive approach to extract the adjacency matrix from
+a T1-w MRI input picture. From there, numerous Markovian Random Walks (MRW) are
+generated and stacked to create multiple MRW Matrices. They were used to create a third
+order tensor, which was then used to extract the factorized anomalous components using
+NTF. Each individual underwent 100 Monte Carlo (MC) iterations, and the anomalous brain
+network connection counting result was gathered and utilized to create an anomaly matrix.
+Finally, k-means clustering was applied to the obtained distributions to classify between 3
+different MS clinical profiles (CIS, RRMS, SPMS).
+   Barile et al. (2022a) got the highest accuracy rate with a score of 65.8%. They proposed
+an approach where it takes a T1-w MRI input image calculate and extract the adjacency
+matrix representation then getting graph characterization, the output is fed to ensemble
+model by taking the majority voting of four different ML models (LR, RF, SVM, and Ada-
+Boost) to classify between 3 different MS clinical profiles (CIS, RRMS, SPMS).
+   Barile et al. (2022b) used RMSE metric to evaluate their method, they achieved a RMSE
+score of 0.92. Using DTI on T1-w MRI images, they developed an ensemble of four boost-
+ing-based models (GBM, XGBoost, CatBoost, and Light Boost) arranged according to a
+
+
+Table 10 Comparision of the classification results for MS diagnosis using classical ML
+Ref                   Accuracy F1–score AUC             Precision Sensitivity/Recall Specificity RMSE
+Barile et al. (2021b)   –        76.67% 76.33% 79.33% 76.17%                          –           –
+Barile et al. (2022a) 65.8%      64.8%       68.1%      72.1%        –                –           –
+Barile et al. (2022b)   –           –          –          –          –                –          0.92
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…    Page 33 of 49 255
+
+
+stacking generalization scheme to predict Expanded Disability Status Scale (EDSS), which
+quantifies disability and tracks the progression of the disease over time.
+
+6.3.2 Modern deep learning
+
+Finally, for all research works done using modern DL methods a summary of their results
+was provided in Table 11. Also, a brief discussion and comparative analysis as done in the
+previous sub-sections were presented.
+   Shrwan and Gupta (2021) achieved the best accuracy, sensitivity, and f1-score with val-
+ues of 99.55%, 99.15%, and 99.15%, respectively, they presented a 2D-CNN architecture
+that takes T1-w MRI image as an input and tried to distinguish between MS cases from
+Pituitary Tumor (PT). Their method has an advantage where they were able to train their
+CNN with a total of 1200 T1-w MRI images. Note that one of the critical limitations in the
+medical field generally and MS diagnosis specially is the availability of large data which
+will be discussed briefly in the next section. So, having such a data with these number of
+samples gave their architecture an advantage to aquaria reliable result, note that they also
+achieved a remarkable precision score with a score of 99.15 but it’s not the highest one
+among all literatures.
+   Ye et al. (2020) scored the highest AUC with a value of 99.8% where they put out the
+idea of using diffusion basis spectrum imaging (DBSI) with ANNs to more effectively
+handle MS lesion heterogeneity and be able to classify between the lesion subtypes (i.e.,
+Normal Appearing White Matter (NAWM), Acute Black Holes (ABH), Acute Gray Holes
+(PGH), Non-Black or gray Holes (NBH), and Persistent Black Holes (PBH)) and Normal
+Appearing White Matter (NAWM) from T1-w MRI input image.
+   Kushol et al. (2023) developed an approach to classify Amyotrophic Lateral Sclerosis
+(ALS) cases from Healthy Control (HC) ones. Their 3D-CNN network was trained to take a
+T1-w MRI input image and depended on a new idea to exploit the long-range relationships
+among image features, they also combined spatial and frequency domain information to
+enhance the network’s performance. They achieved the best precision and specificity scores
+with values of 100% for both.
+
+6.4 Statistics
+
+Many challenges and limitations exist among the reviewed literature which will be briefly
+discussed next.
+    There are many research works done in the field of MS diagnosis for the task of seg-
+mentation or classification. Figure 9. Showing the number of literatures work with clas-
+sification and segmentation. Among the total of 72 papers included in this review in the
+last 5 years. The distribution of segmentation research works has a higher percentage with
+72.2% research, while classification has the remaining 27.8% of all presented works.
+    Fig. 10 illustrates how MS segmentation research works are distributed. The task of MS
+segmentation has a total of 52 works which is divided into 3 main sub-sections. It includes
+15 are done by pure CNNs or Hybrid CNNs-RNNs with a percentage of 28.8%, 30 for
+U-Nets with a percentage of 57.7%, and 7 for Autoencoders with a percentage of 13.5%.
+It can be concluded from the figure that most researchers prefer dealing with U-Nets more
+than CNNs and Autoencoders.
+
+
+                                                                                 13
+13
+                                                                                                                                                 255 Page 34 of 49
+
+
+
+
+     Table 11 Comparision of the classification results for MS diagnosis using modern DL
+     Ref                                     Accuracy            F1–score         AUC      Precision   Sensitivity/Recall   Specificity   RMSE
+     Castellano et al. (2023)                –                   –                –        –           97.8%                94.1%         –
+     Barile et al. (2021a)                   –                   81%              –        82.25%      79.65%               –             –
+     Marzullo et al. (2019)                  –                   92%              –        92%         92%                  –             –
+     Narayana et al. (2020c)                 70%                 –                –        –           72%                  70%           –
+     Seok et al. (2023)                      76.1%               –                85%      76.9%       77.3%                74.8%         –
+     Coll et al. (2023)                      79%                 –                –        –           77%                  81%           –
+     Zhuo et al. (2022)                      82%                 –                90%      –           –                    –             –
+     Payares‐Garcia et al. (2023)            83%                 82%              –        –           85%                  81%           –
+     Eitel et al. (2019)                     87.04%              –                96.08%   –           –                    –             –
+     Kushol et al. (2023)                    88%                 90%              –        100%        81.3%                100%          –
+     Ye et al. (2020)                        93.4%               97.3%            99.8%    –           99.1%                97.3%         –
+     Barquero et al. (2020)                  93.8%               62.3%            –        –           75.8%                95.1%         –
+     Siar et al. (2019)                      96.88%              –                –        –           94.64%               100%          –
+     Tatli et al. (2024)                     97.63%              –                –        –           –                    –             –
+     Krishnamoorthy et al. (2023)            98.5%               98.51            –        99%         98.02%               98.99%        –
+     Alijamaat et al. (2020)                 99.05%              –                –        99.43%      99.14%               98.89%        –
+     Shrwan et al. (2021)                    99.55%              99.15%           –        99.15%      99.15%               –             –
+                                                                                                                                                 R. M. Thabet et al.
+Multiple sclerosis classification and segmentation in neuroimaging MRI…        Page 35 of 49 255
+
+
+    Fig. 11 shows a comparison between different segmentation approaches based on the best
+evaluation score achieved in each category. It can be noticeable from the figure that the best
+DSC, TPR, FPR, F1- score, and Jaccard (Mean-J) values were acquired from CNNs and
+U-Nets while the 3 methods were close in PPV value. This gives an illustration that CNNs
+and U-Nets are the most preferable approaches. In most cases U-Nets have a higher advan-
+tage due to their high ability in working with MS segmentation tasks as mentioned before.
+    Fig. 12 illustrates the distribution of research works done in MS classification task. It
+shows that a total of 20 works has been made where only 3 of them were done using clas-
+sical ML approaches with a percentage of 15% while the remaining 17 works with a per-
+centage of 85% were done using modern DL. We can conclude that modern DL is the most
+preferable approach due to its capability of extracting and learning spatial/temporal features
+automatically and efficiently.
+    Fig. 13 shows a comparison between different classification approaches based on the best
+evaluation score achieved in each category. We can notice that there is a noticeable superior-
+ity in favor of modern DL in all performance metrics values.
+    Finally, a distribution chart is also provided in Fig. 14 for all dataset types that were used
+in all reviewed literature.
+
+
+7 Challenges, limitations, and risks
+
+7.1 Challenges and limitations
+
+Many challenges and limitations exist among the reviewed literature which will be briefly
+discussed next.
+
+● Lack of data was found in most papers where it is hard to find such data with reliable
+  and enough studies to rely on. The most literatures who suffer from this problem are the
+  ones used public data such as (e.g., Aslani et al. 2019; Hou et al. 2019; Kats et al. 2019).
+  The public datasets are limited in size and as a result most literatures couldn’t produce
+  reliable results.
+● Ethical considerations are a common problem in the medical field. It defines how hard
+  it is to find clinical data that is publicly available due to the difficulty of acquiring data
+  from medical centers because of the privacy of patients. (Gessert et al. 2020b; Eitel et al.
+  2019; Marzullo et al. 2019) are examples of literature who suffered from this problem.
+  Also, it can be shown from Fig. 14. Among 72 pieces of literature, 40 literature used
+  clinical data only, 20 used public data only, and 11 used a combination of public and
+  clinical data. This indicates that nearly 55.56% of all literature had to depend on using
+  clinical/private data.
+● Unbalanced classes are a prevalent issue. in ML and DL problems. This problem was
+  encountered more in segmentation task where MS lesion sizes are not equivalent (i.e.,
+  cases with MS lesions of large size are more frequent than those with small sizes or vice
+  versa). Among literature many research works suffered from this class imbalance (e.g.,
+  Gros et al. 2019; Narayana et al. 2020a; Salem et al. 2022) are examples of literatures
+  suffered from this problem in segmentation task. In classification task the same problem
+  exists where cases with MS are dominant than those of healthy cases. Similarly, when
+
+
+                                                                                      13
+255 Page 36 of 49                                                             R. M. Thabet et al.
+
+
+
+
+Fig. 9 Distribution of MS diagnosis works from 2019 to 2023
+
+
+Fig. 10 Distribution of MS diagnosis
+works using segmentation from 2019 to
+2023
+
+
+
+
+  some classes of the MS clinical profiles are dominant than others. For example, Barile
+  et al. (2022a) used a clinical dataset consisting of 652 MS clinical profiles distributed as
+  follows (CIS had 64, PPMS had 140, RRMS had 233, and SPMS 215). It can be notice-
+  able that CIS class suffers from an imbalance problem.
+● The large variation of MS lesions in images may cause segmentation tasks to work
+  poorly with small sized MS lesions in contrast to cases of larger ones. (e.g., Gros et al.
+  2019; Nair et al. 2020; Coronado et al. 2020) are examples faced this critical problem.
+● Difficulty of having multi-modality MRI sequences may also cause segmentation task
+  work poorly. Where the lack of more than one modality does not give the CAD models
+  the ability to learn more informative features from each modality (e.g., Narayana et al.
+  2020a; Valencia et al. 2022; La Rosa et al. 2022) are examples suffered from this issue.
+● The use of very deep and complex architectures/models may affect the processing time
+  (e.g., Aslani et al. 2019; Ackaouy et al. 2020) are examples faced with this critical prob-
+  lem.
+
+
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…    Page 37 of 49 255
+
+Fig. 11 A comparison of evalua-
+tion results using different met-
+rics for segmentation task
+
+
+
+
+Fig. 12 Distribution of MS diagnosis
+works using segmentation from 2019 to
+2023
+
+
+
+
+7.2 Machine learning risks
+
+Using ML in medical imaging, especially for conditions like MS, has great potential but also
+carries significant risks. Some key risks include:
+
+● Bias and fairness in model predictions:
+
+
+
+
+                                                                                 13
+255 Page 38 of 49                                                              R. M. Thabet et al.
+
+Fig. 13 A comparison of evaluation
+results using different metrics for clas-
+sification task
+
+
+
+
+Fig. 14 Datasets distribution for the task of MS diagnosis from 2019 to 2023
+
+
+
+Machine learning models in MS imaging can be prone to bias due to the composition of
+their training data. In the classification problem, the model’s performance may be skewed
+if it is trained on an imbalanced dataset. For instance, if certain MS types or healthy cases
+are over-represented, the model may perform well on these categories but poorly on under-
+represented MS subtypes, leading to misclassification. In the segmentation problem, where
+the model segments and identifies MS lesions, the model could struggle if the dataset con-
+tains lesions predominantly of one size or severity. A bias towards larger lesions could result
+in missed detection of smaller lesions, which are critical for early diagnosis and monitoring
+of disease progression. Addressing this bias requires careful data curation to ensure a bal-
+anced representation of different MS subtypes, healthy controls, and lesion sizes, allowing
+the model to generalize effectively across the spectrum of MS presentations.
+
+● Data quality and variability:
+
+
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…       Page 39 of 49 255
+
+
+Medical imaging data, especially in MS, is prone to variability across different healthcare
+institutions due to variations in MRI protocols, equipment settings, and technician expertise.
+Such variability can introduce noise and artifacts into the data, which can reduce the reli-
+ability of machine learning models. Additionally, inconsistencies in image quality, patient
+positioning, or contrast use may further affect model predictions. Therefore, ensuring high
+data quality and developing models robust to these variances are critical challenges in
+applying ML to MS diagnosis. Standardizing imaging protocols and using techniques such
+as data augmentation and normalization can help mitigate this risk.
+
+● Overfitting and generalization:
+
+One common issue in developing machine learning models is overfitting, where the model
+becomes too specialized in the training data and fails to generalize to new, unseen data.
+In the case of MS, where lesion characteristics and disease progression vary significantly
+across patients, an overfitted model might perform well in controlled experimental settings
+but fail in real-world clinical environments. This is particularly problematic when train-
+ing on small or homogeneous datasets. To prevent overfitting, techniques such as cross-
+validation, regularization, and the use of larger, more diverse datasets should be employed,
+allowing the model to generalize better to the broader MS population.
+
+● Model interpretability:
+
+Interpretability is a crucial aspect of deploying ML models in clinical practice, particu-
+larly for diseases like MS that require nuanced decision-making. Many advanced models,
+especially deep learning-based approaches, are often considered “black boxes,” making it
+difficult for clinicians to understand why a certain diagnosis or prediction was made. This
+lack of transparency can erode trust in the model’s recommendations, limiting its clinical
+adoption. For ML models to be useful in MS diagnosis and treatment, they must offer clear,
+interpretable outputs that provide insights into which features (e.g., lesion characteristics or
+volume) drive their decisions. Techniques such as attention mechanisms (Guo et al. 2022),
+saliency maps (Boyd et al. 2022), or simpler models can help bridge this gap between model
+complexity and interpretability.
+
+● Regulatory and ethical considerations:
+
+ML models designed for medical applications face significant regulatory and ethical hurdles
+before they can be widely adopted in clinical settings. In the context of MS, regulatory
+agencies such as the FDA (2019) require rigorous validation and evaluation of ML models
+to ensure they meet safety and efficacy standards. Ethical concerns also arise regarding the
+transparency of these models and the protection of sensitive patient data used to train them.
+Given the life-impacting nature of MS diagnoses and treatments, it is essential that ML
+models are not only accurate but also comply with regulatory guidelines and ethical stan-
+dards to maintain patient trust and safety. Developing explainable, privacy-preserving mod-
+els while navigating the regulatory landscape will be key to their successful deployment.
+
+
+
+
+                                                                                    13
+255 Page 40 of 49                                                             R. M. Thabet et al.
+
+
+8 Future research directions
+
+In this section we present research directions which may be able to solve some of the previ-
+ously discussed problems or limitations and help to get better and reliable results.
+
+8.1 Data augmentation:
+
+Multiple sclerosis diagnosis aspects: Segmentation and classification
+   Problem:
+   Limited publicly available MS datasets, ethical issues regarding patient data, and class
+imbalance (fewer MS samples compared to healthy controls (HC) or fewer small MS
+lesions) pose significant challenges to both classification and segmentation tasks.
+   Prospective Solution(s):
+   Traditional techniques: Apply geometric transformations like rotation, flipping, crop-
+ping, and translation to increase the diversity of training data (Mikołajczyk and Grochowski
+2018). These techniques are relatively simple but effective for addressing small sample
+sizes.
+   Advanced synthetic data generation: Cutting-edge methods, such as U-Nets or Auto-
+encoders, can generate high-quality synthetic MS images by learning from the existing data.
+Approaches like those by El-Assiouti et al. (2023) and Salem et al. (2019) have demon-
+strated the potential of such models to simulate MS pathology with higher accuracy, specifi-
+cally targeting the generation of small lesions, a critical limitation in segmentation tasks.
+   Potential advancements: Investigation into applying diffusion models (Wu et al. 2024)
+or GAN variants like StyleGAN (Karras et al. 2019) for more detailed synthesis of MS
+lesions could provide further accuracy in medical image generation. Focus on simulating
+rare MS lesions that can improve performance in real-world diagnosis.
+
+8.2 Domain adaptation
+
+Multiple sclerosis diagnosis aspects: Segmentation and classification
+   Problem:
+   Limited target domain data for MS classification and lesion segmentation tasks.
+   Prospective solution(s):
+   Transfer learning: Leverage large-scale MRI datasets from similar domains (e.g., brain
+tumors) and fine-tune the model using the limited MS data. Domain adaptation strategies
+by Ghafoorian et al. (2017) and Kamnitsas et al. (2017) have shown promise in brain lesion
+segmentation.
+   Adversarial domain adaptation: Techniques such as those discussed by Guan and Liu
+(2021) can be explored further, where adversarial learning adjusts the decision boundary
+between source and target domains, enhancing the model’s adaptability to the target MS
+domain.
+   Potential advancements: Further research should focus on domain-specific loss func-
+tions to better capture fine-grained differences between brain tumor lesions and MS lesions.
+Additionally, unsupervised domain adaptation techniques that reduce dependency on
+labeled data should be explored.
+
+
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…        Page 41 of 49 255
+
+
+8.3 Image-to-image translation
+
+Multiple sclerosis diagnosis aspects: Segmentation task
+    Problem:
+    Lack of direct access to sufficient MS MRI images and the challenge of transferring
+lesion characteristics from one domain (e.g., brain tumors) to another (MS lesions).
+    Prospective solution(s):
+    GANs for MRI translation: Use GAN-based models to map between MRI images from
+different medical conditions. Zhu et al. (2017) introduced CycleGAN, which is a promising
+approach for generating synthetic MS images from a related domain such as brain tumor
+MRI.
+    Application in small lesion synthesis: Advanced GAN architectures like StyleGAN3
+(Zhu et al. 2023) or Diffusion Models (Wu et al. 2024) can be explored to create better qual-
+ity and higher resolution images of MS lesions. These can be especially useful for generat-
+ing hard-to-detect small MS lesions that are underrepresented in current datasets.
+    Potential advancements: Focus on extending image-to-image translation to multi-
+modal MRI datasets, combining different MRI sequences to create more diverse and realis-
+tic synthetic images for both classification and segmentation tasks.
+
+8.4 Zero-shot learning (ZSL):
+
+Multiple sclerosis diagnosis aspects: classification task
+    Problem:
+    The inability to generalize existing models to handle unseen data distributions, particu-
+larly when dealing with new MS cases that were not part of the training dataset.
+    Prospective solution(s):
+    ZSL for MS classification: ZSL enables models trained on “seen” domains (e.g., brain
+tumors) to classify “unseen” domains such as MS clinical profiles or distinguish between
+MS and HC cases, as proposed by Kodirov et al. (2017) in the Semantic Autoencoder for
+Zero-Shot Learning (SAE-ZSL).
+    Generalized ZSL for real-world adaptability: Techniques discussed by Pourpanah et
+al. (2023) offer solutions for generalizing ZSL to real-world scenarios, where models need
+to adapt rapidly to new data types without additional training.
+    Potential advancements: Further work should focus on improving ZSL for rare lesion
+types in MS, developing hybrid models that combine ZSL with few-shot learning for better
+adaptability. Additionally, investigation of how ZSL can be incorporated into the segmenta-
+tion domain to identify unseen lesion types.
+
+
+9 Conclusion
+
+In this paper, we provide a detailed review of recent literature in the field of MS diagnosis,
+specifically classification of MS and segmentation of MS lesions. We presented all datasets
+used by these literatures; preprocessing methods applied. Also, a detailed taxonomy struc-
+ture is provided for the reviewed literatures related to their topic (i.e., classification or seg-
+mentation) and brief description for top works and a summarization for all literatures were
+
+
+                                                                                      13
+255 Page 42 of 49                                                                                            R. M. Thabet et al.
+
+
+presented. Experimental results and a brief discussion were also provided to all literatures
+and how top results gained. We reviewed future research directions to address the difficul-
+ties that were highlighted and identified probable challenges. Hoping this paper provides
+researchers with a good and reliable understanding of MS diagnosis problem and how to
+solve its challenges.
+
+Author contribution R.M.T. is the main contributor. He wrote the manuscript text and references in the
+suitable format, prepared Figs. 1- 14, and prepared tables 1–11—D.K, M.B., and H.A.S. are the supervisors
+where they provide the first author with supportive guidance to make this review research such as provid-
+ing some of the research papers included in this review, reviewing the technical structure and text of the
+work, and guidance to the suitable structure and presentation of the whole work.—All authors reviewed the
+manuscript.
+
+Funding Open access funding provided by The Science, Technology & Innovation Funding Authority
+(STDF) in cooperation with The Egyptian Knowledge Bank (EKB).
+
+Data availability No datasets were generated or analysed during the current study.
+
+Declarations
+
+Competing interests The authors declare no competing interests.
+
+Open Access This article is licensed under a Creative Commons Attribution 4.0 International License,
+which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as
+you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons
+licence, and indicate if changes were made. The images or other third party material in this article are
+included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material.
+If material is not included in the article’s Creative Commons licence and your intended use is not permitted
+by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the
+copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.
+
+
+
+References
+Abolvardi AA, Hamey L, Ho-Shon K (2019) Registration based data augmentation for multiple sclerosis
+     lesion segmentation. In: Digital Image Computing: Techniques and Applications (DICTA) 2019, pp.
+     1-5. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​0​9​/​D​I​​C​T​A​4​7​​8​2​2​.​2​0​​1​9​.​8​​9​4​6​0​2​2
+Ackaouy A, Courty N, Vallée E, Commowick O, Barillot C, Galassi F (2020) Unsupervised domain adapta-
+     tion with optimal transport in multi-site segmentation of multiple sclerosis lesions from MRI data. Front
+     Comp Neurosci. https://doi.org/10.3389/fncom.2020.00019
+Afzal HM et al (2021) Automatic and robust segmentation of multiple sclerosis lesions with convolutional
+     neural networks. Comp, Mater Continua. https://doi.org/10.32604/cmc.2020.012448
+Alijamaat A, NikravanShalmani A, Bayat P (2020) Multiple sclerosis identification in brain MRI images
+     using wavelet convolutional neural networks. Int J Imaging Syst Technol. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​0​2​/​i​m​
+     a​.​2​2​4​9​2​​​​
+Andresen J, Hristina Uzunova J, Ehrhardt TK, Handels H (2022) Image registration and appearance adapta-
+     tion in non-correspondent image regions for new MS lesions detection. Front Neurosci. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​
+     /​1​0​.​3​3​8​9​/​f​n​in​ ​s​.​2​0​2​2​.​9​8​1​5​2​3​​​​
+Ashtari P, Barile B, Van Huffel S, Sappey-Marinier D (2022) New multiple sclerosis lesion segmentation
+     and detection using pre-activation U-Net. Front Neurosci. https://doi.org/10.3389/fnins.2022.975862
+Aslani S et al (2019) Multi-branch convolutional neural network for multiple sclerosis lesion segmentation.
+     Neuroimage 196:1–15. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​1​6​/​j​.​​n​e​u​r​o​​i​m​a​g​e​.​​2​0​1​9​​.​0​3​.​0​6​8
+Aslani S, Murino V, Dayan M, Tam R, Sona D, Hamarneh G (2020) Scanner invariant multiple sclerosis
+     lesion segmentation from MRI. In: 2020 IEEE 17th International Symposium on Biomedical Imaging
+     (ISBI), pp. 781–785. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​0​9​/​I​S​​B​I​4​5​7​​4​9​.​2​0​2​​0​.​9​0​​9​8​7​2​1
+
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…                                                                           Page 43 of 49 255
+
+Bailey WM (2007) Fast fluid attenuated inversion recovery (FLAIR) imaging and associated artefacts in
+     magnetic resonance imaging (MRI). Radiography 13(4):283–290. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​1​6​/​j​.​r​a​d​i​.​2​0​0​6​
+     .​0​3​.​0​0​5​​​​
+Baliyan V, Das CJ, Sharma R, Gupta AK (2016) Diffusion weighted imaging: technique and applications.
+     World J Radiol 8(9):785. https://doi.org/10.4329/wjr.v8.i9.785
+Bank D, Koenigstein N, Giryes R (2021) Autoencoders. arXiv preprint arXiv:2003.05991. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​
+     0​.​4​8​5​5​0​/​a​r​X​i​v​.​2​0​0​3​.​0​5​9​9​1​​​​​​​
+Barile B et al (2022) Classification of multiple sclerosis clinical profiles using machine learning and grey
+     matter connectome. Front Robotics and AI. https://doi.org/10.3389/frobt.2022.926255
+Barile B, Marzullo A, Stamile C, Durand-Dubief F, Sappey-Marinier D (2021) Data augmentation using
+     generative adversarial neural networks on brain structural connectivity in multiple sclerosis. Comput
+     Methods Programs Biomed 206:106113. https://doi.org/10.1016/j.cmpb.2021.106113
+Barile B, Marzullo A, Stamile C, Durand-Dubief F, Sappey-Marinier D (2021). Tensor factorization of brain
+     structural graph for unsupervised classification in multiple sclerosis. Proceedings of the 25th Interna-
+     tional Conference on Pattern Recognition (ICPR), pp. 5052–5059. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​0​9​/​I​C​​P​R​4​8​8​​0​6​
+     .​2​0​2​​1​.​9​4​​1​2​4​9​1
+Barile B, Marzullo A, Stamile C, Durand-Dubief F, Sappey-Marinier D (2022) Ensemble learning for mul-
+     tiple sclerosis disability estimation using brain structural connectivity. Brain Connectivity. ​h​t​t​p​s​:​/​/​d​o​i​.​o​
+     r​g​/​1​0​.​1​0​8​9​/​b​r​a​i​n​.​2​0​2​0​.​1​0​0​3​​​​
+Barquero G et al (2020) RimNet: a deep 3D multimodal MRI architecture for paramagnetic rim lesion assess-
+     ment in multiple sclerosis. NeuroImage: Clin. https://doi.org/10.1016/j.nicl.2020.102412
+Basaran BD, Matthews PM, Bai W (2022) New lesion segmentation for multiple sclerosis brain images with
+     imaging and lesion-aware augmentation. Front Neurosci. https://doi.org/10.3389/fnins.2022.1007453
+BetterHealth Channel (2021) Multiple sclerosis (MS)-common symptoms. ​h​t​t​p​s​:​​/​/​w​w​w​​.​b​e​t​t​e​​r​h​e​a​​l​t​h​.​v​​i​c​.​g​o​​v​
+     .​a​u​/​h​​e​a​l​t​​h​/​c​o​n​​d​i​t​i​o​​n​s​a​n​d​t​​r​e​a​t​​m​e​n​t​s​​/​m​u​l​t​​i​p​l​e​-​s​​c​l​e​r​​o​s​i​s​-​m​s​-​c​o​m​m​o​n​-​s​y​m​p​t​o​m​s. Accessed 11 Mar. 2024
+Boyd A, Bowyer KW, Czajka A (2022). Human-aided saliency maps improve generalization of deep learn-
+     ing. Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV),
+     pp. 1255–1264. https://doi.org/10.1109/wacv51458.2022.00132
+Brain-development (2016) IXI Dataset. https://brain-development.org/ixi-dataset/. Accessed 11 Mar 2024
+Breiman L (2001) Random forests. Mach Learn. https://doi.org/10.1023/a:1010933404324
+Brown RA et al (2020) Deep learning segmentation of orbital fat to calibrate conventional MRI for longitudi-
+     nal studies. Neuroimage 208:116442. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​1​6​/​j​.​​n​e​u​r​o​​i​m​a​g​e​.​​2​0​1​9​​.​1​1​6​4​4​2
+Cao B, He L, Wei X, Xing M, Yu PS, Klumpp H, Leow AD (2017) t-BNE: tensor-based brain network
+     embedding. In: Proceedings of the 2017 SIAM International Conference on Data Mining, pp. 189–197.
+     https://doi.org/10.1137/1.9781611974973.22
+Castellano G, Placidi G, Polsinelli M, Tulipani G, Vessio G (2023). Unsupervised brain MRI anomaly detec-
+     tion for multiple sclerosis classification. In: Pattern Recognition, Computer Vision, and Image Process-
+     ing. ICPR 2022 International Workshops and Challenges. Springer Nature Switzerland, vol. 13643, pp.
+     644-652. https://doi.org/10.1007/978-3-031-37660-3_45
+Chen T, Guestrin C (2016). XGBoost: a scalable tree boosting system. In: Proceedings of the 22nd ACM
+     SIGKDD International Conference on Knowledge Discovery and Data Mining, pp. 785–794. ​h​t​t​p​s​:​/​/​d​
+     o​i​.​o​r​g​/​1​0​.​1​1​4​5​/​2​9​3​9​6​7​2​.​2​9​3​9​7​8​5​​​​
+Chen Y, Almarzouqi SJ, Morgan ML, Lee AG (2018) T1-weighted image. Encycl Ophthalmol. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​
+     g​/​1​​0​.​1​0​​0​7​/​9​7​​8​-​3​-​5​​4​0​-​6​9​0​​0​0​-​9​​_​1​2​2​8
+Chen Y, Almarzouqi SJ, Morgan ML, Lee AG (2018) T2-weighted image. Encycl Ophthalmol. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​
+     g​/​1​​0​.​1​0​​0​7​/​9​7​​8​-​3​-​5​​4​0​-​6​9​0​​0​0​-​9​​_​1​2​2​9
+Chung J, Gulcehre C, Cho K, Bengio Y (2014). Empirical evaluation of gated recurrent neural networks on
+     sequence modeling. arXiv preprint arXiv:1412.3555. https://doi.org/10.48550/arXiv.1412.3555
+Cobo G, Conci A, Moreno AB, Hernández-Tamames JA (2014) Rician noise attenuation in the wavelet
+     packet transformed domain for brain MRI. Integr Comp-Aided Eng 21(2):163–175. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​
+     0​.​3​2​3​3​/i​​c​a-​ ​1​3​0​4​5​7​​​​
+Coll L et al (2023) Deciphering multiple sclerosis disability with deep learning attention maps on clinical
+     MRI. NeuroImage: Clin. https://doi.org/10.1016/j.nicl.2023.103376
+Coronado I, Gabr RE, Narayana PA (2020) Deep learning segmentation of gadolinium-enhancing lesions in
+     multiple sclerosis. Mult Sclerosis J. https://doi.org/10.1177/1352458520921364
+Cortes C, Vapnik V (1995) Support-vector networks. Mach Learn 20(3):273–297. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​0​7​/​b​
+     f​0​0​9​9​4​0​1​8​​​​
+Cox DR (1958) The regression analysis of binary sequences. J Roy Stat Soc: Ser B (Methodol) 20(2):215–
+     232. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​1​1​/​j​.​​2​5​1​7​-​​6​1​6​1​.​1​​9​5​8​.​​t​b​0​0​2​9​2​.​x
+
+
+
+
+                                                                                                                                                              13
+255 Page 44 of 49                                                                                                                  R. M. Thabet et al.
+
+Cunill V et al (2018) Relapsing-remitting multiple sclerosis is characterized by a T follicular cell pro-inflam-
+      matory shift, reverted by dimethyl fumarate treatment. Front Immunol 9:1097. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​3​3​8​9​
+      /​f​i​m​m​u​.​2​0​1​8​.​0​1​0​9​7​​​​
+Dağdeviren ZA, Oğuz K, Cinsdikici M (2015) Automatic registration of structural brain MR images to MNI
+      image space. In: 23rd Signal Processing and Communications Applications Conference (SIU), Malatya,
+      Turkey, 2015, pp. 359–362. https://doi.org/10.1109/SIU.2015.7129833
+Dorogush AV, Ershov V, Gulin A (2018) CatBoost: gradient boosting with categorical features support. arXiv
+      preprint arXiv:1810.11363. https://doi.org/10.48550/arXiv.1810.11363
+Efendi H (2016) Clinically isolated syndromes: clinical characteristics, differential diagnosis, and manage-
+      ment. Noro Psikiyatri Arsivi 52(Suppl. 1):1–11. https://doi.org/10.5152/npa.2015.12608
+Eitel F et al (2019) Uncovering convolutional neural network decisions for diagnosing multiple sclerosis on
+      conventional MRI using layer-wise relevance propagation. NeuroImage: Clin. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​1​6​
+      /​j​.​n​i​cl​​.​2​0​1​9​.​1​0​2​0​0​3​​​​
+El-Assiouti OS, Hamed G, El-Saadawy H, Ebied HM, and Khattab D (2023) RegionInpaint, Cutoff and
+      RegionMix: introducing novel augmentation techniques for enhancing the generalization of brain tumor
+      identification. IEEE Access, (11);83232–83250. https://doi.org/10.1109/ACCESS.2023.3301873
+Eshaghi A et al (2021) Identifying multiple sclerosis subtypes using unsupervised machine learning and MRI
+      data. Nat Commun. https://doi.org/10.1038/s41467-021-22265-2
+Essa E et al (2020) Neuro-fuzzy patch-wise R-CNN for multiple sclerosis segmentation. Med Biol Eng Comp
+      58(9):2161–2175. https://doi.org/10.1007/s11517-020-02225-6
+FDA (2019) Proposed Regulatory Framework for Modifications to Artificial Intelligence/Machine Learning-
+      Based Software as a Medical Device (SaMD). https://www.fda.gov. Accessed 27 Oct. 2024.
+Feng Y, Pan H, Meyer C, Feng X (2019) A self‑adaptive network for multiple sclerosis lesion segmentation
+      from multi‑contrast MRI with various imaging sequences. In: 2019 IEEE 16th International Symposium
+      on Biomedical Imaging (ISBI 2019), Venice, Italy, pp. 472–475. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​1​0​9​/​I​S​B​I​.​2​0​1​9​.​8​7​
+      5​9​5​2​2​​​​
+Fenneteau A, Bourdon P, Helbert D, Fernandez-Maloigne C, Habas CN, Guillevin R (2020) Learning a CNN
+      on multiple sclerosis lesion segmentation with self-supervision. In: 3D Measurement and Data Process-
+      ing, IS&T Electronic Imaging 2020 Symposium.
+Friedman JH (2001) Greedy function approximation: a gradient boosting machine. Ann Stat 29(5):1189–1232
+Gabr RE, Coronado I, Robinson M, Sujit SJ, Datta S, Sun X, Allen WJ, Lublin FD, Wolinsky JS, Narayana
+      PA (2019). Brain and lesion segmentation in multiple sclerosis using fully convolutional neural net-
+      works: A large‑scale study. Multiple sclerosis (Houndmills, Basingstoke, England), 26(10): 1217–1226.
+      https://doi.org/10.1177/1352458519856843
+Gessert N, Bengs M, Krüger J, Opfer R, Ostwaldt AC, Manogaran P, Schippling S, Schlaefer A (2020) 4D
+      deep learning for multiple sclerosis lesion activity segmentation. arXiv preprint arXiv:2004.09216v2.
+      https://doi.org/10.48550/arXiv.2004.09216
+Gessert N et al (2020) Multiple sclerosis lesion activity segmentation with attention-guided two-path CNNs.
+      Comput Med Imaging Graph 84:101772. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​1​6​/​j​.​​c​o​m​p​m​​e​d​i​m​a​g​​.​2​0​2​​0​.​1​0​1​7​7​2
+Ge Y, Grossman RI, Udupa JK, Babb JS, Mannon LJ, McGowan JC (2002) Magnetization transfer ratio
+      histogram analysis of normal-appearing gray matter and normal-appearing white matter in multiple
+      sclerosis. J Comput Assist Tomogr 26(1):62–68. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​9​7​/​0​0​​0​0​4​7​2​​8​-​2​0​0​2​​0​1​0​0​​0​-​0​0​0​0​9
+Ghafoorian M, Mehrtash A, Kapur T, Karssemeijer N, Marchiori E, Pesteie M, Guttmann CRG, de Leeuw
+      FE, Tempany CM, van Ginneken B, Fedorov A, Abolmaesumi P, Platel B, Wells WM III (2017) Trans-
+      fer learning for domain adaptation in MRI: application in brain lesion segmentation. In: Descoteaux M,
+      Maier-Hein L, Franz A, Jannin P, Collins D, Duchesne S (eds) Medical Image Computing and Computer
+      Assisted Intervention– MICCAI 2017. MICCAI 2017. Lecture Notes in Computer Science, vol. 10435,
+      pp. 516–524. Springer, Cham. https://doi.org/10.1007/978-3-319-66179-7_59
+Ghosal P, Prasad PKC, Nandi D (2019) A light weighted deep learning framework for multiple sclerosis
+      lesion segmentation. In: 2019 Fifth International Conference on Image Information Processing (ICIIP),
+      Shimla, India, pp. 526–531.
+Giacopelli G, Migliore M, Tegolo D (2020) Graph-theoretical derivation of brain structural connectivity.
+      Appl Math Comput 377:125150–125150. https://doi.org/10.1016/j.amc.2020.125150
+Grand Challenge (2020) Digestive-System Pathological Detection and Segmentation Challenge 2019. ​h​t​t​p​s​:​
+      /​/​d​i​g​e​s​t​p​a​t​h​2​0​1​9​.​g​r​a​n​d​-​c​h​a​l​l​e​n​g​e​.​o​r​g​/​​​​. Accessed 11 Mar. 2024
+Greve DN, Fischl B (2009) Accurate and robust brain image alignment using boundary-based registration.
+      Neuroimage 48(1):63–72. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​1​6​/​j​.​​n​e​u​r​o​​i​m​a​g​e​.​​2​0​0​9​​.​0​6​.​0​6​0
+Gros C et al (2019) Automatic segmentation of the spinal cord and intramedullary multiple sclerosis lesions
+      with convolutional neural networks. Neuroimage 184:901–915. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​1​6​/​j​.​​n​e​u​r​o​​i​m​a​g​e​.​​
+      2​0​1​8​​.​0​9​.​0​8​1
+
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…                                                                   Page 45 of 49 255
+
+Guan H, Liu M (2021) Domain adaptation for medical image analysis: a survey. IEEE Trans. Biomed. Eng.
+     69(3):1173–1185, March 2022. https://doi.10.1109/TBME.2021.3117407
+Guo G, Wang H, Bell D, Bi Y, Greer K (2003) KNN model-based approach in classification. In: Meersman
+     R, Tari Z, Schmidt DC (eds) On the move to meaningful internet systems 2003: CoopIS, DOA, and
+     ODBASE. OTM 2003. Lecture Notes in Computer Science, vol. 2888, pp. 986–996. Springer, Berlin,
+     Heidelberg. https://doi.org/10.1007/978-3-540-39964-3_62
+Guo MH et al (2022) Attention mechanisms in computer vision: a survey. Comp Visual Med 8:331–368.
+     https://doi.org/10.1007/s41095-022-0271-y
+Hashemi M, Akhbari M, Jutten C (2022) Delve into multiple sclerosis (MS) lesion exploration: a modified
+     attention U-Net for MS lesion segmentation in brain MRI. Comput Biol Med 145:105402. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​
+     r​g​/​1​​0​.​1​0​​1​6​/​j​.​​c​o​m​p​b​​i​o​m​e​d​.​​2​0​2​2​​.​1​0​5​4​0​2
+Hatamizadeh A, Yang D, Roth HR, Xu D (2022) UNETR: transformers for 3D medical image segmentation.
+     In: 2022 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 1748–1758.
+     https://doi.org/10.1109/WACV51458.2022.00181
+Hindsholm AM et al (2023) Scanner agnostic large-scale evaluation of MS lesion delineation tool for clinical
+     MRI. Front Neurosci 17:1177540. https://doi.org/10.3389/fnins.2023.1177540
+Hitziger S, Ling WX, Fritz T, D’Albis T, Lemke A, Grilo J (2022) Triplanar U-Net with lesion-wise voting
+     for the segmentation of new lesions on longitudinal MRI studies. Front Neurosci. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​3​3​
+     8​9​/f​ ​n​i​n​s​.​2​0​2​2​.​9​6​4​2​5​0​​​​
+Hou B, Kang G, Xu X, Hu C (2019) Cross attention densely connected networks for multiple sclerosis lesion
+     segmentation. In: 2019 IEEE International Conference on Bioinformatics and Biomedicine (BIBM),
+     San Diego, CA, USA, pp. 2356–2361. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​0​9​/​B​I​​B​M​4​7​2​​5​6​.​2​0​1​​9​.​8​9​​8​3​1​4​9
+Hrishi AP, Sethuraman M (2019) Cerebrospinal fluid (CSF) analysis and interpretation in neurocritical care
+     for acute neurological conditions. Indian J Crit Care Med: Peer-Rev, Off Publ Indian Soc Crit Care Med
+     23(Suppl 2):S115–S119. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​5​0​​0​5​/​j​p​​-​j​o​u​r​​n​a​l​s​-​1​​0​0​7​1​​-​2​3​1​8​7
+Hua L, Gu Y, Gu X, Xue J, Ni T (2021) A Novel brain MRI image segmentation method using an improved
+     multi-view fuzzy c-means clustering algorithm. Front Neurosci. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​3​3​8​9​/​f​n​i​n​s​.​2​0​2​1​.​6​6​
+     2​6​7​4​​​​
+Hu C, Kang G, Hou B, Ma Y, Labeau F, Su Z (2020) Acu‑Net: a 3D attention context U‑Net for multiple
+     sclerosis lesion segmentation. In: ICASSP 2020– 2020 IEEE International Conference on Acoustics,
+     Speech and Signal Processing (ICASSP), Barcelona, Spain, pp. 1384–1388. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​0​9​/​I​C​​
+     A​S​S​P​4​​0​7​7​6​.​2​​0​2​0​.​​9​0​5​4​6​1​6
+Jang JSR (1993) ANFIS: adaptive-network-based fuzzy inference system. IEEE Trans Syst Man Cybern
+     23(3):665–685. https://doi.org/10.1109/21.256541
+Jenkinson M, Bannister P, Brady M, Smith S (2002) Improved optimization for the robust and accurate linear
+     registration and motion correction of brain images. Neuroimage 17(2):825–841. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​0​
+     6​/​n​i​m​g​.​2​0​0​2​.​1​1​3​2​​​​
+Jenkinson M, Smith S (2001) A global optimisation method for robust affine registration of brain images.
+     Med Image Anal 5(2):143–156. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​1​6​/​s​1​3​6​1​-​8​4​1​5​(​0​1​)​0​0​0​3​6​-​6
+Kaggle (2023) Brain Tumor Segmentation. ​h​t​t​p​s​:​​/​/​w​w​w​​.​k​a​g​g​l​​e​.​c​o​​m​/​d​a​t​​a​s​e​t​s​​/​a​n​d​r​e​​w​m​v​d​​/​b​r​a​i​​n​-​t​u​m​​o​r​-​s​e​g​​m​
+     e​n​t​​a​t​i​o​n​-​i​n​-​m​r​i​-​b​r​a​t​s​-​2​0​1​5. Accessed 11 Mar. 2024
+Kaggle (2023) Myelitis Dataset Three Classes. ​h​t​t​p​s​:​​/​/​w​w​w​​.​k​a​g​g​l​​e​.​c​o​​m​/​d​a​t​​a​s​e​t​s​​/​t​u​r​k​e​​r​t​u​n​​c​e​r​/​m​y​e​l​i​t​i​s​3​c​l​a​s​
+     s​e​s. Accessed 11 Mar 2024
+Kalavathi P, Prasath VBS (2015) Methods on skull stripping of MRI head scan images—A review. J Digit
+     Imaging 29(3):365–379. https://doi.org/10.1007/s10278-015-9847-8
+Kamnitsas K, Baumgartner CF, Ledig C, Newcombe VFJ, Simpson JP, Kane AD, Menon DK, Nori AV, Cri-
+     minisi A, Rueckert D, Glocker B (2017) Unsupervised domain adaptation in brain lesion segmentation
+     with adversarial networks. In: Niethammer M, et al. (eds) Information Processing in Medical Imaging.
+     IPMI 2017. Lecture Notes in Computer Science, vol. 10265, pp. 597–609. Springer, Cham. ​h​t​t​p​s​:​/​/​d​o​i​.​
+     o​r​g​/​1​0​.​1​0​0​7​/​9​7​8​-​3​-​3​1​9​-​5​9​0​5​0​-​9​_​4​7​​​​
+Kamraoui RA, Ta V-T, Tourdias T, Mansencal B, Manjon JV, Coupé P (2022) DeepLesionBrain: towards
+     a broader deep-learning generalization for multiple sclerosis lesion segmentation. Med Image Anal
+     76:102312. https://doi.org/10.1016/j.media.2021.102312
+Karras T, Laine S, Aila T (2019) A style‑based generator architecture for generative adversarial networks. In:
+     2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), Long Beach, CA,
+     USA, pp. 4396–4405. https://doi.org/10.1109/CVPR.2019.00453
+Kats E, Goldberger J, Greenspan H (2019) Soft labeling by distilling anatomical knowledge for improved MS
+     lesion segmentation. In: 2019 IEEE 16th International Symposium on Biomedical Imaging (ISBI), pp.
+     1563–1566. https://doi.org/10.1109/ISBI.2019.8759518
+Ke G, Meng Q, Finley T, Wang T, Chen W, Ma W, Ye Q, Liu T (2017) LightGBM: a highly efficient gradient
+     boosting decision tree. In: Advances in Neural Information Processing Systems 30.
+
+
+                                                                                                                                                      13
+255 Page 46 of 49                                                                                                                          R. M. Thabet et al.
+
+Kocevar G et al (2016) Graph theory-based brain connectivity for automatic classification of multiple sclero-
+     sis clinical courses. Front Neurosci. https://doi.org/10.3389/fnins.2016.00478
+Kodirov E, Xiang T, Gong S (2017) Semantic autoencoder for zero‑shot learning. In: 2017 IEEE Conference
+     on Computer Vision and Pattern Recognition (CVPR), Honolulu, HI, USA, pp. 4447–4456. ​h​t​t​p​s​:​/​/​d​o​i​
+     .​o​r​g​/​1​0​.​1​1​0​9​/​C​V​P​R​.​2​0​1​7​.​4​7​3​​​​
+Krüger J et al (2020) Fully automated longitudinal segmentation of new or enlarged multiple sclerosis lesions
+     using 3D convolutional neural networks. NeuroImage: Clin. https://doi.org/10.1016/j.nicl.2020.102445
+Krishnamoorthy S et al (2023) Automatic intelligent system using medical of things for multiple sclerosis
+     detection. Comput Intell Neurosci 2023:1–12. https://doi.org/10.1155/2023/4776770
+Krishnan AP, Song Z, Clayton D, Jia X, de Crespigny A, Carano RAD (2023) Multi-arm U-Net with dense
+     input and skip connectivity for T2 lesion segmentation in clinical trials of multiple sclerosis. Sci Rep.
+     https://doi.org/10.1038/s41598-023-31207-5
+Kumar A, Murthy ON, Nandi D, et al (2019) A dense U‑Net architecture for multiple sclerosis lesion seg-
+     mentation. In: 2019 IEEE Region 10 Conference (TENCON), October 17–20, 2019, Kochi, India, pp.
+     662-667. https://doi.org/10.1109/TENCON.2019.8929615
+Kushol R et al (2023) SF2Former: Amyotrophic lateral sclerosis identification from multi-center MRI data
+     using spatial and frequency fusion transformer. Comput Med Imaging Graph 108:102279–102279. ​h​t​t​p​
+     s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​1​6​/​j​.​​c​o​m​p​m​​e​d​i​m​a​g​​.​2​0​2​​3​.​1​0​2​2​7​9
+Laboratory of Imaging Technologies (2023) 3D-MR-MS. ​h​t​t​p​s​:​​/​/​l​i​t​​.​f​e​.​u​n​​i​-​l​j​​.​s​i​/​e​​n​/​r​e​s​​e​a​r​c​h​/​​r​e​s​o​​u​r​c​e​s​/​3​D​-​M​
+     R​-​M​S​/. Accessed 11 Mar. 2024
+Laboratory of Imaging Technologies (2023) long-MR-MS. ​h​t​t​p​s​:​​/​/​l​i​t​​.​f​e​.​u​n​​i​-​l​j​​.​s​i​/​e​​n​/​r​e​s​​e​a​r​c​h​/​​r​e​s​o​​u​r​c​e​s​/​l​o​n​g​-​
+     M​R​-​M​S​/. Accessed 11 Mar. 2024
+La Rosa F, et al (2020) Automated detection of cortical lesions in multiple sclerosis patients with 7T MRI.
+     In: Martel AL, et al. (eds) Medical Image Computing and Computer Assisted Intervention– MICCAI
+     2020. Lecture Notes in Computer Science, vol. 12264, pp. 584–593, Springer, Cham. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​
+     0​.​1​0​0​7​/9​ ​7​8​-​3​-0​ ​3​0​-​5​9​7​1​9​-​1​_​5​7​​​​
+La Rosa F et. al (2020) Multiple sclerosis cortical and WM lesion segmentation. NeuroImage: Clin. ​h​t​t​p​s​:​/​/​
+     d​o​i​.​o​r​g​/​1​0​.​1​0​1​6​/​j​.​n​i​c​l​.​2​0​2​0​.​1​0​2​3​3​5​​​​
+La Rosa F et al (2022) Multiple sclerosis cortical lesion detection with deep learning at ultra-high-field MRI.
+     NMR in Biomed. https://doi.org/10.1002/nbm.4730
+Long J, Shelhamer E, Darrell T (2015) Fully convolutional networks for semantic segmentation. In: 2015
+     IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Boston, MA, USA, pp. 3431–
+     3440. https://doi.org/10.1109/CVPR.2015.7298965
+Luo G, Xie W, Gao R, Zheng T, Chen L, Sun H (2023) Unsupervised anomaly detection in brain MRI: Learn-
+     ing abstract distribution from massive healthy brains. Comput Biol Med 154:106610. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​
+     0​.​1​0​​1​6​/​j​.​​c​o​m​p​b​​i​o​m​e​d​.​​2​0​2​3​​.​1​0​6​6​1​0
+Macaron G, Ontaneda D (2019) Diagnosis and management of progressive multiple sclerosis. Biomedicines
+     7(3):56. https://doi.org/10.3390/biomedicines7030056
+Manson EN, Inkoom S, Mumuni AN (2022) Impact of magnetic field inhomogeneity on the quality of mag-
+     netic resonance images and compensation techniques: a review. Rep Med Imaging 15:43–56. ​h​t​t​p​s​:​/​/​d​
+     o​i​.​o​r​g​/​1​0​.​2​1​4​7​/​r​m​i​.​s​3​6​9​4​9​1​​​​
+Marzullo A et al (2019) Classification of multiple sclerosis clinical profiles via graph convolutional neural
+     networks. Front Neurosci. https://doi.org/10.3389/fnins.2019.00594
+McKinley R et al (2019) Simultaneous lesion and neuroanatomy segmentation in Multiple Sclerosis using
+     deep neural networks. Sci Rep 11(1):1087
+McKinley R et al (2020) Automatic detection of lesion load change in Multiple Sclerosis using convolutional
+     neural networks with segmentation confidence. NeuroImage: Clin. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​1​6​/​j​.​n​i​c​l​.​2​0​1​9​
+     .​1​0​2​1​0​4​​​​
+McKinley R et al (2020) Robustness of simultaneous lesion and neuroanatomy segmentation in multiple
+     sclerosis using deep neural networks. SSRN Electron J. https://doi.org/10.2139/ssrn.3529469
+McVeigh ER, Henkelman RM, Bronskill MJ (1985) Noise and filtration in magnetic resonance imaging. Med
+     Phys 12(5):586–591. https://doi.org/10.1118/1.595679
+Mikołajczyk A, Grochowski M (2018) Data augmentation for improving deep learning in image classifica-
+     tion problem. 2018 International Interdisciplinary PhD Workshop (IIPhDW), Świnouście, Poland, pp.
+     117–122. https://doi.org/10.1109/IIPHDW.2018.8388338
+Miller D, Thompson AS, Filippi M (2003) Magnetic resonance studies of abnormalities in the normal appear-
+     ing white matter and grey matter in multiple sclerosis. J Neurol 250(12):1407–1419. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​
+     .​1​0​0​7​/s​ ​0​0​41​ ​5​-​0​0​3​-0​ ​2​4​3​-​9​​​​
+Nair T, Precup D, Arnold DL, Arbel T (2020) Exploring uncertainty measures in deep networks for multiple
+     sclerosis lesion detection and segmentation. Med Image Anal 59:101557. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​1​6​/​j​.​m​e​
+     d​i​a​.​2​0​1​9​.​1​0​1​5​5​7​​​​
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…                                             Page 47 of 49 255
+
+Narayana PA, Coronado I, Sujit SJ, Sun X, Wolinsky JS, Gabr RE (2020) Are multi-contrast magnetic reso-
+     nance images necessary for segmenting multiple sclerosis brains? A large cohort study based on deep
+     learning. Magn Reson Imaging 65:8–14. https://doi.org/10.1016/j.mri.2019.10.003
+Narayana PA, Coronado I, Sujit SJ, Wolinsky JS, Lublin FD, Gabr RE (2020) Deep-learning-based neural
+     tissue segmentation of MRI in multiple sclerosis: effect of training set size. J Magn Reson Imaging
+     51(5):1487–1496. https://doi.org/10.1002/jmri.26959
+Narayana PA, Coronado I, Sujit SJ, Wolinsky JS, Lublin FD, Gabr RE (2020) Deep learning for predicting
+     enhancing lesions in multiple sclerosis from noncontrast MRI. Radiology 294(2):398–404. ​h​t​t​p​s​:​/​/​d​o​i​.​
+     o​r​g​/​1​0​.​1​1​4​8​/​r​a​d​i​o​l​.​2​0​1​9​1​9​1​0​6​1​​​​
+NITRC: Neuroimaging Tools & Resources Collaboratory (2015) MICCAI MS Lesion Segmentation Chal-
+     lenge. https://www.nitrc.org/projects/msseg. Accessed 11 Mar. 2024
+Nyul LG, Udupa JK, Zhang X (2000) New variants of a method of MRI scale standardization. IEEE Trans
+     Med Imaging 19(2):143–150. https://doi.org/10.1109/42.836373
+OASIS: Open Access Series Imaging Studies (2007). https://www.oasis-brains.org/#access. Accessed 11 Mar
+     2024
+Park B, Byeon K, Park H (2019) FuNP (Fusion of Neuroimaging Preprocessing) pipelines: a fully automated
+     preprocessing software for functional magnetic resonance imaging. Front Neuroinf. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​
+     3​3​8​9​/f​ ​n​i​n​f​.​2​0​1​9​.​0​0​0​0​5​​​​
+Payares-Garcia D, Mateu J, Krukar J (2023) Spatially informed Bayesian neural network for neurodegenera-
+     tive diseases classification. Stat Med 42(2):105–121. https://doi.org/10.1002/sim.9604
+Pourpanah F et al (2023) A review of generalized zero-shot learning methods. IEEE Trans Pattern Anal Mach
+     Intell 45(4):4051–4070. https://doi.org/10.1109/TPAMI.2022.3191696
+Raab F, Wein S, Greenlee M W, Malloni W, Lang E (2022) A multimodal 2D Convolutional Neural Network
+     for Multiple Sclerosis Lesion Detection. INDIGO (University of Illinois at Chicago). ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​
+     0​.​3​6​2​2​7​/​t​e​c​h​r​x​i​v​.​2​0​2​5​7​7​1​6​​​​
+Rajeshwari S, Sharmila TS (2013) Efficient quality analysis of MRI image using preprocessing techniques.
+     In: 2013 IEEE Conference on Information & Communication Technologies, Thuckalay, India, pp. 391–
+     396. https://doi.org/10.1109/CICT.2013.6558127
+Reinhold JC, Dewey BE, Carass A, Prince JL (2019) Evaluating the impact of intensity normalization on
+     MR image synthesis. In: Angelini ED, Landman BA (eds) Medical Imaging 2019: Image Processing.
+     International Society for Optics and Photonics, SPIE, vol. 10949, p. 109493H. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​1​1​7​
+     /​1​2​.​2​5​1​3​0​8​9​​​​
+Research Center of Excellence (2012) eHealth Lab. https://www.medinfo.cs.ucy.ac.cy/. Accessed 11 Mar
+     2024
+Rondinella A et al (2023) Boosting multiple sclerosis lesion segmentation through attention mechanism.
+     Comput Biol Med 161:107021–107021. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​1​6​/​j​.​​c​o​m​p​b​​i​o​m​e​d​.​​2​0​2​3​​.​1​0​7​0​2​1
+Ronneberger O, Fischer P, Brox T (2015) U‑Net: convolutional networks for biomedical image segmentation.
+     In: Navab N, Hornegger J, Wells W, Frangi A (eds) Medical Image Computing and Computer-Assisted
+     Intervention– MICCAI 2015. MICCAI 2015. Lecture Notes in Computer Science, vol. 9351, pp. 234–
+     241. Springer, Cham. https://doi.org/10.1007/978-3-319-24574-4_28
+Salem M, et al (2019) Multiple sclerosis lesion synthesis in MRI using an encoder‑decoder U‑NET. IEEE
+     Access 7:25171–25184. https://doi.org/10.1109/ACCESS.2019.2900198
+Salem M et al (2020) A fully convolutional neural network for new T2-w lesion detection in multiple sclero-
+     sis. NeuroImage: Clin. https://doi.org/10.1016/j.nicl.2019.102149
+Salem M, Ryan MA, Oliver A, Hussain KF, Lladó X (2022) Improving the detection of new lesions in mul-
+     tiple sclerosis with a cascaded 3D fully convolutional neural network approach. Front Neurosci. ​h​t​t​p​s​:​/​
+     /​d​o​i​.​o​r​g​/​1​0​.​3​3​8​9​/​f​n​i​n​s​.​2​0​2​2​.​1​0​0​7​6​1​9​​​​
+Sander L et al (2019) Accurate, rapid and reliable, fully automated MRI brainstem segmentation for applica-
+     tion in multiple sclerosis and neurodegenerative diseases. Hum Brain Mapp 40(14):4091–4104. ​h​t​t​p​s​:​/​
+     /​d​o​i​.​o​r​g​/​1​0​.​1​0​0​2​/​h​b​m​.​2​4​6​8​7​​​​
+Sarica B, Seker DZ, Bayram B (2023) A dense residual U-net for multiple sclerosis lesions segmentation
+     from multi-sequence 3D MR images. Int J Med Informatics 170:104965. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​1​6​/​j​.​​i​j​m​
+     e​d​​i​n​f​.​2​0​​2​2​.​1​​0​4​9​6​5
+Scarselli F, Gori M, Tsoi AC, Hagenbuchner M, Monfardini G (2009) The graph neural network model. IEEE
+     Trans Neural Net 20(1):61–80. https://doi.org/10.1109/TNN.2008.2005605
+Schapire RE (2013) Explaining AdaBoost. In: Schölkopf B, Luo Z, Vovk V (eds) Empirical Inference.
+     Springer, Berlin, Heidelberg, pp. 37–52. https://doi.org/10.1007/978-3-642-41136-6_5
+Schlaeger S et al (2023) AI-based detection of contrast-enhancing MRI lesions in patients with multiple
+     sclerosis. Insights Imaging. https://doi.org/10.1186/s13244-023-01460-3
+Seok JM et al (2023) Differentiation between multiple sclerosis and neuromyelitis optica spectrum disorder
+     using a deep learning model. Sci Rep 13(1):11625. https://doi.org/10.1038/s41598-023-38271-x
+
+
+                                                                                                                              13
+255 Page 48 of 49                                                                                                                           R. M. Thabet et al.
+
+Sepahvand NM, Arnold DL, Arbel T (2020) CNN detection of new and enlarging multiple sclerosis lesions
+      from longitudinal MRI using subtraction images. In: 2020 IEEE 17th International Symposium on Bio-
+      medical Imaging (ISBI), Iowa City, IA, USA, pp. 127–130. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​0​9​/​I​S​​B​I​4​5​7​​4​9​.​2​0​2​​0​.​9​
+      0​​9​8​5​5​4
+Shanoir (2023) MSSEG and MSSEG-2. https://shanoir.irisa.fr/shanoir-ng/welcome. Accessed 11 Mar 2024
+Sherstinsky A (2020) Fundamentals of recurrent neural network (RNN) and long short-term memory (LSTM)
+      network. Phys D: Nonlinear Phenomena. https://doi.org/10.1016/j.physd.2019.132306
+Shi X, Chen Z, Wang H, Yeung DY, Wong W, Woo W (2015). Convolutional LSTM network: A machine
+      learning approach for precipitation nowcasting. In I. Guyon, U. V. Luxburg, S. Bengio, H. Wallach, R.
+      Fergus, S. Vishwanathan, & R. Garnett (Eds.), Advances in Neural Information Processing Systems 28
+      (pp. 802–810). Curran Associates, Inc.
+Shrwan R, Gupta A (2021) Classification of pituitary tumor and multiple sclerosis brain lesions through convo-
+      lutional neural networks. IOP Conference Series: Materials Science and Engineering, 1049(1):012014.​
+      h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​0​​8​8​/​1​7​​5​7​-​8​9​​9​x​/​1​0​4​​9​/​1​/​​0​1​2​0​1​4
+Siar H, Teshnehlab M (2019) Diagnosing and classification tumors and MS simultaneous of magnetic reso-
+      nance images using convolution neural network. In: 2019 7th Iranian Joint Congress on Fuzzy and Intel-
+      ligent Systems (CFIS), Bojnord, Iran, pp. 1–4. https://doi.org/10.1109/CFIS.2019.8692148
+Silveira SL et al (2020) Symptom clusters and quality of life in persons with multiple sclerosis across the
+      lifespan. Qual Life Res. https://doi.org/10.1007/s11136-020-02689-x
+Smart-Starts-Tools (2022) Longitudinal Multiple Sclerosis Lesion Segmentation Challenge. ​h​t​t​p​s​:​​/​/​s​m​a​​r​t​-​s​t​a​​
+      t​s​-​t​​o​o​l​s​.​​o​r​g​/​l​​e​s​i​o​n​-​​c​h​a​l​​l​e​n​g​e​-​2​0​1​5. Accessed 11 Mar. 2024
+Stetter E, Graumann R, Schmitt F (1985) Preprocessing steps on Fourier MRI raw data. In: Lemke H, Rhodes
+      ML, Jaffee CC, Felix R (eds) Computer assisted radiology / computergestützte radiologie. Springer,
+      Berlin, Heidelberg. https://doi.org/10.1007/978-3-642-52247-5_10
+Sun P et al (2020) Diffusion basis spectrum imaging provides insights into MS pathology. Neurol: Neuroim-
+      munol Neuroinf. https://doi.org/10.1212/nxi.0000000000000655
+Tatli S et al (2024) Transfer-transfer model with MSNet: an automated accurate multiple sclerosis and myelitis
+      detection system. Expert Syst Appl 236:121314–121314. https://doi.org/10.1016/j.eswa.2023.121314
+Thabet RM, Khattab D, Shedeed HA, Al‑Berry M (2024) The effects of diverse brain MRI modalities on
+      multiple sclerosis lesions segmentation: comprehensive analysis. In: 2024 6th Novel Intelligent and
+      Leading Emerging Sciences Conference (NILES), Giza, Egypt, pp. 571–576. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​0​9​/​N​
+      I​​L​E​S​6​3​​3​6​0​.​2​0​​2​4​.​1​​0​7​5​3​2​1​2
+Tustison NJ et al (2010) N4ITK: improved N3 bias correction. IEEE Trans Med Imaging 29(6):1310–1320.
+      https://doi.org/10.1109/tmi.2010.2046908
+Ulloa G, Veloz A, Allende-Cid H, Allende H (2020) Improving multiple sclerosis lesion boundaries segmen-
+      tation by convolutional neural networks with focal learning. Lecture Notes Comp Sci. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​
+      0​.​1​0​0​7​/9​ ​7​8​-​3​-0​ ​3​0​-​5​0​5​1​6​-​5​_​1​6​​​​
+Vakili F, Vakili Z, Kargari M, Ghaffari M (2023) Supervised machine learning models for multiple scle-
+      rosis relapse probability prognosis using clinical data. In: 2023 9th International Conference on Web
+      Research (ICWR), Tehran, Iran, Islamic Republic of, pp. 150–155. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​0​9​/​I​C​​W​R​5​7​7​​
+      4​2​.​2​0​2​​3​.​1​0​​1​3​9​2​2​5
+Valencia L et al (2022) Evaluating the use of synthetic T1-w images in new T2 lesion detection in multiple
+      sclerosis. Front Neurosci. https://doi.org/10.3389/fnins.2022.954662
+Valverde S et al (2019) One-shot domain adaptation in multiple sclerosis lesion segmentation using convolu-
+      tional neural networks. NeuroImage: Clin. https://doi.org/10.1016/j.nicl.2018.101638
+Vang YS, Cao Y, Chang PD, Chow DS, Brandt AU, Paul F (2020) SynergyNet: a fusion framework for
+      multiple sclerosis brain MRI segmentation with local refinement. In: 2020 IEEE 17th International
+      Symposium on Biomedical Imaging (ISBI), Iowa City, IA, USA, pp. 131–135. ​h​t​t​p​s​:​​/​/​d​o​i​​.​o​r​g​/​1​​0​.​1​1​​0​9​
+      /​I​S​​B​I​4​5​7​​4​9​.​2​0​2​​0​.​9​0​​9​8​6​1​0
+Vincent O, Gros C, Cohen J, Cohen‐Adad J (2020). Automatic segmentation of spinal multiple sclerosis
+      lesions: How to generalize across MRI contrasts? arXiv preprint arXiv:2003.04377v3. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​
+      1​0​.​4​8​5​5​0​/​a​r​X​i​v​.​2​0​0​3​.​0​4​3​7​7​​​​
+Vovk U, Pernus F, Likar B (2007) A review of methods for correction of intensity inhomogeneity in MRI.
+      IEEE Trans Med Imaging 26(3):405–421. https://doi.org/10.1109/tmi.2006.891486
+Wikipedia (2005) Discrete Wavelet Transform. ​h​t​t​p​s​:​​/​/​e​n​.​​w​i​k​i​p​e​​d​i​a​.​​o​r​g​/​w​​i​k​i​/​D​​i​s​c​r​e​t​​e​_​w​a​​v​e​l​e​t​_​t​r​a​n​s​f​o​r​m​/.
+      Accessed 11 Mar 2024
+Wikipedia (2006) Histogram Equalization. ​h​t​t​p​s​:​​/​/​e​n​.​​w​i​k​i​p​e​​d​i​a​.​​o​r​g​/​w​​i​k​i​/​H​​i​s​t​o​g​r​​a​m​_​e​​q​u​a​l​i​z​a​t​i​o​n​/. Accessed
+      11 Mar 2024
+Wu J et al (2024) MedSegDiff-V2: diffusion-based medical image segmentation with transformer. Proc
+      AAAI Conf Artif Intell 38:6030–6038. https://doi.org/10.1609/aaai.v38i6.28418
+
+
+
+13
+Multiple sclerosis classification and segmentation in neuroimaging MRI…                                                       Page 49 of 49 255
+
+Wu Y, He K (2019) Group normalization. Int J Comput Vision 128(3):742–755. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​1​0​.​1​0​0​7​/​s​1​1​
+     2​6​3​-​0​1​9​-​0​1​1​9​8​-​w​​​​
+Xu B, Wang N, Chen T, Li M (2015) Empirical evaluation of rectified activations in convolutional network.
+     arXiv preprint arXiv:1505.00853. https://doi.org/10.48550/arXiv.1505.00853
+Yang Z, Dong R, Xu H, Gu J (2020) Instance segmentation method based on improved mask R-CNN for the
+     stacked electronic components. Electronics 9(6):886. https://doi.org/10.3390/electronics9060886
+Yazdani S, Yusof R, Karimian A, Pashna M, Hematian A (2015) Image segmentation methods and applica-
+     tions in MRI brain images. IETE Tech Rev 32(6):413–427. ​h​t​t​p​s​:​​​/​​/​d​o​​i​.​o​r​​g​/​​1​0​.​​1​0​​8​0​/​​0​2​5​6​4​​​6​0​2​.​2​​​0​1​5​.​​1​0​
+     2​7​3​0​7
+Ye Z et al (2020) Deep learning with diffusion basis spectrum imaging for classification of multiple sclerosis
+     lesions. Annals of Clin Trans Neurol 7(5):695–706. https://doi.org/10.1002/acn3.51037
+Zhang H et al (2019) RSANet: recurrent slice-wise attention network for multiple sclerosis lesion segmenta-
+     tion. Lecture Notes in Comp Sci. https://doi.org/10.1007/978-3-030-32248-9_46
+Zhang J, Ainam J-P, Song W, Zhao L, Wang X, Li H (2022) Learning global and local features using graph
+     neural networks for person re-identification. Signal Proc: Image Commun 107:116744. ​h​t​t​p​s​:​/​/​d​o​i​.​o​r​g​/​
+     1​0​.​1​0​1​6​/​j​.​i​m​a​g​e​.​2​0​2​2​.​1​1​6​7​4​4​​​​
+Zhang K et al (2023) Predicting multiple sclerosis severity with multimodal deep neural networks. BMC Med
+     Inf Dec Making. https://doi.org/10.1186/s12911-023-02354-6
+Zhang X et al (2019) Linear registration of brain MRI using knowledge-based multiple intermediator librar-
+     ies. Front Neurosci. https://doi.org/10.3389/fnins.2019.00909
+Zhong Z et al (2020) Squeeze-and-Attention Networks for Semantic Segmentation. 2020 IEEE/CVF Confer-
+     ence on Computer Vision and Pattern Recognition (CVPR). Seattle, WA, USA, 2020, pp. 13062–13071.
+     https://doi.org/10.1109/CVPR42600.2020.01308
+Zhu J‑Y, Park T, Isola P, Efros AA (2017) Unpaired image‑to‑image translation using cycle‑consistent adver-
+     sarial networks. In: 2017 IEEE International Conference on Computer Vision (ICCV), Venice, Italy, pp.
+     2242–2251. https://doi.org/10.1109/ICCV.2017.244
+Zhuo Z et al (2022) Automated classification of intramedullary spinal cord tumors and inflammatory demy-
+     elinating lesions using deep learning. Radiology. https://doi.org/10.1148/ryai.210292
+Zhu T, Chen J, Zhu R, Gupta G (2023) StyleGAN3: generative networks for improving the equivariance of
+     translation and rotation. arXiv preprint arXiv:2307.03898. https://doi.org/10.48550/arXiv.2307.03898
+Ziemssen T et al (2022) Secondary progressive multiple sclerosis. Neurol—Neuroimmunol Neuroinflamma-
+     tion 10(1):e200064. https://doi.org/10.1212/nxi.0000000000200064
+
+Publisher's Note Springer Nature remains neutral with regard to jurisdictional claims in published maps and
+institutional affiliations.
+
+
+
+Authors and Affiliations
+
+Rezq Muhammed Thabet1                               · Howida A. Shedeed1                        · Maryam Al-Berry1                      ·
+Dina Khattab1
+
+      Rezq Muhammed Thabet
+      rizk.mohamed@cis.asu.edu.eg
+      Howida A. Shedeed
+      dr_howida@cis.asu.edu.eg
+      Maryam Al-Berry
+      maryam_nabil@cis.asu.edu.eg
+      Dina Khattab
+      dina.khattab@cis.asu.edu.eg
+1
+      Department of Scientific Computing, Faculty of Computer and Information Sciences, Ain
+      Shams University, Cairo, Egypt
+
+
+
+
+                                                                                                                                        13
+

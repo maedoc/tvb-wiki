@@ -1,0 +1,1633 @@
+                                            Diverse mean-field dynamics of clustered, inhibition-stabilized Hawkes networks via
+                                                                 combinatorial threshold-linear networks
+                                                                                                Caitlin Lienkaemper∗
+                                                                   Massachusetts Institute of Technology, Department of Brain and Cognitive Science
+
+                                                                                                Gabriel Koch Ocker†
+                                                       Boston University, Department of Mathematics and Statistics and Center for Systems Neuroscience
+                                                                                           (Dated: June 9, 2025)
+                                                           Networks of interconnected neurons display diverse patterns of collective activity. Relating this
+                                                        collective activity to the network’s connectivity structure is a key goal of computational neuroscience.
+                                                        We approach this question for clustered networks, which can form via biologically realistic learning
+                                                        rules and allow for the re-activation of learned patterns. Previous studies of clustered networks
+                                                        have focused on metastabilty between fixed points, leaving open the question of whether clustered
+arXiv:2506.06234v1 [q-bio.NC] 6 Jun 2025
+
+
+
+
+                                                        spiking networks can display more rich dynamics–and if so, whether these can be predicted from
+                                                        their connectivity. Here, we show that in the limits of large population size and fast inhibition,
+                                                        the combinatorial threshold linear network (CTLN) model is a mean-field theory for inhibition-
+                                                        stabilized nonlinear Hawkes networks with clustered connectivity. The CTLN has a large body of
+                                                        “graph rules” relating network structure to dynamics. By applying these, we can predict the dynamic
+                                                        attractors of our clustered spiking networks from the structure of between-cluster connectivity. This
+                                                        allows us to construct networks displaying a diverse array of nonlinear cluster dynamics, including
+                                                        metastable periodic orbits and chaotic attractors. Relaxing the assumption that inhibition is fast,
+                                                        we see that the CTLN model is still able to predict the activity of clustered spiking networks
+                                                        with reasonable inhibitory timescales. For slow enough inhibition, we observe bifurcations between
+                                                        CTLN-like dynamics and global excitatory/inhibitory oscillations.
+
+
+                                                              I.    INTRODUCTION                                 In small networks, however, minor changes in con-
+                                                                                                              nectivity can cause major changes in dynamics [19, 20].
+                                              The dynamics of neuronal networks implement sensory,            Recently, combinatorial threshold-linear network models
+                                           motor, and cognitive computations. To understand how               (CTLNs) have proven a fruitful setting for understanding
+                                           those dynamics are governed by the underlying network              the link between graph structure and dynamics [21, 22].
+                                           structure is a central goal of computational and systems           CTLNs are a simple model but can exhibit diverse non-
+                                           neuroscience. We aim to unite two theoretical approaches           linear dynamics [23]. That simplicity exposes 1) rules for
+                                           to this goal: mean-field theories which relate the statis-         CTLNs that relate their fixed points and dynamic attrac-
+                                           tics of activity to the statistics of connectivity in large        tors to their graph structure and 2) a theory of composi-
+                                           networks, and graph-theoretic approaches which relate              tionality that describes how attractors in larger networks
+                                           the attractors of a network to its particular structure.           relate to attractors of their subgraphs [20, 22, 24–27].
+                                              The first approach relates the connectivity statistics of       This approach has focused on particular graph structures
+                                           large, randomly connected recurrent networks to macro-             with at most tens of nodes. Results from this setting can,
+                                           scopic patterns or statistics of their dynamics [1–3]. Here,       however, advance our understanding of which features of
+                                           we consider networks with cluster-like structure: groups           connectivity play a major role in determining dynamics
+                                           of densely and/or strongly interconnected neurons. Clus-           and should be incorporated into statistical approaches.
+                                           tered structure is found in cortical networks [4–6] and can           In this paper, we investigate how the dynamics of
+                                           form via biologically realistic learning rules like spike-         a point process network model relates to the clustered
+                                           time dependent plasticity [5, 7–10]. Clustered networks            structure of its excitatory connectivity. We show that
+                                           are a popular model for metastability (long-lived but              networks with structured connectivity between clusters
+                                           transient regimes of activity), especially metastability be-       can exhibit varied dynamics: in addition to metastability
+                                           tween high and low activity states in the neocortex [11–           between fixed points, these networks can exhibit periodic
+                                           14]. This metastability is hypothesized to be the dynam-           orbits and chaotic attractors, as well as metastability be-
+                                           ical mechanism for working memory, perceptual multi-               tween these dynamic attractors. To relate these dynam-
+                                           stability, and decision-making [15–18]. In large networks,         ics to the network’s macroscopic structure, we show that
+                                           the macroscopic dynamics are sensitive to statistics of the        the CTLN is dynamically equivalent to a mean-field the-
+                                           network structure but not changes in individual synaptic           ory for the cluster-mean firing rates in the limits of large
+                                           weights.                                                           population size and fast inhibition. This allows us to ap-
+                                                                                                              ply graph rules for CTLNs to predict the dynamics of our
+                                                                                                              clustered spiking networks.
+                                           ∗ clienk@mit.edu
+                                                                                                                Finally, we examine how the timescale of inhibitory
+                                           † gkocker@bu.edu
+                                                                                                              activity interacts with the cluster structure to shape the
+                                                                                                                                  2
+
+network dynamics. While the CTLN model is informally                  with a unique active excitatory cluster each (Fig. 1B).
+motivated as describing the activity of a population of               Pulses of external input can drive transitions between
+excitatory neurons with specific connectivity against a               attractors; spontaneous noise-driven transitions are also
+pattern of diffuse inhibition, similar to the “blanket of             possible over a longer timescale.
+inhibition” described in [28], a formal derivation of the                More varied dynamics become possible when there is
+CTLN model from networks with explicit excitation and                 structured connectivity between clusters. We describe
+inhibition has not been published. We show that while                 the structure of connectivity between clusters with a di-
+the CTLN model formally describes the limit where in-                 rected graph G: An edge from cluster α to cluster β in
+hibition is very fast, it still qualitatively describes the           G means that the connections from cluster α to clus-
+dynamics of excitatory-inhibitory networks with reason-               ter β are stronger than the baseline level of connectivity
+able inhibitory timescales. For sufficiently slow inhibi-             between clusters. When the pattern of connectivity be-
+tion, we observe bifurcations between CTLN-like dynam-                tween clusters is symmetric (Fig. 1C), the network still
+ics and global excitatory/inhibitory oscillations similar             displays metastability between fixed points (Fig. 1D).
+to the pyramidal/interneuron gamma (PING) oscillation                 However, multiple excitatory clusters may be active in
+[29].                                                                 one attractor and individual clusters may participate in
+                                                                      multiple attractors. When the pattern of connectivity
+                                                                      between clusters is not symmetric (Fig. 1E), the network
+                       II.   RESULTS                                  can have dynamic attractors such as periodic orbits or
+                                                                      chaotic attractors, in addition to metastable fixed points.
+   A.    Clustered spiking networks display diverse                   For example, the network illustrated in Fig. 1E displays
+                       dynamics.                                      metastability between a periodic orbit and a fixed point
+                                                                      (Fig. 1F).
+   We consider a stochastic spiking network with n exci-
+tatory clusters of NE neurons each and NI inhibitory
+neurons (e.g., Fig. 1A). Within-cluster connectivity is                       B. Mean-field theory for clustered,
+                                                                          inhibition-stabilized networks is dynamically
+stronger than between-cluster connectivity and the in-
+                                                                                 equivalent to the CTLN model
+hibitory neurons connect non-specifically to all excitatory
+clusters. Connectivity is sparse and random and synap-
+tic weights scale inversely with the population size. This               In the limit of large network size (NE , NI → ∞), the
+connectivity determines a neuron-by-neuron weight ma-                 cluster-mean firing rates obey n + 1 dimensional deter-
+trix Jij . Excitatory and inhibitory neurons have distinct            ministic dynamics. We will show that in the additional
+synaptic time constants τE and τI and receive distinct                limit of τI /τE → 0, this rate model is dynamically equiv-
+external inputs bE and bI .                                           alent to the CTLN model. Let J¯αβ denote the mean
+   Each neuron’s spike train is a point process ṡi (t) whose         weight of synapses from neurons in cluster β to a neuron
+time dependent rate depends on the voltage vi (t). The                in cluster α. The connection weights in our microscopic
+joint dynamics of the voltage and spike train are given               model depend only on the excitatory/inhibitory identity
+by                                                                    of the clusters and the directed pattern of connectivity
+                                                                      between clusters (Fig. 2A). So, the expected value of the
+                                  N
+                                  X                                   mean weight J¯αβ takes one of six possible values:
+              τα(i) v̇i = −vi +         Jij ṡj + bα(i) ,                           ¯⟲
+                                                               (1)
+                                  j=1                                              JEE if β = α, α, β excitatory
+                                                                                   
+                                                                                     J¯EE
+                                                                                       →
+                                                                                            if β → α ∈ G, α, β excitatory
+                                                                                  
+                   ṡi ∼ PP ⌊vi ⌋+ .
+                                                                                   
+                                                                                   
+                                                                                   
+                                                                                   J¯̸→
+                                                                                   
+                                                                                            if β ̸→ α ∈ G, α, β excitatory
+Here, ⌊x⌋+ := max(x, 0). We denote the population con-                     J¯αβ = ¯EE                                        (2)
+                                                                                    JEI    if α excitatory, β inhibitory
+taining neuron i as α(i), so that τα(i) = τE or τI and
+                                                                                   
+                                                                                     J¯IE
+                                                                                   
+                                                                                            if α inhibitory , β excitatory
+                                                                                   
+                                                                                   
+bα(i) = bE or bI . Additional model details can be found
+                                                                                   
+                                                                                   
+                                                                                   ¯
+in Appendix A 1. The spike                                                           JII    if α, β inhibitory .
+                             P trains ṡi are sums of delta
+functions, where ṡi (t) = t′ ∈Ti δ(t − t′ ) and Ti is the set        Now, we take the expectation over connectivity, spike
+of spike times for neuron i. Equation 1 can alternately               train realization, and the identity of a neuron within its
+be written in integral form as                                        cluster in 1 over. Letting vα = ⟨vi ⟩i∈α , we find that in the
+                                  Z t                                 large-N limit the expected cluster-mean voltages evolve
+                               1         ′
+   vi (t) = vi (0) + bα(i) +          e(t −t)/τα(i) ṡj (t′ ) dt′ .   as
+                             τα(i) 0                                                               n
+                                                                                                  X
+                                                                                   τα v̇α = −vα +    J¯αβ ⌊vβ ⌋+ + bα .          (3)
+This is a nonlinear Hawkes process with excitatory and
+                                                                                                  β=1
+inhibitory interactions.
+  When there is no connectivity between the clusters,                 Corresponding mean-field limits for similar nonlinear
+or when the connectivity between the clusters is weak                 Hawkes models are proven in [30–35], in particular for
+and unstructured, the network has n metastable states                 the multi-population case in [36].
+                                                                                                                                   3
+
+      A                                                 B
+                                                                                                                         Inh.
+                   1                     2
+                                                                                                                         6
+           6                     Inh.                                                                                    5
+
+
+
+
+                                                                Neuron
+                                                  3                                                                      4
+                                                                                                                         3
+           5
+                                                                                                                         2
+                                                                                                                         1
+                             4
+                                                                         0          1000               2000          3000
+
+      C                                                 D
+                                                                                                                        Inh.
+                   6                     5
+                       Inh.                                                                                             6
+                                                                                                                        5
+                                                                Neuron
+                                         4
+                                                                                                                        4
+                                                  1
+                                                                                                                        3
+                                                                                                                        2
+
+                         3                   2                                                                           1
+                                                                         0   1000          2000               3000   4000
+
+       E                                                    F
+                                     4                                                                                      Inh.
+
+                                                                                                                            4
+                                                                Neuron
+
+
+
+
+                                                                                                                            3
+               3
+                                 1               Inh.
+                                                                                                                            2
+
+                                                                                                                            1
+                              2
+                                                                         0          1000               2000          3000
+                                                                                           Time (ms)
+
+Figure 1. (A) Clustered network with six excitatory clusters (color) and one inhibitory cluster (black). No connections between
+clusters. (B) Raster plot of activity of clustered network in panel A, for excitatory cluster size NE = N I = 1000, τE = 40 ms,
+τI = 20 ms. Stimulus of duration 10 ms applied to each neuron in clusters 2 (red), 3 (green), 4 (blue), 5 (yellow), and 6 (maroon)
+at times t = 500, 1000, 1500, 2000, 2500 respectively (lightning bolts). (C) Clustered network with six excitatory clusters (color)
+and one inhibitory cluster (black). Pattern of bi-directional connectivity between excitatory clusters indicated with arrows. (D)
+Raster plot of activity of clustered network from panel C for same parameters as B. Stimulus of duration 10 ms applied to each
+neuron in clusters 4 and 5 (yellow and blue), 1 and 2 (red and purple), and 3 (green) at times t = 1000, 2000, 3000 respectively
+(lightning bolts). (E) Clustered network with four excitatory clusters (color) and one inhibitory cluster (black). Pattern of
+directed connectivity between excitatory clusters indicated with arrows. (F) Raster plot of activity of clustered network from
+panel C for same parameters as B. Stimulus of duration 10 ms applied to each neuron in clusters 4 (blue), 2 (red), at times
+t = 1000, 2000 respectively (lightning bolts).
+
+
+   Our goal is now to relate the dynamics of the mean                        ulations and spikes, we can apply results about CTLNs
+firing rates to the graph structure G. To do this, we will                   to understand a broader class of models. Although units
+show that, under certain conditions, the excitatory firing                   in the CTLN model are traditionally interpreted as sin-
+rates in the EI-TLN model are approximated by those                          gle neurons, we interpret them as populations. Under
+of the combinatorial threshold linear network (CTLN)                         this interpretation, the CTLN model represents the con-
+model introduced in [22]. The CTLN model is highly                           nectivity between clusters of excitatory neurons, over a
+mathematically tractable, exposing elegant links between                     background of fast shared inhibition, via a pattern of
+network structure and dynamics. By grounding CTLNs                           weak and strong inhibition.
+in a model with explicit excitatory and inhibitory pop-
+                                                                               The CTLN model is defined by a rule for translating a
+                                                                                                                                                 4
+
+      A         E-I CTLN Network             B             Rates in clustered spiking network vs. prediction from EI- TLN
+
+                        1         4                                         0.12
+
+
+
+
+                                                  Firing rate (spikes/ms)
+                                                                            0.10
+                                                                            0.08
+          2
+                                                                            0.06
+                                                                            0.04
+                    3                 5                                     0.02
+                                                                            0.00
+                                                                                   0              1000               2000             3000
+                                                                                                         Time (ms)
+
+
+      C Combinatorial threshold              D                              Rates in clustered spiking network vs. prediction from CTLN
+              linear network (CTLN)
+                                                                            0.12
+
+                                                  Firing rate (spikes/ms)
+                        1         4                                         0.10
+                                                                            0.08
+                                                                            0.06
+          2                                                                 0.04
+                                                                            0.02
+                                                                            0.00
+                    3                                                              0              1000               2000             3000
+                                                                                                         Time (ms)
+
+
+Figure 2. (A) EI-TLN corresponding to the clustered network in Fig. 1 E. Gray edges represent the directed pattern of
+connectivity between excitatory clusters, while black edges represent connections to and from the inhibitory cluster. (B) Mean
+firing rates in clustered spiking network (thick, transparent line) versus prediction from EI-TLN (thin, solid line) with external
+input as described in Fig. 1 F. (C) CTLN corresponding to the clustered network in panel A. Black edges represent the directed
+pattern of connectivity between excitatory clusters, which are now effectively weakly inhibitory, with weight −1 + ϵ. Gray
+edges between non-connected clusters represent strongly inhibitory effective connectivity, with weight −1 − δ. (D) Firing rates
+in clustered spiking network (thick, transparent line) versus prediction from CTLN (thin, solid line) with external input as
+described in Fig. 1 F.
+
+
+graph into a weighted adjacency matrix. Specifically, if                                the CTLN dynamics. Second, while the mean-field volt-
+the pattern of connectivity between clusters is given by a                              age dynamics has both positive and negative interaction
+directed graph G, then the weights in the CTLN model                                    weights, all weights in the CTLN are negative. We will
+are given by                                                                            thus relate the mean-field theory for the clustered spiking
+                   (                                                                    network to the CTLN in two steps.
+                     −1 + ϵ if β → α ∈ G
+           Wαβ =                                       (4)
+                     −1 − δ if β → α ∈   / G,                                             First, we address the location of the nonlinearity us-
+                                                                                        ing the results of Miller and Fumarola in [37]. Miller
+where 0 < ϵ < 1 and δ > 0 (Fig. 2 C). Additionally, we                                  and Fumarola show that for any system that evolves ac-
+require (−1 + ϵ)(−1 − δ) > 1; see [22] for details. The                                 cording to τ dv                                 d
+                                                                                                      dt = −v + Jf (v) + b(t), v ∈ R , there is
+nodes’ dynamics are                                                                     an equivalent system which evolves according to τ dx dt =
+                                                                                      −x + f (Jx + c(t)), where the external inputs c to the
+                        n
+                       X               
+                                                                                       x-model is a low-pass-filtered version of the input to the
+           ẋα = −xα +     Wαβ xβ + b ,            (5)                                v-model. When J is invertible, the mapping between
+                            β=1
+                                              +                                         systems is a topological conjugacy, and even outside this
+                                                                                        case, the mapping between the x-system and the v- sys-
+where xα is the mean firing rate in population α and                                    tem is given by a linear map. This means that the at-
+b > 0 is an constant, positive external input which is the                              tractor landscapes of the two models are qualitatively the
+same for all populations.                                                               same.
+   The CTLN model, Eqs. 4,5, differs from the mean-
+field voltage dynamics, Eq. 3, in two ways. First, while
+the nonlinearity is inside of the summation in the mean-                                  Thus, to predict the mean-field dynamics of our clus-
+field voltage dynamics, it is outside of the summation in                               tered spiking networks, we can alternately study the
+                                                                                                                               5
+
+model                                                         the network is always in an inhibition-stabilized regime;
+                         
+                          n
+                                          
+                                                             we will explore this in Section II D.
+                         X                                      Figure 2D shows an example of the CTLN firing rates
+                             J¯αβ xβ + cα  ,
+                                          
+          τα ẋα = −xα +                              (6)
+                                                              against the cluster-averaged rates of excitatory neurons,
+                            β=1
+                                              +               for relatively fast inhibition (τI /τE = 0.5). We see that
+where xα is the mean firing rate in population α.             the CTLN rates match the average rates as well as the
+We term systems of this form the excitatory-inhibitory        EI-TLN rates, even with this finite time scale. In Section
+threshold linear network (EI-TLN) model. Although this        A 6 a, we discuss how the dynamics in the EI-TLN model
+model has the same functional form as the CTLN model,         vary as we change the ratio between the inhibitory and
+it differs in that the weight matrix J still retains the      excitatory time scales. Details of this derivation are given
+explicit excitatory and inhibitory weights from the clus-     in Appendix A 3.
+tered spiking network. In all following equations, we con-       Relating clustered spiking networks to the CTLN
+sider the constant-input case, and thus write bα instead      model in this way allows us to apply results about CTLNs
+of cα for the input. Figure 2B shows an example of the        to study the dynamics of clustered spiking networks.
+population-averaged firing rates ⟨f (vi )⟩i∈α in the clus-    In the next two sections, we will survey how results
+tered spiking network against predicted firing mean rates     about CTLNs let us construct clustered spiking networks
+f (vα ) = f (Jxα +cα ) generated by simulating Eq. 6, with    with diverse dynamics that depend on the directed graph
+matching initial conditions and parameters. Details can       structure of between-cluster connectivity.
+be found in Appendix A 2.
+   To relate the EI-TLN model (Eqs. 2, 6) to the CTLN
+model (Eqs. 4, 5) we consider the limit of fast inhibition:     C.     Graph rules for CTLNs predict dynamics of
+τI /τE → 0. This separation of timescales implies that                      clustered spiking networks.
+the mean firing rate of the inhibitory cluster is directly
+proportional to the mean firing rate across all excitatory      1.     Metastable fixed points in clustered spiking networks
+clusters:                                                            correspond to maximal cliques in the cluster graph.
+                                             
+                      1    J¯IE
+                                 X
+                                                                 Figures 1A and C show two examples of clustered
+             xI ≈                    x β + bI  .
+                  1 − J¯II        β̸=I
+                                                              spiking networks that exhibit multiple metastable states.
+                                                              The first network, without strong connectivity between
+Inserting this into Eq. 6 results in effective inhibitory     clusters, has a metastable state corresponding to each ex-
+connections between excitatory clusters and allows us to      citatory cluster, where neurons from that cluster are ac-
+derive conditions on the weights of the EI-TLN model,         tive while neurons in other excitatory clusters are silent.
+ ¯ that describe when it limits to the CTLN model. The
+J,                                                            The second network, where there is strong, reciprocal
+first condition is that within-cluster excitation exactly     connectivity between some pairs of clusters and not oth-
+cancels inhibition:                                           ers, has multiple metastable states where a subset of clus-
+                                                              ters are active. We apply results about stable fixed points
+                           J¯EI J¯IE
+                    J¯EE
+                      ⟲
+                         +           = 0.             (7)     of CTLNs to relate these metastable states to the graph
+                           1 − J¯II                           G describing the connectivity between clusters.
+When this condition is met, we can relate the CTLN               Because CTLNs are threshold-linear, they have at
+parameters ϵ and δ to the EI-TLN parameters as                most one fixed point in each linear chamber of their phase
+                                                              space. (Except potentially in degenerate cases, i.e., when
+                   ϵ =J¯EE
+                        →
+                           − J¯EE
+                               ⟲
+                                  +1                          the linear system in a chamber has a zero eigenvalue.).
+                                                              Within a chamber, it is easy to recover the fixed point
+                                     
+                            →
+                            ̸
+                   δ = − J¯ − J¯⟲ + 1
+                            EE           EE                   location via matrix inversion. Thus, the fixed point struc-
+                        J¯EI                                  ture of a CTLN is fully described by the set of fixed point
+              and b =          bI + bE .                      supports, which are defined as supp(x∗ ) = {i | x∗i > 0}.
+                      1 − J¯II
+                                                              We denote this set of fixed point supports as
+This allows us to interpret the CTLN constraints 0 <
+ϵ < 1 and 0 < δ as constraints on the relative strength of             FP(G, ϵ, δ) = {supp(x∗ ) | x∗ a fixed point}
+within cluster and between-cluster excitation:
+                                                              Due to the constraint b > 0, the origin is never a fixed
+                       0 > J¯EE
+                              →
+                                − J¯EE
+                                    ⟲
+                                        > −1                  point, so the empty set is never a fixed point support.
+                             ̸→
+                                                              Because the CTLN model is a mean-field theory for our
+                            ¯      ¯⟲
+                           JEE − JEE < −1              (8)    clustered spiking model, fixed points in clustered spiking
+                      ⟲
+                          ̸→
+             J¯EE − J¯EE J¯EE − J¯EE
+               →                    ⟲
+                                       
+                                         > 1.                 networks are characterized by the clusters they are sup-
+                                                              ported on. Because the evolution of the firing rates in
+  When these three additional conditions are met, the         our clustered spiking network is stochastic, stable fixed
+EI-TLN reduces to the CTLN. These imply J¯EE
+                                           ⟲
+                                              > 1, so         points in the deterministic CTLN model correspond to
+                                                                                                                                       6
+
+ A                                         B                                is 1) oriented (has no bidirectional edges) and 2) has no
+            1               6       i.                                      sinks (every vertex has at least one outgoing edge), then
+                                                         1                  the CTLN on that graph has no stable fixed points. This
+             iii.                                                           does not, however, mean that the activity explodes.
+     2              4           5                                              The total activity of CTLNs is bounded above and be-
+            iv.           ii.
+                                                                            low: for any CTLN defined by a graph G and parameters
+                                                2                3          0 < ϵ < 1, δ > 0, and any initial condition x(0), there
+             3                                                              exists a time T such that for all t > T
+                                                                                                   n
+                                                                                              b    X            b
+Figure 3. A. Maximal cliques in the connectivity graph of the
+                                                                                                 <    xα (t) <     .                 (9)
+                                                                                            1 + δ α=1          1−ϵ
+clustered spiking network pictured in (Fig. 1 C.) Notice that
+each maximal clique corresponds to a fixed point in (Fig. 1                 In other words, all trajectories in CTLNs eventually ap-
+D). B. Directed 3-cycle.                                                    proach a region where the total population activity is
+                                                                            bounded [40].
+                                                                               Because CTLNs have bounded total activity, networks
+metastable fixed points in the clustered spiking network                    without stable fixed points have dynamic attractors [23].
+for finite cluster size.                                                    The simplest example of an oriented graph with no sinks
+   When the graph G is symmetric ( i → j if and only if                     is a directed 3-cycle (Fig. 3B). This CTLN has a limit
+j → i) convergence to a fixed point is guaranteed [21, 38].                 cycle attractor, established in [41]. Although the weights
+Thus, characterizing the stable fixed points provides a                     in the CTLN model are all negative, activity still often
+complete picture of the attractor landscape of symmetric                    follows edges in the graph. Graph rules can also be used
+networks. Stable fixed points of symmetric CTLNs cor-                       to predict the dynamic attractors of CTLNs from the
+respond to maximal cliques 1 of G [21, 22]. In Fig. 3A,                     graph structure [25, 26].
+we highlight the maximal cliques in the example from                           Notice that if ϵ and δ are held constant in Eq. 9, the
+Fig. 1C. Note that “trivial” examples of maximal cliques,                   total activity bound does not scale with the number of
+such as isolated vertices or bidirectional edges that are                   clusters. Thus, in networks where many clusters partici-
+not contained within larger cliques, still support stable                   pate in an attractor, the mean firing rates in each cluster
+fixed points. The number of maximal cliques that a graph                    are proportionately lower, scaling as 1/n. This can be
+can have grows exponentially in the number of vertices,                     avoided by scaling ϵ and δ with the number of clusters.
+so the number of potential stable fixed points in a CTLN                    In the EI-TLN, in the limit where τI → 0, this result
+also grows exponentially with n [24, 39].                                   translates to
+   This characterization of the stable fixed point is par-                         J¯EI                          J¯EI
+                                                                                                  n
+tially extended to non-symmetric graphs in [22] and [23].                               b + bE
+                                                                                 1−J¯II I
+                                                                                                 X                    b + bE
+                                                                                                               1−J¯II I
+                                                                                               <     x α (t) <               .      (10)
+A node k ∈ [n] is a target for a clique σ ⊆ [n] if j → k                                   →
+                                                                                           ̸
+                                                                                  J¯EE − J¯EE
+                                                                                     ⟲                          J¯EE − J¯EE
+                                                                                                                   ⟲     →
+                                                                                                 α=1
+for each j ∈ σ. By Theorem 3.5 of [23], a clique supports
+a stable fixed point if and only if it is target-free. This                 To keep the mean firing rates constant in n thus re-
+is conjectured to completely characterize the stable fixed                  quires either making between-cluster excitation stronger
+points of CTLNs; there are no known examples of stable                      or within-cluster excitation weaker. In Appendix A 4, we
+fixed points of CTLNs whose support is not a target-free                    prove that this bound also holds for finite, sufficiently
+clique. This conjecture can be guaranteed to hold under                     small, inhibitory timescales.
+some additional assumptions; for details see [22]. The
+metastable fixed point of the clustered spiking network
+in Fig. 1E is supported on the target-free clique {1, 4}.                   D.    Clustered spiking networks exhibit paradoxical
+                                                                                                    effects
+
+  2. When between-cluster connectivity is not symmetric,                       We can interpret this bound as a result about the sta-
+  clustered spiking networks have dynamic attractors with                   bility of the total mean excitatory rate, even in the ab-
+                    bounded total activity.                                 sence of stable fixed points. This stability is provided by
+                                                                                                                               ̸→
+                                                                            the inhibitory population. Notice that since JEE        ≥ 0,
+                                                                                             ⟲
+  While symmetric connectivity guarantees convergence                       Eq. 8 implies JEE ≥ 1. This means that the excitatory-
+to a stable fixed point in CTLNs, an alternate condition                    only subnetwork is not stable, so the EI-TLN is in an
+guarantees the absence of stable fixed points. If a graph                   inhibition-stabilized regime. As an inhibition-stabilized
+                                                                            network (ISN), the EI-TLN displays the so-called para-
+                                                                            doxical effect: stimulation of the inhibitory population
+                                                                            suppresses the excitatory clusters, leading in turn to a
+1 A clique is a set of vertices σ ⊆ [n] such that i ↔ j for all i, j ∈ σ.   decrease in the inhibitory firing rates [42, 43]. This effect
+  A clique is maximal if it is not contained in any larger clique.          is considered a signature of inhibitory stabilization, and
+  ([n] is the set of integers from 1 to n.)                                 is observed in many cortical areas across species [42].
+                                                                                                                                                7
+
+
+                           Clustered spiking network response to                 ship f (v) = x + τ dx
+                                                                                                     dt , this phenomenon is also seen in
+ A                                                                               solutions of the v-model (Eq. 3) and thus the clustered
+                           inhibitory stimulation
+                                                                                 spiking network (Eq. 1).
+                                                Inhibitory perturbation
+
+                   0.125
+                                                                                      E.   When inhibition is slow, a synchronized
+                                                                                                  oscillation emerges
+                   0.100
+Rate (spikes/ms)
+
+
+
+
+                                                                                    We have shown that the CTLN model is a mean-field
+                   0.075
+                                                                                 theory for clustered spiking networks for large cluster
+                                                                                 size and fast inhibition. However, excitatory and in-
+                   0.050                                                         hibitory membrane time constants are typically both ap-
+                                                                                 proximately 10-30 ms. We thus relax the assumption of
+                   0.025                                                         fast inhibition, comparing the dynamics of the EI-TLN
+                                                                                 to the CTLN model as we vary the ratio between the
+ B                                                                               inhibitory and excitatory timescales.
+                   0.100
+                                                                                      1.   Oscillation emerges from stable fixed points via
+Rate (spikes/ms)
+
+
+
+
+                   0.075                                                                          non-smooth Hopf bifurcation
+
+                   0.050                                                            As we observed in Section II C 1, there is a one-to-
+                                                                                 one correspondence between fixed points in the CTLN
+                   0.025                                                         and the EI-TLN. We first ask how fast inhibition needs
+                                                                                 to be for a stable fixed point of the CTLN to remain
+                                                                                 stable in the EI-TLN. All known fixed points in CTLNs
+                   0.000
+                                                                                 are supported on target-free cliques, so we restrict our
+                           0       250        500         750             1000
+                                                                                 attention to stable fixed points of this type.
+                                           Time (ms)
+                                                                                    We fix the parameters J¯EE , J¯EI , J¯IE , J¯II , and τE . Ad-
+                                                                                 ditionally, we consider the size k of the clique as a param-
+Figure 4. Paradoxical effect in clustered spiking networks.                      eter. We consider the linearized dynamics around this
+Black: average inhibitory firing rate. Color: average rates                      fixed point, which is the linear system in the chamber
+within each excitatory cluster. (A) Network with a single ex-                    containing the fixed point. At the fixed point, all other
+citatory cluster. From T = 500 ms onward, excitatory stimu-                      excitatory clusters in the network are below threshold;
+lation of .1 spikes/ms is applied to the inhibitory population                   we thus neglect them in this analysis.
+only. Notice that the firing rates of the inhibitory neurons,                       All clusters within the clique are, by definition, con-
+as well as the excitatory neurons, decrease. (B) A network                       nected identically to one another. So, we can describe
+with three excitatory clusters, connected in a directed cycle.                   the dynamics via a two-dimensional linear dynamical sys-
+The clustered spiking network has a periodic orbit. From
+                                                                                 tem describing the mean excitatory and inhibitory firing
+T = 500 ms onward, excitatory stimulation of .1 spikes/ms is
+applied to the inhibitory population only. Again, the firing
+                                                                                 rates, xE and xI (Fig. 5A):
+rates of the inhibitory neurons, as well as the excitatory neu-
+                                                                                           τE ẋE = −xE + J¯EEeff
+                                                                                                                  xE + J¯EI xI + bE ,
+rons, decrease.
+                                                                                            τI ẋI = −xI + k J¯IE J¯II xI xE + bI ,
+
+                                                                                 where J¯EE
+                                                                                         eff
+                                                                                             = (k −1)J¯EE
+                                                                                                        →
+                                                                                                           + J¯EE
+                                                                                                               ⟲
+                                                                                                                  is the total excitatory-to-
+  While the paradoxical effect in ISNs is typically de-                          excitatory connectivity. This linear system has a single
+scribed as describing the effect of perturbations when                           fixed point, which is stable when
+the network is at a fixed point (Fig. 4A), we observe
+the paradoxical effect of inhibitory stimulation on dy-                                                τI     J¯II − 1
+namic attractors of the clustered spiking network as well                                                 < − ¯eff     .
+                                                                                                       τE    JEE − 1
+(Fig. 4B). For sufficiently fast inhibition, we prove in
+Appendix A 5 that stimulating the inhibitory population                          Notice that the strength of inhibition relative to excita-
+reduces inhibitory firing rates along all dynamic attrac-                        tion needed to stabilize the network for a fixed ratio of
+tors in EI-TLNs. More precisely, changing the external                           timescales increases with the number of clusters in the
+inputs bE , bI scales the rates along attractors of the EI-                      clique. The EI-TLN dynamics are non-smooth, so the
+TLN. For trajectories obeying Eq. 10, increasing bI scales                       bifurcation corresponding to this loss of stability is not
+down both the excitatory and inhibitory rates. Because                           locally described by a standard topological normal form.
+this is a linear transformation, and because solutions of                        When the fixed point loses stability, the two eigenval-
+the v-model and the x- model must obey the relation-                             ues of the linearization about the fixed point always have
+                                                                                                                                                                       8
+
+      A                                                                         B                            3      Hopf
+
+
+                                                  E
+
+
+
+
+                                                                                    Excitatory firing rate
+                                                                                                             2
+
+                                        E                     I
+                                                                                                             1
+
+                                                  E
+                                                                                                             0
+                                                                                                                      2             4             6         8
+                                                                                                                           Relative inhibitory timescale
+
+      C
+                                0.3
+       Inhibitory firing rate
+
+
+
+
+                                0.2
+
+
+
+                                0.1
+
+
+
+                                0.0
+                                  0.0       0.1   0.2   0.3   0.0        0.1              0.2                        0.3    0.0        0.1         0.2     0.3
+                                                                    Excitatory firing rate
+
+
+Figure 5. (A) EI-TLN network with one excitatory maximal clique. (B) Bifurcation diagram. Solid lines indicate stability,
+dashed indicates instability. Hopf bifurcation point marked in red. Minimum and maximum values of xE along limit cycle
+are shown. (C) Phase plots for τI /τE = 2 (left), 3.8 (center), 6 (right). Gray arrows indicate vector field. Nullclines (solid)
+and linear chamber boundaries (dashed) for xE and xI are shown in purple and black respectively. Trajectories for two initial
+conditions ((xE , xI ) = (.1, .25) and (xE , xI ) = (.105, .105), black circles) are shown in blue. Left panel is from region with
+stable fixed point only, center is from bistable region, right is from region with stable limit cycle and unstable fixed point.
+Parameters: J¯EE
+              ⟲
+                   = 1.5, J¯EE
+                            →
+                                = .75, J¯EI = −1.5, J¯IE = 2, J¯II = −1.
+
+
+nonzero imaginary parts, thus solutions spiral away from                                           2.            Multistability between synchronized oscillation and
+the fixed point when it loses stability.                                                                                      CTLN-like limit cycle
+
+
+                                                                                      Next, we extend this analysis beyond fixed points by
+                                                                                   considering the simplest example of a CTLN with a non-
+   We investigate this bifurcation through numerical con-
+                                                                                   trivial dynamic attractor. This is the CTLN whose graph
+tinuation in a network with one excitatory maximal
+                                                                                   is a directed three-cycle (Fig. 6A), which has a single
+clique (Fig. 5A). In this case, the critical value is
+                                                                                   unstable fixed point and a stable limit cycle for all al-
+τI /τE = 4 (Fig. 5B). The bifurcation gives rise to a
+                                                                                   lowed values of ϵ, δ [41]. At the fixed point, the linearized
+large-amplitude periodic orbit along which all excitatory
+                                                                                   system has one negative eigenvalue and two complex-
+neurons are synchronized, reminiscent of a pyramidal-
+                                                                                   conjugate eigenvalues with positive real part. Initial con-
+interneuron gamma oscillation [29]. There is a region of
+                                                                                   ditions near the fixed point spiral outward to the limit
+bistability between the fixed point and a large-amplitude
+                                                                                   cycle. Because the dynamics of the excitatory popula-
+limit cycle for 3.8 ≤ τI /τE < 4. Within the bistable
+                                                                                   tions in the EI-TLN are described by the CTLN equa-
+region, the stable limit cycle and the fixed point are sep-
+                                                                                   tion in the limit where τI → 0, the EI-TLN also has an
+arated by an unstable periodic orbit. So, we call the bi-
+                                                                                   unstable fixed point and a stable limit cycle when τI is
+furcation a subcritical non-smooth Hopf bifurcation. The
+                                                                                   small relative to τE . Using numerical continuation from
+unstable limit cycle is born with finite amplitude because
+                                                                                   this limit cycle, we investigate how the attractors of the
+the fixed point is in the interior of a linear chamber, which
+                                                                                   EI-TLN change with τI .
+cannot support a periodic orbit except exactly at the bi-
+furcation point (Fig. 5C). Details are in Section A 6 a. A                            When τI /τE = 1, the EI-TLN has a CTLN-like limit
+version of this calculation also appears in [43], where a                          cycle (Fig. 6B). We numerically continued this limit cy-
+limit cycle emerges when inhibition is made weaker.                                cle, which we call the “CTLN cycle”, for τE = 1, 0.01 ≤
+                                                                                                                                                                                                                   9
+
+     A                                             B                                                                               C
+                                                                1.0
+                                                                                                                                                           1.50        CTLN cycle      Stable
+                                E2                                                                                                                                     Mixed           Unstable
+                                                                0.8                                                                                                    E/I cycle
+
+
+
+
+                                                                                                                               Inhibitory firing rate xI
+                                                                                                                                                           1.25        Fixed point
+
+
+
+
+                                                  Firing rate
+                                                                0.6
+                                                                                                                                                           1.00
+                  E1                  E3
+                                                                0.4
+                                                                                                                                                           0.75
+                                I                               0.2
+                                                                                                                                                           0.50
+                                                                0.0
+                                                                   0.0     2.5         5.0          7.5       10.0                                                0          2           4        6            8
+                                                                                       Time                                                                              Relative inhibitory timescale
+     D
+                                            CTLN cycle                                                        Mixed cycle                                                              E/I cycle
+                       1.0
+
+                       0.8
+         Firing rate
+
+
+
+
+                       0.6
+
+                       0.4
+
+                       0.2
+
+                       0.0
+                              0.0     2.5         5.0    7.5                   10.0          0.0      2.5         5.0    7.5                                      10.0           0.0      2.0      4.0
+                                                    Time                                                            Time                                                                 Time
+     E                                                                                                             F
+                                     Projection 1                                        Projection 2
+                                                                                                                                     0.8
+                                                                         0.9
+                        0.4
+                                                                         0.8                                                         0.6
+                                                                                                                     Firing rate
+
+
+
+
+                        0.2
+                                                                         0.7                        F
+                        0.0                                                                                                          0.4
+                                                                         0.6
+                       -0.2                                              0.5                                                         0.2
+
+                       -0.4                                              0.4                                                         0.0
+                               -0.4 -0.2    0.0      0.2          0.4            0.2   0.4    0.6   0.8     1.0                                            0      10      20    30      40    50     60   70
+
+                                                                                                                                                                                 Time
+
+
+Figure 6. (A) E-I TLN whose underlying graph is a directed 3-cycle. (B) Solid: firing rates of the EI-TLN for τI /τE = 1.0.
+Transparent lines: firing rates in CTLN model with same graph. (C) Bifurcation diagram for the parameter τI /τE . Solid
+lines indicate stability, dashed indicates instability. Periodic orbits are represented by the minimum and maximum values
+of the inhibitory firing rate along the orbit. (D) Three periodic orbits present for τI /τE = 3.0. Left, the CTLN cycle,
+obtained by continuation of stable periodic orbit in panel B. Notice that the shapes of the firing rate curves are deformed
+relative to those in panel B. Center, the unstable periodic orbit. Right, the E/I cycle, a stable periodic orbit in which all
+three excitatory neurons have synchronous activity, and the total exciatory and inhibitory populations oscillate. Analogous
+to the limit cycle described in Fig. 5. (E) Two projections of all three periodic orbits for τI /τE = 3.0. Gold is CTLN
+cycle, dark red is E/I cycle, dashed orange is unstable periodic orbit separating the other two cycles. (F) Firing rates for
+a trajectory which follows a long, apparently quasiperiodic transient before approaching the CTLN limit cycle. Parameters:
+  ⟲           →            ̸→
+JEE  = 1.5, JEE  = 0.75, JEE   = 0, JEI = −2.25, JIE = 2, JII = −2, τE = 1.
+
+
+τI ≤ 8.0 (Fig. 6C, gold). This periodic orbit remains                                                     eigenvalues of the fixed point crosses the real axis and
+stable up to τI /τE = 6.46, though its shape becomes dis-                                                 the fixed point no longer has any stable direction. At
+torted as τI increases (Fig. 6D, left, shown for τI /τE = 3).                                             this parameter value, a second limit cycle we call the
+We continued this periodic orbit past its instability and                                                 “EI-cycle” branches off from the fixed point via a sub-
+did not find an endpoint.                                                                                 critical non-smooth Hopf-like bifurcation (Fig. 6C, dark
+  At τI /τE = 2.4 , the second pair of complex-conjugate                                                  red) reminiscent of the one described in the previous sec-
+                                                                                                                          10
+
+tion. Along this limit cycle, all three excitatory neurons      ically detailed models [49, 50]. Many of these derivations
+have synchronous activity (Fig. 6D, right). There is a re-      make it possible to relate parameters in the rate model
+gion of bistability between the CTLN cycle and the E-I          to biophysically meaningful values. Thus, by connecting
+cycle.                                                          the CTLN model to networks that incorporate explicit
+   For parameters in a large part of the bistable region,       excitatory and inhibitory populations, as well as spikes,
+from 2.42 ≤ τI /τE ≤ 5.29, there are two unstable pe-           we make it possible to use techniques from the theory of
+riodic orbits between the CTLN cycle and the EI cycle,          CTLNs to predict the qualitative behavior of more de-
+which we call the “mixed cycles” (Fig. 6C, orange dashed;       tailed models.
+Fig. 6D, middle). For τI /τE = 3.0, we plot two projec-            In particular, we can now use graph rules that relate a
+tions of all three identified periodic orbits in Fig. 6E. The   network’s structure to its dynamics, proven for CTLNs,
+mixed cycle is annihilated via a non-smooth fold bifur-         in a broader context. We briefly review some of these
+cation with itself at τI /τE = 5.29, which is before the        results here—a more in-depth review can be found in
+CTLN cycle loses stability.                                     [20]. Many graph rules relate whether a subnetwork (in
+   Thus, there is a region of bistability between the CTLN      our case a set of clusters) can be co-active at a fixed
+cycle and the EI-cycle where we have not been able to           point to both the structure of the subnetwork and the
+find an unstable perioidic orbit separating them. Because       way the subnetwork is embedded in the full network. For
+the CTLN limit cycle loses stability via a secondary Hopf       instance, the result we stated in Section II C, that a clique
+bifurcation, we expect an unstable quasiperiodic trajec-        supports a stable fixed point if and only if it is target-
+tory/unstable invariant torus in this region. In Fig. 6F,       free, is a graph rule of this type [24]. A second class of
+we plot a trajectory that appears to stay near that in-         graph rules, including gluing rules and nerve theorems,
+variant torus for some time before eventually entering the      predicts the fixed points of networks that are constructed
+CTLN cycle. Details are available in Section A 6 b.             compositionally, i.e., out of smaller networks connected
+                                                                in constrained ways [22, 27].
+                                                                   Finally, dynamic attractors of CTLNs can also be par-
+                   III.   DISCUSSION                            tially predicted from graph structure. The simplest ex-
+                                                                ample of a CTLN which has a dynamic attractor, the di-
+   We derived a rate model dynamically equivalent to the        rected 3-cycle, is proven to have a periodic orbit in [41].
+CTLN model as a mean-field theory for cluster-average           Even in this simple case, the proof is nontrivial. Conse-
+firing rates in an inhibition-stabilized, clustered nonlin-     quently, current methods for predicting dynamic attrac-
+ear Hawkes model in the limit of large cluster size and         tors from network structure more generally are heuristic.
+fast inhibition. This allows us to predict diverse dynam-       Dynamic attractors of CTLNs are typically observed to
+ics of clustered networks using existing results proved         correspond to unstable core motifs, which are minimal
+for CTLNs. We showed that the CTLN model describes              subnetworks that support an unstable fixed point [26].
+the mean firing rates of excitatory populations in an           When these networks have a cycle-like structure, this
+inhibition-stabilized regime. This allowed us to demon-         cycle-like structure predicts the order in which neurons
+strate the paradoxical effect, a hallmark of inhibitory sta-    fire in the attractor. By combining these graph rules,
+bilization, in networks with multiple excitatory popula-        it is possible to construct recurrent networks that per-
+tions and diverse dynamics. Finally, while the equiva-          form biologically relevant tasks, such as locomotion, by
+lence between the CTLN and the clustered spiking net-           hand rather than by training [25, 51]. This results in
+works holds in the limit of fast inhibition, we showed          networks with a modular structure that are amenable to
+that CTLNs qualitatively predict the dynamics of clus-          mathematical analysis. By relating the CTLN model to a
+tered spiking networks for more reasonable inhibitory           model that incorporates spiking activity and explicit in-
+timescales.                                                     hibitory and excitatory populations, we help to interpret
+   Many other derivations of rate models from models            these results about CTLNs in a biological context—for
+with a higher level of biological detail are possible–several   instance, we have shown that it makes more sense to in-
+are reviewed in [44]. These derivations can be done rigor-      terpret “neurons” in the CTLN model as populations.
+ously in the limit where synapses are slow [45, 46], or for        While our derivation of the CTLN model from clus-
+large populations with asynchronous activity [47]. Our          tered spiking networks was in the limit where inhibition
+choice of a rate model of the form of Equation 1, with          is fast relative to excitation, we have observed that the
+the summation inside of the nonlinearity, reflects the as-      qualitative dynamics of CTLNs match the qualitative
+sumption that the synaptic decay time constant is fast          dynamics of clustered spiking networks for much more
+relative to the membrane time constant, while the alter-        reasonable excitatory and inhibitory timescales, includ-
+nate form assumes that the synaptic decay time is slow          ing in cases where inhibitory time constants are larger
+relative to the membrane time constant [44]. Both forms         than excitatory time constants. We gave explicit condi-
+assume that the synaptic kernel’s rise time is fast relative    tions on the ratio between the excitatory and inhibitory
+to both the synaptic decay time and the membrane time           timescales required so that fixed points that are stable in
+constant [48]. Stochastic spiking models, like the Hawkes       the CTLN remain stable in the EI-TLN. Because these
+process we used here, can also be related to more biolog-       conditions depend on the weights of the EI-TLN, and be-
+                                                                                                                         11
+
+cause there are multiple combinations of EI-TLN weights         exhibit metastability between fixed points and dynamic
+which give rise to the same set of CTLN weights, it is          attractors, as in Fig. 1E. Noise-induced transitions in-
+possible to scale the EI-TLN weights in order to stabilize      volving dynamic attractors can be estimated using recent
+CTLN fixed points for any combination of excitatory and         extensions of Friedlin-Wentzell theory [56].
+inhibitory time constants. We also note that whether a             Networks with
+                                                                              √ strong coupling take synaptic weights
+stable fixed point in the CTLN remains stable in the EI-        to scale as 1/ N rather than 1/N [57]. This heterogene-
+TLN depends on the number of clusters which are active          ity generates activity fluctuations that are uncorrelated
+at the fixed point. By scaling the probability of between-      in the large N limit [58]. This result has been extended to
+cluster connectivity with network size, we can also ensure      various observed features of neural connectivity, such as
+that CTLN fixed points remain stable with fixed weights.        block-structured, low-rank, spatial, or correlated connec-
+   Due to our choice of 1/N weight scaling, the clus-           tivity and heavy-tailed synaptic weight distributions [59–
+tered spiking network model here converge to determin-          67]. Our reduction of clustered networks to the CTLN
+istic mean-field dynamics in the limit of large N . For         averages over the activity within each cluster, suggesting
+smaller N , this model exhibits finite-size fluctuations.       that a similar reduction might be possible in networks
+Thus, stable fixed points, limit cycles, and other attrac-      with strong coupling.
+tors in the CTLN model become metastable attractors in
+finite-size clustered networks. Metastable fixed points in
+similar networks model various phenomena in the brain
+[11, 13, 14, 52]. Finite-size fluctuations can shape firing
+                                                                               ACKNOWLEDGMENTS
+rates, trigger oscillations, and drive transitions between
+metastable attractors [53]. Friedlin-Wentzell theory pro-
+vides a well-established mathematical framework to es-             C.L. is supported by the Swartz Foundation and the
+timate transition times between metastable fixed points         BU Center for Systems Neuroscience. The authors ben-
+when fluctuations are small, as for large but finite N          efited from helpful discussions with Carina Curto and
+[11, 54, 55]. Clustered nonlinear Hawkes networks also          Ryan Goh.
+
+
+
+
+ [1] G. K. Ocker, Y. Hu, M. A. Buice, B. Doiron, K. Josić,          lic Library of Science.
+     R. Rosenbaum, and E. Shea-Brown, Current Opinion           [11] B. A. W. Brinkman, H. Yan, A. Maffei, I. M. Park,
+     in Neurobiology Computational Neuroscience, 46, 109             A. Fontanini, J. Wang, and G. La Camera, Applied
+     (2017).                                                         Physics Reviews 9, 011313 (2022).
+ [2] G. La Camera, in Computational Modelling of the Brain:     [12] A. Litwin-Kumar and B. Doiron, Nature Neuroscience
+     Modelling Approaches to Cells, Circuits and Networks,           15, 1498 (2012), publisher: Nature Publishing Group.
+     edited by M. Giugliano, M. Negrello, and D. Linaro         [13] K. L. Rossi, R. C. Budzinski, E. S. Medeiros, B. R. R.
+     (Springer International Publishing, Cham, 2022) pp.             Boaretto, L. Muller, and U. Feudel, Dynamical proper-
+     125–157.                                                        ties and mechanisms of metastability: a perspective in
+ [3] A. Galves, E. Löcherbach, and C. Pouzat, Probabilistic         neuroscience (2024), arXiv:2305.05328 [q-bio].
+     Spiking Neuronal Nets: Neuromathematics for the Com-       [14] L. Mazzucato, G. La Camera, and A. Fontanini, Nature
+     puter Era, Lecture Notes on Mathematical Modelling              Neuroscience 22, 787 (2019), publisher: Nature Publish-
+     in the Life Sciences (Springer International Publishing,        ing Group.
+     Cham, 2024).                                               [15] D. Amit, Cerebral Cortex 7, 237 (1997).
+ [4] H. Markram, Cerebral Cortex 7, 523 (1997).                 [16] X.-J. Wang, Neuron 60, 215 (2008).
+ [5] R. Perin, T. K. Berger, and H. Markram, Proceedings        [17] R. Moreno-Bote, J. Rinzel, and N. Rubin, Journal of
+     of the National Academy of Sciences 108, 5419 (2011),           Neurophysiology 98, 1125 (2007), publisher: American
+     publisher: Proceedings of the National Academy of Sci-          Physiological Society.
+     ences.                                                     [18] L. Albantakis and G. Deco, PLOS Computational Bi-
+ [6] Y. Yoshimura, J. L. M. Dantzker, and E. M. Callaway,            ology 7, e1002086 (2011), publisher: Public Library of
+     Nature 433, 868 (2005), publisher: Nature Publishing            Science.
+     Group.                                                     [19] E. Marder and D. Bucher, Current biology: CB 11, R986
+ [7] A. Litwin-Kumar and B. Doiron, Nature Communi-                  (2001).
+     cations 5, 5319 (2014), publisher: Nature Publishing       [20] C. Curto and K. Morrison, Notices of the American
+     Group.                                                          Mathematical Society 70, 1 (2023).
+ [8] G. K. Ocker and B. Doiron, Cerebral Cortex 29, 937         [21] C. Curto and K. Morrison, Neural Computation 28, 2825
+     (2019).                                                         (2016).
+ [9] F. Zenke, E. J. Agnes, and W. Gerstner, Nature Commu-      [22] C. Curto, J. Geneson, and K. Morrison, Neural Compu-
+     nications 6, 6922 (2015), publisher: Nature Publishing          tation 31, 94 (2019).
+     Group.                                                     [23] K. Morrison, A. Degeratu, V. Itskov, and C. Curto, SIAM
+[10] L. Montangie, C. Miehl, and J. Gjorgjieva, PLOS Com-            Journal on Applied Dynamical Systems 23, 855 (2024).
+     putational Biology 16, e1007835 (2020), publisher: Pub-
+                                                                                                                             12
+
+[24] C. Curto, J. Geneson, and K. Morrison, Advances in Ap-        [49] Y. Aviel and W. Gerstner, Physical Review E 73, 051908
+     plied Mathematics 154, 102652 (2024).                              (2006), publisher: American Physical Society.
+[25] C. Parmelee, J. L. Alvarez, C. Curto, and K. Morri-           [50] S. Ostojic and S. Fusi, Trends in Cognitive Sciences 28,
+     son, SIAM Journal on Applied Dynamical Systems 21,                 677 (2024), publisher: Elsevier.
+     1597 (2022), publisher: Society for Industrial and Ap-        [51] J. Londono Alvarez, Attractor-based models for sequences
+     plied Mathematics.                                                 and pattern generation in neural circuits, Ph.D. the-
+[26] C. Parmelee, S. Moore, K. Morrison, and C. Curto, PLOS             sis, Pennsylvania State University, University Park, PA
+     ONE 17, e0264456 (2022), publisher: Public Library of              (2024).
+     Science.                                                      [52] L. Mazzucato, A. Fontanini, and G. La Camera, Frontiers
+[27] D. E. Santander, S. Ebli, A. Patania, N. Sanderson,                in Systems Neuroscience 10, 10.3389/fnsys.2016.00011
+     F. Burtscher, K. Morrison, and C. Curto, in Research               (2016), publisher: Frontiers.
+     in Computational Topology 2 , edited by E. Gasparovic,        [53] T. Schwalger and A. V. Chizhov, Current Opinion
+     V. Robins, and K. Turner (Springer International Pub-              in Neurobiology Computational Neuroscience, 58, 155
+     lishing, Cham, 2022) pp. 129–165.                                  (2019).
+[28] E. Fino and R. Yuste, Neuron 69, 1188 (2011).                 [54] M. I. Freidlin and A. D. Wentzell, in Random Perturba-
+[29] M. A. Whittington, R. D. Traub, N. Kopell, B. Ermen-               tions of Dynamical Systems, edited by M. I. Freidlin and
+     trout, and E. H. Buhl, International Journal of Psy-               A. D. Wentzell (Springer, Berlin, Heidelberg, 2012) pp.
+     chophysiology 38, 315 (2000).                                      258–354.
+[30] J. Stiefel, Mean-field limits for non-linear Hawkes pro-      [55] P. C. Bressloff and J. M. Newby, Physical Review E 89,
+     cesses with inhibition on a Erdős-Rényi-graph (2023),            042701 (2014).
+     arXiv:2207.02655 [math].                                      [56] E. Fleurantin, K. Slyman, B. Barker, and C. K. R. T.
+[31] P. Pfaffelhuber, S. Rotter, and J. Stiefel, Stochastic Pro-        Jones, Physica D: Nonlinear Phenomena 454, 133860
+     cesses and their Applications 153, 57 (2022).                      (2023).
+[32] L. Zhu, The Annals of Applied Probability 25, 548             [57] J. Barral and A. D Reyes, Nature Neuroscience 19, 1690
+     (2015), publisher: Institute of Mathematical Statistics.           (2016), publisher: Nature Publishing Group.
+[33] J. Chevallier, Stochastic Processes and their Applications    [58] H. Sompolinsky, A. Crisanti, and H. J. Sommers, Physi-
+     127, 3870 (2017).                                                  cal Review Letters 61, 259 (1988), publisher: American
+[34] S. Delattre, N. Fournier, and M. Hoffmann, The Annals              Physical Society.
+     of Applied Probability 26, 216 (2016), publisher: Insti-      [59] R. Zeraati, V. Buendı́a, T. A. Engel, and A. Levina,
+     tute of Mathematical Statistics.                                   Physical Review Research 6, 023131 (2024).
+[35] S. Heesen and W. Stannat, Stochastic Processes and their      [60] F. Mastrogiuseppe and S. Ostojic, Neuron 99, 609 (2018),
+     Applications 139, 280 (2021).                                      publisher: Elsevier.
+[36] S. Ditlevsen and E. Löcherbach, Stochastic Processes and     [61] D. Dahmen, S. Recanatesi, X. Jia, G. K. Ocker, L. Cam-
+     their Applications 127, 1840 (2017).                               pagnola, S. Seeman, T. Jarsky, M. Helias, and E. Shea-
+[37] K. D. Miller and F. Fumarola, Neural computation 24,               Brown, Strong and localized recurrence controls dimen-
+     25 (2012).                                                         sionality of neural activity across brain areas (2023),
+[38] R. H. R. Hahnloser, R. Sarpeshkar, M. A. Mahowald,                 pages: 2020.11.02.365072 Section: New Results.
+     R. J. Douglas, and H. S. Seung, Nature 405, 947 (2000),       [62] Y. Hu, J. Trousdale, K. Josić, and E. Shea-Brown, Jour-
+     publisher: Nature Publishing Group.                                nal of Statistical Mechanics: Theory and Experiment
+[39] J. W. Moon and L. Moser, Israel Journal of Mathematics             2013, P03012 (2013), publisher: IOP Publishing and
+     3, 23 (1965).                                                      SISSA.
+[40] C. Lienkaemper, Combinatorial geometry of neural codes,       [63] Y. Hu and H. Sompolinsky, PLOS Computational Biol-
+     neural data analysis, and neural networks, Ph.D. thesis,           ogy 18, e1010327 (2022), publisher: Public Library of
+     Pennsylvania State University (2022).                              Science.
+[41] A. Bel, R. Cobiaga, W. Reartes, and H. G. Rotstein,           [64] J. Aljadeff, M. Stern, and T. Sharpee, Physical Review
+     SIAM Journal on Applied Dynamical Systems 20, 1177                 Letters 114, 088101 (2015), publisher: American Physi-
+     (2021).                                                            cal Society.
+[42] S. Sadeh and C. Clopath, Nature Reviews Neuroscience          [65] M. Stern, H. Sompolinsky, and L. F. Abbott, Physical
+     22, 21 (2021), publisher: Nature Publishing Group.                 Review E 90, 062710 (2014), publisher: American Phys-
+[43] M. V. Tsodyks, W. E. Skaggs, T. J. Sejnowski, and B. L.            ical Society.
+     McNaughton, The Journal of Neuroscience: The Official         [66] D. G. Clark and M. Beiran, Proceedings of the National
+     Journal of the Society for Neuroscience 17, 4382 (1997).           Academy of Sciences 122, e2404039122 (2025), publisher:
+[44] G. B. Ermentrout and D. H. Terman, in Mathematical                 Proceedings of the National Academy of Sciences.
+     Foundations of Neuroscience, edited by G. B. Ermen-           [67] A. Wardak and P. Gong, Physical Review Letters 129,
+     trout and D. H. Terman (Springer, New York, NY, 2010)              048103 (2022), publisher: American Physical Society.
+     pp. 331–367.                                                  [68] M. Helias and D. Dahmen, Statistical Field Theory for
+[45] B. Ermentrout, Neural Computation 6, 679 (1994).                   Neural Networks, Lecture Notes in Physics, Vol. 970
+[46] J. Rinzel and P. Frankel, Neural Computation 4, 534                (Springer International Publishing, Cham, 2020).
+     (1992).                                                       [69] G. K. Ocker, Physical Review X 13, 041047 (2023), pub-
+[47] O. Shriki, D. Hansel, and H. Sompolinsky, Neural Com-              lisher: American Physical Society.
+     putation 15, 1809 (2003).                                     [70] R. D. Beer, Neural Computation 18, 3009 (2006).
+[48] D. J. Pinto and G. B. Ermentrout, SIAM Journal on             [71] R. Veltz, BifurcationKit.jl (2020).
+     Applied Mathematics 62, 206 (2001), publisher: Society
+     for Industrial and Applied Mathematics.
+                                                                                                                     13
+
+                                               Appendix A: Methods
+
+                    1.   Clustered spiking networks: microscopic model and mean-field limit
+
+  Our model consists of n excitatory clusters with NE neurons each, reciprocally connected to a common inhibitory
+population of NI neurons. The network has additional structure given by a directed graph G on n nodes which
+describes the pattern of connectivity between the excitatory clusters. Neuron-to-neuron connectivity is described by
+a block-wise Erdős-Rényi adjacency matrix A with edge probabilities depending on the neuron type as well as the
+graph structure G:
+
+                                           ⟲
+                                          
+                                           pEE       if β = α, α, β excitatory
+                                            p→        if β → α ∈ G, α, β excitatory
+                                          
+                                          
+                                          
+                                            EE
+                                          p̸→
+                                          
+                                                      if β ̸→ α ∈ G, α, β excitatory
+                                             EE
+                                    pαβ =
+                                          
+                                           pEI       if α excitatory, β inhibitory
+                                          
+                                            pIE       if α inhibitory , β excitatory
+                                          
+                                          
+                                          
+                                          
+                                          
+                                            pII       if α, β inhibitory.
+Neuron-to-neuron weights are then given by
+
+                                                          Aij J¯α(i)α(j)
+                                                 Jij =                   ,
+                                                         pα(i)α(j) Nα(j)
+where
+
+                                           ¯⟲
+                                           JEE       if β = α, α, β excitatory
+                                            ¯→
+                                          
+                                            J         if β → α ∈ G, α, β excitatory
+                                          
+                                          
+                                          
+                                            EE
+                                          J¯̸→
+                                          
+                                                      if β ̸→ α ∈ G, α, β excitatory
+                                    J¯αβ = ¯EE                                                                     (A1)
+                                          
+                                           JEI       if α excitatory, β inhibitory
+                                          J¯IE
+                                          
+                                                      if α inhibitory , β excitatory
+                                          
+                                          
+                                          
+                                          ¯
+                                            JII       if α, β inhibitory.
+                     DP         E
+  By construction,                   ¯                            ¯⟲ ¯→ ¯̸→           ¯
+                         j∈α Jij = Jα(i)α(j) . Excitatory weights JEE , JEE , JEE and JIE are positive, while inhibitory
+weights J¯EI and J¯II are negative. Connectivity within populations is stronger than connectivity between populations,
+                                                                                                                    ̸→
+and connectivity between populations is stronger when there is a directed edge than when not: J¯EE  ⟲
+                                                                                                        > J¯EE
+                                                                                                            →
+                                                                                                                > J¯EE .
+  Inhibition in the model is strong enough to cancel out the within-cluster excitation, with
+
+                                                           J¯EI J¯IE
+                                                   J¯EE
+                                                     ⟲
+                                                        =−           .
+                                                           1 − J¯II
+The network’s dynamics are given by the nonlinear Hawkes process
+                                                               N
+                                                               X
+                                           τi v̇α(i) = −vi +         Jij ṡj + bα(i) ,                             (A2)
+                                                               j=1
+
+                                           ṡi ∼ PP (⌊vi ⌋+ ) .                                                    (A3)
+Excitatory and inhibitory neurons have distinct time constants τE and τI .
+  In Fig. 1, we show raster plots for three clustered spiking networks. The adjacency matrices for the graphs G
+determining connectivity between the excitatory clusters are
+                    0 0 0 0 0 0                          0 1 0 1 0 0
+                                                                   
+                   0 0 0 0 0 0                        1 0 1 1 0 0                    0 0 1 1
+                                                                                                 
+                   0 0 0 0 0 0                        0 1 0 1 0 0                   1 0 0 0
+                                                                   
+            Ā1 =                               Ā2 =                           Ā3 = 
+                    0  0 0 0  0 0                        1 1 1  0 1 0                    0 1 0 0
+                                                                     
+                                                                   
+                   0 0 0 0 0 0                        0 0 0 1 0 0                    0 0 0 1
+                     0 0 0 0 0 0                            0 0 0 0 0 0
+                                                                                                                       14
+
+for panels A/B, C/D, and E/F respectively. The simulation parameters are NE = NI = 1000, τE = 40 ms, τI = 20 ms,
+                                                                                   ̸→
+pEE = .2, pEI = .8, pIE = .8, pII = .8, p⟲              ⟲               →
+                                            EE = .8 , JEE = 1.5, JEE = 0.75, JEE = 0, JEI = −3.0, JII = −3.0,
+JIE = 2.0, bE = 0.1, bI = 0. Note that while bE , bI have units of voltage and the synaptic weights J¯αβ have units of
+voltage/(spikes/ms), we absorb the voltage units into the function taking voltage to firing rate, thus we leave these
+quantities non-dimensional. At the times marked with lightning bolts (t = 500, 1000, 1500, 2000, 2500 in panel B,
+t = 1000, 2000, 3000 in panel D, and t = 1000, 2000 in panel F), we applied a transient stimulus to the population or
+populations indicated by the color of the lightning bolt. In panel B, the stimulus was of duration 100 ms and strength
+0.25. In panel D, the stimulus was of duration 50 ms and strength 0.25. In panel F, the stimulus was of duration
+40 ms and strength 0.2. These different stimulus strengths and durations were chosen due to the differing depths of
+the basins of each network’s attractors.
+  We next present a heuristic derivation of the mean-field limit for this model in terms of the voltage dynamics. To
+describe the evolution of the population-averaged voltages, vα := ⟨vi ⟩i∈α we take the expected value on both sides of
+A3, obtaining
+                                                         *N            +
+                                                           X
+                                          τi vα = −vα +        Jij ṡj    + bα                                    (A4)
+                                                                j=1         i∈α
+
+This expectation is being taken over the random connectivity matrix, the stochastic spike emission, and the identity
+of neuron i within cluster α. Now, we make the assumption that in the large-N limit, the connectivity and the spike
+emission become independent, and note that ⟨ṡj ⟩j∈β = ⟨⌊vj ⌋+ ⟩j∈β . This gives us the approximation
+                                                          n+1
+                                                          X
+                                          τi vα = −vα +         J¯αβ ⟨⌊vj ⌋+ ⟩j∈β + bα .                             (A5)
+                                                          β=1
+
+Finally, we make the assumption that in the large-N limit, the value of vj concentrates around its expectation. This
+allows us to switch the order of the expectation and the threshold nonlinearity, obtaining the desired mean- field
+equation
+                                                             N
+                                                             X
+                                            τα v̇α = −vα +         J¯αβ ⌊vβ ⌋+ + bα .                                (A6)
+                                                             j=1
+
+These mean-field dynamics can also be obtain by averaging the generating functional for Eq. A3 over realizations of
+the connectivity in the large N limit [68]. In that case, the neurons’ net synaptic inputs concentrate around the mean
+and the generating functional factorizes across neurons [69]. Corresponding mean-field limits for similar nonlinear
+Hawkes models are proven in [30–36].
+
+
+                                     2.   Equivalence between two formulations
+
+   Miller and Fumarola [37] establish the equivalence of two commonly used models, those of the form τ v̇ = −v +
+Jf (v) + b and τ ẋ = −x + f (Jx + c). In the restricted case when J is invertible and b is constant, this equivalence via
+the map b = c, v = Jx + c was established earlier in [70]. Here, we focus on invertible J (but not necessarily constant
+b) because this is what occurs generically.
+   In this case, the map is v = Jx + c, x = J −1 (x − c), as in [70]. However, the input transforms as τ ċ = −c + b.
+Notice that
+          R t this means that the input to the x-model is a low-pass filter of the input in the equivalent v- model, with
+                ′
+c(t) = τ1 0 e(t −t)/τ b(t′ )dt′ .
+   In Fig. 2B, we plot population-mean firing rates, computed by averaging ⌊vi ⌋+ over all neurons in each cluster,
+against predictions made by simulating the EI-TLN model of Eq. 6. Because we used time varying input, the input
+to the EI-TLN is a low-pass-filtered version of the mean input to the spiking model. We then plot ⌊v⌋+ = ⌊Jx + c⌋+
+against the population-averaged rates.
+   Hereafter, we only consider the case where the external input b to the v-model is constant, so the input to the
+x-model is c = b. Thus, we use b to denote external inputs regardless of formulation hereafter.
+   This transformation of the input explains why Eq. A3 is not dynamically equivalent to the x-model of the form
+                                                                               
+                                                            N
+                                                            X                  
+                                                                                
+                                          τα(i) ẋi = −xi +    Jij ṡj + bα(i)  .                                  (A7)
+                                                                j=1
+                                                                                    +
+                                                                                                                            15
+
+We can re-write Eq. 1 as
+                                                  N                              N
+                                                                                                        !
+                                                  X                              X
+                              τi v̇α(i) = −vi +         Jij ⌊vj ⌋+ +   bα(i) +         Jij (ṡj − ⌊vj ⌋+ ) ,
+                                                  j=1                            i=1
+
+                                                                                    PN
+i.e., separating the stochastic spiking into an external input bi (t) = bα(i) + i=1 Jij (ṡj − ⌊vj ⌋+ ). Then the equivalent
+                                                                 Rt ′
+input to the x- model is the low-pass filtered input ci (t) = τ1 0 e(t −t)/τ bi (t′ )dt′ . Indeed, the x-model A7 does not have
+                                                                                                          PN
+the EI-TLN as a mean-field theory because variance of the input to the threshold nonlinearity, j=1 Jij ṡj + bα(i) , has
+infinite variance which does not converge to any finite value even when N → ∞. This means that it is not possible
+to exchange the order of the threshold nonlinearity with the expectation, as we did in the derivation of A6. A spiking
+model which has the x-model form would need to incorporate an additional filter:
+                                                                                      
+                                                          N
+                                                          X                           
+                                                                                       
+                                       τα(i) ẋi = −xi +       Jij (g ∗ ṡj ) + bα(i)  ,                                 (A8)
+                                                                j=1
+                                                                                                +
+
+where the term (g ∗ ṡj ) denotes a convolution, and g is some synaptic filter, i.e. g(t) = τ1s et/τs . We could then obtain
+the EI-TLN model as a mean-field theory of this model, in the additional limit where the filter width τs goes to zero.
+
+
+                                    3.   The EI-TLN model and the CTLN model
+
+  In the previous section, we showed that in the limit of large population size, the expected firing rates evolve
+according to deterministic, n + 1 dimensional dynamics. We now study this system, and relate it to the CTLN model.
+Letting xα = ⟨xi ⟩i∈α we have
+
+                                                                         
+                                                                         
+                                                          X
+                                                             J¯αβ xβ + bβ  ,
+                                                                          
+                                          τα ẋα = −xα +                                                                (A9)
+                                                                 β∈[n+1]
+                                                                                            +
+
+where weights J¯αβ is defined as in Equation A1, the n excitatory populations are indexed by α ∈ [n], and the inhibitory
+population is indexed as α = n+1. We term this model the Excitatory-Inhibitory Threshold Linear Network (EI-TLN)
+because its dynamics are determined by the directed graph G.
+  Next, we show that in the limit of fast inhibition, τI /τE → 0, for a certain choice of weights the dynamics on the
+excitatory units in the EI-TLN model converge to the original CTLN model, introduced in [21–23]. This will make it
+possible to apply the theory developed relating fixed points and dynamics of CTLNs to properties of graph structure
+to study the dynamics of clustered spiking networks.
+  The CTLN model describes a network with specific excitatory connectivity against a background of global inhibition
+using a pattern of strong and weak inhibition. The weights Wαβ in a CTLN are determined by a directed graph G,
+and given by
+                                                   
+                                                   0
+                                                              if α = β
+                                           Wαβ = −1 + ε if β → α in G
+                                                   
+                                                   −1 + δ if β ̸→ α in G,
+
+                            δ
+where ε, δ satisfy 0 ≤ ϵ < δ+1 . All neurons in the CTLN receive a uniform input θ > 0.
+  In the limit of fast inhibition, τI /τE ≈ 0, we can approximate the inhibitory neuron’s rate as being at its fixed
+point value,
+                                                      $     n
+                                                                                   %
+                                                            X
+                                           ¯ + θI ]+ = J¯IE
+                                  xn+1 = [Jx                   xα + J¯II xn+1 + bI
+                                                                       α=1                          +
+
+We will drop the the threshold, assuming xI > 0, and solve for xI , obtaining
+                                                        Pn
+                                                    J¯IE α=1 xα + bI
+                                            xn+1 =
+                                                         1 − J¯II
+                                                                                                                                 16
+                                                                                                  Pn
+When 1− J¯II > 0, bI ≥ 0, this yields a positive solution for xn+1 , thus at the fixed point, J¯IE α=1 xα + J¯II xn+1 +bI =
+xn+1 > 0, so dropping the threshold was appropriate. Substituting this back into the equations for the excitatory
+neurons, we have
+
+                                                                                                
+                                                             ¯EI J¯IE X          ¯EI
+                                                                                                
+                                X             X ̸→           J                   J
+      τE ẋe = −xe + J¯EE xe +     J¯EE
+                                      →
+                                                   J¯EE xj +
+                      ⟲                                                                         
+                                         xj +                     ¯      x j +     ¯   b I + b E
+                                                                                                 
+                                j→e           j̸→e
+                                                             1 − JII j∈E       1 − JII
+                                                                                                       +
+      τE ẋe = −xe +
+                                                                                                         
+                     ¯   ¯                   ¯   ¯                        ¯   ¯             ¯
+                                                                                                   
+              J¯ + JEI JIE xe +             JEI JIE                 ̸→   JEI JIE           JEI
+                                 X                           X
+                                       ¯EE
+                                         →                          ¯
+              ⟲                                                                                          
+                 EE      ¯             J   +      ¯    x j +       J EE +      ¯    x j +     ¯   bI + bE
+                                                                                                          
+                     1 − JII     j→e
+                                             1 − JII         j̸→e
+                                                                          1 − JII         1 − JII
+                                                                                                                          +
+
+Thus, when
+                                                        J¯EI J¯IE
+                                              J¯EE
+                                                ⟲
+                                                    +               =0
+                                                        1 − J¯II
+                                                              J¯EI J¯IE
+                                                   J¯EE
+                                                     →
+                                                          +             = −1 + ϵ
+                                                              1 − J¯II
+                                                     ̸→       J¯EI J¯IE
+                                                   J¯EE   +             = −1 − δ
+                                                              1 − J¯II
+                                                      J¯EI
+                                                               bI + bE = θ
+                                                   1 − J¯II
+the n-neuron E-I model limits to the CTLN as τI → 0. Notice that this defines a three-dimensional manifold of
+six-dimensional parameter space. Figure 2D shows the cluster average firing rates for excitatory clusters against rates
+predicted using the CTLN model. Translation from the x-model to the v-model is done as in Fig. 2B.
+
+
+                            4.   Bounds on total excitatory, inhibitory activity in EI-TLN
+
+  In the previous section, we informally showed that the EI-TLN model approaches the CTLN model in the limit
+of fast inhibition. Now, we make this argument more formal and show that when τI ≤ τI∗ for some fixed τI∗ > 0
+(dependent on parameters and network structure), there is a forward-invariant region on which certain properties of
+the CTLN still hold. In particular, on this region bounds on total excitatory activity from [40] (Eq. 9) apply to
+the EI-TLN model and the inhibitory population stays above threshold, allowing us to write the dynamics of the
+excitatory neurons as an integro-differential equation equation which does not reference the inhibitory firing rate.
+                                                                                ̸→
+Proposition 1. Let a directed graph G, together with parameters J¯EE
+                                                                  ⟲
+                                                                     , J¯EE
+                                                                         →
+                                                                            , J¯EE , J¯EI , J¯IE , J¯II define an EI-TLN.
+                                                                     J¯EI                       J¯EI
+                                                                          b +bE
+                                                                    1−J¯II I
+                                                                                                     b +bE
+                                                                                               1−J¯II I
+Without loss of generality, assume τE = 1.     Define xmin
+                                                       E   =           ⟲
+                                                                     J¯EE    ̸→
+                                                                          −J¯EE
+                                                                                  and xmax
+                                                                                       E   =      ⟲
+                                                                                                J¯EE −J¯EE
+                                                                                                        →    . Then there exists a
+parameter-dependent threshold value τI∗ such that for all τI ≤ τI∗ , there is a forward invariant set A ⊂ B ∩ TI+ , where
+B is the “box” defined by
+       (                                ) (                                                    )
+             min
+                     X
+                                    max                 J¯IE                  J¯IE
+  B = x xE <              xα (t) < xE    ∩ x                   xmin
+                                                                 E   < xI <          xmax         ∩ {x | xα ≥ 0, α ∈ [n + 1]}
+                   α exc.
+                                                           ¯
+                                                      1 − JII               1 − J¯II E
+
+and TI+ is the region where ẋI is above threshold, that is,
+                                                      X
+                                      TI+ = {x | J¯IE      xα + J¯II xI + bI ≥ 0}.
+                                                           α exc.
+
+
+Proof. We construct the region A ⊂ B ∩ TI+ as follows. First, we define the hyperplanes
+
+               X                                  X
+  min
+ HE   = {x |            xα = xmin
+                              E }
+                                     max
+                                    HE   = {x |            xα = xmax
+                                                                 E }     HImin = {x | xI = xmin
+                                                                                            I }       HImax = {x | xI = xmin
+                                                                                                                         I }
+               α exc.                             α exc.
+                                                                                                                                           17
+
+
+
+
+                                               Inhibitory firing rate xI
+                                                                                            A     B
+
+
+
+
+                                                                              Excitatory firing rate xE
+
+
+Figure 7. Schematic figure for proof of Proposition 1, illustrated for the two-dimensional case of one excitatory population and
+one inhibitory population.
+
+
+that, together with the coordinate hyperplanes, form the boundary of the box B. Let HInull denote the portion of the
+xI nullcline which is contained in the positive orthant. Notice that HInull intersects two of the corners of the box B:
+C min = HInull ∩ HImax ∩ HE       max
+                                       ∩ Rn+1≥      ̸= ∅ and C max = HInull ∩ HImin ∩ HE        min
+                                                                                                     ∩ Rn+1
+                                                                                                        ≥    ̸= ∅.
+                                     null
+    Further,       notice that on H IP    , for all   excitatory  neurons    α,  ẋ α  is given by  the CTLN    equations. Thus, we have that
+                            min                                 max
+P
+    α exc.    ẋ α > 0 on C     and     α exc.  ẋ α  < 0  on C       because   these     inequalities hold in the original CTLN model ([40],
+Corollary 9.2). Because derivatives are continuous                  in threshold     linear  networks,  this  means that for some ϵ > 0, there
+are open ϵ-neighborhoods of C min , C max where α exc. ẋα > 0 and α exc. ẋα < 0 respectively. Next, notice that by
+                                                                P                           P
+choosing an appropriate ϵ, we can ensure that both of these neighborhoods are fully contained on the positive side of
+TI+ , i.e., the region where the inhibitory population is above threshold.
+    Thus, we define a hyperplane HInull,+ by translating HInull upwards (in the positive xI direction) so that the
+intersection of HInull,+ and HE       min
+                                             remains within this ϵ-neighborhood. We define HInull,− analogously.
+    Now, we define A to be the intersection of B with the region bounded by HInull,+ , HInull,− . We show that there
+exists a threshold value of τI∗ such that for all τI ≤ τI∗ , A is a forward-invariant set. To do this, we need to check
+that for each hyperplane bounding A, the dot product of (ẋ1 , . . . , ẋn , ẋn+1 ) with the normal vector of the hyperplane
+(oriented towards the inside of A) is positive by for large enough τI .
+    There are 6 hyperplanes         to check: HE       min    max
+                                                           , HE   , HImin , HImax , HInull + , and HInull − . First, we Pnote that by the way
+                                                                        min
+                           P
+we have chosen ϵ, α exc. ẋα > 0 on the portion of HE                        which forms the boundary of A and α exc. ẋα < 0 on the
+                     max
+portion of HE            which forms the boundary of A. Note that this also includes the corners. Thus, the EI-TLN vector
+                                   min              max
+field points into A along HE              and HE        .
+    Next, we note that, where they form the boundary for A, HImax is above the HInull and HImin is below HInull , so ẋI is
+positive on HImin and negative on HImax . Further, the normal vector for HImax is pointed entirely in the −xI direction
+while the normal vector for HImin is entirely in the +xI direction. Thus, for any value of τI , the EI-TLN vector field
+points in to A.
+    Finally, we check HInull + and HInull − . Notice that the normal vector for HInull + (HInull − ) has a negative (positive)
+entry in the xI coordinate. Further, because HInull + (HInull − ) is above (below) HI , ẋI is negative on HInull + and
+positive on HInull − . Further, scaling τI while fixing other parameters does not affect the excitatory derivatives
+ẋ1 , . . . , ẋn . Because A is compact, | α exc. xα | attains a finite maximum on HInull + ∩ A, HInull − ∩ A. Likewise,
+                                                     P
+
+because HInull + , HInull − are disjoint from HInull , ẋI attains a non-zero minimum value on HInull + ∩ A, HInull − ∩ A.
+Thus, by scaling τI , it is possible to guarantee that ẋ has a positive dot product with HInull + ∩ A and HInull − ∩ A.
+
+
+
+                                                5.                         Paradoxical response in EI-TLN
+
+   We prove that in the limit where τI /τE → 0, the EI-TLN exhibits the paradoxical response: excitatory stimulation
+of the inhibitory population results in a decrease in inhibitory firing rates. Although interpretation of this statement
+is straightforward for systems with a single, inhibition-stabilized fixed point, we need to clarify what this means in a
+                                                                                                                              18
+
+system with a dynamic attractor. What we show is that for any EI-TLN with sufficiently fast inhibition, increasing
+the input to the inhibitory neurons scales down the inhibitory firing rates on all attractors.
+                                                                                          ̸→
+Proposition 2. Let a directed graph G, together with the parameters J¯EE    ⟲
+                                                                               , J¯EE
+                                                                                   →
+                                                                                      , J¯EE , J¯EI , J¯IE , J¯II , define an EI-
+                 ∗        ∗
+TLN. Let τI ≤ τI , where τI is the threshold of inhibitory timescale described in Proposition 1. Let x(t) be a solution
+to the EI-TLN, with external input bE , bI , which starts in the forward invariant set A defined in Proposition 1. A
+solution y(t) to the EI-TLN with external input bE , bI + ∆bI can be constructed by scaling the entries of x(t) as:
+
+                                                                                            
+                                                                      κxE (t)
+                                                y(t) =
+                                                              κxI (t) + (1−κ)b I +∆bI
+                                                                           1−JII
+
+where
+                                                           J¯EI
+                                                                 (b + ∆bI ) + bE
+                                                          1−J¯II I
+                                                  κ=             J¯EI
+                                                                                 ,
+                                                                      b + bE
+                                                                1−J¯II I
+
+xE (t) = (x1 (t), . . . , xn (t)), and xI (t) = xn+1 (t). When ∆bI ≥ 0, yI (t) < xI (t) for all t.
+Proof. Because x(0) ∈ A ⊆ B ∩ TI+ , x(T ) ∈ TI+ for all t ≥ 0. So along x(t), the inhibitory population always stays
+above threshold, meaning that its dynamics are linear. This means we can describe the total inhibitory activity in
+terms of the external input and the time-average of the total excitatory input in the recent past:
+
+                                                               J¯IE             bI
+                                                xI (t) =          ¯  x̄(t) +          ,
+                                                             1 − JII         1 − J¯II
+where
+                                                           Z t
+                                                     1             ′          X
+                                             x̄(t) =             e(t −t)/τI            xα(t′ ) dt′ .
+                                                     τI      0                α exc.
+
+This makes it possible to write an integro-differential equation for the excitatory rates which does not make reference
+to the inhibitory rates:
+                                                                                         
+                                                               ¯   ¯         ¯
+                                            X                                            
+                                                               JEI JIE       JEI bI
+                                                     J¯αβ xβ +
+                                                                                         
+                              ẋα = −xα +                          ¯  x̄ +      ¯  + b E
+                                                                                                                (A10)
+                                              β exc.
+                                                               1 − JII      1 − JII
+                                                                                                            +
+
+  Now, for all excitatory neurons α, let yα (t) = κxα (t). Notice that
+                                                                                    
+                                                  ¯   ¯        ¯
+                                                                                    
+                                X                JEI JIE      JEI (bI + ∆bI )
+                                        J¯αβ yβ +
+                                                                                     
+                      −yα (t) +                       ¯  ȳ +         ¯       + b E
+                                                                                      = κẋα = ẏα
+                                 β exc.
+                                                  1 − JII         1 − JII
+                                                                                                       +
+
+Thus if xα (t) is a solution to Equation A10, then yα(t) is a solution to the same threshold linear network with input
+bE , bI + ∆bI . Along this solution to the threshold linear network, the inhibitory population’s firing rate is
+
+
+                                                               J¯IE          bI + ∆bI
+                                               yI (t) = κ         ¯  x̄(t) +
+                                                             1 − JII          1 − J¯II
+Now, we compare yI (t) to xI (t). We have
+                                                           1
+                                                                (κ − 1)J¯IE x̄(t) + ∆bI
+                                                                                        
+                                    yI (t) − xI (t) =        ¯
+                                                        1 − JII
+                                                                           J¯EI
+                                                                                                       !
+                                                       ∆bI                1−J¯II          ¯
+                                                   =                                      JIE x̄(t) + 1 .
+                                                     1 − J¯II           JEI
+                                                                       1−J11 bI + bE
+
+                                                                                 JEI
+                                                                                         bI +bE
+Now, because x(0) ∈ A ⊆ B ∩ TI+ , x(t) satisfies                             1−J11
+                                                         P
+                                                             α exc. xα (t) > J¯⟲ −J¯̸→ . Thus,
+                                                                                   EE       EE
+                                                                                                                      19
+
+
+
+                                                         x̄(t)                   1
+                                                   JEI
+                                                                        >            ̸→
+                                                                                        .
+                                                  1−J11 bI + bE             J¯EE
+                                                                              ⟲
+                                                                                 − J¯EE
+                                ¯EI J¯IE
+  Applying the identity J¯EE
+                          ⟲
+                             + J1− J¯II
+                                         = 0, we have
+
+                                     J¯EI
+                                    1−J¯II                        −J¯EE
+                                                                      ⟲
+                                                                         x̄(t)      −J¯EE
+                                                                                       ⟲
+
+                                 JEI
+                                                J¯IE x̄(t) =      JEI
+                                                                               <          ̸→
+                                                                                             < −1.
+                                1−J11 bI + bE                    1−J11 bI + bE   J¯EE
+                                                                                   ⟲
+                                                                                      − J¯EE
+
+Thus,
+                                                                                ∆bI
+                                                   yI (t) − xI (t) < −                 .
+                                                                              1 − J¯II
+Increasing the input to the inhibitory population decreases its activity along all trajectories that start in the forward
+invariant region A ⊆ B ∩ TI+ where the inhibitory neuron stays in a linear regime and the total excitatory activity
+obeys the bounds for CTLNs.
+
+
+  Figure 4 shows the response of the clustered spiking model to stimulation of the inhibitory cluster. In panel A,
+the network has a single excitatory population and single inhibitory population. In panel B, the network has three
+excitatatory clusters, whose connectivity is a directed cycle, i.e., the graph has adjacency matrix
+                                                                  
+                                                           0 0 1
+                                                    A = 1 0 0 .
+                                                           0 1 0
+
+The simulation parameters are NE = NI = 1000, τE = 40 ms, τI = 20 ms, pEE = .2, pEI = .8, pIE = .8, pII =
+                                          ̸→
+.8, p⟲           ⟲          →
+     EE = .8 , JEE = 2, JEE = 1.25, JEE = 0, JEI = −2, JII = −3.0, JIE = 4.0, bE = 0.1, bI = 0. At time
+t = 500 ms, an inhibitory stimulus is applied, changing the the value of bI to 0.15.
+
+
+                                        6.   How fast does inhibition need to be?
+
+                                                            a.    Fixed point
+
+   Now, we explore how fast inhibition must be relative to excitation for stable fixed points supported on target-free
+cliques to remain stable in the EI-TLN . At the fixed point, all excitatory firing rates have the same value. Further,
+because the graph is a clique, all pairs of excitatory clusters are connected with an edge of weight J¯EE→
+                                                                                                            . We can
+therefore reduce to a system with one excitatory unit and one inhibitory unit with effective weights
+                                                     ef f
+                                                   J¯EE   = (n − 1)J¯EE
+                                                                     →
+                                                                        + J¯EE
+                                                                            ⟲
+
+
+                                                   J¯ef f = nJ¯IE .
+                                                     IE
+
+
+
+The stability of the fixed point depends on the eigenvalues of the matrix
+                                                     ef f          
+                                                                 J¯EE −1        J¯EI
+                                                                     τE          τE 
+                                                     A=           J¯ef f
+                                                                   IE         J¯II −1
+                                                                   τI            τI
+
+which are
+                                                                        √
+                                                     ±       −B ±           B 2 − 4AC
+                                                    λ =
+                                                                            2A
+                           ef f                                 ef f                         ef f
+where A = τE τI , B = −((J¯EE   − 1)τI + (J¯II − 1)τE ), C = (J¯EE   − 1)(J¯II − 1) − J¯EI J¯IE   .
+                                                                                                                           20
+
+  Note that C > 0 for E-I CTLN parameters and any value of τI , τE :
+
+                                   C = ((n − 1)J¯EE
+                                                 →
+                                                    + J¯EE
+                                                        ⟲
+                                                            − 1)(J¯II − 1) − nJ¯EI J¯II
+                                                                               J¯EI J¯II
+                                                                                        
+                                         ¯                 ¯→     ¯⟲
+                                     = (JII − 1) (n − 1)JEE + JEE − 1 − n ¯
+                                                                               JII − 1
+                                     = (J¯II − 1) (n − 1)J¯EE
+                                                           →
+                                                              − (n − 1)J¯EE
+                                                                          ⟲
+                                                                                 
+                                                                             −1
+                                     > 0.
+
+  This implies that there is a Hopf-like bifurcation when B = 0, and that the fixed point is stable when
+
+                                                      J¯ef f − 1   τE
+                                                     − ¯EE       <    .
+                                                       JII − 1     τI
+Because the system is non-smooth, the bifurcation does not fit the normal form for a standard bifurcation. We
+numerically continued the limit cycle which arises from this fixed point using the Julia package BifurcationKit [71].
+                                                                        ̸→
+At the parameters used in Fig. 5 (k = 1, J¯EE  ⟲
+                                                  = 1.5, J¯EE
+                                                           →
+                                                               = .75, J¯EE = 0, J¯EI = −1.5, J¯IE = 2, J¯II = −1) the
+bifurcation is a non-smooth analogue of a subcritical Hopf bifurcation since there is a small region of bistability
+(3.8 ≤ τI /τE ≤ 4 of bistability between the limit cycle and the fixed point.
+
+
+                                                       b.   Limit cycle
+
+  Now, we consider how fast inhibition must be relative to excitation for a limit cycle in a CTLN to persist in the EI-
+TLN. We investigate this numerically using the Julia package BifucationKit for continuation of periodic orbits [71]. For
+                                       ⟲          →            ̸→
+this analysis, we used the parameters JEE = 1.5, JEE  = 0.75, JEE  = 0.0, JEI = −2.25, JIE = 2.0, JII = −2.0, τE = 1.0
+We considered the directed graph with adjacency matrix
+                                                                
+                                                          0 0 1
+                                                   A = 1 0 0 .
+                                                          0 1 0
+
+   To identify the CTLN-like cycle (Fig. 6, panels B and D (left), gold line in panel C), we first simulated the
+EI-TLN with τI = 0.01 with the initial condition xCTLN   0     = [0.5, 0, 0.5, 0.67]. We used this trajectory as an initial
+guess for periodic orbit localization in BifurcationKit. Our initial guess for the period of the orbit was T = 11. To
+localize and continue this limit cycle, and all others in this section, we discretized time into m = 100 time steps
+and used a finite differences method based on the trapezoid rule, as implemented in BifucationKit with the function
+generate ci problem in BifurcationKit. We continued this periodic orbit from τI = 0.001 to τI = 8.0 to produce
+the bifurcation diagram and other plots in Fig. 6. Likewise, to localize and continue the EI cycle, we made an initial
+guess by simulating the EI-TLN with τI = 2.1 and initial condition xCTLN  0      = [0.5, 0.5, 0.5, 0.7], and again continued a
+periodic orbit based on this initial guess, with initial guess of T = 5 for the period.
+   Finally, to localize and continue the mixed cycle, we first identified an analogous cycle in a smoothed version
+of the EI-TLN, with √the non-smooth threshold linear function [x]+ = max{x, 0} replaced by the smooth function
+                         2
+squareplus(x) = x+ 2x +a for a = 0.0001. To identify the unstable limit cycle in this system, we made an initial
+guess by simulating the dynamics for the initial conditions xmixed
+                                                               0     = 0.225xCTLN0    + (1 − 0.225)xEI  0 and τI = 2.5. In the
+smoothed system, continuing this limit cycle results in a loop in the bifurcation diagram. To identify an analogous
+limit cycle in the non-smooth case, we choose periodic orbits from the top and bottom branches of this loop. We then
+localize and continue each of these periodic orbits in the non-smooth system. In the original non-smooth system, the
+top and bottom branches of this periodic orbit meet at a cusp in the bifurcation diagram, so it is not possible to
+continue around the loop in that system.
+

@@ -1,0 +1,698 @@
+                                    npj | systems biology and applications                                                                                                                Article
+                                    Published in partnership with the Systems Biology Institute
+
+
+
+
+                                                                                                                                                    https://doi.org/10.1038/s41540-025-00516-y
+
+
+                                    The Virtual Parkinsonian patient
+                                                                                                                                                                                   Check for updates
+
+                                    Marianna Angiolelli1,2, Damien Depannemaecker1, Hasnae Agouram3, Jean Régis4, Romain Carron1,5,
+                                    Marmaduke Woodman1, Letizia Chiodo2, Paul Triebkorn1, Abolfazl Ziaeemehr1, Meysam Hashemi1,
+                                    Alexandre Eusebio3,6, Viktor Jirsa1 & Pierpaolo Sorrentino1,7
+
+
+                                    This study investigates the inﬂuence of the pharmacological nigrostriatal dopaminergic stimulation on
+                                    the entire brain by analyzing EEG and deep electrodes, placed near the subthalamic nuclei, from 10
+                                    Parkinsonian patients before (OFF) and after (ON) L-Dopa administration. We characterize large-scale
+                                    brain dynamics as the spatio-temporal spreading of aperiodic bursts. We then simulate the effects of
+                                    L-Dopa utilizing a novel neural-mass model that includes the local dopamine concentration. Whole-
+                  1234567890():,;
+1234567890():,;
+
+
+
+
+                                    brain dynamics are simulated for different dopaminergic tones, generating predictions for the
+                                    expected dynamics, to be compared with empirical EEG and deep electrode data. To this end, we
+                                    invert the model and infer the most likely dopaminergic tone from empirical data, correctly identifying a
+                                    higher Dopaminergic tone in the ON-state, and a lower dopaminergic tone in the OFF-state, for each
+                                    patient. In conclusion, we successfully infer the dopaminergic tone by integrating anatomical and
+                                    functional knowledge into physiological predictions, using solid ground truth to validate our ﬁndings.
+
+
+                                    Parkinson’s disease (PD) is the second most common neurodegenerative              patient has six EEG electrodes placed above the motor areas and two deep
+                                    disorder, imposing a signiﬁcant socio-economic burden1. The pathophy-             leads (four contacts each) near the left and right subthalamic nuclei
+                                    siology is characterized by the degeneration of dopaminergic neurons in           (STN)9. We use the recently described avalanche transition matrix (ATM)
+                                    the substantia nigra and the consequent depletion of dopamine in the              to capture the brain dynamics11. Focusing on aperiodic bursts of activities
+                                    nigrostriatal pathways2. Such alterations disrupt normal activity patterns,       (i.e. neuronal avalanches), the ATMs capture the probability of large-scale
+                                    affecting brain dynamics on a large scale3. Accordingly, changes in the           activities consecutively propagating across any two regions. The transition
+                                    cortical dynamics are more predictive of clinical symptoms as compared to         probabilities are altered in neurodegenerative diseases12,13, and by the
+                                    basal ganglia dynamics4. In turn, the symptoms are not restricted to motor        presence of a task14. This way, we quantify the spread of the activities
+                                    abilities but, rather, involve multiple domains5. In line with this, structural   recorded in the electrodes implanted in patients and the EEG both in the
+                                    Magnetic Resonance Imaging (MRI) has shown that the areas impacted by             ON and the OFF states.
+                                    PD are more extensive than once believed6. Functional MRI (fMRI) has                     In parallel, we deploy a model, known as the Dody (Dopamine
+                                    revealed dysfunctions in the cortico-striatal networks, with these disrup-        Dynamics) model, that is derived from the adaptive quadratic integrate-
+                                    tions extending to various other brain regions7. A magnetoencephalo-              and-ﬁre (aQIF) model of individual neurons10. While originally designed for
+                                    graphy (MEG) study demonstrated global changes in fast brain dynamics             a single population of neurons, we couple the model’s equations according
+                                    in PD, showing stereotyped brain dynamics as compared to controls, with           to three different connectivity matrices, representing excitatory, inhibitory,
+                                    the ﬂexibility of the dynamics shrinking proportionally to clinical               and dopaminergic connections, respectively. We wish to study a variable of
+                                    impairment8. How does the degeneration primarily occurring in the nigro-          interest that represents the dopaminergic tone, and its effect on the whole-
+                                    striatal pathways impact the whole brain? More speciﬁcally, how does the          brain dynamics. This variable represents the ability of the nigro-striatal
+                                    inability to sustain appropriate dopaminergic tone in the nigro-striatal          pathways to effectively project their activities to the rest of the brain (that is,
+                                    pathways affect activities elsewhere? We aim to elucidate how effective           to effectively respond to a dopamine load). The evolution of local dopamine
+                                    dopaminergic tone inﬂuences large-scale brain dynamics, drawing from              is captured by a dedicated differential equation, with one term corre-
+                                    empirical data9 and utilizing whole-brain models10. To accomplish this, we        sponding to the increase of concentration due to dopaminergic projection
+                                    leverage data acquired from Parkinsonian patients both before (OFF state)         and a second term capturing the reuptake mechanisms through Michaelis-
+                                    and after (ON state) the administration of treatment with L-Dopa. Each            Menten kinetics15,16, which describes the dynamics of dopamine
+
+
+                                    1
+                                     Aix-Marseille Univ, INSERM, INS, Institut de Neurosciences des Systémes, Marseille, France. 2Department of Engineering, Universitá Campus Bio-Medico di
+                                    Roma, Rome, Italy. 3Aix Marseille Univ, CNRS, INT, Institut de Neurosciences de la Timone, Marseille, France. 4Aix Marseille Univ, UMR INSERM 1106, Dept of
+                                    Functional Neurosurgery, Marseille, France. 5Medico-surgical Unit Epileptology, Functional and Stereotactic Neurosurgery, Hôpital Universitaire Timone,
+                                    Marseille, France. 6Department of Neurology and Movement Disorders, Hôpital Universitaire Timone, Marseille, France. 7Department of Biomedical Sciences,
+                                    University of Sassari, Sassari, Italy.  e-mail: pierpaolo.sorrentino@univ-amu.fr
+
+
+                                    npj Systems Biology and Applications | (2025)11:40                                                                                                                 1
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                                       Article
+
+concentration. In turn, the dopamine concentration impacts the model’s               appropriate dynamics which is changing as a function of the levels of Dopa),
+dynamics, as it is included in the equation of the membrane potential. This          we expect that the model inversion would infer higher dopaminergic tone
+effect is mediated by the connectome (which we assume to be constant in the          given the data acquired in the ON state, and lower dopaminergic tone when
+ON and OFF state)17, and a free parameter, which is our parameter of                 starting from data acquired during the OFF state. We test this in each
+interest to estimate, as it provides insights into the effectiveness of the          participant. The overall pipeline is shown in Fig. 1.
+stimulation. We have then projected out the simulated activities to virtual
+electrodes, thence providing a prediction that can be straightforwardly              Results
+compared to the empirical data. In simpler terms, the model predicts how             Dody model: generation of dopamine-driven dynamics
+changes in dopaminergic tone affect large-scale brain dynamics. Note that            Starting from the model described in this work10, where dopamine has been
+these predictions are not informed by the empirical data but, rather                 included, we modify the connection terms, expanding from a single-node
+represent theoretical arguments.                                                     framework to whole-brain according to three distinct layers that simulate
+      Then, we set out to put our prediction to test by inverting our model.         different types of neuronal connections: excitatory, inhibitory, and dopa-
+That is, starting from the empirical data, is it possible to unambiguously           minergic. Each structural connection can be part of one layer (that is, it is
+infer the correct levels of Dopamine? To quantify the uncertainty of the             either excitatory, inhibitory, or dopaminergic). A connection scaling factor,
+inference, we use a Bayesian framework implemented with advanced                     either wdopamine(wdopa), winhibitor(winh), or wexcitatory(wexc), modulates each
+probabilistic machine learning techniques, called simulation-based infer-            layer. In other words, if a connection is excitatory, it will be scaled by wexc,
+ence (SBI18) to efﬁciently invert the model19. In other words, we infer the          inhibitory by winh, and dopaminergic by wdopa. The connections are shown
+posterior distribution of dopaminergic tone given the features from the              in panel A of Fig. 2. The types of connections are not merged because they
+empirical data. If our prediction is correct (that is, the model is simulating       play different roles in the brain. This is encapsulated mathematically as each
+
+
+
+
+Fig. 1 | Overall pipeline summary. Parkinson’s disease (PD) is characterized by a    numerical prediction of the expected dynamics (in terms of low dimensional fea-
+progressive decline in dopaminergic neurons and a reduction in dopamine neuro-       tures) given different dopaminergic tones. We analyze data from EEG and deep
+transmitter levels. Progressive degeneration of dopaminergic nigrostriatal neurons   electrodes in 10 patients with Parkinson’s disease, recorded before and after L-Dopa
+leads to PD symptoms such as tremors, instability, slow movement, and stiffness. A   administration. Then, we utilize Bayesian inference to infer the posterior probability
+common treatment involves administering L-Dopa, a precursor of Dopamine,             distribution of dopamine concentrations w ~ dopa given the empirical data. To this end,
+though the efﬁcacy fades as the disease progresses. This study explores how the      we deploy probabilistic machine-learning techniques (SNPE) to efﬁciently estimate
+nigrostriatal pathways' ability to maintain dopaminergic tone inﬂuences brain        an invertible function between Dopamine and low-dimensional data features. Pic-
+function. To model the effects of L-Dopa in silico, we develop the Dody Model, a     ture created with BioRender.com.
+neural-mass model that incorporates dopamine concentration, to obtain a
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                                        2
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                                           Article
+
+
+
+
+Fig. 2 | Dody simulation of the whole brain dynamics. Panel A: chord diagrams              dynamics of one region) are shown in the phase planes of the fast subsystem com-
+representing the three types of structural connections between 88 brain regions.           posed of the ﬁring rate (r) and the membrane potential (V) as a function of wdopamine
+Connections within these layers are scaled by three factors: wdopamine, winhibitory and,   (left to right).
+wexcitatory. Panel B: the activities of the entire network (each curve refers to the
+
+
+
+type of connection enters the equations differently, simulating different                  above and below. Going from the bottom to the top, the ﬁrst six time series
+action mechanisms.                                                                         correspond to the simulated EEG signals (i.e., after the projection via the lead
+      A parameter exploration is carried out to observe the qualitative                    ﬁeld), and the remaining two time series correspond to the activities of the
+changes in the system dynamics. Previous results describe the behavior of                  subthalamic nuclei (see methods for details).
+the model at the single node level10. Then, we focus on the network level to                     To characterize the spatio-temporal dynamics over a large scale, we
+understand how the interplay between the three layers of connectivity                      utilize avalanche transition matrices (ATMs), which track the spreading of
+(excitatory, inhibitory, and dopaminergic) would affect the overall                        nonlinear bursts. First, the z-scored signals have been binarized and set to 1
+dynamics. For these reasons, we systematically vary the parameters (wdopa,                 for z > 1.5, and to 0 otherwise. This way, the bursts of activations are
+winh, wexc) to shift the system into a different regime. Thus, we set these                identiﬁed. Then, for each burst, the probability of two channels being
+values within the range that would let the whole-brain model exhibit a rich                consecutively recruited is estimated, obtaining an N × N matrix, with N the
+dynamical repertoire, as observed in brain recordings. In other words, we                  number of channels. These matrices are then averaged, element-wise, over
+aim to simulate emerging dynamics at the whole-brain level.                                the number of bursts, yielding one ATM per dopaminergic tone (i.e., the
+      Figure 2 provides an overview of the dynamics generated by the Dody                  values of wdopa). Figure 3, panel B, to the right, shows the ATMs for low (top)
+model as a function of wdopa. This simulation aims at mimicking scenarios                  and high (bottom) dopaminergic tone.
+when patients are being administered L-Dopa. Figure 2, panel B, shows                            To extensively characterize the whole-brain dynamics, we extract fea-
+changes in the phase planes of the fast variables, namely ﬁring rate and                   tures from the ATMs. We compute from the ATMs the arithmetic mean, the
+voltage, as a function of increasing wdopa (left to right). One can see how, as            sum, the skewness, and kurtosis. Furthermore, we also compute from the
+expected, the dynamics of the striatal regions, represented by the yellow,                 ATMs the Coefﬁcient of Variation, deﬁned as the ratio of the standard
+gray, blue, and pink lines, are affected by wdopa.                                         deviation to the mean, and its inverse. Finally,P   the Frobenius norm and the
+      In the next step, we project the simulated activities to the sensor space            entropy (H) of the matrix, deﬁned as H ¼  plog2 p, where log2 p is the
+using a lead ﬁeld matrix (Fig. 3, panel A). This is a necessary step, going from           base-2 logarithm of the probability distribution of signals, are also computed.
+the simulated source activities to time series that can be directly compared to                  To learn a function to map from the dopaminergic tone to the expected
+the empirical data. Speciﬁcally, we project out the source activities to the EEG           dynamical features, we carry out multiple random brain simulations, each
+channels located above the motor-sensory areas bilaterally, that is F3, C3, F4,            with a wdopa drawn from a uniform distribution (within the ranges of the
+C4, Fz, and Cz. In short, the sensor-level signals are understood as a weighted            parameter exploration). Figure 3, panel C, shows the dynamical features as a
+linear superposition of all the source-level activities. As per the subthalamic            function of the dopaminergic tone (wdopa). In each plot, each dot refers to
+nuclei (STN), the simulated voltages are compared directly to the lead ﬁeld                the simulated feature at the corresponding value of wdopa. The scatter plots
+potential recorded by deep electrodes placed in the STNs bilaterally. Figure 3,            show a distinct relationship between the dopaminergic tone and the gen-
+panel B, to the left, reports the time series of the simulated voltages in OFF             erated large-scale dynamics. Then, we perform the Bayesian model
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                                            3
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                                            Article
+
+
+
+
+Fig. 3 | Analysis of simulated EEG signals and low-dimensional features                    drawn from an interval ranging from 0.05 to 5. The left plot illustrates the estimated
+extraction. Panel A: the simulated data are reconstructed at the sensor level for the      values as a black dashed line, corresponding to w ~ dopa , which are interpolated by a
+channels in the motor frontal area, using the lead-ﬁeld matrix. Panel B: the process of    linear regression line closely following the red dashed line, indicating a perfect ﬁt.
+feature extraction from the z-score normalized EEG synthetic data, with the                The right plot displays the distribution of the posterior z-score versus the posterior
+threshold set to θ = 1.5. Panel C: variations of the simulated features as a function of   shrinkage, indicating an ideal Bayesian estimation (corresponding to z-scores close
+varying wdopa. The range of colors signiﬁes the increase in wdopa. Panel D: validation     to zero and shrinkages close to one).
+of the SBI pipeline on 5 random synthetic datasets uniformly selected with wdopa
+
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                                             4
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                                    Article
+
+
+
+
+Fig. 4 | Data features from empirical data. Panel A: starting from the EEG signals,     signals and ATM matrices, for each subject in the ON (blue) and OFF (orange)
+either acquired during the ON or the OFF state, the avalanche transition matrices       states. Note that the parameters show consistent trends (for the ON and the OFF
+(ATM) are computed. Panel B: a subset of the features extracted from the EEG            states) in all the subjects.
+
+
+inversion starting from the empirical data (yexpt), recorded in each patient’s          Bayesian distribution (see section Methods), highlighting typical patholo-
+ON and OFF state. That is, based on the relationships that we found by                  gies of Bayesian inference. The estimated posterior distributions for dif-
+simulating data features as a function of wdopa, we estimate the most likely            ferent conﬁgurations exhibit high shrinkage and low z-scores, which
+~ dopa given a set of observed data features.
+w                                                                                       qualiﬁes them as ideal Bayesian estimations. We then characterize the
+      To estimate the posterior distributions of w  ~ dopa , we apply simulation-       empirically recorded dynamics in the ON and OFF states and then infer the
+based inference (SBI) for efﬁcient Bayesian model inversion20,21. We utilize a          dopaminergic tone from the empirical data.
+class of machine learning generative models for probability density esti-
+mation called Masked Autoregressive Flow (MAF)22, trained with                          Empirical differences between patients with and without L-Dopa
+3000 simulations, each with a value of wdopa drawn from a uniform                       treatment
+distribution23. The values of wdopa and the features of the resulting dynamics          While analyzing empirical data, the primary objective is to differentiate the
+are fed to the MAF, which learns an invertible function that maps the                   dynamics recorded during the ON state from the one recorded during the
+dopaminergic tone to the expected data features18. Then, the inversion                  OFF state9. We compute, in each patient, the avalanche transition matrices
+process yields the posterior distribution of the most likely w   ~ dopa values (i.e.,   from the EEG and LFP recordings acquired either during the ON condition
+the conditional probability of w  ~ dopa given the data features).                      or the OFF condition. We follow the procedure mentioned above, where
+      Firstly, we test for the accuracy and reliability of the inversion using          each signal (either EEG or LFP) is z-scored and thresholded, and then the
+synthetic data. To this end, after training the MAF, we perform one more                ATMs are computed. In summary, the time series and the ATMs, derived
+simulation starting from a value of wdopa sampled from the priors. The                  from the ON and OFF states, are shown for one subject in Fig. 4, panel A, as
+resulting data features are given to the already-trained MAF to infer the               an example. One can see that, in the ON-condition, the ATM contains
+~ dopa . Finally, we check that the shrinkage of the posteriors around w
+w                                                                             ~ dopa    higher transition probabilities. However, the transition probabilities are
+correctly matches the wdopa (i.e., the ground-truth). As shown in Fig. 3, panel         globally higher in the ON state, as shown in Fig. 4 panel A, top left, for one
+                             ~ dopa (5 random values are shown as examples)
+D, to the left, the inferred w                                                          subject. The other plots in panel B show the difference between the ON and
+converges to the ground truth. The plot illustrates that the estimated values,          the OFF states in every subject for all the features.
+~ dopa , are interpolated by a linear regression line, which closely follows the
+w
+dashed black line that represents a perfect ﬁt, indicating that the inferred            Model inversion and comparison of the synthetic and the
+parameters correspond exactly to the ground truth values. To the right, there           empirical dynamics
+is a zoom on two of these values. Figure 3, panel D, to the right, displays the         Finally, the empirical data features (during the ON or the OFF state) are fed
+distribution of posterior z-scores and posterior shrinkage within the                   to the trained MAF that yields the posterior distribution for the ON and the
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                                        5
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                                         Article
+
+
+
+
+Fig. 5 | Estimation of the posterior distribution starting from empirical data.          the power spectra of the ON and OFF states, as computed for the synthetic and
+Panel A: the estimated posterior distributions, for each patient. Higher values are      empirical data. For all subjects, the observed correlations (green for cortical chan-
+observed in the ON state compared to the OFF state for all subjects. Panel B: the        nels, red for STN) are signiﬁcantly higher than those expected given chance (gray
+shrinkage of the posteriors and the Wasserstein distance are shown to quantify the       markers), indicating that the model reliably captures the ON-OFF variations
+uncertainty of the estimated dopaminergic tone. Panel C: Scatterplot showing the         observed in the empirical data. The second row further validates the model by
+clinical improvement (UPDRS-III) between the ON and OFF conditions for each              comparing the ON-state differences (synthetic vs. empirical) to the OFF-state dif-
+patient (each point represents a patient) and the distance between the simulated         ferences (synthetic vs. empirical). Consistent correlations across subjects demon-
+ATM matrices (generated starting from the inferred w   ~ dopa in the ON and the OFF      strate that variations in the ON state are mirrored in the OFF state, supporting the
+states (r = 0, 49, p-value = 0.09). Panel D: Comparison of the synthetic and empirical   model’s robustness in reproducing state-speciﬁc dynamical features. In all cases, the
+dynamics across Cortical channels (left panels) and Subthalamic Nuclei (STN) (right      p-values are <0.001.
+panels). The ﬁrst row displays the Spearman correlation ρ between the differences in
+
+
+
+OFF states. In other words, for each patient, we obtain the posterior dis-               49, p-value = 0.09), as shown in panel C of Fig. 5. However, the preliminary
+tribution for w~ dopa given the data recorded during the OFF state (orange)              data suggest that the generated feature might hold behavioral signiﬁcance.
+and the ON state (blue), as shown in Fig. 5 panel A. For all patients, the               As a second step, we aim to directly compare the dynamics generated by the
+inversion infers a lower dopaminergic tone when starting from data                       numerical simulations in the ON and the OFF states with the corresponding
+acquired during the OFF state and, conversely, a higher dopaminergic tone                observed empirical dynamics. This step is taken to explore the realism of the
+when starting from data from the ON state. We regard the ON and OFF                      generated dynamics beyond the ability to correctly support the model
+states as ground truths, since L-Dopa had been orally given to all the par-              inversion. As shown in panel D of Fig. 5, the analyses focus on the rela-
+ticipants before the ON-state recording, likely changing the effectiveness of            tionship between the power spectra of the simulated and empirical time
+the dopaminergic stimulation. We use the Wasserstein distance to quantify                series derived from the cortical channels (left) and the STNs (right). Firstly,
+the differences between the distributions of the estimated w ~ dopa in the two           we compute the Spearman correlation between the simulated differences
+conditions (Fig. 5, panel B). The Wasserstein distance between the poster-               (that is, the frequency-wise differences of the power spectra in the simulated
+iors inferred from the ON and the OFF states is always greater than 0,                   ON - OFF states) and the corresponding empirical ones. The synthetic data
+implying that the two distributions are signiﬁcantly different. Furthermore,             are generated by re-simulating the model using the most likely w     ~ dopa in the
+we report the shrinkage of the posterior distributions as compared to the                ON and the OFF states, respectively, averaging over 10 simulations, where
+priors (that is, the reduction of uncertainty about the “true” wdopa provided            the time series are different across simulations due to the dynamical noise.
+by the model inversion, or the level of information in the posteriors as                 The ﬁrst row of panel D shows, to the left, the Spearman correlation,
+updated from the priors). The shrinkage for all distributions is close to 1,             averaged across cortical channels, between the ON-OFF differences in the
+indicating that there is a signiﬁcant reduction in the uncertainty of dopa-              synthetic data and the ON-OFF differences in the empirical data for each
+minergic tone. Furthermore, we consider the clinical improvement                         subject. A similar scheme is used to the right to report the results for the STN
+observed in patients in the ON and the OFF conditions, as measured by the                (see methods). These results point out the capability of the model to generate
+Uniﬁed Parkinson’s Disease Rating Scale (UPDRS), a comprehensive                         dynamically realistic variations, effectively mirroring the empirical data.
+clinical tool used to quantify the severity of PD symptoms. Speciﬁcally, the             Notably, changes in the dynamics of the STN in the model arise non-trivially
+UPDRS Part III (UPDRS-III) focuses on the motor examination and is                       through network effects, since there are no direct dopaminergic connections
+pivotal in assessing the motor function of PD patients. For each patient, the            to the STN.
+differences of the UPDRS-III in the ON and OFF conditions are computed                         Analogously, the second row of panel D shows the Spearman corre-
+and correlated to the distance between the simulated ATM matrices (gen-                  lation between ON state differences (synthetic vs. empirical) and OFF state
+erated starting from the inferred w~ dopa in the ON and the OFF states (r = 0,           differences (synthetic vs. empirical). The results reveal a positive correlation
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                                          6
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                                  Article
+
+and a consistent trend across patients, meaning that small differences               the expected changes in terms of large-scale brain dynamics as a function of
+between the ON states correspond to small differences between the OFF                the nigro-striatal activities. We then set out to provide preliminary valida-
+states, and large differences in the ON states are similarly mirrored in the         tion of the model’s predictions by inferring lower/higher levels of Dopamine
+OFF states. This conﬁrms that the model captures empirical ON-OFF                    from the data acquired in the OFF/ON state. To this end, the same model is
+variations at the cortical level (to the left) and for the STNs (to the right). To   inverted starting from data from each of the 10 patients, either in the ON or
+validate all the correlations reported above, we randomize the power spectra         in the OFF states, and the inversion is successful in each, as shown by the
+by shufﬂing the frequency bins, to estimate a null distribution of the cor-          shrinkage of the posteriors. This might be interpreted as the fact that the
+relations. This systematic comparison highlights the model’s ability to              model, and the features used for the inversion, capture the effects that
+reproduce realistic and consistent changes in the dynamical features of both         L-Dopa exerts on the dynamics of patients in general. This mechanistic
+cortical and STN signals, well above the chance level.                               explanation constitutes a hypothesis of the effect of L-Dopa on the corre-
+      As a last analysis, we explore the time series of the dopamine con-            sponding large-scale activities. Based on this evidence, the forward solutions
+centrations [Dp]e (see Eq. (6)) for different w   ~ dopa values, as shown in Sup-    of our model provide a prediction that is not yet personalized but reproduces
+plementary Fig. 2. Striatal regions show higher levels of dopamine in the ON         the expected changes of a generic set of features as a function of changing
+state than in the OFF state.                                                         Dopaminergic tones30. In future work, each patient will be modeled indi-
+                                                                                     vidually, starting from their structural connectivity data and also integrating
+Discussion                                                                           more clinical data (e.g., Positron Emission Tomography quantifying
+In this work, we implement a model to infer dopaminergic tone in indivi-             Dopamine receptor concentrations). This personalized approach will allow
+dual patients by combining EEG and intracranial recordings collected                 for more accurate, individual-level predictions and tailored simulations.
+before and after L-Dopa administration. By simulating neural dynamics                However, the model successfully distinguishes each patient’s ON and OFF
+with the model under both ON (with L-Dopa) and OFF (without L-Dopa)                  conditions. In other words, our model provides an answer to the question
+conditions, we generate a range of possible system behaviors. These simu-            “How do changes in the ability of the nigro-striatal pathways to uptake L-
+lations are then used to inform a Bayesian framework, providing an                   Dopa, process it, and release dopamine affect brain dynamics, as observed
+understanding of how the system responds to changes in dopaminergic                  from a change in data features from large-scale data?” As explained, the
+tone. We then extract relevant features from the empirical data and use them         inference of the levels of Dopamine should not be understood as a way to tell
+to perform model inversion via deep neural networks. This allows us to               apart the ON and the OFF states (which is easily attainable from data
+estimate the most likely value of the latent parameter wdopa that would result       features alone) but, rather, as a check of the validity of the model. A more
+in model dynamics resembling those observed in the empirical recordings.             comprehensive validation of the model would require an interventional
+This way, the empirical features guide the inference within a model-                 study to verify that the relationship between Dopa and large-scale dynamics
+informed Bayesian framework. The Bayesian framework allows us to inte-               holds across the range of values explored by the model. Here, we exploit the
+grate the background knowledge as a prior distribution, and reveal the               fact that we have two different levels of Dopamine available, as they were
+mechanism(s) starting from macroscopic measurements. Identifying the                 administered to patients. Hence, the inversion is done to check the ability of
+patient’s state, either ON or OFF, is not based directly on learning statistical     the model to correctly and unambiguously distinguish the whole-brain
+features but, rather, on the inference of a biologically plausible mechanism24.      dynamics for the two levels for which we have the “ground truth”. However,
+This is opposed to other approaches that focus on predicting data patterns           as explained, the model’s predictions span a much larger range of values
+based on empirical observations, without providing insights into the causal          (which we cannot test).
+mechanisms.                                                                                Concerning the data features that we utilize, we focus on the topology
+      The Dody model is a neural mass model based on the adaptive quad-              of the spread of large-scale aperiodic bursts11,31. This approach is com-
+ratic integrate-and-ﬁre model (aQIF), with some differences from the pre-            plementary to most traditional methods, which focus on the presence of
+vious models used thus far10. The neural mass has been modiﬁed from25 to             synchronization or the dynamics of local bursts, typically in the beta band
+include an additional variable capturing the local dopamine concentration.           (13–30 Hz)32–37. In addition to calculating various features from the EEG
+Hence, each connection affects the neural masses differently, according to its       signals, we utilize the recently described ATMs to capture the spatio-
+nature, that is, dopaminergic, excitatory, or inhibitory. In other words, the        temporal spreading of each such perturbation11. Of note, we ﬁnd that the
+neural masses are coupled according to the empirical connectome, where               ATMs are at once informative about the large-scale dynamics yet low-
+connections can be excitatory, inhibitory, or dopaminergic. This model               dimensional, as we can accurately estimate the posterior distribution from
+encapsulates a wealth of well-established information about the speciﬁc role         these features (e.g. the mean, the kurtosis, etc.), and observe the corre-
+of each connection (i.e., the directionality and its type), which has been           sponding differences between the ON and the OFF states at the individual
+typically disregarded in large-scale models thus far26,27. To do so, each tract,     level. The experimental setting, contrasting each individual before and after
+as measured from the tractography, is considered with directionality and             the administration of L-Dopa, allows for establishing a causal relationship
+with a speciﬁc functional role (as an example, the tract from i to j might be        between the administration of L-Dopa and the changes in the dynamics over
+inhibitory while the tract j to i excitatory). The individual structural con-        the large scale. Nevertheless, revealing a true causal mechanism requires
+nectomes are not available. Therefore, unlike typical virtualization pipelines,      considering inference on multiple causal factors followed by a comparison
+we build one generic model to perform inference on each patient. As                  to the evidence. This aspect requires a thorough investigation and has not
+explained, the coupling is done utilizing a connectome computed as the               yet been demonstrated using SBI. Furthermore, we demonstrate the pos-
+edge-wise average of 10 healthy subjects extracted from the Human Con-               sibility to deﬁne cross-modality connectivity matrices and deploy them for
+nectome project28. The use of a healthy connectome represents a simpliﬁ-             inference, since some transition probabilities are computed starting from
+cation, especially when modeling a neurodegenerative condition such as               deep electrodes and going to EEG electrodes, or vice-versa.
+Parkinson’s Disease which causes widespread structural changes. However,                   In our scenario, we want to simulate the effects of varying levels of
+using standardized structural connectivity enables us to isolate the con-            dopaminergic tone (represented by different values of wdopa) on the data
+tribution of pattern activity changes due to dopaminergic effects, without           features. This allows us to estimate the posterior distributions of w    ~ dopa ,
+accounting for structural heterogeneity. On the other hand, this might limit         determining the probability of a speciﬁc dopaminergic tone given the
+the applicability of the model to more advanced cases (without further steps         empirical features observed.
+of personalization). This particular design speaks to the validity and the                 In particular, to estimate the posterior distributions of the parameter of
+generalizability of our pipeline. In fact, in this work, we aim to capture the       interest, we apply SBI for efﬁcient Bayesian model inversion. This approach
+functional deﬁcit of the nigro-striatal pathways which is the primum                 is necessary because the calculation of the likelihood function at the whole-
+movens in each Parkinsonian patient29. Accordingly, our model simulates              brain scale is often intractable, and Markov chain Monte Carlo (MCMC)
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                                  7
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                                Article
+
+might be inapplicable for non-parametric sampling. Note that, in the               the one hand, more biological details might be added to the model. On the
+Bayesian setup, the generative model is represented by the joint distribution      other hand, more parameters might generate degeneracy and make causal
+of model parameters and data, presenting computational and convergence             estimation more challenging. Hence, further studies should reﬁne this
+challenges arising from the high dimensionality of the data space, despite the     approach and ﬁnd an optimal trade-off. Finally, additional studies should
+low dimensionality of the parameter space. By harnessing the complexity of         speciﬁcally address the problem of dyskinesias or uncontrolled involuntary
+mechanistic models and using low-dimensional data features, SBI allows us          movements.
+to efﬁciently infer the underlying dopaminergic tone from the observed                   Our work complements most of the current modeling literature in PD,
+data, providing a robust and neurophysiologically grounded understanding           which primarily focuses on the simulation of activities in the beta range39,40.
+of the system. By using state-of-the-art probabilistic machine-learning tools      We focus on aperiodic activities instead, which have only received limited
+for probability density estimation, such as MAF, the SBI is an efﬁcient            attention in Parkinson’s disease thus far. Furthermore, we focus on large-
+approach, as it relies only on forward model simulations. Moreover, since          scale dynamics and efﬁcient parameter estimation with the associated
+SBI requires low-dimensional data features for training, the ATM proved            uncertainty, rather than directly utilizing a cost-function to ﬁt the model41,42.
+useful, since they capture dopamine-induced changes (as validated by the           Other modeling works in PD, for example in the case of the Virtual Deep
+inversion starting from empirical data). Furthermore, the changes in the           brain stimulation, took a multi-scale simulation approach in order to
+ATMs are predictive of clinical impairment. However, these results are to be       simulate the effects of deep brain stimulation43,44. However, the scope of our
+regarded as explorative, given the low numerosity. The applicability of SBI        model is different, as we provide an explicit account of the concentrations of
+applied to our model is conﬁrmed by the close alignment of predicted and           Dopamine, which brings us closer to pathophysiological mechanisms45. In
+empirical data features, with the model showing particular sensitivity to          other words, our model explicitly encapsulates physiological knowledge
+changes in the dopaminergic tone, capturing a general mechanism, and               about the functioning of dopamine and its effects on neural activities.
+linking the effect of medical treatment to whole-brain dynamics, which             Finally, our model aims to describe the whole brain, unlike previous works
+applies to each participant. As conﬁrmation of the reliability and effec-          which represented the cortex as a single node. In conclusion, our work
+tiveness of the inversion, we calculate the shrinkage of the posteriors from       analyses EEG/LFP data from PD patients in the ON and the OFF states
+the priors, to quantify the level of information held therein, starting from the   focusing on the aperiodic bursts, and leverages a newly designed mechan-
+priors. By comparing the shrinkage of the ON and OFF states, we can assess         istic model that explicitly includes dopamine dynamics. However, the ability
+the consistency and reliability of the distributions38.                            of the model to generate personalized predictions was tested on 10 patients.
+      Finally, we directly compare the differences (ON vs. OFF) in the             Larger cohorts will need to be tested to assess the deployability of this
+power-spectral densities of the empirical and simulated (starting from the         approach to scale. Finally, the main purpose of this work is to give a long-
+inferred w~ dopa in the ON and the OFF states) time series. More speciﬁcally,      term vision to develop, in the future, a clinically meaningful framework that
+we ﬁrst compute the Spearman correlation between the frequency-wise                supports therapeutic decision-making through virtual patient modeling.
+differences of the power spectra in the simulated ON-OFF states and the            Although this study focuses on validating a generic computational model,
+corresponding empirical ones (Fig. 5, panel D). Secondly, we also compute          future steps will aim to increase personalization by integrating individual
+the Spearman correlation between frequency-wise differences of the power           structural and functional data. This will enable us to construct digital twins
+spectra (synthetic vs. empirical) in the ON state and the corresponding            that better capture patient-speciﬁc neurophysiological dynamics. Such
+differences in the OFF state.                                                      personalization would be particularly valuable in clinical settings. For
+      Notably, we observe a signiﬁcant correlation between the differences,        example, it might help clinicians adjust L-DOPA dosage. Given the narrow
+indicating that the simulated dynamics capture the empirical effects of            therapeutic window and the potential for serious side effects, such as motor
+Dopamine over the large-scale dynamics.                                            ﬂuctuations and dyskinesias, a model-informed tool could help optimize
+      Additionally, by examining the temporal evolution of the distribution        treatment while minimizing adverse effects. It will be relevant to check the
+of dopamine concentration, we obtain further conﬁrmation of the validity of        ability of the model to predict clinical outcomes in patients with severe
+our approach. This is evident as we observe distinct features when simu-           dyskinesias or those undergoing neurosurgical interventions (i.e., Deep
+lating the ON states compared to the OFF state. While it cannot be checked         Brain Stimulation). Future work will explore extending the model to
+with the data at hand, our model predicts that patients with lower levels of       incorporate DBS-related parameters and responses, as well as developing
+wdopa will converge to lower concentrations of L-Dopa in the Striatum over         real-time inference capabilities for clinical use.
+time, as opposed to patients with higher levels of wdopa, which will steadily
+display more L-Dopa. The differences, however, are patient-speciﬁc and             Materials and methods
+mediated by network effects. In other words, our model predicts the ability        Participants, EEG data acquisition and processing
+of the nigrostriatal pathway to affect whole-brain dynamics. These theore-         We collected resting-state data from 10 patients with Parkinson’s dis-
+tical predictions, however, can only be partially tested in the empirical data,    ease and monitored both ON and OFF levodopa medication9. Each
+as these experiments are prohibitively difﬁcult or impossible to perform.          session was 2-min long, employing deep stimulation electrodes and
+This is the advantage of virtual brain modeling, which allows us to test our       EEG electrodes strategically placed in the motor areas on both sides.
+hypotheses in silico. As explained, we compare the differences in the power        This setup enabled simultaneous recordings from both the subthalamic
+spectra in the ON-OFF states in the simulated and empirical data in the STN        nuclei (STN) and the motor cortex. Speciﬁcally, the data includes time
+(where deep electrodes were placed). We show that the correlation is higher        series from 14 channels: eight local ﬁeld potential (LFP) contacts (L1,
+than expected by chance, corroborating the validity of the proposed                L2, L3, L4, R1, R2, R3, R4) that map to the left and right STN com-
+approach. Note that the effects of L-Dopa in the STN necessarily represent         plemented by six EEG channels (F3, Fz, F4, C3, C4, Cz). Ethics com-
+network effects, as no direct Dopaminergic connections are hinging on the          mittee IRB of Comite de Protection des Personnes CPP Sud
+STN. Future advancements might involve setting heterogeneous wdopa                 Mediterranee gave ethical approval for this work. The registration
+values for each hemisphere, enhancing the representation of dopaminergic           number is RCB 2009-A00913-54. Patient consent has been obtained,
+tone variability across brain hemispheres. This strategy could reﬁne clinical      and the appropriate institutional forms have been archived.
+interventions (given the clinical asymmetry typical of PD), facilitate com-             Signal preprocessing was performed using the Fieldtrip toolbox46.
+parative studies across brain hemispheres, aid in developing new bio-              The continuous EEG signal was ﬁrst high-pass ﬁltered at 1.3 Hz with a
+markers, and improve simulation models30. Importantly, it could enhance            Hamming window, using a “two-pass” direction, and a Butterworth
+research into Parkinson’s Disease by allowing for personalized treatment           ﬁlter type. Subsequently, it was down-sampled to 512 Hz and epoched
+strategies. This is because accurately estimating the dopaminergic tone            into 4-second epochs. The signal underwent visual inspection to
+based on EEG data dynamics can help predict a patient’s clinical state9. On        remove noisy epochs47.
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                                8
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                             Article
+
+Tractography data                                                               from scientiﬁc literature, understanding each brain connection as either
+Minimally preprocess diffusion and structural MRI data from 10 subjects of      excitatory, inhibitory, or dopaminergic. The main diagonal of each of these
+the human connectome project48,49 is used to calculate the structural con-      terms represents local connectivity, while the off-diagonal elements
+nectomes. The diffusion imaging data is processed with the MRtrix3              represent long-range connectivities. The terms are modulated by a
+toolbox50. Multi-shell multi-tissue constrained spherical deconvolution with    parameter g* through the following relations:
+group averaged response function51 is used to estimate ﬁber orientation                                                    X
+distributions per voxel. After intensity inhomogeneity correction52, we use                                cexc;i ¼ wexc           g exc;i;j r j             ð7Þ
+probabilistic tractography with anatomical constraint53 to generate 5 million                                              j
+tracts per subject. Tracts are weighed using the SIFT2 algorithm54. We use                                                 X
+the multimodal registration method as implemented in the Lead DBS                                          cinh;i ¼ winh           g inh;i;j r j
+toolbox55 to transform the subcortical structures (GPe, GPi, STN and RN) of                                                                                  ð8Þ
+                                                                                                                           j
+the DISTAL atlas56 into the subject space. The subcortical regions together
+                                                                                                                           X
+with the cortical Desikan parcellation57 serve as the mask to group weighted                             cdopa;i ¼ wdopa            g dopa;i;j rj
+tracts and create the structural connectome. To compute the lead ﬁeld                                                                                        ð9Þ
+                                                                                                                               j
+matrix we process the MNI152 template head with the Freesurfer recon-all58
+pipeline to obtain the cortical, as well as the 3 boundary element model        where g*;i,j is the connectome weights between the regions i and j, and rj is the
+(BEM) surfaces (inner skull, outer skull, and outer skin surface). We use the   ﬁring rate of the j-th region projecting to the i-th region.
+MNE toolbox59 to ﬁt a standard 10–20 EEG cap onto the skin surface of the            In particular, cortical connections have been considered excitatory.
+MNI152 template head by manually setting the ﬁducial points (right and left     The cortex-basal ganglia-thalamic loop has been modeled taking into
+pre-auricular point and nasion). Vertices of the cortical surface are used as   account the direct, indirect, and hyperdirect pathways60, as reported in
+neural electric dipoles. Together with the EEG locations and the BEM            Supplementary Fig. 1. The simulations were run for 30 seconds by
+surfaces, we compute the electric forward problem using the OpenMEEG            numerically integrating the system of equations, through the modiﬁed Heun
+toolbox59.                                                                      method for stochastic differential equations61. The ﬁrst second was dis-
+                                                                                carded as a transient.
+Dody model for whole brain simulation
+In our study, we employ the Dody model introduced here10. Initially             Estimation of avalanche transition matrices and data features
+implemented to simulate the dynamics of a single node, it has been extended     To explore the dynamics of brain activity, we analyze EEG data signals.
+to simulate the whole brain activity. The model is based on neural masses       Firstly, each signal amplitude is standardized using the z-score and then
+designed from the adaptive quadratic integrate-and-ﬁre model, thence            binarized, such that any time point exceeding a threshold of two standard
+incorporating neuromodulatory dynamics into its differential equations          deviations (∣z∣ = 2) was marked as 1 (active), and all others as 0 (inactive) to
+which are:                                                                      compute avalanche transition matrices as described in this work9,11.
+                                                                                      During our analysis of EEG data and the estimation of neuronal
+                 dr                                     aΔ                      transition matrices, a key focus is on evaluating the impact of levodopa
+                    ¼ 2arV þ br  g a Sa r  g g Sg r þ                  ð1Þ
+                 dt                                      π                      medication on the features. We calculate an avalanche-speciﬁc transition
+                                                                                matrix (ATM), where each element (i, j) represents the probability that
+                        π2 r2                                                   region j is active at time t + 1, given that region i was active at time t. This
+  dt ¼ aV þ bV þ c þ η  a þ ðADp ½Dpe þ BDp Þg a Sa ðEa  VÞ
+  dV     2
+                                                                         ð2Þ    relationship signiﬁes the probability of sequential recruitment of any two
+       þg g Sg ðEg  VÞ  u þ I ext
+                                                                                regions by an avalanche. For each subject, we produce an average transition
+                            du                                                  matrix by averaging edge-wise across all avalanches and then symmetrizing
+                               ¼ αðβV  uÞ þ ud r                        ð3Þ    it. In our data analysis pipeline, we explore how avalanches propagate
+                            dt
+                                                                                between different brain regions using ATMs. Speciﬁcally, we assess the
+                          dSa Sa                                               ATMs under two different conditions for each patient: with levodopa
+                              ¼      þ Sja cexc þ J a r                  ð4Þ    medication (ON) and without it (OFF). This comparison sheds light on the
+                           dt   τ Sa
+                                                                                dynamics of perturbations spreading between brain regions affected by
+                                                                                different levels of dopaminergic stimulation. Comprehensive tests to vali-
+                              dSg Sg
+                                  ¼      þ Sjg cinh                      ð5Þ    date the ATMs and computational details are reported in this previous
+                               dt   τ Sg                                        work9. Simultaneously, avalanche transition matrices are calculated for
+                                                                                synthetic data as well. Starting from the simulations, the ﬁring rates of
+                          d½Dp e                 V max ½Dp e                  individual brain regions are translated to the positions of the six considered
+                   τ Dp             ¼ kcdopa                            ð6Þ    electrodes using the lead ﬁeld matrix. Since the position of the deep elec-
+                            dt                   ðK m þ ½Dp e Þ
+                                                                                trodes is not available, they have been approximated directly as the z-scored
+where r, V and u represent respectively the ﬁring rate, mean membrane           activities, without projecting it through the lead ﬁeld. At the end of the
+potential and adaptation variable of each region. Sa and Sg describe the        procedure, 8 signals are generated. Each signal is z-scored, and then, simi-
+synaptic activation dynamics of excitatory AMPA and inhibitory GABA             larly to the procedure described above, active regions are identiﬁed to cal-
+receptors, modeled as conductance-based synapses with maximal con-              culate the ATM as with the empirical data. However, this time we do not
+ductances ga and reversal potential Ea, and inhibitory GABA receptors of        take the absolute value of the signals.
+maximal conductance gg and reversal potential Eg. Sja and Sjg are the post-
+synaptic strengths of these inputs; Ja is the strength of the local recurring   Model inversion and dopaminergic tone parameter inference
+connections. To simulate dopamine dynamics, which is relevant in the            The Bayesian approach offers a principled way for making inference, pre-
+context of Parkinson’s disease, Eq. (6), constitutes of two terms, the ﬁrst     dictions, and quantifying uncertainty in the decision-making process by
+corresponding to the afferent dopaminergic input and the second to the          integrating information from anatomical, clinical, and mathematical
+reuptake mechanisms described with Michaelis–Menten formalism, is               knowledge62. Parameter estimation within a Bayesian framework involves
+added to the system, as: We focus our attention on the terms cexc, cinh, and    quantifying and propagating uncertainty through probability distributions
+cdopa, which are involved in Eqs. (4), (5) and (6), respectively. The           placed on the parameters (the prior), which are updated with information
+connection-speciﬁc terms cexc, cinh, cdopa are informed by anatomical data      provided by the data (the likelihood) to form the posterior distribution19,63.
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                             9
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                               Article
+
+However, accurate and reliable Bayesian inference from noisy brain data is       distribution of signals. After training is complete, the posterior distribution
+challenging due to the high dimensionality of the data, the complex effects of   for new observations or empirical data can be swiftly evaluated by per-
+brain networks, and the non-linearity involved in spatio-temporal brain          forming a forward pass in the trained MAF. Notably, this process does not
+organization. In particular, the calculation of the likelihood function is       require the model or the data features to be differentiable. Each model
+typically intractable, rendering MCMC sampling inapplicable18. In this case,     simulation and posterior sampling took around 60 seconds and 30 seconds,
+we can treat the virtual brain models as a stochastic simulator that generates   respectively. All steps were performed on a Workstation DELL Precision
+synthetic data similar to the empirical data, enabling inferences to be made     7820 Tower with 2 Intel Xeon Silver 4214R. To run SNPE, we used the
+without requiring access to the likelihood function21,23.                        public sbi toolbox20.
+      Using this framework known as Simulation-based Inference (SBI21,23),             Before running SNPE on the empirical data, we ﬁrst validate the
+the Dody model is treated as a stochastic simulator, that is the generative      approach using synthetic data generated with known ground truth values of
+model necessary to conduct Bayesian inference on dopaminergic tone,              dopaminergic tone, and with subject-speciﬁc structural connectomes to
+which is informed by anatomical data, to predict the features extracted from     ascertain the accuracy of the wdopa estimations (see Fig. 5). The plot of
+observed EEG data. To accomplish this, we train a class of machine-learning      z-score versus posterior shrinkage for the estimated posterior indicates an
+generative models known as Normalizing Flows (NFs22) to learn the rela-          ideal Bayesian estimation for different values of wdopa.
+tionship between low-dimensional data features and the parameters of an
+approximated posterior distribution. NFs are a family of generative models       Data features
+that convert a simple base distribution (e.g., the prior) into any complex       To run SBI, we identify speciﬁc data features derived from synthetic EEG
+target distribution (e.g., the posterior), where both sampling and density       data, as follows: the sum and arithmetic mean of the ATM; the Skewness and
+evaluation can be efﬁcient and exact64.                                          Kurtosis (evaluating the asymmetry and tailedness of the ATM distribution
+      In more detail, our objective is to establish plausible probability dis-   around its mean value); the Coefﬁcient of Variation and its inverse, which
+tributions for the wdopa parameter in the Dody model, considering that the       are deﬁned as the ratio of the standard deviation to the mean, providing a
+output distributions of our model should best explain a given set of             normalized measure of dispersion for the ATM elements. The Frobenius
+experimental data features. Considering wdopa as the known parameter (1-         norm derives a scalar magnitudeP of the ATM. The Shannon entropy of the
+dimensional) and a collection of n data observations, denoted by the variable    ATM is computed as H ¼  plog2 p where log2 p is the base-2 logarithm
+yexpt. The dynamical system analysis (previously conducted) provides             of the probability distribution of signals. For the training phase, the data
+insight into the reasonable range of parameter values, allowing us to deﬁne      features are smoothed using a moving average with a window size of 150.
+initial (prior) probability distributions p(wdopa), as a uniform distribution    Subsequently, a linear regression is performed to obtain the value of the
+truncated between [0.05, 5]. Using Bayes’ rule, the posterior distribution of    feature for each wdopa.
+the parameter values given the data is deﬁned by the following equation:
+                                                                                 Evaluation of posterior ﬁt
+                                       pðyexpt jwdopa Þpðwdopa Þ                 To evaluate the accuracy and reliability of the Bayesian inference using
+                    wdopa jyexpt Þ ¼
+                  pð~                                                    ð10Þ    synthetic data, we compute the posterior z-score (denoted by z), against the
+                                               pðyexpt Þ
+                                                                                 posterior shrinkage (denoted by s):
+where pð~  wdopa Þ denotes the prior placed on wdopa, and the likelihood
+p(yexpt∣wdopa) is the probability of our model generating the data features                                          wdopa  wdopa j
+                                                                                                                    j~
+yexpt given the parameter wdopa, and p(wdopa∣yexpt) represents the posterior                                  z¼                                              ð11Þ
+                                                                                                                          σ post
+distribution that we aim to estimate.
+      In this work, we use SNPE (Sequential Neural Posterior Estimation23), a                                               σ 2post
+tool enabling efﬁcient and ﬂexible simulation-based inference on complex                                          s¼1                                        ð12Þ
+models without requiring access to likelihoods. SNPE dynamically reﬁnes                                                     σ 2prior
+the proposals, network weights, and posterior estimates to learn how model
+parameters are related to the observed summary statistics of the data. We        where the z-score is deﬁned as the absolute value of the difference between
+run SNPE using a single round to beneﬁt from an amortized strategy (at the       the estimated and true values of the parameters of interest (~      wdopa ; wdopa
+subject level), which can then be applied immediately to new data without        respectively) divided by the standard deviations of the posterior σpost, and
+needing to be retrained21. In this framework, we use Masked Autoregressive       the posterior shrinkage is given by 1 minus the ratio of the variance of the
+Flow (MAF22), which supports reversible nonlinear transformations and            posterior σ 2post to the variance of the prior σ 2prior .
+allows for highly expressive transformations with minimal                              The z-score measures how much the posterior distribution is centered
+computational cost.                                                              around the true value, whereas the shrinkage quantiﬁes the reduction of
+      To perform SNPE, three key inputs are required21,23:                       uncertainty over the estimate around the true value of the posterior dis-
+   1. A prior distribution describing the biologically plausible values of       tribution concerning the initial prior distribution. Ideally, the distribution of
+      wdopa, which modulates the dopaminergic tone inﬂuencing the ON and         posteriors derived from prior predictive observations should converge
+      OFF states.                                                                towards small z-score and large posteriors’ shrinkage for each parameter
+   2. A mechanistic model that simulates the large-scale neural activity         component. By plotting the posterior z-score (y-axis) against the posterior
+      associated with a speciﬁc value of wdopa.                                  shrinkage (x-axis), a concentration towards the lower right suggests an ideal
+   3. A set of low-dimensional yet sufﬁciently informative data features,        Bayesian estimation19,65.
+      focusing here on the EEG recordings.                                             To study the correlation between the simulated data and the clinical
+                                                                                 improvement, we ﬁrst compute the distance between the ATMs simulated
+     We train the MAF using a budget of 3000 simulations with random             in the ON and the OFF states, deﬁned as 1 minus the absolute value of the
+parameters sampled from the prior. The set of data features extracted from       mean of the edge-wise differences. This is correlated, across subjects, to the
+source reconstructed EEG signals includes summary statistics of Avalanche        difference in the UPDRS scores in the ON and the OFF states. The result was
+Transition Matrices (ATM). From the ATMs, we compute the sum,                    validated utilizing a null distribution obtained by shufﬂing the averages of
+arithmetic mean, skewness, kurtosis, the Coefﬁcient of Variation (deﬁned as      the differences between matrices.
+the ratio of the standard deviation to the mean, and its inverse), the Fro-            As explained, we compared the ON-OFF differences in the synthetic
+   P norm, and the entropy (H) of the matrix, deﬁned as H ¼
+benius                                                                           and empirical data for each subject to compare the model’s performance to
+ plog2 p where log2 p is the base-2 logarithm of the probability                effectively capture the differences in the time series. To compare the data we
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                              10
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                           Article
+
+proceed as follows: 1) compute the power spectra of the signals; 2) subtract       15. Johnson, K. A. & Goody, R. S. The original michaelis constant:
+(frequency-band wise) the power spectra of the signal in ON from the                   Translation of the 1913 michaelis-menten paper. Biochemistry 50,
+empirical STN in OFF, and subtract the power spectra of the simulated STN              8264–8269 (2011).
+in ON from the empirical STN in OFF (i.e. with the simulations performed           16. Kringelbach, M. L. et al. Dynamic coupling of whole-brain neuronal
+with the inferred Dopaminergic tone given the data from either the ON and              and neurotransmitter systems. Proc. Natl Acad. Sci. 117, 9566–9576
+OFF acquisitions); 3) correlate the differences across frequency bins. To              (2020).
+validate the correlation, we then randomize the power spectra by shufﬂing          17. Bullmore, E. & Sporns, O. Complex brain networks: graph theoretical
+the frequency bins, to estimate a null distribution of the correlations given by       analysis of structural and functional systems. Nat. Rev. Neurosci. 10,
+chance, and use this null distribution to estimate the goodness of ﬁt of               186–198 (2009).
+our data.                                                                          18. Cranmer, K., Brehmer, J. & Louppe, G. The frontier of simulation-
+                                                                                       based inference. Proc. Natl Acad. Sci. 117, 30055–30062 (2020).
+Data availability                                                                  19. Hashemi, M. et al. The bayesian virtual epileptic patient: A
+The dataset analyzed in this study can be made available from the corre-               probabilistic framework designed to infer the spatial map of
+sponding author upon reasonable request, conditional to the approval by                epileptogenicity in a personalized large-scale brain model of epilepsy
+the Ethics committee IRB of Comite de Protection des Personnes CPP Sud                 spread. NeuroImage 217, 116839 (2020).
+Mediterranee.                                                                      20. Tejero-Cantero, A. et al. sbi: A toolkit for simulation-based inference.
+                                                                                       J. Open Source Softw. 5, 2505 (2020).
+Code availability                                                                  21. Hashemi, M. et al. Amortized bayesian inference on generative
+The codes implemented are available at https://github.com/marangiol/The-               dynamical network models of epilepsy using deep neural density
+Virtual-Parkinsonian-Patient.git.                                                      estimators. Neural Netw. 163, 178–194 (2023).
+                                                                                   22. Papamakarios, G., Pavlakou, T. & Murray, I. Masked autoregressive
+Received: 4 March 2025; Accepted: 8 April 2025;                                        ﬂow for density estimation. In Advances in Neural Information
+                                                                                       Processing Systems, 2338–2347 (Curran Associates, Inc., 2017).
+                                                                                   23. Gonçalves, P. J. et al. Training deep neural density estimators to
+References                                                                             identify mechanistic models of neural dynamics. eLife 9, e56261
+1.    Ascherio, A. & Schwarzschild, M. A. The epidemiology of parkinson’s              (2020).
+      disease: risk factors and prevention. Lancet Neurol. 15, 1257–1272           24. Ross, L. N. & Bassett, D. S. Causation in neuroscience: keeping
+      (2016).                                                                          mechanism meaningful. Nat. Rev. Neurosci. 25, 81–90 (2024).
+2.    Dauer, W. & Przedborski, S. Parkinson’s disease: mechanisms and              25. Chen, L. & Campbell, S. A. Exact mean-ﬁeld models for spiking neural
+      models. Neuron 39, 889–909 (2003).                                               networks with adaptation. J. Comput. Neurosci. 50, 445–469 (2022).
+3.    Horn, A. et al. Connectivity predicts deep brain stimulation outcome in      26. Braun, U. et al. From maps to multi-dimensional network mechanisms
+      parkinson disease. Ann. Neurol. 82, 67–78 (2017).                                of mental disorders. Neuron 97, 14–31 (2018).
+4.    Merk, T. et al. Electrocorticography is superior to subthalamic local        27. Stephan, K. E., Iglesias, S., Heinzle, J. & Diaconescu, A. O.
+      ﬁeld potentials for movement decoding in parkinson’s disease. eLife              Translational perspectives for computational neuroimaging. Neuron
+      11, e75126 (2022).                                                               87, 716–732 (2015).
+5.    Chaudhuri, K. R. & Schapira, A. H. Non-motor symptoms of                     28. Van Essen, D. C. & Glasser, M. F. The human connectome project:
+      parkinson’s disease: dopaminergic pathophysiology and treatment.                 Progress and prospects. Cerebrum Dana Forum Brain Sci2016 (2016).
+      Lancet Neurol. 8, 464–474 (2009).                                            29. Braak, H., Ghebremedhin, E., Rüb, U., Bratzke, H. & Del Tredici, K.
+6.    Tessitore, A., Cirillo, M. & De Micco, R. Functional connectivity                Stages in the development of parkinson’s disease-related pathology.
+      signatures of parkinson’s disease. J. Parkinsons. Dis. 9, 637–652                Cell Tissue Res. 318, 121–134 (2004).
+      (2019).                                                                      30. Wang, H. E. et al. Virtual brain twins: from basic neuroscience to
+7.    Filippi, M., Sarasso, E. & Agosta, F. Resting-state functional mri in            clinical use. National Science Review11 (2024).
+      parkinsonian syndromes. Mov. Disord. Clin. Pract. 6, 104–117 (2019).         31. Sorrentino, P. et al. Brain ﬁngerprint is based on the aperiodic, scale-
+8.    Sorrentino, P. et al. Flexible brain dynamics underpins complex                  free, neuronal activity. NeuroImage 277, 120260 (2023).
+      behaviours as observed in parkinson’s disease. Sci. Rep. 11, 4051            32. Yu, Y. et al. Parkinsonism alters beta burst dynamics across the
+      (2021).                                                                          basal ganglia-motor cortical network. J. Neurosci. 41, 2274–2286
+9.    Agouram, H. et al. L-dopa induced changes in aperiodic bursts                    (2021).
+      dynamics relate to individual clinical improvement in parkinson’s            33. Tinkhauser, G. et al. Beta burst dynamics in parkinson’s disease off
+      disease. Preprint at https://www.medrxiv.org/content/10.1101/2024.               and on dopaminergic medication. Brain A J. Neurol. 140, 2968–2981
+      06.14.24308683v1 (2024).                                                         (2017).
+10.   Depannemaecker, D. et al. A next generation neural mass model with           34. Lofredi, R. et al. Subthalamic beta bursts correlate with dopamine-
+      neuromodulation. Preprint at https://www.biorxiv.org/content/10.                 dependent motor symptoms in 106 parkinson’s patients. NPJ
+      1101/2024.06.23.600260v2.abstract (2024).                                        Parkinsons. Dis. 9, 1–9 (2023).
+11.   Sorrentino, P. et al. The structural connectome constrains fast brain        35. Pauls, K. A. M. et al. Cortical beta burst dynamics are altered in
+      dynamics. eLife 10, e67400 (2021).                                               parkinson’s disease but normalized by deep brain stimulation.
+12.   Duma, G. M. et al. Altered spreading of neuronal avalanches in                   NeuroImage 257, 119308 (2022).
+      temporal lobe epilepsy relates to cognitive performance: A resting-          36. Vinding, M. C. et al. Reduction of spontaneous cortical beta bursts in
+      state hdeeg study. Epilepsia 64, 1278–1288 (2023).                               parkinson’s disease is linked to symptom severity. Brain Commun. 2,
+13.   Romano, A. et al. Topological changes of fast large-scale brain                  fcaa052 (2020).
+      dynamics in mild cognitive impairment predict early memory                   37. Scarpetta, S. et al. Criticality of neuronal avalanches in human sleep
+      impairment: a resting-state, source reconstructed,                               and their relationship with sleep macro- and micro-architecture.
+      magnetoencephalography study. Neurobiol. Aging 132, 36–46 (2023).                iScience 26, 107840 (2023).
+14.   Corsi, M.-C. et al. Measuring neuronal avalanches to inform brain-           38. Betancourt, M. Calibrating model-based inferences and decisions.
+      computer interfaces. iScience 27, 108734 (2024).                                 Preprint at https://arxiv.org/abs/1803.08393 (2018).
+
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                          11
+https://doi.org/10.1038/s41540-025-00516-y                                                                                                              Article
+
+39. Pavlides, A., Hogan, S. J. & Bogacz, R. Computational models                 63. Van de Schoot, R. et al. Bayesian statistics and modelling. Nat. Rev.
+    describing possible mechanisms for generation of excessive beta                  Methods Prim. 1, 1 (2021).
+    oscillations in parkinson’s disease. PLoS Computational Biol. 11,            64. Kobyzev, I., Prince, S. J. & Brubaker, M. A. Normalizing ﬂows: An
+    e1004609 (2015).                                                                 introduction and review of current methods. IEEE Trans. Pattern Anal.
+40. Oswal, A. et al. Neural signatures of hyperdirect pathway activity in            Mach. Intell. 43, 3964–3979 (2021).
+    parkinson’s disease. Nat. Commun. 12, 1–15 (2021).                           65. Gelman, A. et al. Bayesian workﬂow. Preprint at https://arxiv.org/abs/
+41. Deco, G. et al. Resting-state functional connectivity emerges from               2011.01808 (2020).
+    structurally and dynamically shaped slow linear ﬂuctuations. J.
+    Neurosci. 33, 11239–11252 (2013).                                            Acknowledgements
+42. Kong, X. et al. Sensory-motor cortices shape functional connectivity         The work was supported by the European Union’s Horizon 2020 research
+    dynamics in the human brain. Nat. Commun. 12, 6373 (2021).                   and innovation program under grant agreement No. 101147319 (EBRAINS
+43. Meier, J. M. et al. Virtual deep brain stimulation: Multiscale co-           2.0 Project) and No. 101137289 (Virtual Brain Twin Project) and “EBRAINS-
+    simulation of a spiking basal ganglia model and a whole-brain mean-          Italy”. (European Brain ReseArch INfrastructureS-Italy) CUP
+    ﬁeld model with the virtual brain. Exp. Neurol. 354, 114111 (2022).          B51E22000150006.This research has received funding from the Italian
+44. Saenger, V. M. et al. Uncovering the underlying mechanisms and               National Recovery and Resilience Plan (PNRR), M4C2. M.A. and L.C. wish to
+    whole-brain dynamics of deep brain stimulation for parkinson’s               acknowledge the Italian National Group for Mathematical Physics,
+    disease. Sci. Rep. 7, 9882 (2017).                                           GNFM-INdAM.
+45. Humphries, M. D., Obeso, J. A. & Dreyer, J. K. Insights into parkinson’s
+    disease from computational models of the basal ganglia. J. Neurol.,          Author contributions
+    Neurosurg. Psychiatry 89, 1181–1188 (2018).                                  Conceptualization and Methodology: M.A., D.D., M.H., P.S. Simulations and
+46. Oostenveld, R., Fries, P., Maris, E. & Schoffelen, J.-M. Fieldtrip: Open     Data analysis: M.A., D.D., H.A., M.H., P.S. Formal analysis: M.A., D.D., M.H.,
+    source software for advanced analysis of meg, eeg, and invasive              P.S. Coding: M.A., M.W. Resources: J.R., R.C., A.E., V.J. Writing - Original
+    electrophysiological data. Computational Intell. Neurosci. 2011, 1 (2011).   Draft: M.A., P.S. Writing - Review - Editing: M.A., D.D., H.A., J.R., R.C., M.M.,
+47. Niso, G. et al. Good scientiﬁc practice in eeg and meg research:             L.C., P.T., A.Z., A.E., V.J., P.S. Visualization: M.A., D.D., H.A., J.R., R.C.,
+    Progress and perspectives. NeuroImage 257, 119056 (2022).                    M.M., L.C., P.T., A.Z., A.E., V.J., P.S. Supervision and Project administration:
+48. Van Essen, D. C. et al. The wu-minn human connectome project: an             D.D., V.J., P.S. Funding acquisition: V.J., P.S.
+    overview. NeuroImage 80, 62–79 (2013).
+49. Glasser, M. F. et al. The minimal preprocessing pipelines for the            Competing interests
+    human connectome project. NeuroImage 80, 105–124 (2013).                     Author P.S. serves as Guest Editor of this journal and had no role in the peer-
+50. Tournier, J. et al. Mrtrix3: A fast, ﬂexible and open software framework     review or decision to publish this manuscript. He declares no ﬁnancial
+    for medical image processing and visualisation. NeuroImage 202,              competing interests. All other authors declare no ﬁnancial or non-ﬁnancial
+    116137 (2019).                                                               competing interests.
+51. Jeurissen, B., Tournier, J., Dhollander, T., Connelly, A. & Sijbers, J.
+    Multi-tissue constrained spherical deconvolution for improved                Additional information
+    analysis of multi-shell diffusion mri data. NeuroImage 103, 411–426          Supplementary information The online version contains
+    (2014).                                                                      supplementary material available at
+52. Raffelt, D. et al. Bias ﬁeld correction and intensity normalisation for      https://doi.org/10.1038/s41540-025-00516-y.
+    quantitative analysis of apparent ﬁbre density. Proc. Intl. Soc. Mag.
+    Reson. Med. 25, 3541 (2017).                                                 Correspondence and requests for materials should be addressed to
+53. Smith, R. E., Tournier, J., Calamante, F. & Connelly, A. Anatomically-       Pierpaolo Sorrentino.
+    constrained tractography: Improved diffusion mri streamlines
+    tractography through effective use of anatomical information.                Reprints and permissions information is available at
+    NeuroImage 62, 1924–1938 (2012).                                             http://www.nature.com/reprints
+54. Smith, R. E., Tournier, J., Calamante, F. & Connelly, A. Sift2: Enabling
+    dense quantitative assessment of brain white matter connectivity             Publisher’s note Springer Nature remains neutral with regard to
+    using streamlines tractography. NeuroImage 119, 338–351 (2015).              jurisdictional claims in published maps and institutional afﬁliations.
+55. Horn, A. et al. Lead-dbs v2: Towards a comprehensive pipeline for
+    deep brain stimulation imaging. NeuroImage 184, 293–316 (2019).              Open Access This article is licensed under a Creative Commons
+56. Ewert, S. et al. Toward deﬁning deep brain stimulation targets in mni        Attribution-NonCommercial-NoDerivatives 4.0 International License,
+    space: A subcortical atlas based on multimodal mri, histology and            which permits any non-commercial use, sharing, distribution and
+    structural connectivity. NeuroImage 170, 271–282 (2018).                     reproduction in any medium or format, as long as you give appropriate
+57. Desikan, R. S. et al. An automated labeling system for subdividing the       credit to the original author(s) and the source, provide a link to the Creative
+    human cerebral cortex on mri scans into gyral based regions of               Commons licence, and indicate if you modiﬁed the licensed material. You
+    interest. NeuroImage 31, 968–980 (2006).                                     do not have permission under this licence to share adapted material
+58. Fischl, B. Freesurfer. NeuroImage 62, 774–781 (2012).                        derived from this article or parts of it. The images or other third party
+59. Gramfort, A. et al. Meg and eeg data analysis with mne-python. Front.        material in this article are included in the article’s Creative Commons
+    Neurosci. 7, 267 (2013).                                                     licence, unless indicated otherwise in a credit line to the material. If material
+60. DeLong, M. R. Primate models of movement disorders of basal                  is not included in the article’s Creative Commons licence and your intended
+    ganglia origin. Trends Neurosci. 13, 281–285 (1990).                         use is not permitted by statutory regulation or exceeds the permitted use,
+61. Hussain, A. S. Numerical solutions of stochastic differential equations      you will need to obtain permission directly from the copyright holder. To
+    by using heun’s method. Academic J. Nawroz Univ. 7, 208–215                  view a copy of this licence, visit http://creativecommons.org/licenses/by-
+    (2018).                                                                      nc-nd/4.0/.
+62. Gelman, A., Carlin, J. B., Stern, H. S. & Rubin, D. B. Bayesian Data
+    Analysis (Chapman and Hall/CRC, 1995).                                       © The Author(s) 2025
+
+
+
+npj Systems Biology and Applications | (2025)11:40                                                                                                             12
+

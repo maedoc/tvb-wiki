@@ -1,0 +1,1817 @@
+                                         Computational Lesions in Multilingual Language
+                                          Models Separate Shared and Language-specific
+                                                       Brain Alignment
+
+                                           Yang Cui1† , Jingyuan Sun1† , Yizheng Sun1 , Yifan Wang1 ,
+                                         Yunhao Zhang4,5 , Jixing Li2 , Shaonan Wang3 , Hongpeng Zhou1 ,
+                                               John Hale6 , Chengqing Zong4,5 , Goran Nenadic1*
+arXiv:2604.10627v1 [cs.CL] 12 Apr 2026
+
+
+
+
+                                           1
+                                              Department of Computer Science, The University of Manchester,
+                                                                        Manchester, UK.
+                                          2
+                                            Department of Linguistics and Translation, City University of Hong
+                                                                   Kong, Hong Kong, China.
+                                           3
+                                             Department of Language Science and Technology, The Hong Kong
+                                                         Polytechnic University, Hong Kong, China.
+                                         4
+                                            State Key Laboratory of Multimodal Artificial Intelligence Systems,
+                                                       Institute of Automation, CAS, Beijing, China.
+                                            5
+                                              School of Artificial Intelligence, University of Chinese Academy of
+                                                                    Sciences, Beijing, China.
+                                         6
+                                           Cognitive Science Department, Johns Hopkins University, Baltimore,
+                                                                            MD, USA.
+
+
+                                           *Corresponding author(s). E-mail(s): gnenadic@manchester.ac.uk;
+                                                    Contributing authors: yang.cui@manchester.ac.uk;
+                                            jingyuan.sun@manchester.ac.uk; yizheng.sun@manchester.ac.uk;
+                                               yifan.wang@manchester.ac.uk; zhangyunhao2021@ia.ac.cn;
+                                                   jixingli@cityu.edu.hk; shaonan.wang@polyu.edu.hk;
+                                                    hongpeng.zhou@manchester.ac.uk; jthale@jhu.edu;
+                                                                   cqzong@nlpr.ia.ac.cn;
+                                                     †
+                                                       These authors contributed equally to this work.
+
+
+                                                                            Abstract
+                                          How the brain supports language across different languages is a basic ques-
+                                          tion in neuroscience and a useful test for multilingual artificial intelligence.
+
+
+                                                                                 1
+     Neuroimaging has identified language-responsive brain regions across languages,
+     but it cannot by itself show whether the underlying processing is shared or
+     language-specific. Here we use six multilingual large language models (LLMs)
+     as controllable systems and create targeted “computational lesions” by zero-
+     ing small parameter sets that are important across languages or especially
+     important for one language. We then compare intact and lesioned models in
+     predicting functional magnetic resonance imaging (fMRI) responses during ˜100
+     minutes of naturalistic story listening in native English, Chinese and French (112
+     participants). Lesioning a compact shared core reduces whole-brain encoding cor-
+     relation by 60.32% relative to intact models, whereas language-specific lesions
+     preserve cross-language separation in embedding space but selectively weaken
+     brain predictivity for the matched native language. These results support a
+     shared backbone with embedded specializations and provide a causal framework
+     for studying multilingual brain-model alignment.
+
+     Keywords: Neural Encoding, Large Language Models(LLMs), Multilingual
+     Processing, Brain Representation
+
+
+
+
+1 Introduction
+Understanding how language processing generalizes across languages matters for both
+neuroscience and artificial intelligence. The human brain can support comprehension
+in many languages, from the analytic syntax of Mandarin to the fusional morphol-
+ogy of French, even though these languages place different demands on learning and
+processing [1, 2]. This diversity raises a basic question: how can one biological sys-
+tem handle many distinct communication systems? Does the brain rely mainly on a
+common set of neural operations across languages, or does it also develop mechanisms
+tuned to the properties of a person’s native language?
+   Neuroimaging work has made important progress by identifying a fronto-temporo-
+parietal “language network” that is engaged across many languages [3–6]. This points
+to a shared anatomical scaffold for language. But shared anatomy does not by itself
+reveal shared processing. The same regions can be active while supporting different
+operations over different grammatical and lexical structures [7, 8]. It therefore remains
+unclear whether the mechanisms implemented on this scaffold are largely common
+across languages or become partly specialized [9]. This question is difficult to settle
+with traditional neuroimaging alone [10].
+   Large Language Models (LLMs) offer a complementary way to study this prob-
+lem because they perform explicit computations that can be inspected and perturbed.
+Recent studies have begun to compare language models with brain recordings by asking
+whether representations extracted from a model can predict measured neural responses
+during language comprehension. These studies have shown that transformer-based lan-
+guage models can predict a substantial portion of neural responses during naturalistic
+language comprehension, suggesting that their internal representations capture fea-
+tures relevant to human language processing rather than merely task-specific outputs
+[11–14]. When representations from a model can predict recorded brain responses,
+
+
+                                             2
+this suggests that the model and the brain capture some aspects of language in sim-
+ilar ways; here we refer to this correspondence as brain-model alignment. However,
+existing work has two important limitations. First, most studies rely on monolin-
+gual, English-based models [13, 15], which makes it difficult to determine whether the
+observed alignment reflects general language processing or properties specific to a sin-
+gle language. Second, although recent work has begun to manipulate or ablate parts of
+model representations [11, 13, 16, 17], these interventions have largely been developed
+in monolingual settings. As a result, it remains unclear whether the model compo-
+nents that support brain-model alignment are shared across languages or selective to
+individual languages.
+     Multilingual LLMs provide a direct testbed for these questions. Trained on large
+corpora spanning hundreds of languages, these models face a problem that mirrors the
+one faced by the brain: representing diverse linguistic systems within a single set of
+parameters [3, 18, 19]. A single multilingual model can perform well across many lan-
+guage understanding tasks in many of its training languages, implying representations
+that generalize across languages [19, 20]. At the same time, multilingual training could
+be implemented through shared processing, through language-specific subsystems, or
+through a mixture of both [21]. This makes multilingual LLMs a controlled way to test
+whether multilingual language processing is supported by a shared core, by language-
+specific specializations, or by a mixture of both, and to compare these alternatives
+with competing hypotheses about how the brain supports multiple languages [13, 22].
+     Here we introduce a causal test of brain-model alignment using computational
+lesions in multilingual language models from the LLaMa, Mistral and QWEN fam-
+ilies [23–28]. In this context, a computational lesion refers to a targeted disruption
+of selected model components, implemented by ablating specific parameter subsets
+[29]. Most prior work establishes correspondence using intact models. We instead
+use targeted perturbations to ask which model components are necessary for that
+correspondence, and whether those components are shared across languages or selec-
+tive to individual languages. To do this, we compare intact and lesioned multilingual
+models and examine how these perturbations change representational structure and
+voxel-wise fMRI predictivity during native-language story comprehension in English,
+Chinese and French. This framework is designed to distinguish among three possibili-
+ties: multilingual brain-model alignment may depend mainly on a shared core, mainly
+on language-specific components, or on a mixture of both. The results support the
+third possibility.
+
+2 Results
+We first tested whether shared model components are necessary for brain predic-
+tivity across languages. We compared encoding performance between intact models
+and models carrying targeted core-language lesions during native-language story
+comprehension.
+
+
+
+
+                                           3
+           a                                                                                                  b
+                 EN                                                                                           *LLMs:   Llama2-7b,
+                                                                                                                       Qwen2.5-7b,
+                                                                                                                                       Llama2-13b,
+                                                                                                                                       Qwen2.5-14b,
+                                                                                                                       Mistral-NeMo-8b, Mistral-Nemo-Base
+
+
+                                                                         time
+                                                                                                                          Multilingual LLM
+
+                                                                                            Regression
+                                           LLMs*             Embeddings                       model
+                 ab
+                                                                                 time
+
+
+               CN
+                                                                                                                          core language
+                                                                                                                        region ablated LLM
+                                                                         time
+
+                                                                                            Regression
+                 文
+                                           LLMs*             Embeddings                       model
+                                                                                 time
+
+
+                 FR                                                                                                    Language (EN/CN/FR)
+                                                                                                                       specific region ablated
+                                                                                                                                 LLM
+                                                                          time
+
+                                                                                            Regression
+                 ab
+                                           LLMs*             Embeddings                       model
+                                                                                 time
+
+           c
+               Multilingual LLM
+                  Transformer Block
+                                                                                                                   Important Parameters
+                                                                                                                     of each Language
+                      Add & Norm               Input                     Output                Accumulated
+                        Feed                                                                    Gradient
+                       Forward
+                                                                                                 Descent
+                      Add & Norm
+                                                           𝑤𝑖       Backpropagation
+                      Multi-Head
+                       Attention
+                                                                                                 ⨀
+                                                       Gradient         𝑤𝑖𝑡1
+                        …
+
+
+
+
+                  Transformer Block                     Steps
+
+                                                             𝑤𝑖𝑡𝑛                       𝑤𝑖 𝑤𝑖+1 𝑤𝑖+2 … 𝑤𝑖+𝑛
+
+
+            ab          文             ab
+
+
+
+Fig. 1 Overview of the multilingual neural encoding framework with computationally lesioned
+large language models
+(a), Multilingual neural encoding pipeline. Native speakers of English (EN), Chinese (CN), and French
+(FR) listened to audiobook narratives while undergoing fMRI scanning. Textual stimuli were processed by
+large language models (LLMs) to extract contextualized embeddings from the final hidden layer, which were
+then used in voxel-wise encoding models to account for neural responses during native-language compre-
+hension. (b), Multilingual LLMs and lesion conditions. For each model family, we evaluated an intact
+multilingual LLM together with computationally lesioned variants, including a core-language–ablated model
+and language-specific–ablated models corresponding to English, Chinese, and French. These models were
+used to dissociate shared versus language-specific contributions to neural encoding. (c), Gradient-guided
+computational lesioning. Core and language-specific parameter subsets within each multilingual LLM
+were identified using gradient-based importance estimates derived from language-specific full-parameter
+fine-tuning. During backpropagation, parameter gradients were accumulated and combined with their cor-
+responding weights (gradient × weight) to quantify functional importance. Parameters ranking in the top
+1% of importance within each subset were then selectively ablated (zeroed) to induce targeted computa-
+tional lesions, yielding core-lesioned and language-specific-lesioned models for downstream neural encoding
+analyses.
+
+
+
+2.1 Multilingual LLMs predict cortical responses across
+    languages and model families
+We evaluated this framework on a multilingual naturalistic fMRI dataset in which
+native speakers of English, Chinese, and French listened to audiobook narratives from
+The Little Prince in their respective native languages [30]. For each participant, we fit
+voxel-wise encoding models over the cortical surface using final-layer embeddings from
+each multilingual LLM. The voxel-wise encoding models were fit using ridge regres-
+sion with cross-validation, and performance was quantified as the Pearson correlation
+between predicted and observed BOLD time series on held-out data (Fig. 1a) [31, 32].
+
+
+                                                                                  4
+    To test robustness across architectures, we ran all analyses on six multilingual
+LLMs from three model families—LLaMA2, Qwen2.5, and Mistral—each at two
+parameter scales [23–28]. For each model-language pair, we performed a voxel-wise
+one-sample t-test on the Pearson correlations across participants to identify significant
+voxels. We retained voxels passing a False Discovery Rate (FDR) corrected threshold
+of p < 0.01 [33].
+    We then intersected the significant voxel masks from English, Chinese, and French
+to obtain a cross-linguistic conjunction mask, and averaged encoding correlations
+within this shared cortical space to generate a robust cross-linguistic cortical encoding
+map for each model (Fig. 2a-c).
+
+           a                                     b                                                   c
+                    Llama-2 7b                                    Mistral 8b                                          Qwen2.5 7b
+
+
+
+
+                    0.14      0.05                              0.14             0.05                                  0.14      0.05
+
+
+
+
+                    Llama-2 13b                                  Mistral 12b                                          Qwen2.5 17b
+
+
+
+
+                    0.14      0.05                               0.14            0.05                                  0.14      0.05
+
+
+
+
+           d
+                                                                                                                                        Language
+                                                                                                                                                EN
+                                                                                                                                                FR
+                                                                                                                                                CN
+
+
+
+
+                                                                                                                                        Model
+                                                                                                                                           Llama-2-7b
+                                                                                                                                           Llama-2-13b
+                                                                                                                                           Mistral-8b
+
+                                                                                                                                           Mistral-12b
+                                                                                                                                           Qwen2.5-7b
+                                                                                                                                           Qwen2.5-14b
+
+
+
+
+                     IFGorb    IFG   MFG   AntTemp MidTemp PostTemp     IFGorb          IFG   MFG   AntTemp   MidTemp PostTemp
+
+
+Fig. 2 Neural encoding accuracy across multilingual large language models
+a–c, Cross-linguistically robust cortical encoding maps across multilingual language models.
+Cortical maps of voxel-wise encoding correlation for six large language models across English (EN), Chinese
+(CN), and French (FR) native listeners. For each model, we first computed voxel-wise neural encoding
+accuracy as the Pearson correlation between predicted and observed BOLD time series, averaged across all
+participants within each language. Voxels exceeding a significance threshold of p < 0.01 were retained, and
+the intersection of significant voxels across the three languages was computed. The resulting shared voxel
+mask was then averaged across languages to generate a cross-linguistically robust cortical encoding map
+for each model. d, Region-of-interest neural encoding performance across languages and models.
+Model-wise neural encoding performance within functionally defined language regions of interest. Using the
+language network parcellation defined by Fedorenko and colleagues, each scatter point represents the mean
+encoding correlation of a single model within a given region and language, while bar plots indicate the
+across-model average performance. Across inferior frontal, middle frontal, anterior temporal, mid-temporal,
+and posterior temporal ROIs, all six models exhibited reliable predictive power, with broadly comparable
+performance across English, French, and Chinese. These results demonstrate that despite architectural and
+training differences, multilingual LLMs capture cortical representations that generalize across languages
+and align with established human language networks.
+
+
+
+
+                                                                        5
+    Across model families, encoding performance was concentrated within the canon-
+ical language network, with strong predictivity in left-lateralized temporal regions,
+especially mid and posterior temporal cortex [3, 4, 6]. Within the range of model
+scales examined here (approximately 7B to 13–14B parameters), increasing parame-
+ter count did not yield a systematic improvement in neural predictivity, suggesting
+that the observed brain-model alignment is not simply a function of model size. We
+also summarized model performance in functionally defined language regions based
+on the parcellation of Fedorenko and colleagues [4] (Fig. 2d). Overall, multilingual
+LLM embeddings reliably predicted neural responses within the core language network
+across all three languages. Within this network, two additional patterns stood out.
+First, encoding performance was generally higher in the left hemisphere than in the
+right, consistent with the well-known left-lateralization of language processing. There
+are previous works showing that high-level linguistic computations—such as syntac-
+tic composition, lexical access, and sentence-level semantic integration—are primarily
+supported by a distributed fronto-temporal network in the left hemisphere [34–36].
+In contrast, homologous regions in the right hemisphere tend to be less selective for
+core linguistic computations and are more strongly involved in broader contextual or
+social aspects of communication, such as discourse-level interpretation or pragmatic
+inference [37]. Because the internal representations of large language models primar-
+ily capture lexical and syntactic structure of text, their embeddings are expected to
+align more strongly with the computations carried out in the left-hemisphere language
+network, leading to higher encoding performance in these regions. Second, French
+showed weaker alignment in IFGorb, IFG, and posterior temporal cortex compared
+with English and Chinese, indicating cross-linguistic variability in how model repre-
+sentations map onto parts of the language network. Overall, these baseline results
+establish that multilingual LLM embeddings provide reliable predictors of cortical
+responses across languages and across model families, creating a stable starting point
+for causal tests with computational lesions.
+
+2.2 Core lesions collapse representational geometry and vanish
+    shared brain alignment
+Using gradient information accumulated during full-parameter fine-tuning, we iden-
+tified two complementary parameter subsets in each model: a shared core that was
+consistently important across languages, and language-specific subsets that were selec-
+tively important for individual languages [29] (Fig. 1). To test the contribution of
+the shared core, we ablated the top 1% of parameters within this cross-language sub-
+set. This manipulation produced a marked disruption of language-modeling ability. In
+Qwen2.5-7B, perplexity on the held-out Salesforce/Wikitext-2 test set increased from
+6.75 in the intact model to 3,792, 672.75 after core ablation [38–40]. These results
+indicate that the identified core subset supports essential computations for multilin-
+gual language processing and motivate testing whether it is also necessary for brain
+alignment.
+
+
+
+
+                                          6
+     a                               b                                                                                   c
+                                         layers. 27.self_attn. k_proj.weight       layers. 27.self_attn. v_proj.weight
+
+
+
+
+                                                                                                                             Sentence
+                                                                                                                              Length
+                                                                                                                             Depth
+                                                                                                                              Tree
+                                          layers. 27.mlp.up_proj.weight            layers.27.mlp.down_ proj.weight
+
+
+
+
+                                                                                                                             Constituents
+                                                                                                                                Top
+         UMAP-2
+
+
+
+
+                                                                                                                             Coordination
+                                                                                                                              Inversion
+                  UMAP-1
+                                                                                                                                            English       French         Chinese
+
+
+
+     d
+
+
+
+
+                           8   1.5                                             4            0.8                                                       8            1.5
+
+
+
+Fig. 3 Disrupting core language regions in multilingual LLMs alters internal representations
+and reduces neural predictivity.
+(a), Cross-linguistic representational shift after core language lesion. UMAP visualizations of final-
+layer token embeddings from Qwen2.5–7B show distinct representational clusters for Chinese, English, and
+French in the intact model (light colors). After ablating the core language region (uniform 1% parameter
+removal across layers and components), the embeddings of all three languages become compressed and par-
+tially overlapping (solid colors), indicating a systematic loss of representational structure. (b), Parameter
+localization of the core language lesion. Heatmaps illustrate the disrupted parameters within the final
+transformer layer (layer 27), highlighting the distribution of ablated weights across both self-attention (key
+and value projections) and MLP (up- and down-projection) components. (c), Impaired linguistic com-
+petence following core language disruption. Across four probing tasks (sentence length, tree depth,
+top constituents, and coordination inversion), performance decreases consistently in all three languages,
+demonstrating that the ablation selectively disrupts features closely tied to syntactic and hierarchical lin-
+guistic structure. (d), Neural encoding consequences of core language lesion across languages.
+Voxel-wise neural encoding analyses reveal substantial decreases in predictive performance when using
+embeddings from core-language–ablated LLMs. Bar plots show cross-participant mean encoding correlations
+for intact models (blue), random ablated model (purple) and core-language-region ablated models (orange)
+across six LLMs, with grey dots representing individual participants. Across English, French, and Chinese,
+intact models consistently outperform their ablated counterparts. Below each bar chart, whole-brain t-maps
+visualize voxel-wise differences between intact and ablated model predictions, with larger t-values indicat-
+ing stronger reductions in neural predictivity following ablation. Reduced encoding performance is most
+prominent within bilateral temporal cortices and inferior frontal regions, demonstrating that the ablated
+parameters correspond to neural computations that are critical for supporting native language processing
+across languages.
+
+
+
+   We next examined how core ablation changes the geometry of final-layer embed-
+dings. To visualize the organization of high-dimensional embeddings, we used Uni-
+form Manifold Approximation and Projection (UMAP), a nonlinear dimensionality-
+reduction method that preserves local neighborhood structure in a low-dimensional
+space. In Qwen2.5-7B, UMAP projections show clear language-separated clusters in
+
+
+
+                                                                                   7
+the intact model, but substantial compression and overlap after core ablation (Fig. 3a).
+This pattern was also evident in the original embedding space: the intact model showed
+a Silhouette Coefficient of 0.4277, whereas the core-language-ablated model showed
+0.0594, a decrease of ∆ = 0.3683. Together, these results indicate that core ablation
+removes structure that helps maintain distinct language manifolds.
+    Core parameters were selected proportionally across all transformer layers and
+computational components, including self-attention projections (K/V) and MLP up/-
+down projections, with 1% removed per component per layer. This sampling makes
+the manipulation distributed rather than concentrated in a single layer or module [41].
+Fig. 3b shows the resulting distribution in the final layer of Qwen2.5-7B: within the
+attention block, ablated weights cluster in a subset of heads, while MLP ablations are
+more diffuse. This contrast is consistent with prior work linking attention and MLP
+components to different roles in transformer computation, without requiring that the
+effect be localized to a single component [42–44].
+    We then tested whether core ablation disrupts linguistic information that is com-
+monly tied to structure. Using multilingual probing datasets aligned across English,
+French, and Chinese, we evaluated sentence length, syntactic tree depth, top con-
+stituents, and coordination inversion (Fig. 3c). Sentence embeddings were computed
+by averaging token embeddings from the final layer, and MLP classifiers were trained
+following established probing methodology [45]. Performance dropped across all lan-
+guages and tasks after ablation, with the largest drops in top constituent identification
+and coordination inversion, which index structural and compositional properties.
+These results indicate that the ablated parameters support more than surface-level
+lexical statistics.
+    Finally, we asked how core ablation affects brain-model alignment. Across nearly
+all models, ablating ∼1% of core parameters sharply reduced neural encoding perfor-
+mance (Fig. 3d). The effect was strongest for English and Chinese and was weaker but
+consistent for French. Voxel-wise t-maps showed that reductions were concentrated
+in canonical language-selective territories, including anterior and posterior temporal
+cortex and inferior frontal cortex. Together, these results show that a compact core
+parameter subset is necessary for maintaining cross-language embedding structure and
+for sustaining robust brain predictivity [13, 46]. The convergence of representational
+collapse, probing declines, and reduced neural encoding suggests that core computa-
+tions in multilingual LLMs capture features that are also important for predicting
+cortical responses during native-language comprehension [3, 47, 48].
+
+2.3 Language-specific lesions selectively impair
+    language-matched neural encoding and reveal graded
+    cross-language similarity
+We next asked whether parameter subsets that were selectively important for indi-
+vidual languages make correspondingly selective contributions to representation and
+brain alignment. Using the same gradient-guided procedure as above, we identified
+language-specific parameter subsets for English, Chinese, and French in each model
+and ablated the top 1% of parameters within each subset [29]. Unlike core ablation,
+which caused a global disruption of multilingual language modeling, language-specific
+
+
+                                           8
+ablation produced more selective and graded impairments while preserving over-
+all model function. This dissociation motivated us to test whether language-specific
+lesions alter representational geometry and brain alignment in a language-matched
+manner.
+
+           a                                                                   b
+                                                                                                                             EN-specific-ablation   FR-specific-ablation               CN-specific-ablation
+
+
+
+
+                                                                                   layers.27.self_attn.v_proj.weight
+                                                                                      layers.27.mlp.down_proj.weight
+                            UMAP-2
+
+
+
+
+                                     UMAP-1
+           c
+                                          EN-specific-ablation LLM                                                     FR-specific-ablation LLM                            CN-specific-ablation LLM
+               EN participants
+
+
+
+
+                                                0.25     0.07                                                               0.34          0.07                                  0.23          0.07
+               FR participants
+
+
+
+
+                                               0.21      0.07                                                               0.34          0.07                                  0.16          0.07
+               CN participants
+
+
+
+
+                                               0.15      0.07                                                               0.12          0.07                                  0.17          0.07
+
+
+
+
+           d
+                             Averaged EN-specific-ablation ⟷ EN participants   Averaged FR-specific-ablation ⟷ FR participants                              Averaged CN-specific-ablation ⟷ CN participants
+
+
+
+
+                                              0.18      0.05                                                                0.18          0.05                                  0.18          0.05
+
+
+
+
+Fig. 4 Language-specific lesions selectively disrupt language-matched cortical encoding while
+preserving cross-language representational structure.
+a, Language-specific representational separation is preserved but reorganized after lesioning.
+UMAP visualizations of final-layer token embeddings across English, French, and Chinese show well-
+separated clusters in the intact model (light colors). Following lesioning of each language-specific parameter
+subset, embeddings from the corresponding language (solid colors) shift to reorganized manifolds with-
+out collapsing onto other languages. This indicates that language-specific circuits support within-language
+representational structure rather than global cross-language separability. b, Distribution of language-
+specific parameters across transformer components. Heatmaps from the final transformer layer
+(layer 27) illustrate the spatial distribution of lesioned parameters for English-, French-, and Chinese-
+specific models. Language-specific parameters appear concentrated in structured rows within self-attention
+projections, whereas MLP components exhibit more spatially diffuse but systematic patterns, consistent
+with complementary roles in information routing versus representational transformation. c, Language-
+matched neural encoding disruption following language-specific lesioning. Voxel-wise paired t-tests
+comparing intact and lesioned models (Mistral-8B) were projected onto the cortical surface. Lesioning
+English-specific parameters selectively reduced neural predictivity in English participants, with analogous
+matched-language effects observed for French and Chinese. Disruptions localize to canonical language-
+selective regions, including anterior and posterior temporal cortex and inferior frontal gyrus. d, Convergent
+encoding impairment across models. For each language, T-maps from language-matched lesions were
+averaged across all six models and summarized using a Language Processing Index. Group-level cortical
+maps reveal robust, left-lateralized reductions in neural predictivity, demonstrating that language-specific
+parameter subsets disproportionately support alignment with native-language brain responses.
+
+
+
+                                                                                                                                   9
+    In Qwen2.5-7B, UMAP projections show that embeddings remain separated by
+language after language-specific lesions (Fig. 4a). Instead of collapsing across lan-
+guages, embeddings from the lesioned language shift within their own region of the
+space. This suggests that language-specific parameters contribute to within-language
+organization, whereas global separation across languages depends more strongly on
+shared core computations.
+    The parameter maps also differed across languages. In the final layer of Qwen2.5-
+7B (Fig. 4b), English-, French-, and Chinese-specific ablations showed distinct spatial
+distributions across attention and MLP components. English- and French-specific
+parameters overlap more in the attention projection matrix, while Chinese-specific
+parameters occupy a largely non-overlapping range. This provides a structural view of
+language selectivity within the model and is consistent with partly distinct subcircuits
+across languages [47].
+    We then tested whether these language-specific components matter for brain align-
+ment in a language-matched way. Using Mistral-8B as an example, voxel-wise t-tests
+comparing intact and lesioned models showed a clear diagonal pattern (Fig. 4c):
+language-matched ablations produced larger reductions in encoding performance than
+mismatched ablations. This indicates that language-specific parameters in the model
+contribute most strongly to predicting cortical responses in native speakers of the
+same language.
+    These effects were smaller than those observed for core ablation, consistent with
+a dominant shared system alongside more limited language-specific contributions [3].
+We also observed asymmetries across language pairs. English- and French-specific
+ablations affected encoding in both English and French participants more strongly
+than in Chinese participants, while Chinese-specific ablation showed weaker cross-
+language effects. This pattern is consistent with graded similarity between languages,
+given that English and French share many properties within the Indo-European family,
+while Chinese is typologically more distant [49, 50]. In this view, language-specific
+representations need not form strictly isolated streams; instead, they can reflect partial
+overlap that tracks linguistic similarity [51].
+    To summarize where language-specific lesion effects manifest on the cortex, we com-
+puted a voxel-wise Language Processing Index (LPI) that contrasts neural encoding
+performance between intact models and their language-specific–lesioned counterparts.
+For each model and native-language participant group, voxel-wise paired t-tests were
+first conducted comparing encoding performance derived from intact and lesioned
+models, yielding three lesion-specific t-maps per architecture (English-, Chinese-, and
+French-targeted lesions). To ensure cross-language comparability, t-maps within each
+model were normalized using min–max scaling across cortical voxels. LPI values were
+then computed for each target language (see Eq. 3), quantifying the relative degra-
+dation of encoding alignment induced by lesioning that language compared with
+the remaining languages. Finally, voxel-wise LPI maps were averaged across the six
+models to obtain architecture-robust projections of language-specific effects in stan-
+dard space. The interpretational logic of the LPI is inherently relative: voxels receive
+high index values when lesioning the target language produces disproportionately
+stronger encoding disruption than lesioning other languages at the same location.
+
+
+
+                                           10
+This formulation isolates language-dependent cortical sensitivities while factoring out
+shared multilingual encoding substrates. LPI maps (Fig. 4d) localized language-specific
+effects primarily within the broader fronto–temporo–parietal language network, but in
+sparser and more spatially fragmented clusters compared with the distributed reduc-
+tions observed under core-language ablation. After averaging across models, these
+effects emerged as discrete cortical patches rather than a contiguous network, sug-
+gesting that language-specific processing is implemented through localized functional
+specializations embedded within a largely shared cortical infrastructure [52–54].
+
+3 Discussion
+A central question in multilingual neuroscience is whether native-language comprehen-
+sion is supported by largely shared neural computations across languages or whether
+it also recruits language-specific cortical mechanisms [55, 56]. The present results sug-
+gest that both are true, but at different levels of organization. Across model families,
+intact multilingual LLMs provided reliable predictors of cortical responses in English,
+Chinese and French, establishing a robust baseline for multilingual brain–model align-
+ment. Within this baseline, lesioning a compact shared core of model parameters
+caused a broad collapse of representational geometry and a marked reduction in neural
+predictivity across languages, whereas lesioning language-specific parameter subsets
+left global multilingual structure largely intact but selectively weakened alignment for
+the matched native language. These language-specific effects were smaller and more
+spatially restricted than the effects of core lesions, and they showed graded overlap
+across languages, with English and French patterns more similar to one another than
+to Chinese. Together, these findings support a shared computational backbone with
+embedded language-specific specializations.
+    Most model-to-brain studies have approached this question correlationally—for
+example, by comparing alignment across model layers or architectures [13, 16, 57]—
+which leaves open whether particular computational components are causally neces-
+sary for the observed correspondences [58, 59]. Here, we take a mechanistic route:
+by introducing gradient-guided computational lesions into multilingual LLMs, we test
+how targeted disruptions alter voxel-wise fMRI predictivity during naturalistic story
+comprehension. This shift in logic matters. Instead of treating brain predictivity as a
+single score to maximize, we use changes in predictivity under controlled disruptions
+to constrain what types of computations the cortical signal depends on.
+
+3.1 What lesion-based evidence adds to brain-model alignment
+Alignment between model embeddings and brain activity can arise for several reasons,
+including shared sensitivity to broad properties of the stimulus or the ability of a
+linear mapping to extract weak signal spread across features [13, 57]. Lesion-based
+analyses narrow this interpretive space by asking a different question: when a specific
+subset of parameters is disrupted, does predictivity fail in a systematic way, and does
+that failure localize to language-selective cortical territories? If so, then the disrupted
+subset is not merely correlated with the brain signal; it is part of what the mapping
+relies on.
+
+
+                                            11
+    This supports a precise, limited claim. The results do not imply that cortex
+implements the same algorithm as a transformer. Rather, they show that certain rep-
+resentational properties supported by specific parameter subsets in multilingual LLMs
+are also required to predict cortical responses during comprehension. In this sense,
+lesions move the discussion from “which intact representations fit” to “which internal
+computations must remain intact for the fit to hold” [58, 59]. That is a stronger kind
+of constraint than layer-wise comparisons alone, because it ties the correspondence to
+a failure mode that can be reproduced across architectures.
+
+3.2 A sparsity principle for brain-aligned computation
+A major implication is that brain-model alignment is concentrated in the parameter
+space. Using full-parameter fine-tuning and gradient–weight importance estimates, we
+identify compact parameter subsets and ablate only the top 1% within each subset
+(core and language-specific) [29]. Despite being small, this intervention produces large,
+linked changes at three levels: internal representation geometry, linguistic competence,
+and neural encoding.
+    The clearest case is the core language region. Disrupting it yields a convergent
+“triple collapse”: (i) cross-language representational structure compresses and overlaps
+(e.g., a sharp drop in Silhouette Coefficient after core ablation in Qwen2.5-7B), (ii)
+linguistic competence catastrophically degrades, and (iii) brain predictivity sharply
+declines, with a reported mean 60.32% decrease in whole-brain encoding correlation
+relative to intact models. The important point is not only that performance drops,
+but that the drop is structured: representational collapse, behavioral degradation,
+and loss of neural predictivity co-occur under the same compact perturbation. This
+co-occurrence suggests that the representational features driving brain predictivity
+are not arbitrary by-products; they are tied to computations that are central for the
+model’s ability to represent language at all.
+    This concentration also changes how it is useful to talk about “where” align-
+ment lives. Layer-wise analyses implicitly suggest that alignment is a property of a
+layer or a block. The lesion results instead support a different description: alignment
+depends strongly on a relatively small subset of parameters whose influence propagates
+through the representation. This view naturally fits the fact that core parameters are
+distributed across layers and components: a small set of weights can still shape a com-
+putation that is expressed broadly in activations. In practical terms, it suggests that
+targeted perturbations can be used to generate sharper, testable hypotheses about
+which representational properties matter for cortical prediction.
+
+3.3 Shared core and language-specific circuits: a hybrid
+    organization with graded similarity
+The results also argue against two extreme accounts. One is that native-language
+comprehension relies on the same computation in the same way for all languages;
+the other is that each language relies on separate, largely independent mechanisms.
+Instead, the findings support a hybrid organization.
+
+
+
+                                           12
+    On the model side, the importance mapping separates parameters that are con-
+sistently important across languages (the shared core) from those whose importance
+is selectively elevated for one language (language-specific regions). On the brain side,
+the consequences follow the same division. Core ablation produces broad reductions in
+predictivity across English, Chinese, and French, concentrated in canonical language-
+selective territories (bilateral temporal cortex and inferior frontal cortex) [3, 6, 60, 61].
+In contrast, language-specific ablation leaves cross-language separability intact at the
+embedding level while selectively weakening brain predictivity most strongly when the
+ablation matches the participants’ native language.
+    This pattern helps refine what anatomical overlap across languages can mean.
+Shared activation of the same macro-scale regions has long been compatible with both
+shared and distinct computations. The lesion results support a middle hypothesis: a
+dominant shared backbone that drives much of the mapping between model represen-
+tations and the language network, alongside embedded specializations that modulate
+the mapping for particular language groups [34, 62, 63]. Importantly, this does not
+require language-specific processing to be isolated into separate, dedicated streams.
+The observed graded similarity—for example, stronger overlap between English and
+French than between either and Chinese—fits a picture in which “language-specific”
+effects reflect selective weighting within a largely shared system, with partial transfer
+among related languages rather than strict modular separation. This hybrid view also
+offers a natural explanation for why language-specific effects are consistently smaller
+than core effects: they are additions or adjustments on top of a shared computation,
+not replacements for it.
+
+3.4 Why distributed lesions matter for interpretation and
+    localization
+A practical challenge in lesion-based arguments is to rule out trivial explanations such
+as “damage to one critical layer” or “general disruption caused by removing weights.”
+Two aspects of the design help here. First, core parameters are selected proportionally
+across layers and components, which makes the perturbation distributed and avoids
+concentrating damage in a single layer. Second, the random-ablation control (intact vs.
+random-ablated vs. core-ablated) separates effects of structured lesioning from effects
+of parameter removal per se.
+    These choices also matter for the brain-side interpretation. Lesions are most infor-
+mative when they lead to spatially structured changes in encoding, rather than uniform
+degradation. The fact that encoding losses concentrate in language-selective territories
+supports the claim that the disrupted features are relevant to language comprehen-
+sion as captured by these cortical regions, rather than reflecting indiscriminate loss
+of signal. The Language Processing Index (LPI) further sharpens localization by con-
+trasting how much encoding degrades under language-specific ablation relative to
+core ablation, highlighting regions whose predictivity is disproportionately sensitive
+to language-specific disruptions [53].
+
+
+
+
+                                             13
+3.5 Robustness across models and implications of scale
+Another feature of the evidence is convergence across architectures. Analyses are repli-
+cated across six LLMs drawn from three families (LLaMA2, Qwen2.5, Mistral [23–28])
+and two parameter scales per family. This reduces the chance that the findings are an
+artifact of one tokenizer, one training distribution, or one architectural choice. Within
+the tested range (∼7B to ∼13–14B), increased parameter count does not produce a
+systematic increase in neural predictivity. One interpretation is that, at least in this
+regime, brain predictivity depends more on having the right kinds of representational
+constraints than on simply increasing capacity. This strengthens the case for focusing
+on which computations support alignment, rather than treating scale as the primary
+explanation.
+    The neuroimaging setting also matters. The LPPC-fMRI dataset uses ∼100 min-
+utes of naturalistic listening to The Little Prince in each participant’s native language
+(112 participants across EN/CN/FR) [30]. Naturalistic stimuli increase ecological
+validity, but they also bring variability (e.g., translation choices, prosody, narrative
+timing). The lesion-based contrasts partly address this because they are computed
+within each language group, comparing intact and lesioned models on the same stimu-
+lus. This reduces reliance on cross-language comparability of the stimulus itself when
+making the main claims about shared versus language-specific dependencies.
+
+3.6 Limitations and alternative interpretations
+Several limitations are important for interpreting what the lesions do and do not
+establish.
+
+Capability degradation as a confound (core ablation).
+Core ablation causes extreme perplexity inflation, so reduced neural predictivity could
+partly reflect global representational corruption rather than selective removal of brain-
+relevant computation [13]. The random-ablation control and the spatial concentration
+of encoding losses in language-selective cortex reduce the plausibility of a purely
+nonspecific explanation, but they do not fully resolve it. A clean way to sharpen
+causal specificity is to add dose–response lesioning (varying ablation percentages) and
+matched-performance controls that hold overall language modeling degradation con-
+stant while varying which parameters are removed [48, 64]. These additions would
+help distinguish effects that track general competence loss from effects that reflect the
+removal of specific representational features needed for brain predictivity.
+
+What “core” and “language-specific” mean operationally.
+The decomposition is defined by importance under language-specific fine-tuning objec-
+tives [29]. This means that “core” should be read operationally as parameters that are
+consistently important across languages under the matched objectives, not as a guar-
+antee of a single, language-agnostic algorithm. Likewise, “language-specific” denotes
+parameters with selective importance elevation, not necessarily parameters that are
+exclusively used by one language. The hybrid and graded patterns are consistent with
+
+
+
+                                           14
+this operational view: selective effects can arise from differences in weighting within
+shared computation as well as from more separated subcircuits.
+
+Stimulus and language coverage.
+The design uses three languages and a single narrative, which supports direct compar-
+isons [65] but may entangle language differences with translation and speech properties
+[66]. Extending to a wider range of typologies [67] and to controlled stimuli [34] would
+test the generality of the hybrid organization and the graded similarity pattern.
+
+Model-to-brain mapping choices.
+The encoding model is linear and uses final-layer embeddings, which may miss nonlin-
+ear correspondences [68] or layer-specific temporal dynamics [17]. Future work could
+add layer-wise lesions and nonlinear encoders, and combine fMRI with temporally
+precise recordings to resolve when shared versus language-specific computations con-
+tribute [69, 70]. These extensions would not change the core logic of lesion-based
+inference, but they could sharpen which representational properties matter most, and
+when.
+
+Scanner/site differences.
+English and Chinese data were collected on a GE system while French was collected
+on a Siemens system, and French shows weaker alignment in some regions in the ROI
+analyses. While lesion patterns remain consistent, harmonized acquisition or within-
+site multilingual cohorts would strengthen cross-language comparisons [71, 72]. The
+main lesion contrasts are computed within language groups, which reduces dependence
+on absolute comparability across sites, but does not eliminate it.
+
+3.7 Outlook
+The lesion results suggest a broader direction for brain-AI alignment work: treat
+multilingual LLMs as controllable computational systems, identify compact param-
+eter circuits that matter for specific representational outcomes, and use lesion-
+induced changes to localize cortical dependencies. Several immediate extensions
+follow naturally. Testing bilinguals and L2 learners would help determine whether
+language-specific circuits track proficiency and exposure. Expanding language cover-
+age would test whether graded similarity persists beyond English, French, and Chinese.
+Finer-grained lesions (e.g., attention heads vs. MLP blocks) could clarify which com-
+putational elements most strongly support brain predictivity. Together, these steps
+would help turn alignment from a descriptive observation into a set of falsifiable claims
+about which computations drive it.
+
+3.8 Conclusion
+Overall, the findings support an account in which native-language comprehension is
+dominated by a shared cortical computation that aligns with a compact, distributed
+core parameter circuit in multilingual LLMs, while additional language-specific circuits
+contribute selectively to alignment in native speakers of particular languages. The key
+
+
+                                           15
+conceptual move is not “shared regions versus separate regions,” but “shared backbone
+with embedded specializations”—and the key methodological move is to establish this
+distinction using causal computational lesions rather than correlation alone.
+
+4 Methods
+In this section, we describe our computational lesion paradigm, which leverages mul-
+tilingual large language models (LLMs) to causally investigate shared and language-
+specific neural representations for language processing. Our approach consists of three
+main stages. First, we adopt the previous method and isolate a “core” multilingual
+parameter subnetwork and several language-specific subnetworks within LLMs by fine-
+tuning them on a next-word prediction task across three languages [29, 73]. Second,
+we systematically ablate these identified subnetworks to create “lesioned” models [29].
+Finally, we employ a neural encoding framework to quantify and compare the per-
+formance of intact versus lesioned models in predicting fMRI activity from native
+Chinese, English, and French speakers, thereby inferring the causal role of these sub-
+networks in aligning with human brain function and localizing their corresponding
+shared or specific cortical substrates [74].
+
+4.1 Comparison of multilingual LLM architectures used in this
+    study
+To ensure robustness and generalizability, all analyses were conducted across six
+multilingual LLMs drawn from three model families—LLaMA2, Qwen2.5, and Mis-
+tral—each [23–28] evaluated at two parameter scales. These model families were
+selected to reflect complementary linguistic emphases relevant to the trilingual encod-
+ing task [75]. LLaMA2, a widely adopted benchmark model developed by the USA
+company Meta, is predominantly trained on English-language data while maintaining
+multilingual capabilities [23]. Qwen2.5, an open-source model pretrained with mainly
+English and Chinese corpus developed by Chinese company Alibaba, demonstrates
+strong performance on Chinese benchmarks and supports more than 29 languages,
+including French, reflecting substantial high-quality non-English training data[24, 25].
+Mistral models, developed by French company Mistral AI, place particular emphasis
+on multilingual proficiency, with reported native-level fluency across several European
+languages, including French [26–28]. Consistent neural encoding patterns observed
+across model families and sizes indicate that the identified shared and language-
+specific cortical representations are not driven by idiosyncratic properties of any single
+architecture or training distribution [13, 57, 76, 77].
+    All six LLMs used in this study adopt a transformer-based, decoder-only archi-
+tecture, enabling direct comparability across model families. Owing to computational
+constraints associated with full-parameter fine-tuning, we restricted our analyses to
+two representative model scales—approximately 7B and 14B parameters—resulting in
+a total of six models across three families: LLaMA2, Qwen2.5, and Mistral.
+    Despite this shared backbone, the model families differ substantially in archi-
+tectural configuration shown in Table 4.1. LLaMA2 employs standard multi-head
+
+
+
+                                           16
+ Model           Family      Params Layers Dim Attention                 Tokenizer      Ctx.
+ LLaMA2-7B       LLaMA2         7B         32        4096    MHA        SentencePiece 4k
+ LLaMA2-13B      LLaMA2        13B         40        5120    MHA        SentencePiece 4k
+ Qwen2.5-7B      Qwen2.5        7B         32        4096    GQA            BPE       128k
+ Qwen2.5-14B     Qwen2.5       14B         48        5120    GQA            BPE       128k
+ Mistral-8B      Mistral        8B         40        4096    GQA        SentencePiece 8k
+ Mistral-12B     Mistral       12B         40        5120    GQA        SentencePiece 8k
+Table 1 Architectural comparison of multilingual LLMs used in this study.
+All models adopt decoder-only Transformer architectures but differ in scale(7-14B), attention
+design(MHA vs. GQA), tokenizer construction ..., and multilingual training emphasis. Architectural
+specifications are compiled from official technical reports and model documentation [23–28].
+                        Note. Dim: Hidden Dimension; Ctx.: Context Length.
+
+
+attention (MHA) with matched query and key–value heads, scaling performance pri-
+marily through depth and hidden width. Qwen2.5 adopts grouped-query attention
+(GQA) and integrates an expanded tokenizer and extended context window, optimiz-
+ing multilingual density and long-range dependency modeling. Mistral models combine
+GQA with efficiency-oriented scaling, featuring large per-head dimensionality and
+multilingual tokenization optimized for European languages [23–28].
+    The convergence of neural encoding results across these heterogeneous architec-
+tures indicates that observed shared and language-specific cortical patterns are not
+driven by idiosyncratic design properties of any single model family.
+
+4.2 Identification and ablation of core and language-specific
+    language representations
+To dissociate shared and language-specific linguistic representations within multi-
+lingual LLMs, we adopted a parameter-level ablation strategy [78] grounded in
+established methods from model interpretability and theoretical neuroscience [46, 79].
+    Figure 1b-c has shown that for each dense multilingual LLM, we performed full-
+parameter fine-tuning separately on free-text corpora in English, Chinese, and French.
+During fine-tuning, we accumulated the gradients of each parameter across optimiza-
+tion steps. Following prior work in model interpretability [80, 81], we quantified the
+importance of a parameter for a given language as the product of its accumulated
+gradient magnitude and its original weight value. This quantity captures both the sen-
+sitivity of the loss to the parameter and the parameter’s contribution to the model’s
+computation, providing a principled estimate of functional relevance.
+    Using the resulting language-specific importance maps, we identified two comple-
+mentary parameter sets. Parameters exhibiting consistently high importance across
+the three languages were defined as constituting a core language region, reflect-
+ing shared computational resources for multilingual language processing [19, 50, 82].
+Conversely, parameters whose importance was selectively elevated for a single lan-
+guage were designated as language-specific regions, corresponding to representations
+preferentially engaged during processing of that language [29, 73, 83].
+    To causally test the functional role of these regions, we performed targeted abla-
+tion by uniformly disrupting the top 1% of parameters within each identified region,
+
+
+                                                17
+separately for each transformer layer and architectural component. Ablation was
+implemented by setting the selected parameter values to zero [84], yielding one core
+language region–ablated model and three language-specific ablated models. This uni-
+form, percentile-based procedure avoids confounding effects of uneven parameter
+density across layers [85] and ensures comparability across models and scales [86].
+    The effectiveness of this ablation strategy was validated using perplexity on next-
+word prediction. Core language region ablation resulted in a dramatic increase in
+perplexity—by several orders of magnitude relative to the intact model—indicating a
+severe degradation of linguistic competence and confirming that the ablated param-
+eters are critical for language processing. In contrast, language-specific ablation
+produced more selective impairments, consistent with partial preservation of shared
+linguistic structure.
+
+4.2.1 Identification of Core and Language-Specific Subnetworks in
+      LLMs
+Models and Corpora
+We selected three prominent families of multilingual LLMs: Llama 2, Qwen 2.5, and
+Mistral-Nemo [23–28]. For each family, we utilized two model sizes to assess scala-
+bility: Llama2-7B and -13B, Qwen2.5-7B and -14B, and Mistral-Nemo-Minitron-8B
+and -Base-12B. These models represent state-of-the-art open-source architectures. All
+models are decoder-only Transformers, optimized for next-token prediction, but differ
+in architectural design and training strategy. In all cases, we deliberately employed
+the base pretrained models rather than instruction-tuned or chat-oriented variants.
+This choice ensures that our neural encoding analyses target the core linguistic repre-
+sentations learned through unsupervised next-token prediction, without interference
+from alignment or reinforcement learning objectives. By comparing these model fami-
+lies, we aim to assess the generality and stability of language-to-brain mappings across
+architectures and linguistic typologies.
+    For the Chinese corpus, we curated canonical narrative works spanning historical,
+philosophical, and adventure genres, including Dream of the Red Chamber, Romance
+of the Three Kingdoms, and Twenty Thousand Leagues Under the Seas (Chinese trans-
+lations). These texts provide dense character interactions, complex socio-temporal
+event chains, and descriptive passages conducive to eliciting structured linguistic rep-
+resentations. For the English corpus, we selected 19th-century literary novels with
+comparable narrative continuity and psychological depth, namely Jane Eyre and Pride
+and Prejudice. Both works feature rich internal monologue, dialogue structure, and
+evolving interpersonal dynamics, which are valuable for modeling discourse-level rep-
+resentations. For the French corpus, we compiled texts from L’Étranger and Les
+Misérables, capturing stylistic diversity from existentialist minimalism to expansive
+socio-historical narration. This combination enables the models to encounter varied
+syntactic constructions and narrative pacing within the same language. All cor-
+pora were digitized, normalized, and segmented into continuous passages suitable for
+full-parameter fine-tuning.
+
+
+
+
+                                          18
+Parameter Importance Estimation
+We quantified the functional importance of each model parameter for each language
+through a full-parameter fine-tuning procedure. Each base LLM was independently
+fine-tuned on the Chinese, English, and French corpora using a standard next-word
+prediction objective with an autoregressive loss. During this process, we estimated
+the importance of each parameter θi by calculating the product of its magnitude and
+its accumulated absolute gradients [80, 81]. Specifically, for a given language L, the
+importance score IL (θi ) is formally defined as:
+
+                                                    X ∂LL
+                               IL (θi ) = |θi | ·   (t)
+                                                                                   (1)
+                                                 ∂θit
+   where LL is the loss function for language L and t indexes the training steps. This
+formulation captures the principle that a parameter is considered important if it both
+                 Pmagnitude (|θi |) and is subject to significant and frequent updates
+has a large weight
+during training ( |gradient|).
+
+Core and Language-Specific Subnetworks
+To identify the shared multilingual subnetwork, we defined a “core” importance score,
+ICore (θi ), by summing the parameter’s importance scores across all three languages:
+
+                      ICore (θi ) = ICN (θi ) + IEN (θi ) + IFR (θi )               (2)
+    We then ranked all parameters by this core importance score and designated the
+top 1% as the “Core Language Region”. To identify language-specific subnetworks, we
+computed a relative importance score, ISpecific,L (θi ), which quantifies how much more
+important a parameter is for a target language compared to the others. This score is
+defined as:
+
+
+                                        Rankp,L − 1
+                                 Pp,L =
+                                          N −1
+                            rank
+                           Sp,A  = Pp,A − max(Pp,B , Pp,C )
+
+   For each language, we ranked all parameters by their corresponding specific
+importance score and designated the top 1% as the “Language-Specific Region”.
+
+Computational Lesion Procedure
+Based on the identified subnetworks, we created a series of lesioned models for each
+base LLM. The “Core-Ablated LLM” was generated by setting the weights of all
+parameters within the Core Language Region to zero [84]. Similarly, three sepa-
+rate models—the “Chinese-Specific Ablated LLM”, “English-Specific Ablated LLM”,
+and “French-Specific Ablated LLM”—were created by ablating the corresponding
+language-specific regions.
+
+
+
+
+                                             19
+Language Processing Index (LPI) and cross-model convergence
+To quantify the specificity of cortical responses for processing a given language relative
+to others, we defined a Language Processing Index (LPI) and evaluated its robustness
+across different large language model (LLM) architectures [52].
+    For each language (Chinese, English, and French) and each model, we first quanti-
+fied context sensitivity by comparing neural encoding performance between the intact
+model and the corresponding language-specific ablation model [16, 17]. Voxel-wise
+paired t-tests were performed across participants on encoding accuracy (Pearson cor-
+relation, r), yielding statistical parametric maps (t-maps) [87] that capture the degree
+to which intact representations outperform ablated ones.
+    For each model, T-maps from the three languages were restricted to an MNI152
+cortical mask. To account for systematic differences in T-value magnitude across lan-
+guages and models, we applied Min–Max normalization to scale T-values to the [0, 1]
+range and rectified negative values to zero [88, 89]. This normalization ensures that the
+LPI captures relative language specificity rather than absolute effect size differences
+[34].
+    For a given target language (Ltarget ), the LPI was calculated voxel-wise as:
+
+                                               (L       )     (others)
+                                             Tv target − T v
+                        LP Iv(Ltarget ) =                   (others)
+                                                                                      (3)
+                                             (L     )
+                                            Tv target + T v            +ϵ
+
+         (others)
+where T̄v         denotes the average normalized T-value of the other two languages
+and ϵ is a small constant added for numerical stability. Higher LPI values indicate
+greater specificity of a cortical region for processing the target language. To ensure
+interpretability, LPI maps were further masked by the significance map of the target
+language (p < 0.01), retaining only voxels exhibiting reliable context sensitivity.
+    To identify language-specific cortical regions that generalize beyond any single
+model architecture, we computed voxel-wise averages of LPI maps across six LLMs
+(LLaMA2–7B/13B, Qwen2.5–7B/14B, and Mistral–8B/12B [23–28]). The resulting
+cross-model averaged LPI maps reveal language-specific cortical patterns that are
+consistent across architectures and parameter scales, providing a robust estimate of
+language-selective neural representations.
+
+Embedding geometry analysis
+To quantify how core lesions alter multilingual representational geometry (Figure
+3a, 4a), we analysed final-layer token embeddings produced by Qwen2.5–7B and
+its core-lesioned counterpart. For each language (English, Chinese, French), token-
+level embeddings were extracted from model encoding outputs together with token
+metadata.
+    Subword tokens were aggregated into word-level representations by grouping tokens
+sharing the same word idx and applying mean pooling across their embeddings [90].
+    To characterise global representational structure while ensuring computational
+tractability, we applied a two-stage dimensionality reduction pipeline. Principal Com-
+ponent Analysis (PCA) [91] first projected embeddings to 50 dimensions, followed
+
+
+                                               20
+by Uniform Manifold Approximation and Projection (UMAP) [92] to obtain two-
+dimensional representations. This procedure was applied independently to intact and
+lesioned models to enable direct comparison of their embedding geometries.
+
+Multilingual probing evaluation
+We evaluated linguistic information encoded in sentence representations using the
+SentEval probing framework shown in Figure 3c. Four structurally grounded tasks
+were examined across English, French, and Chinese: sentence length, syntactic tree
+depth, top constituents, and coordination inversion. All datasets followed the standard
+SentEval [45] format with predefined train, development, and test splits. Multilingual
+counterparts were constructed by translating the original English probing datasets
+into French and Chinese.
+    Because several probing labels depend on surface or syntactic properties, labels
+were recomputed on the translated corpora. Sentence length labels were reassigned
+based on token counts in the target language, with segmentation adapted to language-
+specific tokenisation conventions.
+    Sentence embeddings were extracted from hidden states and mean-pooled across
+non-padding tokens using the attention mask [90]. Linguistic information was assessed
+by training supervised classifiers on frozen sentence embeddings. We used a two-layer
+multilayer perceptron (Linear → ReLU → Dropout → Linear; hidden size 128). Models
+were trained with Adam [93] (learning rate 1×10−3 ) for 20 epochs, with model selection
+based on development-set accuracy. Final performance was reported on held-out test
+data using accuracy and macro-averaged precision, recall, and F1 metrics.
+
+Neural Encoding Analysis
+Neural encoding analyses were conducted via a pipeline linking large language model
+(LLM) representations to fMRI responses [13]. First, contextualized token embeddings
+were extracted from the final hidden layer of each intact or lesioned LLM for the
+time-stamped narrative transcripts. Second, token-level embeddings were temporally
+aligned to the fMRI acquisition by averaging all embeddings occurring within each
+repetition time (TR) [31]. Third, to account for the hemodynamic response delay, the
+resulting embedding time series were shifted by 4 seconds relative to the BOLD signal
+[16]. Fourth, voxel-wise ridge regression models were trained independently for each
+participant to predict BOLD time series from the lagged embeddings using run-wise
+cross-validation. Finally, for each participant and each voxel, a prediction accuracy was
+quantified as the Pearson correlation between predicted and observed BOLD responses
+[13, 94].
+
+fMRI Dataset and Preprocessing
+We used the Le Petit Prince multilingual naturalistic fMRI corpus (LPPC-fMRI), an
+open-access dataset designed to study neural mechanisms of language comprehension
+under naturalistic listening conditions [30]. The corpus includes fMRI recordings from
+112 healthy, right-handed participants (49 native English, 35 native Chinese, and 28
+native French speakers), each listening to an audiobook version of The Little Prince in
+their native language while undergoing multi-echo fMRI scanning. The total listening
+
+
+                                           21
+duration was approximately 100 minutes, divided into nine runs of about ten minutes
+each.
+    Functional MRI data were acquired using 3T MRI scanners. English and Chinese
+data were collected on a GE Discovery MR750 system (32-channel coil), while French
+data were collected on a Siemens Magnetom Prisma Fit system (64-channel coil).
+Functional data were obtained with a multi-echo EPI sequence (TR = 2000 ms; TE
+= 2.8, 27.5, 43 ms for English and Chinese; TE = 10, 25, 38 ms for French; flip angle
+= 77°; voxel size = 3.75 × 3.75 × 3.8 mm³).
+    Preprocessing was performed using the AFNI (v16) [95] and ME-ICA [96, 97]
+pipelines. The steps included slice-timing correction, despiking, motion correction,
+nonlinear registration to the MNI template, and denoising via multi-echo independent
+component analysis to remove motion, physiological, and scanner artifacts. Data were
+resampled to 2 mm isotropic voxels. In our preprocessing, the BOLD time series for
+each voxel were z-score normalized [88].
+    To restrict analyses to neuroanatomically relevant regions and to reduce
+computational burden, we applied a standardized cortical gray-matter mask
+derived from the MNI152 Template space [98, 99]. Specifically, we used the
+MNI152 template gm mask 2mm, which delineates voxels with high probability of
+belonging to cortical gray matter at 2 mm isotropic resolution [100, 101]. The mask
+was applied after spatial normalization and resampling, ensuring voxel-wise correspon-
+dence across participants in MNI space. By excluding non-gray-matter voxels—such
+as white matter, cerebrospinal fluid (CSF), and subcortical structures—we limited the
+encoding analysis to cortical tissue most strongly implicated in high-level language
+processing and narrative comprehension [102].
+
+Extracting LLM Representations
+The time-stamped transcripts served as input to all intact and ablated LLMs. We
+extracted contextualized embeddings for each token from the final hidden layer of
+each model. The context for each token consisted of all preceding complete sentences
+and the current sentence up to the 512th token to its left, consistent with the causal
+attention mechanism of decoder-only models. To match the temporal resolution of the
+fMRI data, we averaged the embeddings of all tokens occurring within each scan’s time
+interval (TR) [31]. To account for the hemodynamic lag, these aggregated embedding
+time series were delayed by 4 seconds relative to the BOLD signal time series [16].
+
+Voxel-wise Encoding Model
+For each voxel in the brain, we independently trained a ridge regression model to
+predict its BOLD signal time series from the corresponding lagged LLM embedding
+sequence [103], with the regularization parameter chosen to prevent overfitting. We
+employed a 9-fold cross-validation scheme, where the data from the 9 acquisition runs
+were used iteratively as training (8 runs) and test (1 run) sets. This process yielded a
+full predicted BOLD time series for each voxel. The final encoding performance for each
+participant at each voxel was computed by first calculating the correlation between
+the predicted and actual BOLD signals for each of the 9 folds and then averaging these
+9 correlation values.
+
+
+                                          22
+Evaluation and Statistical Analysis
+Performance Metric and Statistical Comparison
+We used the Pearson correlation coefficient (r) to quantify the encoding performance,
+measuring the correspondence between the model-predicted and the observed BOLD
+signals in the test sets. To assess the causal impact of the lesions, we performed a
+paired t-test at each voxel comparing the Fisher-transformed correlation coefficients
+obtained from the intact model (rintact ) and each ablated model (rablated ) [87]. A
+significant positive t-statistic indicates that ablating a specific subnetwork significantly
+impairs the model’s ability to predict neural activity in that voxel, suggesting a crucial
+functional contribution of that subnetwork.
+
+Multiple Comparisons Correction and Visualization
+To control the false positive rate across the tens of thousands of voxels tested,
+we applied a significance threshold of FDR < 0.01. For visualization, statistically
+significant results were projected as heatmaps onto the MNI152 standard brain
+template [100, 104, 105]. The analysis was restricted to cortical voxels using the
+MNI152 template gm mask 2mm grey matter mask.
+
+5 Data availability
+The neuroimaging data used in this study were obtained from the publicly available Le
+Petit Prince multilingual fMRI corpus, which provides naturalistic story-listening data
+across multiple languages using ecologically valid stimuli [30]. The dataset is accessible
+via OpenNeuro at: https://openneuro.org/datasets/ds003643/versions/2.0.0.
+    Cortical surface masks were derived from the ICBM152 nonlinear 2009 template
+provided by the Montreal Neurological Institute (MNI), available at: https://www.
+bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009.
+    Language-selective cortical parcels were obtained from the functional localization
+resources released by the MIT EvLab [3], available at: https://www.evlab.mit.edu/
+resources-all/download-parcels.
+    All datasets are publicly available for research use under their respective data usage
+agreements.
+
+6 Code availability
+All code supporting this study is publicly available at: https://github.com/yang-C23/
+Shared-Unique-Neural-Architecture-for-Language. The repository contains scripts for
+multilingual embedding extraction, structured parameter ablation, neural encod-
+ing model training, statistical analysis, and figure generation. Documentation and
+environment configuration files are provided to facilitate reproducibility.
+
+
+
+
+                                            23
+Declarations
+Acknowledgements
+This work was supported by computational resources provided through the EuroHPC
+Joint Undertaking. The authors acknowledge access to the Leonardo supercomputing
+system, hosted by CINECA, through the EuroHPC project Aligning Brain Lan-
+guage Representation with Large Language Models: Benchmark and Scalability Test
+(Account ID: B24 036; PI: Goran Nenadic; project code: EHPC-BEN-2025B05-036).
+These resources were essential for large-scale model inference, computational lesion
+analyses, and neural encoding experiments. We also thank CINECA for infrastruc-
+ture provision and technical support. Yang Cui was supported by a PhD fee-waiver
+studentship from the Department of Computer Science, Faculty of Science and
+Engineering, The University of Manchester, for the PhD programme in Computer
+Science.
+
+Author contributions
+Y.C. designed the study, developed the computational framework and ablation algo-
+rithms, performed the analyses, generated visualizations, and wrote the manuscript.
+J.S. conceived and designed the study, supervised the research, and co-wrote the
+manuscript. Y.S. contributed to results visualization and figure preparation. Y.W.
+contributed to manuscript revision and editing. Y.Z. contributed to mask processing,
+and manuscript revision. J.L. contributed to experimental design, data processing, and
+manuscript revision. S.W. contributed to experimental design and manuscript revision.
+J.H. contributed to experimental design and manuscript revision. G.N. supervised the
+project, contributed to experimental design, and manuscript revision.
+
+Appendix A
+
+
+
+
+                                         24
+                     EN participants                  FR participants                   CN participa nts
+
+
+
+
+ Llama-2 7B
+
+                      9.0       1.5                      5.0     0.8                      9.0      1.5
+
+
+
+
+ Llama-2 13B
+
+                      9.0       1.5                      5.0     0.8                      9.0      1.5
+
+
+
+
+  Mistral 8b
+
+                      9.0       1.5                      5.0     0.8                      9.0      1.5
+
+
+
+
+  Mistral 12b
+
+                      9.0       1.5                      5.0     0.8                      9.0      1.5
+
+
+
+
+ Qwen2.5 7b
+
+
+                      9.0       1.5                      5.0     0.8                      9.0      1.5
+
+
+
+
+ Qwen2.5 7b
+
+
+                      9.0       1.5                      5.0     0.8                      9.0      1.5
+
+
+
+
+Fig. A1     Cortical encoding t-maps comparing intact and core-language-ablated models across
+multilingual participants. Voxel-wise t-maps from six large language models are shown for intact
+and core-language-ablated conditions across English-, Chinese-, and French-native participant groups.
+Intact models exhibit robust encoding throughout the distributed language network, whereas core abla-
+tion produces widespread attenuation of encoding strength, particularly in superior temporal and inferior
+frontal cortices. Lesion effects are spatially convergent across participant groups. Maps are thresholded at
+FDR < 0.01 (voxel-wise, cortical mask).
+
+
+
+
+                                                    25
+References
+ [1] Ina Bornkessel-Schlesewsky and Matthias Schlesewsky. The importance of
+     linguistic typology for the neurobiology of language. Linguistic Typology,
+     20(3):615–621, 2016.
+
+ [2] Xuehu Wei, Helyne Adamson, Matthias Schwendemann, Tomás Goucha,
+     Angela˜D Friederici, and Alfred Anwander. Native language differences in the
+     structural connectome of the human brain. Neuroimage, 270:119955, 2023.
+
+ [3] Saima Malik-Moraleda, Dima Ayyash, Jeanne Gallée, Josef Affourtit, Malte
+     Hoffmann, Zachary Mineroff, Olessia Jouravlev, and Evelina Fedorenko. An
+     investigation across 45 languages and 12 language families reveals a universal
+     language network. Nature neuroscience, 25(8):1014–1019, 2022.
+
+ [4] Evelina Fedorenko, Anna˜A Ivanova, and Tamar˜I Regev. The language network
+     as a natural kind within the broader landscape of the human brain. Nature
+     Reviews Neuroscience, 25(5):289–312, 2024.
+
+ [5] Evelina Fedorenko and Sharon˜L Thompson-Schill. Reworking the language
+     network. Trends in cognitive sciences, 18(3):120–126, 2014.
+
+ [6] Jennifer Hu, Hannah Small, Hope Kean, Atsushi Takahashi, Leo Zekelman,
+     Daniel Kleinman, Elizabeth Ryan, Alfonso Nieto-Castañón, Victor Ferreira,
+     and Evelina Fedorenko. Precision fmri reveals that the language-selective net-
+     work supports both phrase-structure building and lexical access during language
+     production. Cerebral Cortex, 33(8):4384–4404, 2023.
+
+ [7] Evelina Fedorenko, Alfonso Nieto-Castanon, and Nancy Kanwisher. Lexical and
+     syntactic representations in the brain: an fmri investigation with multi-voxel
+     pattern analyses. Neuropsychologia, 50(4):499–513, 2012.
+
+ [8] Tamar˜I Regev, Hee˜So Kim, Xuanyi Chen, Josef Affourtit, Abigail˜E Schipper,
+     Leon Bergen, Kyle Mahowald, and Evelina Fedorenko. High-level language brain
+     regions process sublexical regularities. Cerebral Cortex, 34(3):bhae077, 2024.
+
+ [9] Evelina Fedorenko and Idan˜A Blank. Broca’s area is not a natural kind. Trends
+     in cognitive sciences, 24(4):270–284, 2020.
+
+[10] Nikos˜K Logothetis. What we can do and what we cannot do with fmri. Nature,
+     453(7197):869–878, 2008.
+
+[11] Charlotte Caucheteux, Alexandre Gramfort, and Jean-Rémi King. Deep lan-
+     guage algorithms predict semantic comprehension from brain activity. Scientific
+     reports, 12(1):16327, 2022.
+
+[12] Richard Antonello, Aditya Vaidya, and Alexander Huth. Scaling laws for lan-
+     guage encoding models in fmri. Advances in Neural Information Processing
+
+
+                                        26
+    Systems, 36:21895–21907, 2023.
+
+[13] Martin Schrimpf, Idan˜Asher Blank, Greta Tuckute, Carina Kauf, Eghbal˜A
+     Hosseini, Nancy Kanwisher, Joshua˜B Tenenbaum, and Evelina Fedorenko.
+     The neural architecture of language: integrative modeling converges on
+     predictive processing. Proceedings of the National Academy of Sciences,
+     118(45):e2105646118, 2021.
+
+[14] Sreejan Kumar, Theodore˜R Sumers, Takateru Yamakoshi, Ariel Goldstein,
+     Uri Hasson, Kenneth˜A Norman, Thomas˜L Griffiths, Robert˜D Hawkins, and
+     Samuel˜A Nastase. Shared functional specialization in transformer-based lan-
+     guage models and the human brain. Nature communications, 15(1):5523,
+     2024.
+
+[15] Pratik Joshi, Sebastin Santy, Amar Budhiraja, Kalika Bali, and Monojit Choud-
+     hury. The state and fate of linguistic diversity and inclusion in the nlp world.
+     arXiv preprint arXiv:2004.09095, 2020.
+
+[16] Shailee Jain and Alexander Huth. Incorporating context into language encoding
+     models for fmri. Advances in neural information processing systems, 2018.
+
+[17] Mariya Toneva and Leila Wehbe. Interpreting and improving natural-language
+     processing (in machines) with natural language-processing (in the brain).
+     Advances in neural information processing systems, 2019.
+
+[18] Ariel Goldstein, Zaid Zada, Eliav Buchnik, Mariano Schain, Amy Price, Bobbi
+     Aubrey, Samuel˜A Nastase, Amir Feder, Dotan Emanuel, Alon Cohen, and oth-
+     ers. Shared computational principles for language processing in humans and
+     deep language models. Nature neuroscience, 25(3):369–380, 2022.
+
+[19] Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary,
+     Guillaume Wenzek, Francisco Guzmán, Edouard Grave, Myle Ott, Luke Zettle-
+     moyer, and Veselin Stoyanov. Unsupervised cross-lingual representation learning
+     at scale. In Proceedings of the 58th annual meeting of the association for
+     computational linguistics, 8440–8451. 2020.
+
+[20] Felix Gaschi, Patricio Cerda, Parisa Rastin, and Yannick Toussaint. Exploring
+     the relationship between alignment and cross-lingual transfer in multilingual
+     transformers. arXiv preprint arXiv:2306.02790, 2023.
+
+[21] Guangyu˜Robert Yang, Madhura˜R Joglekar, H˜Francis Song, William˜T New-
+     some, and Xiao-Jing Wang. Task representations in neural networks trained to
+     perform many cognitive tasks. Nature neuroscience, 22(2):297–306, 2019.
+
+[22] Nikolaus Kriegeskorte. Deep neural networks: a new framework for modeling
+     biological vision and brain information processing. Annual review of vision
+     science, 1(1):417–446, 2015.
+
+
+                                        27
+[23] Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi,
+     Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti
+     Bhosale, and others. Llama 2: open foundation and fine-tuned chat models.
+     arXiv preprint arXiv:2307.09288, 2023.
+
+[24] Shuai Bai, Keqin Chen, Xuejing Liu, Jialin Wang, Wenbin Ge, Sibo Song, Kai
+     Dang, Peng Wang, Shijie Wang, Jun Tang, and others. Qwen2. 5-vl technical
+     report. arXiv preprint arXiv:2502.13923, 2025.
+
+[25] Qwen Team and others.           Qwen2 technical report.         arXiv preprint
+     arXiv:2407.10671, 2024.
+
+[26] Bo˜Adler, Niket Agarwal, Ashwath Aithal, Dong˜H Anh, Pallab Bhattacharya,
+     Annika Brundyn, Jared Casper, Bryan Catanzaro, Sharon Clay, Jonathan
+     Cohen, and others. Nemotron-4 340b technical report. arXiv preprint
+     arXiv:2406.11704, 2024.
+
+[27] Saurav Muralidharan, Sharath Turuvekere˜Sreenivas, Raviraj Joshi, Marcin
+     Chochowski, Mostofa Patwary, Mohammad Shoeybi, Bryan Catanzaro, Jan
+     Kautz, and Pavlo Molchanov. Compact language models via pruning and
+     knowledge distillation. Advances in Neural Information Processing Systems,
+     37:41076–41102, 2024.
+
+[28] Sharath˜Turuvekere Sreenivas, Saurav Muralidharan, Raviraj Joshi, Marcin
+     Chochowski, Ameya˜Sunil Mahabaleshwarkar, Gerald Shen, Jiaqi Zeng, Zijia
+     Chen, Yoshi Suhara, Shizhe Diao, and others. Llm pruning and distillation in
+     practice: the minitron approach. arXiv preprint arXiv:2408.11796, 2024.
+
+[29] Zhihao Zhang, Jun Zhao, Qi˜Zhang, Tao Gui, and Xuan-Jing Huang. Unveil-
+     ing linguistic regions in large language models. In Proceedings of the 62nd
+     Annual Meeting of the Association for Computational Linguistics (Volume 1:
+     Long Papers), 6228–6247. 2024.
+
+[30] Jixing Li, Shohini Bhattasali, Shulin Zhang, Berta Franzluebbers, Wen-Ming
+     Luh, R˜Nathan Spreng, Jonathan˜R Brennan, Yiming Yang, Christophe Pallier,
+     and John Hale. Le petit prince multilingual naturalistic fmri corpus. Scientific
+     data, 9(1):530, 2022.
+
+[31] Alexander˜G Huth, Wendy˜A De˜Heer, Thomas˜L Griffiths, Frédéric˜E The-
+     unissen, and Jack˜L Gallant. Natural speech reveals the semantic maps that tile
+     human cerebral cortex. Nature, 532(7600):453–458, 2016.
+
+[32] Leila Wehbe, Brian Murphy, Partha Talukdar, Alona Fyshe, Aaditya Ramdas,
+     and Tom Mitchell. Simultaneously uncovering the patterns of brain regions
+     involved in different story reading subprocesses. PloS one, 9(11):e112575, 2014.
+
+
+
+
+                                        28
+[33] Yoav Benjamini and Daniel Yekutieli. The control of the false discovery rate in
+     multiple testing under dependency. Annals of statistics, pages 1165–1188, 2001.
+
+[34] Evelina Fedorenko, Michael˜K Behr, and Nancy Kanwisher. Functional speci-
+     ficity for high-level linguistic processing in the human brain. Proceedings of the
+     National Academy of Sciences, 108(39):16428–16433, 2011.
+
+[35] Lucy˜R Chai, Marcelo˜G Mattar, Idan˜Asher Blank, Evelina Fedorenko, and
+     Danielle˜S Bassett. Functional network dynamics of the language system.
+     Cerebral Cortex, 26(11):4148–4159, 2016.
+
+[36] Ola Ozernov-Palchik, Amanda˜M O’Brien, Elizabeth˜Jiachen Lee, Hilary
+     Richardson, Rachel Romeo, Moshe Poliak, Benjamin Lipkin, Hannah Small,
+     Jimmy Capella, Alfonso Nieto-Castañón, and others. Precision fmri reveals
+     that the language network exhibits adult-like left-hemispheric lateralization by
+     4 years of age. bioRxiv, pages 2024–05, 2025.
+
+[37] Reza Rajimehr, Arsalan Firoozi, Hossein Rafipoor, Nooshin Abbasi, and John
+     Duncan. Complementary hemispheric lateralization of language and social
+     processing in the human brain. Cell reports, 2022.
+
+[38] Stephen Merity, Caiming Xiong, James Bradbury, and Richard Socher. Pointer
+     sentinel mixture models. arXiv preprint arXiv:1609.07843, 2016.
+
+[39] Stanley˜F Chen and Joshua Goodman. An empirical study of smoothing tech-
+     niques for language modeling. Computer Speech & Language, 13(4):359–394,
+     1999.
+
+[40] Ciprian Chelba, Tomas Mikolov, Mike Schuster, Qi˜Ge, Thorsten Brants,
+     Phillipp Koehn, and Tony Robinson. One billion word benchmark for measuring
+     progress in statistical language modeling. arXiv preprint arXiv:1312.3005, 2013.
+
+[41] Ian Tenney, Dipanjan Das, and Ellie Pavlick. Bert rediscovers the classical nlp
+     pipeline. arXiv preprint arXiv:1905.05950, 2019.
+
+[42] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones,
+     Aidan˜N Gomez, Lukasz Kaiser, and Illia Polosukhin. Attention is all you need.
+     Advances in neural information processing systems, 2017.
+
+[43] Mor Geva, Roei Schuster, Jonathan Berant, and Omer Levy. Transformer feed-
+     forward layers are key-value memories. In Proceedings of the 2021 Conference
+     on Empirical Methods in Natural Language Processing, 5484–5495. 2021.
+
+[44] Nelson Elhage, Neel Nanda, Catherine Olsson, Tom Henighan, Nicholas Joseph,
+     Ben Mann, Amanda Askell, Yuntao Bai, Anna Chen, Tom Conerly, and others. A
+     mathematical framework for transformer circuits. Transformer Circuits Thread,
+     1(1):12, 2021.
+
+
+                                         29
+[45] Alexis Conneau and Douwe Kiela. Senteval: an evaluation toolkit for universal
+     sentence representations. arXiv preprint arXiv:1803.05449, 2018.
+
+[46] Jonathan Frankle and Michael Carbin. The lottery ticket hypothesis: finding
+     sparse, trainable neural networks. arXiv preprint arXiv:1803.03635, 2018.
+
+[47] Tianyi Tang, Wenyang Luo, Haoyang Huang, Dongdong Zhang, Xiaolei Wang,
+     Wayne˜Xin Zhao, Furu Wei, and Ji-Rong Wen. Language-specific neurons: the
+     key to multilingual capabilities in large language models. In Proceedings of the
+     62nd Annual Meeting of the Association for Computational Linguistics (Volume
+     1: Long Papers), 5701–5715. 2024.
+
+[48] Greta Tuckute, Aalok Sathe, Shashank Srikant, Maya Taliaferro, Mingye Wang,
+     Martin Schrimpf, Kendrick Kay, and Evelina Fedorenko. Driving and suppress-
+     ing the human language network using large language models. Nature Human
+     Behaviour, 8(3):544–561, 2024.
+
+[49] Telmo Pires, Eva Schlinger, and Dan Garrette. How multilingual is multilingual
+     bert? arXiv preprint arXiv:1906.01502, 2019.
+
+[50] Sneha Kudugunta, Ankur Bapna, Isaac Caswell, and Orhan Firat. Investigating
+     multilingual nmt representations at scale. In Proceedings of the 2019 Conference
+     on Empirical Methods in Natural Language Processing and the 9th International
+     Joint Conference on Natural Language Processing (EMNLP-IJCNLP), 1565–
+     1575. 2019.
+
+[51] Tyler Chang, Zhuowen Tu, and Benjamin Bergen. The geometry of multilin-
+     gual language model representations. In Proceedings of the 2022 Conference on
+     Empirical Methods in Natural Language Processing, 119–136. 2022.
+
+[52] RR˜Benson, DB˜FitzGerald, LL˜LeSueur, DN˜Kennedy, KK˜Kwong,
+     BR˜Buchbinder, TL˜Davis, RM˜Weisskoff, TM˜Talavage, WJ˜Logan, and oth-
+     ers. Language dominance determined by whole brain functional mri in patients
+     with brain lesions. Neurology, 52(4):798–798, 1999.
+
+[53] Charlotte Caucheteux, Alexandre Gramfort, and Jean-Remi King. Disentan-
+     gling syntax and semantics in the brain with deep networks. In International
+     conference on machine learning, 1336–1348. PMLR, 2021.
+
+[54] Mark˜D Lescroart and Jack˜L Gallant. Human scene-selective areas represent
+     3d configurations of surfaces. Neuron, 101(1):178–192, 2019.
+
+[55] Donald˜J Bolger, Charles˜A Perfetti, and Walter Schneider. Cross-cultural
+     effect on the brain revisited: universal structures plus writing system variation.
+     Human brain mapping, 25(1):92–104, 2005.
+
+
+
+
+                                         30
+[56] Daniela Perani and Jubin Abutalebi. The neural basis of first and second
+     language processing. Current opinion in neurobiology, 15(2):202–206, 2005.
+
+[57] Charlotte Caucheteux and Jean-Rémi King. Brains and algorithms partially
+     converge in natural language processing. Communications biology, 5(1):134,
+     2022.
+
+[58] Andrew Saxe, Stephanie Nelli, and Christopher Summerfield. If deep learning
+     is the answer, what is the question? Nature Reviews Neuroscience, 22(1):55–67,
+     2021.
+
+[59] Jeffrey˜S Bowers, Gaurav Malhotra, Marin Dujmović, Milton˜Llera Montero,
+     Christian Tsvetkov, Valerio Biscione, Guillermo Puebla, Federico Adolfi, John˜E
+     Hummel, Rachel˜F Heaton, and others. Deep problems with neural network
+     models of human vision. Behavioral and Brain Sciences, 46:e385, 2023.
+
+[60] Francis Mollica, Matthew Siegelman, Evgeniia Diachek, Steven˜T Pianta-
+     dosi, Zachary Mineroff, Richard Futrell, Hope Kean, Peng Qian, and Evelina
+     Fedorenko. Composition is the core driver of the language-selective network.
+     Neurobiology of Language, 1(1):104–134, 2020.
+
+[61] Evelina Fedorenko, John Duncan, and Nancy Kanwisher. Language-selective
+     and domain-general regions lie side by side within broca’s area. Current Biology,
+     22(21):2059–2062, 2012.
+
+[62] Jubin Abutalebi and David Green. Bilingual language production: the neu-
+     rocognition of language representation and control. Journal of neurolinguistics,
+     20(3):242–275, 2007.
+
+[63] David˜W Green and Jubin Abutalebi. Language control in bilinguals: the
+     adaptive control hypothesis. Journal of cognitive psychology, 25(5):515–530,
+     2013.
+
+[64] Shauli Ravfogel, Yanai Elazar, Hila Gonen, Michael Twiton, and Yoav Goldberg.
+     Null it out: guarding protected attributes by iterative nullspace projection. arXiv
+     preprint arXiv:2004.07667, 2020.
+
+[65] Christopher˜J Honey, Christopher˜R Thompson, Yulia Lerner, and Uri Hasson.
+     Not lost in translation: neural responses shared across languages. Journal of
+     Neuroscience, 32(44):15277–15283, 2012.
+
+[66] Liberty˜S Hamilton and Alexander˜G Huth. The revolution will not be
+     controlled: natural stimuli in speech neuroscience. Language, cognition and
+     neuroscience, 35(5):573–582, 2020.
+
+[67] Damián˜E Blasi, Joseph Henrich, Evangelia Adamou, David Kemmerer, and
+     Asifa Majid. Over-reliance on english hinders cognitive science. Trends in
+
+
+                                          31
+    cognitive sciences, 26(12):1153–1170, 2022.
+
+[68] Anna˜A Ivanova, Martin Schrimpf, Stefano Anzellotti, Noga Zaslavsky, Evelina
+     Fedorenko, and Leyla Isik. Is it that simple? linear mapping models in cognitive
+     neuroscience. bioRxiv, 2021.
+
+[69] Christian Brodbeck, Alessandro Presacco, and Jonathan˜Z Simon. Neural
+     source dynamics of brain responses to continuous stimuli: speech processing from
+     acoustics to comprehension. NeuroImage, 172:162–174, 2018.
+
+[70] Laura Gwilliams, Jean-Remi King, Alec Marantz, and David Poeppel. Neu-
+     ral dynamics of phoneme sequencing in real speech jointly encode order and
+     invariant content. BioRxiv, pages 2020–04, 2020.
+
+[71] Samuel˜A Nastase, Yun-Fei Liu, Hanna Hillman, Asieh Zadbood, Liat Hasen-
+     fratz, Neggin Keshavarzian, Janice Chen, Christopher˜J Honey, Yaara Yeshurun,
+     Mor Regev, and others. The “narratives” fmri dataset for evaluating models of
+     naturalistic language comprehension. Scientific data, 8(1):250, 2021.
+
+[72] Ayumu Yamashita, Noriaki Yahata, Takashi Itahashi, Giuseppe Lisi, Takashi
+     Yamada, Naho Ichikawa, Masahiro Takamura, Yujiro Yoshihara, Akira Kuni-
+     matsu, Naohiro Okada, and others. Harmonization of resting-state functional
+     mri data across multiple imaging sites via the separation of site differences into
+     sampling bias and measurement bias. PLoS biology, 17(4):e3000042, 2019.
+
+[73] Negar Foroutan, Mohammadreza Banaei, Rémi Lebret, Antoine Bosselut, and
+     Karl Aberer. Discovering language-neutral sub-networks in multilingual lan-
+     guage models. arXiv preprint arXiv:2205.12672, 2022.
+
+[74] Morteza Dehghani, Reihane Boghrati, Kingson Man, Joe Hoover, Sarah˜I Gim-
+     bel, Ashish Vaswani, Jason˜D Zevin, Mary˜Helen Immordino-Yang, Andrew˜S
+     Gordon, Antonio Damasio, and others. Decoding the neural representation of
+     story meanings across languages. Human brain mapping, 38(12):6096–6106,
+     2017.
+
+[75] Yuemei Xu, Ling Hu, Jiayi Zhao, Zihan Qiu, Kexin Xu, Yuqi Ye, and Hanwen
+     Gu. A survey on multilingual large language models: corpora, alignment, and
+     bias. Frontiers of Computer Science, 19(11):1911362, 2025.
+
+[76] Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey Hinton. Sim-
+     ilarity of neural network representations revisited. In International conference
+     on machine learning, 3519–3529. PMlR, 2019.
+
+[77] Alexis Conneau, Shijie Wu, Haoran Li, Luke Zettlemoyer, and Veselin Stoyanov.
+     Emerging cross-lingual structure in pretrained language models. In Proceedings
+     of the 58th annual meeting of the association for computational linguistics, 6022–
+     6034. 2020.
+
+
+                                         32
+[78] David Bau, Bolei Zhou, Aditya Khosla, Aude Oliva, and Antonio Torralba. Net-
+     work dissection: quantifying interpretability of deep visual representations. In
+     Proceedings of the IEEE conference on computer vision and pattern recognition,
+     6541–6549. 2017.
+
+[79] Saul Sternberg. Modular processes in mind and brain. Cognitive neuropsychol-
+     ogy, 28(3-4):156–208, 2011.
+
+[80] Pavlo Molchanov, Arun Mallya, Stephen Tyree, Iuri Frosio, and Jan Kautz.
+     Importance estimation for neural network pruning. In Proceedings of the
+     IEEE/CVF conference on computer vision and pattern recognition, 11264–
+     11272. 2019.
+
+[81] Qingru Zhang, Simiao Zuo, Chen Liang, Alexander Bukharin, Pengcheng He,
+     Weizhu Chen, and Tuo Zhao. Platon: pruning large transformer models with
+     upper confidence bound of weight importance. In International conference on
+     machine learning, 26809–26823. PMLR, 2022.
+
+[82] Jindřich Libovickỳ, Rudolf Rosa, and Alexander Fraser.          On the lan-
+     guage neutrality of pre-trained multilingual representations.    arXiv preprint
+     arXiv:2004.05160, 2020.
+
+[83] Jasdeep Singh, Bryan McCann, Richard Socher, and Caiming Xiong. Bert is not
+     an interlingua and the bias of tokenization. In Proceedings of the 2nd Workshop
+     on Deep Learning Approaches for Low-Resource NLP (DeepLo 2019), 47–55.
+     2019.
+
+[84] Ari˜S Morcos, David˜GT Barrett, Neil˜C Rabinowitz, and Matthew Botvinick.
+     On the importance of single directions for generalization. arXiv preprint
+     arXiv:1803.06959, 2018.
+
+[85] Trevor Gale, Erich Elsen, and Sara Hooker. The state of sparsity in deep neural
+     networks. arXiv preprint arXiv:1902.09574, 2019.
+
+[86] Davis Blalock, Jose˜Javier Gonzalez˜Ortiz, Jonathan Frankle, and John Guttag.
+     What is the state of neural network pruning? Proceedings of machine learning
+     and systems, 2:129–146, 2020.
+
+[87] Karl˜J Friston, Andrew˜P Holmes, Keith˜J Worsley, J-P Poline, Chris˜D Frith,
+     and Richard˜SJ Frackowiak. Statistical parametric maps in functional imaging:
+     a general linear approach. Human brain mapping, 2(4):189–210, 1994.
+
+[88] Francisco Pereira, Tom Mitchell, and Matthew Botvinick. Machine learning
+     classifiers and fmri: a tutorial overview. Neuroimage, 45(1):S199–S209, 2009.
+
+[89] Masaya Misaki, Youn Kim, Peter˜A Bandettini, and Nikolaus Kriegesko-
+     rte. Comparison of multivariate classifiers and response normalizations for
+
+
+                                        33
+    pattern-information fmri. Neuroimage, 53(1):103–118, 2010.
+
+[90] Rishi Bommasani, Kelly Davis, and Claire Cardie. Interpreting pretrained con-
+     textualized representations via reductions to static embeddings. In Proceedings
+     of the 58th annual meeting of the association for computational linguistics,
+     4758–4781. 2020.
+
+[91] Hervé Abdi and Lynne˜J Williams. Principal component analysis.            Wiley
+     interdisciplinary reviews: computational statistics, 2(4):433–459, 2010.
+
+[92] Leland McInnes, John Healy, and James Melville. Umap: uniform mani-
+     fold approximation and projection for dimension reduction. arXiv preprint
+     arXiv:1802.03426, 2018.
+
+[93] Diederik˜P Kingma. Adam: a method for stochastic optimization. arXiv preprint
+     arXiv:1412.6980, 2014.
+
+[94] Kendrick˜N Kay, Thomas Naselaris, Ryan˜J Prenger, and Jack˜L Gallant. Iden-
+     tifying natural images from human brain activity. Nature, 452(7185):352–355,
+     2008.
+
+[95] Robert˜W Cox. Afni: software for analysis and visualization of functional mag-
+     netic resonance neuroimages. Computers and Biomedical research, 29(3):162–
+     173, 1996.
+
+[96] Prantik Kundu, Souheil˜J Inati, Jennifer˜W Evans, Wen-Ming Luh, and
+     Peter˜A Bandettini. Differentiating bold and non-bold signals in fmri time series
+     using multi-echo epi. Neuroimage, 60(3):1759–1770, 2012.
+
+[97] Prantik Kundu, Noah˜D Brenowitz, Valerie Voon, Yulia Worbe, Petra˜E
+     Vértes, Souheil˜J Inati, Ziad˜S Saad, Peter˜A Bandettini, and Edward˜T
+     Bullmore. Integrated strategy for improving functional connectivity map-
+     ping using multiecho fmri. Proceedings of the National Academy of Sciences,
+     110(40):16187–16192, 2013.
+
+[98] Mark˜W Woolrich, Saad Jbabdi, Brian Patenaude, Michael Chappell, Sal-
+     ima Makni, Timothy Behrens, Christian Beckmann, Mark Jenkinson, and
+     Stephen˜M Smith. Bayesian analysis of neuroimaging data in fsl. Neuroimage,
+     45(1):S173–S186, 2009.
+
+[99] Stephen˜M Smith, Mark Jenkinson, Mark˜W Woolrich, Christian˜F Beck-
+     mann, Timothy˜EJ Behrens, Heidi Johansen-Berg, Peter˜R Bannister, Marilena
+     De˜Luca, Ivana Drobnjak, David˜E Flitney, and others. Advances in func-
+     tional and structural mr image analysis and implementation as fsl. Neuroimage,
+     23:S208–S219, 2004.
+
+
+
+
+                                         34
+[100] John Mazziotta, Arthur Toga, Alan Evans, Peter Fox, Jack Lancaster, Karl
+      Zilles, Roger Woods, Tomas Paus, Gregory Simpson, Bruce Pike, and others.
+      A probabilistic atlas and reference system for the human brain: international
+      consortium for brain mapping (icbm). Philosophical Transactions of the Royal
+      Society of London. Series B: Biological Sciences, 356(1412):1293–1322, 2001.
+
+[101] Vladimir Fonov, Alan˜C Evans, Kelly Botteron, C˜Robert Almli, Robert˜C
+      McKinstry, D˜Louis Collins, Brain Development˜Cooperative Group, and oth-
+      ers. Unbiased average age-appropriate atlases for pediatric studies. Neuroimage,
+      54(1):313–327, 2011.
+
+[102] Yongyue Zhang, Michael Brady, and Stephen Smith. Segmentation of brain
+      mr images through a hidden markov random field model and the expectation-
+      maximization algorithm. IEEE transactions on medical imaging, 20(1):45–57,
+      2002.
+
+[103] Thomas Naselaris, Kendrick˜N Kay, Shinji Nishimoto, and Jack˜L Gallant.
+      Encoding and decoding in fmri. Neuroimage, 56(2):400–410, 2011.
+
+[104] John˜C Mazziotta, Arthur˜W Toga, Alan Evans, Peter Fox, Jack Lancaster,
+      and others. A probabilistic atlas of the human brain: theory and rationale for
+      its development. Neuroimage, 2(2):89–101, 1995.
+
+[105] John Mazziotta, Arthur Toga, Alan Evans, Peter Fox, Jack Lancaster, Karl
+      Zilles, Roger Woods, Tomas Paus, Gregory Simpson, Bruce Pike, and others. A
+      four-dimensional probabilistic atlas of the human brain. Journal of the American
+      Medical Informatics Association, 8(5):401–430, 2001.
+
+
+
+
+                                         35
+

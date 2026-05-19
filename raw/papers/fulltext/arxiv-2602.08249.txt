@@ -1,0 +1,926 @@
+                                              A Unified Framework for Multimodal Image Reconstruction and
+                                                        Synthesis using Denoising Diffusion Models
+                                                  Weijie Gan∗,1 , Xucheng Wang∗,1 , Tongyao Wang2 , Wenshang Wang2 , Chunwei Ying2 ,
+                                                        Yuyang Hu3 , Yasheng Chen4 , Hongyu An2,3,4,5,6 and Ulugbek S. Kamilov7
+
+                                              1
+                                                  Department of Computer Science and Engineering, Washington University in St. Louis, St. Louis, MO, USA
+arXiv:2602.08249v1 [eess.IV] 9 Feb 2026
+
+
+
+
+                                                                2
+                                                                    Mallinckrodt Institute of Radiology, Washington University in St. Louis, St. Louis, MO USA
+                                              3
+                                                  Department of Electrical and Systems Engineering, Washington University in St. Louis, St. Louis, MO, USA
+                                                                       4
+                                                                           Department of Neurology, Washington University in St. Louis, St. Louis, MO USA
+                                                            5
+                                                                Department of Biomedical Engineering, Washington University in St. Louis, St. Louis, MO USA
+                                                       6
+                                                           Division of Biology and Biomedical Sciences, Washington University in St. Louis, St. Louis, MO, USA
+                                                  7
+                                                      Department of Electrical and Computer Engineering, University of Wisconsin–Madison, Madison WI, USA
+                                                                                                ∗
+                                                                                                    These authors contributed equally.
+                                                                                   {weijie.gan, david.w, tongyaow, wenshangwang}@wustl.edu
+                                                                                 {chunwei.ying, h.yuyang, yasheng.chen, hongyuan}@wustl.edu
+                                                                                                          {kamilov}@wisc.edu
+
+
+
+                                                                                                               Abstract
+                                                           Image reconstruction and image synthesis are important for handling incomplete multimodal imaging
+                                                       data, but existing methods require various task-specific models, complicating training and deployment
+                                                       workflows. We introduce Any2all, a unified framework that addresses this limitation by formulating these
+                                                       disparate tasks as a single virtual inpainting problem. We train a single, unconditional diffusion model
+                                                       on the complete multimodal data stack. This model is then adapted at inference time to “inpaint” all
+                                                       target modalities from any combination of inputs of available clean images or noisy measurements. We
+                                                       validated Any2all on a PET/MR/CT brain dataset. Our results show that Any2all can achieve excellent
+                                                       performance on both multimodal reconstruction and synthesis tasks, consistently yielding images with
+                                                       competitive distortion-based performance and superior perceptual quality over specialized methods.
+
+
+                                          1           Introduction
+                                          Multimodal imaging (MMI), the practice of integrating data from multiple distinct sensors, is a powerful
+                                          paradigm for a comprehensive understanding across numerous scientific and engineering domains [37, 23].
+                                          For instance, in autonomous driving systems, fusing information from cameras, LiDAR, and radar is critical
+                                          for robust perception and navigation [36]. This paper focuses on the application of this paradigm within
+                                          medical imaging, where MMI has become indispensable. By integrating modalities like magnetic resonance
+                                          imaging (MRI), computed tomography (CT), and positron emission tomography (PET), clinicians can gather
+                                          diverse anatomical, functional, and pathological information from a single patient examination. For example,
+                                          combining T1- and T2-weighted MRI scans offers a more complete picture by providing both anatomical and
+                                          pathological details simultaneously [13].
+                                              Despite its diagnostic power, the practical application of MMI is often hindered by significant challenges,
+                                          including high financial costs, extended scan times, and concerns about patient exposure to ionizing radiation.
+                                          To mitigate these challenges, two common strategies are employed in practice: (a) accelerating the acquisition
+
+
+                                                                                                                   1
+                                                                                                                     Stack of forward operators         (1) If available:
+     T1 MRI         T2FLAIR MRI        T2* MRI    CT           PET
+                                                                                                                                                        (2) If missing:
+                                                                                                                                                        (3) If measurments:
+                                                                                                               Acquired data   Virtual ground truth           denotes imaging model
+                                                                                     Unconditional sampling
+                                                                                                               (a).Virtual Inpainting Problem           (b).Forward operator
+                                                                                     Loss Function
+                                                                                                                                           MDS Update
+  Stack as a multichannel image
+                                                 Noisy image                            Denoised image
+
+
+                                                                                                               (d). Multimodal Decomposition Sampling (MDS) algorithm
+                           Add noise based on
+                                                                                                                                                               MPS Update
+
+
+                                                               Denoising U-Net
+
+                                                                                        (c).Training workﬂow   (e). Multimodal Posterior Sampling (MPS) algorithm
+
+
+Figure 1: An illustration of the training and inference pipelines for Any2all. (a, b): Our framework is
+founded on the concept of a unified virtual inpainting problem, which treats diverse image reconstruction
+and synthesis tasks as the common goal of restoring missing or corrupted information within a complete set
+of multimodal images. (c): To solve this, we train a single, unconditional diffusion model that serves as a
+powerful generative prior. (d, e): During inference, we propose task-adaptive sampling algorithms, namely
+MPS and MDS, to steer the generative process by enforcing constraints from the available data. This figure
+shows the ability of Any2all to use a single pre-trained model to map any input data to all clean, multimodal
+images.
+
+
+process for certain modalities, or (b) skipping the acquisition of some modalities altogether. These strategies
+result in incomplete data, leading to either corrupted images from undersampled scans or entirely missing
+images. To overcome this data gap, computational techniques, especially those based on machine learning
+(ML), have been widely adopted. Image reconstruction algorithms are used to enhance image quality from
+the corrupted, accelerated scans [33, 28, 24], while image synthesis (or image translation) methods are used
+to generate the missing modalities from available data [7, 38].
+    However, existing ML approaches predominantly rely on developing and training distinct, specialized
+models for each specific task. This task-specific methodology complicates both the training and deployment
+pipelines and lacks the flexibility to adapt to diverse clinical scenarios at inference time. To address this
+issue, in this paper, we propose a unified generative framework, termed Any2all, that allows mapping any
+combination of acquired data to all desired multimodal images. Our key contributions are threefold:
+   1. We introduce a novel formulation that unifies multimodal image reconstruction and synthesis. We view
+      these tasks as a virtual inpainting problem, where the goal is to fill in missing or corrupted information
+      within a complete images stack of target modalities. This perspective allows us to train a single,
+      unconditional diffusion model on the complete images stack of target modalities and use it in any
+      specific downstream task.
+   2. We propose two novel, task-adaptive sampling algorithms to solve this virtual inpainting problem
+      at inference time: multimodal posterior sampling (MPS) and multimodal decomposition sampling
+      (MDS). Both algorithms iteratively guide the generation process by applying a correction that enforces
+      consistency between the model’s denoised predictions and the available data, whether clean images
+      or noisy measurements. Their key difference lies in the correction strategy: MPS steers the sampling
+      process with a gradient-based correction, while MDS directly refines the predicted clean image at each
+      step. Together, these complementary samplers allow our single pre-trained model to be flexibly adapted
+      to any reconstruction or synthesis task.
+   3. We perform a comprehensive validation of the Any2all pipeline on a dataset with MRI, CT, and
+      PET modalities. Through extensive experiments, we demonstrate that our unified framework achieves
+      excellent results in both image reconstruction and synthesis tasks. It consistently yields superior
+      perceptual quality and competitive distortion-based performance when compared to various specialized
+      baselines.
+
+
+
+                                                                                 2
+2     Related Work
+MMI relies on two fundamental but distinct computational tasks to generate and supplement missing data:
+image reconstruction and image synthesis. While both leverage computational methods to produce images,
+they address different problems in the workflow.
+
+2.1    Multimodal Image Reconstruction
+Image reconstruction is the process of generating a human-interpretable image from raw sensor data, which is
+fundamentally an ill-posed inverse problem. The goal is to produce high-quality images for clinical use while
+minimizing factors like radiation dose and scan time, which often requires reconstruction from undersampled or
+noisy data. Historically, single-contrast reconstruction algorithms evolved through three main paradigms [33]:
+analytic methods based on mathematical inversions, iterative methods that use a numerical forward model
+and feedback loop to progressively refine an image [15, 9], and deep learning (DL) methods that learn the
+inversion from data. These DL methods, which range from deep convolutional neural networks [3, 25, 12] to
+model-based deep learning methods [27, 17, 11], have become the mainstream solution.
+    Building on this foundation, multimodal image reconstruction leverages one or more high-quality refer-
+ence images (e.g., T1-weighted MRI) to provide valuable supplementary information for reconstructing a
+target image (e.g., a T2-weighted MRI). A primary challenge is to effectively fuse this information without
+introducing interference from inconsistent features between modalities. Prevailing deep learning strategies
+include decomposition-based approaches and generative prior approaches. Decomposition-based methods
+are motivated by the observation that different contrasts share common structures but have unique in-
+tensity profiles. These methods explicitly decompose a reference image into a “common” and a “unique”
+component [18, 39, 35, 10]. Only the shared, common information is then transferred to guide the target
+reconstruction, leading to an interpretable, model-driven deep network. Generative prior approaches leverages
+diffusion models to act as a powerful generative prior, producing high-frequency details or other latent features
+to guide the reconstruction [22, 19, 20]. In this multimodal setup, the reconstruction network is guided by
+two streams of information: (a) complementary features extracted and fused from the available reference and
+target modalities, and (b) the learned generative prior from the diffusion model. Fusing these two sources
+allows the network to restore the target image with high-frequency details that are consistent with both the
+reference anatomy and the learned data distribution. While standard diffusion models can be computationally
+intensive, recent works improve efficiency by applying the diffusion process within a highly compact latent
+space [20], allowing for the generation of accurate priors in very few iterations.
+
+2.2    Multimodal Image Synthesis
+Image synthesis, or image-to-image translation, generates a new image of a target modality based on one or
+more available source images [7, 38]. This field is dominated by deep generative models that have proven
+highly effective at learning the complex, non-linear mappings between modalities. The core generative
+architectures include generative adversarial networks (GANs) and diffusion models. GANs utilize a two-player
+system where a generator creates synthetic images and a discriminator attempts to distinguish them from real
+images [40, 41]. Through this adversarial competition, the generator learns to produce high-fidelity images.
+Diffusion models operate by reversing a diffusion process [29, 34]. A forward process gradually adds noise to
+an image until it becomes unrecognizable, and a learned reverse process then progressively denoises a random
+input to generate a clean, new image. Diffusion models are known for generating high-quality and diverse
+samples.
+    For multimodal image synthesis, these foundational generative models are used in a conditional framework
+where the available source modalities guide the generation of the missing target modalities. The strategies
+for this conditional synthesis can be categorized by their mapping schemes. Early works focused on “one-
+to-one” [30] or “many-to-one” [21, 16] translation, where models were designed for specific, predefined
+source-target pairs. To handle more flexible clinical scenarios, “many-to-many” [2, 26] frameworks were
+developed to generate any combination of missing modalities simultaneously. These methods often work by
+
+
+                                                       3
+pre-imputing missing modalities with zeros or fusing features from available modalities using a predefined
+function. To improve synthesis quality, recent works have focused on advanced network architectures.
+ResViT [6], for example, introduced a hybrid model that combines the local precision of CNNs with the ability
+of Vision Transformers to capture long-range, contextual relationships in medical images. The diffusion-based
+model M2DN [26] reframes the problem from “cross-modal translation” to “progressive whole-modality
+inpainting”, where missing modalities are treated as noise and synthesized jointly with the self-reconstruction
+of available ones to better construct a common latent space.
+
+
+3     Method
+3.1    Problem Formulation
+To address the challenges of incomplete multimodal data, we propose a unified generative framework, which
+we term Any2all. The name reflects the core capability of our method: to take any combination of available
+data as input and generate all desired modalities as output. This is achieved by tackling the problem from a
+novel viewpoint that unifies both multimodal image reconstruction and image synthesis into a single virtual
+inpainting problem.
+   First, we define a “virtual” ground truth, x, as a stack of all n desired high-quality modality images:
+
+                                             x = [x1 , x2 , . . . , xn ]T                                    (1)
+
+For instance, in a clinical brain scan scenario involving multiple MRI contrasts as well as CT and PET, this
+stack could be represented as x = [xT1 , xT2FLAIR , xT2* , xCT , xPET ]T .
+    Under this formulation, any combination of available data at testing time can be considered a linear
+measurement of this complete virtual ground truth. We model this relationship as:
+
+                                                     y = Ax                                                  (2)
+
+where y represents the collection of all acquired data and A is a diagonal matrix of measurement operators,
+A = diag(A1 , . . . , An ). The specific form of each operator Ai depends on the status of the i-th modality: (1)
+The i-th modality is available and clean: The operator is the identity matrix, Ai = I. The measurement
+yi is simply the ground truth image xi , (2) The i-th modality is missing: The operator is zero, Ai = 0.
+This indicates that no information is available for this modality. and (3) The i-th modality has noisy or
+undersampled measurements: The operator Ai represents the forward model that maps the clean image to
+the acquired measurements (e.g., an undersampling mask in MRI k-space).
+    This Any2all formulation is powerful because it casts diverse and seemingly distinct tasks into a single,
+consistent inverse problem. The flexibility of the measurement operator A allows for any combination of
+inputs, and the objective is always to recover the full ground truth stack x. This goal of mapping from an
+arbitrary set of inputs to the complete set of all modalities is, fundamentally, an inpainting problem.
+
+3.2    Model Training
+Based on our formulation of multimodal imaging as a virtual inpainting problem, the Any2all framework
+requires only a single generative model to be trained. We employ an unconditional denoising diffusion
+probabilistic model (DDPM) [14] that learns the underlying data distribution of the complete “virtual”
+ground truth stack, x0 . This training process is entirely task-agnostic, meaning the model learns a general
+prior over the complete multimodal data without knowledge of any specific reconstruction or synthesis task.
+    As illustrated in Figure 1, the training is based on the standard DDPM framework, which consists of a
+fixed forward diffusion process and a learned reverse denoising process. The forward process is a fixed Markov
+chain that gradually adds Gaussian noise to the clean data stack x0 over a series of T timesteps. The data at
+step t is generated from the data at step t − 1 according to a Gaussian transition:
+                                                          p
+                                    q(xt |xt−1 ) = N (xt ; 1 − βt xt−1 , βt I)
+
+
+                                                          4
+where {βt }Tt=1 is a predefined variance schedule that controls the noise level at each step. A key property of
+this process is that we can sample a noisy version xt at any arbitrary timestep t directly from the original
+clean data x0 in a closed form:                           √
+                                      q(xt |x0 ) = N (xt ; ᾱt x0 , (1 − ᾱt )I)
+                                Qt
+where αt := 1 − βt and ᾱt := s=1 αs .
+    The goal of training is to learn the reverse process, pθ (xt−1 |xt ), which can gradually denoise a sample
+starting from pure Gaussian noise xT ∼ N (0, I) back to a clean data sample x0 . This is achieved by training
+a neural network, ϵθ , to predict the noise component ϵ that was added to the clean data stack at a given
+timestep t. The network takes the noisy data stack xt and the timestep t as input and is optimized via a
+simplified mean-squared error objective function between the true and predicted noise:
+                                                      √           √
+                                  L = Et,x0 ||ϵ − ϵθ ( ᾱt x0 + 1 − ᾱt ϵ, t)||22
+                                                                                 
+
+
+where t is sampled uniformly from {1, ..., T }, x0 is a clean data stack from the training set, and ϵ is a random
+noise sample. By training the network ϵθ on this objective, the model learns a generative prior for the entire
+multimodal data distribution.
+
+3.3     Model Inference
+With the unconditional diffusion model ϵθ trained on the complete data stack x0 , we perform inference by
+adapting the standard reverse sampling process to solve the inpainting problem defined in Section 3.1. The
+core idea is to guide the generation process at each timestep t using the known measurements y, ensuring the
+final output x0 is consistent with the available data. This guidance is achieved by introducing a correction
+step after the model predicts the denoised image stack. We adapt two powerful, state-of-the-art sampling
+strategies for this purpose, namely multimodal posterior sampling (MPS) and multimodal decomposition
+sampling (MDS). By leveraging these two complementary sampling strategies, our single Any2all model can
+be flexibly adapted at inference time to solve a wide range of multimodal imaging tasks.
+
+3.3.1   Multimodal Posterior Sampling
+This first approach is inspired by diffusion posterior sampling (DPS) [4], a general framework for solving
+noisy inverse problems. MPS approximates posterior sampling by guiding the reverse diffusion process with a
+gradient that corrects for data inconsistency. The iterative formulation at each reverse step t is: (1) predict
+denoised stack: First, predict the clean ”virtual” ground truth x̂0 from the current noisy sample xt using the
+trained network ϵθ :
+                                               1       √
+                                       x̂0 = √ (xt − 1 − ᾱt ϵθ (xt , t))
+                                               ᾱt
+, (2) compute guidance gradient: Calculate the gradient of the measurement error with respect to the current
+noisy sample xt :
+                                           gt = ∇xt ||y − Ax̂0 ||22
+, and (3) perform corrected update: The next sample xt−1 is computed by taking a standard unconditional
+reverse diffusion step (e.g., a DDPM step) and then shifting it by the consistency gradient:
+
+                                          xt−1 = pθ (xt−1 |xt ) − ζt gt ,
+
+where pθ (·|·) is the unconditional reverse transition and ζt is a step size controlling the guidance strength.
+
+3.3.2   Multimodal Decomposition Sampling
+Our second approach is derived from decomposed diffusion sampling (DDS) [5], a technique that avoids
+expensive gradients by decomposing the sampling step and applying corrections in the clean image domain.
+The core insight is to decompose the DDIM sampling [32] update into a denoised signal component and
+
+
+                                                        5
+ (a).          mmGAN            mmResViT             (b).   Reference       M2DN             Any2all (DDPM)
+               M2DN             Any2all (DDPM)
+
+                                             389.3
+         T1                                349.1
+                  81.0
+                42.1                                 T1
+                                       338.3
+    T2FLAR                           298.2
+                 60.3
+                38.8
+                                  258.3
+        T2*                     217.8
+                  78.7
+                48.8
+                                           342.4
+                                   262.2
+        CT        75.3                               PET
+                 62.0
+                                      308.6
+                                      306.0
+        PET             125.2
+                43.8
+
+
+
+Figure 2: Qualitative and quantitative evaluation of unconditional image generation. (a): Quantitative
+evaluation shows that Any2all achieves superior perceptual quality, reflected by lower FID scores across all
+modalities compared to baseline methods. The Any2all results are generated using a standard DDPM sampler
+from a single, unconditionally trained model. (b): Qualitative comparison of T1 MRI and PET images
+generated by Any2all and M2DN (a baseline trained on mixed conditional/unconditional tasks). This figure
+shows that the images from Any2all exhibit finer anatomical details and fewer artifacts, visually confirming
+the superior quality suggested by the quantitative metrics.
+
+
+a noise component. The data consistency correction is applied only to the denoised signal. The iterative
+formulation at each step t is: (1) predict denoised stack: As before, predict the clean stack x̂0 from the
+current noisy sample xt , (2) correct denoised stack: The corrected estimate, x̂∗0 , is found by solving the
+following optimization problem in the clean image domain:
+                                                                             
+                                               1               λ
+                              x̂∗0 = arg min     ||y − Ax||22 + ||x − x̂0 ||22 .
+                                        x      2               2
+
+This objective function balances data consistency with the measurements y (the first term) against fidelity to
+the diffusion model’s prediction x̂0 (the second term), with λ as a regularization parameter. This standard
+quadratic optimization problem can be solved very efficiently using numerical methods such as the conjugate
+gradient (CG) algorithm. When a clean modality xi is available, a special case of this correction is a direct
+replacement of the corresponding slice in x̂0 (i.e., λi → 0), and (3) construct next sample: Recombine the
+corrected clean estimate x̂∗0 with the appropriate noise component from the DDIM formulation to get the
+next sample xt−1 :
+                                  √
+                                              q
+                                           ∗
+                          xt−1 = ᾱt−1 x̂0 + 1 − ᾱt−1 − η 2 β̃t2 · ϵθ (xt , t) + η β̃t ϵ ,
+where η controls the level of stochasticity and ϵ ∼ N (0, I).
+
+
+4        Numerical Validation
+4.1           Dataset
+We evaluated our proposed Any2all framework using an in-house brain imaging dataset comprising T1-weighted
+(T1) MRI, T2-weighted FLAIR (T2FLAIR) MRI, T2-star (T2*) MRI, CT, and PET (18 F-Florbetapir) scans.
+Imaging data were acquired from 226 participants enrolled in an ongoing neuroimaging study on memory
+and aging. The study was conducted under a protocol approved by the Institutional Review Board, and all
+participants provided written informed consent. The median age of participants was 70 years (interquartile
+range [IQR]: 65–75), and 127 of the 226 participants were female. All participants underwent single time-point
+tri-modality imaging (PET/MR/CT). More details on data acquisition are included in the appendix.
+
+
+
+                                                                        6
+ (a).             PSNR                                               SSIM                                  FID                       (b).
+                                                                                                                                                                                    +T1&T2*&
+                                                                                                                                            Groundtruth   y         +T1   +T1&T2*
+                                                                                                                                                                                     CT&PET
+                                          38.7                          0.977   0.977        12.9
+                            38.6
+                                                               0.976
+               38.3                                                             0.977
+                                38.4         38.4                       0.976
+                                                                                             10.6
+                     38.1                                      0.975                                  10.2
+                                                                                                                    9.6
+  37.5                                           0.970                                                                         8.9
+                               MDS
+                               MPS                                                                        7.7       7.8        7.6
+        37.2                                     0.970
+
+    y          +T1      +T1&T2* +T1&T2*               y        +T1     +T1&T2* +T1&T2*   y          +T1         +T1&T2* +T1&T2*
+                                &CT&PET                                        &CT&PET                                  &CT&PET
+
+
+
+ (c).           PSNR                                  SSIM              (d).      Groundtruth                          MINet                  DisCDiff        MCVarNet        Ours (MDS)
+                 36.5                                      0.971
+                                   39.4                        0.982
+               35.8                                   0.956
+                             38.3                              0.975
+                            38.1                               0.976
+
+
+                                          FID
+               MINet                                   16.3
+               MCVarNet                              14.5
+               DisCDiff                                 17.1
+               MDS                            10.2
+               MPS                         7.7
+
+
+
+ Figure 3: Qualitative and quantitative evaluation of T2FLAIR MRI reconstruction from noisy, 4x under-
+ sampled measurements, comparing Any2all with task-specific baselines. (a): Quantitative comparison
+ showing the effect of adding different auxiliary inputs. “y” denotes using only the measurements. “+T1 ”,
+“+T1&T2* ”, and “+T1&T2*&CT&PET ” indicate the addition of T1 MRI, T1 and T2* MRI, and all other
+ modalities as auxiliary inputs, respectively. (b): Visual results of reconstruction using Any2all (MDS),
+ illustrating how image quality improves with more auxiliary data. (c): Quantitative comparison in the “+T1 ”
+ setting. Unlike Any2all, the baseline methods were trained specifically for this task. (d): Visual comparison
+ for reconstruction in the “+T1 ” setting. This figure shows that: (1) reconstruction quality improves as
+ more auxiliary modalities are provided; (2) within our framework, MDS excels on distortion-based metrics
+while MPS achieves superior perceptual quality; and (3) compared to baselines, Any2all achieves the best
+ perceptual quality (lower FID) while remaining competitive in fidelity.
+
+
+   Raw image data for all modalities were extracted from the corresponding DICOM files. This dataset was
+then randomly partitioned into a training set (198 subjects), a validation set (7 subjects), and a testing set (21
+subjects). For each subject, images from all modalities were co-registered to the corresponding T1-weighted
+MR image using a 3D rigid transformation with ANTsPy. A manual inspection was performed to ensure
+that all images were properly co-registered. Following registration, each MR image was normalized to a
+0–1 intensity range on a per-subject basis. In contrast, the CT and PET images were normalized using
+parameters derived from the entire training set. These group-normalization parameters for CT and PET were
+then applied to the validation and testing sets. For each subject, we extracted about 100 transverse slices,
+containing the most relevant brain regions. The Any2all framework was validated using these 2D images.
+   To create a well-defined image reconstruction task, we simulated undersampled k-space measurements, y,
+from the co-registered MR images, x. This was achieved using a 1D Cartesian equispaced sampling mask,
+M , to produce an acceleration factor of 4. The imaging model is formulated as A = M F Sx, where F is the
+Fourier transform and S represents the coil sensitivity maps (CSMs). We synthesized the CSMs using SigPy
+with a relative radius of r = 1.5 and a coil count of ncoils = 8. An additive zero-mean Gaussian noise with a
+standard deviation of 0.01 was also applied to the simulated measurements.
+
+4.2            Experimental Setup
+To validate the Any2all framework, we designed three distinct experiments: (1) unconditional image generation:
+We evaluated the baseline quality of our trained diffusion prior by generating a complete set of multimodal
+images from random noise, without any conditional inputs. For this task, Any2all relies on the standard
+
+
+                                                                                                                   7
+DDPM sampling algorithm [14]. This experiment simulates the need for synthetic complete sets of clean,
+co-registered multimodal images, with potential applications in areas such as data augmentation [1], (2)
+multimodal image reconstruction: We evaluated the model on the inverse problem of reconstructing a target
+T2FLAIR image from its undersampled k-space measurements. This experiment addresses the clinical need
+to accelerate T2FLAIR MRI acquisition by improving reconstruction quality with clean auxiliary images
+from other modalities. We systematically investigated the impact of using different auxiliary modalities as
+conditional inputs to guide the reconstruction, and (3) multimodal image synthesis: We tested the model on
+three separate synthesis tasks: generating T2FLAIR, CT, and PET images. For T2FLAIR, this experiment
+simulates the synthesis of a missing MRI scan from other acquired data (MR, CT, or PET), which can
+be necessary for reasons such as time constraints or imaging artifacts. For CT and PET, we simulated
+their synthesis from various combinations of MRI data, with the potential to reduce the patient’s radiation
+exposure. For each task, we evaluated performance when guided by different combinations of available source
+modalities. More details on implementation are included in the appendix.
+
+4.3     Comparison Methods
+We compared the performance of our Any2all framework against several state-of-the-art methods. For
+multimodal image synthesis and unconditional image generation, we compared Any2all against mmGAN [31],
+mmResViT, and M2DN [26]. mmGAN is a foundational GAN architecture for multimodal MRI synthesis.
+mmResViT enhances mmGAN by incorporating a ResViT [6] generator, which uses vision transformers to
+better capture global image context. M2DN is a diffusion model that formulates synthesis as “whole-modality
+inpainting,” using a modality mask to handle arbitrary missing inputs. These methods are designed for
+“many-to-many” image synthesis. These methods are specific for image-to-image translation. To enable
+unconditional generation, we trained these models by mixing with all-noises inputs.
+    For multimodal image reconstruction, we compared Any2all against MINet [35], MC-VarNet [18], and
+DisCDiff [22]. MINet is a CNN-based multi-stage network for multi-contrast MRI reconstruction. MC-VarNet
+is an interpretable, deep unfolding network that decomposes multi-contrast images into common and unique
+components to guide reconstruction. DisCDiff is a conditional diffusion model that uses disentanglement for
+multi-contrast MRI super-resolution. These baselines are highly task-specific. We trained these models for
+T2FLAIR image reconstruction using a clean T1-weighted MR image as auxiliary information.
+    We evaluated the performance of all methods using three standard metrics. To assess image fidelity and
+reconstruction accuracy, we used the peak signal-to-noise ratio (PSNR) and the structural similarity index
+measure (SSIM). To evaluate perceptual quality and realism, we used the Fréchet Inception Distance (FID).
+
+4.4     Results
+4.4.1   Unconditional Generation
+Figure 2 compares the performance of Any2all, mmGAN, mmResViT, and M2DN in generating realistic
+multimodal images from pure noise. Figure 2a presents a quantitative evaluation (FID ↓) of the generated
+images across all modalities. The results show that Any2all achieves lower FID scores than all baselines across
+all target modalities, demonstrating the superior perceptual quality of its learned generative prior. Figure 2b
+provides a qualitative comparison of T1 MR and PET images generated by M2DN and Any2all. The proposed
+Any2all model generates highly realistic samples, exhibiting fine anatomical details and negligible artifacts.
+Notably, Any2all produces sharp and clean images, whereas the images from M2DN suffer from blurring
+artifacts, particularly in the PET results.
+
+4.4.2   Multimodal Image Reconstruction
+Figure 3 shows a qualitative and quantitative evaluation of T2FLAIR MRI reconstruction from noisy 4×
+undersampled measurements, comparing Any2all with several task-specific baseline methods. Here, we show
+results for reconstruction with various auxiliary inputs: “y” denotes using only the T2FLAIR measurements;
+
+
+
+                                                      8
+ (a).              PSNR                         SSIM                           FID                                         PSNR                                            SSIM
+                                                                                                                                                                              0.953        0.954
+                                                                                                    (c).                                                        0.952
+                              29.05                       0.938                             65.72                           30.19      30.25
+                                                                                                               30.08
+                                30.20                         0.949               35.00
+        T1                     29.56                         0.947              29.70
+                                                                                                                            29.14                 0.936
+                            25.97           0.905                           21.39                             29.04                    29.07
+                                                                                                                                                                              0.942        0.941
+                               29.35                        0.946         14.49                                                                                 0.938
+                               29.89                       0.944                          58.93     28.14
+                                 31.06                          0.955           29.37
+   T1&T2*                      29.77                         0.949              30.15
+                              28.41                    0.934               15.59
+                               30.03                          0.950       13.76
+                               30.10                        0.945                         57.33                                                   0.911
+                                                                                                    26.21
+   T1&                           31.55                            0.960        26.83
+                                                                                                       y(T2FLAIR)      y(T1)&      T1&        T1&
+ T2FLAIR&                       30.31                          0.953            30.14                               y(T2FLAIR)&    T2*&     T2FLAIR&
+                                                                                                                                                       y(T2FLAIR)      y(T1)&      T1&          T1&
+                              29.07                       0.941           14.23                                                                                     y(T2FLAIR)&    T2*&       T2FLAIR&
+    T2*                                                                                                                y(T2*)   y(T2FLAR)      T2*                     y(T2*)   y(T2FLAR)        T2*
+                                30.25                          0.954      13.70
+
+              mmGAN       mmResViT       M2DN       MDS        MPS                                          Ours (MDS)              Ours (MPS)                                FID
+                                                                                                                                                         16.3
+
+ (b).    Groundtruth         mmGAN                  mmResViT              M2DN                Ours (MDS)                  Ours (MPS)                     16.1
+
+
+
+
+                                                                                                                                                                       14.5
+
+                                                                                                                                                                                    14.0       14.2
+                                                                                                                                                                       13.9                    13.7
+                                                                                                                                                                                    13.8
+
+                                                                                                                                                       y(T2FLAIR)      y(T1)&      T1&          T1&
+                                                                                                                                                                    y(T2FLAIR)&    T2*&       T2FLAIR&
+                                                                                                                                                                       y(T2*)   y(T2FLAR)        T2*
+
+
+
+
+ Figure 4: Qualitative and quantitative evaluation of CT image synthesis, comparing Any2all with several
+ baseline methods designed for multimodal image synthesis. (a): Quantitative results for CT synthesis from
+ different input modalities. Here, “+T1 ” denotes synthesis from only T1 images, while “+T1&T2* ” and
+“+T1&T2FLAIR&T2* ” indicate the addition of T2* MRI and all available MRI modalities as inputs, respec-
+ tively. (b): Visual results for CT synthesis given all MRI modalities as input (the “+T1&T2FLAIR&T2* ”
+ setup). (c): Quantitative results for CT synthesis showcasing Any2all’s unique ability to handle mixed inputs
+(i.e., both raw measurements and clean images). Note that the baseline methods (mmGAN, mmResViT,
+ M2DN) only allow clean images as input. This figure shows that (1) the performance of Any2all progressively
+ improves as more information—either from additional modalities or more complete measurements—is provided,
+(2) for image synthesis, MPS excels on both distortion-based and perceptual metrics, and (3) compared to
+ baselines, Any2all achieves the best perceptual quality (lower FID) while remaining competitive in fidelity.
+
+
+
+
+                                                                                9
+“+T1 ”, “+T1&T2* ”, and “+T1&T2*&CT&PET ” indicate the addition of a T1-weighted MR image, both
+T1 and T2* MR images, and all other modalities as auxiliary inputs, respectively. In contrast to Any2all, the
+ baseline methods are task-specific. We trained and tested them exclusively on the “+T1 ” setting, which
+ aligns with their original publications.
+     Figure 3a shows a quantitative comparison demonstrating the effect of adding auxiliary modalities to
+Any2all. These results demonstrate two key points: (1) The quality of the reconstructed T2FLAIR image
+ progressively improves as more modalities are provided; (2) MDS consistently outperforms MPS on distortion-
+ based metrics, while MPS achieves superior perceptual quality. The results also highlight that the largest
+ improvement comes from adding a single clean image from another modality (the “+T1 ” setting). Figure 3b
+ displays visual results of image reconstruction using Any2all (MDS), illustrating how image quality improves
+with more auxiliary data. The addition of more modalities allows Any2all to reconstruct finer details more
+ consistently, as highlighted by the white and red arrows. These improvements can also be seen in the
+ corresponding error maps. Figure 3c presents a quantitative baseline comparison for T2FLAIR reconstruction
+ using a T1-weighted image as guidance (the “+T1 ” setting). The results show that, within Any2all, our
+ proposed MPS method achieves the best perceptual quality (lowest FID), while MDS remains competitive
+ in terms of fidelity. Notably, MDS outperforms the MINet and DisCDiff baselines in both metrics and is
+ only marginally worse than MC-VarNet on distortion-based metrics. Figure 3d provides a visual baseline
+ comparison for T2FLAIR reconstruction in the “+T1 ” setting. Our MDS method produces reconstructions
+with visibly sharper anatomical details and fewer aliasing artifacts compared to the baseline methods. These
+ results also highlight that, while MC-VarNet has better PSNR and SSIM values, its results are visibly less
+ realistic than those of Any2all (MDS) despite rendering similar anatomical details.
+
+4.4.3   Multimodal Image Synthesis
+Figures 4 illustrates the qualitative and quantitative evaluation of CT image synthesis, comparing Any2all with
+several baseline methods. In these figures, “+T1 ” denotes synthesis from only T1 images, while “+T1&T2* ”
+and “+T1&T2FLAIR&T2* ” indicate the addition of T2* MRI and all available MRI modalities as inputs,
+respectively. All baseline methods are designed for multimodal image synthesis; unlike Any2all, they do not
+exhibit the ability for multimodal reconstruction or accept mixed inputs. We also tested Any2all with mixed
+inputs (i.e., both raw measurements and clean images), using y(·) to represent the 4x undersampled and
+noisy measurements of an MRI modality. For example, “y(T1)” denotes the measurements of the T1 MRI
+data. More results on PET and T2FLAIR image synthesis are included in the appendix.
+    Figure 4a presents quantitative results for CT synthesis from different input modalities. The results
+demonstrate that Any2all, using either MDS or MPS, achieves the best perceptual quality and competitive
+performance on distortion-based metrics across these setups. Within Any2all, MPS consistently outperforms
+MDS across all settings and metrics. Furthermore, the synthesis quality for both MPS and MDS improves as
+more input modalities are provided. Figure 4b shows visual results for CT synthesis given all MRI modalities
+as input (the “+T1&T2FLAIR&T2* ” setup). The images synthesized by Any2all, using both MPS and MDS,
+are visually competitive with those produced by the baseline methods and display fine structural details.
+Figure 4c presents quantitative results for CT synthesis that showcase Any2all’s unique ability to handle mixed
+inputs. Note that the baseline methods (mmGAN, mmResViT, M2DN) only allow clean images as input.
+These results show that the performance of Any2all (MPS) progressively improves as more information—either
+from additional modalities or more complete measurements—is provided. It is also worth noting that we
+empirically observed the improvement between “y(T2FLAIR)” and “y(T1)+y(T2FLAIR)+y(T2*)” is more
+significant than that between “y(T1)+y(T2FLAIR)+y(T2*)” and “T1 +y(T2FLAIR)+T2* ”. This indicates
+that increasing the number of available modalities is more impactful than improving the information quality
+of specific modalities (i.e., from noisy measurements to clean images).
+
+
+
+
+                                                      10
+5     Conclusion and Discussion
+In this paper, we introduced Any2all, a unified generative framework designed to overcome the complexity
+and inflexibility of conventional multimodal medical imaging. Our core contribution is a novel formulation
+that reframes the disparate tasks of image reconstruction and synthesis into a single, coherent virtual
+inpainting problem. This unified viewpoint allows a single, unconditionally trained diffusion model to address
+a comprehensive range of imaging scenarios. To realize this, we proposed two inference algorithms, namely
+MPS and MDS to guide the generation process using any available combination of input data.
+    Our extensive validation on a clinical MRI, CT, and PET dataset confirms the power and versatility of
+the Any2all framework. The experiments demonstrated that our model learns a high-quality generative prior,
+capable of producing realistic, high-fidelity images from pure noise. In task-specific evaluations, Any2all
+consistently achieves competitive distortion-based performance and state-of-the-art perceptual performance.
+For multimodal reconstruction, it outperforms specialized baselines, exhibiting a compelling trade-off between
+the superior perceptual quality of MPS and the high fidelity of MDS. For multimodal synthesis, the framework’s
+flexibility was proven across multiple target modalities (T2FLAIR, CT, and PET), where it again produced
+images with perceptual quality that was significantly better than competing methods. The results robustly
+show that the quality of the generated images consistently improves as more auxiliary information is provided,
+validating the model’s ability to effectively fuse multimodal data.
+    The primary implication of this work is the potential to dramatically simplify clinical and research workflows
+by replacing an entire suite of task-specific models with a single, flexible, and powerful framework. This can
+reduce the burden of model development, training, and maintenance. However, we also acknowledge limitations
+that suggest avenues for future work. A trade-off exists between our sampling methods, where MPS is preferable
+for perceptual realism and MDS for quantitative fidelity in multimodal image reconstruction. Furthermore,
+the iterative nature of diffusion models, while yielding high-quality results, is more computationally intensive
+at inference time than one-shot GAN-based methods.
+    Future research could focus on integrating faster sampling techniques to improve clinical feasibility.
+Extending and validating the Any2all framework on other anatomical regions, additional imaging modalities,
+and other inverse problems like deblurring would be a valuable next step. Ultimately, this work establishes
+the virtual inpainting approach as a potent and generalizable paradigm for multimodal imaging, holding
+great promise for enhancing the efficiency and capability of medical image analysis.
+
+
+Acknowledgments
+Research presented in this article was supported by the NSF CAREER award CCF-2043134. This work was
+also supported by the NSF Award CCF-2504613.
+
+
+Impact Statement
+This paper presents work whose goal is to advance the field of Machine Learning. There are many potential
+societal consequences of our work, none which we feel must be specifically highlighted here.
+
+
+References
+ [1] B. Billot, D. N Greve, O. Puonti, A. Thielscher, K. Van Leemput, B. Fischl, A. V Dalca, J. E. Iglesias,
+     et al. Synthseg: Segmentation of brain mri scans of any contrast and resolution without retraining. Med.
+     Image Anal., 86:102789, 2023.
+ [2] A. Chartsias, T. Joyce, M. V. Giuffrida, and S. A. Tsaftaris. Multimodal MR Synthesis via Modality-
+     Invariant Latent Representation. IEEE Transactions on Medical Imaging, 37(3):803–814, March 2018.
+
+
+
+                                                       11
+ [3] H. Chen, Y. Zhang, M. K Kalra, F. Lin, Y. Chen, P. Liao, J. Zhou, and G. Wang. Low-dose CT with a
+     residual encoder-decoder convolutional neural network. IEEE Trans. Med. Imaging, 36(12):2524–2535,
+     2017.
+ [4] H. Chung et al. Diffusion Posterior Sampling for General Noisy Inverse Problems. In Proc. Int. Conf.
+     Learn. Represent., February 2023.
+
+ [5] Hyungjin Chung, Suhyeon Lee, and Jong Chul Ye. Decomposed diffusion sampler for accelerating
+     large-scale inverse problems. In ICLR, 2024.
+ [6] O. Dalmaz, M. Yurt, and T. Cukur. ResViT: Residual Vision Transformers for Multimodal Medical
+     Image Synthesis. IEEE Transactions on Medical Imaging, 41(10):2598–2614, October 2022.
+
+ [7] S. Dayarathna, K. T. Islam, S. Uribe, G. Yang, M. Hayat, and Z. Chen. Deep learning based synthesis
+     of MRI, CT and PET: Review and analysis. Medical Image Analysis, 92:103046, February 2024.
+ [8] Prafulla Dhariwal and Alexander Nichol. Diffusion models beat gans on image synthesis. Proc. Adv.
+     Neural Inf. Process. Syst., 2021.
+ [9] M. Elad and M. Aharon. Image Denoising Via Sparse and Redundant Representations Over Learned
+     Dictionaries. IEEE Trans. on Image Process., 15(12):3736–3745, 2006.
+[10] C.-M. Feng, H. Fu, S. Yuan, and Y. Xu. Multi-Contrast MRI Super-Resolution via a Multi-Stage
+     Integration Network. In Proc. Med. Image. Comput. Comput. Assist. Intervent, 140–149, 2021.
+[11] W. Gan, S. Shoushtari, Y. Hu, J. Liu, H. An, and U. S. Kamilov. Block coordinate plug-and-play
+     methodsfor blind inverse problems. In Advances in Neural Information Processing Systems (NeurIPS),
+     2023.
+[12] W. Gan, Y. Sun, C. Eldeniz, J. Liu, H. An, and U. S. Kamilov. Deformation-compensated learning for
+     image reconstruction without ground truth. IEEE Trans. Med. Imaging, pages 1–1, 2022.
+[13] Mohammad Havaei, Alban Davy, David Warde-Farley, Antoine Biard, Aaron Courville, Yoshua Bengio,
+     Chris Pal, Pierre-Marc Jodoin, and Hugo Larochelle. Brain tumor segmentation with deep neural
+     networks. Medical Image Analysis, 35:18–31, Jan 2017.
+[14] J. Ho, A. Jain, and P. Abbeel. Denoising Diffusion Probabilistic Models. In Proc. Adv. Neural Inf.
+     Process. Syst., volume 33, pages 6840–6851, 2020.
+
+[15] Y. Hu, S. G. Lingala, and M. Jacob. A Fast Majorize–Minimize Algorithm for the Recovery of Sparse
+     and Low-Rank Matrices. IEEE Trans. on Image Process., 21(2):742–753, 2012.
+[16] L. Jiang, Y. Mao, X. Chen, X. Wang, and C. Li. CoLa-Diff: Conditional Latent Diffusion Model for
+     Multi-Modal MRI Synthesis. In Proc. Med. Image. Comput. Comput. Assist. Intervent, March 2023.
+[17] U. S. Kamilov, C. A. Bouman, G. T. Buzzard, and B. Wohlberg. Plug-and-play methods for integrating
+     physical and learned models in computational imaging: Theory, algorithms, and applications. IEEE
+     Signal Process. Mag., 40(1):85–97, 2023.
+[18] P. Lei, F. Fang, G. Zhang, and T. Zeng. Decomposition-Based Variational Network for Multi-Contrast
+     MRI Super-Resolution and Reconstruction. In Proc. IEEE Int. Conf. Comput. Vis., pages 21296–21306,
+     2023.
+
+[19] B. Levac, A. Jalal, K. Ramchandran, and J. I. Tamir. MRI Reconstruction with Side Information
+     using Diffusion Models. In Proc. 57th Asilomar Conf. Signals, Systems, & Computers, pages 1436–1442,
+     October 2023.
+
+
+
+                                                   12
+[20] G. Li, C. Rao, J. Mo, Z. Zhang, W. Xing, and L. Zhao. Rethinking Diffusion Model for Multi-Contrast
+     MRI Super-Resolution. In Proc. IEEE Conf. Comput. Vis. Pattern Recognit., pages 11365–11374, 2024.
+[21] J. Liu, S. Pasumarthi, B. Duffy, E. Gong, K. Datta, and G. Zaharchuk. One Model to Synthesize
+     Them All: Multi-Contrast Multi-Scale Transformer for Missing Data Imputation. IEEE Transactions on
+     Medical Imaging, 42(9):2577–2591, September 2023.
+
+[22] Y. Mao et al. DisC-Diff: Disentangled Conditional Diffusion Model for Multi-Contrast MRI Super-
+     Resolution. In Proc. Med. Image. Comput. Comput. Assist. Intervent, pages 387–397, 2023.
+[23] L. Martı́-Bonmatı́, R. Sopena, P. Bartumeus, and P. Sopena. Multimodality imaging techniques. Contrast
+     Media Mol. Imaging, 5(4):180–189, 2010.
+
+[24] M. T. McCann, K. H. Jin, and M. Unser. Convolutional neural networks for inverse problems in imaging:
+     A review. IEEE Signal Process. Mag., 34(6):85–95, 2017.
+[25] M. T. McCann, K. H. Jin, and M. Unser. Convolutional Neural Networks for Inverse Problems in
+     Imaging: A Review. IEEE Signal Processing Magazine, 34(6):85–95, November 2017.
+[26] X. Meng, K. Sun, J. Xu, X. He, and D. Shen. Multi-Modal Modality-Masked Diffusion Network
+     for Brain MRI Synthesis With Random Modality Missing. IEEE Transactions on Medical Imaging,
+     43(7):2587–2598, July 2024.
+[27] V. Monga, Y. Li, and Y. C Eldar. Algorithm unrolling: Interpretable, efficient deep learning for signal
+     and image processing. IEEE Signal Processing Magazine, 38(2):18–44, 2021.
+
+[28] G. Ongie, A. Jalal, C. A Metzler, R. G Baraniuk, A. G Dimakis, and R. Willett. Deep learning techniques
+     for inverse problems in imaging. IEEE J. Sel. Areas Inf. Theory, 1(1):39–56, 2020.
+[29] M. Özbey, O. Dalmaz, S. UH Dar, H. A. Bedel, Ş. Özturk, A. Güngör, and T. Çukur. Unsupervised
+     Medical Image Translation with Adversarial Diffusion Models. IEEE Transactions on Medical Imaging,
+     2023.
+
+[30] S. Pan, T. Wang, P. Patel, E. Abouei, J. Wynne, C.-W. Chang, R. L J Qiu, Y. Li, J. Peng, J. Roper, D. S
+     Yu, H. Mao, and X. Yang. Synthetic CT generation from MRI using 3D transformer-based denoising
+     diffusion model. Medical Physics, 51(4):2538–2548, 2024.
+[31] A. Sharma and G. Hamarneh. Missing MRI Pulse Sequence Synthesis Using Multi-Modal Generative
+     Adversarial Network. IEEE Transactions on Medical Imaging, 39(4):1170–1183, April 2020.
+
+[32] J. Song, C. Meng, and S. Ermon. Denoising Diffusion Implicit Models. In Proc. Int. Conf. Learn.
+     Represent., 2021.
+[33] G. Wang, J. C. Ye, and B. De Man. Deep learning for tomographic image reconstruction. Nat. Mach.
+     Intell., 2(12):737–748, December 2020.
+
+[34] Zihao Wang, Y. Yang, Y. Chen, T. Yuan, M. Sermesant, H. Delingette, and O. Wu. Mutual Information
+     Guided Diffusion for Zero-shot Cross-modality Medical Image Translation. IEEE Transactions on Medical
+     Imaging, pages 1–1, 2024.
+[35] L. Xiang, Y. Chen, W. Chang, Y. Zhan, W. Lin, Q. Wang, and D. Shen. Deep-Learning-Based
+     Multi-Modal Fusion for Fast MR Reconstruction. IEEE Transactions on Biomedical Engineering,
+     66(7):2105–2114, July 2019.
+[36] Y. Xiao, F. Codevilla, A. Gurram, O. Urfalioglu, and A. M López. Multimodal end-to-end autonomous
+     driving. IEEE Trans. Intel. Transp. Syst., 23(1):537–547, 2020.
+
+
+
+                                                    13
+[37] F. Zhan, Y. Yu, R. Wu, J. Zhang, Shijian. Lu, L. Liu, A. Kortylewski, C. Theobalt, and E. Xing.
+     Multimodal image synthesis and editing: The generative ai era. IEEE Trans. Pattern Anal. Mach. Intell.,
+     45(12):15098–15119, 2023.
+[38] Fangneng Zhan, Yingchen Yu, Rongliang Wu, Jiahui Zhang, Shijian Lu, Lingjie Liu, Adam Kortylewski,
+     Christian Theobalt, and Eric Xing. Multimodal Image Synthesis and Editing: The Generative AI Era.
+     IEEE Transactions on Pattern Analysis and Machine Intelligence, 45(12):15098–15119, December 2023.
+[39] B. Zhou and S. K. Zhou. DuDoRNet: Learning a Dual-Domain Recurrent Network for Fast MRI
+     Reconstruction With Deep T1 Prior. In Proc. IEEE Conf. Comput. Vis. Pattern Recognit., pages
+     4272–4281, Seattle, WA, USA, June 2020. IEEE.
+[40] X. Zhou, W. Cai, J. Cai, F. Xiao, M. Qi, J. Liu, L. Zhou, Y. Li, and T. Song. Multimodality MRI
+     synchronous construction based deep learning framework for MRI-guided radiotherapy synthetic CT
+     generation. Computers in Biology and Medicine, 162:107054, 2023.
+[41] L. Zimmermann, B. Knäusl, M. Stock, C. Lütgendorf-Caucig, D. Georg, and P. Kuess. An MRI sequence
+     independent convolutional neural network for synthetic head CT generation in proton therapy. Zeitschrift
+     für Medizinische Physik, 32(2):218–227, May 2022.
+
+
+
+
+                                                     14
+A     Appendix
+A.1    Data acquisition
+PET and MR images were acquired using an integrated Biograph mMR PET/MRI system (Siemens AG,
+Erlangen, Germany). 18 F-Florbetapir (Amyvid, Eli Lilly, Indianapolis, IN) PET data were acquired with
+a median injection dose of 377.4 MBq (IQR: 362.6–384.8). The PET data were reconstructed into four
+distinct temporal phases; however, only images from the first phase were used in subsequent experiments. MR
+acquisition parameters were as follows. T1-weighted images were acquired using a 3D MPRAGE sequence
+with: TE/TR = 2.95/2300 ms, TI = 900 ms, number of partitions = 176, matrix size = 240 × 256 × 176, voxel
+size = 1.1 × 1.1 × 1.2 mm3 , and acquisition time = 5 min 12 s. T2-weighted FLAIR images were acquired
+using a 2D sequence with: TE/TR = 91/9000 ms, TI = 2500 ms, matrix size = 256 × 256 × 35, voxel size
+= 0.9 × 0.9 × 5 mm3 , and acquisition time = 4 min 05 s. T2-star images were acquired using a 2D sequence
+with: TE/TR = 20/650 ms, matrix size = 256 × 256 × 44, voxel size = 0.8 × 0.8 × 4.0 mm3 , and acquisition
+time = 4 min 11 s. During the study period, the Siemens mMR system was upgraded from VB20P to VE11P,
+which included software and scanner computer updates. A total of 85 PET/MR scans were performed on the
+upgraded Syngo VE11P system, while the remaining scans were acquired using the Syngo VB20P.
+    CT images were acquired using a Biograph 40 PET/CT system (Siemens AG, Erlangen, Germany).
+The median interval between CT and PET/MRI acquisitions was 0 days (IQR: -6 to 22). CT images were
+acquired at 120 kVp with a matrix size of 512 × 512 × 74 and a voxel size of either 0.59 × 0.59 × 3.0 mm3 or
+0.59 × 0.59 × 2.0 mm3 .
+
+A.2    Implementation
+We implemented Any2all using the publicly available guided-diffusion codebase [8]. All experiments were
+performed on a machine equipped with an AMD EPYC 7443P Processor and four NVIDIA A6000 GPUs.
+For training, we set the number of diffusion timesteps to 1000 and used a cosine noise schedule as proposed
+in [8]. The model was trained for 1.5 million iterations with a batch size of 24, using the Adam optimizer
+with a learning rate of 1 × 10−4 . The total training time was approximately two weeks. For sampling, we
+used 1000 steps for MPS and 150 steps for MDS. Table 1 summarizes the publicly available software used in
+this study. All other methods were implemented by our team.
+
+A.3    Additional Results
+Figures 5 and 6 illustrate the qualitative and quantitative evaluation of PET and T2FLAIR image synthesis,
+respectively, comparing Any2all with several baseline methods.
+    Figure 5a presents quantitative results for PET synthesis. Our MPS method achieves a competitive overall
+performance, excelling in both fidelity (PSNR/SSIM) and perceptual quality (lowest FID) across most input
+scenarios. The results also show that the quality of images synthesized by both MPS and MDS quantitatively
+improves as more modalities are provided as input. Figure 5b shows visual results from Any2all (MPS),
+M2DN, and mmResViT for PET synthesis, given either T1-weighted MR images or all MRI modalities as
+input. The images generated by MPS have a perceptual quality that consistently matches the ground truth,
+whereas the baseline methods produce oversmoothed results that lack fine detail.
+    Figure 6a shows quantitative results for T2FLAIR synthesis. Our MPS method achieves a competitive
+performance, showing strong results in both fidelity (PSNR/SSIM) and perceptual quality (lowest FID) across
+most input scenarios. The results also confirm that the quality of images synthesized by both MPS and MDS
+quantitatively improves as more modalities are provided. Notably, MPS achieves better performance than the
+M2DN diffusion baseline in both the “+T1 ” and “+T1&T2* ” settings. Figure 6b presents visual results for
+T2FLAIR synthesis. The images generated by our methods, particularly MPS, exhibit sharper anatomical
+structures and fewer artifacts compared to the baseline methods. As more input modalities are included, the
+synthesized T2FLAIR images become visibly more detailed and structurally coherent. For example, MPS
+
+
+
+                                                    15
+                                    Table 1: Publicly available implementations used in this study.
+
+                                      Method                      Public implementation: https : //github.com/
+                                      ANTsPy                      ANTsX/ANTsPy
+                                      SigPy                       mikgroup/sigpy
+                                      MINet [35]                  chunmeifeng/MINet
+                                      MC-VarNet [18]              lpcccc-cv/MC-VarNet
+                                      DisCDiff [22]               Yebulabula/DisC-Diff
+                                      mmGAN [31]                  trane293/mm-gan
+                                      ResViT [6]                  icon-lab/ResViT
+                                      guided-diffusion [8]        openai/guided-diffusion
+
+(a).           PSNR                          SSIM                      FID                    (b).   Groundtruth   mmResViT   M2DN   MPS
+
+                            37.04                    0.957                            63.06
+                    35.90                              0.962                  45.65
+       T1                   37.07                      0.962                 44.38
+            34.63                         0.920                         27.79                                                              T1
+                         36.91                      0.951             21.16
+                          36.98                       0.957                           63.15
+                       36.52                            0.962                 44.48
+   T1&T2*                  37.21                        0.962                 45.33
+                      36.44                         0.951             23.76
+                         36.95                      0.951             22.28
+                        36.63                          0.959                           67.81
+   T1&                      37.41                       0.962               42.35                                                          T1&
+ T2FLAR&                      37.65                     0.963                47.76                                                         T2FLAR&
+   T2*                36.34                       0.946                25.30                                                               T2*
+                           37.15                    0.952             21.53
+
+            mmGAN           mmResViT       M2DN      MDS        MPS
+
+
+
+Figure 5: Qualitative and quantitative evaluation of PET image synthesis, comparing Any2all with several
+baseline methods designed for multimodal image synthesis. (a): Quantitative results for PET image synthesis.
+Here, “+T1 ” denotes synthesis from only T1 images, while “+T1&T2* ” and “+T1&T2FLAIR&T2* ” indicate
+the addition of T2* MRI and all available MRI modalities as inputs, respectively. (b): Visual results from
+Any2all (MPS), M2DN, and mmResViT for PET synthesis, given either T1 MR images or all MRI modalities
+as input. This figure shows that (1) the performance of Any2all progressively improves as more information
+is provided, (2) for image synthesis, MPS excels on both distortion-based and perceptual metrics, and (3)
+compared to baselines, Any2all achieves the best perceptual quality (lower FID) while remaining competitive
+in fidelity. Note how MPS generates images with a perceptual quality that consistently matches the ground
+truth, whereas the baseline methods produce oversmoothed results that lack fine details.
+
+
+produces sharp imaging details in the “+T1 ” setting, and these details become richer when more modalities
+are included as input.
+
+
+
+
+                                                                                 16
+     (a).                          PSNR                              (b).    Groundtruth    mmResViT   M2DN   MDS   MPS
+                                             25.97
+                                                26.49
+                T1                            26.13
+                        23.37
+                                                26.49
+                                               26.38                                                                      T1
+                                                   26.95
+            T1&T2*                             26.30
+                                   24.77
+                                                26.59
+                                                 26.72
+        T1&                                          27.30
+      T2FLAIR&                                    26.87
+       CT&PET                           25.49
+                                                 26.64
+
+                       SSIM                                    FID
+                                                                                                                          T1&T2*
+                                0.892                                          76.23
+                                     0.908                        39.32
+                                  0.898                          36.11
+               0.839                                         25.34
+                                  0.900                  14.00
+                                 0.897                                       71.73
+                                      0.915                      37.37
+                                   0.902                         36.72
+                        0.873                            17.92
+                                   0.905                13.43                                                               T1&
+                                  0.903                                     66.39                                         T2FLAIR&
+                                       0.920                     37.07                                                     CT&PET
+                                    0.908                        37.38
+                              0.886                      17.91
+                                    0.908               13.27
+
+                mmGAN           mmResViT          M2DN           MDS        MPS
+
+
+
+Figure 6: Qualitative and quantitative evaluation of T2FLAIR MR image synthesis, comparing Any2all
+with several baseline methods designed for multimodal image synthesis. (a): Quantitative results for
+T2FLAIR synthesis. Here, “+T1 ” denotes synthesis from only T1 images, while “+T1&T2* ” and
+“+T1&T2FLAIR&CT&PET ” indicate the addition of T2* MRI and all other modalities as inputs, re-
+spectively. (b): Visual results for T2FLAIR synthesis. This figure shows that (1) the performance of
+Any2all progressively improves as more information is provided, (2) for image synthesis, MPS excels on both
+distortion-based and perceptual metrics, and (3) compared to baselines, Any2all achieves the best perceptual
+quality while remaining competitive in fidelity.
+
+
+
+
+                                                                                           17
+

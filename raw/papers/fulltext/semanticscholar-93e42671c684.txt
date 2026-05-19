@@ -1,0 +1,658 @@
+Shi et al. Alzheimer's Research & Therapy (2025) 17:247                                                                                                  Alzheimer's Research &
+https://doi.org/10.1186/s13195-025-01898-1
+                                                                                                                                                                       Therapy
+
+
+    RESEARCH                                                                                                                                                                Open Access
+
+
+Dynamic functional connectivity
+and transcriptomic signatures reveal stage-
+dependent brain network dysfunction
+in Alzheimer’s disease spectrum
+Yan Shi1†, Yuanhao Li1†, Renpuchi Ci1, Su Yan1, Tian Tian1, Ning Zheng2, Wenzhen Zhu1* and Yuanyuan Qin1*
+
+
+    Abstract
+    Background Alzheimer’s Disease Spectrum (ADS) progresses from preclinical stages to dementia, with dynamic
+    functional connectivity (dFC) changes emerging early. This study aimed to investigate the dynamic changes in brain
+    networks across different stages of ADS and their underlying molecular mechanisms.
+    Methods This cross-sectional study included 239 participants: 69 Healthy Controls (HC), 83 with Subjective Cognitive
+    Decline (SCD), 56 with Mild Cognitive Impairment (MCI), and 31 with Alzheimer’s disease (AD). All participants
+    underwent neuropsychological testing and resting-state functional magnetic resonance imaging (rs-fMRI). Leading
+    Eigenvector Dynamics Analysis (LEiDA), a data-driven method that captures time-resolved whole-brain dFC, was
+    applied to identify transient brain states and calculated their occupancy rate, dwell time, and transition probabilities.
+    Group differences in these dynamic metrics were assessed using a General Linear Model (GLM), and their correlations
+    with cognitive performance were examined. To explore the molecular basis of significant dFC alterations, we
+    performed gene-category enrichment analysis. This analysis integrated the spatial maps of altered brain states with
+    regional gene expression data from the Allen Human Brain Atlas (AHBA), using spin permutations to ensure statistical
+    robustness.
+    Results We identified ten recurring brain states and characterized how their transition patterns, stability, and
+    frequency differed as a function of disease severity. Specifically, early disruptions appeared as altered transition
+    probabilities between states, while later stages showed pronounced changes in the dwell time and occurrence rates
+    of specific states, closely associated with cognitive decline. Notably, one brain state marked by synchronized activity
+    in attention, salience, and default mode networks emerged as a critical hub linked to both cognitive deterioration
+    and excitatory-inhibitory imbalance. Genes associated with this state were enriched in glycine-mediated synaptic
+
+
+
+†
+ Yan Shi and Yuanhao Li contributed equally to this work as co-first
+authors.
+*Correspondence:
+Wenzhen Zhu
+zhuwenzhen8612@163.com
+Yuanyuan Qin
+qinyuanyuan-1021@163.com
+Full list of author information is available at the end of the article
+
+
+                                             © The Author(s) 2025, corrected publication 2025. Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-
+                                             NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format,
+                                             as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you
+                                             modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The
+                                             images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line
+                                             to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation
+                                             or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit ​h​t​t​p​​:​/​/​​c​r​e​
+                                             a​​t​i​​v​e​c​​o​m​m​​o​n​s​.​​o​r​​g​/​l​​i​c​e​​n​s​e​s​​/​b​​y​-​n​c​-​n​d​/​4​.​0​/.
+Shi et al. Alzheimer's Research & Therapy   (2025) 17:247                                                        Page 2 of 14
+
+
+
+
+ pathways and expressed in both excitatory and inhibitory neurons, showing spatial and temporal patterns that
+ extended from early development into late disease stages.
+ Conclusions Our study uncovered the stage-dependent dFC changes and their molecular underpinnings of brain
+ network dysfunction across the ADS.
+ Keywords Alzheimer's disease spectrum, Dynamic functional connectivity, Transcriptomic, Excitatory-inhibitory
+ imbalance
+
+
+
+Introduction                                                      In contrast, a novel analysis method called Leading
+Alzheimer’s Disease (AD), a leading cause of dementia in        Eigenvector Dynamics Analysis (LEiDA) has been devel-
+the elderly, is pathologically characterized by the depo-       oped. LEiDA captures the instantaneous phase-locking
+sition of beta-amyloid (Aβ) plaques and neurofibrillary         (PL) patterns of blood oxygen level-dependent (BOLD)
+tangles (NFTs) formed by tau protein [1]. The progres-          signals at each time point without requiring sliding
+sion of this disease follows a continuum from a preclini-       windows, making it particularly well-suited for detect-
+cal stage to severe dementia phase, referred to as the          ing short-lived or weakly expressed network states [13].
+Alzheimer’s Disease Spectrum (ADS). Within this spec-           Importantly, LEiDA has demonstrated high sensitivity
+trum, the earliest preclinical stage is Subjective Cognitive    in detecting subtle longitudinal changes in pain [14] and
+Decline (SCD), which may gradually progress to Mild             depression recurrence [15], as well as treatment-related
+Cognitive Impairment (MCI) and eventually develop into          alterations [16, 17]. These studies highlight the poten-
+typical Alzheimer’s dementia [2].                               tial of LEiDA for tracking disease progression in ADS.
+   The human brain is regarded as a dynamic functional          Preliminary applications of LEiDA in AD and MCI have
+system supported by relatively stable structural net-           uncovered distinct alterations in dwell time and occu-
+works, with temporal fluctuations in functional networks        pancy rate, suggesting the presence of aberrant dynamic
+believed to underlie complex cognitive functions and            brain states. However, studies applying LEiDA to SCD
+the emergence of consciousness [3]. Within this frame-          populations remain scarce, and the trajectory of dFC
+work, dynamic functional connectivity (dFC) analysis            dysfunction across ADS stages has not been systemically
+based on resting-state functional magnetic resonance            characterized.
+imaging (rs-fMRI) time series has shown great potential           Recently, advances in transcriptomic and neuroimag-
+in revealing brain connectivity patterns in various neu-        ing genetics have enabled the exploration of molecular
+rological disorders, including schizophrenia [4], major         mechanisms underlying macroscopic brain dysfunction.
+depressive disorder [5], and Alzheimer’s Disease (AD)           Integrating spatial gene expression data with neuroimag-
+[6]. Among dFC approaches, the Sliding Window Cor-              ing phenotypes holds great promise for bridging micro-
+relation (SWC) method has been widely adopted in                and macro-level pathology in AD [18, 19]. For instance,
+ADS. For instance, Xue et al. [7] reported reduced dFC          research on iron metabolism dysregulation in AD have
+variability in the default mode network (DMN) of SCD            revealed that genes linked to pathological iron deposi-
+patients, while Wang et al. [8] also observed weakened          tion are enriched in protein phosphorylation and metal
+connectivity between the cognitive control network              ion homeostasis pathways, and are primarily expressed
+(Cont) and sensory-motor network (SMN) in the same              in microglia and glutamatergic neurons [20].Addition-
+population. However, Penalba-Sánchez et al. [9] revealed        ally, Yu et al. reported that structural changes in the hip-
+increased dFC variability between the central executive         pocampus and medial temporal lobe of AD patients are
+network (CEN) and dorsal attention network (DAN)                closely linked to the expression of genes involved in regu-
+in MCI patients. Jing et al. [10] indicated that brain          lating chemical synaptic transmission [21]. Using Juelich
+dynamic states could reveal the different progression of        cytoarchitectonic atlas, Rubido et al. further revealed that
+MCI and may help to recognize high-risk MCI subjects            genetic variations, particularly those linked to choliner-
+early. All these studies suggest that dFC abnormalities         gic pathway, are associated with dFC changes across the
+emerge early in the disease course and may evolve along-        ADS [22]. As the disease advances, accumulating evi-
+side clinical progression. However, the SWC method is           dence points to a gradual decline in global brain instabil-
+constrained by arbitrary selection of window length and         ity among individuals with ADS [6, 23]. Nevertheless, the
+limited sensitivity to transient or subtle fluctuations [11],   transcriptional underpinnings of dFC changes and how
+which is particularly problematic in preclinical stages         these alterations evolve across the disease continuum
+like SCD. This is especially important as brain functional      remain poorly understood.
+changes in the SCD stage are typically subtle [12].               In this study, we aimed to investigate the stage-depen-
+                                                                dent alterations in dFC across ADS using LEiDA, and to
+Shi et al. Alzheimer's Research & Therapy   (2025) 17:247                                                                    Page 3 of 14
+
+
+
+
+further elucidate their genetic and neurobiological basis.    repetition time (TR)/echo time (TE) = 2000/30 ms, matrix
+We hypothesize that brain network dynamics deteriorate        size 64 × 64, field of view (FOV) 220 × 220 mm, slice thick-
+progressively across the ADS in parallel with cognition       ness 3 mm, flip angle 90°, with a total of 36 continuous
+decline, and that these brain network dysfunctions are        axial slices, and 185 time points acquired. Structural MRI
+spatially associated with gene expression patterns related    used 3D-T1 BRAin Volume (BRAVO) sequence with
+to AD pathology. By integrating brain imaging with tran-      parameters: TR/TE = 7.1/2.7 ms, FOV = 256 × 256 mm,
+scriptomic data, our approach seeks to: (1) character-        acquisition matrix = 256 × 256, number of excitations
+ize distinct dynamic brain states across SCD, MCI, and        (NEX) = 1, slice thickness = 1 mm.
+AD stages; (2) identify dFC patterns linked to cognitive
+decline; (3) uncover transcriptomic signatures underly-       Post-processing of MR data
+ing functional brain instability. Our findings are expected   The data processing in this study is shown in Fig. 1. The
+to provide mechanistic insights into early brain network      primary processing steps include fMRI preprocessing,
+dysfunction in ADS and support the development of             LEiDA and its correlation with clinical scores, as well as
+genetically informed neuroimaging biomarkers for early        enrichment analyses linking transient brain states show-
+detection and disease monitoring.                             ing group differences to gene expression and associated
+                                                              biological processes.
+Materials and methods
+Participants                                                  fMRI preprocessing
+This study collected demographic data including age, sex,     The preprocessing of fMRI data was conducted using
+education, hypertension and diabetes status, and neu-         the CONN toolbox (version 22). The initial 5 time points
+rological disease history. All subjects underwent stan-       were discarded to allow for scanner signal stabilization,
+dardized neuropsychological evaluations by memory             resulting in 180 time points retained for analysis. Head
+specialists, including the Mini-Mental State Examination      motion estimation and correction were applied by adjust-
+(MMSE), Clock Drawing Test (CDT), and both Part A             ing the motion parameters for each time point, followed
+(TMT-A) and Part B (TMT-B) of the Trail Making Test.          by slice timing correction. Specifically, 12 motion param-
+   Participants were categorized into four groups: HC         eters were employed for head motion regression, includ-
+(n = 69), SCD (n = 83), MCI (n = 56), and AD (n = 31). HC     ing three translational and three rotational parameters,
+group had no cognitive impairment or clinical abnormal-       along with their first-order derivatives. To further miti-
+ities. SCD subjects met the SCD-plus clinical framework       gate the impact of motion-related artifacts, a scrubbing
+proposed by Jessen et al.(2014)(2); MCI cases were diag-      procedure was implemented to flag time points exhib-
+nosed per Petersen’s 2004 criteria [24]; AD was defined       iting excessive motion. The motion exclusion criteria
+according to the “probable AD” standards outlined in          were defined as follows: a framewise displacement (FD)
+the 2011 National Institute on Aging-Alzheimer’s Asso-        threshold of 0.9 mm and a global BOLD signal change
+ciation (NIA-AA) guidelines [25]. Exclusion criteria          threshold of 5 standard deviations [26]. The functional
+included: (1) other neurodegenerative dementias (e.g.,        data were then registered to the corresponding 3D-T1
+vascular, Lewy body, and frontotemporal dementia);            BRAVO structural images, and all images were spatially
+(2) cognitive impairment due to medication or psychi-         normalized to the Montreal Neurological Institute (MNI)
+atric disorder; (3) severe mental disorders per Diagnos-      standard space, with tissue segmentation of gray matter,
+tic and Statistical Manual of Mental Disorders (DSM-5)        white matter, and cerebrospinal fluid (CSF) performed.
+(e.g. major depressive, schizophrenia). According to the      Finally, spatial smoothing using a Gaussian kernel with a
+Declaration of Helsinki, the study was approved by the        full-width at half maximum (FWHM) of 6 mm. After pre-
+Ethics Committee of Tongji Hospital, Tongji Medical           processing, denoising is performed in the CONN toolbox
+College, Huazhong University of Science and Technology        by regressing out the first five principal components of
+(TJ-IRB202401097). All participants provided informed         white matter and CSF signals. To extract the BOLD time
+consent.                                                      series for each brain region, the Schaefer100-Yeo7 atlas
+                                                              [27] was used for parcellation.
+MR imaging acquisition
+MRI scanning were acquired using a 3 T GE Discovery           LEiDA and brain state features
+750 MRI system (GE Healthcare, Chicago, IL, USA). The         For the analysis of dynamic connectivity, we used LEiDA
+subjects were positioned in the standard supine position,     codes developed by Cabral et al. [28] (​h​t​t​p​​s​:​/​​/​g​i​t​​h​u​​b​.​c​​
+with the scanning range covering from the vertex to the       o​m​/​​P​S​Y​M​​A​R​​K​E​R​/​l​e​i​d​a​-​p​y​t​h​o​n), which we adapted to
+cranial base.                                                 our data, with an additional 5 time points removed dur-
+  Rs-fMRI were acquired using a gradient-echo echo-           ing the automated processing stage. The BOLD time-
+planar imaging (EPI) sequence. Key parameters included:       series were bandpass-filtered (0.02–0.10 Hz) using a
+Shi et al. Alzheimer's Research & Therapy        (2025) 17:247                                                                               Page 4 of 14
+
+
+
+
+Fig. 1 Schematic overview of the analysis pipeline. First, resting-state fMRI data were preprocessed and parcellated using the Schaefer 100 atlas. The pre-
+processed data were then analyzed using the LEiDA method to construct the dynamic phase locking (dPL) matrix, from which leading eigenvectors were
+extracted and clustered via K-means to identify recurrent brain states. Further group comparison analysis revealed transient brain states with significant
+differences. These brain states were then correlated with cognition scores, including MMSE, CDT, TMT-A and TMT-B. Next, the states were mapped to gene
+expression data from the AHBA to derive state-specific transcriptomic profiles. Subsequent analyses included Gene Ontology (GO) enrichment, BrainSpan
+developmental expression profiling, and PsychENCODE neuron cell-type association, revealing significantly enriched biological pathways, spatiotemporal
+expression patterns, and cell-type specificity associated with group-differentiated brain states. Notes: LEiDA, Leading Eigenvector Dynamics Analysis; dPL,
+Dynamic Phase-Locking; MMSE, Mini-Mental State Examination; CDT, Clock Drawing Test; TMT-A, Trail Making Test-part A; TMT-B, Trail Making Test-part B;
+AHBA, Allen Human Brain Atlas
+
+second-order Butterworth filter to mitigate physiological                      (3) state transition probabilities, reflecting the likelihood
+noise [13]. Instantaneous phase signals θ i (t) were then                      of switching between states. Between-group differences
+derived for each ROI via the Hilbert transform, enabling                       in these dFC metrics were assessed using a General Lin-
+phase-based connectivity analysis. We subsequently cal-                        ear Model (GLM), controlling for age, sex, and years of
+culated the phase difference between each pair of brain                        education, with statistical significance adjusted using the
+regions at every TR using cosine distance, resulting in a                      Bonferroni (BFN) correction [30, 31]. For the compari-
+dynamic PL matrix that quantifies the phase alignment                          sons of occupancy rate and dwell time among 10 states,
+between regions. Then the leading eigenvector of this                          the significance threshold was set at p < 0.005 (0.05/10).
+matrix was calculated to display the main orientation of                       For the analysis of transition probabilities, which
+BOLD phases over all regions. These eigenvectors were                          involved 100 possible directed transitions, the threshold
+clustered into recurring brain states using K-means [28].                      was set at p < 5 × 10− 4(0.05/100). The p-values reported in
+The cluster number K was explored within a range of                            the Results section are the Bonferroni-corrected value,
+5–10, encompassing the typical number of functional                            obtained by multiplying the original p-values by the
+networks reported in rs-fMRI literature [13]. The optimal                      number of tests conducted.
+K (final K = 10) was selected by minimizing the Davies-
+Bouldin Index (DBI) [29] (Fig. S1).                                            Brain state features - cognition correlations
+  Brain state dynamics were characterized using three                          To investigate the relationship between brain functional
+key metrics: (1) occupancy rate, quantifying the total pro-                    state metrics and cognitive performance, we employed
+portion of time spent in each state; (2) dwell time, mea-                      a GLM across four participant groups: HC, SCD, MCI,
+suring the average duration of continuous visits to a state.                   and AD. Adjusting for covariates of age, sex, and years of
+Shi et al. Alzheimer's Research & Therapy                       (2025) 17:247                                                                                Page 5 of 14
+
+
+
+
+education, we examined the correlations between dwell                                                   Statistical analysis
+time and occupancy rate of each of the defined brain                                                    Demographic data were analyzed using SPSS 12.0 soft-
+states and cognitive function assessment indicators,                                                    ware (IBM Corp., Armonk, NY, USA). Normality was
+including the MMSE, CDT, TMT-A, and TMT-B.                                                              assessed via the Shapiro-Wilk test, and variance homo-
+                                                                                                        geneity was evaluated with Levene’s test. Since the con-
+Gene-category enrichment analysis                                                                       tinuous variables (age, education, MMSE, CDT, TMT-A,
+For states exhibiting significant intergroup differ-                                                    TMT-B) did not meet the normality assumption, the
+ences, we performed gene-category enrichment anal-                                                      Kruskal–Wallis test was employed for all continuous
+ysis (GCEA) to explore the underlying molecular                                                         variables, while categorical variables (sex, hypertension,
+mechanisms. First, regional microarray gene expression                                                  diabetes) were compared using the chi-square test.
+data from the AHBA were mapped onto the Schaefer100-
+Yeo7 brain regions using the abagen toolbox (v. 0.1.3) [32,                                             Results
+33]. We then used the ABAnnotate toolbox (​h​t​t​p​​s​:​/​​/​g​i​t​​h​                                  Demographic characteristics
+u​​b​.​c​​o​m​/​​L​e​o​n​​D​L​​o​t​t​e​r​/​A​B​A​n​n​o​t​a​t​e) to associate spatial                    Demographic and neuropsychological characteristics
+brain states with transcriptomic features derived from                                                  of the HC, SCD, MCI, and AD groups are summarized
+AHBA data. This toolbox performs enrichment analyses                                                    in Table 1. The median age (P25, P75) of the HC, SCD,
+across several gene transcription categories: (1) Gene                                                  MCI, and AD groups was 64 (59, 68), 66 (63, 70), 64.5
+Ontology (GO) enrichment analysis focusing on biologi-                                                  (61, 69.75), and 66 (61.25, 68.5) years, respectively. The
+cal process categories, provided by the DAVID database (​                                               median years of education (P25, P75) were 12 (9, 15), 15
+h​t​t​p​​s​:​/​​/​d​a​v​​i​d​​b​i​o​​i​n​f​​o​r​m​a​​t​i​​c​s​.​n​i​h​.​g​o​v​/); (2) Developmental     (12, 16), 12 (9, 12), and 12 (9.75, 12.75), respectively. In
+brain region gene expression profiling, using RNA-seq                                                   terms of sex composition, the female-to-male ratios were
+data from the BrainSpan database (​h​t​t​p​​s​:​/​​/​w​w​w​​.​b​​r​a​i​​n​s​p​​                         34:35, 59:24, 29:27, and 12:19 for the HC, SCD, MCI and
+a​n​.​o​​r​g​​/​r​n​​a​s​e​​q​/​s​e​​a​r​​c​h​/​i​n​d​e​x​.​h​t​m​l) to characterize gene               AD groups, respectively. No significant differences were
+expression in developmental brain regions; (3) Neuron                                                   observed in age, hypertension and diabetes among the
+cell type association analysis, based on neuron cell type                                               four groups (p > 0.05). However, statistically significant
+markers from the PsychENCODE database (​h​t​t​p​​:​/​/​​r​e​s​o​​u​                                     intergroup differences were identified in sex distribution
+r​​c​e​.​​p​s​y​​c​h​e​n​​c​o​​d​e​.​o​r​g​/).                                                          (p = 0.004) and educational attainment (p < 0.001). All
+    To mitigate spatial autocorrelation and avoid biases                                                administered neuropsychological assessments, including
+from shared cortical embedding, we computed within-                                                     the MMSE, CDT, TMT-A, and TMT-B, demonstrated
+category co-expression patterns rather than direct gene-                                                significant between-group differences (all p < 0.001).
+level associations(34). Specifically, spearman correlations
+between phenotype effects and gene expression were                                                      Differences in transient brain states across the ADS
+calculated. These correlations were then aggregated into                                                Using K-means clustering analysis within the LEiDA
+phenotype category scores (cScorePheno) by taking the                                                   framework, this study identified ten distinct whole-brain
+weighted mean of z-transformed correlations, scaled by                                                  transient functional states (Fig. S2). One state, character-
+category-specific expression levels [34]. Significance was                                              ized by widespread phase consistency across the entire
+assessed via 10,000 spin permutations to generate null                                                  brain, is termed the global brain synchronization state
+distributions, followed by false discovery rate (FDR) cor-                                              (State 10, Global). The remaining nine states exhibit
+rection for multiple comparisons [34–36].                                                               significant regional-specific synchronization patterns:
+
+Table 1 Demographic and behavioral characteristics of the participants
+Demographics                              HC                               SCD                        MCI                      AD                  χ2/K-W       P-value
+Sex f/m                                   34/35                            59/24                      29/27                    12/19               13.100       0.004
+Age, y, M(P25,P75)                        64 (59,68)                       66 (63,70)                 64.5 (61,69.75)          66 (61.25,68.5)     7.581        0.056
+Education, y, M(P25,P75)                  12 (9,15)                        15 (12,16)                 12 (9,12)                12 (9.75,12.75)     26.566       < 0.001
+Hypertension, yes/no                      19/50                            32/51                      15/41                    7/24                4.104        0.250
+Diabetes, yes/no                          9/60                             6/53                       5/51                     4/27                0.681        0.878
+MMSE, M(P25,P75)                          29 (28.5,30)                     28 (27,29.5)               27.5 (25,29)             16 (4,18.75)        105.552      < 0.001
+CDT, M(P25,P75)                           4 (3.5,4)                        4 (4,4)                    4 (3,4)                  1 (0.25,31)         26.883       < 0.001
+TMT-A, M(P25,P75)                         48.5 (39.5,68.85)                42 (32,52.5)               58.5 (47.75,67.5)        102(78.25,137.25)   71.203       < 0.001
+TMT-B, M(P25,P75)                         90.3 (67.25,122.1)               65 (48.5,80)               91.5 (75.75,153.75)      141 (27.25,165)     36.480       < 0.001
+Data are expressed as percentage (%)
+HC Healthy Control, SCD Subjective Cognitive Decline, MCI Mild Cognitive Impairment, AD Alzheimer’s Disease, MMSE Mini-Mental State Examination, CDT Clock
+Drawing Test, TMT-A Trail Making Test-part A, TMT-B Trail Making Test-part B, m Male, f Female, y year, M Median, (P25,P75) interquartile range, χ2 Chi-square test,
+K-W Kruskal-Wallis test
+Shi et al. Alzheimer's Research & Therapy   (2025) 17:247                                                        Page 6 of 14
+
+
+
+
+(1) Coordinated activation of the Control Network              (Pbfn*100 = 0.048, β=−0.037). However, the likelihood of
+(Cont) and the DMN across bilateral hemispheres (State         MCI patients transitioning from State 2 (DAN-SMN)
+1, Cont-DMN); (2) High synchronization between the             to State 3 (Vis-SMN) (Pbfn*100 = 0.033, β = 0.057), State
+Dorsal Attention Network (DAN) and the Somatomotor             6 (DAN-LIM) to State 9 (LIM-DMN) (Pbfn*100 = 0.036,
+Network (SMN) across bilateral hemispheres (State 2,           β = 0.035), and State 10 (Global) to brain state 5 (SVAN-
+DAN-SMN); (3)High synchronization between the Visual           Cont-DMN) (Pbfn*100 = 0.007, β = 0.064) was lower
+Network (Vis) and the SMN in bilateral hemispheres             (Fig. 2D).
+(State 3, Vis-SMN); (4) Strong synchronization between           In patients with AD, compared to HC, there were sig-
+the Vis and the Cont in both hemispheres (State 4, Vis-        nificant differences in multiple State transitions. The
+Cont); (5) High synchronization of the Salience/Ventral        probability of AD patients transitioning from State 1
+Attention Networks (SVAN) with the Cont and the DMN            (Cont-DMN) to State 10 (Global) (Pbfn*100 = 0.018,
+in the bilateral hemispheres (State 5, SVAN-Cont-DMN);         β=−0.030), State 2 (DAN-SMN) to State 10 (Global)
+(6) High synchronization between the DAN and the Lim-          (Pbfn*100 = 0.037, β=−0.047), State 3 (Vis-SMN) to State
+bic Network (LIM) in both hemispheres (State 6, DAN-           10 (Global) (Pbfn*100 = 0.002, β=−0.104), State 4 (Vis-
+LIM); (7) Strong synchronization between the Vis and           Cont) to State 10 (Global) (Pbfn*100 = 0.003, β=−0.089),
+the DMN across the bilateral hemispheres (State 7, Vis-        State 5 (SVAN-Cont-DMN) to State 10 (Global)
+DMN); (8) High synchronization among the SMN, DAN,             (Pbfn*100 = 0.009, β=−0.090), and staying in State 10
+and DMN in the bilateral hemispheres (State 8, SMN-            (Global) (Pbfn*100 = 0.014, β=−0.150) was significantly
+DAN-DMN); (9) High synchronization of the LIM in the           higher. Additionally, AD patients had a higher likeli-
+left hemisphere with the DMN (State 9, LIM-DMN).               hood of transitioning from State 3 (Vis-SMN) to State
+  Compared to HC, patients with MCI exhibited a sig-           2 (DAN-SMN) (Pbfn*100 = 0.019, β=−0.044). However,
+nificant lower occupancy rate in State 7 (Vis-DMN,             AD patients showed a lower probability of transition-
+Pbfn*10 = 0.030, β = 0.03) (Fig. 2A). In contrast, patients    ing from several other States, particularly remaining in
+with AD showed significant reductions in both dwell            State 3 (Vis-SMN) (Pbfn*100 = 0.003, β = 0.123), state 4
+time (State4, Vis-Cont: Pbfn*10 = 0.025, β = 1.12; State5,     (Vis-Cont) (Pbfn*100 = 0.012, β = 0.113), State 5 (SVAN-
+SVAN-Cont-DMN: Pbfn*10 = 0.013, β = 1.08; State6,              Cont-DMN) (Pbfn*100 = 0.020, β = 0.115), and State 6
+DAN-LIM: Pbfn*10 = 0.013, β = 1.16) and occupancy              (DAN-LIM) (Pbfn*100 = 0.008, β = 0.130), as well as tran-
+rate (State4, Vis-Cont: Pbfn*10 = 0.006, β = 0.04; State5,     sitions from State 1 (Cont-DMN) to State 4 (Vis-Cont)
+SVAN-Cont-DMN: Pbfn*10 = 0.026, β = 0.04; State6,              (Pbfn*100 = 0.047, β = 0.039), State 2 (DAN-SMN) to
+DAN-LIM: Pbfn*10 = 0.013, β = 0.03) in State 4 (Vis-Cont),     State 3 (Vis-SMN) (Pbfn*100 = 0.027, β = 0.079), State 6
+5 (SVAN-Cont-DMN) and 6 (DAN-LIM). Addition-                   (DAN-LIM) to State 1 (Cont-DMN) (Pbfn*100 = 0.047,
+ally, AD patients showed a significant increase in both        β = 0.023), and State 9 (LIM-DMN) to State 4 (Vis-Cont)
+dwell time (Pbfn*10 = 0.001, β=−3.18) and occupancy            (Pbfn*100 = 0.045, β = 0.026) (Fig. 2E). All brain state tran-
+rate (Pbfn*10 < 0.001, β=−0.13) in State 10(Global). AD        sition probabilities, including dwelling state sequences,
+patients also exhibited a significant higher occupancy         are described in detail in Fig. S3.
+rate in State 2 (DAN-SMN, Pbfn*10 = 0.028, β=−0.05) and          To verify the stability of the results, we conducted
+a significantly lower dwell time (Pbfn*10 = 0.010, β = 1.05)   a between-group comparison of the dwell time and
+in State 3 (Vis-SMN) (Fig. 2B). Notably, no significant dif-   occupancy rate from K5 to K9, and also observed simi-
+ferences were observed in either dwell time or occupancy       lar results between groups as K = 10 (Fig. S4).
+rate for any brain state between the HC and SCD groups.
+  In terms of brain state transitions, compared to HC,         Brain state features associated with neuropsychological
+patients with SCD showed a significantly higher prob-          assessments
+ability of transitioning from State 8 (SMN-DAN-DMN)            The correlation analysis between 10 brain states and
+to State 10 (Global) (Pbfn*100 = 0.010, β=−0.033). How-        neuropsychological assessment results showed a sig-
+ever, the likelihood of SCD patients transitioning from        nificant positive correlation between the dwell time of
+State 4 (Vis-Cont) to State 3 (Vis-SMN) (Pbfn*100 = 0.025,     brain State 3 (Vis-SMN) (p = 0.006, β = 0.182), State5
+β = 0.024), State 5 (SVAN-Cont-DMN) to State 1                 (SVAN-Cont-DMN) (p = 0.011, β = 0.167) and the
+(Cont-DMN) (Pbfn*100 = 0.022, β = 0.038), and State 7          MMSE scores, whereas the dwell time of brain State
+(Vis-DMN) to State 1 (Cont-DMN) (Pbfn*100 = 0.049,             10 (Global) was significantly negatively correlated
+β = 0.035) was significantly lower (Fig. 2C).                  with MMSE scores (p = 0.002, β= −0.202). Addition-
+  Compared to HC, MCI patients showed an increased             ally, the dwell time of State 3 (Vis-SMN) and 6 (DAN-
+probability of transitioning from State 10 (Global)            LIM) showed a significant negative correlation with
+to State 9 (LIM-DMN) (Pbfn*100 = 0.023, β=−0.033),             the TMT-A scores (State 3, Vis-SMN: p = 0.015, β =
+and from State 7 (Vis-DMN) to State2 (DAN-SMN)                 −0.188; State 6, DAN-LIM: p = 0.002, β = −0.234), while
+Shi et al. Alzheimer's Research & Therapy        (2025) 17:247                                                                                Page 7 of 14
+
+
+
+
+Fig. 2 Group comparisons of dwell time, occupancy rate and transition probabilities across ten brain states using GLM. A Compared to HC, patients with
+MCI showed decreased occupancy rate in State 7 (Bonferroni-corrected p = 0.030, β = 0.03). B showed the group differences in dwell time and occupancy
+rate between HC and patients with AD. Statistical significance was determined using Bonferroni correction. Blue circles indicate significant β coefficients.
+C-E showed group differences in state transition probabilities between HC and patients with SCD (C), MCI (D), and AD (E). Notes: GLM, general linear
+model; HC, healthy control; MCI, mild cognitive impairment; AD, Alzheimer’s disease
+
+
+the dwell time of State 10 (Global) was significantly                           State 2 (DAN-SMN) and 10 (Global) were signifi-
+positively correlated with TMT-A scores (p < 0.001,                             cantly negatively correlated with MMSE scores (State
+β = 0.339) (Fig. 3A).                                                           2, DAN-SMN: p = 0.003, β= −0.200; State 10, Global:
+  The occupancy rate of State 3 (Vis-SMN), 4 (Vis-                              p < 0.001, β= −0.232). Additionally, the occupancy
+Cont), 5 (SVAN-Cont-DMN), and 6 (DAN-LIM) were                                  rate of State 6 (DAN-LIM) showed a significant nega-
+significantly positively correlated with the MMSE                               tive correlation with the TMT-A scores (p = 0.009, β =
+scores (State3, Vis-SMN: p = 0.047, β = 0.131, State                            −0.198), while the occupancy rate of State 10 (Global)
+4, Vis-Cont: p = 0.016, β = 0.159, State 5, SVAN-                               showed a significant positive correlation with TMT-A
+Cont-DMN: p = 0.041, β = 0.137, State 6, DAN-LIM:                               scores (p < 0.001, β = 0.360) (Fig. 3B). However, no
+p = 0.029, β = 0.143), whereas the occupancy rate of                            significant correlations were observed between the
+Shi et al. Alzheimer's Research & Therapy        (2025) 17:247                                                                               Page 8 of 14
+
+
+
+
+Fig. 3 Brain state features associated with neuropsychological assessments.A-B showed the correlation analyses between neuropsychological assess-
+ments and the dwell time (A) and occupancy rate (B) of 10 identified brain states. Both positive and negative associations are depicted, with blue circles
+indicating statistically significant β coefficients. The corresponding fitted lines are displayed above or below each circle Notes: MMSE, Mini-Mental State
+Examination; CDT, Clock Drawing Test; TMT-A, Trail Making Test-part A; TMT-B, Trail Making Test-part B
+
+features of 10 brain states and the CDT or TMT-B                               that the gene set associated with State 5 (SVAN-Cont-
+scores.                                                                        DMN) was significantly enriched in excitatory neuron
+                                                                               subtypes, including Ex 4 (PFDR = 0.007), Ex 5 (PFDR =
+Brainspan developmental gene expression linked with                            0.007), and Ex 7 (PFDR = 0.026). It also showed specific
+transient brain states                                                         expression signals in the inhibitory neuron subtype In 1
+The spatiotemporal expression patterns of genes related                        (PFDR = 0.047) (Fig. 5). Anatomically, Ex4, Ex5, and Ex7
+to 10 brain states were explored. It was found that the                        represent cortical projection neurons with distinct lami-
+spatiotemporal expression profiles across developmental                        nar distributions, with Ex4 predominantly in layer 5 and
+stages revealed a statistically significant enrichment of                      Ex5/Ex7 mainly in layer 6. In1 is a GABAergic inhibitory
+genes related to State 5 (SVAN-Cont-DMN) in the cor-                           interneuron, specially a parvalbumin-positive (PV⁺), fast-
+tical regions of the brain during infancy, adolescence,                        spiking subtype originating from the medial ganglionic
+and adulthood (Fig. 4A). Specifically, during infancy, the                     eminence (MGE) [37]. In contrast, the gene sets associ-
+genes were notably enriched in the orbitofrontal cortex                        ated with the other 9 states did not show statistically
+(OFC; PFDR = 0.048), medial prefrontal cortex (MFC;                            significant enrichment in either excitatory or inhibitory
+PFDR = 0.048), dorsolateral prefrontal cortex (DFC; PFDR                       neuron subtypes.
+= 0.048), primary somatosensory cortex (S1C; PFDR =
+0.048), and inferior parietal cortex (IPC; PFDR = 0.043)                       Gene ontology analyses linked with transient brain states
+(Fig. 4B). In adolescence and adulthood, these genes were                      GO analysis of the 10 brain states revealed that only
+specifically enriched in the OFC (adolescence: PFDR =                          State 5 (SVAN-Cont-DMN), characterized by high syn-
+0.032; adulthood: PFDR = 0.048), MFC (adolescence: PFDR                        chronization of the SVAN with the Cont and the DMN
+= 0.048; adulthood: PFDR = 0.032), and the inferior tem-                       in both hemispheres, exhibited specific gene enrich-
+poral gyrus (ITG) (adolescence: PFDR = 0.048; adulthood:                       ment in molecular functions related to ion channel
+PFDR = 0.032) (Fig. 4C). In contrast, the genes associated                     activity. The genes most strongly enriched in this state
+with the remaining 9 states did not exhibit statistically                      include GLRA2, GLRB, and GLRA3, with the primary
+significant spatial clustering patterns in the brain.                          GO terms being “extracellular glycine-gated ion channel
+                                                                               activity” (GO:0016933; PFDR = 0.0006) and its subclass
+Neuronal cell types linked with transient brain states                         “extracellular glycine-gated chloride ion channel activity”
+We performed cell type enrichment analysis on the gene                         (GO:0016934; PFDR = 0.0006), both of which are involved
+sets associated with 10 brain states. The results showed                       in regulating inhibitory neurotransmitter transmission
+Shi et al. Alzheimer's Research & Therapy         (2025) 17:247                                                                                   Page 9 of 14
+
+
+
+
+Fig. 4 BrainSpan developmental gene expression profiling linked with transient brain states in Alzheimer’s Disease Spectrum. A Spatiotemporal en-
+richment patterns of state 5 associated genes across neurodevelopmental stages. The size of the points represents category scores, while the color
+indicates the negative base-10 logarithm of the FDR-corrected p-values derived from the z-distribution. Squares mark FDR-significant categories. B-C
+Neuroanatomical localization of State 5-associated genes in the human brain during infancy (B), adolescence and adulthood (C). Notes: L, left; R, right;
+MFC, medial prefrontal cortex; ITG, inferior temporal gyrus; OFC, orbitofrontal cortex; DFC, dorsolateral prefrontal cortex; IPC, inferior parietal cortex; S1C,
+primary somatosensory cortex
+
+(Fig. 6). Notably, no significant enrichment was observed                         probabilities between brain network states. As the dis-
+in the cellular component or biological process catego-                           ease progressed to MCI and AD stages, dFC abnor-
+ries (PFDR >0.05). Furthermore, no statistically significant                      malities evolved into marked changes in dwell time and
+signals across any GO functional categories (molecular                            occurrence rates of specific brain states, which were
+function, cellular component, or biological process) for                          strongly associated with cognitive decline, particularly
+the remaining 9 states.                                                           as reflected in MMSE and TMT-A performance. Most
+                                                                                  critically, this study identified a specific dFC aberration—
+Discussion                                                                        State 5 (SVAN-Cont-DMN), characterized by heightened
+This study integrated dFC, clinical neuropsychologi-                              synchrony involving the SVAN, Cont, and DMN—that
+cal assessments, and whole-brain transcriptomic data to                           was linked to gene expression profiles involving in gly-
+investigate the progressive evolution of brain network                            cine-mediated synaptic transmission pathways and spe-
+dysfunction and its underlying molecular mechanisms                               cific neuronal subtypes, especially excitatory neurons
+in the ADS. The findings revealed a clear, stage-depen-                           (Ex4, Ex5, Ex7) and inhibitory interneurons (In1). Fur-
+dent of dFC abnormalities in ADS. In the SCD stage,                               thermore, these genes showed spatiotemporal expression
+disruptions primarily manifested as altered transition
+Shi et al. Alzheimer's Research & Therapy        (2025) 17:247                                                                               Page 10 of 14
+
+
+
+
+Fig. 5 Neuronal cell type linked with transient brain states in Alzheimer’s Disease Spectrum. The left panel shows the global distribution of cell type-
+specific enrichment scores associated with the state 5, while the right panel focuses on the cell types that are significantly enriched after FDR correction
+(p < 0.05). Notes: Ex, excitatory neuron; In, inhibitory neuron; Dev-quiescent, developmental quiescent cells; * PFDR < 0.05
+
+
+patterns that extend across the entire lifespan, from                           and progressively worsen with disease progression, our
+infancy through the advanced stages of ADS pathology.                           findings provide crucial candidate metrics for future
+   The core findings of this study revealed a progres-                          research on sensitive biomarkers for the early identifica-
+sive pattern of dysfunction in brain network dynamics                           tion and monitoring of ADS.
+within the ADS, closely aligned with the clinical stages                          As the disease progressed to the stages of MCI and
+of the disease. At the SCD stage, no significant altera-                        AD, brain network dysfunction underwent a fundamen-
+tions in dwell time or occupancy rate of brain states were                      tal transformation. Abnormalities extended beyond dis-
+observed. However, subtle yet meaningful abnormalities                          rupted transitions to a marked collapse in the intrinsic
+emerged in the transition probabilities between network                         stability of key cognitive network states. Specifically, in
+states. Specifically, SCD patients exhibited a significantly                    MCI patients, the occupancy rate of State 7 (Vis-DMN)
+increased transition rate from a complex state involving                        decreased. This aligns with findings from Stampacchia
+the coordinated activity of multiple higher-order cogni-                        et al. [38], who attributed reduced stability at the MCI
+tive networks -State 8 (SMN-DAN-DMN) to the globally                            stage to the reorganization and adaptation of functional
+synchronized state (State 10, Global). Meanwhile, their                         connectivity, resulting in fewer stable connections across
+flexibility in transitioning between other higher-order                         individuals. In AD patients, this instability became
+cognitive network states (e.g. from Vis-Cont to Vis-SMN,                        more widespread and severe, with significant decreases
+from SVAN-Cont-DMN and Vis-DMNto Cont-DMN)                                      observed in the dwell time and occupancy rate of State
+was significantly reduced. These findings suggested that                        4 (Vis-Cont), State 5 (SVAN-Cont-DMN), and State
+early dFC disruptions may reflect a shift toward less flex-                     6 (DAN-LIM). Meanwhile, the dwell time and occur-
+ible, globally synchronized brain dynamics. Given that                          rence rate of State 10 (Global), a low-complexity state
+dFC impairments are already present at the SCD stage                            representing global synchronization, increased sharply,
+Shi et al. Alzheimer's Research & Therapy      (2025) 17:247                                                                          Page 11 of 14
+
+
+
+
+Fig. 6 Gene Ontology enrichment analysis linked with transient brain states in Alzheimer’s Disease Spectrum. State 5 Exhibits Specific Enrichment of
+Ion Channel-Related Molecular Functions Linked to Inhibitory Neurotransmission. A Chart displays the genes associated with the GO pathways, with the
+most significant genes (GLRA2, GLRB, and GLRA3) highlighted in red. B Bar chart displaying the top 15 most significantly enriched GO pathways. Notes:
+MF, molecular function
+
+
+along with an increased probability of transitioning from                   al. [43], who revealed that as the brain’s neural develop-
+States 1–5 (Cont-DMN, DAN-SMN, Vis-SMN, Vis-Cont,                           ment matures, the specificity of its regions significantly
+SVAN-Cont-DMN) to State 10 (Global), in align with                          increases. Notably, these regions of sustained gene
+Wang et al.’s study [39]. Importantly, these changes in                     enrichment in later stages, significantly overlapped with
+dFC metrics were significantly associated with cognitive                    areas affected by hallmarks of AD pathologies, includ-
+assessment scores, including the MMSE and TMT-A,                            ing Aβ and NFTs [44]. These pathological aggregates
+underscoring their clinical relevance. This finding high-                   disrupted the homeostasis and can trigger a cascade of
+lighted that dysfunction in network dynamics constitute                     molecular events, including synaptic integrity loss, mito-
+a core neural mechanism driving the progressive cogni-                      chondrial dysfunction and ultimately neuronal apoptosis
+tive decline in individuals with ADS [40].                                  [45, 46]. Together, these findings suggest that AD risk
+   Further research revealed that genes associated with                     genes exert a lifelong influence on brain structure and
+State 5 (SVAN-Cont-DMN) exhibited pronounced spa-                           function, with effects that begin in early development
+tiotemporal specificity, suggesting their involvement                       and extent into the later stages of disease progression.
+in both early neurodevelopment and later pathologi-                           Furthermore, this study found that genes associated
+cal progression in AD. During infancy, these genes were                     State 5 (SVAN-Cont-DMN) also exhibited marked cell-
+enriched in brain regions such as the OFC, MFC, DFC,                        type specificity, with expression spanning both excit-
+S1C, and IPC, suggesting that AD risk genes may influ-                      atory (Ex4, Ex5, Ex7) and inhibitory (In1) neuronal
+ence early brain development [41]. Supporting this, Chen                    subtypes. As widely reported, AD pathology involves a
+et al. [42] observed synaptic dysfunction in the early                      cascade imbalance in the excitatory-inhibitory (E/I) net-
+life stages of 5×FAD transgenic mice, indicating that                       work, characterized by loss of glutamatergic (Glu) neu-
+gene-mediated neurocircuit developmental defects may                        rons and GABAergic inhibitory interneurons, leading to
+already be latent in infancy. As neurodevelopment pro-                      pathological hyperexcitability [47, 48]. In this study, GO
+gressed into adolescence and adulthood, gene expression                     enrichment analysis further revealed that genes were sig-
+became more region-specific, concentrating in the OFC,                      nificantly enriched in the glycinergic synaptic transmis-
+MFC, and ITG. This aligns with the findings by Preti et                     sion pathway. Glycine receptors, widely distributed on
+Shi et al. Alzheimer's Research & Therapy   (2025) 17:247                                                                                     Page 12 of 14
+
+
+
+
+the postsynaptic membrane, mediated inhibitory neu-           its related genes exert a sustained influence on the brain
+rotransmission and were essential for maintaining E/I         that spans the entire lifespan. These findings uncovered
+balance in the brain [49]. In AD, this balance was often      the molecular underpinnings of early network dysfunc-
+disrupted, leading to an increased risk of epileptiform       tion in the ADS.
+activity [50], a phenomenon observed in up to 42% of AD
+patients, which could accelerate cognitive decline [51].      Supplementary Information
+Research by Bi et al. further demonstrated that impaired      The online version contains supplementary material available at ​h​t​t​p​s​:​​​/​​/​d​o​​i​.​​o​r​​
+                                                              g​​/​​1​0​​.​1​1​​​8​6​​/​s​1​3​​1​9​5​-​​0​2​5​-​0​​1​8​9​8​-​1.
+inhibitory receptors function contributed neuronal
+hyperexcitability, which exacerbated Aβ deposition and          Supplementary Material 1: Figure S1. Davies-Bouldin Index presented
+worsen cognitive dysfunction [47]. Therefore, our find-         for K=5 to 10. Figure S2. Transient Brain States Identified via LEiDA in
+ings highlight that abnormalities in E/I neurons, along         Alzheimer's Disease Spectrum A The spatial distribution of LEiDA eigen-
+                                                                vectors corresponding to ten brain states identified using the Schaefer
+with dysfunction in glycine receptor-mediated inhibitory        100-parcellation framework. State 10 represents a global brain synchro-
+signaling, are critical contributors to E/I imbalance in        nization pattern with widespread phase coherence. The remaining nine
+brain, collectively contributing to pathological neuronal       states exhibit network-specific synchronization patterns involving various
+                                                                combinations of canonical resting-state networks. B-C are representation
+hyperexcitability and the progression of AD.                    of LEiDA on the cerebral surface from right (B) and left (C) lateral view.
+                                                                Notes: State 1, Control Network-Default Mode Network (Cont-DMN);
+Limitations and perspectives                                    State 2, Dorsal Attention Network- Sensorimotor Network (DAN-SMN);
+                                                                State 3, Visual Network-Sensorimotor Network (Vis-SMN); State 4, Visual
+The main strength of this study lies in its comprehensive       Network-Control Network (Vis-Cont); State 5, Salience/Ventral Attention
+inclusion of multiple clinical stages of ADS and the adop-      Networks-Control Network-Default Mode Network (SVAN-Cont-DMN);
+tion of a novel dFC analysis method known as LEiDA.             State 6, Dorsal Attention Network-Limbic Network (DAN-LIM); State 7,
+                                                                Visual Network-Default Mode Network (Vis-DMN); State 8, Sensorimotor
+Additionally, the integrative framework that bridges            Network-Dorsal Attention Network-Default Mode Network (SMN-DAN-
+macroscale neuroimaging with microscale transcrip-              DMN); State 9, Limbic Network-Default Mode Network (LIM-DMN); State10,
+tomic data, enables a multilevel understanding of disease       Global. Figure S3. Transition probabilities of ten brain states with dwelling
+                                                                state sequences. All brain state transition probabilities, including dwelling
+progression. However, there are still several limitations.      state sequences, in HC (A), SCD (B), MCI (C), and AD (D). Notes: HC, healthy
+First, the AHBA gene expression data is derived from            control; SCD, Subjective Cognitive Decline; MCI, mild cognitive impair-
+healthy individuals, while individuals with ADS may             ment; AD, Alzheimer's disease. Figure S4. Between-group comparisons of
+                                                                the dwell time and occupancy rate for brain states from K5 to K9. Results
+undergo pathological remodeling of gene regulation in           showed similar group differences in state stability parameters (dwell time/
+their brains. Therefore, the identified gene-function state     occupancy rate) as those observed at K=10, verifying the consistency of
+associations may underestimate the impact of AD-spe-            findings. Notes: Blue bar charts denote significant differences (p < 0.05)
+                                                                after Bonferroni correction.
+cific molecular mechanisms on brain network dynamics.
+Second, reliable dFC detection typically requires more
+                                                              Acknowledgements
+than 10 min of scanning. The relatively short acquisition     This study was supported by National Key R&D Program of China
+time may bias LEiDA toward high-frequency dominant            (2022YFC2406903), and National Natural Science Foundation of China
+states, potentially reducing sensitivity to rarer or more     (81873890). We are grateful to all the participants in this study.
+transient states. Finally, the Schaefer100-Yeo7 atlas used    Authors’ contributions
+in this study includes only cortical regions and excludes     Y.Q. and W.Z. participated in the study design. S.Y., Y.S. and R.C. collected data.
+subcortical structures. Future studies should extend rs-      Y.L. conducted the statistical analysis. Y.S. contributed to drafting the initial
+                                                              manuscript. W.Z., Y.Q., T.T. and N.Z. reviewed and revised the manuscript. All
+fMRI scanning durations and integrate subcortical struc-      authors reviewed and approved the final version of the manuscript.
+tures to comprehensively elucidate brain state dynamics
+mechanisms.                                                   Funding
+                                                              This study was supported by National Key R&D Program of China
+                                                              (2022YFC2406903), and National Natural Science Foundation of China
+Conclusion                                                    (81873890). We are grateful to all the participants in this study.
+This study demonstrated a clear, stage-dependent of dFC
+                                                              Data availability
+abnormalities throughout the ADS. In the SCD stage,           The original datasets in this study are available from the corresponding author
+abnormalities primarily manifested as disruptions in the      upon reasonable request. Data are not publicly available due to information
+transition probabilities between brain network states. As     that could compromise the privacy of research participants.
+the disease progressed to the MCI and AD stages, dFC
+abnormalities evolved into significant alterations in the     Declarations
+dwell time and occurrence rates of specific brain states,     Ethics approval and consent to participate
+with these changes closely correlating with declines in       The study was approved by the ethics committee of Tongji Hospital, Tongji
+cognitive function, as assessed by the MMSE and TMT-          Medical College, and the Huazhong University of Science and Technology
+                                                              (TJ-IRB202401097).
+A. Furthermore, the study revealed that the dynamic           All participants provided written informed consent.
+alterations of State 5 (SVAN-Cont-DMN) are not only
+associated with E/I imbalance in the brain, but also that
+Shi et al. Alzheimer's Research & Therapy              (2025) 17:247                                                                                       Page 13 of 14
+
+
+
+
+Competing interests                                                                     20. Yang A, Luan J, Xu M, Du L, Lv K, Hu P, et al. Regional brain iron correlates
+The authors declare no competing interests.                                                 with transcriptional and cellular signatures in Alzheimer’s disease. Alzheimers
+                                                                                            Dement. 2025;21(1):e14459.
+Author details                                                                          21. Yu H, Ding Y, Wei Y, Dyrba M, Wang D, Kang X, et al. Morphological connectiv-
+1
+  Department of Radiology, Tongji Hospital, Tongji Medical College,                         ity differences in Alzheimer’s disease correlate with gene transcription and
+Huazhong University of Science and Technology, Wuhan 430030, China                          cell-type. Hum Brain Mapp. 2023;44(18):6364–74.
+2
+  Clinical & Technical Support, Philips Healthcare, Wuhan 430030, China                 22. Rubido N, Riedel G, Vuksanović V. Genetic basis of anatomical asymmetry and
+                                                                                            aberrant dynamic functional networks in Alzheimer’s disease. Brain Commun.
+Received: 22 July 2025 / Accepted: 20 October 2025                                          2024;6(1):fcad320.
+                                                                                        23. Córdova-Palomera A, Kaufmann T, Persson K, Alnæs D, Doan NT, Moberget
+                                                                                            T, et al. Disrupted global metastability and static and dynamic brain con-
+                                                                                            nectivity across individuals in the Alzheimer’s disease continuum. Sci Rep.
+                                                                                            2017;7:40268.
+References                                                                              24. Petersen RC. Mild cognitive impairment as a diagnostic entity. J Intern Med.
+1. Ong SS, Doraiswamy PM, Lad EM. Controversies and future directions of                    2004;256(3):183–94.
+    ocular biomarkers in Alzheimer disease. JAMA Neurol. 2018;75(6):650–1.              25. McKhann GM, Knopman DS, Chertkow H, Hyman BT, Jack CR Jr., Kawas CH, et
+2. Jessen F, Amariglio RE, van Boxtel M, Breteler M, Ceccaldi M, Chételat G, et             al. The diagnosis of dementia due to Alzheimer’s disease: recommendations
+    al. A conceptual framework for research on subjective cognitive decline in              from the National Institute on Aging-Alzheimer’s association workgroups
+    preclinical Alzheimer’s disease. Alzheimers Dement. 2014;10(6):844–52.                  on diagnostic guidelines for Alzheimer’s disease. Alzheimers Dement.
+3. Shine JM, Koyejo O, Bell PT, Gorgolewski KJ, Gilat M, Poldrack RA. Estimation            2011;7(3):263–9.
+    of dynamic functional connectivity using multiplication of temporal deriva-         26. Nieto-Castanon A. Handbook of functional connectivity magnetic resonance
+    tives. Neuroimage. 2015;122:399–407.                                                    imaging methods in CONN. 2020.
+4. Sendi MSE, Pearlson GD, Mathalon DH, Ford JM, Preda A, van Erp TGM, et               27. Schaefer A, Kong R, Gordon EM, Laumann TO, Zuo XN, Holmes AJ, et al. Local-
+    al. Multiple overlapping dynamic patterns of the visual sensory network in              global parcellation of the human cerebral cortex from intrinsic functional
+    schizophrenia. Schizophr Res. 2021;228:103–11.                                          connectivity MRI. Cereb Cortex. 2018;28(9):3095–114.
+5. Zendehrouh E, Sendi MSE, Sui J, Fu Z, Zhi D, Lv L, et al. Aberrant functional        28. Cabral J, Vidaurre D, Marques P, Magalhães R, Silva Moreira P, Miguel Soares J,
+    network connectivity transition probability in major depressive disorder.               et al. Cognitive performance in healthy older adults relates to spontaneous
+    Annual Int Conf IEEE Eng Med Biology Soc IEEE Eng Med Biology Soc Annual                switching between states of functional connectivity during rest. Sci Rep.
+    Int Conf. 2020;2020:1493–6.                                                             2017;7(1):5135.
+6. Sendi MSE, Zendehrouh E, Fu Z, Liu J, Du Y, Mormino E, et al. Disrupted              29. Urban S, Błaziak M, Jura M, Iwanek G, Ponikowska B, Horudko J et al. Machine
+    dynamic functional network connectivity among cognitive control networks                learning approach to understand worsening renal function in acute heart
+    in the progression of Alzheimer’s disease. Brain Connect. 2023;13(6):334–43.            failure. Biomolecules. 2022;12(11):1616.
+7. Xue C, Qi W, Yuan Q, Hu G, Ge H, Rao J, et al. Disrupted dynamic functional          30. Kutner MH, Nachtsheim CJ, Neter J, Li W. Applied Linear Statistical Models.
+    connectivity in distinguishing subjective cognitive decline and amnestic                5th Edition: McGraw-Hill; 2005.
+    mild cognitive impairment based on the Triple-Network model. Front Aging            31. Abdi H. The Bonferonni and Šidák corrections for multiple comparisons.
+    Neurosci. 2021;13:711009.                                                               Encyclopedia Meas Stat. 2007;3:103–7.
+8. Wang J, Wang K, Liu T, Wang L, Suo D, Xie Y, et al. Abnormal dynamic func-           32. Hawrylycz MJ, Lein ES, Guillozet-Bongaarts AL, Shen EH, Ng L, Miller JA, et al.
+    tional networks in subjective cognitive decline and Alzheimer’s disease. Front          An anatomically comprehensive atlas of the adult human brain transcrip-
+    Comput Neurosci. 2022;16:885126.                                                        tome. Nature. 2012;489(7416):391–9.
+9. Penalba-Sánchez L, Oliveira-Silva P, Sumich AL, Cifre I. Increased functional        33. Markello RD, Arnatkeviciute A, Poline JB, Fulcher BD, Fornito A, Misic B. Stan-
+    connectivity patterns in mild Alzheimer’s disease: a RsfMRI study. Front Aging          dardizing workflows in imaging transcriptomics with the abagen toolbox.
+    Neurosci. 2022;14:1037347.                                                              #N/A. 2021;10:e72129 .
+10. Jing R, Chen P, Wei Y, Si J, Zhou Y, Wang D, et al. Altered large-scale dynamic     34. Fulcher BD, Arnatkeviciute A, Fornito A. Overcoming false-positive gene-
+    connectivity patterns in Alzheimer’s disease and mild cognitive impairment              category enrichment in the analysis of spatially resolved transcriptomic brain
+    patients: a machine learning study. Hum Brain Mapp. 2023;44(9):3467–80.                 atlas data. Nat Commun. 2021;12(1):2669.
+11. Leonardi N, Van De Ville D. On spurious and real fluctuations of dynamic            35. Váša F, Seidlitz J, Romero-Garcia R, Whitaker KJ, Rosenthal G, Vértes PE, et al.
+    functional connectivity during rest. Neuroimage. 2015;104:430–6.                        Adolescent tuning of association cortex in human structural brain networks.
+12. Tang W, Zeng Q, Xie K, Cui X, Jin X, Han Y, et al. Disrupted brain networks             Cereb Cortex. 2018;28(1):281–94.
+    underlying high-fidelity memory retrieval in subjective cognitive decline: a        36. Lotter LD, Dukart J, Fulcher BD, ABAnnotate. A toolbox for ensemble-based
+    task-based fMRI study. Alzheimers Dement. 2025;21(2):e14431.                            multimodal gene-category enrichment analysis of human neuroimaging
+13. Lord LD, Expert P, Atasoy S, Roseman L, Rapuano K, Lambiotte R, et al. Dynam-           data. Zenodo. 2022.
+    ical exploration of the repertoire of brain networks at rest is modulated by        37. Lake BB, Ai R, Kaeser GE, Salathia NS, Yung YC, Liu R, et al. Neuronal subtypes
+    psilocybin. Neuroimage. 2019;199:127–42.                                                and diversity revealed by single-nucleus RNA sequencing of the human
+14. Lou W, Li X, Jin R, Peng W. Time-varying phase synchronization of resting-              brain. Science. 2016;352(6293):1586–90.
+    state functional magnetic resonance imaging reveals a shift toward self-            38. Stampacchia S, Asadi S, Tomczyk S, Ribaldi F, Scheffler M, Lövblad KO, et
+    referential processes during sustained pain. Pain. 2024;165(7):1493–504.                al. Fingerprints of brain disease: connectome identifiability in Alzheimer’s
+15. Alonso S, Tyborowska A, Ikani N, Mocking RJT, Figueroa CA, Schene AH, et al.            disease. Commun Biol. 2024;7(1):1169.
+    Depression recurrence is accompanied by longer periods in default mode              39. Wang J, Fang Y, Wang X, Yang H, Yu X, Wang H. Enhanced gamma activity and
+    and more frequent attentional and reward processing dynamic brain-states                cross-frequency interaction of resting-state electroencephalographic oscilla-
+    during resting-state activity. Hum Brain Mapp. 2023;44(17):5770–83.                     tions in patients with Alzheimer’s disease. Front Aging Neurosci. 2017;9:243.
+16. Vohryzek J, van der Velden A, Kuyken W, Montero-Marin J, Collin G, Kringel-         40. Zang F, Liu X, Fan D, He C, Zhang Z, Xie C. Dynamic functional network con-
+    bach M, et al. Dynamical repertoire of brain networks in mindfulness cogni-             nectivity and its association with lipid metabolism in Alzheimer’s disease.
+    tive behavioural therapy during rumination: a randomized controlled trial.              CNS Neurosci Ther. 2024;30(9):e70029.
+    2025.                                                                               41. Chang L, Douet V, Bloss C, Lee K, Pritchett A, Jernigan TL, et al. Gray matter
+17. Eraifej J, Cabral J, Fernandes HM, Kahan J, He S, Mancini L, et al. Modulation of       maturation and cognition in children with different APOE ε genotypes.
+    limbic resting-state networks by subthalamic nucleus deep brain stimulation.            Neurology. 2016;87(6):585–94.
+    Netw Neurosci. 2023;7(2):478–95.                                                    42. Chen C, Wei J, Ma X, Xia B, Shakir N, Zhang JK, et al. Disrupted maturation of
+18. Fornito A, Arnatkevičiūtė A, Fulcher BD. Bridging the gap between connec-               prefrontal layer 5 neuronal circuits in an Alzheimer’s mouse model of amyloid
+    tome and transcriptome. Trends Cogn Sci. 2019;23(1):34–50.                              deposition. Neurosci Bull. 2023;39(6):881–92.
+19. Romme IA, de Reus MA, Ophoff RA, Kahn RS, van den Heuvel MP. Con-                   43. Preti MG, Van De Ville D. Decoupling of brain function from structure reveals
+    nectome disconnectivity and cortical gene expression in patients with                   regional behavioral specialization in humans. Nat Commun. 2019;10(1):4747.
+    schizophrenia. Biol Psychiatry. 2017;81(6):495–502.
+Shi et al. Alzheimer's Research & Therapy             (2025) 17:247                                                                                      Page 14 of 14
+
+
+
+
+44. Appleton J, Finn Q, Zanotti-Fregonara P, Yu M, Faridar A, Nakawah MO, et al.      50. Lam AD, Deck G, Goldman A, Eskandar EN, Noebels J, Cole AJ. Silent hip-
+    Brain inflammation co-localizes highly with Tau in mild cognitive impairment          pocampal seizures and spikes identified by foramen ovale electrodes in
+    due to early-onset Alzheimer’s disease. Brain. 2025;148(1):119–32.                    Alzheimer’s disease. Nat Med. 2017;23(6):678–80.
+45. Jagust W. Imaging the evolution and pathophysiology of Alzheimer disease.         51. Vossel KA, Ranasinghe KG, Beagle AJ, Mizuiri D, Honma SM, Dowling AF, et
+    Nat Rev Neurosci. 2018;19(11):687–700.                                                al. Incidence and impact of subclinical epileptiform activity in Alzheimer’s
+46. La Joie R, Visani AV, Baker SL, Brown JA, Bourakova V, Cha J et al. Prospective       disease. Ann Neurol. 2016;80(6):858–70.
+    longitudinal atrophy in Alzheimer’s disease correlates with the intensity and
+    topography of baseline tau-PET. Sci Transl Med. 2020;12(524):eaau5732.
+47. Bi D, Bao H, Yang X, Wu Z, Yang X, Xu G, et al. BACE1-dependent cleavage
+    of GABA(A) receptor contributes to neural hyperexcitability and disease           Publisher’s Note
+    progression in alzheimer’s disease. Neuron. 2025;113(7):1051–e646.                Springer Nature remains neutral with regard to jurisdictional claims in
+48. Jorstad NL, Close J, Johansen N, Yanny AM, Barkan ER, Travaglini KJ, et al.       published maps and institutional affiliations.
+    Transcriptomic cytoarchitecture reveals principles of human neocortex
+    organization. Science. 2023;382(6667):eadf6812.
+49. Al-Halboosi DAN, Savchenko O, Sylantyev S. Ionotropic glycine receptor in
+    nonexcitable cells in regenerative medicine: a narrative review. Regen Med
+    Rep. 2024;1(1):2–11.
+

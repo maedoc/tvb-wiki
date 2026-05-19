@@ -1,0 +1,886 @@
+ZDM - Mathematics Education (2026) 58:399–413
+https://doi.org/10.1007/s11858-026-01766-8
+
+    O R I G I N A L PA P E R
+
+
+
+Neural connectivity in developmental dyscalculia: a resting-state fMRI
+study using ROI-based and connectome-based approaches
+Omair A. Khan1,2          · Lien Peters3      · Fu Yu Kwok4       · Andrew Lynn5      · Daniel Ansari6,7,8   · Eric D. Wilkey1,2
+
+Received: 18 March 2025 / Accepted: 30 December 2025 / Published online: 20 January 2026
+© The Author(s) 2026
+
+
+Abstract
+Developmental dyscalculia (DD), a learning disorder that affects one’s ability to work with numerical information and
+perform calculations, presents significant challenges for children acquiring mathematical skills. Recent research has provided
+a robust understanding of the behavioral and cognitive profile of DD, but its neurobiological underpinnings remain poorly
+understood. In this study, we use resting-state functional connectivity (rsFC) to investigate the neural differences between
+third graders with DD and typically achieving (TA) peers (DD = 30, TA = 37, mean age = 9.04 y). We employed two
+complementary analytical approaches: 1) a seed-based functional connectivity analysis to assess connectivity between a
+priori regions of interest (ROIs)—subregions of the intraparietal sulcus (IPS), angular gyrus, and the hippocampus—and
+the rest of the brain, and 2) a modified whole-brain, connectome-based predictive modeling approach to detect DD based
+on brain connectivity patterns. The seed-based connectivity analysis revealed greater functional connectivity for the TA
+group between the bilateral IPS and left hippocampal ROIs and frontal structures. Our whole-brain classification approach
+achieved a mean accuracy of 0.671 and an AUC of 0.816 and identified 14 brain connections that consistently classified the
+TA and DD groups. Our findings point to network-level differences underlying DD in brain regions previously implicated
+in mathematical cognition and offer a novel, data-driven approach to identifying differences in brain connectivity associated
+with DD.
+
+
+                                                                           1 Introduction
+                                                                           Developmental dyscalculia (DD) is a learning disorder as-
+                                                                           sociated with math learning difficulties not accounted for
+✉ E.D. Wilkey                                                              by a more general intellectual disability or other mental
+      eric.d.wilkey@vanderbilt.edu                                         or neurological disorders (Price & Wilkey, 2018). Charac-
+                                                                           terization of its underlying causes range from more highly
+1     Vanderbilt Brain Institute, Vanderbilt University, Nashville, TN,    selective impairments of the capacity to understand num-
+      USA
+                                                                           bers (Butterworth, 2005) to broader issues with cognitive
+2     Department of Psychology & Human Development, Vanderbilt             processing surrounding mathematics (Castaldi et al., 2020;
+      University, Nashville, TN, USA
+                                                                           Starling-Alves et al., 2025a,b), but either definition results
+3     Department of Experimental Clinical and Health Psychology,           in difficulties working with numbers, arithmetic, and math-
+      Ghent University, Ghent, Belgium
+                                                                           ematical thinking more broadly. It affects between 3% and
+4     Macquarie School of Education, Macquarie University, Sydney,         7% of the population (Haberstroh & Schulte-Körne, 2019;
+      New South Wales, Australia                                           Reigosa-Crespo et al., 2012; Shalev et al., 2000). Longitudi-
+5     Department of Psychological and Brain Sciences, University of        nal studies show that DD persists across development (Nel-
+      Louisville, Louisville, KY, USA                                      son & Powell, 2018) and often negatively impacts future life
+6     Department of Psychology, The University of Western Ontario,         outcomes, having implications that extend well beyond the
+      London, ON, Canada                                                   classroom (Reyna et al., 2009; Vigna et al., 2022). While
+7     Brain and Mind Institute, The University of Western Ontario,         the behavioral profile of DD is increasingly understood, its
+      London, ON, Canada                                                   neural signatures are still poorly characterized. Further re-
+8     Faculty of Education, The University of Western Ontario,             search that characterizes the neural underpinnings of DD
+      London, ON, Canada                                                   can improve our understanding of the disorder, leading to
+400                                                                                                                 O.A. Khan et al.
+
+more effective treatments and better outcomes. The current        Kwok et al., 2023; McCaskey et al., 2017). A recent meta-
+study compares brain connectivity at rest of a sample of third    analysis does provide some consensus (Martinez-Lincoln et
+grade children with DD to their typically achieving (TA)          al., 2023). Results across thirteen studies show that a re-
+peers to investigate brain differences associated with severe,    gion centered at the right inferior parietal lobule (contain-
+persistent math learning difficulties using both a theory-        ing the IPS) is less active in DD children across a range
+driven, region-of-interest approach and a theory-agnostic,        of math-related tasks, including arithmetic, magnitude pro-
+whole-brain approach. We begin by reviewing what is cur-          cessing, ordinality, color comparison, working memory, and
+rently known about the neural mechanisms underpinning the         reasoning. Less activity was also seen for DD children in
+development of mathematical abilities and then review rele-       the supramarginal gyrus and the superior parietal lobule, ar-
+vant resting-state studies.                                       eas involved in memory retrieval and visuospatial process-
+                                                                  ing, respectively. However, greater activity for DD than TA
+1.1 Key mechanisms of mathematical cognition                      children has been found in some regions as well. For ex-
+                                                                  ample, in a study of school-age children performing simple
+Research done with both humans and non-human primates             arithmetic tasks, Davis et al. (2009) found that DD children
+has shown that certain areas of the brain are critical for pro-   had greater activation in the prefrontal cortex and anterior
+cessing numerical information, such as the intraparietal sul-     cingulate cortex, which they attribute to increased reliance
+cus (IPS), angular gyrus (AG), and hippocampus (Cantlon,          on executive functioning during calculation due to more ef-
+2012; Nieder, 2017; Sokolowski et al., 2017). In particu-         fortful processing. Further, the role of these structures may
+lar, the bilateral IPS is implicated in numerical magnitude       shift over development. For example, the role of the hip-
+processing, with the left IPS more associated with symbolic       pocampus may be more critical in early development, when
+numerical magnitudes and the right IPS with nonsymbolic           children are learning arithmetic facts, while regions such as
+magnitudes (Bugden et al., 2012; Holloway & Ansari, 2010;         the AG become more relevant later in development, as more
+Nieder, 2016). Another region of the parietal lobe, the left      advanced mathematics relies on fluent retrieval of automa-
+AG, facilitates the retrieval of arithmetic facts from mem-       tized mathematical knowledge (Peters & De Smedt, 2018).
+ory (Dehaene et al., 2003; Grabner et al., 2009; Ischebeck        As a result, differences in DD and TA children may present
+et al., 2007; Seghier, 2013) and is linked to the verbal repre-   as protracted developmental profiles rather than the simple
+sentation of numerical information, which is vital for both       dysfunction of a neural mechanism.
+basic arithmetic and higher-level mathematical reasoning
+(Sokolowski et al., 2023). The hippocampus is traditionally       1.3 Using resting-state fMRI to understand DD
+associated with spatial navigation and the encoding and re-
+trieval of memories (Lisman et al., 2017). In the context         While task-based fMRI provides information about how the
+of mathematical cognition, the hippocampus is essential for       brain functions in response to specific stimuli, active exper-
+the formation and retrieval of math facts, integration of new     imental paradigms make it difficult to disentangle brain dif-
+numerical information with existing knowledge, and spatio-        ferences originating from transient, task-related processing
+temporal reasoning, allowing for the visualization of mathe-      from more stable biomarkers. For example, given a sim-
+matical concepts (Das & Menon, 2022; Manns et al., 2003;          ple arithmetic task in the scanner, an individual with DD
+Menon, 2016). The integral role that the IPS, AG, and hip-        may respond with increased attention associated with task-
+pocampus play in the development of math skills make them         difficulty as well as some degree of anxiety. However, imag-
+key regions of interest (ROIs) in the current study. Here,        ing these brain differences may not explain or simply over-
+we investigate subregions of these ROIs that are known to         look the underlying mechanisms that lead to difficulty with
+have separable functional connectivity profiles (Uddin et al.,    mathematics. Resting-state fMRI, on the other hand, in-
+2010).                                                            volves a scan while the participant is at rest (i.e., awake
+                                                                  and alert, but not engaged in a task). By analyzing pat-
+1.2 Comparing neural proﬁles of DD and TA                         terns of spontaneous fluctuations in neural activity (Lv et
+                                                                  al., 2018), often referred to as resting-state functional con-
+Despite the literature identifying key mechanisms involved        nectivity (rsFC) analysis, researchers can identify brain net-
+in mathematical cognition, findings from task-based fMRI          works that are likely to be developmentally related or have
+comparing DD and TA groups have been inconsistent. For            shared functional roles (Buckner & Vincent, 2007; Cole,
+example, studies have reported increased parietal activity        2010; Guerra-Carrillo et al., 2014).
+in DD groups while processing numbers (Kaufmann et al.,               Already, a number of studies have used rsFC analyses to
+2009, 2011; McCaskey et al., 2018), decreased modulation          investigate the neural mechanisms that support mathemati-
+in response to numerical stimuli (Mussolin et al., 2010; Price    cal cognition and the networks associated with math learn-
+et al., 2007), or no parietal differences (Kucian et al., 2011;   ing difficulties (for a review, see Wilkey et al., 2023). In TA
+Neural connectivity in dyscalculia                                                                                            401
+
+individuals, efficient connectivity patterns appear critical for   with DD status with various analytic techniques and meth-
+mathematical competence. Lynn et al. (2022) demonstrated           ods for selecting ROIs.
+that 8- to 10-year-old children’s math abilities are predicted
+by functional connectivity during symbolic number compar-          1.4 The current study
+ison tasks and at rest (N = 31). Notably, weaker connec-
+tivity of regions such as the inferior frontal gyrus and su-       Resting state functional connectivity studies of DD have
+perior parietal lobule was associated with better math per-        typically employed either an ROI-based approach or a
+formance, suggesting that more segregated and specialized          network-based approach (Wilkey et al., 2023). The former
+neural networks enhance mathematical cognition. Similarly,         provides fine-grained insights into specific regions but may
+Price et al. (2018) reported negative associations between         overlook broader network dynamics, while the latter cap-
+the left IPS and connectivity strength with several frontal        tures large-scale connectivity patterns but may miss nuanced
+regions at 1st grade (ages 6-8) with arithmetic performance        regional differences. To address the drawbacks of each ap-
+one year later at 2nd grade (ages 7-9) (N = 47). They postu-       proach and provide a comprehensive comparison of the
+lated that this could either be due to the inability to suppress   rsFC profiles of DD children, the current study combines
+suboptimal problem-solving strategies or a difficulty reori-       both fine-grained, theory-driven analyses of key ROIs in the
+enting task-based networks during math processing. How-            mathematical brain and a whole-brain, data-driven analysis.
+ever, Price et al. also found that stronger interhemispheric       This study explores the neurobiological signatures of DD
+connectivity at rest of the IPS was positively associated with     using the largest sample of children with DD to date. This
+arithmetic over the same time period. Abreu-Mendoza and            sample is the same as that studied in Kwok et al. (2023), who
+colleagues (2022) observed hyper-connectivity of the left          analyzed several fMRI tasks to investigate three theories
+IPS with bilateral occipital regions to be associated with         about the neurocognitive origins of DD. Using a task-based
+lower math achievement in adolescents (N = 51; ages 15             fMRI approach, the paper reported largely null results. By
+y - 17 y). They also identified negative associations between
+                                                                   investigating a different aspect of the fMRI data in the same
+hippocampal-prefrontal connectivity and math achievement,
+                                                                   sample of children, we hope to bypass the identified limita-
+suggesting the role of memory-related networks in numer-
+                                                                   tions of task-based analysis. Specifically, the current study
+ical cognition matures with development. Another rsFC
+                                                                   has two aims: 1) to replicate previously identified associa-
+study in adults (N = 51) found that arithmetic ability was
+                                                                   tions between rsFC patterns and math learning difficulties in
+mostly positively correlated with connectivity between sub-
+                                                                   key ROIs (IPS, AG, and hippocampus) with theory-driven
+divisions of the IPS and regions such as the supramarginal
+                                                                   connectivity analysis, and 2) to use a modified version of
+gyrus and premotor cortex, supporting the “mapping hy-
+                                                                   the recently published data-driven methodology known as
+pothesis,” which posits that effective communication be-
+                                                                   connectome-based predictive modeling (CPM) to conduct
+tween nonsymbolic and symbolic number processing areas
+                                                                   whole-brain searches for other functional networks that can
+underpins mathematical skills (Skagerlund et al., 2019).
+                                                                   identify children with DD (Shen et al., 2017). While CPM is
+    While the studies above focus on the full range of math
+achievement, other studies employing rsFC focus on the ex-         used to model trends in connectivity associated with a con-
+treme end of the distribution, directly comparing DD chil-         tinuous variable, the technique has been adapted in the cur-
+dren to their TA counterparts. These studies show that indi-       rent study to be applied to group classification (i.e., whole
+viduals with DD exhibit distinct network-level disruptions.        brain connectome-based classification; WBCC).
+Jolles et al. (2016a) reported hyper-connectivity between the
+IPS and a fronto-parietal network in DD children compared
+to their TA peers (N = 38; mean ageDD = 8.91 y ± 0.60 y,           2 Methods
+mean ageTA = 8.75 y ± 0.75 y). This increased connectiv-
+ity is hypothesized to hinder efficient cognitive functioning      2.1 Participants
+during mathematical problem-solving due to difficulties in
+the engagement of neuronal circuitry in a context-specific         All participants were part of a larger, longitudinal behavioral
+manner. In addition, Kuhl et al. (2021) revealed that DD can       study that followed students from the first year of Kinder-
+be traced to early developmental abnormalities in fronto-          garten to 1st grade in Singapore (Ng & O’Brien, 2020). Stu-
+parietal networks. In their longitudinal study (N = 30; age        dents in the current study completed a follow-up assessment
+= 3.92 y - 6.08 y), rsFC differences in the posterior pari-        and were scanned in 3rd grade. Seventy-seven students with
+etal cortex and dorsolateral prefrontal cortex were evident        no history of neurological or psychiatric conditions enrolled.
+even before formal math education (DD > TA), indicating            Of these, one was excluded due to medical reasons, one
+that these atypical patterns are foundational to the emer-         was excluded due to high motion, and eight did not com-
+gence of DD. Across these studies, both hyper- and hypo-           plete scanning successfully, making the total sample size 67
+connectivity of frontal and parietal regions was associated        children (mean age = 9.04 ± 0.36 y, range = 8.3-9.9 y;
+402                                                                                                                O.A. Khan et al.
+
+30 male). Parental informed consent and child assent were         2.4 Analysis
+obtained, and children completed a pediatric MRI protocol.
+Ethics approval was received from the Nanyang Technolog-          2.4.1 Software
+ical University Institutional Review Board.
+                                                                  Preprocessing and ROI-to-Voxel group comparison anal-
+2.2 Selection of typically achieving and dyscalculic              yses were performed using CONN release 22.a (Nieto-
+    groups                                                        Castanon & Whitfield-Gabrieli, 2022) and SPM release
+                                                                  12.7771 (Penny et al., 2011). Whole brain connectome-
+Group formation follows the procedures of Kwok et al.             based classification code was written in-house in Python
+(2023). Participants were categorized into TA and DD              3.12.3 with the help of functions from the following li-
+groups prior to data collection in Grade 3. The DD group          braries: NumPy (Harris et al, 2020), pandas (The pandas
+was either (a) identified for math learning support by the        Development Team, 2020), SciPy (Virtanen et al., 2020),
+                                                                  scikit-learn (Pedregosa et al., 2011).
+Ministry of Education in Singapore based on a confidential
+screener taken in primary school, or (b) identified by the re-
+                                                                  2.4.2 MRI data preprocessing
+search team as performing in the bottom 10th percentile of
+a standardized math test (i.e., TEMA). For a detailed profile
+                                                                  Functional and anatomical data for 68 participants were pre-
+analysis and a comparison of these groups, see Kwok et al.
+                                                                  processed in CONN using the default parameters (Nieto-
+(2023). The sample did not have a clinical assessment, but
+                                                                  Castanon & Whitfield-Gabrieli, 2022). For further details,
+we characterize them as DD for the following reasons: (1)
+                                                                  see the Supplementary Materials: MRI Preprocessing.
+They had persistent difficulties in mathematics that lasted
+an extended period despite access to a targeted intervention.
+                                                                  2.4.3 Functional connectivity processing
+(2) The difficulty in math was not accounted for by another
+neurological disorder, intellectual disability, language defi-
+                                                                  Seed-based connectivity maps (i.e., ROI-to-whole brain,
+ciency, or visual or auditory issue (assessed via a parent-
+                                                                  voxelwise) and ROI-to-ROI connectivity matrices were esti-
+report screener). The control group scored above the 25th
+                                                                  mated characterizing the patterns of functional connectivity
+percentile in the TEMA in Grade 1 and were matched as
+                                                                  with 12 pre-defined ROIs in the IPS, AG, and hippocam-
+well as possible on: school, age, gender, race, ethnicity, and
+                                                                  pus (see Fig. 1) from the Julich Atlas (Amunts et al., 2020)
+socio-economic status; prioritizing school and age.
+                                                                  for the seed-based maps and 246 ROIs as parcellated in the
+                                                                  Brainnetome atlas (Fan et al., 2016) for the ROI-to-ROI ma-
+2.3 MRI data acquisition                                          trices. Functional connectivity strength was represented by
+                                                                  Fisher-z transformed bivariate correlation coefficients from
+Resting-state fMRI data was collected as part of a larger se-     a weighted general linear model, defined separately for each
+quence of scans. The T1 image was always first, followed          pair of seed and target areas, modeling the association be-
+by the two resting-state runs, and then the tasks. The resting-   tween their BOLD signal timeseries. To compensate for pos-
+state paradigm consisted of playing a video of slowly mov-        sible transient magnetization effects at the beginning of each
+ing abstract shapes known as “Inscapes,” which has been           run, individual scans were weighted by a step function con-
+shown to increase compliance, reduce motion, and increase         volved with an SPM canonical hemodynamic response func-
+signal-to-noise (Vanderwal et al., 2015). Images were ac-         tion and rectified. Seed-to-whole brain maps (figures and ta-
+quired on a Siemens 3T MAGNETOM Prisma MRI scan-                  bles) are hosted on our OSF website: https://osf.io/9dqvc/.
+ner (Siemens Prisma, Erlangen, Germany), equipped with a
+32-channel head coil. We used an MPRAGE sequence for a            2.4.4 ROI-to-whole brain group comparison
+high resolution T1-weighted imaged: TR = 2300 ms; TE =
+2.29 ms; FOV = 204 mm; voxel size of 0.9 x 0.9 x 0.9 mm3 ,        Group-level analyses were performed using a General Lin-
+ascending, and slice thickness = 0.94 mm. For functional          ear Model (GLM; Nieto-Castanon, 2020). For each individ-
+data, the T2* weighted EPI images were obtained using the         ual voxel a separate GLM was estimated, including both
+oblique axial plane: TR = 1000 ms; TE = 28 ms; 48 inter-          resting-state runs, with first-level connectivity measures at
+leaved slices; flip angle = 40◦ ; FOV = 208 mm; in-plane          this voxel as dependent variables (one independent sample
+voxel size of 2.5 x 2.5 x 2.5 mm and a slice thickness of         per subject), and groups or other subject-level identifiers as
+2.5 mm. Each of the two resting-state runs included 230 vol-      independent variables. Voxel-level hypotheses were evalu-
+umes per scan, with two deviations: one subject had one run       ated using multivariate parametric statistics with random-
+of 184 volumes and another subject had one run of 211 vol-        effects across subjects and sample covariance estimation
+umes.                                                             across multiple measurements. Inferences were performed
+Neural connectivity in dyscalculia                                                                                          403
+
+Fig. 1 IPS, AG, and
+hippocampus subdivisions
+(color figure online). Note. This
+figure illustrates subdivisions of
+the intraparietal sulcus (hIP1 =
+red, hIP2 = orange, hIP3 =
+yellow), the angular gyrus (PGa
+= green, PGp = blue), and the
+hippocampus (purple) used as
+seed ROIs in the analyses
+
+
+
+
+at the level of individual clusters (groups of contiguous         neural signature in connectome connectivity that can predict
+voxels). Cluster-level inferences were based on paramet-          whether someone would be classified as TA or DD. For fur-
+ric statistics from Gaussian Random Field theory (Nieto-          ther details on this method, see Supplementary Materials:
+Castanon, 2020; Worsley et al., 1996). Results were thresh-       WBCC classification details. See https://osf.io/zxswg for
+olded using a combination of a cluster-forming p < 0.001          archived Python scripts used for the current analysis.
+voxel-level threshold, and a familywise corrected p-FDR
+< 0.05 cluster-size threshold (Chumbley et al., 2010). We
+present results at this threshold because it is common in
+                                                                  3 Results
+the literature and allows our results to be compared read-
+ily to other studies in the field. However, we also wanted
+to present results that correct for the family-wise error pre-    3.1 ROI-to-whole brain group comparison
+sented when testing for differences in 12 different ROIs. So,
+we also present results that pass a Bonferroni correction of      For our seed-based analyses, we set out to replicate previ-
+α/12 or p < .004, which may be most likely to replicate in        ously identified associations in rsFC studies of math dif-
+future studies.                                                   ficulties in key ROIs involved in mathematical cognition.
+                                                                  We present group comparison results at the commonly used
+2.4.5 Whole brain connectome-based classiﬁcation                  threshold of p < 0.001 voxel-level threshold p-FDR < 0.05
+                                                                  in Supplementary Tables S1-S3. Here, we present more
+Whole brain connectome-based classification (WBCC) is             stringently corrected results that apply a Bonferroni correc-
+a method we developed that is based on the well-known             tion to account for the FWE associated with testing 12 ROIs
+connectome-based predictive modeling (CPM) method de-             that were run in our analysis (α/12 or p < .004). Over-
+scribed by Shen and colleagues (2017). WBCC differs from          all, the analysis of rsFC revealed significant group differ-
+CPM mainly in that WBCC deals with a categorical out-             ences between TA and DD children. These differences were
+come (such as DD vs TA) using logistic regression, rather         observed in connectivity patterns associated with the two
+than a continuous outcome (such as math achievement               ROIs: bilateral IPS and hippocampus—regions critically in-
+scores) using an ordinary least squares regression. Both          volved in numerical cognition and mathematical processing.
+methods are used to find the best predictors of a given trait
+(e.g., DD status or math achievement scores); however, since
+                                                                  3.1.1 Intraparietal Sulcus (IPS)
+the measurement statistics (AUC and accuracy) reflect how
+well the classification occurred, we call our method a type
+of “classification” instead of a “prediction.”                    Left IPS For the left IPS seeds hIP1 and hIP2, TA chil-
+   WBCC additionally differs from CPM in the following            dren exhibited stronger connectivity compared to the DD
+ways. Firstly, instead of doing correlation analyses of con-      group in three clusters (see Table 1). Specifically, for hIP1,
+nectivity strength to behavioral data, we calculated the mu-      stronger connectivity was observed with the right supe-
+tual information for each neural connection with the bi-          rior lateral occipital cortex bordering on the right angu-
+nary random variable encoding whether that data point cor-        lar gyrus (p = 0.0005). Additionally, increased connectivity
+responded to a participant with or without DD. Secondly,          was found with the right inferior frontal gyrus pars opercu-
+instead of OLS regression with the threshold-passing con-         laris and extending into right precentral gyrus (p = 0.002).
+nections with behavioral data to predict novel behavioral         These clusters are shown in Fig. 2.
+scores, we used logistic regression with regularization to see        Similarly, for hIP2, TA children demonstrated stronger
+whether the connectivity strengths can build a useful model       connectivity with the right IPS (hIP5 and hIP6) (p <
+that predicts group classification using k-fold cross valida-     0.0001). No regions showed stronger connectivity in the DD
+tion. In short, we used a statistical approach to find a unique   group for these seeds.
+404                                                                                                                              O.A. Khan et al.
+
+Table 1 Group Differences in
+IPS connectivity between DD         Seed ROI                                                          Cluster size   Mean T† MNI
+and TA                                                                                                (voxels)               x        y       z
+
+                                    Left Intraparietal Sulcus (hIP1)
+                                      TA > DD
+                                        Right superior lateral occipital cortex (91%)                 150            −4.38   50       −64 28
+                                        Right angular gyrus (6%)
+                                        Right pars opercularis (49%)                                  113            −4.49   58       10      16
+                                        Right precentral gyrus (45%)
+                                        Right central opercular cortex (1%)
+                                    Left Intraparietal Sulcus (hIP2)
+                                      TA > DD
+                                        Right superior lateral occipital and parietal cortex (86%);   236            −5.18   32       −68 38
+                                        Right IPS hIP5 and hIP6
+                                    Right Intraparietal Sulcus (hIP1)
+                                      TA > DD
+                                        Left middle frontal gyrus (68%)                               184            −4.83   −32 4            68
+                                        Left superior frontal gyrus (14%)
+                                        Right middle frontal gyrus (74%)                              131            −5.06   32       0       56
+                                        Right precentral gyrus (5%)
+                                        Right superior frontal gyrus (3%)
+                                    Left Hippocampus
+Note. All clusters present in the     TA > DD
+table are significant with a            Left paracingulate gyrus (38%)                                102            −4.41   −6       12      52
+Bonferroni correction of                Left superior frontal gyrus (22%)
+FDR-adjusted cluster p-values           Left juxtapositional lobule cortex / SMA (10%)
+(p < .05) based on 12 ROIs              Right paracingulate gyrus (5%)
+being test across the full              Right superior frontal gyrus (1%)
+analysis of the already.
+
+
+
+Right IPS In the right IPS, particularly hIP1, TA children               more details, see Table 1 and Fig. 3). No regions showed
+showed significantly stronger connectivity with the left mid-            stronger connectivity in the DD group for the left hippocam-
+dle frontal gyrus and left superior frontal gyrus (p < 0.0001;           pus.
+for details, see Table S1). Greater connectivity was also ob-
+served with the right middle frontal gyrus, right precentral             Right hippocampus No significant group differences were
+gyrus, and right superior frontal gyrus (p < 0.001). No sig-             observed in connectivity with the right hippocampus.
+nificant group differences were observed for hIP3 in the
+left IPS. No significant group differences were observed for             3.2 Whole brain connectome-based classiﬁcation
+hIP2 or hIP3 in the right IPS.
+                                                                         Across the five folds conducted as part of cross-validation,
+3.1.2 Angular Gyrus (AG)                                                 we achieved a mean classification accuracy rate of 0.671
+                                                                         (SD: 0.073) and a mean AUC of 0.816 (SD: 0.066). Below
+Left AG No significant group differences were observed in                we report separately the edges that consistently contributed
+connectivity with the left AG.                                           to the model’s ability to classify between groups (Fig. 4).
+                                                                         By consistently, we mean that these edges were identified as
+Right AG No significant group differences were observed in               surviving features in at least 60% of the folds. Across the 14
+connectivity with the right AG.                                          consistent edges among the five models, 9 of these edges in-
+                                                                         dicated greater connectivity for the TA group and 5 indicated
+3.1.3 Hippocampus                                                        greater connectivity for the DD group. Networks associated
+                                                                         with these edges are reported in Fig. 5.
+Left hippocampus TA children exhibited stronger connec-
+tivity between the left hippocampus and the left paracin-                3.2.1 Connections with TA > DD
+gulate gyrus, left superior frontal gyrus, left juxtapositional
+lobule cortex (supplementary motor area), right paracingu-               There were 9 edges with negative values that consistently
+late gyrus, and right superior frontal gyrus (p = 0.002; for             classified DD from TA, whereby connectivity was greater
+Neural connectivity in dyscalculia                                                                                                              405
+
+
+
+
+Fig. 2 ROI-to-whole brain group comparison results for IPS seed re-         seed (middle, top and bottom), and two clusters from the right hIP1
+gions for clusters that reached Bonferroni-corrected thresholds com-        seed (right, top and bottom). All results indicated weaker connectivity
+paring DD with TA (color figure online). Note. In the ROI-to-whole          for the DD group (indicated in blue). For cluster details, see Table 1.
+brain results from IPS regions of interest (ROIs) comparing DD with         rAG: right Angular Gyrus; r/r MFG: right/left Middle Frontal Gyrus.
+TA, five clusters survived Bonferroni correction considering the 12         ∗ Results shown in neurological convention (left is left) in coronal and
+ROIs we tested (seed ROIs in grey). These included two clusters from        axial views
+the left hIP1 seed (left, top and bottom), one cluster from the left hIP2
+
+
+Fig. 3 ROI-to-whole brain
+group comparison results for
+hippocampal seed regions for
+clusters that reached
+Bonferroni-corrected thresholds
+comparing DD with TA (color
+figure online). Note. In the
+ROI-to-whole brain results from
+hippocampus seed regions of
+interest (ROIs) comparing DD
+> TA, one cluster survived
+Bonferroni correction
+considering the 12 ROIs we
+tested (seed ROIs in grey). This
+included one cluster in the left
+paracingulate gyrus (lPaCG)
+extending into the left superior
+frontal gyrus (SFG), where there
+was significantly weaker
+connectivity (blue) for the DD
+group. For cluster details, see
+Table 1. ∗ Results shown in
+neurological convention (left is
+left) in coronal and axial views                                            Fig. 4 Contributing edges from the whole-brain connectome-based
+                                                                            classification analysis identifying dyscalculia (color figure online).
+                                                                            Note. Edges in blue = TA > DD. Edges in red = DD > TA. For a
+                                                                            list of details of specific node-to-node connections, see Supplementary
+                                                                            Tables S4 (TA > DD) and S5 (DD > TA)
+406                                                                                                                           O.A. Khan et al.
+
+
+
+
+Fig. 5 Functional networks associated with connections identified       which DD > TA. SCGM: subcortical grey matter. Functional networks
+in whole-brain connectome-based classification (color figure online).   defined with Brainnetome Atlas (Fan et al., 2016). Numbers (all 1’s)
+Note. (left) Connections (n = 9) between functional networks in which   indicate the number of connections between functionally defined net-
+TA > DD. (right) Connections (n = 5) between functional networks in     works. Colors correspond to functionally defined networks
+
+
+
+for the TA group (for further details, see Supplementary                3.2.2 Connections with DD > TA
+Table S4). Within-hemisphere (ipsilateral) connections that
+were significantly stronger in the TA group included sev-               There were 5 edges with positive values that consistently
+eral edges connecting the default mode, limbic, and sensory-            classified DD from TA, whereby connectivity was greater
+related networks. In the left hemisphere, the inferior frontal          for the DD group (for further details, see Supplementary Ta-
+gyrus (A45c, associated with the default mode network) ex-              ble S5). Higher DD connections included ipsilateral connec-
+hibited greater connectivity with the superior temporal gyrus           tions in the left hemisphere linking frontoparietal, limbic,
+                                                                        and attention networks. For instance, a middle frontal gyrus
+(A38l, a limbic area) for the TA group. TA children also
+                                                                        region (A9/46v; frontoparietal) showed higher connectivity
+had greater connectivity in two limbic regions of the inferior
+                                                                        with the inferior temporal gyrus (A20iv; limbic), suggesting
+temporal gyrus (A20iv and A20cv) connecting respectively
+                                                                        hyperconnectivity of executive and emotion-related circuits.
+with the caudal hippocampus and visual areas in the lateral             Another connection with greater values in DD children was
+occipital cortex. Greater visual-to-visual connection was ob-           between a default mode region in the middle frontal gyrus
+served in TA children between the precuneus (dmPOS) and                 (A8vl) and the dorsal attention area in the superior parietal
+the occipital polar cortex (OPC).                                       lobule (A7c). Additionally, a somatomotor area in the pre-
+   In the right hemisphere, stronger ipsilateral connections            central gyrus (A4t) showed hyper-connectivity with a sub-
+were found in the TA group between a frontoparietal re-                 cortical segment of the thalamus (cTtha, classified within
+gion in the middle frontal gyrus (A9/46d) and a somato-                 SCGM).
+motor region in the postcentral gyrus (A1/2/3tru). Similarly,              Contralateral connections that were stronger for the DD
+the superior temporal gyrus (A22r; default mode network)                group included a link between the left inferior parietal lobule
+was more strongly connected with the caudal hippocam-                   (A39rd, classified under frontoparietal) and the right mid-
+pus (cHipp, SCGM) in TA children, again suggesting hypo-                dle frontal gyrus (A46, also frontoparietal). Additionally, the
+                                                                        cingulate gyrus (A23v; default mode) in the left hemisphere
+connectivity of limbic and memory-related pathways for DD
+                                                                        was more strongly connected to the superior frontal gyrus
+children. Another right-lateralized connection was reported
+                                                                        (A10m; default mode) on the right side, suggesting greater
+between the superior parietal lobule (A7ip; a dorsal atten-
+                                                                        default mode network interhemispheric connectivity in DD
+tion area) and cingulate gyrus (A24cd; ventral attention),              children.
+suggesting decreased crosstalk between attention networks
+for DD.
+   Stronger interhemispheric connections in TA children                 4 Discussion
+emerged between the left superior frontal gyrus (A9m; de-
+fault mode) and two superior frontal regions in the right               The current study investigated the neural mechanisms un-
+hemisphere (A9m in the frontoparietal network and A10m in               derlying developmental dyscalculia (DD) by comparing
+the default mode). These findings highlight decreased inter-            resting-state functional connectivity (rsFC) patterns of a
+hemispheric coordination involving default mode and fron-               group of 3rd graders with consistent low math achieve-
+toparietal systems in the DD group.                                     ment dating back to the first year of kindergarten (bottom
+Neural connectivity in dyscalculia                                                                                           407
+
+10th percentile) relative to an age-matched typically achiev-    processing and calculation (Peters & De Smedt, 2018; Pi-
+ing (TA) control group. We first took an a priori, theory-       azza et al., 2007; Polspoel et al., 2017). A recent meta-
+driven approach that replicated the analyses of previous         analysis of 20 neuroimaging studies that investigated poor
+studies comparing brain connectivity of regions known to         math performance across the lifespan consistently showed
+play a role in mathematical cognition (i.e., the IPS, AG,        under activation of the IPS in children with math difficulties
+and hippocampus). Then, we extended this work with a             (Martinez-Lincoln et al., 2023). Poor domain-specific pro-
+data-driven approach that considers all possible connec-         cessing of the IPS could present as reduced connectivity in
+tions between brain regions, seeking out the connections         children with DD.
+that most reliably characterize differences between the DD           Our current finding that crosstalk between the left IPS
+and TA groups (whole-brain connectome-based classifica-          and right IPS is lower for the DD group is similar to the
+tion, WBCC). Given the null results from previous analyses       finding reported by Price et al. (2018) that found left-to-right
+of the task-based data of the current sample (Kwok et al.,       IPS connectivity correlated with math achievement scores in
+2023) and the mixed pattern of hyper- and hypo-connectivity      first and second grade students in the US. One explanation of
+in other rsFC studies of DD (see Wilkey et al., 2023, for a      this finding involves specialized roles in the IPS for magni-
+review), we did not have strong a priori hypotheses about        tude processing that are lateralized. The left IPS is more as-
+the directionality of the current results. With the seed-based   sociated with symbolic magnitude processing and the right
+approach, we found that DD was associated with decreased         IPS with nonsymbolic magnitude processing (Ansari, 2008;
+connectivity of the IPS and hippocampus. In the WBCC,            Escobar-Magariño et al., 2022). Hypo-connectivity of the
+we found differences in the limbic, default mode, and atten-     left and right IPS for DD could indicate less efficient in-
+tional networks, with the DD group having both increased         tegration, or mapping, across notations, which is a critical
+and decreased connectivity strength, depending on the net-       foundation of math skills (Mundy & Gilmore, 2009; Wilkey
+work. Across the two approaches, we saw a convergence            et al., 2020).
+around the DD group showing less connectivity focused in             Atypical development of the bilateral middle frontal gyri
+frontal and parietal regions of the brain. In sum, the cur-      has also been reported in DD, both as reduced activity dur-
+rent findings suggest robust differences in neural profiles      ing calculation and number processing in a meta-analysis
+between TA and DD children that can be captured with func-       (Kaufmann et al., 2011) and as reduced grey matter in chil-
+tional connectivity analyses.                                    dren with DD (Rotzer et al., 2008). Decreased connectivity
+                                                                 with the IPS could reflect decreased integration of working
+4.1 Children with DD display altered connectivity                memory and attentional resources, since the middle frontal
+    between the IPS and frontal and                              gyrus has been shown to be particularly responsive to proce-
+    occipitoparietal areas                                       dural calculations compared to fact-based retrieval (Polspoel
+                                                                 et al., 2017).
+Our first finding is that IPS connectivity is weaker in the DD       Our finding of decreased IPS connectivity in DD con-
+group than in the TA group, specifically in connections with     trasts with other recent studies. In a task-based fMRI study
+the frontal and parietal lobe. In our hypothesis-driven, seed-   comparing children with DD to TA, Rosenberg-Lee et al.
+based analyses, five IPS connections survived both FDR and       (2015) found children with DD demonstrated stronger in-
+Bonferroni p-value adjustment: lhIP1 with rAG, lhIP1 with        traparietal connectivity than their typically achieving peers.
+rIFG, lhIP2 with rIPS, rhIP1 with left and right middle/su-      They argue that poor task modulation and hyperconnectiv-
+perior frontal gyri. Similar results were seen from the data-    ity are the underlying explanations for math problem solving
+driven WBCC, where DD children showed reduced connec-            difficulties in dyscalculic children. In an rsFC study of math-
+tivity in IPS–frontal pathways compared to the TA group.         ematical ability in adolescents, IPS connectivity to visual
+    One possible explanation of reduced connectivity of the      processing areas of the brain was negatively correlated with
+IPS in DD children is that the IPS is not sufficiently inte-     math performance after controlling for IQ (Abreu-Mendoza
+grated with the frontoparietal network (a circuit that is as-    et al., 2022). Similarly, the authors suggest that hypercon-
+sociated with attention and cognitive control (Dixon et al.,     nectivity may reflect inefficient neural processing that could
+2018)), thus leading to poorer neural efficiency in mathe-       lead to difficulties in effectively engaging the neural cir-
+matical problem solving and arithmetic. Some studies have        cuits necessary for proficient math performance. IPS hyper-
+reported that an increase in IPS connectivity over a period      connectivity in children with poorer math skills was also
+of time is associated with an improvement in math skills         found in two papers from our own group (Lynn et al., 2022;
+(Evans et al., 2015; Jolles et al., 2016b), which aligns with    Starling-Alves et al., 2025b). One possible reason for this
+the current results where the TA group has greater IPS con-      discrepancy could be that our study included the use of In-
+nectivity. Other explanations depend specifically on the IPS,    scapes, an abstract movie used in some resting state studies
+which is consistently associated with numerical magnitude        to improve participant compliance (Vanderwal et al., 2016),
+408                                                                                                               O.A. Khan et al.
+
+while the other two studies did not; this paradigm may in-       and temporal lobe. In the seed-based results, the left hip-
+fluenced the results. Using dynamic stimuli such as inscapes     pocampus showed weaker connectivity with a frontal area
+has been shown to boost signal-to-noise for detection of in-     extending from the superior frontal gyrus to the paracingu-
+dividual differences (Vanderwal et al., 2017).                   late gyrus. Again, this could suggest decreased integration
+    Across these studies, both hyper- and hypo-connectivity      of memory and executive control processes associated with
+of the IPS are associated with lower math ability and DD.        the hippocampus that are essential for arithmetic problem-
+In the context of DD, both hyperconnectivity and hypocon-        solving (Menon, 2016). This finding contrasts with Abreu-
+nectivity can be a reflection of reduced neural efficiency be-   Mendoza et al. (2022) who find that hippocampal-frontal
+cause the core issue is not just the amount of connectivity,     connectivity is negatively correlated with math ability. How-
+but rather the disruption of the brain’s optimal network or-     ever, our finding aligns with previous literature indicating
+ganization. An efficient brain maintains a precise balance       that the hippocampus, beyond its traditional role in episodic
+of segregated and integrated networks, and both too much         memory, also contributes to the consolidation and retrieval
+and too little connectivity can upset this balance (Wang et      of semantic-like facts (including arithmetic facts) when ef-
+al., 2021). Hyperconnectivity can reduce neural efficiency       ficiently connected to frontal control regions (De Smedt et
+by creating excessive “noise” and unnecessary processing.        al., 2011; Menon, 2016; Qin et al., 2009, 2014).
+This can lead to inefficient resource allocation and can be          The suggestion here is that DD children may be less able
+a sign that the brain is working harder, not smarter. Key        to retrieve previously learned math facts, switch flexibly be-
+regions for number processing might be over-connected to         tween problem-solving strategies, and monitor their perfor-
+other areas in an attempt to compensate for a processing         mance, leading to less accurate computation (Kucian & von
+deficit, leading to more effortful and less efficient problem-   Aster, 2015). In a study of children’s arithmetic retrieval
+solving (Rosenberg-Lee et al., 2015). On the other hand,         fluency in 2nd and 3rd grade, Cho et al. (2014) observed
+hypoconnectivity can also reduce neural efficiency by iso-       higher hippocampus activity in children with better retrieval
+lating critical brain regions for mathematical cognition, such   fluency. Further, they showed that greater task-based con-
+as those involved in number sense, working memory, and           nectivity of the hippocampus to bilateral ventral and dor-
+visual-spatial processing.                                       sal prefrontal cortices was associated with better arithmetic
+    Reconciliation of these seemingly contradictory findings     retrieval. Structural studies of math achievement in grade
+(i.e., hyper- and hypo-connectivity) may lie in the charac-      school have also reported reduced hippocampal grey matter
+teristics of the study sample. The studies with similar re-      in children with DD (Rykhlevskaia, 2009) and grey matter
+                                                                 volume has been shown to correlate with math achievement
+sults to ours, showing greater IPS connectivity with higher
+                                                                 (Wilkey et al., 2018). These findings underscore the impor-
+math ability, Jolles et al. (2016b) and Evans et al. (2015),
+                                                                 tance of hippocampal-frontal integration for efficient arith-
+both included children who were of similar age as our co-
+                                                                 metic performance and suggest that in DD children, the lack
+hort. Abreu-Mendoza et al. (2022) studied adolescents. Not
+                                                                 of coordination with executive centers might contribute to
+only is the adolescent brain at a vastly different developmen-
+                                                                 the persistent difficulties faced in mathematical tasks.
+tal stage than the third graders in our cohort, but the math
+content (and consequently the mechanisms at play) are dif-
+                                                                 4.3 Limitations & future directions
+ferent. Although the Jolles et al. (2016a) study with oppos-
+ing trends also had a sample of similar age, their definition    Several limitations of the current study should be noted.
+of mathematical disabilities included the bottom 25th per-       First, there is ongoing discussion as to whether or not it
+centile in their DD group, whereas our study used a more         makes sense to dichotomize children into typically achiev-
+stringent definition of the bottom 10th percentile. Further-     ing and “disordered” groups rather than a continuous distri-
+more, results could differ due to culture, language, and edu-    bution (Peters & Ansari, 2019). It may be that the search for
+cational system, as our study was conducted on Singaporean       biomarkers in math learning difficulties could be enhanced
+third graders while the others were conducted with children      by performing analyses with a bigger sample along a con-
+and adolescents from the USA and Mexico.                         tinuous spread of achievement. Still, it remains to be seen if
+                                                                 different mechanisms are affected at categorically different
+4.2 Children with dyscalculia display altered                    levels of math achievement, so it may be premature to aban-
+    connectivity between the hippocampus and                     don analysis of children with the most persistent and severe
+    regions involving attention, executive function,             difficulty learning math.
+    and memory                                                      Second, the current study’s sampling technique does not
+                                                                 exclude children that may have had other comorbid learn-
+The current study also shows that hippocampal connectivity       ing disorders, which may lead to increased heterogeneity in
+is reduced in the DD group across both the seed-based and        the sample. However, there is benefit to identifying an eco-
+WBCC analyses, specifically in connections with the frontal      logically valid group of children who have been identified
+Neural connectivity in dyscalculia                                                                                             409
+
+in school for more support because of difficulties learning         alternative networks, as shown by WBCC. Second, the dis-
+math. A more robust analysis in the future could include a          covery of significant edges beyond the preselected seeds un-
+clinical diagnosis alongside identification in a school set-        derscores the advantage of a whole-brain approach in iden-
+ting.                                                               tifying unanticipated neural signatures of DD. This synergy
+   One possible influence on the current results is the DD          sheds light on how DD may stem from both local disruptions
+children’s emotional state. Children with dyscalculia often         (e.g., IPS, AG, hippocampal-frontal links) and global net-
+have comorbid math anxiety (Haberstroh & Schulte-Körne,             work adaptations (e.g., default mode-limbic crosstalk), of-
+2019), which has been shown to alter connectivity in the            fering a more nuanced perspective than either method alone.
+amygdala (Young et al., 2012; Artemenko et al., 2015). Be-
+cause children in the current study were aware of math tasks        4.5 Implications for mathematics education
+that they would need to complete after the resting-state data           research and practice
+was collected, the current differences in brain connectivity
+could have been influenced by math anxiety. Future studies
+                                                                    While there are no direct implications of the present findings
+could collect data on math anxiety to probe the influence of
+                                                                    for math education, the results underscore important points
+context-dependent affective states such as anxiety.
+                                                                    relevant for education researchers. First, the brain activity
+   Additionally, interpretation of rsFC analyses is challeng-
+                                                                    of children with persistent difficulty learning math display
+ing. It relies on the inference of cognitive function from
+                                                                    functional differences at all times, not just when they are
+a combination of neuroimaging data, the sample descrip-
+                                                                    doing math. Educators know that struggling students may
+tion, and knowledge of the role of brain structures in math-
+                                                                    not have mastered requisite math skills as they begin new
+ematical cognition (Poldrack, 2006; Wilkey et al., 2023).
+                                                                    grade-level content, however, it may also be enlightening
+Greater connectivity associated with the TA group suggests
+                                                                    for educators to know that the brain mechanisms responsi-
+enhanced efficiency and more robust integration of neural
+                                                                    ble for thinking mathematically are functioning differently
+mechanisms. Greater connectivity for the DD group sug-
+gests a disruption to this communication or the presence            than their higher-achieving peers, even before a math lesson
+of a compensatory mechanism. Future longitudinal work               begins. A second relevant point for educators is that brain
+with age- and ability-matched groups could disentangle con-         differences across groups are widespread. Brain differences
+nectivity differences between groups as maturational differ-        were not limited to magnitude processing centers or mem-
+ences with a genetic or developmental origin versus mal-            ory systems. Instead, differences involved several brain re-
+adaptive issues related to the learning environment.                gions with a variety of roles in learning, including atten-
+                                                                    tion, magnitude processing, symbol processing, and mem-
+                                                                    ory. This means that it is unlikely that a simple, single-skill
+4.4 Methodological strengths
+                                                                    deficit characterizes their group of students who struggle
+                                                                    with math.
+The current study presents several methodological strengths
+that merit mention, especially given the conflicting land-
+scape of findings across the literature. First, the current study   4.6 Conclusion
+represents one of the largest samples of children with DD to
+date, which significantly improves the power and general-           The current study advances our understanding of brain con-
+izability of the findings. With this sample, we report a rela-      nectivity profiles associated with DD in three important
+tively robust AUC of 0.816 for classification of DD. Further,       ways. First, we find consistent hypo-connectivity for DD
+it should be noted that the current analyses are conducted          in critical areas of the brain traditionally associated with
+with a dataset where analysis of the task-based fMRI (ob-           mathematical thinking, including the IPS, AG, hippocam-
+tained at the same scanning sessions) reported mostly null          pus, and prefrontal cortex. Second, we corroborated these
+results across univariate analyses of three tasks with essen-       findings with a data-driven classification approach that also
+tially the same sample (Kwok et al., 2023). Therefore, it is        revealed unanticipated connectivity differences that future
+possible that the current approach was better at identifying        studies should replicate. Third, we successfully classified
+the neural differences between DD and TA children than              the DD sample with an AUC of 0.816, suggesting progress
+univariate, task-based analysis.                                    in the search for early biomarkers of DD. Understanding
+    Second, we report both a theory-driven, ROI-based ap-           whether difficulties with math learning are associated with
+proach and data-driven, whole-brain approach which en-              consistent differences in brain mechanisms can help us un-
+riches our understanding of DD in several ways. First, it           derstand the complex profiles of children with DD and in-
+highlights that weakened connectivity in critical math hubs         form earlier, more targeted screening measures or even paths
+does not occur in isolation; rather, children with DD tap into      to preventive remediation.
+410                                                                                                                                   O.A. Khan et al.
+
+4.7 Conclusions for a broad readership                                            connectivity is associated with low math achievement in ado-
+                                                                                  lescence – a preliminary study. Developmental Science, 25(3),
+In the current study, we compared the brain activity of chil-                     e13187. https://doi.org/10.1111/desc.13187.
+                                                                             Amunts, K., Mohlberg, H., Bludau, S., & Zilles, K. (2020). Julich-
+dren with persistent learning difficulties in math to the brain                   brain: A 3D probabilistic atlas of the human brain’s cytoar-
+activity of their higher-achieving peers. Specifically, we an-                    chitecture. Science, 369(6506), 988–992. https://doi.org/10.1126/
+alyzed how regions of the brain are temporally synced while                       science.abb4588.
+the brain is not doing any specific task because we think this               Ansari, D. (2008). Effects of development and enculturation on number
+                                                                                  representation in the brain. Nature Reviews. Neuroscience, 9(4),
+tells us about how these brain regions have developed and
+                                                                                  278–291. https://doi.org/10.1038/nrn2334.
+how they currently function. When we looked at regions of                    Artemenko, C., Daroczy, G., & Nuerk, H.-C. (2015). Neural correlates
+the brain most typically associated with math, these regions                      of math anxiety – an overview and implications. Frontiers in Psy-
+were less in sync with other brain regions for children with                      chology, 6. https://doi.org/10.3389/fpsyg.2015.01333.
+learning difficulties. However, when we looked across the                    Buckner, R. L., & Vincent, J. L. (2007). Unrest at rest: Default ac-
+                                                                                  tivity and spontaneous network correlations. NeuroImage, 37(4),
+whole brain, we found a mixture of regions that were more
+                                                                                  1091–1096. https://doi.org/10.1016/j.neuroimage.2007.01.010.
+in sync and less in sync, suggesting a more complex pat-                     Bugden, S., Price, G. R., McLean, D. A., & Ansari, D. (2012). The role
+tern of results. When we used machine learning to see if we                       of the left intraparietal sulcus in the relationship between sym-
+could predict which children had math learning difficulties                       bolic number processing and children’s arithmetic competence.
+solely based on their brain data, we were relatively success-                     Developmental Cognitive Neuroscience, 2(4), 448–457. https://
+                                                                                  doi.org/10.1016/j.dcn.2012.04.001.
+ful and predicted their learning difficulty status well above                Cantlon, J. F. (2012). Math, monkeys, and the developing brain. Pro-
+guessing at chance, but not with high enough reliability to                       ceedings of the National Academy of Sciences of the United States
+use as a diagnostic tool.                                                         of America, 109(supplement_1), 10725–10732. https://doi.org/10.
+                                                                                  1073/pnas.1201893109.
+Supplementary Information The online version contains supplemen-             Castaldi, E., Piazza, M., & Iuculano, T. (2020). Learning disabilities:
+tary material available at https://doi.org/10.1007/s11858-026-01766-8.            Developmental dyscalculia. In Handbook of clinical neurology
+                                                                                  (Vol. 174, pp. 61–75). Elsevier. https://doi.org/10.1016/B978-0-
+Funding Information We acknowledge funding support from the NSF                   444-64148-9.00005-3.
+Research Traineeship (NRT) program in Neurodiversity Inspired Sci-           Chumbley, J., Worsley, K., Flandin, G., & Friston, K. (2010). Topolog-
+ence & Engineering (NISE) through Vanderbilt University’s Frist Cen-              ical FDR for neuroimaging. NeuroImage, 49(4), 3057–3064.
+ter for Autism & Innovation (NSF award number 1922697; K. Stassun,           Cole (2010). Advances and pitfalls in the analysis and interpretation
+PI) for Omair A. Khan.                                                            of resting-state FMRI data. Frontiers in Systems Neuroscience.
+    This work was supported by the National Research Foundation                   https://doi.org/10.3389/fnsys.2010.00008.
+(Singapore) grant NRF2016-SOL001-003 to Dr. Daniel Ansari and the            Das, A., & Menon, V. (2022). Causal dynamics and information flow
+National Science Foundation (NSF) Grants DRL 1660840 and DRL                      in parietal-temporal-hippocampal circuits during mental arith-
+1748954 to Drs. Ben Clarke, Hank Fien, Fred Sabb, and Lina Shanley                metic revealed by high-temporal resolution human intracranial
+and by the U.S. Department of Education (USDE) Institute for Educa-               EEG. Cortex, 147, 24–40. https://doi.org/10.1016/j.cortex.2021.
+tion Sciences (IES) Grant R324A160046 to Drs. Ben Clarke, Christian               11.012.
+Doabler, and Hank Fien at the University of Oregon.                          Davis, N., Cannistraci, C. J., Rogers, B. P., Gatenby, J. C., Fuchs,
+                                                                                  L. S., Anderson, A. W., & Gore, J. C. (2009). Aberrant func-
+Declarations                                                                      tional activation in school age children at-risk for mathematical
+                                                                                  disability: A functional imaging study of simple arithmetic skill.
+                                                                                  Neuropsychologia, 47(12), 2470–2479. https://doi.org/10.1016/j.
+Competing Interests The authors have no competing interests to de-
+clare.                                                                            neuropsychologia.2009.04.024.
+                                                                             De Smedt, B., Holloway, I. D., & Ansari, D. (2011). Effects of problem
+                                                                                  size and arithmetic operation on brain activation during calcula-
+Open Access This article is licensed under a Creative Commons Attri-
+                                                                                  tion in children with varying levels of arithmetical fluency. Neu-
+bution 4.0 International License, which permits use, sharing, adapta-
+                                                                                  roImage, 57(3), 771–781. https://doi.org/10.1016/j.neuroimage.
+tion, distribution and reproduction in any medium or format, as long as
+                                                                                  2010.12.037.
+you give appropriate credit to the original author(s) and the source, pro-
+vide a link to the Creative Commons licence, and indicate if changes         Dehaene, S., Piazza, M., Pinel, P., & Cohen, L. (2003). Three pari-
+were made. The images or other third party material in this article are           etal circuits for number processing. Cognitive Neuropsychology,
+included in the article’s Creative Commons licence, unless indicated              20(3), 487–506. https://doi.org/10.1080/02643290244000239.
+otherwise in a credit line to the material. If material is not included      Escobar-Magariño, D., Turel, O., & He, Q. (2022). Bilateral intra-
+in the article’s Creative Commons licence and your intended use is not            parietal activation for number tasks in studies using adaptation
+permitted by statutory regulation or exceeds the permitted use, you will          paradigm: A meta-analysis. Neuroscience, 490, 296–308. https://
+need to obtain permission directly from the copyright holder. To view a           doi.org/10.1016/j.neuroscience.2022.02.024.
+copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.     Evans, T. M., Kochalka, J., Ngoon, T. J., Wu, S. S., Qin, S.,
+                                                                                  Battista, C., & Menon, V. (2015). Brain structural integrity
+                                                                                  and intrinsic functional connectivity forecast 6 year longitu-
+                                                                                  dinal growth in children’s numerical abilities. The Journal
+References                                                                        of Neuroscience, 35(33), 11743–11750. https://doi.org/10.1523/
+                                                                                  JNEUROSCI.0216-15.2015.
+Abreu-Mendoza, R. A., Pincus, M., Chamorro, Y., Jolles, D., Matute,          Fan, L., Li, H., Zhuo, J., Zhang, Y., Wang, J., Chen, L., Yang, Z., Chu,
+    E., & Rosenberg-Lee, M. (2022). Parietal and hippocampal hyper-               C., Xie, S., Laird, A. R., Fox, P. T., Eickhoff, S. B., Yu, C., &
+Neural connectivity in dyscalculia                                                                                                               411
+
+     Jiang, T. (2016). The human brainnetome atlas: A new brain at-         Lv, H., Wang, Z., Tong, E., Williams, L. M., Zaharchuk, G., Zeineh,
+     las based on connectional architecture. Cerebral Cortex, 26(8),             M., Goldstein-Piekarski, A. N., Ball, T. M., Liao, C., & Win-
+     3508–3526. https://doi.org/10.1093/cercor/bhw157.                           termark, M. (2018). Resting-state functional MRI: Everything
+Grabner, R. H., Ansari, D., Koschutnig, K., Reishofer, G., Ebner, F., &          that nonexperts have always wanted to know. American Journal
+     Neuper, C. (2009). To retrieve or to calculate? Left angular gyrus          of Neuroradiology. https://doi.org/10.3174/ajnr.A5527. ajnr; ajnr.
+     mediates the retrieval of arithmetic facts during problem solv-             A5527v1.
+     ing. Neuropsychologia, 47(2), 604–608. https://doi.org/10.1016/        Lynn, A., Wilkey, E. D., & Price, G. R. (2022). Predicting children’s
+     j.neuropsychologia.2008.10.013.                                             math skills from task-based and resting-state functional brain con-
+Guerra-Carrillo, B., Mackey, A. P., & Bunge, S. A. (2014).                       nectivity. Cerebral Cortex, 32(19), 4204–4214. https://doi.org/10.
+     Resting-state fMRI: A window into human brain plastic-                      1093/cercor/bhab476.
+     ity. The Neuroscientist, 20(5), 522–533. https://doi.org/10.1177/      Manns, J. R., Hopkins, R. O., & Squire, L. R. (2003). Semantic mem-
+     1073858414524442.                                                           ory and the human hippocampus. Neuron, 38(1), 127–133. https://
+Haberstroh, S., & Schulte-Körne, G. (2019). The diagnosis and treat-             doi.org/10.1016/s0896-6273(03)00146-6.
+     ment of dyscalculia. Deutsches Ärzteblatt International. https://      Martinez-Lincoln, A., Fotidzis, T. S., Cutting, L. E., Price, G. R., &
+     doi.org/10.3238/arztebl.2019.0107.                                          Barquero, L. A. (2023). Examination of common and unique brain
+Holloway, I. D., & Ansari, D. (2010). Developmental specialization               regions for atypical reading and math: A meta-analysis. Cere-
+     in the right intraparietal sulcus for the abstract representation of        bral Cortex, 33(11), 6959–6989. https://doi.org/10.1093/cercor/
+     numerical magnitude. Journal of Cognitive Neuroscience, 22(11),             bhad013.
+     2627–2637. https://doi.org/10.1162/jocn.2009.21399.                    McCaskey, U., von Aster, M., Maurer, U., Martin, E., O’Gorman
+Ischebeck, A., Zamarian, L., Egger, K., Schocke, M., & Delazer, M.               Tuura, R., & Kucian, K. (2018). Longitudinal brain develop-
+     (2007). Imaging early practice effects in arithmetic. NeuroIm-              ment of numerical skills in typically developing children and chil-
+     age, 36(3), 993–1003. https://doi.org/10.1016/j.neuroimage.2007.            dren with developmental dyscalculia. Frontiers in Human Neuro-
+     03.051.                                                                     science, 11, 629. https://doi.org/10.3389/fnhum.2017.00629.
+Jolles, D., Ashkenazi, S., Kochalka, J., Evans, T., Richardson, J.,         McCaskey, U., von Aster, M., O’Gorman Tuura, R., & Kucian, K.
+     Rosenberg-Lee, M., Zhao, H., Supekar, K., Chen, T., & Menon,                (2017). Adolescents with developmental dyscalculia do not have a
+     V. (2016a). Parietal hyper-connectivity, aberrant brain organiza-           generalized magnitude deficit – processing of discrete and contin-
+     tion, and circuit-based biomarkers in children with mathematical            uous magnitudes. Frontiers in Human Neuroscience, 11. https://
+     disabilities. Developmental Science, 19(4), 613–631. https://doi.           doi.org/10.3389/fnhum.2017.00102.
+     org/10.1111/desc.12399.                                                Menon, V. (2016). Memory and cognitive control circuits in mathe-
+Jolles, D., Supekar, K., Richardson, J., Tenison, C., Ashkenazi, S.,             matical cognition and learning. Progress in Brain Research, 227,
+     Rosenberg-Lee, M., Fuchs, L., & Menon, V. (2016b). Reconfig-                159–186. https://doi.org/10.1016/bs.pbr.2016.04.026.
+     uration of parietal circuits with cognitive tutoring in elementary     Mundy, E., & Gilmore, C. K. (2009). Children’s mapping between
+     school children. Cortex, 83, 231–245. https://doi.org/10.1016/j.            symbolic and nonsymbolic representations of number. Journal of
+     cortex.2016.08.004.                                                         Experimental Child Psychology, 103(4), 490–502. https://doi.org/
+Kaufmann, L., Vogel, S. E., Starke, M., Kremser, C., Schocke, M.,                10.1016/j.jecp.2009.02.003.
+     & Wood, G. (2009). Developmental dyscalculia: Compensatory             Mussolin, C., De Volder, A., Grandin, C., Schlögel, X., Nassogne, M.-
+     mechanisms in left intraparietal regions in response to nonsym-             C., & Noël, M.-P. (2010). Neural correlates of symbolic number
+     bolic magnitudes. Behavioral and Brain Functions, 5(1), 35.                 comparison in developmental dyscalculia. Journal of Cognitive
+     https://doi.org/10.1186/1744-9081-5-35.                                     Neuroscience, 22(5), 860–874. https://doi.org/10.1162/jocn.2009.
+Kaufmann, L., Wood, G., Rubinsten, O., & Henik, A. (2011). Meta-                 21237.
+     analyses of developmental fMRI studies investigating typical and       Nelson, G., & Powell, S. R. (2018). A systematic review of
+     atypical trajectories of number processing and calculation. Devel-          longitudinal studies of mathematics difficulty. Journal of
+                                                                                 Learning Disabilities, 51(6), 523–539. https://doi.org/10.1177/
+     opmental Neuropsychology, 36(6), 763–787. https://doi.org/10.
+                                                                                 0022219417714773.
+     1080/87565641.2010.549884.
+                                                                            Ng, E. L., & O’Brien, B. (2020). Singapore Kindergarten Impact
+Kucian, K., Loenneker, T., Martin, E., & von Aster, M. (2011). Non-
+                                                                                 Project [Project 1440 Closure Report].
+     symbolic numerical distance effect in children with and with-
+                                                                            Nieder, A. (2016). The neuronal code for number. Nature Re-
+     out developmental dyscalculia: A parametric fMRI study. Devel-
+                                                                                 views. Neuroscience, 17(6), 366–382. https://doi.org/10.1038/nrn.
+     opmental Neuropsychology, 36(6), 741–762. https://doi.org/10.
+                                                                                 2016.40.
+     1080/87565641.2010.549867.                                             Nieder, A. (2017). Number faculty is rooted in our biological heritage.
+Kucian, K., & von Aster, M. (2015). Developmental dyscalculia. Euro-
+                                                                                 Trends in Cognitive Sciences, 21(6), 403–404. https://doi.org/10.
+     pean Journal of Pediatrics, 174(1), 1–13. https://doi.org/10.1007/
+                                                                                 1016/j.tics.2017.03.014.
+     s00431-014-2455-7.                                                     Nieto-Castanon, A. (2020). Handbook of functional connectivity mag-
+Kuhl, U., Sobotta, S., Legascreen Consortium, & Skeide, M. A. (2021).            netic resonance imaging methods in CONN. Hilbert Press.
+     Mathematical learning deficits originate in early childhood from       Nieto-Castanon, A., & Whitfield-Gabrieli, S. (2022). CONN functional
+     atypical development of a frontoparietal brain network. PLoS                connectivity toolbox: RRID SCR_009550 (Version release 22)
+     Biology, 19(9), e3001407. https://doi.org/10.1371/journal.pbio.             [Computer software]. https://doi.org/10.56441/hilbertpress.2246.
+     3001407.                                                                    5840.
+Kwok, F. Y., Wilkey, E. D., Peters, L., Khiu, E., Bull, R., Lee, K.,        Penny, W. D., Friston, K. J., Ashburner, J. T., Kiebel, S. J., & Nichols,
+     & Ansari, D. (2023). Developmental dyscalculia is not associ-               T. E. (2011). Statistical parametric mapping: The analysis of
+     ated with atypical brain activation: A univariate fMRI study of             functional brain images. Elsevier.
+     arithmetic, magnitude processing, and visuospatial working mem-        Peters, L., & Ansari, D. (2019). Are specific learning disorders truly
+     ory. Human Brain Mapping, 44(18), 6308–6325. https://doi.org/               specific, and are they disorders? Trends in Neuroscience and Ed-
+     10.1002/hbm.26495.                                                          ucation, 17, 100115. https://doi.org/10.1016/j.tine.2019.100115.
+Lisman, J., Buzsáki, G., Eichenbaum, H., Nadel, L., Ranganath, C.,          Peters, L., & De Smedt, B. (2018). Arithmetic in the developing
+     & Redish, A. D. (2017). Viewpoints: How the hippocampus                     brain: A review of brain imaging studies. Developmental Cog-
+     contributes to memory, navigation and cognition. Nature Neuro-              nitive Neuroscience, 30, 265–279. https://doi.org/10.1016/j.dcn.
+     science, 20(11), 1434–1447. https://doi.org/10.1038/nn.4661.                2017.05.002.
+412                                                                                                                                    O.A. Khan et al.
+
+Piazza, M., Pinel, P., Le Bihan, D., & Dehaene, S. (2007). A magni-           Shen, X., Finn, E. S., Scheinost, D., Rosenberg, M. D., Chun, M. M.,
+     tude code common to numerosities and number symbols in hu-                    Papademetris, X., & Constable, R. T. (2017). Using connectome-
+     man intraparietal cortex. Neuron, 53(2), 293–305. https://doi.org/            based predictive modeling to predict individual behavior from
+     10.1016/j.neuron.2006.11.022.                                                 brain connectivity. Nature Protocols, 12(3), 506–518. https://doi.
+Poldrack, R. (2006). Can cognitive processes be inferred from neu-                 org/10.1038/nprot.2016.178.
+     roimaging data? Trends in Cognitive Sciences, 10(2), 59–63.              Skagerlund, K., Bolt, T., Nomi, J. S., Skagenholt, M., Västfjäll, D.,
+     https://doi.org/10.1016/j.tics.2005.12.004.                                   Träff, U., & Uddin, L. Q. (2019). Disentangling mathematics from
+Polspoel, B., Peters, L., Vandermosten, M., & De Smedt, B. (2017).                 executive functions by investigating unique functional connectiv-
+     Strategy over operation: Neural activation in subtraction and mul-            ity patterns predictive of mathematics ability. Journal of Cogni-
+     tiplication during fact retrieval and procedural strategy use in chil-        tive Neuroscience, 31(4), 560–573. https://doi.org/10.1162/jocn_
+     dren: Brain activity in children’s arithmetic strategies. Human               a_01367.
+     Brain Mapping, 38(9), 4657–4670. https://doi.org/10.1002/hbm.            Sokolowski, H. M., Fias, W., Mousa, A., & Ansari, D. (2017). Com-
+     23691.                                                                        mon and distinct brain regions in both parietal and frontal cortex
+                                                                                   support symbolic and nonsymbolic number processing in humans:
+Price, G. R., Holloway, I., Räsänen, P., Vesterinen, M., & Ansari, D.
+                                                                                   A functional neuroimaging meta-analysis. NeuroImage, 146,
+     (2007). Impaired parietal magnitude processing in developmental
+                                                                                   376–394. https://doi.org/10.1016/j.neuroimage.2016.10.028.
+     dyscalculia. Current Biology, 17(24), R1042–R1043. https://doi.
+                                                                              Sokolowski, H. M., Matejko, A. A., & Ansari, D. (2023). The role of
+     org/10.1016/j.cub.2007.10.013.
+                                                                                   the angular gyrus in arithmetic processing: A literature review.
+Price, G. R., & Wilkey, E. D. (2018). Developmental dyscalcu-                      Brain Structure and Function, 228(1), 293–304. https://doi.org/
+     lia. In E. B. Braaten (Ed.), The SAGE encyclopedia of in-                     10.1007/s00429-022-02594-8.
+     tellectual and developmental disorders (Vol. 1, pp. 379–383).            Starling-Alves, I., Peters, L., & Wilkey, E. D. (2025a). Beyond the
+     SAGE Publications, Inc. http://sk.sagepub.com/reference/the-                  sum of their parts: A multi-dimensional approach to dyscalculia-
+     sage-encyclopedia-of-intellectual-and-developmental-disorders.                dyslexia comorbidity integrating studies of the brain, behav-
+Price, G. R., Yeo, D. J., Wilkey, E. D., & Cutting, L. E. (2018).                  ior, and genetics. Developmental Cognitive Neuroscience, 72,
+     Prospective relations between resting-state connectivity of pari-             101510. https://doi.org/10.1016/j.dcn.2025.101510.
+     etal subdivisions and arithmetic competence. Developmental Cog-          Starling-Alves, I., Shanley, L., Cook, M. A., Sabb, F. W., Smith,
+     nitive Neuroscience, 30, 280–290. https://doi.org/10.1016/j.dcn.              J., Clarke, B., & Wilkey, E. D. (2025b). Children identified for
+     2017.02.006.                                                                  classroom-based math support show altered resting-state connec-
+Qin, S., Cho, S., Chen, T., Rosenberg-Lee, M., Geary, D. C., & Menon,              tivity in parietal brain regions. Scientific Reports, 15(1), 27013.
+     V. (2014). Hippocampal-neocortical functional reorganization un-              https://doi.org/10.1038/s41598-025-12809-7.
+     derlies children’s cognitive development. Nature Neuroscience,           Uddin, L. Q., Supekar, K., Amin, H., Rykhlevskaia, E., Nguyen, D.
+     17(9), 1263–1269. https://doi.org/10.1038/nn.3788.                            A., Greicius, M. D., & Menon, V. (2010). Dissociable connec-
+Qin, S., Rijpkema, M., Tendolkar, I., Piekema, C., Hermans, E. J.,                 tivity within human angular gyrus and intraparietal sulcus: Evi-
+     Binder, M., Petersson, K. M., Luo, J., & Fernández, G. (2009).                dence from functional and structural connectivity. Cerebral Cor-
+     Dissecting medial temporal lobe contributions to item and asso-               tex, 20(11), 2636–2646. https://doi.org/10.1093/cercor/bhq011.
+     ciative memory formation. NeuroImage, 46(3), 874–881. https://           Vanderwal, T., Kelly, C., Eilbott, J., Mayes, L. C., & Castellanos, F.
+     doi.org/10.1016/j.neuroimage.2009.02.039.                                     X. (2015). Inscapes: A movie paradigm to improve compliance
+Reigosa-Crespo, V., Valdés-Sosa, M., Butterworth, B., Estévez, N.,                 in functional magnetic resonance imaging. NeuroImage, 122,
+     Rodríguez, M., Santos, E., Torres, P., Suárez, R., & Lage, A.                 222–232. https://doi.org/10.1016/j.neuroimage.2015.07.069.
+     (2012). Basic numerical capacities and prevalence of develop-            Vanderwal, T., Eilbott, J., Finn, E. S., Craddock, R. C., Turnbull, A.,
+     mental dyscalculia: The Havana survey. Developmental Psychol-                 & Castellanos, F. X. (2017). Individual differences in functional
+     ogy, 48(1), 123–135. https://doi.org/10.1037/a0025356.                        connectivity during naturalistic viewing conditions. NeuroIm-
+Reyna, V. F., Nelson, W. L., Han, P. K., & Dieckmann, N. F. (2009).                age, 157, 521–530. https://doi.org/10.1016/j.neuroimage.2017.
+     How numeracy influences risk comprehension and medical deci-                  06.027.
+                                                                              Vigna, G., Ghidoni, E., Burgio, F., Danesin, L., Angelini, D.,
+     sion making. Psychological Bulletin, 135(6), 943–973. https://doi.
+                                                                                   Benavides-Varela, S., & Semenza, C. (2022). Dyscalculia
+     org/10.1037/a0017327.
+                                                                                   in early adulthood: Implications for numerical activities of
+Rosenberg-Lee, M., Ashkenazi, S., Chen, T., Young, C. B., Geary, D.
+                                                                                   daily living. Brain Sciences, 12(3), 3. https://doi.org/10.3390/
+     C., & Menon, V. (2015). Brain hyper-connectivity and operation-
+                                                                                   brainsci12030373.
+     specific deficits during arithmetic problem solving in children          Wang, R., Liu, M., Cheng, X., Wu, Y., Hildebrandt, A., & Zhou, C.
+     with developmental dyscalculia. Developmental Science, 18(3),                 (2021). Segregation, integration, and balance of large-scale rest-
+     351–372. https://doi.org/10.1111/desc.12216.                                  ing brain networks configure different cognitive abilities. Pro-
+Rotzer, S., Kucian, K., Martin, E., Aster, M., von Klaver, P., & Loen-             ceedings of the National Academy of Sciences of the United States
+     neker, T. (2008). Optimized voxel-based morphometry in children               of America, 118(23), e2022288118. https://doi.org/10.1073/pnas.
+     with developmental dyscalculia. NeuroImage, 39(1), 417–422.                   2022288118.
+     https://doi.org/10.1016/j.neuroimage.2007.08.045.                        Wilkey, E. D., Conrad, B. N., Yeo, D. J., & Price, G. R. (2020).
+Rykhlevskaia, E. (2009). Neuroanatomical correlates of developmen-                 Shared numerosity representations across formats and tasks re-
+     tal dyscalculia: Combined evidence from morphometry and trac-                 vealed with 7 Tesla fMRI: Decoding, generalization, and indi-
+     tography. Frontiers in Human Neuroscience, 3. https://doi.org/10.             vidual differences in behavior. Cerebral Cortex Communications,
+     3389/neuro.09.051.2009.                                                       1(1), tgaa038. https://doi.org/10.1093/texcom/tgaa038.
+Seghier, M. L. (2013). The angular gyrus: Multiple functions and mul-         Wilkey, E. D., Cutting, L. E., & Price, G. R. (2018). Neuroanatomical
+     tiple subdivisions. The Neuroscientist, 19(1), 43–61. https://doi.            correlates of performance in a state-wide test of math achieve-
+     org/10.1177/1073858412440596.                                                 ment. Developmental Science, 21(2), e12545. https://doi.org/10.
+Shalev, R. S., Auerbach, J., Manor, O., & Gross-Tsur, V. (2000).                   1111/desc.12545.
+     Developmental dyscalculia: Prevalence and prognosis. European            Wilkey, E. D., Gupta, I., Peiris, A., & Ansari, D. (2023). The mathe-
+     Child & Adolescent Psychiatry, 9(S2), S58–S64. https://doi.org/               matical brain at rest. Current Opinion in Behavioral Sciences, 49,
+     10.1007/s007870070009.                                                        101246. https://doi.org/10.1016/j.cobeha.2022.101246.
+Neural connectivity in dyscalculia                                                                                                            413
+
+Worsley, K. J., Marrett, S., Neelin, P., Vandal, A. C., Friston, K. J., &   Publisher’s Note Springer Nature remains neutral with regard to juris-
+    Evans, A. C. (1996). A unified statistical approach for determin-       dictional claims in published maps and institutional affiliations.
+    ing significant signals in images of cerebral activation. Human
+    Brain Mapping, 4(1), 58–73. https://doi.org/10.1002/(SICI)1097-
+    0193(1996)4:1<58::AID-HBM4>3.0.CO;2-O.
+Young, C. B., Wu, S. S., & Menon, V. (2012). The neurodevelopmen-
+    tal basis of math anxiety. Psychological Science, 23(5), 492–501.
+    https://doi.org/10.1177/0956797611429134.
+

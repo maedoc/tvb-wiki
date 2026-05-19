@@ -1,0 +1,1319 @@
+                                          Cross-Population White Matter Atlas Creation for
+                                         Concurrent Mapping of Brain Connections in Neonates
+                                             and Adults with Diffusion MRI Tractography
+                                         Wei Zhanga,1 , Yijie Lia,1 , Ruixi Zhenga , Nir A. Sochenb , Yuqian Chenc , Leo
+                                         R. Zekelmanc , Ofer Pasternakc , Jarrett Rushmorec,d , Yogesh Rathic , Nikos
+arXiv:2512.20370v1 [cs.NE] 23 Dec 2025
+
+
+
+
+                                                         Makrisc , Lauren J. O’Donnellc , Fan Zhanga,∗
+                                                 a
+                                                     University of Electronic Science and Technology of China, Chengdu, China
+                                                                         b
+                                                                           Tel-Aviv University, Tel Aviv, Israel
+                                                                       c
+                                                                         Harvard Medical School, Boston, USA
+                                                                            d
+                                                                              Boston University, Boston, USA
+
+
+
+
+                                         Abstract
+                                         Comparing white matter (WM) connections between adults and neonates
+                                         using diffusion MRI (dMRI) can enhance our understanding of typical brain
+                                         development and help identify potential biomarkers for neurological disor-
+                                         ders. Brain WM atlases are valuable tools for facilitating population-wise
+                                         comparisons, allowing for the identification of WM differences between adult
+                                         and neonatal brains. Currently, existing studies typically rely on atlases cre-
+                                         ated for a specific population (either neonates or adults), where each atlas
+                                         resides in its own space, preventing direct comparisons across populations. A
+                                         cross-population WM atlas, created using both adult and neonatal imaging
+                                         data, that allows for the concurrent mapping of brain connections in the two
+                                         populations is still lacking. Therefore, in this study, we propose the neona-
+                                         tal/adult brain atlas, namely NABA, a WM tractography atlas that is built
+                                         using dMRI data from both neonates and adults. NABA is created using a
+                                         robust, data-driven tractography fiber clustering pipeline, allowing for group-
+                                         wise WM atlasing across diverse populations, despite potential anatomical
+                                         variability in the WM. This atlas serves as a standardized template for parcel-
+                                         lating WM tractography in new individuals, enabling direct comparisons of
+                                         WM tracts across the two populations. With the atlas, we perform a compar-
+
+                                           ∗
+                                               Corresponding author: Fan Zhang, fan.zhang@uestc.edu.cn.
+                                           1
+                                               These authors contributed equally to this work.
+ative study to examine the WM development of the neonates in comparison
+to the adult data. Our study encompasses four key analyses: (1) evaluat-
+ing the feasibility of joint WM mapping between neonatal and adult brains
+using the atlas, (2) characterizing the development of the WM in different
+neonatal ages compared with adults, (3) assessing sex-related differences in
+neonatal WM development, and (4) investigating the effects of preterm birth
+on neonatal WM development. There are several key observations from our
+study. First, we demonstrate NABA’s advantages in identifying fiber tracts
+across both populations, with strong adaptability to age-specific anatomical
+variability. Furthermore, we observe rapid fractional anisotropy (FA) devel-
+opment in long-range association tracts, including the arcuate fasciculus and
+superior longitudinal fasciculus II, while intra-cerebellar tracts exhibit slower
+development in neonates. Third, neonatal females display overall faster FA
+development compared to males. Fourth, although preterm neonates exhibit
+a generally lower FA development rate than full-term infants, they show
+relatively higher FA growth rates in tracts, including the corticospinal tract,
+corona radiata-pontine pathway, and intracerebellar tracts. Overall, we show
+that the atlas can be a useful tool to investigate the WM development in
+neonates and adults.
+Keywords: Diffusion MRI, White Matter Atlas, Tractography, Concurrent
+Mapping, Brain Comparison, Brain Development
+
+
+1. Introduction
+    The white matter (WM) enables information exchange and communica-
+tion between different brain regions, playing a critical role in maintaining
+proper brain function in both health and disease. The development of WM
+is crucial because it enhances the efficiency and speed of neural communica-
+tion, supporting cognitive growth, learning, motor coordination, and overall
+brain function throughout development [1, 2]. The developmental effects of
+WM occur at vastly different time scales, in which the neonatal stage is one
+of the important periods with the most dramatic and substantial changes
+[3, 4, 5, 6]. In comparison, the WM demonstrates relative stability across
+young adulthood, providing a valuable contrast for investigating early de-
+velopmental WM changes in neonates. Comparison of the WM connections
+between adult and neonate brains can contribute to our understanding of
+normal brain development and assist identification of potential biomarkers
+
+
+                                       2
+for neurological disorders [7].
+    Diffusion MRI (dMRI) is an advanced MRI technique that can probe
+the diffusion of water molecules in biological tissues to characterize the un-
+derlying microstructure [8]. dMRI enables a computational process, namely
+tractography, that uniquely enables in-vivo reconstruction of the brain’s WM
+connections at macro scale [9, 10]. dMRI tractography has become a popular
+tool for studying the development of the brain’s WM connections at early ages
+[11, 12]. For example, Wilkinson et al. [13] and Tak el al. [14] investigated
+the arcuate fasciculus (AF) using dMRI tractography and found hemispheric
+asymmetry along with moderate increases in fractional anisotropy (FA) with
+age. Liu et al. [15] examined the superior longitudinal fasciculus (SLF) I to
+III tracts using tractography and found that SLF II is the least mature.
+    To provide a reference and evaluate WM tract development, the compari-
+son of fiber tracts using tractography at different ages is important. However,
+direct comparison of WM between adults and neonates presents significant
+challenges due to substantial differences in brain size and axonal myelination
+[16]. While spatial normalization of brain images to a common space is a
+standard approach for such comparisons, previous neonatal studies [17, 18],
+[19, 20] have identified two major challenges in this methodology. First, the
+neonatal scalp is notably thinner and lies in closer proximity to the cortex
+compared to adults, which can introduce misalignment errors when register-
+ing adult imaging data to neonatal data. Second, the neonatal cerebellum
+exhibits a significantly smaller volume than its adult counterpart, further
+complicating cross-age registration due to scale and structural differences.
+As a result, traditional image registration between adult and neonate brains
+into a common space introduces additional errors. One recent study mapped
+neonates, adults, and macaques to a common space to compare cortical con-
+nectivity [6], using white matter tractography to identify corresponding cor-
+tical regions. This study showed the potential of using white matter fiber
+tracts to build the correspondence between neonates and adults for direct
+brain comparison.
+    Brain atlases serve as essential tools for standardized representation of
+the anatomical structures and functional regions within the brain [21, 22, 23]
+to perform comparisons of brains at different ages [24]. In general, a brain
+atlas provides a common template derived from a group of individuals, which
+can be applied to diverse individuals to identify subject-specific anatomically
+segregated brain regions. In the dMRI tractography literature, many WM
+atlases have been proposed to enable the subject-specific identification of
+
+                                      3
+anatomical WM connections [25, 26, 27, 24]. Nevertheless, existing WM at-
+lases primarily originate from data collected from adults. While research has
+been performed by applying adult atlases to neonatal brains for population-
+wise comparison [6, 24], it might not capture the large inter-population WM
+anatomical variability between neonates and adults. For example, the ORG
+atlas [24], created for the adult population, provides consistent automated
+white matter tract parcellation across the lifespan. However, while it can
+be applied to neonatal populations, it may fail to capture the subtle inter-
+population anatomical variability and the unique white matter development
+of neonates. Furthermore, studies [28, 29, 6] examining the brains across
+different ages, focusing on the cortical surface and brain morphology, have
+highlighted the necessity of creating atlases specific to neonates for accurate
+anatomy representation. Although using separate atlases for neonates and
+adults ensures anatomical alignment within each population (e.g., aligning
+the AF in neonates to the same tract in adults), it cannot guarantee align-
+ment in a shared mapping space where fiber bundles with similar spatial
+trajectories are aligned across populations. To the best of our knowledge, a
+white matter atlas spanning both neonatal and adult populations to analyze
+whole-brain WM differences has not yet been established. Thus, there is a
+high need for a cross-population WM atlas that enables the concurrent map-
+ping of WM fiber tracts between neonates and adults. Such an atlas can help
+bridge the current gap in tract-specific developmental research, providing a
+unified framework for quantifying and comparing fine-grained, tract-wise de-
+velopmental trajectories across populations.
+    In this study, we create the neonatal/adult brain atlas, namely NABA,
+a WM tractography atlas that is built using dMRI data from both neonates
+and adults. The NABA atlas is created using a robust, data-driven tractogra-
+phy fiber clustering pipeline [30, 31, 32, 24, 33], allowing for group-wise WM
+atlasing across diverse populations, despite potential anatomical variability
+in the WM. We leverage two large-scale dMRI datasets, i.e., the Develop-
+ing Human Connectome Project (dHCP) [34] acquired from neonates and
+the Human Connectome Project Young Adult (HCP-YA) [35] from young
+adults. Using the newly created atlas, we examine the development of WM
+fiber tracts in neonatal brains compared to those of healthy adults. Our
+study encompasses four key analyses: (1) evaluating the feasibility of con-
+current WM mapping between neonatal and adult brains using the atlas, (2)
+characterizing the development of WM in neonates compared with adults,
+(3) assessing sex-related differences in neonatal WM development, and (4)
+
+                                      4
+investigating the effects of preterm birth on neonatal WM development.
+
+2. Material and Methods
+
+
+
+
+Figure 1: Method Overview. (a) First, the dMRI data of 490 dHCP and 1065 HCP-YA
+subjects are preprocessed, and tractography is performed. Next, the anatomical atlas is
+constructed. (b) A total of 100 subjects with balanced age and sex are selected from each
+dataset. Their tractography is downsampled to the same level. (c) Their tractography
+data is combined and processed using fiber clustering. Anatomical labels are then assigned
+to each fiber cluster to define white matter tracts. Different clusters are color-coded for
+visualization, and those having same anatomical label are grouped together to anatomical
+tracts. (d) Then, subject-specific tract identification is performed for all individuals using
+the constructed atlas. Finally, statistical analysis of white matter tracts is conducted
+across different subject groups.
+
+
+   Figure 1 provides an overall conceptual representation of the methodology
+used to create the joint NABA atlas and the data analysis to examine WM
+development in neonates and adults. In the rest of the paper, we first describe
+the dMRI datasets and preprocessing steps used in our study (Section 2.1),
+
+                                              5
+followed by the creation of the WM atlas (Section 2.2). Then, we introduce
+the process of applying the created atlas to each neonate subject and adult
+subject to identify the subject-specific fiber tract and subsequently the WM
+metrics extracted from each fiber tract (Section 2.3). Finally, we describe the
+statistical analyses used to study the development of WM tracts in neonates
+in comparison to adults (Section 2.4).
+
+2.1. Participants, dMRI Dataset, and Data Processing
+    This study utilizes dMRI datasets from two sources: the dHCP data
+obtained from neonates [34] and the HCP-YA data obtained from young
+healthy adults [35]. In brief, the neonatal participants are drawn from the
+second release of the dHCP study. We exclude the individuals from the entire
+cohort whose dMRI scans have a radiology assessment score greater than 3,
+indicating larger or more clinically significant incidental findings, according
+to [6]. In total, 490 neonatal participants are used, including 213 females
+and 277 males born at 24.57 to 42.29 weeks postmenstrual age (PMA) and
+scanned at 29.29 to 45.14 weeks PMA. The adult data are drawn from the
+HCP-YA study. We use all 1065 individuals with available dMRI scans,
+including 575 females and 490 males scanned at 22 to 37 years old.
+    The dMRI data of the above participants are publicly available in the
+HCP-YA (db.humanconnectome.org) and dHCP (www.developingconnecto
+me.org) databases. The detailed acquisition parameters are described in [35]
+and [34]. In brief, the dHCP data was acquired on a 3T Philips Achieva MR
+scanner with TE = 90 ms, TR = 3800 ms, voxel size = 1.5 × 1.5 × 1.5mm3 ,
+and a total of 300 volumes including 20 baseline images and 280 diffusion-
+weighted images at b = 400/1000/2600 s/mm3 . The HCP-YA data was
+acquired on a customized 3T Connectome Siemens Skyra scanner with TE
+= 89.5 ms, TR = 5520 ms, voxel size = 1.25 × 1.25 × 1.25mm3 , and a total of
+288 volumes, including 18 baseline images and 90 diffusion-weighted images
+at b = 1000/2000/3000 s/mm3 . For both datasets, we use the dMRI data
+already preprocessed and provided in the public databases.
+    Tractography is performed to reconstruct the whole brain WM pathways
+using the two-tensor Unscented Kalman Filter (UKF) algorithm [36, 37].
+This method accounts for crossing fibers and offers sensitive and reliable
+fiber tracking for consistent fiber tracking across a wide range of popula-
+tions, ages, and scan acquisitions [30, 38, 39, 24]. Tractography parameters
+are set the same as those used in our previous work [30, 38, 39, 24]. The
+diffusion tensors and their microstructure measure FA values at each fiber
+
+                                      6
+point location are calculated during tractography. Additionally, the dHCP
+tractography is uniformly enlarged by 1.5× using a hardened affine transform
+based on a predefined scaling matrix, so that its overall brain size matched
+the spatial level of HCP-YA.
+
+2.2. Cross-Population Fiber Clustering Atlas Creation
+    Following the computation of tractography data for each subject, a whole-
+brain fiber clustering atlas is constructed using a robust, data-driven pipeline
+[31, 32, 24], available in the whitematteranalysis (WMA) software2 via Slicer-
+DMRI [40, 41]. This WMA pipeline has previously demonstrated success in
+generating tractography atlases for both white matter [30, 24] and cranial
+nerves [42, 33]. This atlas is fundamentally composed of sets of streamlines
+derived from multiple subjects that cluster together to form labeled anatom-
+ical structures. The process involves two major steps: first, a groupwise
+registration aligns tractography data from all subjects into a common space;
+second, spectral clustering is applied to divide the aligned tractography into
+distinct fiber clusters, as described in detail below.
+    First, for each of the dHCP and HCP-YA datasets, we select 100 subjects
+(with a 50% male-female ratio and no significant age difference, p < 0.05)
+for atlas creation. To enable efficient computation, we downsample the num-
+ber of WM streamlines to 21 × 104 per subject, thus leading to a total of
+21 × 104 × 200 = 42 million streamlines for the atlas creation. Second,
+a group-wise registration of the downsampled tractography data across all
+200 subjects is performed to align all data into the same space [31]. The
+group-wise tractography registration method performs an entropy-based reg-
+istration in a multiscale, coarse-to-fine manner based on the pairwise fiber
+trajectory similarity (mean closest point distance) across subjects, which can
+effectively handle the different brain sizes between the neonates and adults.
+Third, spectral clustering is employed to generate a high-dimensional fiber
+clustering atlas [32], dividing the aligned tractography into K clusters, where
+K is a user-specified parameter that determines the parcellation scale. We
+chose K = 800, which is shown to be a good parcellation scale of the whole
+brain WM in previous studies [43, 44, 24]. The spectral embedding creates a
+space that robustly represents each fiber based on its affinity to all other fibers
+across subjects. This representation provides a robust feature vector, or "fin-
+
+  2
+      https://github.com/SlicerDMRI/whitematteranalysis
+
+
+                                          7
+gerprint," describing each fiber for clustering. A key advantage of this fiber
+similarity matching is its robustness to local fiber tract variations, enhancing
+morphological consistency across subjects despite potential anatomical dif-
+ferences between adult and neonatal brains. Fourth, we perform anatomical
+curation of the fiber clusters by annotating each cluster with an anatomical
+label belonging to a certain anatomical tract (e.g., the corticospinal tract). To
+achieve this, we utilize the ORG atlas, which was constructed using HCP-YA
+data, as a reference. The two atlases are aligned through tractography-based
+registration [31], and the mean closest point distances [45, 32] are calculated
+to determine the spatial correspondence between clusters in the new atlas
+and those in the ORG atlas. Each cluster in the new atlas is then labeled
+according to the nearest corresponding cluster in the ORG atlas. In total,
+our NABA atlas contains an anatomical tract parcellation including 78 major
+anatomical WM tracts (Table 1). The NABA atlas and the user documen-
+tation are available at https://github.com/azurezhangwei/NABA-Atlas.
+
+2.3. Subject-specific Tract Identification and Diffusion Measure Extraction
+    For each neonate and adult brain under study, subject-specific tractog-
+raphy parcellation is performed by applying the curated atlas to the whole
+brain tractography to identify the anatomical fiber tracts. In detail, the
+whole brain tractography of each subject is aligned into the atlas space using
+the tractography-based registration [31]. The aligned subject-specific trac-
+tography data is spectrally embedded into the atlas space by computing the
+spatial distances of its streamlines to the atlas, followed by the assignment
+of each fiber to the closest atlas cluster [32]. Anatomical tract identifica-
+tion of each subject is conducted by finding the subject-specific clusters that
+correspond to the annotated atlas clusters.
+    Diffusion measures are extracted from each parcellated anatomical tract
+to quantify the microstructural properties of the brain white matter connec-
+tions. In this study, we focus on FA and the number of streamlines (NoS)
+measures, which are sensitive to the changes in the underlying cellular mi-
+crostructure in brain tissues [10]. FA is a widely used quantitative microstruc-
+ture measure to reflect the diffusion anisotropy of the water molecules. NoS
+is a dMRI measure that estimates the white matter connection strength.
+
+2.4. Statistical Analysis
+    We conduct the following analyses of WM fiber tracts to study WM de-
+velopment using the NABA atlas. First, we evaluate the applicability and
+
+                                       8
+Table 1: The 78 tracts included in our atlas. Except for tracts in commissural bundles
+and MCP, other tracts have left and right parts (L, R).
+
+       Category                               Tract name(s)
+  Association tracts       AF(L,R), EC(L,R), EmC(L,R), ILF(L,R),
+                           IOFF(L,R), MdLF(L,R), SLF-I(L,R),
+                           SLF-II(L,R), SLF-III(L,R), UF(L,R)
+  Commissural tracts       CC1, CC2, CC3, CC4, CC5, CC6, CC7
+    Limbic tracts          CB-D(L,R), CB-V(L,R)
+   Projection tracts       CST(L,R), CR-F(L,R), CR-P(L,R), SF(L,R),
+                           SO(L,R), SP(L,R), TF(L,R), TO(L,R), TT(L,R),
+                           TP(L,R)
+   Cerebellar tracts       CPC(L,R), ICP(L,R), Intra-CBLM-I&P(L,R),
+                           Intra-CBLM-PaT(L,R), MCP, SCP(L,R)
+   Superficial tracts      Sup-F(L,R), Sup-FP(L,R), Sup-O(L,R),
+                           Sup-OT(L,R), Sup-P(L,R), Sup-PO(L,R),
+                           Sup-PT(L,R), Sup-T(L,R)
+
+Tract name abbreviation: AF, arcuate fasciculus; EC, external capsule; EmC,
+extreme capsule; ILF, inferior longitudinal fasciculus; IOFF, inferior occipito-
+frontal fasciculus; MdLF, middle longitudinal fasciculus; SLF-I, superior longi-
+tudinal fasciculus I; SLF-II, superior longitudinal fasciculus II; SLF-III, supe-
+rior longitudinal fasciculus III; UF, uncinate fasciculus; CC1–CC7, corpus cal-
+losum 1–7; CB-D, cingulum bundle dorsal; CB-V, cingulum bundle ventral; CST,
+corticospinal tract; CR-F, corona radiata frontal; CR-P, corona radiata pari-
+etal; SF, striato-frontal; SO, striato-occipital; SP, striato-parietal; TF, thalamo-
+frontal; TO, thalamo-occipital; TT, thalamo-temporal; TP, thalamo-parietal; CPC,
+cortico-ponto-cerebellar; ICP, inferior cerebellar peduncle; Intra-CBLM-I&P, in-
+tracerebellar input and Purkinje tract; Intra-CBLM-PaT, intracerebellar paral-
+lel tract; MCP, middle cerebellar peduncle; SCP, superior cerebellar peduncle;
+Sup-F, superficial-frontal; Sup-FP, superficial-frontal-parietal; Sup-O, superficial-
+occipital; Sup-OT, superficial-occipital-temporal; Sup-P, superficial-parietal; Sup-
+PO, superficial-parietal-occipital; Sup-PT, superficial-parietal-temporal; Sup-T,
+superficial-temporal.
+
+
+
+
+                                          9
+robustness of the NABA atlas for concurrent WM mapping in neonatal and
+adult brains. Next, we investigate the development of WM in different neona-
+tal ages in comparison to adults. Finally, we perform two group-wise com-
+parisons within the neonatal cohort—male vs. female and preterm vs. full-
+term—to examine the impact of sex and premature birth on the development
+of WM tracts, respectively.
+
+2.4.1. Concurrent WM Mapping between Neonate and Adult Brains
+    A key feature of the NABA atlas is its ability to leverage both neonatal
+and adult brain data, enabling the identification of common fiber tracts for
+concurrent WM mapping across these two populations. To assess the ap-
+plicability and robustness of this concurrent WM mapping, we compare the
+NABA atlas with the ORG atlas [24], which was created exclusively using
+adult data. For quantitative evaluation, we compute the identification rate
+(IR) for each fiber tract in both the dHCP and HCP-YA datasets using the
+NABA and ORG atlases. Specifically, for each fiber tract, we obtain two
+tract identification results per subject: one identified using the NABA atlas
+and the other using the ORG atlas. A fiber tract is considered successfully
+identified if it contains at least 10 streamlines, and its IR is defined as the
+percentage of successfully identified tracts across all subjects in a population
+(n=490 dHCP neonates or n=1065 HCP-YA adults). This threshold is cho-
+sen because previous studies have commonly used 1–20 streamlines to define
+the presence of a tract [24, 46, 47], and 10 serves as a moderate and ro-
+bust choice considering the lower streamline density in neonatal data. With
+the computed IRs, we test whether the tract identification results using the
+NABA atlas show a significant improvement compared to the ORG atlas.
+To do so, for each of the dHCP and HCP-YA datasets, we conduct a paired
+t-test on the IRs of all fiber tracts between the two atlases.
+
+2.4.2. Developmental Changes of WM in Neonates and Adults
+    The NABA atlas provides a common space for both neonatal and adult
+brains, allowing for direct WM comparison between the populations despite
+the large anatomical variability. This serves as a valuable tool for using
+adult brains as a reference to explore early developmental trends in WM in
+different neonatal ages. In our study, using our NABA atlas, we examine the
+developmental changes of WM microstructure in neonates from the dHCP
+dataset (scanned at 29.29-45.14 weeks PMA) with respect to the HCP-YA
+adult brains (scanned at 22–37 years). For the dHCP data, to eliminate any
+
+                                      10
+potential effects associated with preterm birth, we analyze only the full-term
+neonates (n=307, age at birth ≥ 32 weeks PMA), as the threshold of 32
+weeks PMA is commonly used to define very preterm infants in neonatal
+research[48, 49, 6]. For the HCP-YA, we include all adult subjects (n=1065).
+To quantify the developmental changes in each fiber tract, we calculate how
+the tract-averaged FA measure varies with age in each population. For dHCP,
+following the analysis by Warrington et al. [6], a general linear model (GLM)
+is applied to assess the relationship between the FA and gestational age in
+weeks at the time of the scan. The resulting beta coefficients are used to
+quantify the rate of change with age, and the p-values (Bonferroni corrected
+among all tracts) are used to determine whether there are statistically sig-
+nificant developmental changes. We fit a similar linear model for HCP-YA,
+obtaining a consistent measure of beta coefficients and enabling direct com-
+parison of developmental trajectories across populations. The obtained beta
+coefficients of each tract from the two datasets are compared to assess the
+WM development rate and the growth of FA values as age increases are
+plotted for visual comparison.
+
+2.4.3. Sex Effects in WM Development of Neonatal Brains
+    Understanding the sex effects on WM development is crucial for com-
+prehending how sex-specific factors influence early brain connectivity, de-
+velopmental trajectories, and susceptibility to neurodevelopmental disorders
+[50]. In our study, using our NABA atlas, we explore sex differences in the
+developmental changes of WM in neonates. To eliminate any potential ef-
+fects associated with pre-term birth, we include only the full-term neonates
+(n=307, age at birth >= 32 weeks PMA). Furthermore, to eliminate age
+differences, we match males and females by age, selecting the largest set
+of age-matched pairs, including 116 female and 116 male neonates. Then,
+within each group, for each tract, we perform a GLM analysis between the
+subject’s tract FA and gestational age to quantify the rate of WM change
+with age (i.e., the beta coefficient).
+
+2.4.4. Preterm Birth Effects in WM Development of Neonatal Brains
+    Premature birth is widely recognized as a crucial factor that causes pro-
+found disruptions in neurodevelopment throughout life [51]. In our study,
+we explore differences in WM changes between the full-term and preterm
+neonates to study the influence of birth status on brain development. In this
+analysis, we use data from the 134 preterm (age at birth < 32 weeks PMA)
+
+                                     11
+and 307 full-term (age at birth >= 32 weeks PMA) neonates in the dHCP
+dataset. Then, within each group, for each tract, we perform a GLM analysis
+between the subject’s tract FA and gestational age to quantify the rate of
+WM change with age (i.e., the beta coefficient).
+
+3. Results
+3.1. Assessing the NABA Atlas for Concurrent WM Mapping between
+      Neonate and Adult Brains
+    Figure 2 presents a comparison of tract IRs of the dHCP and HCP-YA
+datasets between the ORG atlas and the NABA atlas. For the HCP-YA
+adult data, the average identification rates across all tracts are 99.996% with
+the ORG atlas and the same with the NABA atlas. In contrast, for the
+dHCP neonate data, the NABA atlas achieves an average IR of 98.553%,
+outperforming the ORG atlas, which achieves 96.522%. A t-test on the
+IRs across all tracts shows a statistically significant improvement in favor
+of NABA (p < 0.0001). These findings demonstrate that the NABA at-
+las significantly enhances tract detection performance in neonate data while
+maintaining comparable results to the ORG atlas for adult data.
+    Figure 3 visually compares the tracts parcellated in example dHCP and
+HCP-YA subjects using the ORG and NABA atlases. The left panel of Fig-
+ure 3 highlights example tracts from dHCP subjects, showcasing those with
+the largest IR differences (i.e., AF_right, Intra-CBLM-PaT, SLF-II_left)
+and those with the smallest differences (i.e., CST, MdLF_left, TF_left).
+For tracts with the largest IR differences, the NABA atlas identifies more
+streamlines and yields more anatomically plausible structures, while tracts
+with minimal differences exhibit consistent patterns across both atlases. The
+right panel of Figure 3 shows the above tracts in the HCP-YA data. We can
+observe that both atlases produce visually consistent and comparable tracts,
+demonstrating their robustness in adult data.
+
+3.2. Exploring Developmental Changes of Neonatal Brains with Respect to
+      the Adult Brains
+    Figure 4 gives the rate of FA change with age (i.e., the beta coefficient)
+for each fiber tract and each of the dHCP and HCP-YA datasets. In dHCP,
+all tracts show a significant FA increase with age (p < 0.05) except for
+the left and right Intra-CBLM-l&P tracts. In contrast, within the HCP-YA
+age window (22–37 years), none of the tracts exhibit a significant increase
+
+                                      12
+                                  (a) dHCP
+
+
+
+
+                                 (b) HCP-YA
+
+Figure 2: IR comparison between NABA atlas and ORG atlas on dHCP and HCP-YA.
+
+
+
+
+                                    13
+Figure 3: Visualization of the tract parcellation results with the NABA atlas and ORG
+atlas. Six example tracts are visualized. For each tract, the parcellation results in three
+dHCP subjects (left panel) and three HCP-YA subjects (right panel) are visualized.
+
+
+with age. Tract category analysis reveals that, in the dHCP, association
+tracts generally exhibit the most rapid development, while cerebellar tracts
+show the slowest growth. Interestingly, the left AF and left SLF II tracts
+exhibit the highest beta coefficients in the dHCP data. In contrast, the intra-
+cerebellar tracts (I&P and PaT) display the lowest beta coefficients. Figure
+5 shows the changes in FA with increasing age in these tracts.
+
+3.3. Investigating Sex Differences in Early WM Development
+    Figure 6 presents the results of the sex difference comparison in the rate
+of FA change with age in dHCP. Overall, female neonates exhibit more rapid
+development across all tract categories. Across all individual tracts, there
+are a total of 61 tracts where female neonates exhibit higher beta coefficients
+and a total of 17 tracts where male neonates exhibit higher beta coefficients.
+These findings generally suggest that females experience faster WM develop-
+ment during the early stages of life after birth.
+
+3.4. Probing Developmental Differences due to Preterm Birth
+    Figure 7 gives the results of the full-term vs preterm comparison in the
+rate of FA change with age in dHCP. The full-term subjects have signifi-
+cantly higher beta coefficients of FA than preterm subjects in association,
+commissural, limbic, and superficial tracts, with a similar beta coefficient
+in the projection tracts and a lower beta coefficient in the cerebellar tracts.
+
+                                            14
+Figure 4: Rate of change with age (beta coefficient) of FA in each of the dHCP and HCP-
+YA populations. The two groups are distinguished using different marker styles for the
+bars. Tracts of different categories are color-coded. The upper right corner displays the
+rate of change at the category level for both populations.
+
+
+Overall, in full-term subjects, we identify 58 tracts with higher beta coeffi-
+cients, whereas 20 have lower beta coefficients. Among these 20 tracts, the
+ones showing the lowest beta coefficients are the CST, CR-P, and cerebellar
+tracts - all known to be motor-related pathways.
+
+4. Discussion
+    This study proposes NABA, a novel WM tractography atlas constructed
+from a large-scale dMRI spanning both neonates and adults. By aligning the
+developing and adultmature brains into a common space with anatomical la-
+beling, the NABA atlas enables concurrent mapping and direct comparison
+of WM across different developmental stages of human brain development.
+Through comprehensive experiments, NABA demonstrates superior perfor-
+mance in identifying WM tracts in neonates. We utilized it to examine the
+developmental trends of WM in neonates with respect to young adults. Fur-
+thermore, we investigate sex differences in development and the impact of
+preterm birth in neonates.
+    A key innovation of NABA is that it is a unified and population-averaged
+atlas that spans both neonates (scanned at 29.29-45.14 weeks PMA) and
+
+                                           15
+Figure 5: Changes in FA with increasing age in the AF, SLF II, and Intra-CBLM tracts.
+                                         16
+                 association   commissural limbic        projection   cerebellar    superficial
+
+
+
+Figure 6: Sex differences in the rate of FA change with age (beta coefficient) of neonates
+in dHCP. The two groups (male and female) were balanced for birth age, and the GLM
+additionally controlled for birth weight and head circumference at scan. The two groups
+are distinguished using different marker styles for the bars. Tracts of different categories
+are color-coded. The upper right corner displays the rate of change at the category level
+for both populations.
+
+
+
+
+                 association   commissural limbic    projection       cerebellar   superficial
+
+
+
+Figure 7: Rate of change with age (beta coefficient) of FA in full-term and preterm neonates
+in dHCP. The two groups were sex-balanced, and the GLM controlled for birth weight and
+head circumference at scan. The two groups are distinguished using different marker styles
+for the bars. Tracts of different categories are color-coded. The upper right corner displays
+the rate of change at the category level for both populations.
+
+
+                                                    17
+young adults (scanned at 22–37 years). It provides a common template that
+enables meaningful and anatomically consistent comparisons of WM tracts
+between neonates and young adults. There have been existing atlases cre-
+ated based on specific populations. But they often struggle to generalize
+across different age groups. NABA addresses this challenge through the fol-
+lowing key points. First, an equal number of representative subjects are se-
+lected from both populations to participate in atlas creation with equivalent
+weighting. Tractography from both populations is registered into a common
+space. Second, a data-driven approach of tractography-based spectral clus-
+tering is performed to group morphologically similar fibers. These points
+ensure anatomically meaningful clustering and remain consistent across pop-
+ulations, enabling robust identification of tracts while preserving age-specific
+anatomical variations. Unlike previous neonatal studies that excluded the
+cerebellum due to substantial cross-age registration challenges, NABA sup-
+ports whole-brain fiber analysis, enhancing anatomical coverage. Subsequent
+experiments further assessed NABA’s advantages, demonstrating its high
+performance in fiber tract identification across both populations.
+    In our first analysis, we evaluate NABA for concurrent WM mapping in
+both neonates and young adults. Compared to the ORG atlas that was cre-
+ated using only the adult data, our NABA atlas achieves highly improved
+tract detection performance in neonates. The quantitative results show sig-
+nificantly enhanced tract identification rates in tracts such as AF, SLF II,
+Intra-CBLM-PaT tract, and Sup-O. For example, NABA enables more com-
+plete and spatially coherent AF and SLF II tracts that are known to be
+associated with language. Visualization results demonstrate that NABA re-
+constructs tract geometries with greater anatomical plausibility compared to
+the ORG atlas, which yields sparser and fragmented streamlines. It should
+be noted that identifying fibers in neonates remains challenging due to the
+immature microstructural properties of neonatal WM. Specifically, low myeli-
+nation and reduced anisotropy in neonates lead to insufficient directional dif-
+fusion signals for tractography [52], resulting in inherently lower IR compared
+to adults, even when using an atlas constructed for this age group. On the
+other hand, in the HCP-YA data, we show that NABA can maintain com-
+parable results in young adults with the ORG atlas in terms of quantitative
+tract IR and visualization of tract shape. We also calculate the mean mi-
+crostructure FA values across all tracts detected in each atlas and find highly
+similar values (0.495 vs 0.498). Overall, these results indicate that NABA
+offers better adaptability to age-specific anatomical variability, especially in
+
+                                      18
+tracts that undergo considerable structural changes across development.
+    In our second analysis, we examine the rate of change of FA across
+neonates and young adults. We observe widespread and significant FA in-
+creases with age among neonates. Association tracts, such as the left AF
+and the left SLF II, known to be language-related [53, 54, 55], exhibit the
+most rapid developmental changes. This aligns with previous findings [56, 5],
+where AF is relatively underdeveloped at birth but develops rapidly during
+the first year of life compared to other tracts. For the left SLF II, Liang
+et al. find that SLF II exhibits the lowest developmental level among the
+three subdivisions of SLF in neonates [15]. Our analysis not only identifies
+this but also shows that SLF II has a more rapid development trend. The
+intra-cerebellar tracts (I&P and PaT), known to be majorly associated with
+motor functions [57, 58, 59], display the lowest beta coefficients. However,
+the FA of them is closer to the young adult level. This may indicate earlier
+development of the cerebellum, which aligns with the findings from Deoni et
+al. that the cerebellum is one of the earliest regions to undergo myelination
+[60]. As tracts associated with motor and cognitive function, their continued
+growth may reflect the relatively underdeveloped state of motor and cogni-
+tive abilities at birth [61, 62]. Across the lifespan, Lebel et al report that
+FA increases during childhood and adolescence, reaches a peak between 20
+and 42 years of age, and then decreases [63] non-linear changes of FA as age
+increases during adulthood. To investigate this, we also fit the FA with birth
+age in years to a Poisson curve to capture potential nonlinear developmen-
+tal patterns following the analysis in [63], but we do not find any statistical
+significance. In our study, our results show no significant growth of FA in
+any tracts under study, possibly due to the short age range in the HCP-YA
+cohort.
+    We further examine sex-related differences in neonatal WM development.
+Female neonates exhibit generally faster FA increases across most tract cat-
+egories compared to age-matched male neonates, except in cerebellar tracts.
+Across individual tracts, females show higher beta coefficients in most tracts
+than males. I the existing studies, Deoni et al. report that between 3 months
+and 5 years of age, females show faster development of myelin water fraction
+(MWF) than males in the genu of the corpus callosum, left frontal and tem-
+poral white matter, and right optic radiations [60]. Geng et al. report that
+males exhibit lower FA than females in the right sensory tract among children
+aged 0 to 2 years [56]. Two review articles also conclude that there are sex
+differences in brain development that persist to a certain age [64, 65]. In our
+
+                                      19
+analysis, the overall faster FA growth rate observed in females may indicate
+sex-specific trends in brain development. These results may have implica-
+tions for understanding sex-based differences in neurodevelopment and call
+for further longitudinal investigation.
+    Our final analysis investigates the effects of preterm birth on WM devel-
+opmentmaturation. We find the FA of tracts in preterm infants is overall
+lower than in full-term infants. It suggests that preterm birth may lead to
+delayed development. Previous research findings similarly support this point.
+For example, Lee et al. find preterm infants have lower WM FA values than
+full-term infants [66]. Thompson et al. find that FA was lower in the corpus
+callosum of very preterm infants compared to full-term infants [67]. Two
+TBSS studies find that preterm infants show lower FA in the genu and sple-
+nium of the corpus callosum, frontal white matter, centrum semiovale, exter-
+nal capsule, and corona radiata [68, 69]. Compared to full-term neonates, our
+analysis also finds that preterm infants exhibit lower FA growth rates in the
+majority of tracts, including association, commissural, limbic, and superfi-
+cial tracts. This suggests delayed or disrupted development in these regions.
+Notably, our results show that certain motor-related tracts, including CST,
+CR-P, and intra-cerebellar tracts, show relatively higher FA growth rates in
+preterm infants. To complement the FA analysis, we also investigate the
+mean diffusivity (MD) of the two groups, as shown in Figures S4 and S5.
+Consistent with the FA results, the overall trend of decreasing MD points to
+accelerated white matter development in preterm infants. The smaller effect
+sizes (beta changes) for MD compared to FA, however, indicate that FA is
+likely a more sensitive biomarker for capturing developmental differences be-
+tween preterm and full-term cohorts. Several studies in preterm populations
+have suggested similar tendencies. Giménez et al. found higher FA at term-
+equivalent age in preterm infants, possibly reflecting accelerated maturation
+in sensorimotor pathways [70]. Kimpton et al. and Berman et al. also re-
+ported rapid maturation of the corticospinal and related sensorimotor tracts
+in this population [71, 72]. In addition, diffusion measures in the cerebel-
+lar peduncles have been associated with early motor performance, indicating
+close coupling between cerebellar and motor systems during development
+[73]. Overall, these findings suggest that although global WM maturation in
+preterm infants is delayed, motor-related tracts may develop relatively faster,
+possibly influenced by early postnatal sensorimotor activity. Further longi-
+tudinal work is needed to clarify whether this represents true acceleration or
+transient adaptation. The NABA atlas enables detailed tract-wise investi-
+
+                                      20
+gation of these differences. It may aid future studies in understanding the
+developmental mechanisms underlying preterm-related alterations in brain
+connectivity.
+    While NABA demonstrates robust performance in identifying WM tracts
+across age groups, several limitations should be noted. First, the current
+atlas is constructed using diffusion MRI data from only two age groups:
+neonates from the dHCP and young adults from the HCP-YA. A future di-
+rection will be to extend the atlas to include high-quality lifespan datasets,
+covering a broader range of age groups, and thus enabling the investigation
+of WM development across the full lifespan. Second, the tract parcellation
+and anatomical labeling rely on unsupervised spectral clustering that can be
+time-consuming. Future work could include the application of deep learn-
+ing for fast atlas creation using a larger scale of data. Third, this study
+primarily uses FA for group-wise analysis. While our supplementary MD
+findings show a similar trend, differences exist due to their distinct biological
+underpinnings. Future work could systematically compare multiple diffusion
+metrics to elucidate their commonalities and differences.
+
+5. Conclusion
+    This study proposes NABA, a novel cross-population brain WM atlas
+that enables concurrent mapping and direct anatomical comparison of WM
+between neonates and adults. NABA offers a standardized framework and
+toolset for studying the WM across different populations and developmental
+stages, which overcomes limitations of traditional population-specific atlases
+and significantly improves tract identification, particularly in neonatal data.
+By using NABA, our analyses reveal biologically meaningful developmental
+trends. We show that tract-specific differences in neonatal WM development
+compared to young adults, and that both sex and preterm birth influence WM
+FA development. These findings not only affirm the sensitivity of NABA for
+capturing subtle developmental differences but also contribute novel insights
+into early brain development patterns. Importantly, NABA offers an effec-
+tive framework for investigating white matter across different developmental
+stages, even in cases of atypical development such as developmental disor-
+ders. Although this study primarily focuses on neonates and young adults,
+extending NABA to cover the full lifespan may help uncover the continuous
+trajectory of white matter changes throughout life.
+
+
+                                       21
+6. Acknowledgments
+    This work is in part supported by the National Natural Science Founda-
+tion of China [grant number 62371107] and the National Key R&D Program
+of China [grant number 2023YFE0118600].
+
+References
+ [1] M. R. Asato, R. Terwilliger, J. Woo, B. Luna, White matter development
+     in adolescence: a DTI study, Cereb. Cortex 20 (9) (2010) 2122–2131.
+
+ [2] C. Lebel, S. Deoni, The development of brain white matter microstruc-
+     ture, Neuroimage 182 (2018) 207–218.
+
+ [3] J. Dubois, G. Dehaene-Lambertz, S. Kulikova, C. Poupon, P. S. Hüppi,
+     L. Hertz-Pannier, The early development of brain white matter: a review
+     of imaging studies in fetuses, newborns and infants, Neuroscience 276
+     (2014) 48–71.
+
+ [4] H. Huang, J. Zhang, S. Wakana, W. Zhang, T. Ren, L. J. Richards,
+     P. Yarowsky, P. Donohue, E. Graham, P. C. M. van Zijl, S. Mori, White
+     and gray matter development in human fetal, newborn and pediatric
+     brains, Neuroimage 33 (1) (2006) 27–38.
+
+ [5] G. M. Sket, J. Overfeld, M. Styner, J. H. Gilmore, S. Entringer, P. D.
+     Wadhwa, J. M. Rasmussen, C. Buss, Neonatal white matter maturation
+     is associated with infant language development, Front. Hum. Neurosci.
+     13 (2019) 434.
+
+ [6] S. Warrington, E. Thompson, M. Bastiani, J. Dubois, L. Baxter,
+     R. Slater, S. Jbabdi, R. B. Mars, S. N. Sotiropoulos, Concurrent map-
+     ping of brain ontogeny and phylogeny within a common space: Stan-
+     dardized tractography and applications, Sci Adv 8 (42) (2022) eabq2022.
+
+ [7] G. Zhai, W. Lin, K. P. Wilber, G. Gerig, J. H. Gilmore, Comparisons of
+     regional white matter diffusion in healthy neonates and adults performed
+     with a 3.0-T head-only MR imaging unit, Radiology 229 (3) (2003) 673–
+     681.
+
+ [8] P. J. Basser, J. Mattiello, D. LeBihan, MR diffusion tensor spectroscopy
+     and imaging, Biophys. J. 66 (1) (1994) 259–267.
+
+                                     22
+ [9] P. J. Basser, S. Pajevic, C. Pierpaoli, J. Duda, A. Aldroubi, In vivo fiber
+     tractography using DT-MRI data, Magn. Reson. Med. 44 (4) (2000)
+     625–632.
+
+[10] F. Zhang, A. Daducci, Y. He, S. Schiavi, C. Seguin, R. E. Smith, C.-H.
+     Yeh, T. Zhao, L. J. O’Donnell, Quantitative mapping of the brain’s
+     structural connectivity using diffusion MRI tractography: A review,
+     Neuroimage 249 (2022) 118870.
+
+[11] K. Pannek, S. M. Scheck, P. B. Colditz, R. N. Boyd, S. E. Rose, Mag-
+     netic resonance diffusion tractography of the preterm infant brain: a
+     systematic review, Dev. Med. Child Neurol. 56 (2) (2014) 113–124.
+
+[12] A. S. Verschuur, R. King, C. M. W. Tax, M. F. Boomsma, G. van Wezel-
+     Meijler, A. Leemans, L. M. Leijser, Methodological considerations on
+     diffusion MRI tractography in infants aged 0-2 years: a scoping review,
+     Pediatr. Res. (2024) 1–18.
+
+[13] M. Wilkinson, A. R. Lim, A. H. Cohen, A. M. Galaburda, E. Takahashi,
+     Detection and growth pattern of arcuate fasciculus from newborn to
+     adult, Front. Neurosci. 11 (2017) 389.
+
+[14] H. J. Tak, J. H. Kim, S. M. Son, Developmental process of the arcuate
+     fasciculus from infancy to adolescence: a diffusion tensor imaging study,
+     Neural Regen. Res. 11 (6) (2016) 937–943.
+
+[15] W. Liang, Q. Yu, W. Wang, T. Dhollander, E. Suluba, Z. Li, F. Xu,
+     Y. Hu, Y. Tang, S. Liu, A comparative study of the superior longitu-
+     dinal fasciculus subdivisions between neonates and young adults, Brain
+     Struct. Funct. 227 (8) (2022) 2713–2730.
+
+[16] M. Ouyang, J. Dubois, Q. Yu, P. Mukherjee, H. Huang, Delineation of
+     early brain development from fetuses to infants with diffusion MRI and
+     beyond, Neuroimage 185 (2019) 836–850.
+
+[17] L. Cabral, L. Zubiaurre-Elorza, C. J. Wild, A. Linke, R. Cusack,
+     Anatomical correlates of category-selective visual regions have distinc-
+     tive signatures of connectivity in neonates, Dev. Cogn. Neurosci. 58
+     (2022) 101179.
+
+
+
+                                      23
+[18] A. Truzzi, R. Cusack, The development of intrinsic timescales: A com-
+     parison between the neonate and adult brain, Neuroimage 275 (2023)
+     120155.
+
+[19] W. D. Gaillard, C. B. Grandin, B. Xu, Developmental aspects of pedi-
+     atric fMRI: considerations for image acquisition, analysis, and interpre-
+     tation, Neuroimage 13 (2) (2001) 239–249.
+
+[20] K. Kazemi, H. A. Moghaddam, R. Grebe, C. Gondry-Jouet, F. Wallois,
+     A neonatal atlas template for spatial normalization of whole-brain mag-
+     netic resonance images of newborns: preliminary results, Neuroimage
+     37 (2) (2007) 463–473.
+
+[21] D. L. Collins, P. Neelin, T. M. Peters, A. C. Evans, Automatic 3D in-
+     tersubject registration of MR volumetric data in standardized talairach
+     space, J. Comput. Assist. Tomogr. 18 (2) (1994) 192–205.
+
+[22] A. R. Laird, S. B. Eickhoff, F. Kurth, P. M. Fox, A. M. Uecker, J. A.
+     Turner, J. L. Robinson, J. L. Lancaster, P. T. Fox, ALE meta-analysis
+     workflows via the brainmap database: Progress towards a probabilistic
+     functional brain atlas, Front. Neuroinform. 3 (2009) 23.
+
+[23] J. Mazziotta, A. Toga, A. Evans, P. Fox, J. Lancaster, K. Zilles,
+     R. Woods, T. Paus, G. Simpson, B. Pike, C. Holmes, L. Collins,
+     P. Thompson, D. MacDonald, M. Iacoboni, T. Schormann, K. Amunts,
+     N. Palomero-Gallagher, S. Geyer, L. Parsons, K. Narr, N. Kabani,
+     G. Le Goualher, D. Boomsma, T. Cannon, R. Kawashima, B. Mazoyer,
+     A probabilistic atlas and reference system for the human brain: Inter-
+     national consortium for brain mapping (ICBM), Philos. Trans. R. Soc.
+     Lond. B Biol. Sci. 356 (1412) (2001) 1293–1322.
+
+[24] F. Zhang, Y. Wu, I. Norton, L. Rigolo, Y. Rathi, N. Makris, L. J.
+     O’Donnell, An anatomically curated fiber clustering white matter atlas
+     for consistent white matter tract parcellation across the lifespan, Neu-
+     roimage 179 (2018) 429–447.
+
+[25] P. Guevara, D. Duclap, C. Poupon, L. Marrakchi-Kacem, P. Fillard,
+     D. Le Bihan, M. Leboyer, J. Houenou, J.-F. Mangin, Automatic fiber
+     bundle segmentation in massive tractography datasets using a multi-
+     subject bundle atlas, Neuroimage 61 (4) (2012) 1083–1099.
+
+                                     24
+[26] C. Román, M. Guevara, R. Valenzuela, M. Figueroa, J. Houenou,
+     D. Duclap, C. Poupon, J.-F. Mangin, P. Guevara, Clustering of whole-
+     brain white matter short association bundles using HARDI data, Front.
+     Neuroinform. 11 (2017) 73.
+
+[27] F.-C. Yeh, S. Panesar, D. Fernandes, A. Meola, M. Yoshino, J. C.
+     Fernandez-Miranda, J. M. Vettel, T. Verstynen, Population-averaged
+     atlas of the macroscale human structural connectome and its network
+     topology, Neuroimage 178 (2018) 57–68.
+
+[28] R. Dimitrova, S. Arulkumaran, O. Carney, A. Chew, S. Falconer, J. Cia-
+     rrusta, T. Wolfers, D. Batalle, L. Cordero-Grande, A. N. Price, R. P.
+     A. G. Teixeira, E. Hughes, A. Egloff, J. Hutter, A. Makropoulos, E. C.
+     Robinson, A. Schuh, K. Vecchiato, J. K. Steinweg, R. Macleod, A. F.
+     Marquand, G. McAlonan, M. A. Rutherford, S. J. Counsell, S. M. Smith,
+     D. Rueckert, J. V. Hajnal, J. O’Muircheartaigh, A. D. Edwards, Phe-
+     notyping the preterm brain: Characterizing individual deviations from
+     normative volumetric development in two large infant cohorts, Cereb.
+     Cortex 31 (8) (2021) 3665–3677.
+
+[29] A. Makropoulos, P. Aljabar, R. Wright, B. Hüning, N. Merchant,
+     T. Arichi, N. Tusor, J. V. Hajnal, A. D. Edwards, S. J. Counsell,
+     D. Rueckert, Regional growth and atlasing of the developing human
+     brain, Neuroimage 125 (2016) 456–478.
+
+[30] Y. Li, W. Zhang, Y. Wu, L. Yin, C. Zhu, Y. Chen, S. Cetin-Karayumak,
+     K. I. K. Cho, L. R. Zekelman, J. Rushmore, Y. Rathi, N. Makris, L. J.
+     O’Donnell, F. Zhang, A diffusion MRI tractography atlas for concurrent
+     white matter mapping across eastern and western populations, Scientific
+     Data 11 (1) (2024) 1–14.
+
+[31] L. J. O’Donnell, W. M. Wells, 3rd, A. J. Golby, C.-F. Westin, Unbi-
+     ased groupwise registration of white matter tractography, Med. Image
+     Comput. Comput. Assist. Interv. 15 (Pt 3) (2012) 123–130.
+
+[32] L. J. O’Donnell, C.-F. Westin, Automatic tractography segmentation
+     using a high-dimensional white matter atlas, IEEE Trans. Med. Imaging
+     26 (11) (2007) 1562–1575.
+
+
+
+                                    25
+[33] F. Zhang, G. Xie, L. Leung, M. A. Mooney, L. Epprecht, I. Nor-
+     ton, Y. Rathi, R. Kikinis, O. Al-Mefty, N. Makris, A. J. Golby, L. J.
+     O’Donnell, Creation of a novel trigeminal tractography atlas for auto-
+     mated trigeminal nerve identification, Neuroimage 220 (2020) 117063.
+
+[34] A. Makropoulos, E. C. Robinson, A. Schuh, R. Wright, S. Fitzgib-
+     bon, J. Bozek, S. J. Counsell, J. Steinweg, K. Vecchiato, J. Passerat-
+     Palmbach, G. Lenz, F. Mortari, T. Tenev, E. P. Duff, M. Bastiani,
+     L. Cordero-Grande, E. Hughes, N. Tusor, J.-D. Tournier, J. Hutter,
+     A. N. Price, R. P. A. G. Teixeira, M. Murgasova, S. Victor, C. Kelly,
+     M. A. Rutherford, S. M. Smith, A. D. Edwards, J. V. Hajnal, M. Jenk-
+     inson, D. Rueckert, The developing human connectome project: A mini-
+     mal processing pipeline for neonatal cortical surface reconstruction, Neu-
+     roimage 173 (2018) 88–112.
+
+[35] J. S. Elam, M. F. Glasser, M. P. Harms, S. N. Sotiropoulos, J. L. R.
+     Andersson, G. C. Burgess, S. W. Curtiss, R. Oostenveld, L. J. Larson-
+     Prior, J.-M. Schoffelen, M. R. Hodge, E. A. Cler, D. M. Marcus, D. M.
+     Barch, E. Yacoub, S. M. Smith, K. Ugurbil, D. C. Van Essen, The human
+     connectome project: A retrospective, Neuroimage 244 (2021) 118543.
+
+[36] S. Farquharson, J.-D. Tournier, F. Calamante, G. Fabinyi, M. Schneider-
+     Kolsky, G. D. Jackson, A. Connelly, White matter fiber tractography:
+     why we need to move beyond DTI, J. Neurosurg. 118 (6) (2013) 1367–
+     1377.
+
+[37] S. B. Vos, M. A. Viergever, A. Leemans, Multi-fiber tractography visu-
+     alizations for diffusion MRI data, PLoS One 8 (11) (2013) e81453.
+
+[38] T. Xue, F. Zhang, C. Zhang, Y. Chen, Y. Song, A. J. Golby, N. Makris,
+     Y. Rathi, W. Cai, L. J. O’Donnell, Superficial white matter analysis:
+     An efficient point-cloud-based deep learning framework with supervised
+     contrastive learning for consistent tractography parcellation across pop-
+     ulations and dMRI acquisitions, Med. Image Anal. 85 (2023) 102759.
+
+[39] F. Zhang, S. Cetin Karayumak, N. Hoffmann, Y. Rathi, A. J. Golby,
+     L. J. O’Donnell, Deep white matter analysis (DeepWMA): Fast and con-
+     sistent tractography segmentation, Med. Image Anal. 65 (2020) 101761.
+
+
+
+                                      26
+[40] F. Zhang, T. Noh, P. Juvekar, S. F. Frisken, L. Rigolo, I. Norton, T. Ka-
+     pur, S. Pujol, W. Wells III, A. Yarmarkovich, et al., Slicerdmri: diffusion
+     mri and tractography research software for brain cancer surgery planning
+     and visualization, JCO clinical cancer informatics 4 (2020) 299–309.
+
+[41] I. Norton, W. I. Essayed, F. Zhang, S. Pujol, A. Yarmarkovich, A. J.
+     Golby, G. Kindlmann, D. Wassermann, R. S. J. Estepar, Y. Rathi, et al.,
+     Slicerdmri: open source diffusion mri software for brain cancer research,
+     Cancer research 77 (21) (2017) e101–e103.
+
+[42] Q. Zeng, J. Huang, J. He, S. Chen, L. Xie, Z. Chen, W. Guo, S. Yao,
+     M. Li, M. Li, Y. Feng, Automated identification of the retinogenicu-
+     late visual pathway using a high-dimensional tractography atlas, IEEE
+     Transactions on Cognitive and Developmental Systems PP (99) 1–1.
+
+[43] L. J. O’Donnell, Y. Suter, L. Rigolo, P. Kahali, F. Zhang, I. Norton,
+     A. Albi, O. Olubiyi, A. Meola, W. I. Essayed, P. Unadkat, P. A. Ciris,
+     W. M. Wells, 3rd, Y. Rathi, C.-F. Westin, A. J. Golby, Automated
+     white matter fiber tract identification in patients with brain tumors,
+     Neuroimage Clin 13 (2017) 138–153.
+
+[44] Y. Wu, S. Ahmad, P.-T. Yap, Highly reproducible whole brain parcella-
+     tion in individuals via voxel annotation with fiber clusters, Med. Image
+     Comput. Comput. Assist. Interv. 12907 (2021) 477–486.
+
+[45] B. Moberts, A. Vilanova, J. J. van Wijk, Evaluation of fiber clustering
+     methods for diffusion tensor imaging, in: VIS 05. IEEE Visualization,
+     2005., 2005, pp. 65–72.
+
+[46] J. A. Brown, K. H. Terashima, A. C. Burggren, L. M. Ercoli, K. J. Miller,
+     G. W. Small, S. Y. Bookheimer, Brain network local interconnectivity
+     loss in aging apoe-4 allele carriers, Proceedings of the National Academy
+     of Sciences 108 (51) (2011) 20760–20765.
+
+[47] M. Drakesmith, K. Caeyenberghs, A. Dutt, G. Lewis, A. S. David, D. K.
+     Jones, Overcoming the effects of false positives and threshold bias in
+     graph theoretical analyses of neuroimaging data, Neuroimage 118 (2015)
+     313–333.
+
+
+
+
+                                      27
+[48] E. O. Ohuma, A.-B. Moller, E. Bradley, S. Chakwera, L. Hussain-
+     Alkhateeb, A. Lewin, Y. B. Okwaraji, W. R. Mahanani, E. W. Johans-
+     son, T. Lavin, et al., National, regional, and global estimates of preterm
+     birth in 2020, with trends from 2010: a systematic analysis, The Lancet
+     402 (10409) (2023) 1261–1271.
+
+[49] J. Perin, A. Mulick, D. Yeung, F. Villavicencio, G. Lopez, K. L. Strong,
+     D. Prieto-Merino, S. Cousens, R. E. Black, L. Liu, Global, regional, and
+     national causes of under-5 mortality in 2000–19: an updated systematic
+     analysis with implications for the sustainable development goals, The
+     Lancet Child & Adolescent Health 6 (2) (2022) 106–115.
+
+[50] Y. T. Khan, A. Tsompanidis, M. A. Radecki, L. Dorfschmidt, APEX
+     Consortium, T. Austin, J. Suckling, C. Allison, M.-C. Lai, R. A. I.
+     Bethlehem, S. Baron-Cohen, Sex differences in human brain structure
+     at birth, Biol. Sex Differ. 15 (1) (2024) 81.
+
+[51] J. F. de Kieviet, L. Zoetebier, R. M. van Elburg, R. J. Vermeulen,
+     J. Oosterlaan, Brain development of very preterm and very low-
+     birthweight children in childhood and adolescence: a meta-analysis, Dev.
+     Med. Child Neurol. 54 (4) (2012) 313–323.
+
+[52] J. Dubois, M. Alison, S. J. Counsell, L. Hertz-Pannier, P. S. Hüppi,
+     M. J. Benders, Mri of the neonatal brain: a review of methodological
+     challenges and neuroscientific advances, Journal of Magnetic Resonance
+     Imaging 53 (5) (2021) 1318–1343.
+
+[53] M. Catani, M. Mesulam, The arcuate fasciculus and the disconnection
+     theme in language and aphasia: history and current state, Cortex 44 (8)
+     (2008) 953–961.
+
+[54] M. V. Ivanova, D. Y. Isaev, O. V. Dragoy, Y. S. Akinina, A. G. Petru-
+     shevskiy, O. N. Fedina, V. M. Shklovsky, N. F. Dronkers, Diffusion-
+     tensor imaging of major white matter tracts and their role in language
+     processing in aphasia, Cortex 85 (2016) 165–181.
+
+[55] K. Sander, E. B. Barbeau, X. Chai, S. Kousaie, M. Petrides, S. Baum,
+     D. Klein, Frontoparietal anatomical connectivity predicts second lan-
+     guage learning success, Cereb. Cortex 32 (12) (2022) 2602–2610.
+
+
+                                      28
+[56] X. Geng, S. Gouttard, A. Sharma, H. Gu, M. Styner, W. Lin, G. Gerig,
+     J. H. Gilmore, Quantitative tract-based white matter development from
+     birth to age 2years, Neuroimage 61 (3) (2012) 542–557.
+
+[57] T. Beez, C. Munoz-Bendix, H.-J. Steiger, D. Hänggi, Functional tracts
+     of the cerebellum-essentials for the neurosurgeon, Neurosurg. Rev. 44 (1)
+     (2021) 273–278.
+
+[58] V. Benagiano, A. Rizzi, L. Lorusso, P. Flace, M. Saccia, R. Cagiano,
+     D. Ribatti, L. Roncali, G. Ambrosi, The functional anatomy of the cere-
+     brocerebellar circuit: A review and new concepts, J. Comp. Neurol.
+     526 (5) (2018) 769–789.
+
+[59] A. De Benedictis, M. C. Rossi-Espagnet, L. de Palma, A. Carai, C. E.
+     Marras, Networking of the human cerebellum: From anatomo-functional
+     development to neurosurgical implications, Front. Neurol. 13 (2022)
+     806298.
+
+[60] S. C. Deoni, D. I. D. C., J. O’Muircheartaigh, H. Dirks, B. A. Jerskey,
+     Investigating white matter development in infancy and early childhood
+     using myelin water faction and relaxation time mapping, Neuroimage
+     63 (3) (2012) 1038–1053.
+
+[61] M. Manto, J. M. Bower, A. B. Conforto, J. M. Delgado-García, S. N. F.
+     da Guarda, M. Gerwig, C. Habas, N. Hagura, R. B. Ivry, P. Mariën,
+     M. Molinari, E. Naito, D. A. Nowak, N. Oulad Ben Taib, D. Pelisson,
+     C. D. Tesche, C. Tilikete, D. Timmann, Consensus paper: roles of the
+     cerebellum in motor control–the diversity of ideas on cerebellar involve-
+     ment in movement, Cerebellum 11 (2) (2012) 457–487.
+
+[62] J. D. Schmahmann, The role of the cerebellum in cognition and emotion:
+     personal reflections since 1982 on the dysmetria of thought hypothesis,
+     and its historical evolution from theory to therapy, Neuropsychol. Rev.
+     20 (3) (2010) 236–260.
+
+[63] C. Lebel, M. Gee, R. Camicioli, M. Wieler, W. Martin, C. Beaulieu, Dif-
+     fusion tensor imaging of white matter tract evolution over the lifespan,
+     Neuroimage 60 (1) (2012) 340–352.
+
+
+
+
+                                     29
+[64] I. S. Buyanova, M. Arsalidou, Cerebral white matter myelination and
+     relations to age, gender, and cognition: A selective review, Front. Hum.
+     Neurosci. 15 (2021) 662031.
+
+[65] Z. Saker, M. Rizk, D. Merie, R. H. Nabha, N. J. Pariseau, S. M. Nabha,
+     M. I. Makki, Insight into brain sex differences of typically developed
+     infants and brain pathologies: A systematic review, Eur. J. Neurosci.
+     60 (1) (2024) 3491–3504.
+
+[66] A. Y. Lee, S. H. Jang, E. Lee, S. H. Ahn, H. K. Cho, H. M. Jo, S. M. Son,
+     Radiologic differences in white matter maturation between preterm and
+     full-term infants: TBSS study, Pediatr. Radiol. 43 (5) (2013) 612–619.
+
+[67] D. K. Thompson, T. E. Inder, N. Faggian, L. Johnston, S. K. Warfield,
+     P. J. Anderson, L. W. Doyle, G. F. Egan, Characterization of the corpus
+     callosum in very preterm and full-term infants utilizing MRI, Neuroim-
+     age 55 (2) (2011) 479–490.
+
+[68] M. Anjari, L. Srinivasan, J. M. Allsop, J. V. Hajnal, M. A. Rutherford,
+     A. D. Edwards, S. J. Counsell, Diffusion tensor imaging with tract-based
+     spatial statistics reveals local white matter abnormalities in preterm
+     infants, Neuroimage 35 (3) (2007) 1021–1027.
+
+[69] S. E. Rose, X. Hatzigeorgiou, M. W. Strudwick, G. Durbridge, P. S. W.
+     Davies, P. B. Colditz, Altered white matter diffusion anisotropy in nor-
+     mal and preterm infants at term-equivalent age, Magn. Reson. Med.
+     60 (4) (2008) 761–767.
+
+[70] M. Giménez, M. J. Miranda, A. P. Born, Z. Nagy, E. Rostrup, T. L.
+     Jernigan, Accelerated cerebral white matter development in preterm in-
+     fants: a voxel-based morphometry study with diffusion tensor mr imag-
+     ing, Neuroimage 41 (3) (2008) 728–734.
+
+[71] J. Kimpton, D. Batalle, M. Barnett, E. Hughes, A. Chew, S. Falconer,
+     J.-D. Tournier, D. Alexander, H. Zhang, A. Edwards, et al., Diffusion
+     magnetic resonance imaging assessment of regional white matter matu-
+     ration in preterm neonates, Neuroradiology 63 (4) (2021) 573–583.
+
+[72] J. I. Berman, P. Mukherjee, S. C. Partridge, S. P. Miller, D. M. Ferriero,
+     A. J. Barkovich, D. B. Vigneron, R. G. Henry, Quantitative diffusion
+
+
+                                      30
+    tensor mri fiber tractography of sensorimotor white matter development
+    in premature infants, Neuroimage 27 (4) (2005) 862–871.
+
+[73] E. Shany, T. E. Inder, S. Goshen, I. Lee, J. J. Neil, C. D. Smyser, L. W.
+     Doyle, P. J. Anderson, J. S. Shimony, Diffusion tensor tractography of
+     the cerebellar peduncles in prematurely born 7-year-old children, The
+     Cerebellum 16 (2) (2017) 314–325.
+
+
+
+
+                                     31
+Supplement
+
+Table S1: Summary of FA beta coefficients across populations. The table lists the beta
+coefficient values corresponding to the comparisons shown in Fig. 4, Fig. 6, and Fig. 7.
+
+   Tract        dHCP          HCP–         Full-     Preterm       Male       Female
+                                YA         term
+   AF_left     0.022820     -0.000168    0.022266    0.013753     0.018338    0.024170
+  AF_right     0.019116     -0.000698    0.018217    0.013365     0.019496    0.016842
+   EC_left     0.014653      0.000489    0.014681    0.010020     0.012136    0.015086
+  EC_right     0.013918      0.000576    0.013672    0.009805     0.013602    0.013664
+ EmC_left      0.017854      0.000208    0.018151    0.012162     0.015257    0.019197
+EmC_right      0.016455      0.000121    0.016794    0.010979     0.015268    0.018567
+  ILF_left     0.019183      0.000200    0.019554    0.012668     0.015802    0.021859
+ ILF_right     0.018033     -0.000214    0.017877    0.012041     0.014234    0.019699
+ IOFF_left     0.019137      0.000283    0.019669    0.013623     0.016278    0.021794
+IOFF_right     0.017648     -0.000014    0.018280    0.015094     0.016781    0.019278
+MdLF_left      0.014732      0.000291    0.015245    0.009625     0.012930    0.017442
+MdLF_right     0.013680      0.000046    0.013839    0.009744     0.010414    0.016073
+ SLF-I_left    0.015346     -0.000213    0.015077    0.011669     0.012872    0.014961
+     SLF-      0.015896     -0.000323    0.015841    0.012076     0.015437    0.014774
+   I_right
+SLF-II_left    0.019734     -0.000116    0.020024    0.012469     0.017591    0.021266
+     SLF-      0.019175     -0.000296    0.019575    0.010881     0.018980    0.020407
+  II_right
+     SLF-      0.017150     -0.000107    0.017358    0.015848     0.014939    0.018797
+   III_left
+     SLF-      0.018007     -0.000061    0.018129    0.014309     0.016841    0.018644
+  III_right
+   UF_left     0.016463     -0.000674    0.016522    0.009400 0.013880 0.017540
+  UF_right     0.014901     -0.000680    0.015431    0.008215 0.014614 0.016258
+     CC1       0.016317     -0.001371    0.016475    0.009437 0.014635 0.017262
+     CC2       0.017053     -0.001554    0.017395    0.011229 0.016904 0.018147
+     CC3       0.017183     -0.000642    0.016732    0.013636 0.017096 0.017872
+     CC4       0.017275     -0.000358    0.016719    0.018019 0.015145 0.018384
+     CC5       0.017199     -0.000461    0.016319    0.017016 0.016547 0.017311
+     CC6       0.010845     -0.000617    0.010730    0.008775 0.009524 0.011308
+     CC7       0.009407     -0.000408    0.009547    0.009754 0.009051 0.008574
+CB_D_left      0.010623     -0.000166    0.010206    0.007990 0.008674 0.011235
+                                                            Continued on next page
+
+
+                                         32
+  Tract     dHCP        HCP–        Full-    Preterm     Male      Female
+                          YA        term
+CB_D_right 0.010578    0.000277   0.010911   0.007656   0.011006   0.011575
+CB_V_left 0.010774     0.000347   0.010997   0.009121   0.009433   0.012588
+CB_V_right 0.011054    0.000263   0.011156   0.010260   0.011080   0.012870
+ CST_left  0.010159    0.000219   0.010224   0.015698   0.009398   0.010658
+CST_right 0.010802     0.000145   0.010744   0.014560   0.010120   0.011482
+CR-F_left 0.012559     0.000063   0.012662   0.011975   0.012597   0.013782
+    CR-    0.012889   -0.000079   0.012959   0.012864   0.012882   0.013310
+  F_right
+CR-P_left 0.007810     0.000036   0.007878   0.011814   0.006012   0.008887
+    CR-    0.008877   -0.000113   0.008602   0.011158   0.007718   0.009107
+  P_right
+  SF_left  0.010702   -0.000112   0.009612   0.007806   0.010259   0.009536
+ SF_right  0.008862   -0.000352   0.008112   0.008092   0.008585   0.006819
+  SO_left  0.017845    0.000011   0.017816   0.014089   0.015062   0.019666
+ SO_right  0.016159    0.000002   0.016227   0.014077   0.014800   0.017610
+  SP_left  0.015851    0.000172   0.015087   0.013395   0.015697   0.014201
+ SP_right  0.013935    0.000197   0.013158   0.011815   0.013420   0.014015
+  TF_left  0.013558    0.000082   0.013438   0.010075   0.013247   0.014698
+ TF_right  0.012391   -0.000133   0.012518   0.008869   0.012424   0.013680
+ TO_left   0.013670   -0.000342   0.011503   0.011374   0.007685   0.012790
+ TO_right  0.013101   -0.000587   0.009743   0.010452   0.006004   0.010012
+  TT_left  0.009707    0.000333   0.008555   0.006620   0.005910   0.011353
+ TT_right  0.009445    0.000042   0.008294   0.008896   0.007551   0.009525
+  TP_left  0.010925    0.000084   0.011048   0.013515   0.010999   0.011923
+ TP_right  0.010622    0.000024   0.011157   0.012924   0.011050   0.011905
+ CPC_left  0.008830   -0.000247   0.008701   0.012811   0.007166   0.009107
+CPC_right 0.009294     0.000112   0.008619   0.012363   0.008659   0.007681
+ ICP_left  0.006841    0.000591   0.006208   0.011849   0.005394   0.007268
+ICP_right  0.005900    0.000352   0.005478   0.009419   0.002333   0.005061
+   Intra-  0.001967    0.000090   0.002468   0.001580   0.000981   0.002926
+  CBLM-
+ I&P_left
+   Intra-  0.001427   -0.000110   0.001372   0.002163   0.001371   0.000875
+  CBLM-
+I&P_right
+                                                    Continued on next page
+
+
+
+
+                                  33
+  Tract      dHCP        HCP–         Full-    Preterm     Male      Female
+                           YA         term
+   Intra-    0.003239   -0.000296   0.003336   0.003040   0.003735   0.003448
+  CBLM-
+ PaT_left
+   Intra-    0.002925   -0.000440   0.002948   0.003714   0.003314   0.002712
+  CBLM-
+PaT_right
+   MCP       0.004264   -0.000025   0.006119   0.013596   0.007868   0.006595
+ SCP_left    0.008263    0.001363   0.008835   0.012352   0.007988   0.007836
+SCP_right    0.007678    0.001009   0.007775   0.011963   0.007641   0.008790
+Sup-F_left   0.016633   -0.000521   0.016366   0.012263   0.014698   0.017330
+    Sup-     0.016988   -0.000578   0.016808   0.012000   0.015652   0.016862
+  F_right
+    Sup-     0.014341   -0.000088   0.014603   0.013161   0.014757   0.013613
+  FP_left
+    Sup-     0.015379   0.000068    0.014972   0.012617   0.015310   0.013664
+ FP_right
+Sup-O_left   0.010292   -0.000369   0.009762   0.004157   0.008067   0.010705
+    Sup-     0.008949   -0.000300   0.008662   0.004365   0.005775   0.009150
+  O_right
+    Sup-     0.018054   0.000251    0.017326   0.011693   0.012212   0.018288
+ OT_left
+    Sup-     0.017288   -0.000357   0.016762   0.016590   0.011633   0.017245
+ OT_right
+Sup-P_left   0.014059   -0.000410   0.014130   0.007491   0.012779   0.014240
+    Sup-     0.013559   -0.000315   0.012540   0.007044   0.012786   0.011191
+  P_right
+    Sup-     0.014940   -0.000297   0.015600   0.009947   0.017976   0.016624
+ PO_left
+    Sup-     0.012243   -0.000429   0.012265   0.010710   0.011962   0.010477
+ PO_right
+    Sup-     0.014961   -0.000210   0.015256   0.008636   0.013170   0.018523
+  PT_left
+    Sup-     0.014080   -0.000190   0.014165   0.010144   0.011542   0.017349
+ PT_right
+Sup-T_left   0.014249   -0.000068   0.013918   0.007911   0.011028   0.015223
+    Sup-     0.011948   -0.000360   0.011473   0.007225   0.006785   0.014055
+  T_right
+
+
+
+                                    34
+                                  (a) dHCP
+
+
+
+
+                                 (b) HCP-YA
+
+Figure S1: IR comparison between NABA atlas and ORG atlas on dHCP and HCP-YA
+(threshold = 5).
+
+
+
+
+                                    35
+                                  (a) dHCP
+
+
+
+
+                                 (b) HCP-YA
+
+Figure S2: IR comparison between NABA atlas and ORG atlas on dHCP and HCP-YA
+(threshold = 15).
+
+
+
+
+                                    36
+            AF right        Intra-CBLM-               CC2     CST          MdLF left
+                                 PaT
+
+
+   PPMI
+
+
+
+
+   BCP
+
+
+
+
+Figure S3: Visualization of NABA atlas parcellation on additional diffusion MRI datasets.
+A young adult subject from the Parkinson’s Progression Markers Initiative (PPMI)
+dataset((PPMI) Parkinson’s Progression Marker Initiative 2012): 31 years old; b = 1000
+s/mm²; 64 directions; single-shell; 2×2×2 mm resolution. Tractography reconstructed
+using UKF. A neonate subject from the Baby Connectome Project (BCP) dataset(Howell
+et al. 2019): 2.8 months; gestational age at birth = 39.3 weeks; two-shell acquisition (37
+directions per shell); 1.5×1.5×1.5 mm resolution. Tractography reconstructed using DSI
+Studio.
+
+
+
+
+             association   commissural limbic    projection   cerebellar    superficial
+
+
+
+Figure S4: Rate of change with age (beta coefficient) of MD in full-term and preterm
+neonates in dHCP. The two groups were sex-balanced, and the GLM controlled for birth
+weight and head circumference at scan. The two groups are distinguished using different
+marker styles for the bars. Tracts of different categories are color-coded. The upper right
+corner displays the rate of change at the category level for both populations.
+
+
+                                                37
+Figure S5: Scatter plots of FA and MD versus scan age for selected WM tracts in full-term
+and preterm neonates.
+
+                                           38
+

@@ -1,0 +1,521 @@
+                                                                                                                                                                   www.nature.com/dpn
+
+
+
+
+                  ARTICLE                 OPEN
+
+                  Predicting cognitive functioning in early psychosis: factors
+                  supporting and limiting generalizability of connectome-
+                  based models
+                  Alexandra G. O’Neill1, Melissa Pax1, Jourdan H. Parent1, Jorge Sepulcre2,3, Joan A. Camprodon1, Stephanie Noble4,5,6,
+                                                            ✉
+                  Joshua L. Roffman1 and Hamdi Eryilmaz1
+
+                  © The Author(s) 2025, corrected publication 2025
+
+
+
+                     Cognitive impairment is a core, intractable aspect of psychotic disorders that impacts functional outcomes. Establishing reliable
+                     neural predictors of cognitive functioning at the individual level is an important goal of precision psychiatry and may accelerate
+                     personalized treatment development. Connectome-based predictive models (CPMs) have shown promise in identifying brain
+                     connectivity patterns that predict cognitive outcomes, however, such models do not produce accurate predictions for all
+                     individuals or groups, limiting their generalizability. Here, we used CPMs to identify brain network patterns predictive of cognitive
+                     functioning in patients with early psychosis and examined individual clinical and sociodemographic factors that may impact
+1234567890();,:
+
+
+
+
+                     prediction accuracy. Leveraging the imaging data from the Human Connectome Project for Early Psychosis (HCP-EP; N = 93), we
+                     found that outcomes can be accurately predicted for general and ﬂuid cognition. The generalizability of these models was assessed
+                     by predicting cognitive performance in an independent sample of patients (N = 20) with early psychosis, which revealed moderate
+                     accuracy but also sensitivity to the number of input features. Although predictive features were generally widespread, a virtual
+                     lesioning analysis showed that edges involving the default mode, retrosplenial and somatomotor networks contributed most to the
+                     prediction of individual differences in cognition. Finally, dissecting the causes of model failure suggested that sociodemographic
+                     and clinical factors that are stereotypically associated with cognitive ability in early psychosis contribute to misprediction
+                     particularly in participants who do not ﬁt this stereotypical association. Our ﬁndings suggest that individual factors related to
+                     misprediction can inform and potentially improve predictive models of cognition in early psychosis.
+
+                     NPP – Digital Psychiatry and Neuroscience; https://doi.org/10.1038/s44277-025-00032-1
+
+                     LAY SUMMARY
+                     Cognitive difﬁculties in individuals with psychosis are common and hard to treat. Machine learning models that use MRI data to
+                     predict individual patients’ symptoms are increasingly available, however, these algorithms don’t produce accurate predictions for
+                     everyone. Our analysis of MRI data from recently diagnosed psychosis patients showed that MRI-based predictions of cognitive
+                     symptoms were more accurate for patients who had similar clinical and socioeconomic proﬁles and that models can potentially be
+                     improved considering these factors.
+
+
+
+                  INTRODUCTION                                                                            confounding factors [6]. Identifying such predictors can potentially
+                  Cognitive impairment is a core, debilitating aspect of psychotic                        reﬁne diagnostic features through patient subtypes and improve
+                  disorders and has been linked to poor functional outcomes [1, 2].                       our understanding of individual differences in brain function and
+                  Cognitive deﬁcits are often present prior to the onset of psychotic                     behavior.
+                  symptoms [3] and youth at clinical high risk for psychosis exhibit                         Connectome-based predictive modeling (CPM) has shown
+                  attenuated deﬁcits in various cognitive domains [4]. The early                          substantial promise in identifying circuit-based predictors of
+                  phase of psychosis is considered a critical period when treatments                      outcomes in numerous neuropsychiatric disorders [7–9], as well
+                  may have the greatest impact [5]. Since the cumulative effects of                       as in transdiagnostic populations [10]. Nevertheless, models often
+                  long-term medication use and chronicity is minimal in the early                         fail to accurately predict clinical outcomes for many individuals
+                  course of illness, it also presents an opportunity to identify robust,                  [11, 12]. Recent work by Greene et al. has shown that model failure
+                  brain-based predictors of cognitive impairment largely free of                          is systematic and suggested that connectomic predictive models
+
+
+                  1
+                   Department of Psychiatry, Massachusetts General Hospital and Harvard Medical School, Charlestown, MA, USA. 2Gordon Center for Medical Imaging, Department of Radiology,
+                  Massachusetts General Hospital and Harvard Medical School, Charlestown, MA, USA. 3Department of Radiology and Biomedical Imaging, Yale PET Center, Yale School of
+                  Medicine, Yale University, New Haven, CT, USA. 4Department of Psychology, Northeastern University, Boston, MA, USA. 5Department of Bioengineering, Northeastern University,
+                  Boston, MA, USA. 6Center for Cognitive and Brain Health, Northeastern University, Boston, MA, USA. ✉email: hamdi.eryilmaz@mgh.harvard.edu
+
+                  Received: 21 October 2024 Revised: 2 May 2025 Accepted: 12 May 2025
+                                                                A.G. O’Neill et al.
+2
+    do not represent unitary cognitive outcomes but rather reﬂect an                  set. These edges were then divided into a positive and a negative set. The
+    interaction of clinical, cognitive, and sociodemographic factors.                 edges that were correlated positively with the cognitive outcome
+       The early phase of illness in psychotic disorders represents a                 represented the positive feature set, whereas those that were negatively
+    period where substantial brain changes are likely to occur [13–15].               correlated with the outcome represented the negative set. To summarize
+    Therefore, various clinical factors (e.g., medication use, severity of            the features, for each individual participant in the training set, we then
+                                                                                      summed the connectivity values across all thresholded features in the
+    psychotic symptoms) may inﬂuence the neural response to such                      positive set, and subtracted from this the summed connectivity values
+    changes and impact the ability of brain-based markers to predict                  across all thresholded features in the negative set, to arrive at a combined,
+    cognitive outcomes. Therefore, it is crucial to identify key clinical             individualized connectivity strength score. A linear model was then ﬁtted
+    and other biological factors that may inﬂuence the predictive                     to establish the relationship between the cognitive scores and the
+    power of a connectomic model in predicting cognitive outcomes                     connectivity strength summary scores across the participants in the
+    in early psychosis. If a network identiﬁed by CPM predicts                        training set. Then, turning to participants in the test set, we generated
+    outcomes only for a subgroup of patients with psychosis, it                       predicted cognitive scores, based on the sum of their connectivity across
+    would limit its generalizability. In addition, if success in prediction           the same set of thresholded features and the parameters of the trained
+                                                                                      model. At each iteration, prediction accuracy was calculated as the
+    of outcomes depends on clinical or demographic factors, this may
+                                                                                      correlation (Pearson’s) between predicted and observed cognitive scores
+    require developing models tailored to certain subgroups of                        in the test set. We repeated this procedure for each of the 100 train/test
+    patients.                                                                         splits and obtained 100 values of prediction accuracy for a given cognitive
+       To address these questions, in the current study we leveraged                  outcome. The signiﬁcance of the predictions was determined using
+    the neuroimaging data from the Human Connectome Project for                       permutation testing, where the cognitive scores were randomly assigned
+    Early Psychosis (HCP-EP) [6] and an independent local cohort to                   to participants and the same cross-validation procedure described above
+    determine how well cognitive outcomes can be predicted from                       was applied. This step was repeated 1000 times to obtain a null
+    cortex-wide functional connectivity in early psychosis. Next, we                  distribution of model performance. The p-value was computed as the
+    identiﬁed the resting state networks that are important in                        proportion of permuted predictions numerically greater than the mean of
+    predicting the cognitive outcomes. Finally, we assessed the                       the true prediction correlation (p < 0.05). The p-values were corrected for
+                                                                                      the three comparisons (i.e., cognitive outcomes) using Bonferroni
+    prevalence of misprediction, identiﬁed several clinical, socio-                   correction. In addition to this train-test framework applied to the HCP-EP
+    economic, and demographic variables that are associated with                      data, we also used an independent dataset acquired at MGH to externally
+    misprediction and investigated the differences in brain-behavior                  validate our ﬂuid cognition model constructed using the HCP-EP data. For
+    relationships in correctly and incorrectly predicted cases.                       details on external validation, a feature importance analysis, and analyses
+                                                                                      of alternative feature selection methods and site-speciﬁc models, please
+                                                                                      see Supplementary Methods.
+    METHODS
+    Participants                                                                      Misprediction analysis
+    Two datasets were analyzed in the current study. For the main analyses of         To better understand why our models fail to predict cognitive scores for
+    predictive modeling and misprediction, we utilized the publicly available         some individuals, we performed a misprediction analysis using a binary-
+    HCP-EP dataset, whereas for the external validation of a model generated          outcome version of the predictive modeling framework explained above.
+    using the HCP-EP dataset, we used a cohort of patients with early                 To identify potential factors that might be associated with misprediction,
+    psychosis enrolled in a neuroimaging study at Massachusetts General               we ﬁrst quantiﬁed how often a participant was misclassiﬁed using
+    Hospital (MGH). For details on inclusion and exclusion criteria, as well as       misclassiﬁcation index (MI) and examined whether this metric was related
+    demographic and clinical characteristics of both samples, see Supplemen-          to a set of selected clinical and demographic covariates. These covariates
+    tary Methods and Table S1. HCP-EP is a multisite project that generated           included age, sex, race, parental socioeconomic status (SES), antipsychotic
+    high quality neuroimaging, cognitive, clinical and genetic data in a cohort       exposure (in months), Positive and Negative Syndrome Scale (PANSS)
+    of individuals with early phase psychosis [6]. The August 2021 data release       positive and negative symptom scores, and head motion during MRI.
+    (https://www.humanconnectome.org/study/human-connectome-project-                  These covariates were selected as they reﬂect important demographic and
+    for-early-psychosis) involves 183 patients with early psychosis who had           clinically relevant features in early psychosis and were available in the HCP-
+    neuroimaging data. Among these participants, 93 had also behavioral data          EP dataset. For the details of this analysis, see Supplementary Methods.
+    including the NIH toolbox cognition scores. One participant did not pass
+    the head motion quality control (due to high ratio of above-threshold
+    movements). Therefore, the ﬁnal HCP-EP sample included 92 patients,
+    whose data were used for the main analyses in the current study. The MGH
+                                                                                      RESULTS
+    sample included 20 patients with early psychosis. Two participants were           Connectome-based models predict cognitive outcomes in
+    excluded due to chance-level performance, leaving 18 participants for the         early psychosis
+    external validation analysis.                                                     Predictive models based on connectivity strength summary scores
+                                                                                      were built using training sets and tested on previously unseen
+    MRI acquisition and fMRI preprocessing                                            participants across 100 train-test splits. The prediction accuracy
+    Both HCP-EP and MGH datasets underwent identical procedures for                   across these 100 iterations is illustrated in Fig. 1 for total, ﬂuid and
+    preprocessing and functional connectivity. For the details of MRI                 crystallized cognition. Mean prediction accuracy (r) was 0.30 for
+    acquisition parameters, preprocessing, region of interest deﬁnitions, and         total (p < 0.05, corrected), 0.29 for ﬂuid (p < 0.05, corrected), and
+    computation of functional connectivity, see Supplementary Methods.                0.22 for crystallized cognition (p > 0.05, corrected). In exploratory
+                                                                                      analyses, we also assessed models using positive and negative
+    Predictive modeling                                                               summary scores separately and using a different feature selection
+    As a ﬁrst step, we used cortex-wide functional connectivity to predict 3          threshold (p = 0.05). Models using combined scores generally led
+    age-adjusted composite cognitive scores from the NIH toolbox [16–19],             to numerically higher accuracy in prediction for all 3 outcomes
+    which include Fluid, Crystallized and Total Cognition. For details on these       than those using exclusively positive or negative features.
+    cognitive outcomes, see Supplementary Methods. For this analysis, we ﬁrst         Predictions for total and ﬂuid cognition were also signiﬁcant for
+    created 100 unique train (70%) and test (30%) splits from the HCP-EP              the different feature selection threshold (p < 0.05), suggesting that
+    sample to cross-validate our predictive model on different test samples.          these models are robust to changes in number of input features.
+    See Fig. S1 for an illustration of the analysis pipeline. At each iteration,      See Supplementary Results for the impact of using more stringent
+    following established methods [20, 21], we ﬁrst selected features using a
+    feature-deﬁning threshold (p < 0.01) for the participants in the training set.    feature thresholds (Table S2), as well as including subcortical
+    The selected features were those surviving this threshold for correlation         features in the input correlation matrices on prediction accuracy
+    between a particular edge (i.e., functional connectivity) and the behavioral      (Fig. S3). To test whether our model generalizes to an independent
+    outcome (e.g., Total Cognition score) across the participants in the training     dataset, we built a new model using all HCP-EP participants with
+
+
+                                                                                                                      NPP – Digital Psychiatry and Neuroscience
+                                                                          A.G. O’Neill et al.
+                                                                                                                                                 3
+ﬂuid cognition as the outcome and used the parameters from this           features produced signiﬁcant predictions (r = 0.48, p = 0.029),
+model along with its selected functional connectivity features to         suggesting a degree of generalizability to other early psychosis
+predict working memory performance (a core ﬂuid cognitive                 populations and cognitive subdomains.
+ability) in the MGH sample (N = 18). The model using the
+combined feature set achieved numerically moderate but non-               Important network features for accurate predictions of
+signiﬁcant prediction accuracy in this external sample (r = 0.46,         cognitive functioning in psychosis
+p = 0.056). However, this out-of-sample prediction appeared               Given models with signiﬁcant predictive power for two of the
+sensitive to the choice of feature selection threshold as more            main cognitive outcomes, we identiﬁed the features contributing
+lenient threshold (p < 0.05) leading to a larger number of input          to the network summary scores used in the respective predictive
+                                                                          models, which are shown in circular plots in Fig. 2. Overall, edges
+                                                                          included in the predictive model were widespread, although there
+                                                                          was some degree of enrichment in particular networks. Among
+                                                                          the edges positively correlated with total cognition, connectivity
+                                                                          between dorsal and ventral attention networks appeared to
+                                                                          disproportionately contribute to the summary score. Important
+                                                                          features among the negatively correlated set included connectiv-
+                                                                          ity between somatomotor network and default mode/retro-
+                                                                          splenial networks. For ﬂuid cognition, connectivity between the
+                                                                          default mode and visual networks, and dorsal-ventral attention
+                                                                          network coupling were among the important features in the
+                                                                          positive set. Among the features negatively correlated with ﬂuid
+                                                                          cognition, multisensory network coupling (e.g., visual-auditory)
+                                                                          and somatomotor network connectivity with retrosplenial network
+                                                                          appeared to have contributed most to the summary scores. The
+                                                                          summary matrices depicting the average fraction of edges
+                                                                          selected across different cross-validation iterations for each
+Fig. 1 Prediction accuracy. Distribution of prediction accuracy over      network are shown in Fig. 2. For completeness, the features
+different cross-validation iterations is shown for three NIH toolbox      predicting crystallized cognition is illustrated in Fig. S4.
+outcomes. Permutation test revealed signiﬁcant predictions for total
+and ﬂuid cognition (p < 0.05 corrected). The box plot on each violin         To quantify the importance of individual networks for the
+displays the interquartile range, with the center line representing       prediction of cognitive scores, we virtually lesioned all edges of
+the median prediction accuracy. The dots are outliers, and the            each of the 12 Gordon networks (one network at a time) and reran
+asterisks (*) signify the signiﬁcance of predictions for total and ﬂuid   the predictive models with the remaining edges. Fig. 3 shows the
+cognition.                                                                distribution of prediction accuracy across iterations after the
+
+
+
+
+Fig. 2 Important features. Network features that are important for predicting Total (A) and Fluid (B) Cognition scores are shown. Connectivity
+between the dorsal and ventral attention networks and between somatomotor and default mode/retrosplenial networks contributed the
+most to network summary scores for total cognition. Connectivity between the default mode and visual networks, between the dorsal and
+ventral attention networks, and between the retrosplenial and visual networks contributed most to network summary scores for ﬂuid
+cognition. AUD auditory network, CO cingulo-opercular network, CP cingulo-parietal network, DAN dorsal attention network, DMN default
+mode network, FPN frontoparietal network, RSP retrosplenial network, SAL salience network, SM somatomotor network, SML lateral
+somatomotor network, VAN ventral attention network, VIS visual network.
+
+
+NPP – Digital Psychiatry and Neuroscience
+                                                          A.G. O’Neill et al.
+4
+    removal of individual networks. For the prediction of total                 after virtually lesioning each of the 12 networks for both cognitive
+    cognition using the negative feature set, lesioning the somato-             outcomes.
+    motor network led to a signiﬁcant decrease in prediction accuracy
+    (mean/std error of change in prediction accuracy = −0.088/0.014,            Characterizing misprediction
+    p < 0.05 corrected). When predicting ﬂuid cognition using the               While connectomic models produced signiﬁcant predictions of
+    positive feature set, lesioning the default mode network (DMN)              cognitive scores in early psychosis, the predictions consistently
+    signiﬁcantly diminished the prediction accuracy (mean/std error of          failed for a subset of patients in the HCP sample. We investigated
+    change in accuracy = −0.115/0.015, p < 0.05 corrected). For the             misprediction using a SVM algorithm which generated binary
+    prediction of ﬂuid cognition using the negative set, lesioning the          predictions of the 3 composite NIH toolbox outcomes (i.e., low vs.
+    retrosplenial cortex led to a signiﬁcant reduction in prediction            high scorer). The model was run 100 times using random
+    accuracy (mean/std error of change in prediction accuracy =                 subsampling of training participants and tested on a left-out
+    −0.060/0.015, p < 0.05 corrected). At uncorrected levels (p < 0.05),        test participant in leave-one-out cross-validation. The distribution
+    lesioning the fronto-parietal network worsened predictions for              of MI is depicted in Fig. 4. A subset of participants was
+    both total and ﬂuid cognition (mean/std error of change in                  frequently misclassiﬁed in these predictions (38, 32, and 32% of
+    prediction accuracy = −0.055/0.014 and −0.053/0.017 respec-                 all subjects had MI > 0.5 respectively for total, ﬂuid and crystallized
+    tively). Table S3 depicts the mean change in prediction accuracy            cognition).
+
+
+
+
+    Fig. 3 The effect of lesioned networks on prediction accuracy. The distribution of prediction accuracy after each network was virtually
+    lesioned is shown for total and ﬂuid cognition. The removal of the DMN from the positive feature set and of somatomotor and retrosplenial
+    networks from the negative feature sets led to signiﬁcant reductions in mean prediction accuracy for these outcomes. Values with single
+    asterisks (*) depict nominally signiﬁcant changes in prediction accuracy (p < 0.05). Boldfaced values with double asterisks (**) depict signiﬁcant
+    changes after correction for multiple comparisons (p < 0.05 corrected). The box on each violin plot displays the interquartile range, while the
+    center line depicts the median and the dots represent the outliers. The dashed lines represent the original prediction accuracy values for the
+    respective outcome/feature set when all networks were used in the model.
+
+
+
+
+    Fig. 4 Misclassiﬁcation. Histogram of misclassiﬁcation index is shown for each NIH toolbox outcome. Most participants are classiﬁed correctly
+    by the SVM for all three cognitive outcomes (MI < 0.5). However, a subset of participants are consistently misclassiﬁed over 100 iterations
+    (MI > 0.5).
+
+
+                                                                                                             NPP – Digital Psychiatry and Neuroscience
+                                                                          A.G. O’Neill et al.
+                                                                                                                                                   5
+
+
+
+
+Fig. 5 Relationships among misclassiﬁcation index, covariates and cognitive outcomes. A The scatterplots show the relationships between
+misclassiﬁcation index and parental SES and between misclassiﬁcation index and duration of antipsychotic exposure for both low (red) and
+high (green) scorers. B The relationship between each covariate of interest and total cognition is shown for correctly and incorrectly classiﬁed
+participants. The signiﬁcant correlations identiﬁed in correctly classiﬁed participants were either reduced or disappeared in misclassiﬁed
+participants. The signiﬁcant associations are highlighted with their respective p values.
+
+   Next, we investigated whether participants with certain clinical       covariates and not the cognitive outcomes. The prediction of total
+and sociodemographic proﬁles were more likely to be misclassi-            cognition remained signiﬁcant (p < 0.05) after covarying for SES
+ﬁed. For this analysis, we considered 8 key clinical and                  and for antipsychotic exposure in the HCP-EP sample, although
+demographic features that were available in the HCP-EP dataset.           prediction accuracy decreased from 0.30 to 0.26 and 0.28
+The results of this analysis are summarized in Fig. 5. Two of the         respectively. Overall, the misprediction analysis suggests that the
+covariates were marginally correlated with MI: SES among low-             present models partially reﬂect factors that are stereotypically
+scorers on total cognition (r = 0.39, p = 0.017) and antipsychotic        associated with cognitive ability, and points to ways these models
+exposure among high-scorers on total cognition (r = 0.35,                 may fail for individuals who do not ﬁt this stereotypical
+p = 0.033). A closer examination revealed a strong association            association.
+between SES and total cognition scores in correctly classiﬁed
+participants (r = 0.48, p = 0.0012), whereas this association was         Inverse models for misclassiﬁed participants
+not present in frequently misclassiﬁed participants (p = 0.27).           Finally, to examine the model differences between correctly and
+Similarly, duration of antipsychotic exposure was negatively              incorrectly classiﬁed participants, we built predictive models using
+correlated to total cognition scores in correctly classiﬁed               one group and tested the model in the other. For this analysis, we
+participants (r = −0.37, p = 0.016), whereas this correlation was         built a new predictive model using only correctly classiﬁed
+not observed in frequently misclassiﬁed participants (p = 0.75). For      participants (MI < 0.4). These models failed to predict cognitive
+the associations between MI and all 8 covariates, see Table S4.           scores in misclassiﬁed participants. The predictions were substan-
+Finally, due to the strong relationship between the two identiﬁed         tially misaligned especially for ﬂuid cognition as the correlation
+covariates and cognitive scores in correctly classiﬁed participants,      between observed and predicted scores was negative (r = −0.29
+we tested the possibility that our models mainly predicted these          for total, r = −0.62 for ﬂuid, and r = −0.03 for crystallized
+
+
+NPP – Digital Psychiatry and Neuroscience
+                                                         A.G. O’Neill et al.
+6
+    cognition). This pattern suggested that network summary scores             instance, virtually lesioning DMN greatly reduced prediction
+    may be related differently to behavior in correctly and incorrectly        accuracy for models predicting ﬂuid cognition. Summary matrices
+    classiﬁed participants. We then modiﬁed the low MI-trained model           showed that DMN’s connections with the visual network and FPN
+    by inverting the sign of positive and negative network summary             were predominantly selected during cross-validation. The role of
+    scores and retested this model in frequently misclassiﬁed                  the DMN in cognition has been demonstrated in numerous
+    participants. In this case, the predictions substantially improved         studies [32–34] and its dysfunction in psychotic disorders have
+    (r = 0.28 for total, r = 0.62 for ﬂuid, and r = 0.03 for crystallized      been widely reported [35–37]. Consistent with these studies, our
+    cognition). Frequently selected features for this model, which             ﬁnding suggests that the DMN’s connectivity with the visual
+    exclusively used data from correctly classiﬁed participants are            network and with the FPN support neural processes essential to
+    depicted in Fig. S5.                                                       ﬂuid cognitive abilities in early psychosis. Another network whose
+                                                                               removal greatly diminished prediction accuracy was the somato-
+                                                                               motor network in models predicting total cognition. Speciﬁcally,
+    DISCUSSION                                                                 coupling between somatomotor and retrosplenial networks was
+    Using a data-driven approach, we investigated whether cognitive            among the most selected features during cross-validation for this
+    outcomes can be reliably predicted from functional connectivity in         outcome. This ﬁnding is consistent with previous research that
+    patients with early psychosis and examined important clinical and          identiﬁed somatomotor network abnormalities as a transdiagnos-
+    sociodemographic variables that may affect the prediction                  tic feature of cognitive dysfunction [38] and with the putative role
+    accuracy. We found that models successfully predicted ﬂuid and             of retrosplenial cortex in learning and memory [39]. Finally,
+    general cognitive functioning in the HCP-EP sample, which was              virtually lesioning FPN reduced prediction accuracy in total and
+    validated in an independent cohort of patients with early                  ﬂuid cognition models. Summary matrices demonstrate that
+    psychosis. Edges of several networks including the DMN,                    within-network FPN connectivity, as well as between-network
+    somatomotor network, retrosplenial network and FPN appeared                FPN-DMN and FPN-SM edges were frequently selected in these
+    to be important for accurate predictions. In addition, we found            models. FPN is thought to be essential to many executive
+    that the models failed to predict cognitive outcomes for some              functions including cognitive control [40, 41] and working
+    participants in the HCP-EP sample. A model failure analysis                memory [41]. Considering the putative central role of ﬂexible
+    identiﬁed parental SES and duration of antipsychotic medication            FPN connectivity in numerous cognitive functions [42] and its
+    exposure as factors associated with misprediction and suggested            disruption in psychosis [43], it is not surprising that its removal
+    that the prediction of ﬂuid and general cognitive functioning can          impacts prediction accuracy.
+    be improved for misclassiﬁed participants using inverted models.              Our misprediction analysis demonstrated that predictive
+    Taken together, our ﬁndings shed light on the utility of CPMs in           models consistently fail for a subset of patients with early
+    predicting cognitive outcomes in early psychosis and highlight the         psychosis. The patterns of relationships between MI and
+    importance of considering clinical and sociodemographic vari-              covariates such as SES suggest that the models learn a common
+    ables in predictive models of cognition in this population.                proﬁle of relationship between such covariates and the cognitive
+       Cognitive impairment is a core feature of psychotic disorders           outcome and consequently fails for individuals that do not ﬁt this
+    [22]. Despite the signiﬁcant impairment observed at the group              proﬁle, a pattern that was shown in seminal work investigating
+    level (e.g., effect sizes ranging from 0.64–1.2), patients with early      model failure on three large-scale imaging datasets [12]. We
+    psychosis exhibit considerable interindividual variability in cogni-       identiﬁed two covariates that have supported this phenomenon.
+    tive functioning. Previous studies identiﬁed distinct patient              For example, individuals with higher SES who scored high in
+    subgroups in psychosis based on cognitive proﬁles [23–27].                 cognitive outcomes were often correctly classiﬁed. However, those
+    Brain-based markers have also been used to account for                     individuals who did not ﬁt this stereotypical proﬁle (high SES
+    differences between such subgroups. One study found differences            individuals with low scores and low SES individuals with high
+    in functional connectivity in the frontoparietal and motor                 scores) were frequently misclassiﬁed. Parental SES has been
+    networks between cognitively intact and impaired subgroups                 identiﬁed as an important risk factor for developing psychosis
+    [28]. In the current study, we leveraged functional connectivity to        [44, 45] (but also see [46]). SES can have implications for cognitive
+    predict cognition at the individual level without using cognitively        outcomes through a variety of associated factors including
+    deﬁned subgroups. CPMs performed better when predicting ﬂuid               educational attainment [47], educational quality [48], and
+    and total cognition compared to crystallized cognition. While total        neighborhood disadvantage [49]. These factors (among numerous
+    cognition represents the combination of the ﬂuid and crystallized          others) likely impact the brain networks that are predictive of
+    subdomains, our ﬁnding might reﬂect the impact of overlapping              cognition. Our partial correlation analysis suggests that SES
+    input features for ﬂuid and total cognition outcomes selected              explains a certain amount of variance in predicting cognition,
+    during cross-validation on network summary scores. Furthermore,            however, the predictions based on summary connectivity scores
+    our ﬂuid cognition model built using the HCP-EP sample predicted           were still signiﬁcant after covarying for SES. Therefore, even
+    working memory performance in an independent sample of early               though SES seems to be an important variable affecting the
+    psychosis patients. Although the signiﬁcance of this external              predictive power of connectomic models of cognition in early
+    validation was sensitive to the choice of the feature-selection            psychosis, such models also represent aspects of cognition that
+    threshold, these results suggest that CPMs are generalizable to            are not linked to SES. Our analysis also showed that the
+    different early psychosis populations and arguably reﬂects                 relationship between the network summary score and cognitive
+    the robustness of cross-validation in brain-behavior associations          outcome was reversed in misclassiﬁed participants and therefore,
+    [29, 30]. The external validation of our HCP-EP model also supports        simply using an inverted model dramatically increased prediction
+    CPMs’ reliability in predicting different subdomains of ﬂuid               accuracy in total and ﬂuid cognition models. This might suggest
+    cognition, which is consistent with the strong relationship                that the same networks that are predictive of cognition in the
+    between working memory and general cognition [31].                         correctly classiﬁed group are also involved in the misclassiﬁed
+       Our virtual lesioning analysis showed that removal of single            group, however, they are differently related to cognition.
+    networks does not generally lead to signiﬁcant reductions in               Alternatively, it is possible that the misclassiﬁed group exhibits a
+    prediction accuracy. This suggests that the summary network                more idiosyncratic network structure underlying cognitive func-
+    score that the predictive model relies on is robust to certain             tion, which leads to model failure.
+    changes in input data. There were, however, a few select networks             Another covariate that showed a similar relationship with MI
+    that seemed to contribute more substantially to predictions. For           was duration of antipsychotic exposure. Correctly classiﬁed
+
+                                                                                                           NPP – Digital Psychiatry and Neuroscience
+                                                                                  A.G. O’Neill et al.
+                                                                                                                                                                             7
+patients depicted a negative correlation between antipsychotic                    corresponding author upon request. The scripts used in all data analyses in this
+exposure and cognitive scores, whereas misclassiﬁed patients did                  manuscript are available here: https://github.com/heryilmaz/CogPred_HCP_EP.
+not. To the extent that duration of antipsychotic exposure reﬂects
+duration of illness in the early psychosis population, declining
+trajectory of cognitive functioning after the ﬁrst episode could                  REFERENCES
+explain this pattern among correctly classiﬁed patients. It is                     1. Schaefer J, Giangrande E, Weinberger DR, Dickinson D. The global cognitive
+possible that the model relies on a neuromarker associated with                       impairment in schizophrenia: consistent over decades and around the world.
+                                                                                      Schizophr Res. 2013;150:42–50.
+the duration of antipsychotic exposure (or its effect on functional
+                                                                                   2. Keefe RS, Harvey PD. Cognitive impairment in schizophrenia. Handb Exp Phar-
+connectivity) to predict the cognitive outcome, in which case it                      macol. 2012;213:11–37.
+might fail to predict outcomes for a subset of patients who do not                 3. Kahn RS, Keefe RS. Schizophrenia is a cognitive illness: time for a change in focus.
+depict a relationship between antipsychotic exposure and                              JAMA Psychiatry. 2013;70:1107–12.
+cognition. Together, our results suggest that predictive models                    4. Fusar-Poli P, Deste G, Smieskova R, Barlati S, Yung AR, Howes O, et al. Cognitive
+learn complex proﬁles of relationships between the cognitive                          functioning in prodromal psychosis: a meta-analysis. Arch Gen Psychiatry.
+outcome and covariates that are relevant for the outcome. Given                       2012;69:562–71.
+the implications for prediction accuracy, variables such as parental               5. Correll CU, Galling B, Pawar A, Krivko A, Bonetto C, Ruggeri M, et al. Comparison
+SES and antipsychotic exposure should be considered when                              of early intervention services vs treatment as usual for early-phase psychosis: a
+                                                                                      systematic review, meta-analysis, and meta-regression. JAMA Psychiatry.
+studying individual differences in cognitive functioning in early
+                                                                                      2018;75:555–65.
+psychosis.                                                                         6. Lewandowski KE, Bouix S, Ongur D, Shenton ME. Neuroprogression across the
+   Our study had several limitations. Since the HCP-EP dataset                        early course of psychosis. J Psychiatr Brain Sci. 2020;5:e200002.
+were collected at 3 different imaging sites, and due to the                        7. Yoshida K, Shimizu Y, Yoshimoto J, Takamura M, Okada G, Okamoto Y, et al.
+moderate sample size, our analysis plan was not optimal to                            Prediction of clinical depression scores and detection of changes in whole-brain
+capture site-related confounding factors. That said, the fact that all                using resting-state functional MRI data with partial least squares regression. PLoS
+sites utilized the same scanner model, identical imaging                              One. 2017;12:e0179638.
+sequences/protocols, and coordinated quality assurance tools                       8. Yahata N, Morimoto J, Hashimoto R, Lisi G, Shibata K, Kawakubo Y, et al. A small
+helped minimize such potential confounds [6, 50]. Notably, after                      number of abnormal brain connections predicts adult autism spectrum disorder.
+                                                                                      Nat Commun. 2016;7:11254.
+covarying for scanner site, the predictive power of our original
+                                                                                   9. Wang D, Li M, Wang M, Schoeppe F, Ren J, Chen H, et al. Individual-speciﬁc
+models numerically diminished, however, the predictions                               functional connectivity markers track dimensional and categorical features of
+remained signiﬁcant. Therefore, while scanner site may explain                        psychotic illness. Mol Psychiatry. 2020;25:2119–29.
+some variance, its effects do not signiﬁcantly alter model                        10. Rosenberg MD, Finn ES, Scheinost D, Papademetris X, Shen X, Constable RT, et al.
+predictions. Additionally, site-speciﬁc models generalized well                       A neuromarker of sustained attention from whole-brain functional connectivity.
+between the two major sites, whereas the predictions were less                        Nat Neurosci. 2016;19:165–71.
+accurate in the smaller site, which might reﬂect the distinct                     11. Li J, Bzdok D, Chen J, Tam A, Ooi LQR, Holmes AJ, et al. Cross-ethnicity/race
+characteristics of this cohort (e.g., higher proportion of individuals                generalization failure of behavioral prediction from resting-state functional
+with affective psychosis). Moreover, data on several potentially                      connectivity. Sci Adv. 2022;8:eabj1812.
+                                                                                  12. Greene AS, Shen X, Noble S, Horien C, Hahn CA, Arora J, et al. Brain-phenotype
+relevant covariates including education and antipsychotic medi-
+                                                                                      models fail for individuals who defy sample stereotypes. Nature.
+cation dose were missing for many HCP-EP participants in the                          2022;609:109–18.
+Release 1.1, therefore, these variables were not included in the                  13. Takahashi T, Suzuki M. Brain morphologic changes in early stages of psychosis:
+misprediction analysis. Additionally, we utilized a CPM algorithm                     Implications for clinical application and early intervention. Psychiatry Clin Neu-
+involving a feature summarization step. It has been shown that                        rosci. 2018;72:556–71.
+other algorithms including regularized regressions can yield                      14. Radua J, Borgwardt S, Crescini A, Mataix-Cols D, Meyer-Lindenberg A, McGuire PK,
+higher prediction performance for similar outcomes [51]. Using                        et al. Multimodal meta-analysis of structural and functional brain changes in ﬁrst
+CPMs allowed us to directly parse features that contributed to                        episode psychosis and the effects of antipsychotic medication. Neurosci Biobe-
+predictions and therefore, facilitated evaluating feature impor-                      hav Rev. 2012;36:2325–33.
+                                                                                  15. Arango C, Rapado-Castro M, Reig S, Castro-Fornieles J, Gonzalez-Pinto A, Otero S,
+tance [52].
+                                                                                      et al. Progressive brain changes in children and adolescents with ﬁrst-episode
+   In summary, we developed connectome-based models to                                psychosis. Arch Gen Psychiatry. 2012;69:16–26.
+predict cognitive functioning in early psychosis and identiﬁed                    16. Weintraub S, Dikmen SS, Heaton RK, Tulsky DS, Zelazo PD, Slotkin J, et al. The
+brain network-level, demographic, and clinical factors that impact                    cognition battery of the NIH toolbox for assessment of neurological and beha-
+the accuracy of such predictions. Our ﬁndings highlight the                           vioral function: validation in an adult sample. J Int Neuropsychol Soc.
+importance of networks such as the DMN and somatomotor                                2014;20:567–78.
+network, as well as SES and duration of antipsychotic use for                     17. Zelazo PD, Anderson JE, Richler J, Wallner-Allen K, Beaumont JL, Conway KP, et al.
+accurate predictions. Future research can leverage misclassiﬁca-                      NIH toolbox cognition battery (CB): validation of executive function measures in
+tion index to identify patient subgroups and tailor predictive                        adults. J Int Neuropsychol Soc. 2014;20:620–9.
+                                                                                  18. Heaton RK, Akshoomoff N, Tulsky D, Mungas D, Weintraub S, Dikmen S, et al.
+models accordingly. Finally, a similar misclassiﬁcation framework
+                                                                                      Reliability and validity of composite scores from the NIH toolbox cognition
+can be adopted for models that aim to predict responses to                            battery in adults. J Int Neuropsychol Soc. 2014;20:588–98.
+cognitive therapies in early psychosis. These efforts can determine               19. Cassetta BD, Menon M, Carrion PB, Pearce H, DeGraaf A, Leonova O, et al. Pre-
+whether the clinical and demographic factors identiﬁed here are                       liminary examination of the validity of the NIH toolbox cognition battery in
+also implicated when predicting individual treatment responses.                       treatment-resistant psychosis. Clin Neuropsychol. 2020;34:981–1003.
+                                                                                  20. Shen X, Finn ES, Scheinost D, Rosenberg MD, Chun MM, Papademetris X, et al.
+Citation diversity statement. The authors have attested that                          Using connectome-based predictive modeling to predict individual behavior
+they made efforts to be mindful of diversity in selecting the                         from brain connectivity. Nat Protoc. 2017;12:506–18.
+citations used in this article.                                                   21. Finn ES, Shen X, Scheinost D, Rosenberg MD, Huang J, Chun MM, et al. Functional
+                                                                                      connectome ﬁngerprinting: identifying individuals using patterns of brain con-
+                                                                                      nectivity. Nat Neurosci. 2015;18:1664–71.
+                                                                                  22. Mesholam-Gately RI, Giuliano AJ, Goff KP, Faraone SV, Seidman LJ. Neurocogni-
+                                                                                      tion in ﬁrst-episode schizophrenia: a meta-analytic review. Neuropsychology.
+DATA AVAILABILITY                                                                     2009;23:315–36.
+The raw imaging data from the Human Connectome Project for Early Psychosis are    23. Green MJ, Girshkin L, Kremerskothen K, Watkeys O, Quide Y. A systematic review
+available at https://www.humanconnectome.org/study/human-connectome-project-          of studies reporting data-driven cognitive subtypes across the psychosis spec-
+for-early-psychosis. The imaging data for the MGH cohort are available from the       trum. Neuropsychol Rev. 2020;30:446–60.
+
+
+NPP – Digital Psychiatry and Neuroscience
+                                                                       A.G. O’Neill et al.
+8
+    24. Wenzel J, Haas SS, Dwyer DB, Ruef A, Oeztuerk OF, Antonucci LA, et al. Cognitive      49. Rakesh D, Zalesky A, Whittle S. Assessment of parent income and education,
+        subtypes in recent onset psychosis: distinct neurobiological ﬁngerprints? Neu-            neighborhood disadvantage, and child brain structure. JAMA Netw Open.
+        ropsychopharmacology. 2021;46:1475–83.                                                    2022;5:e2226208.
+    25. Weinberg D, Lenroot R, Jacomb I, Allen K, Bruggemann J, Wells R, et al. Cognitive     50. Jacobs GR, Coleman MJ, Lewandowski KE, Pasternak O, Cetin-Karayumak S,
+        subtypes of schizophrenia characterized by differential brain volumetric reduc-           Mesholam-Gately RI, et al. An introduction to the human connectome project for
+        tions and cognitive decline. JAMA Psychiatry. 2016;73:1251–59.                            early psychosis. Schizophr Bull. 2024.
+    26. Wells R, Swaminathan V, Sundram S, Weinberg D, Bruggemann J, Jacomb I, et al.         51. Pervaiz U, Vidaurre D, Woolrich MW, Smith SM. Optimising network modelling
+        The impact of premorbid and current intellect in schizophrenia: cognitive,                methods for fMRI. Neuroimage. 2020;211:116604.
+        symptom, and functional outcomes. NPJ Schizophr. 2015;1:15043.                        52. Scheinost D, Noble S, Horien C, Greene AS, Lake EM, Salehi M, et al. Ten simple
+    27. Dawes SE, Jeste DV, Palmer BW. Cognitive proﬁles in persons with chronic                  rules for predictive modeling of individual differences in neuroimaging. Neuro-
+        schizophrenia. J Clin Exp Neuropsychol. 2011;33:929–36.                                   image. 2019;193:35–45.
+    28. Lewandowski KE, McCarthy JM, Ongur D, Norris LA, Liu GZ, Juelich RJ, et al.
+        Functional connectivity in distinct cognitive subtypes in psychosis. Schizophr Res.
+        2019;204:120–26.                                                                      AUTHOR CONTRIBUTIONS
+    29. Spisak T, Bingel U, Wager TD. Multivariate BWAS can be replicable with moderate       HE, SN, and JS obtained the funding; HE and SN contributed to the conceptualization
+        sample sizes. Nature. 2023;615:E4–7.                                                  and design of the study; AGO, MP, JHP and HE contributed to software development;
+    30. Taxali A, Angstadt M, Rutherford S, Sripada C. Boost in test-retest reliability in    AGO and HE contributed to data curation, formal analyses and data visualization; all
+        resting state fMRI with predictive modeling. Cereb Cortex. 2021;31:2822–33.           authors contributed to interpretation of the results and participated in writing and
+    31. Conway AR, Kane MJ, Engle RW. Working memory capacity and its relation to             editing the manuscript.
+        general intelligence. Trends Cogn Sci. 2003;7:547–52.
+    32. Smallwood J, Bernhardt BC, Leech R, Bzdok D, Jefferies E, Margulies DS. The
+        default mode network in cognition: a topographical perspective. Nat Rev Neu-
+        rosci. 2021;22:503–13.                                                                FUNDING
+    33. Lanzoni L, Ravasio D, Thompson H, Vatansever D, Margulies D, Smallwood J, et al.      This study was supported by the National Institutes of Health (K01MH116369 to HE,
+        The role of default mode network in semantic cue integration. Neuroimage.             R01AG061811 to JS, R00MH130894 to SN, and 1S10RR023401). Research using
+        2020;219:117019.                                                                      Human Connectome Project for Early Psychosis (HCP-EP) data reported in this
+    34. Smith V, Mitchell DJ, Duncan J. Role of the default mode network in cognitive         publication was supported by the National Institute of Mental Health of the National
+        transitions. Cereb Cortex. 2018;28:3685–96.                                           Institutes of Health under Award Number U01MH109977. The HCP-EP 1.1 Release
+    35. Ongur D, Lundy M, Greenhouse I, Shinn AK, Menon V, Cohen BM, et al. Default           data used in this report came from https://doi.org/10.15154/1522899.
+        mode network abnormalities in bipolar disorder and schizophrenia. Psychiatry
+        Res. 2010;183:59–68.
+    36. Whitﬁeld-Gabrieli S, Thermenos HW, Milanovic S, Tsuang MT, Faraone SV,                COMPETING INTERESTS
+        McCarley RW, et al. Hyperactivity and hyperconnectivity of the default network in     JAC is an inventor on patents and patent applications on neuromodulation targeting
+        schizophrenia and in ﬁrst-degree relatives of persons with schizophrenia. Proc        methods held by Massachusetts General Hospital. He is a member of the scientiﬁc
+        Natl Acad Sci USA. 2009;106:1279–84.                                                  advisory board of Hyka and Flow Neuroscience, and has been a paid consultant for
+    37. Eryilmaz H, Tanner AS, Ho NF, Nitenson AZ, Silverstein NJ, Petruzzi LJ, et al.        Neuronetics, Mifu Technologies, Neuroelectrics, and LivaNova. All other authors
+        Disrupted working memory circuitry in schizophrenia: disentangling fMRI mar-          report no ﬁnancial interests or potential conﬂicts of interest.
+        kers of core pathology vs other aspects of impaired performance. Neu-
+        ropsychopharmacology. 2016;41:2411–20.
+    38. Kebets V, Holmes AJ, Orban C, Tang S, Li J, Sun N, et al. Somatosensory-motor         ADDITIONAL INFORMATION
+        dysconnectivity spans multiple transdiagnostic dimensions of psychopathology.         Supplementary information The online version contains supplementary material
+        Biol Psychiatry. 2019;86:779–91.                                                      available at https://doi.org/10.1038/s44277-025-00032-1.
+    39. Todd TP, Fournier DI, Bucci DJ. Retrosplenial cortex and its role in cue-speciﬁc
+        learning and memory. Neurosci Biobehav Rev. 2019;107:713–28.                          Correspondence and requests for materials should be addressed to Hamdi Eryilmaz.
+    40. Miller EK, Cohen JD. An integrative theory of prefrontal cortex function. Annu Rev
+        Neurosci. 2001;24:167–202.                                                            Reprints and permission information is available at http://www.nature.com/
+    41. Barbey AK, Koenigs M, Grafman J. Dorsolateral prefrontal contributions to human       reprints
+        working memory. Cortex. 2013;49:1195–205.
+    42. Cole MW, Reynolds JR, Power JD, Repovs G, Anticevic A, Braver TS. Multi-task          Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims
+        connectivity reveals ﬂexible hubs for adaptive task control. Nat Neurosci.            in published maps and institutional afﬁliations.
+        2013;16:1348–55.
+    43. Baker JT, Holmes AJ, Masters GA, Yeo BT, Krienen F, Buckner RL, et al. Disruption
+        of cortical association networks in schizophrenia and psychotic bipolar disorder.
+                                                                                                                 Open Access This article is licensed under a Creative Commons
+        JAMA Psychiatry. 2014;71:109–18.
+                                                                                                                 Attribution 4.0 International License, which permits use, sharing,
+    44. Agerbo E, Sullivan PF, Vilhjalmsson BJ, Pedersen CB, Mors O, Borglum AD, et al.
+                                                                                              adaptation, distribution and reproduction in any medium or format, as long as you give
+        Polygenic risk score, parental socioeconomic status, family history of psychiatric
+                                                                                              appropriate credit to the original author(s) and the source, provide a link to the Creative
+        disorders, and the risk for schizophrenia: a danish population-based study and
+                                                                                              Commons licence, and indicate if changes were made. The images or other third party
+        meta-analysis. JAMA Psychiatry. 2015;72:635–41.
+                                                                                              material in this article are included in the article’s Creative Commons licence, unless
+    45. Werner S, Malaspina D, Rabinowitz J. Socioeconomic status at birth is associated
+                                                                                              indicated otherwise in a credit line to the material. If material is not included in the
+        with risk of schizophrenia: population-based multilevel study. Schizophr Bull.
+                                                                                              article’s Creative Commons licence and your intended use is not permitted by statutory
+        2007;33:1373–8.
+                                                                                              regulation or exceeds the permitted use, you will need to obtain permission directly
+    46. Kwok W. Is there evidence that social class at birth increases risk of psychosis? a
+                                                                                              from the copyright holder. To view a copy of this licence, visit http://
+        systematic review. Int J Soc Psychiatry. 2014;60:801–8.
+                                                                                              creativecommons.org/licenses/by/4.0/.
+    47. Lovden M, Fratiglioni L, Glymour MM, Lindenberger U, Tucker-Drob EM. Educa-
+        tion and cognitive functioning across the life span. Psychol Sci Public Interest.
+        2020;21:6–41.                                                                         © The Author(s) 2025, corrected publication 2025
+    48. Crowe M, Clay OJ, Martin RC, Howard VJ, Wadley VG, Sawyer P, et al. Indicators of
+        childhood quality of education in relation to cognitive function in older adult-
+        hood. J Gerontol A Biol Sci Med Sci. 2013;68:198–204.
+
+
+
+
+                                                                                                                                    NPP – Digital Psychiatry and Neuroscience
+

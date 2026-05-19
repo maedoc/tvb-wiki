@@ -1,0 +1,695 @@
+                                        DDTracking: A Deep Generative Framework for
+                                        Diffusion MRI Tractography with Streamline
+                                        Local-Global Spatiotemporal Modeling
+                                        Yijie Li1 , Wei Zhang1 , Xi Zhu1 , Ye Wu2 , Yogesh Rathi3 , Lauren J. O’Donnell3,* , and Fan
+                                        Zhang1,*
+                                        1 University of Electronic Science and Technology of China, Chengdu, China
+                                        2 Nanjing University of Science and Technology, Nanjing, China
+                                        3 Brigham and Women’s Hospital, Harvard Medical School, Boston, USA
+                                        * Lauren J O’Donnell (odonnell@bwh.harvard.edu) and Fan Zhang (fan.zhang@uestc.edu.cn) are co-senior-authors.
+arXiv:2508.04568v1 [cs.CV] 6 Aug 2025
+
+
+
+
+                                        ABSTRACT
+
+                                        This paper presents DDTracking, a novel deep generative framework for diffusion MRI (dMRI) tractography that formulates
+                                        streamline propagation as a conditional denoising diffusion process. In DDTracking, we introduce a dual-pathway encoding
+                                        network that jointly models local spatial encoding (capturing fine-scale structural details at each streamline point) and global
+                                        temporal dependencies (ensuring long-range consistency across the entire streamline). Furthermore, we design a conditional
+                                        diffusion model module, which leverages the learned local and global embeddings to predict streamline propagation orientations
+                                        for tractography in an end-to-end trainable manner. We conduct a comprehensive evaluation across diverse, independently
+                                        acquired dMRI datasets, including both synthetic and clinical data. Experiments on two well-established benchmarks with
+                                        ground truth (ISMRM Challenge and TractoInferno) demonstrate that DDTracking largely outperforms current state-of-the-art
+                                        tractography methods. Furthermore, our results highlight DDTracking’s strong generalizability across heterogeneous datasets,
+                                        spanning varying health conditions, age groups, imaging protocols, and scanner types. Collectively, DDTracking offers
+                                        anatomically plausible and robust tractography, presenting a scalable, adaptable, and end-to-end learnable solution for broad
+                                        dMRI applications. Code is available at: https://github.com/yishengpoxiao/DDtracking.git.
+
+
+
+                                        1 Introduction
+                                        Diffusion MRI (dMRI) tractography is an advanced imaging technique for in vivo mapping of white matter (WM) pathways
+                                        and structural connectivity in the brain at the macro scale1–3 . This methodology capitalizes on the anisotropic diffusion of water
+                                        molecules, which is modulated by the microstructural features of brain tissue, particularly axonal membranes4 . By modeling
+                                        these diffusion patterns, tractography infers virtual streamlines representing macroscopic WM pathways, thus providing critical
+                                        insights into the brain’s functional organization and connectivity.
+                                            Traditional model-based tractography methods convert dMRI signals into virtual streamlines, iteratively propagated
+                                        from predefined seed points using either deterministic or probabilistic approaches5–10 . Deterministic algorithms utilize rigid
+                                        orientation criteria, ensuring computational efficiency but struggling to reconstruct complex fiber structures accurately, such
+                                        as crossing or branching fibers. On the other hand, probabilistic methods employ Monte Carlo sampling of fiber orientation
+                                        distributions, providing greater flexibility and precision, albeit at the cost of increased computational demands. Both frameworks
+                                        rely on the evolution of physical models, from the single Gaussian diffusion assumption in diffusion tensor imaging (DTI)
+                                        to advanced models like multi-compartment models, fiber orientation distribution (FOD), and Q-ball imaging1, 11–13 , which
+                                        better represent multiple fiber orientations within a voxel. Recent improvements have incorporated external constraints,
+                                        such as anatomically constrained tractography guided by structural MRI to delineate gray-white matter boundaries14 and
+                                        microstructure-informed tractography leveraging axonal diameter estimates from techniques like AxCaliber, further enhancing
+                                        the precision of fiber reconstruction15 . Despite these advances, model-based methods remain sensitive to noise and artifacts and
+                                        are prone to accumulating local orientation biases that can distort streamline trajectories over long distances. Additionally, the
+                                        reliance on complex modeling and tracking algorithms imposes significant computational demands and heightens sensitivity to
+                                        data quality.
+                                            The advent of machine learning (ML) has introduced promising solutions to these longstanding challenges16–18 . Unlike
+                                        traditional model-based methods, ML approaches are data-driven and do not rely on predefined physical models, which can
+                                        introduce simplifications and bias. By integrating diverse information sources, ML tractography enables enhanced, accurate,
+and robust maps of WM pathways. The pioneering work by Neher et al. introduced the first ML method19 , which employs a
+Random Forest classifier for streamline propagation, and demonstrated the feasibility of using ML to learn tracking decisions
+from the diffusion signals and streamline trajectories. Subsequent efforts utilizing recurrent neural networks (RNNs) and
+gated recurrent units (GRUs) have further enhanced the ability to model long-term dependencies in streamline orientation20–22 ,
+addressing issues related to the persistence of local orientation biases in traditional tractography approaches. More recently,
+methods such as Learn to Track21 and DeepTract22 have shown the potential to address the challenges of fiber crossing and
+smooth streamline propagation by incorporating information from both local and previous streamline steps. Contemporary
+probabilistic frameworks, such as Entrack, leverage multilayer perceptrons (MLPs) to quantify uncertainty in streamline
+predictions using Fisher-von-Mises (FvM) distributions23 . Track-to-Learn, a deep reinforcement learning-based tractography
+method24, 25 , utilizes a reward function to optimize streamline tracing based on local information, promoting closer alignment
+with major FOD peaks while ensuring smooth propagation. However, these methods typically rely on approximations of
+fiber orientation distributions or discrete orientation sampling strategies, which may fail to capture the complex variations in
+fiber orientation. Additionally, the inability to directly predict streamline orientation at each location can lead to potentially
+anatomically implausible streamlines.
+    Diffusion models are gaining popularity in applications such as object tracking and motion planning26–29 , tasks that share
+conceptual parallels with tractography due to their capacity to model complex trajectory distributions. In general, diffusion
+models operate via a two-stage process30 : a forward diffusion stage, where input data is progressively perturbed by Gaussian
+noise, and a reverse diffusion stage, which aims to gradually denoise and recover the original input. This framework has
+demonstrated remarkable flexibility and adaptability in the computer vision field, particularly in modeling complex, multimodal
+trajectory distributions. For example, popularly used diffusion models like Diffuser26 and DiffMOT28 generate goal-conditioned
+trajectories of agents and tracked objects through iterative noise refinement, enabling flexible and accurate motion prediction.
+Similar to these tasks in computer vision, an essential capability for fiber tracking is to infer a streamline trajectory from
+dMRI signals. Thus, diffusion models have strong potential to model the complex distribution of streamline trajectories in
+the brain. In our study, we propose to formulate fiber tracking as a goal-conditioned sequence generation task, where the
+objective is to generate anatomically plausible streamline propagation orientations conditioned on the dMRI signals. By
+training diffusion models on high-confidence tractography data, we aim to enable them to learn and represent the complex fiber
+configurations, including crossing, fanning, and branching patterns that frequently challenge conventional deterministic or
+probabilistic methods.
+    In our study, we propose a novel deep diffusion model framework, DDTracking, to estimate white matter streamline
+propagation orientation for tractography. Our key innovation lies in the integration of local spatial, global temporal, and
+generative modeling within a single unified framework, enabling continuous, data-driven prediction of streamline orientation
+without reliance on discrete sampling or FOD approximations. Furthermore, we design a new network that integrates both
+local and global contextual information by combining a convolutional neural network (CNN) to extract fine-grained local
+diffusion features, and an RNN to capture long-range temporal dependencies along the streamline trajectory. These components
+are unified within a conditional diffusion model that treats fiber tracking as a generative denoising process. The conditional
+distribution uses spatial embeddings to encode local context and temporal embeddings to incorporate the global trajectory
+history. This formulation allows predictions to be conditioned on both local dMRI signals and the global context of the
+streamline and enables accurate and efficient orientation estimation by leveraging anatomical priors and trajectory history
+throughout the denoising process. We evaluate the proposed approach on both synthetic and in vivo datasets, demonstrating
+superior performance in resolving fiber crossings, navigating anatomical bottlenecks, and mitigating the effects of noise,
+highlighting its potential to advance the accuracy and robustness of tractography.
+
+
+2 Methods
+The goal of DDTracking is to learn the streamline propagation orientation at each streamline point from input dMRI data and
+then use the learned orientation to guide fiber tracking. Figure 1 gives the method overview. Model training data consists of
+diffusion-weighted imaging (DWI) scans and their corresponding tractograms. For each point along the streamline, spherical
+harmonic (SH) coefficients are extracted from its local and neighboring voxel DWI signals (Section 2.1). As a result, each
+streamline is represented as an SH feature set, which serves as input to our network. The training process is to iteratively learn
+the next propagation orientation from the current point position along the streamline. To do so, we design a network architecture
+that includes: 1) a spatial encoder that captures the local contextual information at each streamline point, 2) a temporal encoder
+that captures the long-range temporal dependencies of the points along the streamline, and 3) a propagation predictor that
+integrates the learned spatiotemporal features to predict the next propagation orientation (Section 2.2). During inference, the
+model processes SH coefficients computed from a new DWI scan. Starting from a seed point, the model sequentially estimates
+a propagation orientation to track fiber pathways, continuing until specified stopping criteria are reached (Section 2.3).
+
+
+                                                                                                                             2/14
+Figure 1. Overview of DDTracking. From the computed SH features at the current position, DDTracking learns the next
+propagation orientation for fiber tracking. The SH features are passed through the proposed global-local spatiotemporal
+network, which includes a spatial encoder and a temporal encoder, conditioned on a diffusion model to predict the propagation
+orientation. This process starts from an initial seed point and repeats iteratively until a stopping criterion is met.
+
+
+2.1 Network Input
+Our network is trained using two complementary data modalities: input DWI data and the corresponding tractogram as ground
+truth. Because these two types of data have distinct data structures compared to conventional 2D/3D medical images, a major
+challenge in our task lies in accurately and efficiently representing tractography streamlines using the underlying DWI signals
+to enable effective deep neural network processing. In brief, a DWI scan is a 4D image where each 3D volume is acquired
+under a specific diffusion weighting (b-value) and direction (b-vector)4 . A tractogram
+                                                                                           consists of a set of streamlines, where
+each streamline is represented as a sequence of n equally spaced 3D points S = p1 , p2 , . . . , pn . Instead of using the raw 3D
+coordinates of streamline points, which can primarily capture the streamline geometric properties, we represent each streamline
+using the local DWI signals to achieve invariance to spatial transformations as in prior work21, 31 . Specifically, we utilize the
+SH coefficients11 derived from the DWI signals for a compact, acquisition-agnostic encoding of diffusion profiles, offering
+robustness to noise and consistency across dMRI protocols32, 33 . For an input DWI scan, each DW image is normalized using
+the b0 image, followed by projecting the normalized DW images onto an SH basis of degree m11 , yielding a volume of SH
+coefficients denoted as D, where m determines the number of coefficients. Then, similar to the approach for constructing
+local signal context along the streamline in24, 31 , we extract a 3 × 3 × 3 voxel grid centered at each point p, sampling the SH
+coefficients from the point itself and its 26 immediate neighbors. This results in a 4D SH feature D(p) ∈ R3×3×3×m for each
+streamline point p.
+    Following the standard streamline propagation process, given a fixed step size α that defines the distance traversed at each
+step of propagation, from the current point pt∈[1,n] , the next point along the streamline is computed as pt+1 = pt + αyt , where
+yt ∈ R3 denotes the local propagation orientation vector. Then, given the above feature
+                                                                                            representation of the already tracked
+points along the streamline, our learning task is to predict ŷt from the feature set D(p1 ), D(p2 ), . . . , D(pt ) .
+
+2.2 Network Architecture
+Our network architecture to learn streamline propagation orientation for fiber tracking is shown in Figure 2. It comprises
+three core components: a CNN for spatial encoding, an RNN for temporal encoding, and a conditioned diffusion model for
+orientation prediction. The design introduces three key innovations: (1) a dual-branch spatial-temporal encoding scheme that
+decouples global continuity from localized details, (2) a diffusion-model-based generative framework designed for streamline
+
+
+                                                                                                                              3/14
+Figure 2. Schematic of the proposed generation framework. The input consists of the SH feature set extracted along a
+candidate streamline (a). The spatial encoding module (b) extracts two complementary feature representations using dual 3D
+convolutional (3D CONV) branches followed by MLPs to produce two complementary representations: one capturing local
+spatial context and the other encoding orientation-aware features. The latter is further processed by the temporal encoding
+module (c), a stacked RNN that models long-range dependencies along the streamline. These global and local embeddings
+serve as conditional inputs to a diffusion model (d), which predicts the next orientation step.
+
+
+propagation orientation prediction, and (3) a conditional distribution predictor driven jointly by local spatial features and global
+temporal context to guide streamline generation.
+
+2.2.1 Spatial and Temporal Encoding of Diffusion Signals Along Streamlines
+In tractography, both the local neighborhood of a point and the global trajectory of the streamline are critical in accurately
+modeling white matter pathways. While previous deep learning methods typically focus on one of these aspects in isola-
+tion19, 21, 22, 24, 31 , these two aspects are not exclusive and could benefit from each other. To address this, we adopt a dual-pathway
+encoding strategy that jointly captures local spatial details and global temporal dynamics.
+    Spatial Encoding: For each local SH feature D(pt ) ∈ R3×3×3×m , we apply two separate 3D convolutional projection layers
+to extract spatial embeddings: zt ∈ R1×192 and vt ∈ R1×192 . The embedding zt flows into the downstream temporal encoder to
+model the streamline trajectory, preserving the spatial cues’ order and orientation continuity along the streamline. In parallel,
+the embedding vt serves as the local conditioning input to the diffusion model, capturing localized spatial features at each point.
+This architectural separation ensures that, during backpropagation, each embedding is independently optimized for its specific
+role, thereby addressing the complementary demands of streamline tracking.                                            
+    Temporal Encoding: The derived spatial embeddings of the points along a streamline, denoted Z = z1 , z2 , . . . , zt , are
+fed into a two-stacked RNN layer. Specifically, we employ GRUs to compute temporal embeddings. This recurrent structure
+enables modeling of variable-length streamlines without requiring padding or masking, thus avoiding associated artifacts.
+At each step, the GRU updates its memory based on the current spatial embedding and accumulated context, resulting in a
+context-aware temporal embedding ct ∈ R1×512 . The representation becomes increasingly informative as it integrates trajectory
+history and inter-step dependencies of the streamline. Then, this enriched representation serves as a global condition in the
+diffusion model, enhancing the model’s contextual awareness and enabling anatomically coherent streamline generation.
+
+2.2.2 Diffusion Model for Prediction of Streamline Propagation Orientation
+Next, we design a diffusion model-based module that incorporates the learned spatial and temporal embeddings to predict
+streamline propagation orientation. Unlike conventional image-based diffusion models that operate with 2D convolutions,
+our model uses a 1D CNN-based diffusion model34 specifically tailored for sequential data to handle streamline sequences.
+To extend the original single-condition network for global-local spatio-temporal modeling, we adopt a dual-conditioning
+network that fuses global temporal and local spatial embeddings within a symmetric encoder-decoder architecture based on
+1D convolutions, as illustrated in Figure 3. Specifically, at each diffusion step k, the conditional distribution p(yt+1 | Gt , Lt ) is
+
+
+                                                                                                                                  4/14
+Figure 3. Schematic of the diffusion model for streamline orientation prediction. The upper panel depicts the forward process,
+where the original (clean) streamline orientation is attenuated to zero while independent Gaussian noise is accumulated,
+resulting in a smooth transition to a pure noise distribution. The lower panel illustrates the reverse process, which progressively
+recovers the clean orientation from noise using a 1D CNN with FiLM-modulated residual blocks, guided by global temporal
+and local spatial conditions.
+
+
+defined using both global and local contexts. The global context Gt combines the temporal embedding ct with a sinusoidal
+positional embedding of k, while the local context Lt is provided by the spatial embedding vt . These context vectors are fused
+via Feature-wise Linear Modulation (FiLM)35 , which allows for the adaptive modulation of intermediate network activations.
+     Forward Diffusion Process (Figure 3(a)): Unlike standard diffusion models that map data directly to noise, we adopt
+a decoupled diffusion process comprising two simultaneous sub-processes28 : a data-to-zero signal attenuation and a zero-
+to-noise noise injection. Given a continuous diffusion step k ∈ [0, 1], we simultaneously attenuate the clean orientation data
+y(t,0) to zero and inject Gaussian noise into the signal. The data-to-zero component employs a constant analytic attenuation
+function h = −y(t,0) , resulting in a smooth linear decay of the original signal over time. Simultaneously, the zero-to-noise
+component gradually√adds standard Gaussian noise ε to the zeroed signal. With this choice, the forward sampling simplifies to:
+y(t,k) = y(t,0) + kh + kε, ε ∼ N (0, I).
+     Reverse Diffusion Process (Figure 3(b)): The reverse process is formulated as a continuous-time Markov chain with an
+infinitesimal step size ∆t → 0+ to recover the clean orientation from noisy samples. In our method, we propose to leverage the
+learned local and global embeddings to guide the reverse diffusion process by using a parameterized model pθ y(t,k−∆k) |y(t,k)
+to approximate the posterior distribution q y(t,k−∆k) |y(t,k) , y(t,0) ∼ N (y(t,k−∆k) ; µ, Σ) under specific spatiotemporal conditions
+                                                                          
+
+by applying Bayes’ rule. Specifically, the model is conditioned on both the global context Gt and the local context Lt , enabling
+it to predict the attenuation hθ (y(t,k) , Gt , Lt ) and noise εθ (y(t,k) , Gt , Lt ) at each diffusion step k. The variance is constant and is
+given as: Σ = ∆k(k−∆k)
+                  k    I. Following the formulation in DiffMot28 , we express noise εθ and the mean µθ :
+                              1                                    
+       εθ (yt,k , Gt , Lt ) = √ y(t,k) − (k − 1)hθ (yt,k , Gt , Lt ) ,                                                                     (1)
+                               k
+
+              k − ∆k         ∆k
+       µθ =          y(t,k) − hθ (yt,k , Gt , Lt ).                                                                                        (2)
+                 k            k
+
+                                                                                                                                         5/14
+                                     Table 1. dMRI acquisition and demographics of the datasets studied.
+
+    Dataset             dMRI Scanner and Acquisition Parameters                Demographics and Data Preprocessing
+                3T Connectome Siemens Skyra, 90 DWIs @
+                                                                         High-quality young adult data; 105 subjects;
+  HCP-YA        b=1000s/mm2 +18       b=0,       TE/TR=89/5520      ms,
+                                                                         F/M=60/45; age: 29.3±3.6.
+                1.25mm×1.25mm×1.25mm resolution.
+                                                             2
+                Simulated, 32 DWIs @ b=1000s/mm +2 b=0, Synthetic dataset with 25 ground-truth tracts; pre-
+   ISMRM
+                2mm×2mm×2mm resolution.                                  processed via Tractoflow36 .
+                Site 1: 3T Philips Achieva, 21 DWIs @ b=1000s/mm2 +1
+                b=0, TE/TR=81/8500ms, 2mm×2mm×2mm resolution;
+                Site 2: 3T Siemens Prisma, 32 DWIs @ b=1000s/mm2 +3
+                b=0, TE/TR=75/3540ms, 1.75mm×1.75mm×1.75mm
+                resolution;
+                Site 3: 3T Siemens Prisma, 64 DWIs @ b=1000s/mm2 +4
+                b=0, TE/TR=70/1800ms, 2mm×2mm×2mm resolution;
+                                                                         Multi-site data from six centers; 284 subjects; pre-
+TractoInferno Site 4: 3T Siemens Trio, 64 DWIs @ b=1000s/mm2 +1 b=0,
+                                                                         processed via Tractoflow36 .
+                TE/TR=93/9000ms, 2mm×2mm×2mm resolution;
+                Site 5:     3T GE Discovery MR750, 45 DWIs
+                @      b=1000s/mm2 +5       b=0,     TE/TR=81/7000ms,
+                2.3mm×2.3mm×2.3mm resolution;
+                Site 6:     3T Siemens Magnetom TIM Trio, 30
+                DWIs @ b=700s/mm2 +1 b=0, TE/TR=84/9200ms,
+                2mm×2mm×2mm resolution.
+                                                                         Parkinson’s disease and age-matched HC; 20 sub-
+                3T Siemens Trio, 64 DWIs @ b=1000 s/mm2 +1 b=0,
+    PPMI                                                                 jects; F/M=7/13; age: 63.2±5.8; PD/HC=11/9;
+                TE/TR=88/7600 ms, 2mm×2mm×2mm resolution.
+                                                                         preprocessed via pnlpipe37 .
+                                                                         ASD and HC; 20 subjects; F/M=2:18; age:
+                3T Siemens Allegra, 64 DWIs @ b=1000 s/mm2 +1 b=0,
+   ABIDE                                                                 12.1±7.8; ASD/HC=13/7; preprocessed using
+                TE/TR=78/5200 ms, 3mm×3mm×3mm resolution.
+                                                                         pnlpipe37 .
+                                                                         ADHD, BD, SZ, and HC; 20 subjects; F/M=7:13;
+                3T Siemens TrioTim, 64 DWIs @ b=1000 s/mm2 +1 b=0,
+     CNP                                                                 age: 32.3±8.9; ADHD/BD/SZ/HC=4/6/4/6; pre-
+                TE/TR=93/9000 ms, 2mm×2 mm×2mm resolution.
+                                                                         processed via pnlpipe37 .
+                                                                         Private brain tumor dataset; 20 subjects; F/M=7/13;
+                3T Siemens Prisma, 64 DWIs @ b=1000 s/mm2 +1 b=0,
+ BrainTumor                                                              age: 51±13.8; all patients; preprocessed via
+                TE/TR=79/22000 ms, 1.7mm×1.7mm×4.8mm resolution.
+                                                                         pnlpipe37 .
+                                                                         Private stroke-related cohort; 20 subjects;
+                3T GE Discovery MR750, 30 DWIs @ b=1000 s/mm2 +1
+    Stroke                                                               F/M=8/12; age: 59.6±13.9; all patients; prepro-
+                b=0, TE/TR=80/8750 ms, 2mm×2mm×2mm resolution.
+                                                                         cessed via pnlpipe37 .
+Abbreviations: HCP-YA - Human Connectome Project Young Adult; PPMI - Parkinson’s Progression Markers Initiative; PD -
+Parkinson’s disease; HC - Healthy Control; ABIDE - Autism Brain Imaging Data Exchange; ASD - Autism Spectrum Disorder;
+CNP - Consortium for Neuropsychiatric Phenomics; ADHD - Attention-Deficit/Hyperactivity Disorder; BD - Bipolar Disorder;
+SZ - Schizophrenia.
+
+
+2.2.3 Training Loss
+The objective minimizes the expected reconstruction error of the orientation vector over the data and noise components, with
+the following loss function:
+                                                               2                                2
+      min Eq(y
+       θ         (t,0)   ) Eq(ε) [λ1 ∥hθ (yt,k , Gt , Lt )θ − h∥ + λ2 ∥εθ (yt,k , Gt , Lt ) − ε∥ ].
+                                                                                                      2   2
+To balance their contributions, we introduce dynamic weighting terms: λ1 = k −k+1
+                                                                              k
+                                                                                              −k+1
+                                                                                  and λ2 = k(1−k)2 , and apply Smooth L1
+loss to ensure training loss robustness.
+
+2.3 Fiber Tracking via Predicted Propagation Orientation
+The implementation of the streamline generation process follows a standard deterministic fiber tracking pipeline21 . Upon
+acquiring a new DWI dataset, we first compute the SH coefficients at each voxel. Starting from a seed point, the corresponding
+
+
+                                                                                                                         6/14
+SH feature is fed into the trained network to predict the propagation orientation vector ŷt . With the step size α, the following
+point is computed and appended to the streamline trajectory. Then the SH feature of this point is fed into the network for the
+subsequent prediction. This process repeats until a stopping criterion, defined by either a curvature threshold or a predefined
+termination mask, is satisfied.
+
+2.4 Implementation and Parameter Settings
+Model training is conducted on a Linux workstation equipped with 16 DIMMs (16 × 32 GB RAM) and 6 NVIDIA GeForce
+RTX 4090 GPUs (24 GB memory) using PyTorch v2.2.2. Optimization employed the AdamW algorithm with an initial learning
+rate of 1e-4. A learning rate decay schedule is adopted: if the validation loss does not improve for 50 consecutive epochs,
+the learning rate is reduced by a factor of 10, with a floor of 1e-7. Early stopping is applied, with a patience of 120 epochs,
+to mitigate overfitting. The diffusion signal is represented using an SH basis expansion up to a maximum order of lmax =6,
+resulting in m=28 coefficients per voxel. For tractography, streamline propagation is initialized with five seeds per voxel within
+the white matter mask, with a step size of one voxel, and stopped when reaching outside of the mask or a curvature-based
+angular threshold of 45 degrees.
+
+3 Experiments and Results
+3.1 Datasets and Data Preprocessing
+We evaluate DDTracking on a diverse set of independently acquired dMRI datasets, including: 1) the Human Connectome
+Project Young Adult (HCP-YA)38 , 2) the ISMRM 2015 Tractography Challenge dataset39 , 3) TractoInferno40 , 4) the Parkinson’s
+Progression Markers Initiative (PPMI)41 , 5) the Autism Brain Imaging Data Exchange (ABIDE)42 , 6) the Consortium for
+Neuropsychiatric Phenomics (CNP)43 , 7) a brain tumor patient dataset (BrainTumor) acquired at the First Affiliated Hospital of
+Sun Yat-sen University, China, and 8) a stroke patient dataset (Stroke) acquired at Nuclear Industry 215 Hospital of Shaanxi
+Province, China. The MRI datasets comprise synthetic and real-world clinical imaging data, spanning different age groups
+(teenagers to elderly adults), multiple health conditions (brain disorder and neurosurgical patients), and varying acquisition
+protocols and scanners (see Table 1).
+    Each dataset undergoes standardized preprocessing pipelines to ensure consistency across acquisition protocols. Specifically,
+for the HCP-YA, ISMRM, and TractoInferno, we use dMRI data that were processed and provided by the dataset owners,
+as described in38 ,39 , and40 , respectively. For PPMI, ABIDE, CNP, BrainTumor, and Stroke, we process the dMRI data
+using a well-established pipeline (https://github.com/pnlbwh/pnlpipe)37 , including brain extraction, eddy current correction,
+EPI distortion correction, rigidly registering to MNI space, and spatial resolution sampling to 1.25mm×1.25mm×1.25mm
+(consistent with HCP-YA data that has the highest spatial resolution under study). Then, SH representations are computed for all
+datasets using DIPY44 with the Descoteaux07 basis11 . We train our model on the HCP-YA dataset, utilizing high-quality white
+matter reference tracts derived using iFOD2 tractography45 provided by the TractSeg project46 . In line with prior studies19, 21, 47 ,
+ten subjects are used to train the model. This model is subsequently used in the ablation study (Section 3.2.1), ISMRM
+benchmark (Section 3.2.2), and generalization experiments (Section 3.2.3).
+
+3.2 Experimental Design
+We perform three experiments to evaluate the proposed DDTracking method. First, we perform ablation studies to assess the
+effectiveness of the key components of the proposed network (Section 3.2.1). Second, we compare our method with several
+state-of-the-art methods on two widely used benchmark datasets (Section 3.2.2). Third, we evaluate our method’s generalization
+ability on dMRI data from different populations and acquisition protocols (Section 3.2.3).
+
+3.2.1 Ablation study
+The ablation study assesses the contributions of each component within our network. We evaluate four model variants: (1)
+mtemporal , a model comprising only two stacked GRU layers without the spatial encoder, (2) mspatial+temporal , a model with the
+CNN module and GRU layers but excluding the generative component, (3) mspatial+temporal+generative , a model equiped with
+the spatial and temporal encoders as well as the generative module but excluding the local conditioning module, and (4) the
+complete DDTracking model. All models are trained on data from 10 HCP-YA subjects, with the same loss (Section 2.2.3)
+and related parameter settings (Section 2.4), and evaluated on 5 unseen HCP-YA testing subjects. To compare the results,
+we parcellate the predicted tractography according to the ORG atlas48 that contains a fine-scale parcellation of the entire
+white matter into 800 fiber clusters and an anatomical fiber tract parcellation of 74 major anatomical fiber tracts. Cluster- and
+tract-level detection rates are computed to assess a model’s success in reconstructing fiber clusters/tracts49, 50 . Furthermore, we
+compare the spatial overlap between the predicted fiber tracts and those derived using a widely used reference tractography
+method. We employ the Unscented Kalman Filter (UKF) tractography51, 52 that is highly consistent for fiber tracking in dMRI
+data from independently acquired populations across ages, health conditions, and dMRI acquisitions48, 49, 53 . The weighted
+
+
+                                                                                                                                7/14
+                                                Table 2. Ablation study results.
+
+                                                         Cluster Detection Tract Detection
+                                    Method                                                  wDice ↑
+                                                              Rate ↑           Rate ↑
+                                    mtemporal                93.73%             100%       0.71±0.19
+                                mspatial+temporal            94.69%             100%       0.74±0.16
+                           mspatial+temporal+generavtive     95.11%             100%       0.77±0.17
+                                  mDDTracking                95.62%            100%        0.80±0.16
+
+                                   Table 3. Comparison on the ISMRM benchmark dataset.
+
+                                                 Connections (%)             Average tract (%)
+                                Method
+                                              VC ↑ IC ↓ NC ↓ OL ↑ OR ↓                       F1 ↑
+                             Neher et al.       38     N/A      N/A      46       34         N/A
+                            Learn To Track 49.8 43.1             7.1    65.6     N/A         N/A
+                               Entrack          52     N/A      N/A      58       39          54
+                            Track-to-Learn 68.5 30.7             0.8    65.8     N/A         N/A
+                              Yang et al.     66.2 28.3          5.5    63.8     42.3        56.6
+                             DDTracking       74.1 25.9 0.001 70.8               44.3        56.2
+                            Bold and underline indicate the 1st and 2nd ranking results, respectively.
+
+
+Dice (wDice) coefficient54, 55 , a metric designed specifically for measuring tract spatial overlap, between the predicted and
+reference tracts is computed.
+    The ablation results in Table 2 show a consistent improvement in cluster-level detection rate as additional components are
+integrated into the model. In contrast, the tract-level detection rate stays the same across all models. This shows that although
+all models successfully identify the major fiber tracts, differences in fine-scale cluster detection highlight each module’s role in
+enhancing sensitive fiber tracking. Furthermore, the spatial overlap (wDice) between tracts identified by our method and the
+reference method consistently improves as additional components are integrated. Taken together, these results show the benefit
+of incorporating complementary local and global modeling to enhance anatomical fidelity and consistency in fiber tracking.
+
+3.2.2 Evaluation on benchmark datasets
+We evaluate our method on two standard benchmark datasets: ISMRM39 and TractoInferno40 , which have been widely used
+to assess the performance of fiber tracking methods19, 21, 23, 24, 47 . The ISMRM dataset includes a synthetic dMRI dataset
+associated with ground-truth fiber tracts. Evaluation is performed using the Tractometer tool39, 56 , which provides metrics at
+both streamline and volume levels. In brief, Valid Connections (VC), Invalid Connections (IC), and No Connections (NC) are
+streamline-based metrics, where VC measures true positive streamlines correctly linking valid anatomical regions, IC measures
+false positive streamlines connecting invalid regions, and NC counts prematurely terminated streamlines that fail to link any
+regions. Overlap (OL), Overreach (OR), and F1 score are volume-oriented metrics, where OL measures shared voxels between
+reconstructed and ground truth tracts, OR measures excess voxels in reconstructed tracts but not present in ground truth, and F1
+measures the overall spatial overlap between the reconstruction and the ground truth tracts. The TractoInferno dataset includes
+a total of 284 dMRI volumes acquired from six acquisition sites with varying protocols (see Table 1). These DWI volumes are
+pre-splitted by the dataset organizers, with 198 for model training, 58 for validation, and 28 for testing. Performance on the
+testing data is assessed using the associated TractoEval tool40, 57 , which provides performance metrics including OL, OR, and
+Dice score (similar to the F1 score to measure the spatial overlap between tracts).
+    We compare our approach against the following SOTA methods, including: 1) Neher et al.19 , a pioneering method using
+random forest for fiber tracking, which is the first machine learning based tractography method; 2) Learn to Track21 , which uses
+RNNs to capture high-order dependencies along streamlines to improve tract coverage and reduce false positives; 3) Entrack23 ,
+which adopts probabilistic modeling to account for the uncertainty during tracking; 4) Track-to-Learn24 , which formulates
+tractography as a reinforcement learning problem to learn tracking policies that generalize beyond supervised traning; and 5)
+Yang et al.47 that is a transformer-based model incorporating spatial and anatomical priors to improve tracking in anatomically
+challenging regions.
+    Table 3 gives the evaluation results on the ISMRM dataset. Because the ISMRM dataset provides only one DWI volume, to
+avoid potential data leakage and overfitting, all models are trained on the HCP-YA dataset and evaluated on ISMRM. Scores for
+Neher et al., Learn to Track, Entrack, and Track-to-Learn are extracted from the Track-to-Learn paper, while results for Yang
+et al. are taken from their original publication. Our method achieves the best performance in VC, IC, NC, and OL, and the
+
+
+                                                                                                                               8/14
+                                Table 4. Comparison on the TractoInferno benchmark dataset.
+
+                                Method        Dice ↑ Overlap ↑                 Overreach ↓
+                            Learn To Track      58.0        53.3                   25.8
+                            Track-To-Learn      48.4        35.1                    5.4
+                              Yang et al.       64.5        59.0                   21.7
+                             DDTracking         64.5        64.6                   36.0
+                            Bold and underline indicate the 1st and 2nd ranking results, respectively.
+
+                         Table 5. Tract detection rate and spatial overlap between the four methods.
+
+                                      Tract Detection Rate                         Spatial Overlap (wDice)
+             Dataset
+                                                                            UKF vs         iFOD2 vs     TractSeg vs
+                          UKF      iFOD2     TractSeg     DDTracking
+                                                                          DDTracking DDTracking DDTracking
+           HCP-YA         98%      100%        100%          100%         0.73 ± 0.19 0.82 ± 0.15 0.75 ± 0.14
+             PPMI         98%      100%        100%           99%         0.82 ± 0.17 0.87 ± 0.14 0.83 ± 0.14
+            ABIDE         97%       99%        100%           99%         0.88 ± 0.15 0.92 ± 0.12 0.89 ± 0.12
+             CNP          92%       95%         94%           94%         0.82 ± 0.18 0.87 ± 0.16 0.82 ± 0.15
+          BrainTumor      93%       97%         96%           95%         0.77 ± 0.23 0.87 ± 0.16 0.82 ± 0.17
+            Stroke        78%       81%         79%           81%         0.71 ± 0.17 0.72 ± 0.20 0.72 ± 0.20
+
+
+second-best performance in the F1 metric, while achieving moderate performance in OR (44.3%).
+    Table 4 gives the evaluation results on the TractoInferno dataset. All compared methods are trained on the TractoInferno
+training set, and evaluation metrics are computed based on the testing set. Performance scores for Learn to Track, Track-to-
+Learn, and the method by Yang et al. are extracted from Yang et al.’s publication. Results of the Neher et al. and Entrack are
+not available in the TractoInferno dataset. Our method achieves the highest reported Dice score (64.5%, equal to Yang et al.)
+and the highest Overlap score (64.6%), with a moderate increase in Overreach (36.0%).
+
+3.2.3 Evaluation on generalization to other datasets
+This experiment assesses the generalization capability of our method in real-world scenarios across a diverse set of dMRI datasets,
+encompassing diverse clinical populations and acquisition settings, including HCP-YA, PPMI, ABIDE, CNP, BrainTumor and
+Stroke (see Table 1). In all cases, the model is trained on the HCP-YA dataset and tested on each of the aforementioned testing
+datasets to predict whole-brain tractography. Unlike the benchmark datasets used above, there are no ground truth tractography
+results on the datasets used in this experiment. Therefore, the goal here is to evaluate whether DDTracking can generate
+anatomically comparable results to the existing tractography methods. We compare with three existing methods, including: 1)
+UKF tractography5, 6 that performs whole-brain tractography by fitting a two-tensor model from the diffusion signals using the
+Unscented Kalman Filter approach, 2) iFOD245 that is a probabilistic method based on second-order integration over fiber
+orientation distributions, and 3) TractSeg46 that is a tract-specific tractography method that leverages deep learning for bundle
+segmentation and streamline generation. Parameters per method are set to the suggested settings in their software packages.
+    For quantitative evaluation, we extract anatomical fiber tracts from the tractography results and compute both the tract
+detection rate and the spatial overlap (using wDice) between our method and each compared approach. Since only TractSeg
+is a tract-specific method that directly generates anatomical tracts, we standardize comparisons by parcellating whole-brain
+tractography from other methods using TractSeg-derived tract segmentation and endpoint masks as region-of-interest (ROI)
+constraints. Specifically, extracted tracts must lie entirely within the corresponding TractSeg tract mask, with both endpoints
+confined to their respective endpoint masks.
+    Table 5 presents quantitative comparisons across all datasets. Our method achieves comparable tract detection rates,
+indicating reliable identification of the majority of white matter tracts across diverse populations. In addition, our approach
+attains high and competitive spatial overlap scores, as measured by the wDice metric, in comparison with TractSeg, iFOD2, and
+UKF. A wDice score over 0.72 is suggested to be a good tract overlap54, 55 . These results show that the streamlines generated
+by our method exhibit anatomical consistency and align well with those produced by widely used tractography pipelines.
+    Figure 4 provides qualitative visualizations of three example fiber tracts in randomly selected subjects from each dataset.
+The extracted tract shapes in our method closely resemble those produced by the baseline methods. Figure 5 gives a further
+visual comparison of two representative, hard-to-track tracts - the anterior commissure (CA) and fornix (FX). Our method
+successfully reconstructs the tracts and achieves continuous tracking in challenging regions (as indicated by red arrows),
+whereas the compared methods extended beyond the expected region (e.g., FX in UKF) or generated broken tracts (e.g., CA in
+
+
+                                                                                                                             9/14
+Figure 4. Qualitative comparison of tractography results on multiple datasets in several example tracts (CC4, AF, and CST).
+
+
+iFod2 and TractSeg). Overall, the visual results demonstrate that while DDTracking achieves generally comparable performance
+to existing methods, it can improve tracking accuracy in locally challenging regions.
+
+4 Discussion
+We propose a novel deep generative framework for dMRI tractography, which, to our knowledge, is the first work leveraging
+diffusion models for fiber tracking. Unlike traditional tractography methods that rely on handcrafted models or discrete
+orientation sampling5–8, 45 , our approach is a learning-based method to automatically learn complex patterns from dMRI data
+in a data-driven manner, reducing reliance on manually designed models. Furthermore, we reframe streamline tracking as a
+generative denoising task, leveraging diffusion models to learn the underlying streamline propagation distributions to capture
+the inherent variability and complexity of white matter fiber pathways. Our experiments on two widely used benchmark datasets
+(i.e., ISMRM and TractoInferno) show that DDTracking outperforms several existing state-of-the-art tractography methods. In
+related work, Entrack23 proposes a general probabilistic model for spherical regression to learn local streamline orientations,
+and similarly, Track-to-Learn24 applies reinforcement learning to predict fiber tracking orientations from local neighboring
+information. In contrast, Learn to Track21 adopts an RNN-based model to focus mainly on the global dependency of points
+along the streamline. More recently, a transformer-based model is proposed to learn global dependency along the streamline
+from local contextual information47 . In our DDTracking method, we propose a dual-pathway encoding network that jointly
+models local spatial encoding and global temporal dependencies for improved fiber tracking.
+     We demonstrate the complementary roles of local and global modeling for improved tractography. Unlike prior approaches
+that focus on either local or global context19, 21, 24 , DDTracking integrates both local neighborhood structure and long-range
+trajectory information to capture the complementary spatial and temporal features for streamline reconstruction. Consistent
+with previous work using recurrent or memory-based mechanisms to model the global trajectory context21, 22 , our result
+shows that using a recurrent network (mtemporal ) can obtain good cluster-level and tract-level detection rates (93.7% and
+100%, respectively) and a reasonably good spatial overlap with the widely used reference tractography method (wDice=0.71).
+However, relying solely on temporal modeling may be insufficient in capturing local variations critical in regions with complex
+fiber configurations, a limitation highlighted in prior studies19, 31 . Our results show that incorporating local spatial encoding
+(mspatial+temporal ) largely improves the wDice scores over temporal modeling alone (0.74 vs 0.71). This improvement is further
+amplified when integrating a local conditioning module (mDDTracking ) into the generative process (wDice=0.80), outperforming
+the compared model without the local conditioning module (mspatial+temporal+generative ) (wDice=0.77). Overall, we show that
+combining these complementary perspectives can achieve anatomically coherent streamline reconstruction that remains locally
+adaptive yet globally consistent across the entire trajectory.
+     DDTracking demonstrates a good generalizability across dMRI datasets spanning diverse populations, age groups, imaging
+protocols, and scanner types. Our trained model benefits from the high-quality HCP-YA data, leveraging its rich spatial and
+angular resolution. Consistent with prior studies24, 25, 49, 58 , the strategy of training on high-quality dMRI data enables effective
+
+
+                                                                                                                               10/14
+              Figure 5. Comparison of hard-to-track tracts (CA and FX) in an example HCP-YA test subject.
+
+
+transfer to heterogeneous datasets. In addition, we adopt the SH representation of the dMRI signals. This representation
+decouples the model from specific acquisition parameters (e.g., b-values, gradient directions), enabling uniform processing
+of heterogeneous data32, 33 . Furthermore, rather than depending on predefined physical models, the proposed network learns
+a flexible, data-derived representation of white matter geometry to model the distribution of feasible trajectories, increasing
+robustness across diverse anatomical and acquisition variability. Importantly, we show that DDTracking enables reliable fiber
+tracking in populations with large anatomical variability, including patients with brain tumors and stroke. Fiber tracking
+is particularly challenging in such patients, where white matter anatomy largely deviates from healthy populations59–63 .
+Overall, the good cross-dataset performance on clinically diverse cohorts in multiple brain diseases demonstrates the robust
+generalization capabilities of DDTracking.
+     Potential future directions and limitations of the current work are as follows. First, DDTracking operates solely on
+dMRI data without incorporating anatomical priors. The integration of such priors, commonly employed in methods like
+Anatomically-Constrained Tractography (ACT)14 , could enhance streamline termination accuracy and improve tract specificity.
+Second, although we use GRUs to capture sequential dependencies, other advanced architectures, such as Transformers64 ,
+Mambas65 , or other emerging sequence models, may offer greater capacity for long-range context modeling and richer latent
+representations. Third, our model operates on SH coefficients, which are primarily suited for single-shell data. Although
+single-shell signals can be extracted from multi-shell acquisitions, fully exploiting the richness of the multi-shell dMRI signals
+may benefit from incorporating more expressive signal representations. Finally, in our current study, we employ conventional
+deterministic fiber tracking by predicting a single propagation orientation vector at each position. However, our method can be
+extended to probabilistic fiber tracking by predicting multiple orientations, enabling more advanced fiber tracking strategies.
+
+
+
+                                                                                                                           11/14
+5 Conclusion
+In this work, we propose DDTracking, a novel deep generative dMRI tractography framework that integrates local spatial
+encoding, global temporal modeling, and a conditional diffusion model-based generative process to predict streamline
+propagation orientations. By integrating convolutional and recurrent modules within a probabilistic generative process, our
+method effectively captures both local dMRI signals and long-range trajectory dependencies without relying on predefined
+orientation distributions or discrete sampling. Through evaluations on synthetic, benchmark, and clinical datasets, DDTracking
+shows good generalization, maintaining anatomical plausibility and robustness across diverse acquisition conditions and
+anatomical variations. Overall, our results show that DDTracking produces anatomically plausible, robust tractography, offering
+a scalable, adaptable, and learnable solution for dMRI applications.
+
+Acknowledgments
+This work is in part supported by the National Key R&D Program of China (No. 2023YFE0118600) and the National Natural
+Science Foundation of China (No. 62371107).
+
+References
+ 1. Basser, P., Mattiello, J. & LeBihan, D. MR diffusion tensor spectroscopy and imaging. Biophys. journal 66, 259–267
+    (1994).
+ 2. Basser, P., Pajevic, S., Pierpaoli, C., Duda, J. & Aldroubi, A. In vivo fiber tractography using DT-MRI data. Magn.
+    resonance medicine 44, 625–632 (2000).
+ 3. Zhang, F. et al. Quantitative mapping of the brain’s structural connectivity using diffusion MRI tractography: A review.
+    Neuroimage 249, 118870 (2022).
+ 4. O’Donnell, L. & Westin, C.-F. An introduction to diffusion tensor image analysis. Neurosurg. Clin. North Am. 22, 185
+    (2011).
+ 5. Malcolm, J., Shenton, M. & Rathi, Y. Filtered multitensor tractography. IEEE transactions on medical imaging 29,
+    1664–1675 (2010).
+ 6. Reddy, C. & Rathi, Y. Joint multi-fiber NODDI parameter estimation and tractography using the unscented information
+    filter. Front. neuroscience 10, 166 (2016).
+ 7. Aganj, I., Lenglet, C. & Sapiro, G. ODF reconstruction in q-ball imaging with solid angle consideration. In ISBI, 1398–1401
+    (2009).
+ 8. Tournier, J.-D., Calamante, F. & Connelly, A. MRtrix: diffusion tractography in crossing fiber regions. Int. journal imaging
+    systems technology 22, 53–66 (2012).
+ 9. Leemans, A., Dell’Acqua, F. & Descoteaux, M. Deterministic fiber tractography. In Handbook of Diffusion MR
+    Tractography, 241–255 (Elsevier, 2025).
+10. Girard, G. et al. Probabilistic tractography. Handb. Diffusion MR Tractography 257–274 (2025).
+11. Descoteaux, M., Angelino, E., Fitzgibbons, S. & Deriche, R. Regularized, fast, and robust analytical Q-ball imaging.
+    Magn. Reson. Medicine: An Off. J. Int. Soc. for Magn. Reson. Medicine 58, 497–510 (2007).
+12. Tournier, J.-D., Calamante, F., Gadian, D. & Connelly, A. Direct estimation of the fiber orientation density function from
+    diffusion-weighted MRI data using spherical deconvolution. Neuroimage 23, 1176–1185 (2004).
+13. Jeurissen, B., Tournier, J.-D., Dhollander, T., Connelly, A. & Sijbers, J. Multi-tissue constrained spherical deconvolution
+    for improved analysis of multi-shell diffusion MRI data. NeuroImage 103, 411–426 (2014).
+14. Smith, R., Tournier, J.-D., Calamante, F. & Connelly, A. Anatomically-constrained tractography: improved diffusion MRI
+    streamlines tractography through effective use of anatomical information. Neuroimage 62, 1924–1938 (2012).
+15. Daducci, A., Dal Palú, A., Descoteaux, M. & Thiran, J.-P. Microstructure informed tractography: pitfalls and open
+    challenges. Front. neuroscience 10, 247 (2016).
+16. Poulin, P., Jörgens, D., Jodoin, P.-M. & Descoteaux, M. Tractography and machine learning: Current state and open
+    challenges. Magn. resonance imaging 64, 37–48 (2019).
+17. Karimi, D. & Warfield, S. Diffusion MRI with machine learning. Imaging Neurosci. 2, 1–55 (2024).
+18. Zhang, F., Théberge, A., Jodoin, P.-M., Descoteaux, M. & O’Donnell, L. Think deep in the tractography game: deep
+    learning for tractography computing and analysis. Brain Struct. Funct. 230, 100 (2025).
+
+
+                                                                                                                          12/14
+19. Neher, P., Côté, M.-A., Houde, J.-C., Descoteaux, M. & Maier-Hein, K. Fiber tractography using machine learning.
+    Neuroimage 158, 417–429 (2017).
+20. Cai, L. et al. Convolutional-recurrent neural networks approximate diffusion tractography from T1-weighted MRI and
+    associated anatomical context. In Medical Imaging with Deep Learning, 1124–1143 (2024).
+21. Poulin, P. et al. Learn to track: deep learning for tractography. In MICCAI, 540–547 (2017).
+22. Benou, I. & Riklin Raviv, T. Deeptract: A probabilistic deep learning framework for white matter fiber tractography. In
+    MICCAI, 626–635 (2019).
+23. Wegmayr, V. & Buhmann, J. Entrack: Probabilistic spherical regression with entropy regularization for fiber tractography.
+    Int. J. Comput. Vis. 129, 656–680 (2021).
+24. Théberge, A., Desrosiers, C., Descoteaux, M. & Jodoin, P.-M. Track-to-learn: A general framework for tractography with
+    deep reinforcement learning. Med. Image Analysis 72, 102093 (2021).
+25. Théberge, A., Desrosiers, C., Boré, A., Descoteaux, M. & Jodoin, P.-M. What matters in reinforcement learning for
+    tractography. Med. Image Analysis 93, 103085 (2024).
+26. Janner, M., Du, Y., Tenenbaum, J. & Levine, S. Planning with Diffusion for Flexible Behavior Synthesis. In ICML,
+    9902–9915 (2022).
+27. Gu, T. et al. Stochastic trajectory prediction via motion indeterminacy diffusion. In CVPR, 17113–17122 (2022).
+28. Lv, W. et al. Diffmot: A real-time diffusion-based multiple object tracker with non-linear prediction. In CVPR, 19321–
+    19330 (2024).
+29. Luo, R. et al. Diffusiontrack: Diffusion model for multi-object tracking. In AAAI, vol. 38, 3991–3999 (2024).
+30. Ho, J., Jain, A. & Abbeel, P. Denoising diffusion probabilistic models. Adv. neural information processing systems 33,
+    6840–6851 (2020).
+31. Wegmayr, V., Giuliari, G., Holdener, S. & Buhmann, J. Data-driven fiber tractography with neural networks. In ISBI,
+    1030–1033 (2018).
+32. Mirzaalian, H. et al. Inter-site and inter-scanner diffusion MRI data harmonization. NeuroImage 135, 311–323 (2016).
+33. Zhu, X., Zhang, W., Li, Y., O’Donnell, L. & Zhang, F. When diffusion MRI meets diffusion model: A novel deep generative
+    model for diffusion MRI generation. In MICCAI, 530–540 (2024).
+34. Chi, C. et al. Diffusion policy: Visuomotor policy learning via action diffusion.               The Int. J. Robotics Res.
+    02783649241273668 (2023).
+35. Perez, E., Strub, F., De Vries, H., Dumoulin, V. & Courville, A. Film: Visual reasoning with a general conditioning layer.
+    In AAAI, vol. 32 (2018).
+36. Theaud, G. et al. TractoFlow: A robust, efficient and reproducible diffusion MRI pipeline leveraging Nextflow &
+    Singularity. Neuroimage 218, 116889 (2020).
+37. Cetin-Karayumak, S. et al. Harmonized diffusion MRI data and white matter measures from the Adolescent Brain
+    Cognitive Development Study. Sci. Data 11, 249 (2024).
+38. Van Essen, D. et al. The WU-Minn human connectome project: an overview. Neuroimage 80, 62–79 (2013).
+39. Maier-Hein, K. et al. The challenge of mapping the human connectome based on diffusion tractography. Nat. communica-
+    tions 8, 1349 (2017).
+40. Poulin, P. et al. TractoInferno-A large-scale, open-source, multi-site database for machine learning dMRI tractography.
+    Sci. Data 9, 725 (2022).
+41. Marek, K. et al. The Parkinson progression marker initiative (PPMI). Prog. neurobiology 95, 629–635 (2011).
+42. Di Martino, A. et al. Enhancing studies of the connectome in autism using the autism brain imaging data exchange II. Sci.
+    data 4, 1–15 (2017).
+43. Poldrack, R. et al. A phenome-wide examination of neural and cognitive function. Sci. data 3, 1–12 (2016).
+44. Garyfallidis, E. et al. Dipy, a library for the analysis of diffusion MRI data. Front. neuroinformatics 8, 8 (2014).
+45. Tournier, J. D. et al. Improved probabilistic streamlines tractography by 2nd order integration over fibre orientation
+    distributions. In ISMRM, vol. 1670, 2010 (2010).
+
+
+                                                                                                                           13/14
+46. Wasserthal, J., Neher, P. & Maier-Hein, K. TractSeg-Fast and accurate white matter tract segmentation. Neuroimage 183,
+    239–253 (2018).
+47. Yang, Y. et al. Deep learning-based diffusion MRI tractography: Integrating spatial and anatomical information. NeuroIm-
+    age 317, 121314 (2025).
+48. Zhang, F. et al. An anatomically curated fiber clustering white matter atlas for consistent white matter tract parcellation
+    across the lifespan. Neuroimage 179, 429–447 (2018).
+49. Zhang, F. et al. Deep white matter analysis (DeepWMA): Fast and consistent tractography segmentation. Med. image
+    analysis 65, 101761 (2020).
+50. Xue, T. et al. Superficial white matter analysis: An efficient point-cloud-based deep learning framework with supervised
+    contrastive learning for consistent tractography parcellation across populations and dMRI acquisitions. Med. image analysis
+    85, 102759 (2023).
+51. Farquharson, S. et al. White matter fiber tractography: why we need to move beyond DTI. J. neurosurgery 118, 1367–1377
+    (2013).
+52. Vos, S. B., Viergever, M. A. & Leemans, A. Multi-fiber tractography visualizations for diffusion MRI data. PloS one 8,
+    e81453 (2013).
+53. Li, Y. et al. A diffusion MRI tractography atlas for concurrent white matter mapping across Eastern and Western populations.
+    Sci. Data 11, 787 (2024).
+54. Cousineau, M. et al. A test-retest study on Parkinson’s PPMI dataset yields statistically significant white matter fascicles.
+    NeuroImage: Clin. 16, 222–233 (2017).
+55. Zhang, F. et al. Test–retest reproducibility of white matter parcellation using diffusion MRI tractography fiber clustering.
+    Hum. brain mapping 40, 3041–3057 (2019).
+56. Côté, M.-A. et al. Tractometer: towards validation of tractography pipelines. Med. image analysis 17, 844–857 (2013).
+57. Garyfallidis, E. et al. Recognition of white matter bundles using local and global streamline-based registration and
+    clustering. NeuroImage 170, 283–295 (2018).
+58. Zhang, F., Wells, W. & O’Donnell, L. Deep diffusion MRI registration (DDMReg): a deep learning method for diffusion
+    MRI registration. IEEE transactions on medical imaging 41, 1454–1467 (2021).
+59. Golby, A. et al. Interactive diffusion tensor tractography visualization for neurosurgical planning. Neurosurgery 68,
+    496–505 (2011).
+60. Leclercq, D., Delmaire, C., de Champfleur, N., Chiras, J. & Lehéricy, S. Diffusion tractography: methods, validation and
+    applications in patients with neurosurgical lesions. Neurosurg. Clin. 22, 253–268 (2011).
+61. Yamada, K., Sakai, K., Akazawa, K., Yuen, S. & Nishimura, T. MR tractography: a review of its clinical applications.
+    Magn. resonance medical sciences 8, 165–174 (2009).
+62. Yu, C., Li, K., Xuan, Y., Ji, X. & Qin, W. Diffusion tensor tractography in patients with cerebral tumors: a helpful technique
+    for neurosurgical planning and postoperative assessment. Eur. journal radiology 56, 197–204 (2005).
+63. Essayed, W. et al. White matter tractography for neurosurgical planning: A topography-based review of the current state of
+    the art. NeuroImage: Clin. 15, 659–672 (2017).
+64. Vaswani, A. et al. Attention is all you need. Adv. neural information processing systems 30 (2017).
+65. Gu, A. & Dao, T. Mamba: Linear-time sequence modeling with selective state spaces. arXiv preprint arXiv:2312.00752
+    (2023).
+
+
+
+
+                                                                                                                            14/14
+

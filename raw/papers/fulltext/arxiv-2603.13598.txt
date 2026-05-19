@@ -1,0 +1,1803 @@
+                                                  Tau-induced atrophy drives functional connectivity
+
+                                                  disruption in Alzheimer’s disease
+arXiv:2603.13598v1 [physics.med-ph] 13 Mar 2026
+
+
+
+
+                                                  Kun Jianga , Can Liaob , Sujin Jiangc , Haidong Lind , Jixin Houa , Tianming Liue , Gang Lif ,
+                                                  Taotao Wuc , Yiqi Maog , Ellen Kuhlh , Xianqiao Wanga,1 , and Xianyan Cheni
+
+                                                  a
+                                                      School of ECAM, College of Engineering, University of Georgia, Athens, GA, 30602, USA
+                                                  b
+                                                      Institute of Bioinformatics, University of Georgia, Athens, GA, 30602, USA
+                                                  c
+                                                      School of Chemical, Materials, and Biomedical Engineering, College of Engineering,
+                                                  University of Georgia, Athens, GA 30602, USA
+                                                  d
+                                                      Department of Engineering Mechanics, Zhejiang University, Hangzhou, Zhejiang, 310027,
+                                                  China
+                                                  g
+                                                      Department of Engineering Mechanics, College of Mechanical and Vehicle Engineering,
+                                                  Hunan University, Changsha, Hunan, 410082, China
+                                                  i
+                                                      Department of Epidemiology and Biostatistics, College of Public Health, University of
+                                                  Georgia, Athens, GA 30602, USA
+                                                  e
+                                                      School of Computing, University of Georgia, Athens, GA 30602, USA
+                                                  f
+                                                      Department of Radiology and Biomedical Research Imaging Center, The University of
+                                                  North Carolina at Chapel Hill, NC 27599, USA
+                                                  h
+                                                      Department of Mechanical Engineering, Stanford University, Stanford, CA 94305, USA
+
+
+                                                  March 17, 2026
+
+
+                                                  Abstract
+                                                         Alzheimer’s disease involves progressive tau accumulation and spread, leading to re-
+
+
+                                                                                                 1
+gional brain atrophy and disruption of large-scale functional networks. While tau propa-
+gation and tissue degeneration have been widely modeled, how atrophy dynamics translate
+into functional connectivity (FC) degradation remains unclear. Here, we develop a multi-
+physics framework integrating anisotropic tau reaction–diffusion, finite-deformation biome-
+chanics, and network modeling to link tau-driven atrophy with FC changes. Model fidelity
+is evaluated by quantitatively comparing simulated atrophy patterns with imaging-derived
+measurements. Using longitudinal structural and functional MRI, we identify an approxi-
+mately linear relationship between regional atrophy rates and FC change. We then construct
+an atrophy-informed structural network degradation matrix from model-predicted region-
+specific atrophy rates and embed it into a neural oscillation model to predict FC disruption.
+Our results show that (i) the coupled reaction–diffusion–biomechanical model reproduces
+observed regional atrophy, (ii) regional atrophy rates parsimoniously predict longitudinal
+FC changes, and (iii) the atrophy-informed degradation matrix captures the direction and
+relative magnitude of regional FC disruption. By converting tau-driven atrophy into pre-
+dictive FC trajectories, the proposed framework offers a clinically interpretable avenue for
+forecasting disease progression and informing trial design.
+
+Keywords: Alzheimer’s disease; tau propagation; brain atrophy; functional connectivity;
+
+multiphysics modeling
+
+
+
+
+                                              2
+1 Introduction
+    The accumulation of pathological amyloid-β and hyperphosphorylated tau protein is a
+
+classical hallmark of Alzheimer’s disease, emerging years to decades before a clinical diagno-
+
+sis becomes possible [1]. The widely accepted amyloid cascade hypothesis posits amyloid-β
+
+as the initiating factor, triggering a sequence of downstream events, including tau misfolding
+
+and propagation, which subsequently lead to region-specific brain atrophy and ultimately
+
+cognitive impairment [2]. In parallel with growing availability of multimodal imaging, recent
+
+work has sought to clarify the mechanisms of tau propagation and its downstream effects
+
+by employing a broad range of approaches such as physical modeling and statistical analy-
+
+ses [3, 4]. However, despite these advances, the quantitative relationship between atrophy
+
+progression and subsequent cognitive impairment remains insuﬀiciently characterized. This
+
+gap is particularly consequential given that Alzheimer’s disease evolves along a prolonged
+
+subclinical trajectory, with biomarker and neurodegenerative changes accumulating for years
+
+before overt symptoms emerge (often spanning 7–11 years)[5]. Establishing a mechanistic
+
+and predictive link between atrophy dynamics and cognitive decline is therefore essential
+
+for improving the diagnosis and prognosis of Alzheimer’s disease, particularly in addressing
+
+clinically relevant questions such as: How rapidly will cognitive function deteriorate?
+
+    Histological evidence indicates that the progression of Alzheimer’s disease is closely as-
+
+sociated with the spatiotemporal spreading of misfolded protein aggregates throughout the
+
+brain [6]. In the brains of patients with Alzheimer’s disease, substantial accumulation of
+
+amyloid-β and tau protein has been observed, with tau pathology being recognized as the
+
+primary driver of brain tissue atrophy. Tau deposition is first detected in the entorhinal
+
+cortex and the locus coeruleus, and subsequently advances to anatomically and function-
+
+ally interconnected cortical regions [6]. Due to the intracellular transport mechanisms of
+
+tau protein, axonal transport plays a critical role in the dissemination of misfolded pro-
+
+
+
+                                              3
+tein aggregates across neural pathways [7, 8]. Recent studies have further revealed that the
+
+spatiotemporal patterns of neurodegeneration exhibit striking similarities to prion-like prop-
+
+agation processes, suggesting a self-propagating mechanism underlying disease progression
+
+[9]. Motivated by these observations, numerous studies have employed nonlinear diffusion
+
+models based on the Fisher–Kolmogorov equation to reproduce protein spreading in various
+
+neurodegenerative diseases, achieving strong agreement with experimental and clinical data
+
+[3, 10]. By leveraging multiphysics finite element frameworks, tau protein propagation can
+
+be explicitly coupled with tissue atrophy, enabling quantitative investigation of their mutual
+
+interactions. The predicted spatiotemporal patterns of protein spreading and brain atrophy
+
+show good consistency with clinical observations inferred from in vivo magnetic resonance
+
+imaging as well as post-mortem histopathology [4, 11]. While these models successfully cap-
+
+ture protein spreading and tissue atrophy, how such structural degeneration translates into
+
+functional network degradation remains an open question.
+
+    Recent studies suggest that the spatial distribution of tau pathology is closely associated
+
+with functional brain networks [12–15]. Specifically, highly interconnected brain regions
+
+tend to exhibit similar patterns of tau accumulation, supporting the notion that tau pathol-
+
+ogy preferentially propagates along functional networks. As tau aggregation is known to
+
+induce structural damage—including cortical atrophy and white matter tract disruption—
+
+these pathological changes ultimately contribute to cognitive impairment [16]. Alterations in
+
+functional connectivity are therefore plausibly linked to the disruption of underlying struc-
+
+tural pathways. However, despite growing evidence connecting tau pathology to functional
+
+network organization, a clear qualitative or quantitative relationship between functional
+
+connectivity changes and tau-related downstream pathology—particularly tissue atrophy—
+
+remains insuﬀiciently established. This gap is further complicated by methodological limi-
+
+tations in tau positron emission tomography (PET) imaging. In particular, the commonly
+
+used AV1451 tracer has been reported to exhibit off-target binding in regions such as the
+
+
+                                              4
+basal ganglia, hippocampus, and choroid plexus, potentially confounding the accurate quan-
+
+tification of regional tau burden [17, 18] . In contrast, regional brain volume changes, quan-
+
+tified as atrophy rates, can be robustly and non-invasively assessed in vivo using structural
+
+magnetic resonance imaging [19, 20]. Functional connectivity alterations, in turn, can be in-
+
+dependently measured using functional MRI. Integrating longitudinal atrophy metrics with
+
+functional connectivity analysis therefore provides a more reliable and biologically grounded
+
+framework for investigating how structural degeneration translates into functional network
+
+degradation. This perspective motivates the present study, which focuses on elucidating
+
+the relationship between atrophy rate and functional connectivity changes in Alzheimer’s
+
+disease.
+
+    Accordingly, the present study aims to establish a multiphysics modeling framework to
+
+reproduce tau protein propagation and brain atrophy patterns, and to ultimately elucidate
+
+the relationship between atrophy rate and functional connectivity alterations in Alzheimer’s
+
+disease. The model employs an anisotropic reaction–diffusion formulation to predict the
+
+spatiotemporal evolution of tau pathology, which is coupled with a biomechanical finite-
+
+deformation model to capture concentration-dependent tissue atrophy. Model performance
+
+is quantitatively evaluated by comparing simulated atrophy patterns with experimentally
+
+observed atrophy derived from imaging data. In parallel, longitudinal structural MRI and
+
+functional MRI data are analyzed, revealing a linear relationship between regional atrophy
+
+rates and functional connectivity changes. Based on this observation, regional atrophy rates
+
+extracted from the computational model are used to construct a structural network degra-
+
+dation matrix at the level of selected regions of interest. By integrating this degradation
+
+matrix into a neural oscillation framework, the model further predicts the corresponding
+
+trends in functional connectivity alterations, thereby providing a mechanistic link between
+
+protein-induced tissue degeneration and large-scale functional network disruption.
+
+
+
+
+                                              5
+2 Materials and Methods
+
+
+
+
+Figure 1: An image-driven multiphysics workflow links tau propagation, atrophy, and functional
+network disruption. Multimodal neuroimaging data from cognitively normal (CN) and Alzheimer’s disease
+(AD) subjects are processed to extract functional connectivity, structural information, and regional atro-
+phy patterns. These image-derived measures inform a biophysically motivated multiphysics framework that
+couples tau protein propagation dynamics with hyperelastic tissue deformation to model whole-brain atro-
+phy. In parallel, neural-oscillation dynamics are simulated and modulated by atrophy-induced degradation.
+Model parameters are calibrated through data-driven fitting, and the resulting simulations are quantitatively
+compared with imaging-derived measures to assess correlations between simulated and experimental atrophy
+as well as functional connectivity changes.
+
+
+ADNI Cohort and Longitudinal Multimodal MRIs
+
+    This study uses longitudinal magnetic resonance imaging (MRI) data obtained from
+
+the Alzheimer’s Disease Neuroimaging Initiative (ADNI) database. A total of 84 subjects
+
+were included, comprising 34 individuals diagnosed with Alzheimer’s disease (AD) and 50
+
+cognitively normal (CN) controls. All selected subjects had multiple longitudinal structural
+
+MRI scans acquired over time, together with a final available resting-state functional MRI
+
+(fMRI) scan, enabling the joint analysis of structural atrophy and functional connectivity.
+
+                                                     6
+    Diffusion MRI (dMRI) data were available for a subset of the cohort, consisting of 26
+
+CN participants, and were used to derive representative white matter fiber orientations
+
+for anatomically informed modeling of anisotropic tau diffusion. The inclusion of dMRI
+
+data from cognitively normal subjects ensures that the embedded fiber architecture reflects
+
+baseline structural connectivity rather than disease-altered microstructure.
+
+    The average time interval between consecutive longitudinal MRI scans was approxi-
+
+mately 1.0 year. For the AD group, follow-up durations ranged from 1.0 to 2.0 years, whereas
+
+the CN group exhibited a broader longitudinal span from 1.0 to 8.5 years. Although long-
+
+term longitudinal imaging remains limited in typical clinical cohorts, these data provide
+
+short-horizon constraints for estimating near-term regional atrophy rates and calibrating the
+
+model. The computational framework then leverages these observations to bridge tempo-
+
+ral gaps and project disease dynamics beyond the available imaging window. All imaging
+
+data were preprocessed following standardized ADNI pipelines to ensure consistency across
+
+subjects, imaging sites, and acquisition protocols.
+
+ROI-level Multimodal Image Data Analysis and Connectome Construction
+
+    For each subject, longitudinal MRI, fMRI, and dMRI data were analyzed following the
+
+workflow summarized in Figure 1. All imaging modalities were first co-registered to the
+
+MNI152 standard space using SPM [21] and its structural processing toolbox CAT12 [22],
+
+employing fourth-degree spline interpolation to preserve anatomical accuracy during spatial
+
+normalization.
+
+    Subsequently, cortical surface reconstruction and volumetric segmentation were per-
+
+formed using FreeSurfer [23, 24] on normalized MNI152 MRI images. This procedure par-
+
+titions the brain into 68 cortical and 45 subcortical regions of interest (ROIs), enabling the
+
+extraction of voxel-wise and region-wise volumetric measures from each longitudinal MRI
+
+scan. Regional brain volumes were then tracked across time to compute subject-specific
+
+
+
+                                              7
+atrophy rates for each ROI.
+
+   For connectivity analysis, diffusion and functional data were further processed using
+
+DSI Studio [25]. dMRI data were used to reconstruct white matter fiber pathways and
+
+generate anatomically informed structural connectivity, while resting-state fMRI time series
+
+were employed to compute functional connectivity matrices based on ROI-averaged signals.
+
+The resulting connectivity matrices form the basis for subsequent network-level analysis and
+
+are consistent with established procedures in connectome-based studies [26].
+
+   Together, this multimodal image processing pipeline enables the integrated quantification
+
+of regional atrophy, structural organization, and functional connectivity changes, providing
+
+essential inputs for validating the proposed multiphysics model and its predictions.
+
+Multiphysics Model Linking Anisotropic Tau Propagation to Brain Atrophy
+
+   A mechanistic description of Alzheimer’s disease progression requires explicit coupling
+
+between molecular pathology and macroscopic tissue degeneration. While reaction–diffusion
+
+models have proven effective in capturing the spatiotemporal spread of pathological proteins
+
+[3, 27], they alone cannot account for the structural deformation induced by neurodegen-
+
+eration. While multiphysics models coupling protein transport and tissue mechanics have
+
+been proposed, their ability to quantitatively translate tau-driven atrophy into functional
+
+network degradation remains limited. To address this gap, we adopt a unified multiphysics
+
+formulation that directly links tau propagation to mechanically consistent atrophy dynamics.
+
+   Neurodegeneration in Alzheimer’s disease unfolds as a coupled biochemical–mechanical
+
+process: misfolded tau spreads along brain pathways while simultaneously reshaping tis-
+
+sue geometry through progressive atrophy. Capturing this feedback is essential because
+
+structural deformation can in turn alter transport distances and local vulnerability, ampli-
+
+fying regional patterns of degeneration. In addition, tau pathology exhibits a strong spa-
+
+tial structure, preferentially advancing along white-matter pathways rather than spreading
+
+
+
+                                             8
+isotropically through the parenchyma. This directional bias motivates an anisotropic trans-
+
+port model informed by fiber architecture, coupled to a biomechanical description of tissue
+
+loss to capture how local tau burden drives progressive deformation. We therefore adopt a
+
+unified multiphysics chemomechanical formulation that integrates a tract-informed reaction–
+
+diffusion model for tau propagation with large-deformation brain mechanics, allowing direct
+
+translation from molecular pathology to tissue-level atrophy trajectories.
+
+    We model the spatiotemporal propagation of tau protein using a reaction–diffusion for-
+
+mulation that captures both spatial transport and local biochemical kinetics [28, 29]. Specif-
+
+ically, the evolution of misfolded tau protein concentration c(x, t) is governed by a nonlinear
+
+reaction–diffusion equation,
+
+
+                                 ċ = ∇ · (D∇c) + αc(1 − c),                               (1)
+
+
+where D denotes the diffusion tensor and α represents the local production rate of misfolded
+
+protein. The production term αc(1 − c) accounts for the combined effects of tau production,
+
+clearance, and pathological conversion, leading to saturation at high concentrations and
+
+preventing unbounded growth of protein accumulation. To incorporate direction-dependent
+
+transport along neural pathways, the diffusion tensor is defined as
+
+
+                                   D = Dp I + Da n0 ⊗ n0 ,                                 (2)
+
+
+where Dp and Da denote the passive (isotropic) and active (anisotropic) diffusion coeﬀi-
+
+cients, respectively, and n0 represents the local fiber orientation. This formulation enables
+
+preferential tau propagation along white matter tracts while retaining isotropic diffusion in
+
+the surrounding tissue.
+
+    To model brain atrophy induced by tau pathology, tissue deformation is described
+
+
+
+
+                                              9
+through a multiplicative decomposition of the deformation gradient,
+
+
+                             F = Fe Fa       and        J = det(F) = J e J a ,                           (3)
+
+
+where Fe represents the elastic deformation and Fa encodes the inelastic volumetric change
+
+associated with tissue atrophy. Accordingly, J e = det(Fe ) denotes the elastic volume change,
+
+while J a = det(Fa ) quantifies the irreversible volume loss due to neurodegeneration. Con-
+
+sistent with neuroanatomical observations, gray matter atrophy is assumed to be isotropic
+
+and is modeled as
+                                         √
+                                         3
+                                                                    √
+                                                                    3
+                                  Fa =       θI       and    Fe = F/ θ,                                  (4)
+
+whereas white matter atrophy is assumed to be anisotropic, reflecting preferential thinning
+
+of fiber tracts orthogonal to the local fiber direction n0 ,
+
+                               √                  √
+                        Fa =       θI + (1 −          θ)n0 ⊗ n0     (symmetrical).                       (5)
+
+
+Here θ is a scalar atrophy parameter driven by the local tau protein concentration and
+
+evolving over time.
+
+    The model introduces a constitutive description of brain atrophy in which tissue under-
+
+goes a baseline, natural atrophy at a constant rate G0 . The accumulation of misfolded tau
+
+protein is assumed to accelerate this natural atrophy through a concentration-dependent
+
+amplification factor γ(c). For simplicity, atrophy acceleration is activated once the protein
+
+concentration exceeds a critical threshold ccrit ,
+                           
+                           
+                           
+                           G ,
+                              0               if      c < ccrit                      Gc
+    θ̇c = [1 + γ(c)]G0 =                                            where   γ(c) =      H(c − ccrit ),   (6)
+                           
+                                                                                    G0
+                            G0 + Gc ,        if      c≥c    crit
+
+
+
+where Gc denotes the tau-induced atrophy rate and H(·) is the Heaviside function. To
+
+
+
+                                                        10
+characterize the mechanical response of brain tissue, a neo-Hookean free energy density is
+
+adopted. The atrophy-weighted elastic stored energy ψ0 is defined in terms of the elastic
+
+                                     1                             1
+              ψ0 = J a ψ   with   ψ = µ[Fe : Fe − 3 − 2 ln(J e )] + λ ln2 (J e ),         (7)
+                                     2                             2
+
+where µ and λ are the Lamé parameters. Here, we assign distinct Lamé parameters to
+
+gray and white matter to reflect their different mechanical stiffnesses. Specifically, we set
+
+µ = 2.07 kPa and λ = 101.43 kPa for gray matter, and µ = 1.15 kPa and λ = 56.35 kPa for
+
+white matter [30]. Following standard thermodynamic arguments, the corresponding Cauchy
+
+stress tensor σ is obtained as
+
+                           1 dψ0 T  1
+                     σ=         F = e [µFe (Fe )T + (λ ln(J e ) − µ) I].                  (8)
+                           J dF    J
+
+Together, these formulations establish a mechanistic coupling between tau protein prop-
+
+agation and tissue-level deformation, enabling the simultaneous simulation of biochemical
+
+transport, concentration-dependent atrophy, and large-deformation brain mechanics within
+
+a unified multiphysics framework.
+
+Computational Whole-brain Discretization, Tract-informed Anisotropy, and
+Boundary Setup
+
+    Reliable prediction of disease spread and deformation depends on a computational do-
+
+main that preserves key anatomical boundaries and directional tissue organization. Whole-
+
+brain discretization enables the coupled transport–mechanics equations to be solved on real-
+
+istic geometry, ensuring that both tau propagation pathways and regional tissue loss emerge
+
+from the model rather than being imposed. We therefore construct an anatomically re-
+
+solved finite-element representation that distinguishes gray and white matter and supports
+
+tract-informed anisotropic transport.
+
+    Figure 2.a illustrates the finite element discretization of the brain geometry, where dark
+
+                                              11
+gray and light gray regions correspond to gray matter and white matter, respectively. A
+
+hexahedral finite-element mesh was designed to balance computational tractability with nu-
+
+merical fidelity. The mesh resolution is suﬀiciently refined to represent the smooth anatom-
+
+ical transition between gray and white matter while remaining eﬀicient for the coupled
+
+transport–mechanics simulations.
+
+    To account for the preferential transport of tau protein along neural pathways, a
+
+tractography-guided fiber architecture derived from data of the Human Connectome Project
+
+Aging cohort, obtained via the DSI Studio data hub, is embedded into the finite element
+
+mesh [25]. The resulting fiber orientation field is mapped onto each integration point and
+
+used to define an orthotropic diffusion tensor, thereby enabling anisotropic active diffusion
+
+aligned with underlying white matter microstructure. This approach ensures that the mod-
+
+eled tau propagation is anatomically informed and reflects the directional characteristics of
+
+neural connectivity. Furthermore, Figure 2.b illustrates the prescribed initial condition, in
+
+which a comparatively higher tau concentration is assigned within the entorhinal cortex to
+
+serve as a localized initiation region for the subsequent propagation process, consistent with
+
+established hypotheses of tau pathology onset. Specifically, we initialize a normalized tau
+
+concentration field c(x, 0) ∈ [0, 1] by prescribing an elevated value c0EC inside the entorhi-
+
+nal cortex and a low baseline value c0b elsewhere. In our simulations, we set c0EC = 0.8 and
+
+c0b = 0. In addition, the distal end of the brainstem is fixed to impose displacement boundary
+
+conditions and ensure mechanical well-posedness of the deformation problem.
+
+
+
+
+                                             12
+Figure 2: An anatomically resolved finite-element mesh and entorhinal seeding define the initial
+conditions for tau propagation. a, A hexahedral mesh distinguishes white matter (light gray) and
+gray matter (dark gray), and embedded fiber trajectories provide tract-informed orientations for anisotropic
+transport. b, Initial seeding regions in the entorhinal cortex that define the spatiotemporal onset of tau
+pathology. A total of 68 regions of interest—including 64 cortical regions along with the hippocampus and
+amygdala—are used to trace the subsequent progression.
+
+
+Computational Implementation of Coupled Tau Transport and Deformation
+
+    A coupled transport–mechanics model must be implemented in a way that preserves
+
+both numerical stability and physical interpretability, because small inconsistencies between
+
+the transport and deformation solvers can accumulate into large errors in predicted atrophy
+
+trajectories. We therefore adopt a single finite-element environment that enforces a consistent
+
+discretization, time integration, and parameter handling across biochemical transport and
+
+large-deformation mechanics. To achieve this eﬀiciently, we leverage a heat–mass transport
+
+analogy that allows tau propagation to be solved using well-established thermal diffusion
+
+infrastructure while retaining full coupling to the mechanical response [31].
+
+    The proposed multiphysics framework is implemented within the commercial finite ele-
+
+ment software ABAQUS 2024 (Dassault Systems, Paris, France) using the user subroutines
+
+UMAT, UMATHT, and HETVAL. Due to the close mathematical analogy between tau pro-
+
+tein transport and heat conduction, the UMATHT subroutine is employed to model the
+
+spatiotemporal evolution of tau protein concentration by exploiting the temperature degree
+
+of freedom. Specifically, both passive diffusion and orthotropic anisotropic active diffusion of
+
+tau protein are implemented through the conductivity tensor, enabling direction-dependent
+
+transport along preferred fiber orientations. The proliferation and clearance of tau protein
+
+                                                    13
+are incorporated as volumetric source terms via the HETVAL subroutine, allowing flexible
+
+representation of local biochemical reactions. The resulting tau protein concentration field
+
+is treated as a global state variable and passed to the UMAT subroutine, where it gov-
+
+erns the hyperelastic constitutive response of brain tissue, enabling concentration-dependent
+
+deformation within the mechanical module.
+
+Neural Synchronization Model Linking Structural Atrophy to Functional Net-
+work Decline
+
+    To quantify how structural atrophy translates into altered functional coupling, we require
+
+a network model that links changes in anatomical connectivity to emergent synchronization
+
+dynamics. Phase-oscillator frameworks provide a parsimonious yet mechanistically inter-
+
+pretable bridge between structure and function, and have been widely used to study coher-
+
+ence and desynchronization in large-scale brain networks. We therefore adopt a Kuramoto-
+
+type formulation and explicitly embed atrophy-dependent degradation into the coupling
+
+architecture to model progressive functional connectivity (FC) disruption.
+
+    In this framework, each ROI is modeled as a phase oscillator with its own intrinsic
+
+frequency and coupling strengths with other ROIs. According to the following evolution
+
+equation, the phase ϕi (t) of the i-th oscillator in a network of N coupled oscillators evolves
+
+toward a coherent state through mutual interactions:
+
+                              dϕi          ∑N
+                                  = ωi + g     Kji sin(ϕi − ϕj ),                          (9)
+                               dt          j=1
+
+
+where ωi denotes the natural frequency of the i-th oscillator, drawn from a prescribed dis-
+
+tribution, and Kji represents the coupling strength between the j-th and i-th oscillators,
+
+derived from the structural connectivity matrix. The effects of all connectivity weights are
+
+scaled by a global coupling strength constant, g.
+
+    To obtain the simulated FC matrix, the stabilized structural connectivity matrix and
+
+
+                                              14
+the empirical functional connectivity matrix are jointly incorporated into an iterative opti-
+
+mization procedure. Specifically, the natural frequencies of the oscillators are adjusted based
+
+on network control energy. The initial natural frequencies are set to approximately 10 Hz,
+
+corresponding to neural oscillations during relaxed wakefulness, and are then updated to
+
+reduce the mismatch between simulated and empirical FC.
+
+       The brain network is further modeled as a controllable dynamical system governed by
+
+[31]
+                                    dx(t)
+                                          = Kx(t) + Bu(t),                                (10)
+                                     dt
+
+where x(t) denotes the state vector representing functional connectivity, B is the control
+
+input matrix, and u(t) is an external control input that drives the system toward a target
+
+state.
+
+       To account for atrophy-induced disruption of structural connections-a process supported
+
+by evidence that gray matter atrophy often precedes and drives white matter disconnection
+
+[32, 33]-we introduce a degradation matrix M constructed from the averaged atrophy degree
+
+θ within each ROI:
+
+                                           Mij = θi θj ,                                  (11)
+
+where Mij represents the degradation factor associated with the connection between the i-th
+
+and j-th ROIs, and θi and θj denote the averaged atrophy extent of the corresponding ROIs.
+
+This formulation assumes that the atrophy of both ROIs jointly contributes to the degrada-
+
+tion of the inter-regional connection, aligning with neuroimaging findings that white matter
+
+tract integrity is closely correlated with the volume and neurodegeneration of anatomically
+
+connected gray matter regions [33, 34]. The degradation matrix M is subsequently incorpo-
+
+rated into the network dynamics to model functional connectivity under neurodegenerative
+
+
+
+
+                                                15
+effects. Accordingly, Eq.10 can be rewritten as
+
+                                    dx(t)
+                                          = MKx(t) + Bu(t).                             (12)
+                                     dt
+
+    To ensure biological plausibility in the adjustment of network dynamics, the transition
+
+from an initial state x0 (simulated FC) to a target state xf (empirical FC) is assumed to
+
+follow a minimum-energy principle. The control energy is defined as
+
+                                              ∫ T
+                                       CE =          ∥u(t)∥2 dt.                        (13)
+                                                0
+
+
+Accordingly, the natural frequency of the i-th ROI is updated based on both the control
+
+energy and the discrepancy between simulated (sF Ci ) and empirical (F Ci ) functional con-
+
+nectivity:                                 ( n                               )
+                                            ∑                  ∑
+                                                               n
+                            dωi = CE ·              sF Cij −         F Cij       .      (14)
+                                             j=1               j=1
+
+where sF C is obtained from the Kuramoto model. The updated natural frequency at the
+
+(n + 1)-th iteration is given by
+                                   
+                                   
+                                   
+                                   
+                                   |ωin + dωi |,     if ωin − mean(ω) ≥ 0,
+                        ωin+1 =                                                         (15)
+                                   
+                                   
+                                   
+                                   |ωin − dωi |,     otherwise.
+
+
+3 Results
+
+Edge-wise Statistics Identify Widespread Functional Connectivity Degradation
+
+    Functional connectivity (FC) disruption is a hallmark of Alzheimer’s disease and provides
+
+a systems-level readout of how neurodegeneration reshapes communication across distributed
+
+brain networks. Establishing the magnitude and topography of these changes is essential
+
+for two reasons: it motivates the need for mechanistic structure–function coupling, and
+
+
+                                                    16
+it provides an empirical target against which model-predicted network degradation can be
+
+evaluated. We therefore first characterize group-level FC differences between cognitively
+
+normal (CN) controls and individuals with Alzheimer’s disease (AD).
+
+    Derived from fMRI of two groups of subjects, the group-level averaged FC matrix of
+
+the CN and AD groups is obtained as shown in Figure 3.a. Due to a lack of longitudinal
+
+fMRI scans, subsequent analyses focused on cross-sectional differences between group means.
+
+Figure 3.b exhibits the differences between them, which demonstrate pronounced degradation
+
+in most regions of interest, except possibly compensatory in a few ROI [35, 36]. Apart from
+
+ROI-wise mean changes, we assessed the significant difference between the two FC matrices
+
+at the element-wise level. For each target ROI, we extracted its connectivity strength with all
+
+other ROIs for every participant in the AD and CN groups. Group differences were evaluated
+
+using two-sample t-tests applied to the connectivity values FCAD (i, j), FCCN (i, j) across
+
+subjects, where i denotes the target ROI and j the guest ROI. ROI pairs with uncorrected
+
+p < 0.05 were considered to show significant group differences in connectivity, and the
+
+corresponding FC edge was identified according to these values, as shown in Figure 3.c (edges
+
+with color). Based on the significant FC changing matrix, ROI-wise FC connections are
+
+visualized in inter-hemisphere (Figure 3.d) and intra-hemisphere (Figure 3.e,f), respectively
+
+(the blue chord indicates a degraded connection, versus increasing). The connection between
+
+the inner of the left and right hemispheres both exhibit overall degradation, and different
+
+degradation patterns appear in the left and right intra-hemispheres.
+
+Structure–Function Coupling Links Accelerated Atrophy to Network-Level De-
+generation
+
+    Linking progressive tissue loss to network-level dysfunction is central to understanding
+
+why Alzheimer’s disease evolves from a regional pathology into a distributed systems disor-
+
+der. Longitudinal atrophy provides a quantitative readout of structural degeneration, but
+
+
+
+                                              17
+Figure 3: Group-level functional connectivity differs systematically between cognitively normal
+controls and Alzheimer’s disease. a, Group-averaged functional connectivity (FC) matrices are shown
+for cognitively normal (CN) and Alzheimer’s disease (AD) cohorts. b, ROI-wise changes in FC indicate an
+overall reduction across most regions. c, ROIs exhibiting statistically significant between-group differences
+(two-sample t-test, uncorrected p < 0.05) are highlighted in the difference matrix. d, Inter-hemispheric
+connections derived from the significant-difference matrix reveal altered cross-hemisphere coupling, where
+blue indicates decreased FC and red indicates increased FC in AD relative to CN. e,f, Left and right intra-
+hemispheric patterns further show hemisphere-specific topological reorganization.
+
+
+
+
+                                                     18
+its functional consequences are often heterogeneous across regions, reflecting both loss of
+
+anatomical support and potential compensatory reorganization. We therefore first charac-
+
+terize ROI-specific atrophy trajectories and then test whether regional atrophy rates system-
+
+atically covary with functional connectivity (FC) changes.
+
+    Figure 4 illustrates the longitudinal trajectories of brain volume loss and its associa-
+
+tion with variations in functional connectivity. We extracted the cortical, hippocampal, and
+
+amygdalar volumes based on the atlas defined in Figure 2.b. To enable inter-subject compar-
+
+ison, all volumes are normalized to each subject’s baseline measurement. In Figure 4.a, the
+
+longitudinal trajectories of individual subjects in the two groups are shown, with solid lines
+
+indicating the group-level linear regression fits. Each data point corresponds to a single MRI
+
+scan. The results reveal a clear divergence in volume decline between the CN and AD groups,
+
+with AD exhibiting accelerated decline. By performing linear regression within each ROI,
+
+we further derived the atrophy rates, which are presented in Figure 4.b. The pronounced
+
+group difference (***p < 0.001) in atrophy rates indicates that tau pathology markedly ac-
+
+celerates regional brain volume loss. To further investigate the coupling between structural
+
+degeneration and functional alterations, we quantified the FC difference and atrophy-rate
+
+difference in each ROI. Specifically, for every ROI, we first computed the mean FC of the
+
+AD group and subtracted the corresponding mean FC of the CN group, yielding the FC
+
+difference (FCAD − FCCN ). Likewise, the atrophy difference for each ROI was obtained by
+
+subtracting the CN-group atrophy rate from the AD-group atrophy rate. We then calculated
+
+the Pearson correlation between these two ROI-wise variables. The resulting significant as-
+
+sociation shows in Figure 4.c that regions exhibiting larger tau-induced increases in atrophy
+
+rate also present greater FC degradation. However, a subset of ROIs displays the opposite
+
+pattern: despite comparatively small atrophy rates, these regions show increased FC. Such
+
+FC enhancement is likely reflective of compensatory functional reorganization in response to
+
+early or mild structural decline, a phenomenon that has been reported in several neurode-
+
+
+                                             19
+Figure 4: Longitudinal atrophy rates are associated with cross-sectional functional connectivity
+differences. a, Longitudinal trajectories of normalized brain volume for cognitively normal (CN) and
+Alzheimer’s disease (AD) groups, with regression lines and confidence intervals illustrating faster atrophy in
+the AD cohort. b, Atrophy rates for CN and AD participants, showing a significantly accelerated decline
+in the AD group (***p < 0.001). c, Across ROIs, protein-induced increases in atrophy rate are positively
+correlated with FC changes (r = 0.31, p = 0.0103), indicating that stronger structural degeneration is
+accompanied by larger functional disruption.
+
+
+generative studies and is often interpreted as short-term network-level adaptation aimed at
+
+maintaining cognitive performance.
+
+Model Predictions Reproduce Hallmark Spatiotemporal Patterns of Tau Spread
+and Atrophy
+
+    A key requirement for any mechanistic model of Alzheimer’s disease is that it reproduces
+
+the characteristic timing and topology of pathology observed in vivo. Capturing not only
+
+the overall burden of tau and tissue loss, but also their spatial progression, is essential
+
+for establishing biological plausibility and for enabling downstream predictions of network-
+
+level disruption. We therefore evaluate whether the proposed multiphysics framework can
+
+recapitulate canonical neurodegenerative signatures of tauopathies.
+
+    Based on the proposed multiphysics framework, the coupled spatiotemporal evolution
+
+of pathological tau protein and progressive brain atrophy is reproduced, as illustrated in
+
+Figure 5. In the left panel, the whole-brain–averaged volume decreases monotonically over
+
+time, whereas the mean protein concentration increases in a nonlinear, accelerating manner,
+
+indicating a progressively worsening pathological burden. The simulated temporal trajec-
+
+tories of whole-brain–averaged volume and protein concentration capture hallmark features
+
+                                                     20
+Figure 5: Coupled tau transport and large-deformation mechanics reproduce whole-brain atro-
+phy and evolving protein burden. The left panel shows simulated temporal trajectories of normalized
+brain volume and total tau burden over a 10-year period. The right panels show representative coronal slices
+at 1, 4, 7, and 10 years, illustrating the spatial distribution of protein concentration. Overlaid contours
+depict morphological deformation relative to baseline anatomy, and the white–gray matter interface is de-
+lineated by a solid line.
+
+
+of neurodegenerative progression, exhibiting trends that are qualitatively consistent with
+
+clinical and imaging observations of tauopathies. The coronal slices in the right panel of
+
+Figure 5 provide a detailed view of the spatial evolution of tau pathology over time from
+
+Year 1, 4, 7, to Year 10. At early stages, elevated tau concentrations are primarily localized
+
+within the entorhinal region, reflecting known sites of initial pathological onset. As the dis-
+
+ease progresses, tau accumulation expands into adjacent cortical regions and subsequently
+
+propagates deeper into the temporal lobe.
+
+    Notably, the spatial distribution of tau demonstrates pronounced anisotropy, with prefer-
+
+ential propagation aligned with major fiber pathways. This behavior highlights the dominant
+
+role of axonal transport in governing pathological protein spread. The resulting fiber-aligned
+
+propagation patterns reinforce the importance of white-matter connectivity in shaping dis-
+
+ease progression and validate the necessity of incorporating structural anisotropy within the
+
+modeling framework.
+
+
+
+
+                                                    21
+Predicted Long-Term Atrophy Trajectories Explain Downstream Functional
+Connectivity Decline
+
+   Longitudinal neuroimaging typically spans only a few years, yet Alzheimer’s disease un-
+
+folds over a decade or more. Mechanistic models are therefore most valuable when they can
+
+extrapolate beyond the observation window while preserving known disease topology and
+
+providing quantitative, testable predictions. We used the multiphysics framework to fore-
+
+cast long-term regional atrophy and to determine whether these model-predicted structural
+
+changes are suﬀicient to explain downstream functional connectivity (FC) degradation.
+
+   Because available longitudinal MRI covered a limited duration, we simulated extended
+
+trajectories of regional volume loss. Figure 6.a presents the evolution of volume loss across
+
+all ROIs in the left and right hemispheres. While both hemispheres show broadly similar
+
+trajectories, subtle asymmetries emerge in several regions, reflecting underlying differences
+
+in fiber-tract architecture. The entorhinal cortex, hippocampus, and amygdala demonstrate
+
+the most pronounced atrophy, aligning well with the canonical sequence of degeneration
+
+described in Braak staging. Figure 6.b–d depicts the spatial distribution of white-matter
+
+volume loss at 4, 7, and 10 years. The solid black contours denote the baseline white-matter
+
+boundaries, highlighting the progressive inward shrinkage of tissue over time. The predicted
+
+atrophy pattern closely mirrors the spread of tau pathology: regions adjacent to the en-
+
+torhinal cortex exhibit the earliest and most severe degeneration, and the white matter as
+
+a whole undergoes substantial shrinkage as the disease advances. We next benchmarked
+
+model predictions against imaging-derived measurements. As shown in Figure 7, the model
+
+effectively captures experimentally observed atrophy patterns and reproduces the empirical
+
+relationship between functional connectivity (FC) changes and protein-induced degeneration.
+
+Figure 7.a demonstrates that simulated atrophy rates across ROIs closely match the exper-
+
+imental AD measurements, yielding a strong correlation (r = 0.81, p = 5.5 × 10−17 ). The
+
+high consistency in regions exhibiting peak atrophy further indicates that the multiphysics
+
+                                             22
+Figure 6: The multiphysics model predicts ROI-resolved atrophy trajectories and spatially
+heterogeneous tissue loss. a, Heatmaps showing the longitudinal trajectories of normalized regional
+volume across 68 brain regions over 10 years in the left and right hemispheres, respectively. Warmer colors
+indicate more severe volume loss. b-d, Model-predicted spatial patterns of tissue loss visualized on coronal
+(top) and sagittal (bottom) slices at three representative time points. The overlaid contours show progressive
+deformation of white-gray matter boundaries relative to baseline anatomy.
+
+
+framework can quantitatively reproduce the spatial distribution of degeneration. Figure 7.b
+
+shows a comparable positive association between simulated protein-induced atrophy and
+
+FC alterations. Notably, regions with relatively low atrophy rates exhibit detectable FC
+
+enhancement, consistent with the aforementioned compensatory phenomenon. To further
+
+examine model performance, Figure 7.c compares simulated and experimental trajectories
+
+within three representative regions—entorhinal cortex, hippocampus, and amygdala. Differ-
+
+ences between the left and right hemispheres are also evaluated (solid line: left; dashed line:
+
+right), and the inset renderings illustrate final-time ROI volumes with baseline contours
+
+overlaid. To more clearly reveal the model’s predictive accuracy, comparisons are made
+
+starting from year 4 of the simulation, after the tau pathology has expanded beyond the
+
+immediate vicinity of the entorhinal cortex. Across all three ROIs, the model successfully
+
+reproduces both the magnitude and slope of atrophy observed in AD participants, as well
+
+as the hemispheric asymmetry in degeneration. In particular, the hippocampus exhibits dis-
+
+tinct left–right differences that align with heterogeneous fiber architecture—differences that
+
+the model accurately predicts through its integration of structural connectivity. As shown
+
+in Figure 8, we simulate functional connectivity (FC) based on the structural connectivity
+
+                                                     23
+Figure 7: Simulated atrophy rates match imaging-derived measurements and reproduce the
+empirical atrophy–FC association. a, Simulated and experimental ROI-wise atrophy rates show strong
+agreement (r = 0.81, p = 5.5×10−17 ). And rate differences over all brain regions for experimental (Exp–AD)
+and simulated (Sim) data demonstrate the great capacity of the model to capture the atrophy patterns. b,
+Simulated protein-induced atrophy rates are positively associated with FC changes across ROIs (r = 0.28,
+p = 0.04). c, Representative trajectories in the entorhinal cortex, hippocampus, and amygdala show close
+agreement between simulated and experimental atrophy (solid line: left hemisphere; dashed line: right
+hemisphere).
+
+
+
+
+                                                    24
+(SC) matrix (Figure 8.a) constructed from HCP-A DTI data, and subsequently examine
+
+the relationship between simulated FC changes and model-predicted atrophy. To incorpo-
+
+rate the impact of structural degeneration, we introduce a degradation matrix M, derived
+
+from the regional atrophy rates. The FC of the CN group is directly simulated from the
+
+intact SC, in Figure 8.b, whereas the FC of the AD group is generated from the SC matrix
+
+modified by M. Figure 8.c highlights the difference between the AD and CN FC matrices
+
+(AD - CN). A widespread reduction in FC strength is observed across most edges, consistent
+
+with the global degradation in AD. The ROI-wise FC changes in Figure 8.d further show
+
+an overall decline across regions. One clear outlier (marked in red) exhibits an apparent FC
+
+decrease in the simulation; however, the corresponding experimental FC change is positive.
+
+As shown in Figure 8.e, this region has an atrophy rate close to zero, suggesting that the
+
+anomalous FC estimate likely arises from the intrinsic properties of the neural oscillator
+
+model rather than from structural degeneration, and can thus be reasonably excluded from
+
+the correlation analysis. After removing the outlier, the resulting association between sim-
+
+ulated FC change and protein-induced atrophy rate remains highly significant and closely
+
+matches the empirical trend shown in Figure 4. Importantly, the model also reproduces FC
+
+enhancement in regions with minimal atrophy, mirroring experimental observations. These
+
+findings demonstrate that the proposed multiphysics framework not only predicts atrophy
+
+trajectories with high fidelity but also accurately captures the downstream degradation of
+
+functional connectivity. The introduction of the degradation matrix M further provides
+
+mechanistic insight into how structural decline shapes functional disconnection across the
+
+brain’s network architecture.
+
+
+
+
+                                             25
+Figure 8: Atrophy-informed degradation of structural coupling predicts functional connectivity
+disruption. a, Group-averaged structural connectivity (SC) matrix used as the baseline coupling topology
+for all simulations. b, Simulated functional connectivity (FC) matrices for cognitively normal controls (CN)
+and Alzheimer’s disease (AD). An atrophy-derived degradation vector θ is used to construct a rank-one
+degradation matrix M = θθ T , which modulates (down-weights) the effective SC coupling strengths in the
+neural-oscillation model to generate AD-like FC patterns. c, Difference matrix between simulated AD and
+CN FC shown only for ROI pairs with statistically significant differences; non-significant entries are masked
+in white. Red indicates increased FC, whereas blue indicates decreased FC in AD relative to CN. d, ROI-wise
+FC changes (∆FC) derived from the simulated CN and AD networks, with red-highlighted bars denoting
+outlier ROIs. e, Association between protein-induced regional atrophy rates and FC changes: ROI-wise
+atrophy rate estimates (left) and their correlation with ∆FC across regions (right), demonstrating that
+stronger atrophy is linked to larger FC degradation (r = 0.34, p = 0.0045).
+
+
+
+
+                                                     26
+4 Discussion
+    This study asked a focused question: whether Alzheimer’s disease (AD)-related func-
+
+tional connectivity (FC) disruption is systematically associated with tau-linked neurode-
+
+generation, and whether such a relationship can be mechanistically instantiated in a com-
+
+putational model. Using a cross-sectional group contrast (healthy controls vs. AD), we
+
+observed significantly reduced FC in AD, consistent with extensive evidence of resting-state
+
+network disruption and loss of coordinated large-scale communication in the disease [37–40].
+
+Beyond confirming group-level FC impairment, our key result is that the spatial pattern
+
+of FC degradation across ROIs is positively associated with tau-induced atrophy parame-
+
+ters derived from our multiphysics framework. This association motivated a parsimonious
+
+degeneration-matrix formulation, which qualitatively reproduced the AD-like FC disruption
+
+pattern when applied to the baseline structural scaffold, thereby providing a mechanistic
+
+bridge from molecular pathology and tissue loss to systems-level dysfunction.
+
+Mechanistic Interpretation: from Tau Pathology to Network Disconnection
+
+   A biologically grounded interpretation of our findings is that tau-driven tissue loss cap-
+
+tures, in aggregate form, the progressive dismantling of synaptic and axonal substrates re-
+
+quired for long-range coordination. Neuropathological staging and in vivo PET studies
+
+consistently show that tau pathology follows a stereotyped topographic expansion begin-
+
+ning in transentorhinal/entorhinal regions and advancing to limbic and association cortices
+
+[6, 41]. A large experimental literature further supports the idea that pathological tau can
+
+propagate in a “prion-like” manner along connected neuronal pathways, providing a nat-
+
+ural mechanistic link between connectivity architecture and regional vulnerability [42–45].
+
+Critically, synapse loss and disconnection are among the strongest proximate correlates of
+
+cognitive impairment in AD, reinforcing the view that macroscopic neurodegeneration ul-
+
+timately manifests as impaired inter-regional communication [46, 47]. At the mesoscale,
+
+
+                                             27
+diffusion MRI studies report anatomically congruent associations between white-matter mi-
+
+crostructural abnormalities and gray-matter atrophy, consistent with coupled gray–white
+
+degeneration and tract-level compromise [48]. Taken together, these findings support our
+
+modeling choice: using ROI-level atrophy parameters as a mathematically tractable proxy
+
+for the cumulative loss of effective coupling capacity that underlies FC disruption.
+
+Computational Novelty: Explicit SC–FC Coupling under Tau-linked Degenera-
+tion
+
+    Prior connectome-based propagation models have largely focused on explaining or fore-
+
+casting spatial patterns of pathology/atrophy, whereas here we explicitly model how tau-
+
+related atrophy parameters reshape FC, providing a mechanistic bridge from molecular
+
+pathology to systems-level dysfunction [14, 27, 49]. In particular, diffusion- and epidemic-
+
+inspired models demonstrate that network topology and anatomical connectivity can con-
+
+strain where misfolded proteins accumulate and where neurodegeneration emerges [27, 49].
+
+Complementing these approaches, recent in vivo work shows that functional architecture is
+
+closely linked to tau accumulation and spatial tau organization, reinforcing the hypothesis
+
+that connectivity is not merely a passive background but a determinant of tau dynamics
+
+[13, 14]. Our contribution is to leverage these insights in the reverse direction: rather than
+
+stopping at reproducing tau/atrophy maps, we use multiphysics-derived atrophy param-
+
+eters to build a low-dimensional, interpretable degeneration operator that modulates the
+
+structural connectome and thereby generates disease-state FC patterns. From a dynamical-
+
+systems perspective, this step is well motivated. Whole-brain modeling has repeatedly shown
+
+that resting-state FC can be partially explained as an emergent property of neural dynamics
+
+constrained by the structural connectome [50]. In particular, coupled-oscillator and related
+
+neural-mass models demonstrate how connectome-mediated coupling and local dynamics can
+
+reproduce salient FC patterns [51–53]. Within this modeling class, our degeneration matrix
+
+
+
+                                             28
+provides a minimal mechanism by which tau-linked tissue loss can be translated into a sys-
+
+tematic penalty on inter-regional coupling. The fact that such a simple rule can qualitatively
+
+reproduce the observed AD-like FC disruption pattern suggests that a substantial component
+
+of cross-sectional FC differences may be attributable to degeneration-induced weakening of
+
+effective coupling.
+
+Network Specificity and Clinical Relevance
+
+    Our results indicate that FC alterations in AD are spatially structured rather
+
+than random.      Medial temporal and limbic areas (e.g., entorhinal cortex, hippocam-
+
+pus/parahippocampus, temporal pole, and amygdala) are well-established early sites of tau
+
+pathology and neurodegeneration [6, 41, 54]. Notably, FC change need not be uniformly
+
+negative within these tau-vulnerable regions; instead, our robust finding is a cross-ROI re-
+
+lationship in which ROIs with larger tau-associated atrophy rates (in magnitude) exhibit
+
+stronger FC degradation overall. This state-dependent coupling provides a parsimonious
+
+and biologically interpretable link between tau-driven tissue loss and systems-level functional
+
+disruption. Finally, while our analysis is cross-sectional, cognitive composites such as ADNI-
+
+MEM remain valuable endpoints for future work testing whether the inferred atrophy–FC
+
+coupling relates to memory decline at the individual level [55].
+
+Limitations and Future Directions
+
+    Several limitations delineate clear next steps. First, the limited availability of longitudi-
+
+nal fMRI in our dataset prevented within-subject modeling of FC trajectories; accordingly,
+
+our results and simulations are framed as a two-state (HC vs. AD) comparison. Second, our
+
+finite-element model assumes spatially uniform fiber density. In reality, regional differences
+
+in axonal packing and tract density would induce spatial heterogeneity in effective transport
+
+capacity, which is not captured here. And our current framework does not implement a
+
+closed-loop feedback in which severe axonal/synaptic loss would reduce the available routes
+
+
+                                               29
+for further propagation. Incorporating such structural feedback is a natural extension that
+
+could improve calibration in regions with pronounced tissue loss. Third, we presently focus
+
+on axonal-pathway-mediated spread and do not explicitly represent clearance mechanisms.
+
+A growing literature suggests that paravascular (glymphatic) exchange contributes to clear-
+
+ance of interstitial solutes, is modulated by arousal/sleep, and may influence amyloid-β and
+
+tau dynamics [56–58]. Experimental work further implicates impaired glymphatic function
+
+in tauopathy models and provides mechanistic evidence that glymphatic pathways can clear
+
+extracellular tau [59, 60]. Incorporating multi-compartment transport and clearance terms—
+
+balancing axonal propagation with clearance—would therefore be a biologically motivated
+
+route to enhancing model realism.
+
+Conclusion
+
+   In summary, this study establishes a robust cross-sectional association between FC
+
+degradation and tau-linked atrophy parameters in AD and demonstrates that a simple
+
+atrophy-informed degeneration matrix can qualitatively reproduce the disease-state pattern
+
+of functional network disruption. By integrating multiphysics tau propagation and neurode-
+
+generation with connectome-constrained whole-brain dynamics, the framework provides a
+
+mechanistically interpretable link from molecular pathology and tissue loss to systems-level
+
+functional breakdown. Beyond AD, the same strategy offers a general template for trans-
+
+lating pathology-specific tissue degeneration into functional network impairment in related
+
+neurodegenerative proteinopathies.
+
+
+Acknowledgements
+   JK, JH and XW acknowledge the support from National Science Foundation (IIS-
+
+2011369) and National Institutes of Health (1R01NS135574-01). Data collection and sharing
+
+for this project was funded by the Alzheimer’s Disease Neuroimaging Initiative (ADNI) (Na-
+
+tional Institutes of Health Grant U01 AG024904) and DOD ADNI (Department of Defense
+
+                                             30
+award number W81XWH-12-2-0012). ADNI is funded by the National Institute on Aging,
+
+the National Institute of Biomedical Imaging and Bioengineering, and through generous con-
+
+tributions from the following: AbbVie, Alzheimer’s Association; Alzheimer’s Drug Discov-
+
+ery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb Company;
+
+CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli Lilly and Company; Eu-
+
+roImmun; F. Hoffmann-La Roche Ltd and its aﬀiliated company Genentech, Inc.; Fujirebio;
+
+GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research & Development,
+
+LLC.; Johnson & Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lund-
+
+beck; Merck & Co., Inc.; Meso Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack
+
+Technologies; Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging; Servier;
+
+Takeda Pharmaceutical Company; and Transition Therapeutics. The Canadian Institutes
+
+of Health Research is providing funds to support ADNI clinical sites in Canada. Private
+
+sector contributions are facilitated by the Foundation for the National Institutes of Health
+
+(www.fnih.org). The grantee organization is the Northern California Institute for Research
+
+and Education, and the study is coordinated by the Alzheimer’s Therapeutic Research Insti-
+
+tute at the University of Southern California. ADNI data are disseminated by the Laboratory
+
+for Neuro Imaging at the University of Southern California.
+
+
+Authorship Contribution Statement
+    JK: Methodology, Software, Validation, Investigation, Writing – Original Draft; JX:
+
+Methodology, Software, Validation; XW: Conceptualization, Validation, Supervision, Fund-
+
+ing acquisition, Writing – Original Draft, Writing – Review and Editing.
+
+
+Conflicts of Interest
+    The authors declare that the research was conducted in the absence of any commercial
+
+or financial relationships that could be construed as a potential conflict of interest.
+
+
+                                              31
+References
+ [1] C. Duyckaerts, B. Delatour, and M.-C. Potier, “Classification and basic pathology of Alzheimer disease,” Acta Neuropatho-
+
+    logica, vol. 118, no. 1, pp. 5–36, 2009.
+
+
+ [2] C. R. Jack and D. M. Holtzman, “Biomarker Modeling of Alzheimer’s Disease,” Neuron, vol. 80, no. 6, pp. 1347–1358,
+
+    2013.
+
+
+ [3] J. Weickenmeier, E. Kuhl, and A. Goriely, “Multiphysics of Prionlike Diseases: Progression and Atrophy,” Physical Review
+
+    Letters, vol. 121, no. 15, 2018. arXiv: 1804.01958.
+
+
+ [4] A. Schäfer, J. Weickenmeier, and E. Kuhl, “The interplay of biochemical and biomechanical degeneration in Alzheimer’s
+
+    disease,” Computer Methods in Applied Mechanics and Engineering, vol. 352, pp. 369–388, 2019.
+
+
+ [5] L. L. Raket, A. Pichet Binette, N. Mattsson-Carlgren, S. Janelidze, H. Zetterberg, N. J. Ashton, K. Blennow, E. Stomrud,
+
+    S. Palmqvist, and O. Hansson, “Estimating the time course of biomarker changes in Alzheimer’s disease,” Brain, p. awaf413,
+
+    Nov. 2025.
+
+
+ [6] H. Braak and E. Braak, “Neuropathological stageing of Alzheimer-related changes,” Acta Neuropathologica, vol. 82, no. 4,
+
+    pp. 239–259, 1991.
+
+
+ [7] M. Jucker and L. C. Walker, “Pathogenic protein seeding in alzheimer disease and other neurodegenerative disorders,” An-
+
+    nals of Neurology, vol. 70, no. 4, pp. 532–540, 2011. _eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/ana.22615.
+
+
+ [8] H. I. L. Jacobs, T. Hedden, A. P. Schultz, J. Sepulcre, R. D. Perea, R. E. Amariglio, K. V. Papp, D. M. Rentz, R. A.
+
+    Sperling, and K. A. Johnson, “Structural tract alterations predict downstream tau accumulation in amyloid-positive older
+
+    individuals,” Nature Neuroscience, vol. 21, pp. 424–431, Mar. 2018.
+
+
+ [9] M. Jucker and L. C. Walker, “Self-propagation of pathogenic protein aggregates in neurodegenerative diseases,” Nature,
+
+    vol. 501, pp. 45–51, Sept. 2013.
+
+
+[10] S. Fornari, A. Schäfer, M. Jucker, A. Goriely, and E. Kuhl, “Prion-like spreading of Alzheimer’s disease within the brain’s
+
+    connectome,” Journal of The Royal Society Interface, vol. 16, no. 159, p. 20190356, 2019.
+
+
+[11] V. Pederzoli, M. Corti, D. Riccobelli, and P. F. Antonietti, “A coupled mathematical and numerical model for protein
+
+    spreading and tissue atrophy, applied to Alzheimer’s disease,” 2024. arXiv: 2412.19661.
+
+
+[12] R. Ossenkoppele, L. Iaccarino, D. R. Schonhaut, J. A. Brown, R. La Joie, J. P. O’Neil, M. Janabi, S. L. Baker, J. H.
+
+    Kramer, M.-L. Gorno-Tempini, B. L. Miller, H. J. Rosen, W. W. Seeley, W. J. Jagust, and G. D. Rabinovici, “Tau covariance
+
+    patterns in Alzheimer’s disease patients match intrinsic connectivity networks in the healthy brain,” NeuroImage: Clinical,
+
+    vol. 23, p. 101848, 2019.
+
+
+
+
+                                                              32
+[13] N. Franzmeier, A. Rubinski, J. Neitzel, Y. Kim, A. Damm, D. L. Na, H. J. Kim, C. H. Lyoo, H. Cho, S. Finsterwalder,
+
+     M. Duering, S. W. Seo, and M. Ewers, “Functional connectivity associated with tau levels in ageing, Alzheimer’s, and
+
+     small vessel disease,” Brain, vol. 142, pp. 1093–1107, Apr. 2019.
+
+
+[14] N. Franzmeier, J. Neitzel, A. Rubinski, R. Smith, O. Strandberg, R. Ossenkoppele, O. Hansson, M. Ewers, and
+
+     I. Alzheimer’s Disease Neuroimaging, “Functional brain architecture is associated with the rate of tau accumulation in
+
+     Alzheimer’s disease,” Nat Commun, vol. 11, no. 1, p. 347, 2020. Type: Journal Article.
+
+
+[15] N. Franzmeier, M. Brendel, L. Beyer, L. Slemann, G. G. Kovacs, T. Arzberger, C. Kurz, G. Respondek, M. J. Lukic, D. Biel,
+
+     A. Rubinski, L. Frontzkowski, S. Hummel, A. Müller, A. Finze, C. Palleis, E. Joseph, E. Weidinger, S. Katzdobler, M. Song,
+
+     G. Biechele, M. Kern, M. Scheifele, B.-S. Rauchmann, R. Perneczky, M. Rullman, M. Patt, A. Schildan, H. Barthel,
+
+     O. Sabri, J. J. Rumpf, M. L. Schroeter, J. Classen, V. Villemagne, J. Seibyl, A. W. Stephens, E. B. Lee, D. G. Coughlin,
+
+     A. Giese, M. Grossman, C. T. McMillan, E. Gelpi, L. Molina-Porcel, Y. Compta, J. C. van Swieten, L. D. Laat, C. Troakes,
+
+     S. Al-Sarraj, J. L. Robinson, S. X. Xie, D. J. Irwin, S. Roeber, J. Herms, M. Simons, P. Bartenstein, V. M. Lee, J. Q.
+
+     Trojanowski, J. Levin, G. Höglinger, and M. Ewers, “Tau deposition patterns are associated with functional connectivity
+
+     in primary tauopathies,” Nature Communications, vol. 13, no. 1, p. 1362, 2022.
+
+
+[16] A. Bouzigues, V. L. Du, M. Joulot, N. Peysson, M. Houot, B. Béranger, L. L. Russell, P. H. Foster, E. Ferry-Bolder, J. C. van
+
+     Swieten, L. Jiskoot, H. Seelaar, R. Sanchez-Valle, R. Laforce, C. Graff, D. Galimberti, R. Vandenberghe, A. de Mendonça,
+
+     P. Tiraboschi, I. Santana, A. Gerhard, J. Levin, S. Sorbi, M. Otto, M. Bertoux, T. Lebouvier, S. Ducharme, C. R.
+
+     Butler, I. L. Ber, E. Finger, M. C. Tartaglia, M. Masellis, J. B. Rowe, M. Synofzik, F. Moreno, B. Borroni, J. D. Rohrer,
+
+     R. Migliaccio, and t. G. F. d. Initiative (GENFI), “Structural and functional connectivity in tau mutation carriers: from
+
+     presymptomatic to symptomatic frontotemporal dementia,” Alzheimer’s & Dementia, vol. 21, no. 7, p. e70367, 2025.
+
+
+[17] M. Marquié, M. D. Normandin, A. C. Meltzer, M. Siao Tick Chong, N. V. Andrea, A. Antón-Fernández, W. E. Klunk,
+
+     C. A. Mathis, M. D. Ikonomovic, M. Debnath, E. A. Bien, C. R. Vanderburg, I. Costantino, S. Makaretz, S. L. DeVos,
+
+     D. H. Oakley, S. N. Gomperts, J. H. Growdon, K. Domoto-Reilly, D. Lucente, B. C. Dickerson, M. P. Frosch, B. T. Hyman,
+
+     K. A. Johnson, and T. Gómez-Isla, “Pathological correlations of [F-18]-AV-1451 imaging in non-alzheimer tauopathies,”
+
+     Annals of Neurology, vol. 81, no. 1, pp. 117–128, 2017.
+
+
+[18] L. Lemoine, A. Leuzy, K. Chiotis, E. Rodriguez-Vieitez, and A. Nordberg, “Tau positron emission tomography imaging
+
+     in tauopathies: The added hurdle of off-target binding,” Alzheimer’s & Dementia: Diagnosis, Assessment & Disease
+
+     Monitoring, vol. 10, pp. 232–236, 2018.
+
+
+[19] N. C. Fox, W. R. Crum, R. I. Scahill, J. M. Stevens, J. C. Janssen, and M. N. Rossor, “Imaging of onset and progression of
+
+     Alzheimer’s disease with voxel-compression mapping of serial magnetic resonance images,” The Lancet, vol. 358, no. 9277,
+
+     pp. 201–205, 2001.
+
+
+[20] B. H. Ridha, J. Barnes, J. W. Bartlett, A. Godbolt, T. Pepple, M. N. Rossor, and N. C. Fox, “Tracking atrophy progression
+
+     in familial Alzheimer’s disease: a serial MRI study,” The Lancet Neurology, vol. 5, no. 10, pp. 828–834, 2006.
+
+
+
+                                                               33
+[21] J. Ashburner, G. Barnes, C.-C. Chen, J. Daunizeau, G. Flandin, K. Friston, S. Kiebel, J. Kilner, V. Litvak, R. Moran,
+
+     et al., “Spm12 manual,” Wellcome Trust Centre for Neuroimaging, London, UK, vol. 2464, no. 4, p. 53, 2014.
+
+
+[22] C. Gaser, R. Dahnke, P. M. Thompson, F. Kurth, E. Luders, and the Alzheimer’s Disease Neuroimaging Initiative, “CAT:
+
+     a computational anatomy toolbox for the analysis of structural MRI data,” GigaScience, vol. 13, p. giae049, Jan. 2024.
+
+
+[23] R. S. Desikan, F. Ségonne, B. Fischl, B. T. Quinn, B. C. Dickerson, D. Blacker, R. L. Buckner, A. M. Dale, R. P. Maguire,
+
+     B. T. Hyman, M. S. Albert, and R. J. Killiany, “An automated labeling system for subdividing the human cerebral cortex
+
+     on MRI scans into gyral based regions of interesteusoft-did-keyword-comment-end-en,” NeuroImage, vol. 31, pp. 968–980,
+
+     July 2006.
+
+
+[24] B. Fischl, “FreeSurfer,” NeuroImage, vol. 62, pp. 774–781, Aug. 2012.
+
+
+[25] F.-C. Yeh, “DSI Studio: an integrated tractography platform and fiber data hub for accelerating brain research,” Nature
+
+     Methods, vol. 22, pp. 1617–1619, Aug. 2025.
+
+
+[26] A. Schäfer, E. C. Mormino, and E. Kuhl, “Network Diffusion Modeling Explains Longitudinal Tau PET Data,” Frontiers
+
+     in Neuroscience, vol. 14, 2020.
+
+
+[27] A. Raj, A. Kuceyeski, and M. Weiner, “A Network Diffusion Model of Disease Progression in Dementia,” Neuron, vol. 73,
+
+     pp. 1204–1215, Mar. 2012.
+
+
+[28] R. A. Fisher, “The wave of advance of advantageous genes,” Annals of eugenics, vol. 7, no. 4, pp. 355–369, 1937.
+
+
+[29] “A study of the equation of diffusion with increase in the quantity of matter, and its application to a biological problem,”
+
+     Moscow University Bulletin of Mathematics, vol. 1, pp. 1–25, 1937.
+
+
+[30] S. Budday, G. Sommer, C. Birkl, C. Langkammer, J. Haybaeck, J. Kohnert, M. Bauer, F. Paulsen, P. Steinmann, E. Kuhl,
+
+     and G. Holzapfel, “Mechanical characterization of human brain tissue,” Acta Biomaterialia, vol. 48, pp. 319–340, Jan.
+
+     2017.
+
+
+[31] A. C. Rayfield, T. Wu, J. A. Rifkin, and D. F. Meaney, “Individualized mouse brain network models produce asymmetric
+
+     patterns of functional connectivity after simulated traumatic injury,” Network Neuroscience, vol. 9, pp. 326–351, Mar.
+
+     2025.
+
+
+[32] E. Fletcher, O. Carmichael, O. Pasternak, K. H. Maier-Hein, and C. DeCarli, “Early Brain Loss in Circuits Affected by
+
+     Alzheimerâ€™s Disease is Predicted by Fornix Microstructure but may be Independent of Gray Matter,” Frontiers in
+
+     Aging Neuroscience, vol. 6, May 2014.
+
+
+[33] S.-H. Lee, J.-P. Coutu, P. Wilkens, A. Yendiki, H. Rosas, and D. Salat, “Tract-based analysis of white matter degeneration
+
+     in Alzheimer’s disease,” Neuroscience, vol. 301, pp. 79–89, Aug. 2015.
+
+
+
+
+                                                               34
+[34] G. Douaud, R. A. L. Menke, A. Gass, A. U. Monsch, A. Rao, B. Whitcher, G. Zamboni, P. M. Matthews, M. Sollberger,
+
+    and S. Smith, “Brain Microstructure Reveals Early Abnormalities more than Two Years prior to Clinical Progression from
+
+    Mild Cognitive Impairment to Alzheimer’s Disease,” The Journal of Neuroscience, vol. 33, pp. 2147–2155, Jan. 2013.
+
+
+[35] S. D. Han, K. J. Bangen, and M. W. Bondi, “Functional magnetic resonance imaging of compensatory neural recruitment
+
+    in aging and risk for Alzheimer’s disease: review and recommendations,” Dement Geriatr Cogn Disord, vol. 27, no. 1,
+
+    pp. 1–10, 2009. Type: Journal Article.
+
+
+[36] L. Penalba-Sanchez, P. Oliveira-Silva, A. L. Sumich, and I. Cifre, “Increased functional connectivity patterns in mild
+
+    Alzheimer’s disease: A rsfMRI study,” Front Aging Neurosci, vol. 14, p. 1037347, 2022. Type: Journal Article.
+
+
+[37] M. D. Greicius, G. Srivastava, A. L. Reiss, and V. Menon, “Default-mode network activity distinguishes Alzheimer’s
+
+    disease from healthy aging: Evidence from functional MRI,” Proceedings of the National Academy of Sciences, vol. 101,
+
+    pp. 4637–4642, Mar. 2004.
+
+
+[38] M. R. Brier, J. B. Thomas, A. Z. Snyder, T. L. Benzinger, D. Zhang, M. E. Raichle, D. M. Holtzman, J. C. Morris,
+
+    and B. M. Ances, “Loss of Intranetwork and Internetwork Resting State Functional Connections with Alzheimer’s Disease
+
+    Progression,” Journal of Neuroscience, vol. 32, pp. 8890–8899, June 2012.
+
+
+[39] A. Badhwar, A. Tam, C. Dansereau, P. Orban, F. Hoffstaedter, and P. Bellec, “Resting‐state network dysfunction in
+
+    Alzheimer’s disease: A systematic review and meta‐analysis,” Alzheimer’s & Dementia: Diagnosis, Assessment & Disease
+
+    Monitoring, vol. 8, pp. 73–85, Jan. 2017.
+
+
+[40] W. W. Seeley, R. K. Crawford, J. Zhou, B. L. Miller, and M. D. Greicius, “Neurodegenerative Diseases Target Large-Scale
+
+    Human Brain Networks,” Neuron, vol. 62, pp. 42–52, Apr. 2009.
+
+
+[41] R. Ossenkoppele, D. R. Schonhaut, M. Schöll, S. N. Lockhart, N. Ayakta, S. L. Baker, J. P. O’Neil, M. Janabi, A. Lazaris,
+
+    A. Cantwell, J. Vogel, M. Santos, Z. A. Miller, B. M. Bettcher, K. A. Vossel, J. H. Kramer, M. L. Gorno-Tempini,
+
+    B. L. Miller, W. J. Jagust, and G. D. Rabinovici, “Tau PET patterns mirror clinical and neuroanatomical variability in
+
+    Alzheimer’s disease,” Brain, vol. 139, pp. 1551–1567, May 2016.
+
+
+[42] F. Clavaguera, T. Bolmont, R. A. Crowther, D. Abramowski, S. Frank, A. Probst, G. Fraser, A. K. Stalder, M. Beibel,
+
+    M. Staufenbiel, M. Jucker, M. Goedert, and M. Tolnay, “Transmission and spreading of tauopathy in transgenic mouse
+
+    brain,” Nature Cell Biology, vol. 11, pp. 909–913, July 2009.
+
+
+[43] A. de Calignon, M. Polydoro, M. Suárez-Calvet, C. William, D. Adamowicz, K. Kopeikina, R. Pitstick, N. Sahara, K. Ashe,
+
+    G. Carlson, T. Spires-Jones, and B. Hyman, “Propagation of Tau Pathology in a Model of Early Alzheimer’s Disease,”
+
+    Neuron, vol. 73, pp. 685–697, Feb. 2012.
+
+
+[44] M. Goedert, M. Masuda-Suzukake, and B. Falcon, “Like prions: the propagation of aggregated tau and �-synuclein in
+
+    neurodegeneration,” Brain, vol. 140, pp. 266–278, Feb. 2017.
+
+
+
+
+                                                             35
+[45] M. Jucker and L. C. Walker, “Propagation and spread of pathogenic protein assemblies in neurodegenerative diseases,”
+
+     Nature Neuroscience, vol. 21, pp. 1341–1349, Oct. 2018.
+
+
+[46] S. T. DeKosky and S. W. Scheff, “Synapse loss in frontal cortex biopsies in Alzheimer’s disease: Correlation with cognitive
+
+     severity,” Annals of Neurology, vol. 27, pp. 457–464, May 1990.
+
+
+[47] R. D. Terry, E. Masliah, D. P. Salmon, N. Butters, R. DeTeresa, R. Hill, L. A. Hansen, and R. Katzman, “Physical basis
+
+     of cognitive alterations in alzheimer’s disease: Synapse loss is the major correlate of cognitive impairment,” Annals of
+
+     Neurology, vol. 30, pp. 572–580, Oct. 1991.
+
+
+[48] F. Agosta, M. Pievani, S. Sala, C. Geroldi, S. Galluzzi, G. B. Frisoni, and M. Filippi, “White Matter Damage in Alzheimer
+
+     Disease and Its Relationship to Gray Matter Atrophy,” Radiology, vol. 258, pp. 853–863, Mar. 2011.
+
+
+[49] Y. Iturria-Medina, R. C. Sotero, P. J. Toussaint, A. C. Evans, and and the Alzheimer’s Disease Neuroimaging Initiative,
+
+     “Epidemic Spreading Model to Characterize Misfolded Proteins Propagation in Aging and Associated Neurodegenerative
+
+     Disorders,” PLoS Computational Biology, vol. 10, p. e1003956, Nov. 2014.
+
+
+[50] C. J. Honey, O. Sporns, L. Cammoun, X. Gigandet, J. P. Thiran, R. Meuli, and P. Hagmann, “Predicting human resting-
+
+     state functional connectivity from structural connectivity,” Proceedings of the National Academy of Sciences, vol. 106,
+
+     pp. 2035–2040, Feb. 2009.
+
+
+[51] J. Cabral, E. Hugues, O. Sporns, and G. Deco, “Role of local network oscillations in resting-state functional connectivity,”
+
+     NeuroImage, vol. 57, pp. 130–139, July 2011.
+
+
+[52] Y. Kuramoto, Chemical Oscillations, Waves, and Turbulence, vol. 19 of Springer Series in Synergetics. Berlin, Heidelberg:
+
+     Springer Berlin Heidelberg, 1984.
+
+
+[53] G. Deco, A. R. McIntosh, K. Shen, R. M. Hutchison, R. S. Menon, S. Everling, P. Hagmann, and V. K. Jirsa, “Identification
+
+     of Optimal Structural Connectivity Using Functional Connectivity and Neural Modeling,” Journal of Neuroscience, vol. 34,
+
+     pp. 7910–7916, June 2014.
+
+
+[54] A. Maass, S. N. Lockhart, T. M. Harrison, R. K. Bell, T. Mellinger, K. Swinnerton, S. L. Baker, G. D. Rabinovici, and
+
+     W. J. Jagust, “Entorhinal Tau Pathology, Episodic Memory Decline, and Neurodegeneration in Aging,” The Journal of
+
+     Neuroscience, vol. 38, pp. 530–543, Jan. 2018.
+
+
+[55] P. K. Crane, A. Carle, L. E. Gibbons, P. Insel, R. S. Mackin, A. Gross, R. N. Jones, S. Mukherjee, S. M. Curtis, D. Harvey,
+
+     M. Weiner, and D. Mungas, “Development and assessment of a composite score for memory in the Alzheimer’s Disease
+
+     Neuroimaging Initiative (ADNI),” Brain Imaging and Behavior, vol. 6, pp. 502–516, Dec. 2012.
+
+
+[56] J. J. Iliff, M. Wang, Y. Liao, B. A. Plogg, W. Peng, G. A. Gundersen, H. Benveniste, G. E. Vates, R. Deane, S. A. Goldman,
+
+     E. A. Nagelhus, and M. Nedergaard, “A Paravascular Pathway Facilitates CSF Flow Through the Brain Parenchyma and
+
+     the Clearance of Interstitial Solutes, Including Amyloid �,” Science Translational Medicine, vol. 4, Aug. 2012.
+
+
+                                                               36
+[57] L. Xie, H. Kang, Q. Xu, M. J. Chen, Y. Liao, M. Thiyagarajan, J. O’Donnell, D. J. Christensen, C. Nicholson, J. J. Iliff,
+
+    T. Takano, R. Deane, and M. Nedergaard, “Sleep Drives Metabolite Clearance from the Adult Brain,” Science, vol. 342,
+
+    pp. 373–377, Oct. 2013.
+
+
+[58] P. Dagum, D. L. Elbert, L. Giovangrandi, T. Singh, V. V. Venkatesh, A. Corbellini, R. M. Kaplan, S. R. Levendovszky,
+
+    E. Ludington, K. Yarasheski, J. Lowenkron, C. VandeWeerd, M. M. Lim, and J. J. Iliff, “The glymphatic system clears
+
+    amyloid beta and tau from brain to plasma in humans,” Nature Communications, vol. 17, p. 715, Jan. 2026.
+
+
+[59] I. F. Harrison, O. Ismail, A. Machhada, N. Colgan, Y. Ohene, P. Nahavandi, Z. Ahmed, A. Fisher, S. Meftah, T. K.
+
+    Murray, O. P. Ottersen, E. A. Nagelhus, M. J. O’Neill, J. A. Wells, and M. F. Lythgoe, “Impaired glymphatic function
+
+    and clearance of tau in an Alzheimer’s disease model,” Brain, vol. 143, pp. 2576–2593, Aug. 2020.
+
+
+[60] K. Ishida, K. Yamada, R. Nishiyama, T. Hashimoto, I. Nishida, Y. Abe, M. Yasui, and T. Iwatsubo, “Glymphatic system
+
+    clears extracellular tau and protects from tau aggregation and neurodegeneration,” Journal of Experimental Medicine,
+
+    vol. 219, p. e20211275, Mar. 2022.
+
+
+
+
+                                                             37
+

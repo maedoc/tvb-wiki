@@ -1,0 +1,1046 @@
+                  Translational Psychiatry                                                                                                                               www.nature.com/tp
+
+
+
+
+                  REVIEW ARTICLE                           OPEN
+
+                  Subtyping schizophrenia via machine learning by using
+                  structural neuroimaging
+                                          1✉                             2                                3
+                  Ali Saffet Gonul             , Cemre Candemir              and Paul Thompson
+
+                  © The Author(s) 2025
+
+
+
+                      Schizophrenia is a heterogeneous disorder with diverse clinical presentations and neuroanatomical alterations. Despite recent
+                      advances, we still lack a working hypothesis for the pathophysiology of schizophrenia. One reason might be the heterogeneous
+                      neuroanatomy of the patients. Data-driven approaches leveraging structural neuroimaging and machine learning have emerged as
+                      transformative tools for unraveling this enigma. Recent studies employing advanced clustering techniques have identiﬁed robust
+                      neuroanatomical subtypes independent of traditional symptom-based frameworks. These data-driven methods reveal distinct
+                      cortical and subcortical patterns, aligning with disease progression variations, cognitive function, and treatment outcomes. Novel
+                      trajectory-based models suggest that schizophrenia may originate from distinct neuroanatomical regions and follow divergent
+                      paths of progression, emphasizing the importance of understanding these patterns in the context of disease staging. These ﬁndings
+                      provide a foundation for improving diagnostic precision, understanding disease mechanisms, and tailoring interventions. Validation
+1234567890();,:
+
+
+
+
+                      with longitudinal data and standardized methods is crucial for translating these insights into clinical practice and personalized
+                      treatments.
+
+                      Translational Psychiatry (2025)15:472 ; https://doi.org/10.1038/s41398-025-03704-w
+
+
+
+
+                  INTRODUCTION                                                                                and might represent release or ‘disinhibition’ effects due to the
+                  Schizophrenia is one of the most important public health                                    loss of higher cortical functions [4]. However, merely deﬁning and
+                  problems in the world. Its prevalence ranges from 1.4 to 4.6 per                            categorizing symptoms (including those in the American Psychia-
+                  1,000 individuals at risk worldwide [1]. It begins early in life, tends                     tric Association’s Diagnostic and Statistical Manual of Mental
+                  to be chronic, and often persists with signiﬁcant severity despite                          Disorders (DSM) system) has not resolved the issue of patient
+                  treatment. The complex and heterogeneous nature of schizo-                                  heterogeneity, nor has it signiﬁcantly improved predictions
+                  phrenia, characterized by a broad spectrum of symptoms that vary                            regarding disease progression or treatment response. Moreover,
+                  widely among individuals, contributes to the challenges in                                  the symptom proﬁle of the patients might change according to
+                  diagnosis and treatment. Historically, speciﬁc symptoms have                                psychotic exacerbations (e.g., more stable negative symptoms but
+                  been deﬁned as fundamental to the disease. Kraepelin deﬁned                                 relapsing and remitting positive symptoms) [5]. Thus, particularly
+                  avolition—along with other symptoms now classiﬁed as negative                               with the advent and increased use of neuroimaging in the 1970s,
+                  symptoms— as fundamental features of the disease. He also                                   some researchers have shifted their focus towards the patholo-
+                  speciﬁcally noted the early onset of symptoms—in late adoles-                               gical processes within the brain and have aimed to elucidate the
+                  cence or early adulthood—as well as the deteriorating course of                             biological foundations of the disorder. Tim J. Crow suggested
+                  the illness [2]. Therefore, it is unsurprising that Kraepelin initially                     classifying patients into two types based on symptom presenta-
+                  named the disease dementia praecox. On the other hand, Bleuler,                             tion, course, and neuroimaging ﬁndings [6]. Type I schizophrenia
+                  who gave the disease its name, recognized loss of affective                                 is primarily associated with positive symptoms and minimal
+                  responsiveness and disruptions in the continuity of associations                            cognitive decline, with generally normal CT/MRI scans, favorable
+                  (i.e., thought processes) as the fundamental symptoms, while he                             responses to antipsychotic treatments, and good treatment
+                  did not consider chronicity and deterioration to be primary                                 outcomes. In contrast, Type II schizophrenia is predominantly
+                  deﬁning characteristics [2].                                                                characterized by negative symptoms, such as speech poverty and
+                      Despite the initial efforts by pioneers to delineate the clinical                       avolition, poor treatment response, and unfavorable outcomes,
+                  syndrome of schizophrenia, there was considerable confusion                                 with neuroimaging revealing enlarged ventricles and cortical
+                  regarding the classiﬁcation and understanding of its symptoms.                              atrophy. Although this subtyping approach exhibited limited
+                  Based on Hughlings-Jackson’s dissolution theory, negative symp-                             validity, it marked a signiﬁcant step towards classifying schizo-
+                  toms were deﬁned as a loss of function in higher cortical regions                           phrenia patients based not only on phenomenological but also on
+                  [3]. In contrast, positive symptoms such as delusions and                                   neurobiological characteristics. Subsequent researchers, such as
+                  hallucinations represented an exaggeration of normal function,                              Carpenter, have deﬁned a deﬁcit syndrome within schizophrenia--
+
+
+                  1
+                   SoCAT Lab, Department of Psychiatry, School of Medicine, Ege University, Izmir, Turkey. 2Department of International Computer Science, Ege University, Izmir, Turkey. 3Mark and
+                  Mary Stevens Neuroimaging and Informatics Institute, University of Southern California, Los Angeles, CA, USA. ✉email: ali.saffet.gonul@ege.edu.tr
+
+                  Received: 6 March 2025 Revised: 10 September 2025 Accepted: 10 October 2025
+                                                          A.S. Gonul et al.
+2
+
+
+
+
+    Fig. 1 Simpliﬁed models illustrate concepts from Goldberg and Weinberger [12] for schizophrenia and Tamminga et al. [13, 14] for psychosis.
+    In Model 1, various etiologies contribute to distinct phenotypes stemming from a single pathological.
+
+    based on persistent primary negative symptoms that are not                amyloid treatments became available for Alzheimer’s disease, the
+    attributable to depression, antipsychotic side effects, or inade-         ﬁeld has recently re-deﬁned and subtyped dementias using the
+    quate environmental stimulation [7]. Accumulating research has            AT(N) [amyloid, tau, neurodegeneration] system using these and
+    raised the possibility that patients with the deﬁcit syndrome may         other biomarkers (such as alpha-synuclein – a marker of
+    exhibit distinct neuroimaging and neuropsychological character-           Parkinson’s disease) to subtype patients before enrolling them
+    istics, suggesting a potential for subclassifying patients according      in treatment trials [15]. A comparable biotyping approach may be
+    to phenotypes that reﬂect the neurobiology of the disease [8–11].         valuable in psychiatry, supporting the goal of precision medicine
+    On the other hand, Goldberg and Weinberger have proposed that             where treatments are matched to patients based on their clinical
+    variations among patients could be more concisely explained               and biomarker proﬁles [16].
+    along a severity dimension, potentially accounting for much of the           Recent developments in unbiased machine learning (ML)
+    observed variance in symptomatology (Fig. 1, Model 1) [12]. They          algorithms might identify individuals with different biological
+    further suggested that schizophrenia is a disorder with multiple          subtypes and help to disentangle the heterogeneity in disorders
+    etiologies and phenocopies, potentially representing the mani-            such as schizophrenia. This review will focus on recent develop-
+    festations of a singular pathogenic process with varying degrees          ments in using structural neuroimaging data for schizophrenia
+    of impact.                                                                subtyping with ML algorithms and try to compare their ﬁndings
+       More recently, Tamminga et al. proposed that psychosis may             with the previous literature, mostly from group (schizophrenia
+    represent a broader phenotype resulting from multiple distinct            versus controls) comparison studies. The research in this area is
+    pathological processes, drawing an analogy to heart failure in            rapidly growing and can be challenging for many clinicians
+    cardiology (Fig. 1, Model 2) [13, 14]. This perspective emphasizes        unfamiliar with these algorithms. Therefore, we tried to limit our
+    the need to explore diverse biomarkers, imaging methods, and              discussion to the basic principles of the algorithms, focusing on
+    genetic studies to identify distinct subtypes and underlying causes       the meaning of the results for a better clinical understanding of
+    of psychosis, which could help explain the heterogeneity                  the condition. We will solely focus on structural imaging due to its
+    observed in psychotic disorders. Therefore, the alternative               availability and simplicity in acquisition and processing; as the
+    approach classiﬁes subtypes or biotypes based on biological               available data from diffusion MRI and functional neuroimaging
+    markers rather than purely on symptomatic observations. Biotyp-           increase, we will likely see a growth in subtyping approaches
+    ing1 aims to identify biologically distinct subgroups of schizo-          using these modalities or multiple imaging methods [17, 18].
+    phrenia, which could facilitate the development of more targeted
+    and effective treatments and preventive measures. Additionally,
+    biotyping may enhance our understanding of the course of the              STRUCTURAL IMAGING IN SCHIZOPHRENIA
+    disease and add new phenotypes. Biotyping of a disease can be             Schizophrenia is among the earliest psychiatric disorders to be
+    achieved through genetics, proteomics, metabolomics, cognitive            extensively studied using structural imaging techniques. Ventri-
+    and behavioral assessments, and neuroimaging. A similar effort            cular enlargement and cortical volume reductions or thinning are
+    has been fruitful in dementia treatment and research – as anti-           the most common ﬁndings in schizophrenia studies. In the last 30
+                                                                              years, heterogeneous ﬁndings in brain MRI studies initially arose
+                                                                              due to low statistical power and samples of under a hundred
+    1                                                                         patients, despite the interest in neuroimaging in clinical trials [19].
+     Although the terms biotype/subtype and subgroup are often used
+                                                                              More recently, however, large-scale consortium studies were able
+    interchangeably in many related texts, we distinguish between them
+                                                                              to pool data from many sites worldwide, using standardized
+    in this study. We use biotype/subtype to refer to classiﬁcations based
+                                                                              protocols for imaging analysis and quality control [19, 20]. As such,
+    solely on pure biological criteria, whereas subgroup encompasses both
+                                                                              initial skepticism on the magnitude and pattern of effects in the
+    biological and phenomenological criteria.
+
+
+                                                                                                   Translational Psychiatry (2025)15:472
+                                                                         A.S. Gonul et al.
+                                                                                                                                                  3
+brain gave way to well-powered, reproducible studies yielding            a bagging classiﬁer [37]. However, the reported ﬁndings raise
+brain maps with high reliability (see van Erp et al., for example, for   concerns due to the effect sizes, small sample sizes, and limited
+a study of 4474 individuals with schizophrenia and 5098 healthy          testing on out-of-domain data from different sites and scanners,
+volunteers, assessed with standardized methods at 39 centers             particularly as some subsets of sites and scanners appear to
+worldwide [21]).                                                         contribute disproportionately to the variability in results [38].
+    Meta-analyses suggest that cortical thinning is prominent in the     These factors suggest that the reported accuracy metrics may be
+left superior and medial temporal lobes, including fusiform gyrus,       overly optimistic, as studies may have shown declines in reported
+insula, inferior and medial frontal regions [21, 22]. Similar but less   accuracy when applied to multisite data. Moreover, ML algorithms
+prominent cortical thinning in the frontotemporal areas is also          may struggle to achieve the desired accuracy for schizophrenia
+present in clinical high-risk populations and those who convert to       when challenged by other neurodegenerative diseases, such as
+schizophrenia [23]. Despite widespread cortical thinning in              behavioral-variant frontotemporal dementia (bvFTD) or Alzhei-
+patients, it does not uniformly affect every brain region. For           mer’s disease, due to the overlap in neuroanatomical patterns [39].
+instance, when accounting for individual variations in global mean       Therefore, at its best, artiﬁcial intelligence (AI) or ML algorithms
+cortical thickness, individuals with schizophrenia exhibit a thicker     can achieve diagnostic accuracy with MRI images ranging from 80
+cortex in some brain regions (such as the superior parietal cortex,      to 92%.
+precuneus, and paracentral lobule) compared to healthy volun-               According to the U.S. Food and Drug Administration and
+teers [21]. However, the volumetrics of these regions cannot             National Institutes of Health Biomarkers Working Group, a
+reliably be used, on their own, for diagnosis of schizophrenia, due      diagnostic biomarker should have a sensitivity of 80% in detecting
+to large interindividual variability (overlap between patients and       a particular psychiatric disorder, a speciﬁcity of 80% in distinguish-
+controls) and limited anatomical consistency of the measures.            ing this disorder from other psychiatric disorders, and a positive
+Moreover, schizophrenia patients show larger within-group                predictive value that approaches 90% [40]. As a result, structural
+cortical variation compared to controls [24, 25]. This increased         MRI data barely meet the criteria needed to serve as a diagnostic
+variability may partly stem from disease-related factors, such as        biomarker with the methods tested so far. Furthermore, this
+illness duration and the severity of negative symptoms [23, 26, 27].     approach assumes that schizophrenia is a single disease with
+Other factors, such as antipsychotic exposure correlate with             near-uniform pathology among patients. However, the diverse
+thinner cortex observed in various brain regions, including the          clinical presentations and variability in brain structure observed in
+fusiform, temporal, and frontal lobes, independent of negative           schizophrenia underscore the need to subtype patients based on
+symptoms [21]. It is important to note that patients with more           their symptoms and neuroanatomical features.
+severe illnesses are often those who have been medicated for
+longer durations. Consequently, medication status is confounded
+with other factors that inﬂuence the severity of the disease, such       VALIDATION OF CLINICAL SUBGROUPS WITH NEUROIMAGING
+as disease duration, substance abuse, and childhood trauma.              Factor analyses studies of clinical symptom assessments have
+    The cortical thickness reduction pattern of patients may not be      consistently supported a three-dimensional model comprising
+random but instead follows an organization aligned with cortical         negative, positive, and disorganized dimensions on schizophrenia
+networks that interconnect various regions [28]. This pattern            symptoms [41]. This widely accepted model in clinical practice
+differs signiﬁcantly from that observed in healthy controls,             provides a useful top-down approach for identifying more
+particularly in the distribution, extent, and progression of grey        homogeneous subgroups with distinct neural signatures. Zhang
+matter reduction. Patients with ﬁrst-episode psychosis (FEP)             et al. [42] used this factor analysis model in combination with
+exhibit reduced structural covariance between regions of cortical        Optimally-Discriminative Voxel-Based Analysis (ODVBA) -- a
+thinning compared to healthy controls, indicating disrupted early        method that, they argued, offers higher sensitivity and speciﬁcity
+network organization. As the illness progresses, patients with           compared to conventional voxel-based morphometry (VBM) [43].
+chronic schizophrenia show increased structural covariance               ODVBA’s spatially adaptive technique accounts for the brain’s
+among the affected regions, suggesting that cortical thinning            spatial interrelatedness, allowing for the detection of subtle
+may propagate along interconnected brain networks over time.             structural variations in schizophrenia subgroups. Those with
+These deviations clearly diverge from the characteristic patterns        predominantly positive symptoms (pPOS) showed signiﬁcant gray
+associated with typical aging [19, 29–31]. Overall, the ﬁndings          matter (GM) volume reductions in the ventromedial prefrontal
+support a neurobiological basis for schizophrenia, marked by             cortex (vmPFC), occipitotemporal regions, and portions of the
+progressive grey matter loss and individual variability.                 lingual gyrus. Patients with predominantly disorganized symp-
+    Recent advances in machine learning have led to limited but          toms (pDIS) exhibited the highest degree of preservation of GM
+growing efforts directed toward diagnosing the disorder based on         volume among the three subtypes. The study found that patients
+structural brain MRI (sMRI) images. Multivariate pattern recogni-        with predominantly negative symptoms (pNEG) had lower GM
+tion studies showed that the accuracy rate of structural data for        volume in the cerebellum and the vmPFC. However, the vmPFC
+diagnosing schizophrenia is approximately 78% with a sensitivity         was relatively preserved in these patients compared to other
+of 76.42% (95% CI: 71.9–80.4%) and speciﬁcity of 79.01% (95% CI:         subtypes. Several other studies found a negative association
+74.6–82.8%) [32]. The reported accuracy rates for sMRI-based ML          between superior temporal cortex thickness (including Heschl’s
+models range from 73.6 to 83.13%, over the last decade of                gyrus) and positive symptoms [27, 44, 45]. While these ﬁndings
+research [33, 34]. With the transition from traditional models to        highlight the structural heterogeneity of schizophrenia and
+deep learning and access to larger training datasets, diagnostic         suggest that each subgroup may correspond to distinct neuroa-
+accuracy has approached or exceeded 85%. The best-reported               natomical signatures, several factors hinder the practical applica-
+results are often achieved using 3D convolutional neural network         tion of this approach. These include the absence of clear
+(3D-CNN) models, with overall accuracy ranging from 86.7 to              boundaries between symptom-based subtypes in clinical practice
+87.2%, sensitivity from 90 to 92%, and speciﬁcity from 85 to 87.4%       and the possibility that one type of symptom may not reliably
+[35, 36]. Furthermore, ensemble methods, which combine the               predict the later emergence of others [5, 46].
+results of several machine learning models to achieve a
+consensus, can help to improve the classiﬁcation performance             Deﬁcit and non-deﬁcit schizophrenia
+relative to using a single classiﬁer model. A recently reported          In the effort to reduce heterogeneity in schizophrenia, subgroup-
+ensemble model reached 92.2% accuracy, 94.4% sensitivity, and            ing as deﬁcit and non-deﬁcit appeals to many clinicians. This is
+90% speciﬁcity with a lightweight 3D CNN model ensembled with            because deﬁcit schizophrenia aligns well with the classical
+
+Translational Psychiatry (2025)15:472
+                                                          A.S. Gonul et al.
+4
+    Kraepelinian description of the disorder, while ‘non-deﬁcit’              THE BIPOLAR-SCHIZOPHRENIA NETWORK INTERMEDIATE
+    patients encompass the remaining cases. Deﬁcit patients generally         PHENOTYPE (B-SNIP) AND ASSOCIATED STUDIES
+    show poor social functioning and limited response to treatment,           B-SNIP represents one of the largest (711 patients, 883 ﬁrst-degree
+    suggesting that widespread brain structural alterations may               relatives and 278 healthy controls) and most inﬂuential studies for
+    underlie their unfavorable clinical outcomes [10, 11]. Banaj et al.       subtyping psychosis [13]. Even though B-SNIP includes schizoaf-
+    [8], using global meta- and mega-analyses in a large international        fective and psychotic bipolar patients--not just patients with
+    sample, observed that deﬁcit schizophrenia (DSZ) patients                 schizophrenia--many of its conclusions are valuable for under-
+    exhibited more pronounced cortical thinning than non-deﬁcit               standing the subtyping of schizophrenia. The initial objective of
+    schizophrenia (NDSZ) patients—particularly in the right frontopar-        the study was to identify biomarkers for traditional psychosis
+    ietal cortex—with small but consistent effect sizes (Cohen’s d ≈          diagnoses; however, no speciﬁc biomarker or set of biomarkers
+    –0.13 to –0.20) in key regions such as the right inferior parietal        could be identiﬁed for psychosis. Consequently, researchers
+    lobule, caudal middle frontal gyrus, and superior frontal gyrus,          shifted focus towards using biomarker data to identify distinct
+    although these differences did not reach statistical signiﬁcance.         subtypes within psychosis characterized by shared neurobiologi-
+    The authors suggested that clinical heterogeneity within the NDSZ         cal features, irrespective of traditional DSM diagnostic categories
+    group may have reduced the observed effects. These ﬁndings are            [13]. Nine composite variables, such as cognitive control and
+    in line with other schizophrenia studies linking negative                 sensorimotor reactivity, were used to derive biomarkers for
+    symptoms to reduced cortical thickness [27, 47, 48], although             subsequent clustering analyses. The study employed unsuper-
+    contrasting ﬁndings are also present [49, 50]. One study found            vised clustering methods (k-means) to identify subtypes, or
+    that over ﬁve years, DSZ patients showed greater lateral ventricle        “biotypes,” based on neurobiological markers. The optimal
+    expansion than NDSZ patients, with moderate effect sizes (η² =            number of biotypes was determined to be three, using the “gap
+    0.089 left, 0.102 right), indicating more pronounced grey matter          statistic” and two-step clustering methods.
+    loss [9]. However, some direct comparisons between DSZ and                   Biotype 1 was characterized by the highest inhibition errors, the
+    NDSZ patients have reported larger LVs and more pronounced                lowest brain responses to auditory stimuli, exaggerated responses
+    cortical reductions in NDSZ patients [51–53]. While these studies         to repeated auditory stimuli, sluggish reactions to sensory inputs,
+    suggest that DSZ and NDSZ may reﬂect distinct neurological                and poor detection of critical stimuli. Biotype 2 showed moderate
+    differences among phenotypically diverse schizophrenia subtypes,          impairment in cognitive control, falling between Biotypes 1 and 3,
+    a consensus on the neuroanatomical differentiation between DSZ            but had heightened sensorimotor reactivity, including robust
+    and NDSZ patients has yet to be reached. The inconsistencies              neural responses to auditory inputs and high levels of intrinsic
+    across the studies might indicate that the relationship between           neural activity, while still maintaining intact target detection.
+    phenotype and brain structure is more complex than previously             Biotype 3, despite a psychosis diagnosis, displayed no signiﬁcant
+    understood.                                                               deﬁcits in cognitive control compared to healthy controls but
+                                                                              exhibited modest deviations in sensorimotor reactivity. Biotype 1
+    Cognitive deﬁcit and cognitive sparse schizophrenia                       was associated with more cases of schizophrenia (59%), while
+    Another approach to reducing phenotypic heterogeneity in                  Biotype 3 had a higher representation of bipolar disorder with
+    schizophrenia is the delineation of two potential subgroups:              psychosis (44%). Schizoaffective disorder, however, was fairly
+    cognitive deﬁcit (CD) and cognitive sparse (CS) patients, based           distributed across all biotypes. Social functioning was lowest in
+    on performance across multiple cognitive domains [54, 55].                Biotype 1 and highest in Biotype 3. Biotypes 1 and 2 had similar
+    Multiple studies have shown that CD patients tend to exhibit              The Positive and Negative Syndrome Scale (PANSS) scores,
+    impairments across all cognitive domains, are more likely to be           whereas Biotype 3 had lower scores, indicating that it was
+    male, have an earlier onset of illness, and suffer from greater           clinically less severe and more socially active. MRI data revealed
+    functional disability. Gould et al. [56] applied support vector           gray-matter reductions across all three biotypes. Biotype 1 showed
+    machine classiﬁcation to differentiate healthy controls from              the largest deﬁcits (e.g., frontal Cohen’s d ≈ −1.0; cingulate d ≈
+    schizophrenia patients and to further distinguish between the             −0.7 to −1.0; temporal d ≈ −0.9), extending to the thalamus and
+    CD and CS subgroups using MRI data. Cognitive subgroups were              basal ganglia (d ≈ −0.6 to −1.1). Biotype 2 displayed intermediate
+    distinguished from healthy controls with an accuracy of up to             losses (most regions d ≈ −0.6 to −0.8), while Biotype 3 exhibited
+    72%. However, classiﬁcation accuracy between cognitive sub-               milder yet still notable reductions (d ≈ −0.3 to −0.5), concentrated
+    groups was relatively low at 60% without stratiﬁcation, but it            in anterior–limbic areas. Relatives showed a parallel but attenu-
+    improved signiﬁcantly to 83% for females when stratiﬁed by sex.           ated pattern (d ≈ −0.2 to −0.4), indicating that gray-matter
+    Thus, while there is signiﬁcant overlap in disease patterns               differences extend beyond patients themselves. Although bio-
+    between cognitive subgroups, sex-related differences in brain             types initially seem to represent a gradient of clinical syndrome
+    organization appear to play a role in improving the classiﬁcation         severity or align more closely with schizophrenia, the observed
+    of schizophrenia subtypes based on neuroanatomical features. In           differences cannot be attributed to disease severity, as Biotypes 1
+    another study, researchers used cluster analysis to classify              and 2 exhibited similar PANSS scores. Notably, Biotype 2 stands
+    schizophrenia patients based on differences between their                 out due to its heightened sensorimotor reactivity. Deﬁcit/non-
+    current and premorbid IQ [57]. They found that patients with              deﬁcit subgroups are also not accurate for understanding biotypes
+    relatively preserved IQ showed reductions primarily in the                in B-SNIP because, in the group with the most severe GM loss
+    inferior parietal lobe. However, as the IQ difference increased           (Biotype 1), more than 50% of the population were non-deﬁcit
+    in the moderate to severe groups, more extensive cortical                 patients (Fig. 2).
+    reductions were observed, particularly in the insula, temporal               Xiao et al. [58] aimed to identify discrete subtypes in ﬁrst-
+    and frontal cortices, as well as in medial cortical structures, in        episode schizophrenia (FES) patients based on structural brain
+    addition to the parietal lobe. Additionally, higher negative              features and to determine if these patterns were similar to those
+    symptom scores were associated with greater IQ decline. Thus,             observed in midcourse schizophrenia patients from the B-SNIP
+    the loss of cognitive abilities in patients is associated with a more     study. In other words, they tried to replicate the B-SNIP ﬁndings in
+    widespread reduction in the cortex and the medial temporal                FES. Schizophrenia subtyping based on structural brain alterations
+    lobe. This ﬁnding suggests that the severity of cognitive                 was conducted using a density peak-based clustering (DPC)
+    symptoms is associated with more pronounced structural brain              algorithm. Compared to the k-means method used in the original
+    abnormalities, although other factors, such as sex, may also              study, DPC offers advantages for datasets with complex structures
+    interact with cognition to inﬂuence brain structure.                      or unknown cluster numbers, and it is more robust to noise and
+
+                                                                                                  Translational Psychiatry (2025)15:472
+                                                                        A.S. Gonul et al.
+                                                                                                                                                  5
+
+
+
+
+Fig. 2 Psychotic patients show widespread neocortical volume reduction compared to healthy controls in Biotype 1 (left), substantial fronto-
+temporal reduction in Biotype 2 (middle), and localized limbic reductions in Biotype 3 (right) [13].
+
+outliers due to its reliance on density peaks. DPC identiﬁed three      due to medication or chronic institutionalization. This method
+reliable neurobiological subtypes of FES patients, replicating the      allows researchers to disentangle the neuroanatomical effects of
+cluster number of the original B-SNIP study. FES patients in            treatment from those of the disorder itself. Despite comparable
+Subtype 1 showed decreased surface area, thickness, and volume,         PANSS scores and chlorpromazine equivalent doses across the
+mainly in the cortical-thalamic-cortical circuitry, with increased      three subtypes, each demonstrated distinct GM patterns. Subtypes
+thickness in the left rostral anterior cingulate gyrus. In contrast,    1 and 2 exhibited severe and widespread cortical thickness
+Subtypes 2 and 3 showed no signiﬁcant cortical or subcortical           deﬁcits, while Subtype 3 displayed thicker cortices in the parietal
+alterations compared to controls. Midcourse schizophrenia               and occipital regions. All subtypes showed decreased volumes in
+patients from the B-SNIP study showed more severe GM loss               the bilateral thalamus and the left nucleus accumbens. Subtype 3
+compared to FES, Subtype 1 exhibited widespread GM deﬁcits              also showed reductions in the bilateral hippocampus, amygdala,
+across all lobes, as well as in the insular cortex and bilateral        and right nucleus accumbens, suggesting more pronounced
+hippocampus, with increased GM volume in the bilateral pallidum         subcortical deﬁcits. It should be noted that subtype 1 has an
+(not observed original B-SNIP study). Subtype 2 showed reduced          increased globus pallidus, which is not observed in other
+GM volume in the left hippocampus, while Subtype 3 showed no            subtypes. Although Zhao et al. [59] demonstrated that three
+signiﬁcant brain alterations. Notably, there were no signiﬁcant         subtypes could be identiﬁed in antipsychotic-treated patients, the
+differences in PANSS scores across the three subtypes in either the     overlap in structural ﬁndings between this study and the B-SNIP
+FES or midcourse schizophrenia cohorts. While the basic structure       midcourse patients in Xiao et al. [58] is limited.
+of subgroup classiﬁcation remained consistent in later-course
+patients, differences between the two patient samples (FES and
+midcourse) suggest that certain neuroanatomical features may be         IMAGING DATA-DRIVEN SUBTYPING
+inﬂuenced by illness progression or antipsychotic treatment in          In recent years, there has been increasing interest in subtyping
+B-SNIP biotyping.                                                       schizophrenia using data-driven brain imaging biomarkers. A key
+   Zhao et al. [59] investigated alterations of brain structures in     advantage of this approach is that it essentially minimizes
+antipsychotic-treated patients built upon the subtype ﬁndings           dependence on clinical features, which can be inﬂuenced by
+from drug-naïve FES patients of the previous study, Xiao et al. [58].   factors such as the psychiatrist’s assessment, medication history,
+They performed principal component analysis (PCA) on neuroa-            and, most critically, the ﬂuctuating nature of symptoms over time
+natomical features in never-treated patients to generate principal      [5, 60]. Therefore, image data-driven approaches hold the
+components (PCs) and corresponding loadings, which were then            potential for a more precise deﬁnition of objective subtypes that
+applied to the antipsychotic-treated sample to produce predicted        can be applied across different sites and cohorts, ideally leading to
+PCs for each participant. Pearson’s correlation coefﬁcient was used     the identiﬁcation of more homogeneous subgroups. By employ-
+to measure the similarity between each treated patient’s brain          ing a data-driven approach, it is possible to decompose the
+morphology and the predeﬁned subtype vectors from the never-            variability within a population into consistent brain patterns
+treated sample. To clarify, they used PCA on drug-naïve patients to     associated with speciﬁc clinical and cognitive measures.
+create a reference model of pure illness-related brain features.           Many studies use cross-sectional data from one or more centers
+Applying this model to treated patients allowed them to parse out       to identify these biomarkers, providing a snapshot of brain
+which features were likely due to the illness, and which might be       structure at a single time point. In contrast, longitudinal data offers
+
+
+Translational Psychiatry (2025)15:472
+                                                                                                                                                                                                                                                    6
+                                        Table 1.      Studies* using Machine Learning Algorithms for Subtyping Schizophrenia Patients.
+                                        Study               Demographic          Analysis                                                                               Subtypes
+                                                            and Clinical Data
+                                                                                 Method              Type                Advantages              Disadvantages          Subtype 1                Subtype 2                     Subtype 3
+                                        Dwyer et            Discovery sample:    the fuzzy c-means   Unsupervised        -Data-driven            - Sensitive to         ↓ mPFC, insula,          ↓ lateral prefrontal,         NA
+                                        al. [63]            71 patients and      (FCM) algorithm                         -Allows soft            number of clusters     striatal, thalamic,      medial parietal, and
+                                                            74 controls,                                                 clustering (fuzzy       - May converge to      hippocampal, and         temporal cortices
+                                                            single-center,                                               boundaries)             local minima           right superior           ↑ cerebellar structures
+                                                            Validation                                                   - Simple and            - Requires repeated    temporal regions, left   - shorter illness duration,
+                                                            Sample: 158                                                  interpretable           runs for stability     temporal cortex          conceptual
+                                                            patients and 158                                                                                            ↑ medial and lateral     disorganization,
+                                                            controls                                                                                                    parietal lobes           hallucinations, and
+                                                                                                                                                                        - longer illness         hyperthymic tendencies
+                                                                                                                                                                        duration, more
+                                                                                                                                                                        severe negative
+                                                                                                                                                                        symptoms, later age
+                                                                                                                                                                        of onset, and more
+                                                                                                                                                                        hospitalizations
+                                        Honnorat            157 patients 169     CHIMERA             Semi-supervised     - Focuses on            - Requires well-       ↓ thalamus,              ↓ thalamic, peri-Sylvian,     - Less CSF
+                                        et al. [64]         controls                                                     disease-related         matched control        cingulate, superior      and cerebellar regions        expansion,
+                                                                                                                         differences             group                  temporal regions,        ↑ Frontal CSF                 heterogenour GM
+                                                                                                                         - Captures              - Computationally      OFC                      - Male dominance              reductions ↓ ACC,
+                                                                                                                         complex                 intensive              ↑ WM; CSF in                                           temporal cortex
+                                                                                                                         deformations            - Interpretation can   temporal, thalamic                                     GM
+                                                                                                                                                 be complex             and peri-Sylvian                                       - sex balanced,
+                                                                                                                                                                        regions                                                smaller ICV, lower
+                                                                                                                                                                        - Male dominance,                                      education
+                                                                                                                                                                                                                                                        A.S. Gonul et al.
+
+
+
+
+                                                                                                                                                                        older, tend to longer
+                                                                                                                                                                        duration of illness
+                                        Shi et al.          534 Patients         sparse K-Means      Unsupervised        -Feature selection      - Needs pre-           ↓ superior and           ↓ middle temporal,            NA
+                                        [66]                521 controls from    clustering W                            built-in                speciﬁcation of        middle frontal,          cerebellum
+                                                            seven centers,       scores coming                           - Handles high-         number of clusters     amygdala,                ↓↓ amygdala,
+                                                            Intrasample          from Tensor Based                       dimensional data        - Sensitive to         hippocampus and          hippocampus and
+                                                            validation           Morphometry                             well                    outliers or            thalamus                 thalamus
+                                                            according to         (TBM)                                                           unbalanced data        ↑ putamen and            - higher negative
+                                                            scanners                                                                                                    globus pallidus,         symptoms
+                                                                                                                                                                        cerebellum
+                                        Chand et            PHENOM               HYDRA               Semi-supervised     - Robust to             - Complex              ↓ widespread grey        ↑ the pallidum, putamen       NA
+                                        al. [81]            consortium (307                                              confounding             implementation         matter volumes,          and parts of caudate and
+                                                            patients 364                                                 variables               - Needs large          thalamus, nucleus        internal capsule
+                                                            controls) three                                              -Performs               sample size            accumbens,
+                                                            sites                                                        classiﬁcation and       - Not suitable for     medial temporal,
+                                                                                                                         clustering              very small or          medial prefrontal/
+                                                                                                                         simultaneously.         unbalanced samples     frontal and insular
+                                                                                                                         - Effective in large,                          cortices.
+                                                                                                                         heterogeneous                                  - Duration of illness
+                                                                                                                         datasets                                       associated GM
+                                                                                                                         - Well-validated                               reduction
+                                                                                                                                                                        - similar positive and
+                                                                                                                                                                        negative symptoms
+                                                                                                                                                                        to Subtype 2
+                                        Jiang et al.        ENIGMA               SuStaIn             Unsupervised        - Models disease        - Requires large       Trajectory 1             Trajectory 2                  NA
+                                        [78]                consortium (4222                         (trajectory-        progression             sample and             (Early cortical-         (early subcortical-
+
+
+
+
+Translational Psychiatry (2025)15:472
+                                                            patients and 7038                        based)              - Identiﬁes             consistent             predominant loss)        predominant loss)
+                                                            controls),                                                   temporal stages of      longitudinal           - starting with a        - volume loss beginning
+                                                            41 international                                             subtypes                patterns               reduction in Broca’s     in the hippocampus,
+                                                            cohorts around                                                                       - High                 area, spreading to       then progressing to the
+                                                            the world                                                                            computational cost     adjacent fronto-         amygdala and
+                                                                                                                                                                        insular regions, then    parahippocampus,
+                                                                                                                                                                        extending across the     followed by the
+                                                                                                                                                                                                                                                                   A.S. Gonul et al.
+                                                                                                                                                                                                                                                                                                                                           7
+                                                                                                                                                                                                                                                                   valuable insights into the progression of brain changes over time,
+
+
+
+
+                                                           ICV intracranial volume, HYDRA (heterogeneity through discriminative analysis), PHENOM psychosis heterogeneity evaluated via dimensional neuroimaging, ENIGMA enhancing neuroimaging genetics through
+                                                                                                                                                                                                                                                                   potentially revealing more dynamic and temporally sensitive
+                                  Subtype 3                                                                                                                                                                                                                        subtypes. However, until this time, no longitudinal data has yet
+                                                                                                                                                                                                                                                                   been published. Multi-center studies face challenges such
+                                                                                                                                                                                                                                                                   variations in imaging protocols and differences in scanner types.
+                                                                                                                                                                                                                                                                   To address these issues, techniques such as ComBat [61] and other
+                                                                                                                                                                                                                                                                   harmonization methods are often applied, however, they can
+                                                                                                                                                                                                                                                                   inﬂuence the outcomes of clustering analyses [62] The choice of
+                                  accumbens and caudate,
+
+
+
+
+                                                                                                                                                                                                                                                                   clustering algorithm is another key factor, as different methods
+                                  positive and general
+                                  symptoms, reducing
+
+
+                                                                                                                                                                                                                                                                   can lead to the identiﬁcation of varying subgroup structures
+                                  before reaching the
+
+                                  - Striatum smaller
+                                  - Steady negative
+
+
+
+
+                                                                                                                                                                                                                                                                   depending on the nature of the data being analyzed. The
+                                  cerebral cortex
+
+
+
+
+                                                                                                                                                                                                                                                                   validation process also differs across studies. While some use
+                                                                                                                                                                                                                                                                   independent datasets for cross-validation, others focus on internal
+                                  Subtype 2
+
+
+
+
+                                  subscale
+
+
+
+
+                                                                                                                                                                                                                                                                   validation within their sample set. Robust validation strategies are
+                                                                                                                                                                                                                                                                   essential for ensuring the reproducibility and generalizability of
+                                                                                                                                                                                                                                                                   the identiﬁed subtypes. As summarized in Table 1, based on these
+                                                                                                                                                                                                                                                                   principles, new studies have emerged in recent years (Table 1).
+                                                                                                                                                                                                                                                                      In one of the early studies in this ﬁeld, Dwyer et al. [63] tested
+                                  - increasing negative
+                                  eventually affecting
+
+
+
+
+                                  positive symptoms
+                                  anxiety symptoms,
+
+
+
+
+                                                                                                                                                                                                                                                                   the hypothesis that subtyping schizophrenia could enhance the
+                                  - Striatum larger
+
+                                  and depression/
+
+
+                                  exacerbation in
+
+
+
+
+                                                                                                                                                                                                                                                                   accuracy of computer-aided discrimination between patients
+                                  neocortex, and
+
+                                  the subcortex.
+
+
+
+
+                                                                                                                                                                                                                                                                   and controls. In a small group of patients (N = 71), they applied
+                                  Subtype 1
+
+
+
+
+                                  alongside
+              Subtypes
+
+
+
+
+                                                                                                                                                                                                                                                                   an unsupervised, data-driven clustering approach to sMRI data
+                                                                                                                                                                                                                                                                   using the fuzzy c-means (FCM) algorithm. This method organizes
+                                                                                                                                                                                                                                                                   data into clusters without prior knowledge of group member-
+                                                                                                                                                                                                                                                                   ship, allowing for fuzzy boundaries between clusters. A
+                                                                                                                                                                                                                                                                   consensus-based clustering technique was used to ensure
+                                                                                                                                                                                                                                                                   stability and reliability, running the FCM algorithm multiple
+                                                                                                                                                                                                                                                                   times to identify the ﬁnal subgroup partitioning based on
+                                  Disadvantages
+
+
+
+
+                                                                                                                                                                                                                                                                   consensus. The number of clusters was limited to two due to the
+                                                                                                                                                                                                                                                                   small sample size. Indeed, subtyping improved diagnostic
+                                                                                                                                                                                                                                                                   accuracy in external validation samples with an average gain of
+                                                                                                                                                                                                                                                                   9%. Subtype 1 was characterized by cortical and subcortical
+                                                                                                                                                                                                                                                                   volume reductions, including the insula, striatal, thalamic,
+                                                                                                                                                                                                                                                                   hippocampal, and right-hemispheric superior temporal regions,
+                                                                                                                                                                                                                                                                   alongside volume increases in the medial and lateral parietal
+                                                                                                                                                                                                                                                                   lobes. Patients in this subtype had longer illness duration, a later
+                                  Advantages
+
+
+
+
+                                                                                                                                                                                                                                                                   age of onset, and more hospitalizations. Subtype 2, in contrast,
+                                                                                                                                                                                                                                                                   was primarily deﬁned by cortical reductions, particularly in the
+                                                                                                                                                                                                                                                                   lateral prefrontal, medial parietal, and temporal cortices along
+                                                                                                                                                                                                                                                                   with volume increases in cerebellar structures. Patients in this
+                                                                                                                                                                                                                                                                   subtype had a shorter illness duration and exhibited symptoms
+                                                                                                                                                                                                                                                                   of conceptual disorganization, hallucinations, and hyperthymic
+                                                                                                                                                                                                                                                                   tendencies. In this study, illness duration emerged as the key
+                                                                                                                                                                                                                                                                   factor for subgroup separation (predictive accuracy of 81.2%
+                                                                                                                                                                                                                                                                   using the top 10 variables), correlating with negative symptoms
+                                                                                                                                                                                                                                                                   but not necessarily with widespread cortical differences, as
+                                  Type
+
+
+
+
+                                                                                                                                                                                                                                                                   certain areas, like the TPJ, showed increased volume. These
+                                                                                                                                                                                                                                                                   ﬁndings do not clearly support the presence of distinct subtypes
+                                                           *studies that developed their primary classiﬁer are included.
+
+
+
+
+                                                                                                                                                                                                                                                                   in schizophrenia, as the duration of illness might be a key factor
+                                                                                                                                                                                                                                                                   inﬂuencing both symptoms and brain structure rather than
+                                                                                                                                                                                                                                                                   distinct subgroups.
+                                                           meta-analysis, SuStaIn subtype and stage inference.
+
+
+
+
+                                                                                                                                                                                                                                                                      In another single-center study, Honnorat et al., [64] involving
+              Analysis
+
+                                  Method
+
+
+
+
+                                                                                                                                                                                                                                                                   157 patients with schizophrenia and 169 controls used a semi-
+                                                                                                                                                                                                                                                                   supervised clustering method, CHIMERA (Clustering of hetero-
+                                                                                                                                                                                                                                                                   geneous disease effects via distribution matching of imaging
+                                                                                                                                                                                                                                                                   patterns), to identify schizophrenia subtypes [65]. Instead of
+              and Clinical Data
+
+
+
+
+                                                                                                                                                                                                                                                                   clustering the patients directly, CHIMERA aims to cluster the
+                                                                                                                                                                                                                                                                   differences between patients and a demographically matched
+              Demographic
+
+
+
+
+                                                                                                                                                                                                                                                                   group of healthy controls, focusing speciﬁcally on disease-related
+                                                                                                                                                                                                                                                                   neuroanatomical alterations. They integrated demographic vari-
+                                                                                                                                                                                                                                                                   ables such as age, sex, and height directly into the CHIMERA
+  continued
+
+
+
+
+                                                                                                                                                                                                                                                                   model’s optimization function to match patients and controls,
+                                                                                                                                                                                                                                                                   thereby minimizing the bias introduced by these factors. The
+                                                                                                                                                                                                                                                                   method determines a set of transformations that deform the
+                                                                                                                                                                                                                                                                   control group’s neuroanatomy to match that of the patients,
+ Table 1.
+
+
+
+
+                                                                                                                                                                                                                                                                   representing the disease’s varying effects on the brain. Each
+              Study
+
+
+
+
+                                                                                                                                                                                                                                                                   patient is then associated with a linear combination of these
+                                                                                                                                                                                                                                                                   disease subtypes, and a discrete clustering is achieved by
+
+Translational Psychiatry (2025)15:472
+                                                         A.S. Gonul et al.
+8
+    retaining only the most signiﬁcant inﬂuence on each patient’s            fusiform gyrus, and insular gyrus. They differed: Subtype 1 showed
+    brain structure.                                                         lower values in the superior and middle frontal regions when
+       The study identiﬁed three subgroups of patients with schizo-          compared to Subtype 2, while Subtype 2 had lower values in the
+    phrenia, each characterized by distinct neuroanatomical patterns         middle temporal gyrus. Subtype 1 had a larger globus pallidus and
+    and demographic traits. Group 1 showed signiﬁcant GM atrophy             putamen but smaller amygdala and hippocampus, whereas
+    in the thalamus, anterior cingulate cortex, and superior temporal        Subtype 2 showed normal globus pallidus and putamen but
+    gyrus, along with increased cerebrospinal ﬂuid (CSF) and white           more widespread deformities in the hippocampus, amygdala, and
+    matter expansion in temporal regions, predominantly affecting            thalamus. Subtype 1 had on average, a smaller cerebellum, while
+    older males (86.7%) with longer disease duration and stronger            Subtype 2 showed cerebellar deformities in opposite directions.
+    positive symptoms. Group 2 exhibited frontal CSF expansion and           These ﬁndings could account for the inconsistent results observed
+    volumetric reductions in thalamic, peri-Sylvian, and cerebellar          in previous studies of the cerebellum and striatal regions, which
+    regions, especially in white matter, with a younger male                 may have disproportionately included one subtype. On the other
+    demographic (82.2%) and similar disease duration to Group 1              hand, other shared regions between subtypes like the prefrontal
+    (suggesting earlier onset), though their positive symptoms were          cortex, cingulate, insula, and fusiform are consistently reported in
+    not different of Group 1. Group 3 presented a mix of                     previous studies [67, 68]. Compared to subtype1, subtype 2 has
+    neuroanatomical features seen in Group 1 and Group 2, with               higher scores on negative symptoms on PANSS (d = 0.2) while
+    milder CSF expansions and a more balanced sex distribution               there were no difference among other subscales. A partial least-
+    (55.8% male), lower brain volumes, and signiﬁcantly lower                squares correlation analysis relating individual PANSS scores to
+    education levels, particularly among female patients. The results        the subtype-speciﬁc W-score deviation map identiﬁed a ﬁrst latent
+    of this study suggest structurally different subgroups might be          component, dominated by negative-symptom loadings, that
+    present in schizophrenia but cannot be expressed with a simple           explained 39.26% of the shared covariance between negative
+    discriminative approach. Unlike previous studies that primarily          symptoms and neuroanatomical heterogeneity.
+    focus on gray matter (GM) for analysis, this study utilizes CHIMERA         The PHENOM (‘Psychosis Heterogeneity Evaluated via Dimen-
+    and incorporates both gray and white matter (WM) features. Given         sional Neuroimaging’) consortium sought to identify neuroanato-
+    that myelin integrity is known to be compromised in schizo-              mical subtypes by applying a semi-supervised machine learning
+    phrenia—potentially reducing the contrast between GM and WM              method termed HYDRA (Heterogeneity Through Discriminative
+    —this inclusion is particularly relevant. Indeed, the thalamic GM        Analysis) [69]. Unlike traditional approaches that cluster patients
+    reduction was almost completely counterbalanced by an increase           based on similarities, HYDRA focuses on identifying disease effects
+    in white matter volume. This could indicate a tissue contrast in the     by modeling differences from healthy controls (a case–control
+    thalamic region, not necessarily reﬂecting volumetric change but         subtraction approach), helping to isolate true disease subtypes
+    rather associated with a degree of (de)myelination. The authors          while minimizing confounding inﬂuences like age, sex, scanner
+    demonstrate that excluding WM features results in lower                  differences, and ethnicity. It uses a semi-supervised learning
+    silhouette scores and reduced cluster stability, indicating that         approach, performing classiﬁcation and clustering simultaneously
+    WM contributes unique variance beyond GM alone. Consequently,            by separating patients from healthy controls with linear
+    the current approach produces distinct clusters of differences           maximum-margin classiﬁers and associating patient subtypes
+    among subgroups that may diverge from those identiﬁed in                 with different faces of a polytope (hyperplanes). This contrasts
+    other studies. These ﬁndings underscore the need for future              with fully supervised methods like support vector machines,
+    research to jointly examine both gray and white matter, while            which cannot differentiate between patient subtypes. HYDRA’s
+    carefully addressing contrast-related challenges in neuroimaging         comparison of patients to healthy controls makes it more robust
+    analyses.                                                                against irrelevant inter-individual variations, enhancing the focus
+       Shi et al. [66] identiﬁed two subtypes of schizophrenia using         on disease-speciﬁc pathology. Additionally, HYDRA emphasizes
+    Tensor-Based Morphometry (TBM) in combination with W-scores,             reproducibility, using extensive validation methods such as
+    which represent individual deviations from a normative brain             permutation tests, split-sample analyses, and leave-one-site-out
+    structure model. Using a large multi-site cohort across seven            validation, ensuring consistent and reliable identiﬁcation of
+    centers (Table 1), they constructed the normative model from             subtypes across datasets. These characteristics make HYDRA
+    healthy control data, correcting for confounding variables such as       particularly effective in uncovering distinct neuroanatomical
+    age, sex, and scanner/site differences. This process generated           subtypes in complex, heterogeneous conditions such as schizo-
+    individualized W-score maps that quantiﬁed disorder-related brain        phrenia. The consortium identiﬁed two subtypes replicated in
+    abnormalities while minimizing demographic and technical                 later studies by their research group and others (Fig. 3) [70, 71].
+    variability. Rather than clustering on raw MRI-derived morpho-           Subtype 1 comprised 63% of the sample and was characterized by
+    metric values, which embed normal inter-individual differences,          widespread cortical gray matter (GM) reductions, with the most
+    the study focused on residuals—speciﬁcally atypical TBM patterns         pronounced atrophy observed in the thalamus (Cohen’s d ≈ –0.6),
+    that reﬂect deviations from the normative model. These residual-         nucleus accumbens (d ≈ –0.55), medial temporal regions (d ≈
+    based inputs enabled identiﬁcation of biologically meaningful            –0.5), medial prefrontal cortex (d ≈ –0.45), and insular cortex (d ≈
+    subtypes independent of clinical symptoms, avoiding confounds            –0.5). In contrast, Subtype 2 (37% of the sample) exhibited a
+    unrelated to the disease itself. This approach not only improves         largely preserved brain anatomy except for signiﬁcantly larger GM
+    the precision of subtype classiﬁcation based solely on brain             volumes in the basal ganglia, particularly in the pallidum
+    structure differences but also enhances sensitivity to clinically        (d ≈ +0.4), putamen (d ≈ +0.45), and parts of the caudate nucleus
+    relevant neurobiological patterns. They used sparse K-Means              (d ≈ +0.35). These effect sizes, though moderate, underscore
+    clustering, which has advantages such as a feature selection step        distinct and non-overlapping neuroanatomical proﬁles between
+    and being better suited for high-dimensional data (like brain MRI)       the subtypes, supporting the notion of underlying pathophysio-
+    compared to traditional K-Means. They validated the subtypes             logical heterogeneity in schizophrenia. Sex-speciﬁc analyses,
+    using an independent dataset scanned with General Electric               antipsychotic dose adjustment and restriction analyses to patients
+    scanners, conﬁrming results similar to those found in the                with less than 2 years of duration did not change the ﬁndings.
+    discovery dataset, which was scanned with Siemens scanners.              Duration of illness is associated with GM reduction only in
+    The identiﬁed subtypes have lower TBM values (more tissue loss)          Subtype 1. Both subtypes have similar positive and negative
+    in the ventral caudate and cortical areas like the superior and          symptoms. This study clearly demonstrated that schizophrenia
+    middle frontal gyri, cingulate gyrus, superior temporal gyrus,           patients can be neuroanatomically subtyped independently of
+
+                                                                                                 Translational Psychiatry (2025)15:472
+                                                                        A.S. Gonul et al.
+                                                                                                                                               9
+
+
+
+
+Fig. 3 Gray matter volume differences between schizophrenia subtypes identiﬁed by HYDRA analysis. A Subtype 1 shows widespread
+gray matter volume reductions, particularly in the thalamus, nucleus accumbens, medial temporal, medial prefrontal/frontal, and insular
+cortices. B Subtype 2 shows relatively greater gray matter volumes in the basal ganglia regions, including the pallidum, putamen, and
+portions of the caudate nucleus, compared to healthy controls.
+
+clinical symptoms, and that gray matter reduction might not apply       identify imaging signatures within the general population. The
+uniformly to all patients.                                              analysis was then applied to two independent population-level
+   The same group validated the presence of these subtypes in a         datasets: typically developing youths and youths with psychosis
+large ﬁrst-episode schizophrenia cohort by applying the pre-            spectrum symptoms from the Philadelphia Neurodevelopmental
+trained subtype models derived from chronic schizophrenia               Cohort (N = 359; ages 16–23 years) and adults from the UK
+patients in their earlier study [71]. Subtype 1 had a higher            Biobank study (N = 836; ages 44–50 years) [70]. Signature 1, which
+proportion of ﬁrst-episode psychosis (FEP) cases (32%) compared         corresponds to Subtype 1 in schizophrenia patients in the
+to healthy controls (19%), while Subtype 2 had a similar                previous studies, was found to be more prevalent in youths with
+proportion in both groups (21% in FEP, 23% in controls). Clinically,    psychosis spectrum symptoms compared to typically developing
+Subtype 2 was linked to higher educational attainment, more             youths (40 vs. 23%), while the prevalence of Signature 2
+positive psychosis symptoms at ﬁrst presentation, and a higher          (representing Subtype 2) was not higher in youths with psychosis
+likelihood of symptom remission over 1-, 3-, and 5-year follow-up       spectrum symptoms (14 vs. 24%). Signature 1 was linked to poorer
+periods, higher female sex, whereas Subtype 1 was associated            cognitive performance in both youths and adults, whereas
+with more schizophrenia diagnoses and lower educational                 Signature 2 was associated with no signiﬁcant cognitive impair-
+attainment. Therefore, Subtype 1 is more closely associated with        ment. Additionally, adults expressing Signature 1 had higher
+progressive GM loss, greater cognitive deﬁcits, and lower               schizophrenia polygenic risk scores compared to those without
+remission rates, regardless of antipsychotic dosages. Similar results   either signature.
+were reported by using K-means + + clustering in a group of                Data from follow-up studies in schizophrenia indicate that at
+institutionalized patients [72]. This analysis revealed that patients   least a subset of patients follows a distinct trajectory, reﬂecting
+in Subtype 1, characterized by reduced volumes in multiple              neuro-pathophysiological progression that differs from healthy
+cortical regions (dorsomedial medial frontal areas, parietal cortex,    controls [74–76]. However, the absence of studies with long-
+middle and superior temporal cortex), subcortical basal ganglia,        itudinal data limits our understanding of the trajectories of
+the amygdala and hippocampus, displayed poorer cognitive                potential subtypes. SuStaIn (Subtype and Stage Inference)
+function compared to patients who showed increased pallidal             algorithm is a probabilistic, unsupervised machine learning
+volume and otherwise normal subcortical regions (Subtype 2) [72].       approach that designed to identify disease subtypes and stages
+When the authors applied the classiﬁer developed from institu-          of progression using a large number of cross-sectional data
+tionalized patients to categorize community-dwelling individuals        derived from single time-point MRI scans [77]. SuStaIn clusters
+with schizophrenia, either with long-term illness or FEP, they          individuals into subtypes based on shared patterns of brain
+observed similar subcortical volume increases in long-term illness      abnormalities and infers distinct trajectories of disease progres-
+patients classiﬁed as Subtype 2. This ﬁnding suggests that              sion across different brain regions. By combining these two
+increased pallidum volume is a consistent regional brain alteration     capabilities—clustering into subtypes and staging within subtypes
+observed in both institutionalized patients and community-              —SuStaIn allows researchers to capture both what kind of disease
+dwelling individuals with long-term illness. However, this pattern      a person has and how far along they are in its progression, all from
+was not observed in ﬁrst-episode patients. In contrast, drug-naïve      cross-sectional data. These trajectories are modeled as pseudo-
+FEP patients in Subtype 2 exhibited increased caudate and               longitudinal sequences, representing typical patterns of disease
+putamen volumes, suggesting that other basal ganglia nuclei are         progression inferred from the population. In doing so, SuStaIn
+enlarged during the early stages of illness.                            leverages structural MRI data to reveal biologically meaningful
+   Based on the concept that a signiﬁcant portion of the general        subtypes and temporal stages, offering deeper insight into the
+population may carry a biological vulnerability to schizophrenia        neurobiological mechanisms underlying heterogeneous condi-
+without ever developing psychosis [73], HYDRA was used to               tions such as schizophrenia. However, SuStaIn relies on cross-
+
+
+Translational Psychiatry (2025)15:472
+                                                          A.S. Gonul et al.
+10
+
+
+
+
+     Fig. 4 Distinct spatiotemporal trajectories of gray matter loss in schizophrenia. The spatiotemporal pattern of gray matter loss displays
+     a progressive spatial extension accompanied by later ‘temporal’ stages of pathological progression that differ between the two trajectories.
+     Reproduced from Jiang et al. 2024, Nature Communications, licensed under CC BY 4.0.
+
+
+     sectional MRI data, which may not accurately reﬂect the dynamic          model directly, validated subtypes across medication-naïve, ﬁrst-
+     progression of brain changes over time. Additionally, SuStaIn is         episode, and multi-ethnic samples, supporting the robustness of
+     built on the assumption of a progressive pathological trajectory in      their ﬁndings against potential confounds [78].
+     schizophrenia, which may align more closely with a neurodegen-
+     erative model of the illness. This assumption may not fully capture
+     the heterogeneity or neurodevelopmental aspects of schizophre-           DISCUSSION
+     nia across all patient populations. Using the SuStaIn algorithm,         The complex and heterogeneous nature of schizophrenia has
+     Jiang et al. [78] identiﬁed two neurostructural subgroups by             posed a challenge for clinicians and researchers since its initial
+     mapping the temporal and spatial trajectories of gray matter             deﬁnition by early pioneers. Traditional approaches, such as a
+     changes in schizophrenia patients based on a cohort of 4,222             priori classiﬁcations (deﬁcit/nondeﬁcit) or symptom categoriza-
+     patients and 7,038 controls (Fig. 4).                                    tions (positive/negative), have proven insufﬁcient for effectively
+        “Trajectory” 1 (62.1% of patients) exhibited an “early cortical-      subtyping the disease. These limitations impede our ability to
+     predominant loss” biotype, starting with a reduction in Broca’s          identify distinct neuroanatomical subtypes that could enhance
+     area, spreading to adjacent fronto-insular regions (Cohen’s d ≈ 0.7      diagnostic precision or support the development of robust
+     increases as the disease progress) then extending across the             pathophysiological models for schizophrenia. However, advance-
+     neocortex, and eventually affecting the subcortex. By contrast,          ments in data analysis techniques have opened new possibilities
+     “Trajectory 2” (37.9% of patients) displayed an “early subcortical-      for identifying novel subtypes and explaining inconsistent
+     predominant loss” biotype, with volume loss beginning in the             ﬁndings. For instance, recent studies suggest that cerebellar
+     hippocampus (Cohen’s d ≈ 0.6 increases as the disease progress),         volume may vary across different subtypes [63, 66] Consequently,
+     then progressing to the amygdala and parahippocampus,                    the heterogeneity of the studied population can signiﬁcantly
+     followed by the accumbens and caudate, before reaching the               inﬂuence the results, leading to variability in ﬁndings across
+     cerebral cortex. Both medication-naïve patients and those with           studies.
+     less than two years of disease duration followed the same                   A biomarker-based approach in B-SNIP studies revealed three
+     trajectories with either Broca’s area or hippocampus as initiating       psychosis subtypes and subsequent research has conﬁrmed that
+     regions. Individuals in the later stages of either trajectory showed     such subtypes may also be present in FES and midcourse patients
+     a signiﬁcant correlation with reduced GM volume in Broca’s area          [58, 59, 72, 79, 80]. The B-SNIP studies highlight several notable
+     and the hippocampus, longer disease duration, more severe                points. For instance, while Biotypes 1 and 2 exhibit similar clinical
+     negative symptoms, and worse cognitive deﬁcits. Interestingly,           symptoms, differences in GM reduction suggest that clinical
+     compared to healthy controls, the striatum (including the caudate        presentations may not accurately reﬂect the underlying patho-
+     and putamen) was larger in Subtype 1 patients and smaller in             physiology. The ﬁnding of limited GM reduction in the Biotype
+     Subtype 2 patients. This ﬁnding was also observed in medication          3 suggests that psychosis is not necessarily a consequence of
+     naïve individuals. Subtype 1 exhibited a gradual worsening of            neuropathology driven by GM reduction.
+     negative symptoms as the disease progressed, whereas Subtype 2              Image-driven approaches have generally identiﬁed two sub-
+     showed stable negative symptoms. Furthermore, a progressive              types, except Honnorat et al., [64] who deﬁned three distinct
+     increase in depression and anxiety symptoms was observed                 subtypes. The PHENOM consortium, utilizing the HYDRA frame-
+     exclusively in Subtype 1. Overall, Subtype 1 was marked by               work, delineated two subtypes with comparable clinical proﬁles
+     increasing negative and depression/anxiety symptoms, alongside           but divergent neuroanatomical characteristics. One subtype
+     exacerbation in positive symptoms in the later stages of the             demonstrated signiﬁcant cortical and thalamic GM reductions,
+     disease compared to Subtype 2. The SuStaIn algorithm introduced          whereas the other exhibited increased basal ganglia (BG) volumes
+     a novel concept, revealing that distinct disease subtypes originate      without notable cortical GM alterations [70, 71, 81]. Interestingly,
+     in different brain regions at the onset. However, structural             increased volumes of the globus pallidus and other BG structures
+     alterations will converge as the disease progresses, with only a         have been consistently observed across several other image-
+     few regions, such as the striatum, exhibiting noticeable differ-         based subtyping studies, suggesting a robust association with
+     ences. Although not incorporating covariates into the SuStaIn            speciﬁc schizophrenia subtypes [58, 66, 78]. These
+
+                                                                                                  Translational Psychiatry (2025)15:472
+                                                                        A.S. Gonul et al.
+                                                                                                                                                            11
+neuroanatomical differences have also been detected in indivi-          from the data. These trajectories represent typical patterns of
+duals with ﬁrst-episode schizophrenia (FES) and in at-risk              disease progression rather than direct longitudinal observations.
+populations in the general population [70, 71]. While BG                Current ﬁndings suggest two distinct trajectories of progression:
+volumetric changes are often attributed to dopamine-blocking            the “Cortical Trajectory” (trajectory 1), where GM reduction begins
+antipsychotic treatment, similar patterns have emerged in               in Broca’s area, spreads to adjacent fronto-insular regions, extends
+antipsychotic-naïve and high-risk individuals, implying that            across the neocortex, and eventually involves subcortical struc-
+medication use is unlikely to be the sole driver of BG alterations      tures. In the second one, the “Subcortical Trajectory” (trajectory 2),
+in schizophrenia [80, 82]. Additionally, several investigations have    volume loss originates in the hippocampus, progresses to the
+failed to detect signiﬁcant antipsychotic effects on subcortical        amygdala and parahippocampus, and then affects the accumbens
+structures [83]. Collectively, these ﬁndings underscore the             and caudate before reaching the cerebral cortex. These ﬁndings
+potential of the pallidum and other BG regions as critical              suggest that schizophrenia as a disease can originate from two
+biomarkers in schizophrenia subtyping. Supporting this, schizo-         different brain areas and follow different paths as the disease
+phrenia polygenic risk scores and individual risk alleles have been     progresses. The involvement of the hippocampus in dopamine
+linked to larger putamen volumes in non-clinical samples [83].          dysregulation has been implicated in the pathophysiology of
+Furthermore, a recent study reported increased putamen volume           schizophrenia in prior studies [91, 92]. If this mechanism is
+in a transdiagnostic, medication-naïve cohort and among                 relevant, then patients following the “Subcortical Trajectory” may
+unaffected family members [84], further emphasizing a possible          exhibit a distinct response to current dopamine-blocking anti-
+genetic and trait-level contribution to BG structural changes in        psychotic treatments compared to those following the “Cortical
+schizophrenia.                                                          Trajectory”. However, as the disease progressed, the treatment
+   Beyond the basal ganglia, long-term antipsychotic use has            response might decreased independently of subtypes, suggesting
+been associated with cortical thinning in the frontal and               the importance of disease staging [93].
+temporal regions, alongside increased volume in the anterior               This perspective is supported by the ﬁndings from neuroima-
+cingulate cortex among patients with schizophrenia [85, 86].            ging studies using other modalities. Positron Emission Tomogra-
+However, it remains unclear whether these cortical changes are          phy (PET) studies have shown that elevated striatal dopamine
+due to neurotoxic or neuroplastic effects of antipsychotic              release correlates with the clinical efﬁcacy of dopamine-blocking
+medications, or from other processes related to the underlying          antipsychotic drugs [94]. However, this hyperdopaminergic state is
+pathology of the illness. In fact, recent studies suggest that          not present in all patients. Individuals who show poor response to
+cortical reductions may primarily reﬂect intrinsic, neurodevelop-       antipsychotics often exhibit greater glutamatergic abnormalities,
+mental, or illness-related factors rather than medication effects       particularly in cortical regions [95]. Building on these observations,
+[87, 88]. To account for the potential inﬂuence of antipsychotic        Howes et al [96] proposed two subtypes of schizophrenia: Type A,
+treatment in image-driven subtyping studies, researchers have           characterized by hyperdopaminergia, and Type B, which lacks this
+adopted various strategies. The most common approach involves           feature. Indeed, data-driven subtyping studies [78, 81, 89] dis-
+adjusting antipsychotic doses to chlorpromazine equivalents in          cussed in this review have identiﬁed distinct cortical and
+statistical analyses. More rigorous methodologies have also been        subcortical patterns, which are consistent with ﬁndings from PET
+employed. For instance, Jiang et al. replicated their ﬁndings in        and MR spectroscopy studies and may be associated with
+medication-naïve and ﬁrst-episode patients, while Chand et al.          variations in disease pathology, progression, cognitive function,
+identiﬁed similar subtypes even when restricting their analyses         and treatment outcomes. Collectively, these ﬁndings lay the
+to patients with a disease duration of less than two years [78, 81].    groundwork for enhancing diagnostic accuracy, uncovering
+Moreover, most studies [64, 81, 89] report comparable anti-             underlying mechanisms, and developing more personalized
+psychotic doses across the identiﬁed subtypes. Taken together,          interventions.
+these ﬁndings suggest that although antipsychotic medications
+may inﬂuence brain structure, their impact on schizophrenia
+subtyping is likely minimal, with observed differences more             CONCLUSION
+reﬂective of underlying disease mechanisms than of treatment            Current approaches predominantly propose two or three cluster
+effects.                                                                (subtype) solutions for deconstructing schizophrenia based on
+   The identiﬁed subtypes may correspond to treatment-                  patients’ neuroanatomical characteristics, providing a framework
+resistant patients, who typically show greater frontal cortical         that transcends traditional symptom-based classiﬁcations. How-
+thinning and more severe clinical symptoms, comprising                  ever, these clusters vary depending on the classiﬁcation algorithm
+approximately 15–30% of schizophrenia cases [90]. However,              used, despite some consistent overlap across studies. This
+no reported subtype has been reported to represent such a               underscores the need to validate current ﬁndings using larger
+small group with signiﬁcantly more frontal thinning. Addition-          datasets and more robust validation methods. Novel algorithms,
+ally, clinical symptoms were generally similar across subtypes in       such as SuStaIn, which show potential for identifying disease
+many studies [13, 64, 81, 89]. Thus, no current subtype clearly         trajectories, also require longitudinal data to ensure reliability.
+corresponds to treatment-resistant schizophrenia as deﬁned by           Additionally, existing data have struggled to align these proposed
+today’s criteria.                                                       subtypes with clinical symptomatology, primarily focusing on
+   Gray matter loss in the cortex, particularly in the prefrontal and   positive and negative symptoms. To address these gaps, future
+temporal regions, is a well-documented ﬁnding in schizophrenia.         research should investigate the mental (dys)functioning of
+This cortical GM reduction is often accompanied by loss in the          schizophrenia patients concerning the neuroanatomical patterns
+hippocampus and other medial temporal structures. One subtype           identiﬁed in the proposed clusters, bridging the divide between
+identiﬁed by HYDRA speciﬁcally exhibits these patterns, with GM         structural ﬁndings and clinical symptoms.
+loss correlating with the duration of illness, suggesting an ongoing
+degenerative process, at least in this subtype. However, this raises
+the question of how brain changes unfold across different               REFERENCES
+subtypes throughout the illness. To date, there is only one study        1. Jablensky A. Epidemiology of schizophrenia: the global burden of disease and
+providing insight into longitudinal changes. While SuStaIn uses             disability. Eur Arch Psychiatry Clin Neurosci. 2000;250:274–85.
+cross-sectional data, its algorithm estimates pseudo-longitudinal        2. Hoenig J. The concept of schizophrenia kraepelin–bleuler–schneider. Br J Psy-
+                                                                            chiatry. 1983;142:547–56.
+sequences—trajectories of disease progression reconstructed
+
+
+
+Translational Psychiatry (2025)15:472
+                                                                         A.S. Gonul et al.
+12
+      3. Pearce JMS. Positive and negative cerebral symptoms: the roles of russell rey-        29. Vidal CN, Rapoport JL, Hayashi KM, Geaga JA, Sui Y, McLemore LE, et al. Dyna-
+         nolds and hughlings jackson. J Neurol Neurosurg Psychiatry. 2004;75:1148.                 mically spreading frontal and cingulate deﬁcits mapped in adolescents with
+      4. Portwich P, Barocka A. [The concept of negative and positive symptoms in a                schizophrenia. Arch Gen Psychiatry. 2006;63:25–34.
+         historical perspective]. Fortschr Neurol Psychiatr. 1999;67:448–55.                   30. Gogtay N, Giedd JN, Lusk L, Hayashi KM, Greenstein D, Vaituzis AC, et al. Dynamic
+      5. Ventura J, Nuechterlein KH, Green MF, Horan WP, Subotnik KL, Mintz J. The timing          mapping of human cortical development during childhood through early
+         of negative symptom exacerbations in relationship to positive symptom                     adulthood. Proc Natl Acad Sci USA. 2004;101:8174–9.
+         exacerbations in the early course of schizophrenia. Schizophr Res.                    31. Thompson PM, Vidal C, Giedd JN, Gochman P, Blumenthal J, Nicolson R, et al.
+         2004;69:333–42.                                                                           Mapping adolescent brain change reveals dynamic wave of accelerated gray
+      6. Crow TJ. The two-syndrome concept: origins and current status. Schizophr Bull.            matter loss in very early-onset schizophrenia. Proc Natl Acad Sci USA.
+         1985;11:471–86.                                                                           2001;98:11650–5.
+      7. Carpenter WT, Heinrichs DW, Wagman AM. Deﬁcit and nondeﬁcit forms of                  32. Kambeitz J, Kambeitz-Ilankovic L, Leucht S, Wood S, Davatzikos C, Malchow B,
+         schizophrenia: the concept. Am J Psychiatry. 1988;145:578–83.                             et al. Detecting neuroimaging biomarkers for schizophrenia: a meta-analysis of
+      8. Banaj N, Vecchio D, Piras F, De Rossi P, Bustillo J, Ciufolini S, et al. Cortical         multivariate     pattern     recognition      studies.    Neuropsychopharmacol.
+         morphology in patients with the deﬁcit and non-deﬁcit syndrome of schizo-                 2015;40:1742–51.
+         phrenia: a worldwide meta- and mega-analyses. Mol Psychiatry. 2023;28:4363–73.        33. Gashkarimov VR, Sultanova RI, Efremov IS, Asadullin AR. Machine learning tech-
+      9. Hepdurgun C, Karakoc G, Polat I, Ozalay O, Eroglu S, Erdogan Y, et al. A long-            niques in diagnostics and prediction of the clinical features of schizophrenia: a
+         itudinal study of lateral ventricle volumes in deﬁcit and non-deﬁcit schizophrenia.       narrative review. Consort Psychiatr. 2023;4:43–53.
+         Psychiatry Res Neuroimaging. 2021;313:111311.                                         34. De Filippis R, Carbone EA, Gaetano R, Bruni A, Pugliese V, Segura-Garcia C, et al.
+     10. Plichta P, Tyburski E, Bielecki M, Mak M, Kucharska-Mazur J, Podwalski P, et al.          Machine learning techniques in a structural and functional MRI diagnostic
+         Cognitive dysfunctions measured with the MCCB in deﬁcit and non-deﬁcit                    approach in schizophrenia: a systematic review. NDT. 2019;15:1605–27.
+         schizophrenia. J Clin Med. 2023;12:2257.                                              35. Oh J, Oh B-L, Lee K-U, Chae J-H, Yun K. Identifying schizophrenia using structural
+     11. Tek C, Kirkpatrick B, Buchanan RW. A ﬁve-year followup study of deﬁcit and                MRI with a deep learning algorithm. Front Psychiatry. 2020;11:16.
+         nondeﬁcit schizophrenia. Schizophr Res. 2001;49:253–60.                               36. Zhang J, Rao VM, Tian Y, Yang Y, Acosta N, Wan Z, et al. Detecting schizophrenia
+     12. Goldberg T. A case against subtyping in schizophrenia. Schizophr Res.                     with 3D structural brain MRI using deep learning. Sci Rep. 2023;13:14433.
+         1995;17:147–52.                                                                       37. SupriyaPatro P, Goel T, VaraPrasad SA, Tanveer M, Murugan R. Lightweight 3D
+     13. Tamminga CA, Clementz BA, Pearlson G, Keshavan M, Gershon ES, Ivleva EI, et al.           convolutional neural network for schizophrenia diagnosis using MRI images and
+         Biotyping in psychosis: using multiple computational approaches with one data             ensemble bagging classiﬁer. Cogn Comput. 2024;16:2019–35.
+         set. Neuropsychopharmacol. 2021;46:143–55.                                            38. Kong X-Z, ENIGMA Laterality Working Group, Francks C. Reproducibility in the
+     14. Tamminga CA, Pearlson G, Gershon E, Keedy S, Hudgens-Haney ME, Ivleva EI,                 absence of selective reporting: An illustration from large-scale brain asymmetry
+         et al. Using psychosis biotypes and the Framingham model for parsing psychosis            research. Hum Brain Mapp. 2022;43:244–54.
+         biology. Schizophr Res. 2022;242:132–4.                                               39. Koutsouleris N, Pantelis C, Velakoulis D, McGuire P, Dwyer DB, Urquijo-Castro MF,
+     15. Jack CR, Bennett DA, Blennow K, Carrillo MC, Dunn B, Haeberlein SB, et al. NIA-AA         et al. Exploring links between psychosis and frontotemporal dementia using
+         research framework: toward a biological deﬁnition of Alzheimer’s disease. Alz-            multimodal machine learning: dementia praecox revisited. JAMA Psychiatry.
+         heimers Dement. 2018;14:535–62.                                                           2022;79:907–19.
+     16. Hampel H, Gao P, Cummings J, Toschi N, Thompson PM, Hu Y, et al. The foun-            40. Kraguljac NV, McDonald WM, Widge AS, Rodriguez CI, Tohen M, Nemeroff CB.
+         dation and architecture of precision medicine in neurology and psychiatry.                Neuroimaging biomarkers in schizophrenia. AJP. 2021;178:509–21.
+         Trends Neurosci. 2023;46:176–98.                                                      41. Grube BS, Bilder RM, Goldman RS. Meta-analysis of symptom factors in schizo-
+     17. Ellis CA, Miller RL, Calhoun VD. A convolutional autoencoder-based explainable            phrenia. Schizophr Res. 1998;31:113–20.
+         clustering approach for resting-state EEG Analysis. Annu Int Conf IEEE Eng Med        42. Zhang T, Koutsouleris N, Meisenzahl E, Davatzikos C. Heterogeneity of structural
+         Biol Soc. 2023;2023:1–4.                                                                  brain changes in subtypes of schizophrenia revealed using magnetic resonance
+     18. Yan W, Zhao M, Fu Z, Pearlson GD, Sui J, Calhoun VD. Mapping relationships                imaging pattern analysis. Schizophr Bull. 2015;41:74–84.
+         among schizophrenia, bipolar and schizoaffective disorders: A deep classiﬁcation      43. Ashburner J, Friston KJ. Voxel-based morphometry-the methods. Neuroimage.
+         and clustering framework using fMRI time series. Schizophr Res. 2022;245:141–50.          2000;11:805–21.
+     19. Thompson PM, Bartzokis G, Hayashi KM, Klunder AD, Lu PH, Edwards N, et al.            44. Sumich A, Chitnis XA, Fannon DG, O’Ceallaigh S, Doku VC, Faldrowicz A, et al.
+         Time-lapse mapping of cortical changes in schizophrenia with different treat-             Unreality symptoms and volumetric measures of Heschl’s gyrus and planum
+         ments. Cereb Cortex. 2009;19:1107–23.                                                     temporal in ﬁrst-episode psychosis. Biol Psychiatry. 2005;57:947–50.
+     20. Thompson PM, Jahanshad N, Ching CRK, Salminen LE, Thomopoulos SI, Bright J,           45. Talpalaru A, Bhagwat N, Devenyi GA, Lepage M, Chakravarty MM. Identifying
+         et al. ENIGMA and global neuroscience: A decade of large-scale studies of the             schizophrenia subgroups using clustering and supervised learning. Schizophr
+         brain in health and disease across more than 40 countries. Transl Psychiatry.             Res. 2019;214:51–59.
+         2020;10:100.                                                                          46. Carrà G, Crocamo C, Angermeyer M, Brugha T, Toumi M, Bebbington P. Positive
+     21. van Erp TGM, Walton E, Hibar DP, Schmaal L, Jiang W, Glahn DC, et al. Cortical            and negative symptoms in schizophrenia: a longitudinal analysis using latent
+         Brain abnormalities in 4474 individuals with schizophrenia and 5098 control               variable structural equation modelling. Schizophr Res. 2019;204:58–64.
+         subjects via the enhancing neuro imaging genetics through meta analysis               47. Koutsouleris N, Gaser C, Jäger M, Bottlender R, Frodl T, Holzinger S, et al. Struc-
+         (ENIGMA) consortium. Biol Psychiatry. 2018;84:644–54.                                     tural correlates of psychopathological symptom dimensions in schizophrenia: a
+     22. Honea R, Crow TJ, Passingham D, Mackay CE. Regional deﬁcits in brain volume in            voxel-based morphometric study. Neuroimage. 2008;39:1600–12.
+         schizophrenia: a meta-analysis of voxel-based morphometry studies. Am J Psy-          48. Roth RM, Flashman LA, Saykin AJ, McAllister TW, Vidaver R. Apathy in schizo-
+         chiatry. 2005;162:2233–45.                                                                phrenia: reduced frontal lobe volume and neuropsychological deﬁcits. Am J
+     23. Zhao Y, Zhang Q, Shah C, Li Q, Sweeney JA, Li F, et al. Cortical thickness                Psychiatry. 2004;161:157–9.
+         abnormalities at different stages of the illness course in schizophrenia: a sys-      49. Demjaha A, Galderisi S, Glenthøj B, Arango C, Mucci A, Lawrence A, et al. Negative
+         tematic review and meta-analysis. JAMA Psychiatry. 2022;79:560.                           symptoms in ﬁrst-episode schizophrenia related to morphometric alterations in
+     24. Alnæs D, Kaufmann T, van der Meer D, Córdova-Palomera A, Rokicki J, Moberget              orbitofrontal and superior temporal cortex: the OPTiMiSE study. Psychol Med.
+         T, et al. Brain heterogeneity in schizophrenia and its association with polygenic         2023;53:3471–9.
+         risk. JAMA Psychiatry. 2019;76:739–48.                                                50. Nesvåg R, Saetre P, Lawyer G, Jönsson EG, Agartz I. The relationship between
+     25. Omlor W, Rabe F, Fuchs S, Surbeck W, Cecere G, Huang G-Y, et al. Estimating               symptom severity and regional cortical and grey matter volumes in schizo-
+         multimodal structural brain variability in schizophrenia spectrum disorders: a            phrenia. Progress Neuro-Psychopharmacol Biol Psychiatry. 2009;33:482–90.
+         worldwide ENIGMA study. Am J Psychiatry. 2025;182:373–88.                             51. Galderisi S, Quarantelli M, Volpe U, Mucci A, Cassano GB, Invernizzi G, et al.
+     26. Nenadic I, Yotter RA, Sauer H, Gaser C. Patterns of cortical thinning in different        Patterns of structural MRI abnormalities in deﬁcit and nondeﬁcit schizophrenia.
+         subgroups of schizophrenia. Br J Psychiatry. 2015;206:479–83.                             Schizophr Bull. 2008;34:393–401.
+     27. Walton E, Hibar DP, van Erp TGM, Potkin SG, Roiz-Santiañez R, Crespo-Facorro B,       52. Özdemiṙ Hİ, Eker MÇ, Zengin B, Yılmaz DA, İşman Haznedaroğlu D, Çınar C, et al.
+         et al. Prefrontal cortical thinning links to negative symptoms in schizophrenia via       Gray Matter changes in patients with deﬁcit schizophrenia and non-deﬁcit
+         the ENIGMA consortium. Psychol Med. 2018;48:82–94.                                        schizophrenia. Turk Psikiyatr Derg. 2012;23:237–46.
+     28. Wannan CMJ, Cropley VL, Chakravarty MM, Bousman C, Ganella EP, Bruggemann             53. Quarantelli M, Larobina M, Volpe U, Amati G, Tedeschi E, Ciarmiello A, et al.
+         JM, et al. Evidence for network-based cortical thickness reductions in schizo-            Stereotaxy-based regional brain volumetry applied to segmented MRI: validation
+         phrenia. AJP. 2019;176:552–63.                                                            and results in deﬁcit and nondeﬁcit schizophrenia. Neuroimage. 2002;17:373–84.
+
+
+
+
+                                                                                                                         Translational Psychiatry (2025)15:472
+                                                                                           A.S. Gonul et al.
+                                                                                                                                                                                     13
+54. Green MJ, Cairns MJ, Wu J, Dragovic M, Jablensky A, Tooney PA, et al. Genome-          78. Jiang Y, Luo C, Wang J, Palaniyappan L, Chang X, Xiang S, et al. Neurostructural
+    wide supported variant MIR137 and severe negative symptoms predict mem-                    subgroup in 4291 individuals with schizophrenia identiﬁed using the subtype
+    bership of an impaired cognitive subtype of schizophrenia. Mol Psychiatry.                 and stage inference algorithm. Nat Commun. 2024;15:5996.
+    2013;18:774–80.                                                                        79. Clementz BA, Parker DA, Trotti RL, McDowell JE, Keedy SK, Keshavan MS, et al.
+55. Jablensky A. Subtyping schizophrenia: implications for genetic research. Mol               Psychosis biotypes: replication and validation from the B-SNIP consortium.
+    Psychiatry. 2006;11:815–36.                                                                Schizophr Bull. 2022;48:56–68.
+56. Gould IC, Shepherd AM, Laurens KR, Cairns MJ, Carr VJ, Green MJ. Multivariate          80. Guimond S, Gu F, Shannon H, Kelly S, Mike L, Devenyi GA, et al. A diagnosis and
+    neuroanatomical classiﬁcation of cognitive subtypes in schizophrenia: A support            biotype comparison across the psychosis spectrum: investigating volume and
+    vector machine learning approach. NeuroImage: Clin. 2014;6:229–36.                         shape amygdala-hippocampal differences from the B-SNIP study. Schizophr Bull.
+57. Weinberg D, Lenroot R, Jacomb I, Allen K, Bruggemann J, Wells R, et al. Cognitive          2021;47:1706–17.
+    subtypes of schizophrenia characterized by differential brain volumetric reduc-        81. Chand GB, Dwyer DB, Erus G, Sotiras A, Varol E, Srinivasan D, et al. Two distinct
+    tions and cognitive decline. JAMA Psychiatry. 2016;73:1251.                                neuroanatomical subtypes of schizophrenia revealed using machine learning.
+58. Xiao Y, Liao W, Long Z, Tao B, Zhao Q, Luo C, et al. Subtyping schizophrenia               Brain. 2020;143:1027–38.
+    patients based on patterns of structural brain alterations. Schizophr Bull.            82. Ebdrup BH, Nørbak H, Borgwardt S, Glenthøj B. Volumetric changes in the basal
+    2022;48:241–50.                                                                            ganglia after antipsychotic monotherapy: a systematic review. Curr Med Chem.
+59. Zhao Q, Li J, Xiao Y, Cao H, Wang X, Zhang W, et al. Distinct neuroanatomic                2013;20:438–47.
+    subtypes in antipsychotic-treated patients with schizophrenia classiﬁed by the         83. Liu C, Cao B, Yu R, Sim K. Basal ganglia volumetric changes in psychotic spectrum
+    predeﬁned classiﬁcation in a never-treated sample. Psychoradiology.                        disorders. J Affect Disord. 2019;255:150–7.
+    2021;1:212–24.                                                                         84. Gong J, Chen G, Jia Y, Zhong S, Zhao L, Luo X, et al. Disrupted functional con-
+60. Austin SF, Mors O, Secher RG, Hjorthøj CR, Albert N, Bertelsen M, et al. Predictors        nectivity within the default mode network and salience network in unmedicated
+    of recovery in ﬁrst episode psychosis: the OPUS cohort at 10 year follow-up.               bipolar II disorder. Prog Neuropsychopharmacol Biol Psychiatry. 2019;88:11–18.
+    Schizophr Res. 2013;150:163–8.                                                         85. Torres US, Portela-Oliveira E, Borgwardt S, Busatto GF. Structural brain changes
+61. Fortin J-P, Parker D, Tunç B, Watanabe T, Elliott MA, Ruparel K, et al. Harmoni-           associated with antipsychotic treatment in schizophrenia as revealed by voxel-
+    zation of multi-site diffusion tensor imaging data. Neuroimage. 2017;161:149–70.           based morphometric MRI: an activation likelihood estimation meta-analysis. BMC
+62. Radua J, Vieta E, Shinohara R, Kochunov P, Quidé Y, Green MJ, et al. Increased             Psychiatry. 2013;13:342.
+    power by harmonizing structural MRI site differences with the ComBat batch             86. Moncrieff J, Leo J. A systematic review of the effects of antipsychotic drugs on
+    adjustment method in ENIGMA. Neuroimage. 2020;218:116956.                                  brain volume. Psychol Med. 2010;40:1409–22.
+63. Dwyer DB, Cabral C, Kambeitz-Ilankovic L, Sanfelici R, Kambeitz J, Calhoun V, et al.   87. Chopra S, Fornito A, Francey SM, O’Donoghue B, Cropley V, Nelson B, et al. Dif-
+    Brain subtyping enhances the neuroanatomical discrimination of schizophrenia.              ferentiating the effect of antipsychotic medication and illness on brain volume
+    Schizophr Bull. 2018;44:1060–9.                                                            reductions in ﬁrst-episode psychosis: a longitudinal, randomised, triple-blind,
+64. Honnorat N, Dong A, Meisenzahl-Lechner E, Koutsouleris N, Davatzikos C. Neu-               placebo-controlled MRI Study. Neuropsychopharmacology. 2021;46:1494–501.
+    roanatomical heterogeneity of schizophrenia revealed by semi-supervised                88. Emsley R, du Plessis S, Phahladira L, Luckhoff HK, Schefﬂer F, Kilian S, et al.
+    machine learning methods. Schizophr Res. 2019;214:43–50.                                   Antipsychotic treatment effects and structural MRI brain changes in schizo-
+65. Dong A, Honnorat N, Gaonkar B, Davatzikos C. CHIMERA: Clustering of hetero-                phrenia. Psychol Med. 2023;53:2050–9.
+    geneous disease effects via distribution matching of imaging patterns. IEEE Trans      89. Shi D, Li Y, Zhang H, Yao X, Wang S, Wang G, et al. Machine learning of schi-
+    Med Imaging. 2015;35:612.                                                                  zophrenia detection with structural and functional neuroimaging. Dis Markers.
+66. Shi W, Fan L, Wang H, Liu B, Li W, Li J, et al. Two subtypes of schizophrenia              2021;2021:9963824.
+    identiﬁed by an individual-level atypical pattern of tensor-based morphometric         90. Pang TSW, Chun JSW, Wong TY, Chu ST, Ma CF, Honer WG, et al. A systematic
+    measurement. Cereb Cortex. 2023;33:3683–3700.                                              review of neuroimaging studies of clozapine-resistant schizophrenia. Schizo-
+67. Gupta CN, Calhoun VD, Rachakonda S, Chen J, Patel V, Liu J, et al. Patterns of gray        phrenia (Heidelb). 2023;9:65.
+    matter abnormalities in schizophrenia based on an international mega-analysis.         91. Grace AA. Dopamine system dysregulation by the hippocampus: implications for
+    SCHBUL. 2015;41:1133–42.                                                                   the pathophysiology and treatment of schizophrenia. Neuropharmacology.
+68. Tanskanen P, Ridler K, Murray GK, Haapea M, Veijola JM, Jääskeläinen E, et al.             2012;62:1342–8.
+    Morphometric brain abnormalities in schizophrenia in a population-based sam-           92. Perez SM, Lodge DJ. Convergent inputs from the hippocampus and thalamus to
+    ple: relationship to duration of illness. Schizophr Bull. 2010;36:766–77.                  the nucleus accumbens regulate dopamine neuron activity. J Neurosci.
+69. Varol E, Sotiras A, Davatzikos C, Alzheimer’s Disease Neuroimaging Initiative.             2018;38:10607–18.
+    HYDRA: Revealing heterogeneity of imaging and genetic patterns through a               93. Sone D, Young A, Shinagawa S, Tsugawa S, Iwata Y, Tarumi R, et al. Disease
+    multiple max-margin discriminative analysis framework. Neuroimage.                         progression patterns of brain morphology in schizophrenia: more progressed
+    2017;145:346–64.                                                                           stages in treatment resistance. Schizophr Bull. 2024;50:393–402.
+70. Chand GB, Singhal P, Dwyer DB, Wen J, Erus G, Doshi J, et al. Schizophrenia            94. Kaar SJ, Natesan S, McCutcheon R, Howes OD. Antipsychotics: mechanisms
+    imaging signatures and their associations with cognition, psychopathology, and             underlying clinical response and side-effects and novel treatment approaches
+    genetics in the general population. AJP. 2022;179:650–60.                                  based on pathophysiology. Neuropharmacology. 2020;172:107704.
+71. Dwyer DB, Chand GB, Pigoni A, Khuntia A, Wen J, Antoniades M, et al. Psychosis         95. Mouchlianitis E, Bloomﬁeld MA, Law V, Beck K, Selvaraj S, Rasquinha N, et al.
+    brain subtypes validated in ﬁrst-episode cohorts and related to illness remission:         Treatment-resistant schizophrenia patients show elevated anterior cingulate
+    results from the PHENOM consortium. Mol Psychiatry. 2023;28:2008–17.                       cortex glutamate compared to treatment-responsive. Schizophr Bull.
+72. Zhao Q, Cao H, Zhang W, Li S, Xiao Y, Tamminga CA, et al. A subtype of insti-              2016;42:744–52.
+    tutionalized patients with schizophrenia characterized by pronounced sub-              96. Howes OD, Bukala BR, Jauhar S, McCutcheon RA. The hypothesis of biologically
+    cortical and cognitive deﬁcits. Neuropsychopharmacol. 2022;47:2024–32.                     based subtypes of schizophrenia: a 10-year update. World Psychiatry.
+73. Tsuang MT, Stone WS, Gamma F, Faraone SV. Schizotaxia: current status and                  2025;24:46–47.
+    future directions. Curr Psychiatry Rep. 2003;5:128–34.
+74. Andreasen NC, Liu D, Ziebell S, Vora A, Ho B-C. Relapse duration, treatment
+    intensity, and brain tissue loss in schizophrenia: a prospective longitudinal MRI
+    study. AJP. 2013;170:609–15.
+                                                                                           ACKNOWLEDGEMENTS
+75. Ho B-C, Andreasen NC, Nopoulos P, Arndt S, Magnotta V, Flaum M. Progressive
+                                                                                           We are thankful to Yigit Erdogan for his effort during the submission.
+    structural brain abnormalities and their relationship to clinical outcome: a
+    longitudinal magnetic resonance imaging study early in schizophrenia. Arch Gen
+    Psychiatry. 2003;60:585–94.
+76. Olabi B, Ellison-Wright I, McIntosh AM, Wood SJ, Bullmore E, Lawrie SM. Are there
+    progressive brain changes in schizophrenia? a meta-analysis of structural mag-         AUTHOR CONTRIBUTIONS
+    netic resonance imaging studies. Biol Psychiatry. 2011;70:88–96.                       Author contributions were written using the CRediT taxonomy. ASG - Conceptualiza-
+77. Young AL, Marinescu R, Oxtoby N, Bocchetta M, Yong K, Firth N, et al. Uncovering       tion, Methodology, Project Administration, Writing – original draft, Writing – review &
+    the heterogeneity and temporal complexity of neurodegenerative diseases with           editing, CC – Conceptualization, Validation Methodology, Writing – original draft, PT -
+    subtype and stage inference. Nat Commun. 2018;9:4273.                                  Conceptualization, Supervision, Writing – review & editing.
+
+
+
+
+Translational Psychiatry (2025)15:472
+                                                                       A.S. Gonul et al.
+14
+     FUNDING                                                                                                   Open Access This article is licensed under a Creative Commons
+     This research did not receive any speciﬁc grant from funding agencies in the public,                      Attribution-NonCommercial-NoDerivatives 4.0 International License,
+     commercial, or not-for-proﬁt sectors.                                                   which permits any non-commercial use, sharing, distribution and reproduction in any
+                                                                                             medium or format, as long as you give appropriate credit to the original author(s) and
+                                                                                             the source, provide a link to the Creative Commons licence, and indicate if you modiﬁed
+     COMPETING INTERESTS                                                                     the licensed material. You do not have permission under this licence to share adapted
+     The authors declare no competing interests.                                             material derived from this article or parts of it. The images or other third party material in
+                                                                                             this article are included in the article’s Creative Commons licence, unless indicated
+                                                                                             otherwise in a credit line to the material. If material is not included in the article’s
+                                                                                             Creative Commons licence and your intended use is not permitted by statutory
+     ADDITIONAL INFORMATION
+                                                                                             regulation or exceeds the permitted use, you will need to obtain permission directly
+     Correspondence and requests for materials should be addressed to Ali Saffet Gonul.      from the copyright holder. To view a copy of this licence, visit http://
+                                                                                             creativecommons.org/licenses/by-nc-nd/4.0/.
+     Reprints and permission information is available at http://www.nature.com/
+     reprints
+                                                                                             © The Author(s) 2025
+     Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims
+     in published maps and institutional afﬁliations.
+
+
+
+
+                                                                                                                         Translational Psychiatry (2025)15:472
+

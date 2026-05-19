@@ -1,0 +1,298 @@
+                                         D-GATNet: Interpretable Temporal Graph Attention
+                                         Learning for ADHD Identification Using Dynamic
+                                                      Functional Connectivity
+                                                                                    Qurat Ul Ain1,2 , Alptekin Temizel2 , Soyiba Jawed1
+                                                      1
+                                                          Department of Computer and Software Engineering, College of Electrical and Mechanical Engineering,
+                                                                     National University of Sciences and Technology, Islamabad 44000, Pakistan
+                                                              2
+                                                                Graduate School of Informatics, Middle East Technical University, 06800, Ankara, Turkey
+                                                             qain.cse22ceme@student.nust.edu.pk, atemizel@metu.edu.tr, soyiba.jawed@ceme.nust.edu.pk
+arXiv:2603.26308v1 [cs.LG] 27 Mar 2026
+
+
+
+
+                                            Abstract—Attention Deficit Hyperactivity Disorder (ADHD) is       frameworks have been increasingly applied to fMRI data to en-
+                                         a prevalent neurodevelopmental disorder whose neuroimaging-          hance ADHD diagnosis. For example, Zhao et al. [7] proposed
+                                         based diagnosis remains challenging due to complex time-varying      a dynamic graph convolutional network (dgCN) based on func-
+                                         disruptions in brain connectivity. Functional MRI (fMRI) pro-
+                                         vides a powerful non-invasive modality for identifying functional    tional connectivity (FC) brain graphs, evaluated using 10-fold
+                                         alterations. Existing deep learning (DL) studies employ diverse      cross-validation (CV), and also interpreted potential ADHD
+                                         neuroimaging features; however, static functional connectivity       biomarkers. Qiang et al. [8] introduced a Spatiotemporal
+                                         remains widely used, whereas dynamic connectivity modeling           Attention Autoencoder (STAAE) using resting-state temporal
+                                         is comparatively underexplored. Moreover, many DL models             templates evaluated under 5 fold CV. Chen et al. [9] developed
+                                         lack interpretability. In this work, we propose D-GATNet,
+                                         an interpretable temporal graph-based framework for auto-            Att-AENet for FC based biomarker learning using leave-
+                                         mated ADHD classification using dynamic functional connectivity      one-out-cross-validation (LOOCV) with interpretable region
+                                         (dFC). Sliding-window Pearson correlation constructs sequences       identification. Peng et al. [10] proposed Summation-based
+                                         of functional brain graphs with regions of interest as nodes and     Synergic Artificial Neural Network (SSANN) with dual 3D-
+                                         connectivity strengths as edges. Spatial dependencies are learned    CNN branches for the fusion of sMRI and rs-fMRI data,
+                                         via a multi-layer Graph Attention Network, while temporal
+                                         dynamics are modeled using 1D convolution followed by temporal       evaluated using an 80:20 hold-out split. Wang et al. [11] pro-
+                                         attention. Interpretability is achieved through graph attention      posed two approaches, ICA-CNN and correlation autoencoder,
+                                         weights revealing dominant ROI interactions, ROI importance          evaluated under hold out validation. Pei et al. [6] introduced
+                                         scores identifying influential regions, and temporal attention em-   Gaussian noise, Mix-up, and sliding-window augmentation
+                                         phasizing informative connectivity segments. Experiments on the      and developed a CNN–GAT fusion model leveraging FC
+                                         Peking University site of the ADHD-200 dataset using stratified
+                                         10-fold cross-validation with a 5-seed ensemble achieved 85.18%      features, with the sliding window strategy demonstrating su-
+                                         ± 5.64 balanced accuracy and 0.881 AUC, outperforming state-of-      perior performance among the augmentation methods. Zhang
+                                         the-art methods. Attention analysis reveals cerebellar and default   et al. [12] proposed a Diffusion Kernel Attention Transformer
+                                         mode network disruptions, indicating potential neuroimaging          framework, evaluated using an 80:20 data split, and performed
+                                         biomarkers.                                                          interpretability analysis. Zhang et al. [13] proposed a model
+                                            Index Terms—ADHD, resting state functional MRI, Dynamic
+                                         FC metrics, GAT, Temporal Attention                                  named BNC-DGHL, which incorporates CNN and hashing
+                                                                                                              layers and evaluated under 5-fold CV. Hu et al. [14] introduced
+                                                                   I. I NTRODUCTION                           Source Free Semi-Supervised Transfer Learning (S3TL) with
+                                            Attention Deficit Hyperactivity Disorder (ADHD) is a              LSTM-based region of interest (ROI) features, evaluated using
+                                         prevalent neurodevelopmental disorder in children, character-        10 fold CV. Gulhan and Özmen [15] applied 3D-CNNs to
+                                         ized by inattention and hyperactivity [1]. Early diagnosis is        faLFF/ReHo measures evaluated with 5 fold CV.
+                                         crucial for reducing long-term adverse outcomes [2]. Recent             Despite this progress, robust ADHD diagnosis remains
+                                         advances in neuroimaging-based research, driven by machine           challenging. Many studies reporting strong performance rely
+                                         learning (ML) and deep learning (DL), have improved au-              on LOOCV [9], which is computationally expensive and
+                                         tomated ADHD classification [3], [4]. Among neuroimaging             may produce high variance estimates that limit generaliza-
+                                         modalities, functional magnetic resonance imaging (fMRI) has         tion. Moreover, although diverse features have been explored,
+                                         emerged as a promising auxiliary diagnostic tool. As a non-          static functional connectivity (FC) remains the most widely
+                                         invasive technique with high spatial resolution and acceptable       adopted representation [16]. However, static FC ignores the
+                                         temporal resolution, fMRI is widely used to detect structural        temporal dynamics of rs-fMRI, even though ADHD related
+                                         and functional brain alterations [5] [6]. Consequently, DL           abnormalities may emerge through time varying interactions.
+                                                                                                              Although dynamic functional connectivity (dFC) has been
+                                           Identify applicable funding agency here. If none, delete this.     examined in a few recent works [17], its application to
+automated ADHD diagnosis remains comparatively underex-
+plored, despite showing superiority over static measures in                                       {F(t) }Tt=1                     (2)
+other psychiatric disorders [18]. In addition, most DL models
+                                                                        where T is the total number of temporal windows.
+lack interpretability, providing limited insight into the spatio-
+temporal patterns driving predictions. Therefore, we propose          B. Graph Construction
+an interpretable resting-state functional MRI (rs-fMRI) driven           Each FC matrix is interpreted as a brain graph, where
+ADHD classification framework leveraging dFC to capture               ROIs correspond to nodes and connectivity strengths repre-
+both spatial and temporal abnormalities in functional brain           sent edges. Since correlation matrices are densely connected,
+networks. The main contributions are as follows:                      thresholding is applied to retain the most informative con-
+   • We develop a temporal graph-based deep learning                  nections and suppress noise. The adjacency matrix is defined
+     pipeline for ADHD identification using dFC representa-           according to Eq. 3.
+     tions extracted from rs-fMRI.                                                               (
+                                                                                                         (t)
+   • We model spatial interactions among brain regions                                    (t)      1, |Fij | ≥ τ
+                                                                                        Aij =                                   (3)
+     through a Graph Attention Network (GAT) to learn                                              0, otherwise,
+     discriminative ROI-to-ROI connectivity patterns.
+   • We incorporate temporal convolution with an attention
+                                                                        where τ preserves the top 30% strongest functional links.
+     mechanism to capture time varying connectivity dynam-            Self loops are included to maintain node identity, producing a
+     ics and highlight informative temporal windows.                  sparse graph representation suitable for graph neural learning.
+   • We enhance clinical interpretability by exploiting graph         C. Spatial Graph Modeling
+     and temporal attention weights to identify dominant ROI
+                                                                        To learn discriminative spatial interaction patterns among
+     connections and dynamic brain states associated with
+                                                                      ROIs, we employ a multi layer Graph Attention Network
+     ADHD.
+                                                                      (GAT). Each ROI node is represented by a 64 dimensional
+               II. P ROPOSED M ETHODOLOGY                             embedding. Three GAT layers with hidden dimensions 128,
+                                                                      128, and 64 are then applied to model spatial dependencies
+    In this study, we propose a D-GATNet (Dynamic Graph               among brain regions. Given node features hi and adjacency
+Attention Network) framework for automated ADHD iden-                 A(t) , attention coefficients between connected ROIs are com-
+tification using resting-state fMRI. Following preprocessing,         puted as presented in Eq. 4.
+dynamic functional connectivity (dFC) is extracted to model
+time varying brain connectivity patterns and capture com-                         eij = LeakyReLU aT [Whi ∥Whj ]
+                                                                                                                
+                                                                                                                                  (4)
+plementary spatial and temporal information.The proposed
+architecture consists of five main modules: (i) Dynamic Con-            Normalized attention weights are obtained via the softmax
+nectivity Representation, (ii) Graph Construction, (iii) Spatial      operation in Eq. 5.
+Graph Modeling, (iv) Temporal Dynamics Modeling, and (v)
+                                                                                                      exp(eij )
+Classification. In addition, intrinsic interpretability is achieved                     αij = P                                   (5)
+through the learned graph and temporal attention weights,                                           k∈N (i) exp(eik )
+which highlight the most influential ROI connections and                Node embeddings are updated through attention-weighted
+dynamic windows contributing to the final prediction. The             aggregation, as defined in Eq. 6.
+overall framework is illustrated in. fig. 1.                                                     X
+                                                                                           h′i =       αij Whj             (6)
+A. Dynamic Connectivity Representation
+                                                                                                  j∈N (i)
+   For each subject, the preprocessed rs-fMRI data are rep-
+                                                                        Finally, an attention-based pooling module (64 → 32 → 1)
+resented by an ROI-wise mean time series matrix X ∈
+                                                                      aggregates node embeddings into a compact spatial feature
+RL×N .where N = 116 denotes the number of ROIs and L is
+                                                                      vector z(t) for each temporal window.
+the number of time points.To characterize time-varying func-
+tional interactions between brain regions, we compute dFC             D. Temporal Dynamics Modeling
+using Pearson correlation within a sliding window framework.            Embeddings from all windows are arranged as a temporal
+Specifically, a temporal window of size w = 40 with step size         sequence Z, as expressed in Eq. 7.
+s = 20 is applied to the ROI time series. For each window t,
+a connectivity matrix is obtained as defined in Eq. 1.                                  Z = [z(1) , z(2) , . . . , z(T ) ]        (7)
+
+                      F(t) = corr(Xt:t+w )                     (1)       Temporal dynamics are captured using a 1D convolution
+                                                                      layer with 96 filters and kernel size 3, followed by batch nor-
+  where F(t) ∈ RN ×N denotes the functional connectivity              malization and ReLU activation. The convolutional operation
+graph at window t.                                                    is formulated in Eq. 8.
+  Thus, each subject is represented as a sequence of dynamic
+FC matrices, as expressed in Eq. 2.                                                          u = Conv1D(Z)                        (8)
+                              Fig. 1. Overview of the proposed D-GATNet framework for ADHD classification.
+
+
+
+  To emphasize the most discriminative temporal segments, a                         III. E XPERIMENTAL E VALUATION
+temporal attention network (96 → 48 → 1) assigns importance          A. Dataset Acquisition and Preprocessing
+weights, as computed in Eq. 9.
+                                                                        Resting-state fMRI (rs-fMRI) scans have been obtained
+                            exp(g(ut ))                              from the Peking University (PU) site of the publicly available
+                   βt = PT                                     (9)   ADHD-200 dataset, which includes 194 subjects (116 HCs and
+                           k=1 exp(g(uk ))                           78 ADHD patients). These rs-fMRI scans capture spontaneous
+  The final temporal feature vector is computed as a weighted        functional brain activity, with each scan having a spatial
+sum of window features, as defined in Eq. 10.                        resolution of 49×58×47 voxels over 232 time points. All data
+                                                                     have been preprocessed using the Athena pipeline [19]. An
+                             T
+                             X                                       ROI-based analysis is adopted, where the brain is parcellated
+                        v=         βt ut                     (10)    using the Automated Anatomical Labeling (AAL) atlas [20]
+                             t=1                                     into 116 regions, enabling extraction of regional time series
+E. Classification Module                                             for subsequent functional connectivity modeling.
+  The aggregated feature representation v is passed through          B. Classification Performance
+two fully connected layers with 64 and 32 units with dropout            Dynamic FC matrices are generated using a sliding-window
+regularization, followed by a softmax function. The final            scheme, where the window length and step size are empir-
+prediction is obtained as presented in Eq. 11.                       ically selected by testing multiple configurations. The best
+                                                                     performance is obtained with a window size of 40 time points
+                     ŷ = Softmax(f (v))                     (11)    and a step size of 20. Model evaluation is performed using
+                                                                     stratified 10 fold cross-validation to ensure balanced subject
+  where ŷ denotes the predicted probability of ADHD versus          distribution across folds. To improve robustness, accuracy, and
+healthy control (HC).                                                reproducibility, a seed-based ensemble strategy is adopted,
+                                                                     where the same architecture is trained with different random
+F. Attention-Based Interpretability                                  seeds [21]. Specifically, a 5-seed ensemble is employed within
+   To enhance clinical transparency, the proposed frame-             each fold, and final predictions are obtained via majority
+work provides interpretable attention outputs. Graph atten-          voting. The network is optimized end to end using AdamW
+tion weights αij highlight dominant ROI-to-ROI connectivity          with a learning rate of 0.001 and weight decay of 1 × 10−4 .
+patterns within the functional brain network, offering insight       Training is conducted with a batch size of 16 for up to 300
+into influential spatial interactions. In addition, ROI impor-       epochs, with early stopping applied (patience = 100) after a
+tance scores are derived to identify brain regions contributing      minimum of 40 epochs based on validation balanced accuracy.
+most significantly to the final prediction. Temporal attention       To mitigate overfitting, dropout regularization (0.5 and 0.4) is
+weights βt are incorporated to emphasize informative dynamic         incorporated in the classification layers, and weighted cross-
+connectivity segments within the model. Collectively, these          entropy loss is used to address class imbalance. Performance
+outputs facilitate the identification of potential neuroimaging      is assessed using balanced accuracy (ACC), precision (PRE),
+biomarkers.                                                          recall (REC), F1-score (F1), and AUC. Balanced accuracy is
+                                                                              Fig. 3. Graph attention heatmap highlighting dominant ROI-to-ROI connec-
+Fig. 2. Performance of the proposed D-GATNet framework for ADHD
+                                                                              tivity patterns.
+classification. Error bars indicate mean ± standard deviation across folds.
+
+
+
+emphasized due to class imbalance in the dataset. Across folds,
+the proposed framework achieves a mean balanced accuracy
+of 85.18% ± 5.64 and an AUC of 0.881. As shown in Fig.
+2 the model further reports precision, recall, and F1-score of
+86.69%±5.28, 85.05%±5.92, and 85.02%±5.94, respectively,
+demonstrating reliable discrimination between ADHD and
+HCs.
+
+C. Interpretability Results
+   To improve clinical transparency, we analyzed the learned
+spatial and temporal attention weights of the proposed tem-
+poral graph attention framework. The graph attention map                      Fig. 4. ROI importance scores indicating the most discriminative brain regions
+highlights discriminative ROI-to-ROI connections, with the                    for ADHD classification.
+strongest interactions primarily observed among cerebellar
+regions and parietal hubs, as illustrated in Fig. 3. In particular,                                       TABLE I
+the most influential ROIs included the right Cerebellum Crus                      A BLATION STUDY OF THE D-GATN ET SHOWING CLASSIFICATION
+                                                                                                       PERFORMANCE .
+I (ROI 92), left Precuneus (ROI 67), right Angular gyrus
+(ROI 66), and medial frontal regions (ROI 7 and ROI 24).                       Pipeline Variant      ACC (%)       PRE (%)       REC (%)        F1 (%)
+These areas align with well-established ADHD neurobiology:                     Static FC instead     80.08 ±       82.61 ±       80.87 ±        80.58 ±
+                                                                               of dFC                5.61          5.06          4.30           4.40
+cerebellar alterations, especially within Crus I, have been                    Without Seed En-      77.10 ±       79.44 ±       77.18 ±        77.01 ±
+linked to deficits in attentional and cognitive modulation;                    semble                7.27          7.34          7.35           7.28
+medial frontal abnormalities are associated with impaired                      D-GATNet              85.18 ±       86.69 ±       85.05 ±        85.02 ±
+                                                                                                     5.64          5.28,         5.92           5.94
+executive control and response inhibition; and the precuneus
+and angular gyrus, key hubs of the default mode and fronto-
+parietal networks, have been repeatedly implicated in dis-
+                                                                              E. Performance Comparison
+rupted self-referential processing and attentional regulation
+in ADHD [22] [23]. Furthermore, ROI importance scores                            The performance of the proposed approach is compared
+(Fig. 4) further confirm the contribution of these regions to                 with several state of the art methods using rs-fMRI data
+the final prediction. Overall, these attention derived biomarkers             from the Peking University site of the ADHD-200 dataset for
+provide interpretable evidence of spatio-temporal connectivity                fair evaluation. As shown in Table II, Qiang et al. [8] em-
+disruptions associated with ADHD.                                             ployed a spatiotemporal attention autoencoder with 5-fold CV,
+                                                                              achieving 79.5% accuracy but without interpretability. Wang
+                                                                              et al. [11] utilized ICA-based connectivity features with CNN
+D. Ablation Study
+                                                                              and autoencoder models, reporting performance 67%. Zhang
+   Table I demonstrates the impact of major components in D-                  et al. [13] introduced a diffusion kernel attention network
+GATNet. Replacing dFC with static FC reduces performance,                     on functional brain networks, providing interpretability but
+highlighting the importance of temporal connectivity dynam-                   reaching only 70.6% accuracy on PU data. Similarly, Qiu et
+ics. Removing the seed ensemble further degrades accuracy                     al. [17] applied dFC features with ASTNet, obtaining 74.5%,
+and stability, confirming its role in robust prediction. Overall,             while Gulhan and Özmen [15] used faLFF and ReHo features
+the full D-GATNet achieves the best results.                                  with a 3D-CNN, achieving 70.37%. In contrast, the proposed
+                                TABLE II                                           [6] S. Pei, C. Wang, S. Cao, and Z. Lv, “Data augmentation for fMRI-
+ C OMPARISON OF THE PROPOSED D-GATN ET WITH STATE - OF - THE - ART                     based functional connectivity and its application to cross-site ADHD
+  RS - F MRI- BASED ADHD CLASSIFICATION METHODS ON THE P EKING                         classification,” IEEE Trans. Instrum. Meas., vol. 72, pp. 1–15, 2023,
+              U NIVERSITY SITE OF THE ADHD-200 DATASET.                                doi: 10.1109/TIM.2022.3232670.
+                                                                                   [7] K. Zhao, B. Duka, H. Xie, D. J. Oathes, V. Calhoun, and Y. Zhang,
+Method          Features       Model        Validation ACC.           Interp.          “A dynamic graph convolutional neural network framework reveals new
+Qiang et al.[8] Spatio-        STAAE        5-fold CV 79.5%           No               insights into connectome dysfunctions in ADHD,” NeuroImage, vol. 246,
+                temporal                                                               Art. no. 118774, Feb. 2022, doi: 10.1016/j.neuroimage.2021.118774.
+Wang et al.[11] ICA, con-  ICA-             Holdout       67.0%       No           [8] N. Qiang, Q. Dong, H. Liang, B. Ge, S. Zhang, C. Zhang, J. Gao,
+                nectivity  CNN,                                                        and Y. Sun, “A novel ADHD classification method based on resting
+                           Corr-AE                                                     state temporal templates (RSTT) using spatiotemporal attention auto-
+Zhang et al.[13] FBN con- Diffusion         Holdout       70.6%       Yes              encoder,” Neural Comput. Appl., vol. 34, no. 10, pp. 7815–7833, May
+                 nectivity Kernel                                                      2022, doi: 10.1007/s00521-021-06868-w.
+                           Attn. Net                                               [9] Y. Chen, Y. Gao, A. Jiang, Y. Tang, and C. Wang, “ADHD classification
+                                                                                       combining biomarker detection with attention auto-encoding neural
+Qiu et al.[17]   dFC       ASTNet           Holdout       74.5%       No               network,” Biomed. Signal Process. Control, vol. 84, Art. no. 104733,
+Gulhan         & faLFF,    3D-CNN           5-fold CV     70.37%      No               Jul. 2023, doi: 10.1016/j.bspc.2023.104733.
+Özmen [15]      ReHo                                                             [10] J. Peng, M. Debnath, and A. K. Biswas, “Efficacy of novel
+D-GATNet         dFC       Temporal         Stratified    85.18%      Yes              summation-based synergetic artificial neural network in ADHD diag-
+(Ours)                     GAT-             10-fold                                    nosis,” Mach. Learn. Appl., vol. 6, Art. no. 100120, Dec. 2021, doi:
+                           GNN              CV                                         10.1016/j.mlwa.2021.100120.
+                                                                                  [11] D. Wang, D. Hong, and Q. Wu, “Attention deficit hyperactivity disorder
+                                                                                       classification based on deep learning,” IEEE/ACM Trans. Comput. Biol.
+D-GATNet leverages dynamic functional connectivity with a                              Bioinf., vol. 20, no. 2, pp. 1581–1586, Mar. 2023.
+                                                                                  [12] J. Zhang, L. Zhou, L. Wang, M. Liu, and D. Shen, “Diffusion
+temporal multi-head graph attention framework, outperforming                           kernel attention network for brain disorder classification,” IEEE
+prior studies with an accuracy of 85.18% while also offering                           Trans. Med. Imag., vol. 41, no. 10, pp. 2814–2827, Oct. 2022, doi:
+interpretable attention-based potential biomarkers.                                    10.1109/TMI.2022.3170701.
+                                                                                  [13] J. Ji and Y. Zhang, “Functional brain network classification based on
+            IV. C ONCLUSION AND F UTURE W ORK                                          deep graph hashing learning,” IEEE Trans. Med. Imag., vol. 41, no. 10,
+                                                                                       pp. 2891–2902, Oct. 2022, doi: 10.1109/TMI.2022.3173428.
+   In this study, we introduced D-GATNet, a dynamic graph                         [14] Y. Hu, Z.-A. Huang, R. Liu, X. Xue, X. Sun, L. Song, and K.
+attention framework for ADHD identification from rs-fMRI.                              C. Tan, “Source free semi-supervised transfer learning for diagno-
+                                                                                       sis of mental disorders on fMRI scans,” IEEE Trans. Pattern Anal.
+By leveraging dynamic functional connectivity, the proposed                            Mach. Intell., vol. 45, no. 11, pp. 13778–13795, Nov. 2023, doi:
+method effectively captures time-varying brain network alter-                          10.1109/TPAMI.2023.3298332.
+ations through spatial graph attention and temporal modeling.                     [15] P. G. Gülhan and G. Özmen, “The use of fMRI regional analysis to
+                                                                                       automatically detect ADHD through a 3D CNN-based approach,” J.
+The framework achieved strong classification performance on                            Imag. Informat. Med., vol. 38, no. 1, pp. 203–216, Jul. 2024.
+the ADHD-200 Peking University dataset, surpassing several                        [16] Q. U. Ain, S. Jawed, A. R. Subhani, M. U. Akram, and W. H.
+existing deep learning approaches. Importantly, D-GATNet                               Butt, “Examining AI-powered ADHD diagnosis: Current trends, key
+                                                                                       challenges, and future directions in the field,” IEEE Access, 2025.
+enhances clinical transparency by providing attention-driven                      [17] B. Qiu, Q. Wang, X. Li, W. Li, W. Shao, and M. Wang, “Adaptive
+biomarkers that highlight influential ROI interactions, partic-                        spatial–temporal neural network for ADHD identification using func-
+ularly involving cerebellar and default-mode network regions.                          tional fMRI,” Frontiers Neurosci., vol. 18, Art. no. 1394234, May 2024.
+                                                                                  [18] B. Rashid, M. R. Arbabshirani, E. Damaraju, M. S. Cetin, R. Miller,
+These results demonstrate the potential of interpretable tem-                          G. D. Pearlson, and V. D. Calhoun, “Classification of schizophre-
+poral graph learning for robust neuroimaging-based ADHD                                nia and bipolar patients using static and dynamic resting-state fMRI
+diagnosis. Future research will focus on extending D-GATNet                            brain connectivity,” NeuroImage, vol. 134, pp. 645–657, 2016, doi:
+                                                                                       10.1016/j.neuroimage.2016.0.
+toward multi-site generalization and larger-scale evaluation                      [19] P. Bellec, C. Chu, F. Chouinard-Decorte, Y. Benhajali, D. S. Mar-
+to improve clinical applicability. Incorporating multimodal                            gulies, and R. C. Craddock, “The Neuro Bureau ADHD-200 Pre-
+neuroimaging data and adaptive windowing strategies may                                processed repository,” NeuroImage, vol. 144, pp. 275–286, 2017,
+                                                                                       doi:10.1016/j.neuroimage.2016.06.034.
+further enhance connectivity modeling.                                            [20] N. Tzourio-Mazoyer, B. Landeau, D. Papathanassiou, F. Crivello, O.
+                                                                                       Etard, N. Delcroix, B. Mazoyer, and M. Joliot, “Automated anatomical
+                             R EFERENCES                                               labeling of activations in SPM using a macroscopic anatomical parcel-
+[1] G. Polanczyk and P. Jensen, “Epidemiologic considerations in attention             lation of the MNI MRI single-subject brain,” NeuroImage, vol. 15, no.
+    deficit hyperactivity disorder: A review and update,” Child Adolesc.               1, pp. 273–289, 2002,
+    Psychiatr. Clin. N. Am., vol. 17, pp. 245–260, 2008.                          [21] D.-A. Sterpu, D. Măriut, a, G. Cican, C.-M. Larco, and L.-T. Grigorie,
+[2] O. Zahmacioglu and E. Kilic, “Early diagnosis and treatment of ADHD                “Machine learning prediction of airfoil aerodynamic performance using
+    are important for a secure transition to adolescence,” Anatol. J. Psychi-          neural network ensembles,” Applied Sciences, vol. 15, no. 14, p. 7720,
+    atry (Anadolu Psikiyatri Dergisi), vol. 18, pp. 79–84, 2017.                       2025.
+[3] Z. Zhang, G. Li, Y. Xu, and X. Tang, “Application of artificial intelli-      [22] S. Cortese, C. Kelly, C. Chabernaud, E. Proal, A. Di Martino, M.
+    gence in the MRI classification task of human brain neurological and               P. Milham, and F. X. Castellanos, “Toward systems neuroscience of
+    psychiatric diseases: A scoping review,” Diagnostics, vol. 11, 2021.               ADHD: A meta-analysis of 55 fMRI studies,” Amer. J. Psychiatry, vol.
+[4] M. Quaak, L. Mortel, R. M. Thomas, and G. V. Wingen, “Deep                         169, no. 10, pp. 1038–1055, 2012.
+    learning applications for the classification of psychiatric disorders using   [23] A. Kucyi, M. J. Hove, J. Biederman, K. R. A. Van Dijk, and E. M.
+    neuroimaging data: Systematic review and meta-analysis,” NeuroImage:               Valera, “Disrupted functional connectivity of cerebellar default network
+    Clinical, p. 102584, 2021.                                                         areas in attention-deficit/hyperactivity disorder,” Hum. Brain Mapping,
+[5] B. Crosson, A. Ford, K. M. McGregor, M. Meinzer, S. Cheshkov, X. Li,               vol. 36, no. 9, pp. 3373–3386, 2015.
+    D. Walker Batson, and R. W. Briggs, “Functional imaging and related
+    techniques: An introduction for rehabilitation researchers,” J. Rehabil.
+    Res. Dev., vol. 47, p. vii, 2010.
+

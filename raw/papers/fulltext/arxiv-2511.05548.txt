@@ -1,0 +1,293 @@
+                                             MODELING CAUSAL INTERACTIONS ACROSS BRAIN FUNCTIONAL SUBNETWORKS
+                                                          FOR POPULATION-SPECIFIC DISEASE ANALYSIS
+
+                                               Alissen Moreno1 , Yingying Zhang1 , Qi Huang2 , Fabian Vazquez1 , Jose A. Núñez1 , Erik Enriquez1 ,
+                                               Dongchul Kim1 , Kaixiong Zhou3 , Hongchang Gao4 , Pengfei Gu1 , Liang Zhan5 , Haoteng Tang1,∗
+
+                                                   1. Department of Computer Science, University of Texas Rio Grande Valley, Edinburg, TX
+                                                   2. Mallinckrodt Institute of Radiology, Washington University in St. Louis, St. Louis, MO
+arXiv:2511.05548v1 [q-bio.NC] 2 Nov 2025
+
+
+
+
+                                             3. Department of Electrical and Computer Engineering, North Carolina State University, Raleigh, NC
+                                                  4. Department of Computer and Information Sciences, Temple University, Philadelphia, PA
+                                                5. Department of Electrical and Computer Engineering, University of Pittsburgh, Pittsburgh, PA
+
+
+                                                                    ABSTRACT                                  that both neurodegenerative progression and psychiatric con-
+                                           Current neuroimaging studies on neurodegenerative diseases         ditions vary across racial groups [1–3]. This gap stems
+                                           and psychological risk factors have been developed predomi-        largely from uneven recruitment practices, with racially mi-
+                                           nantly in non-Hispanic White cohorts, with other populations       noritized populations (e.g., Hispanic and African American
+                                           markedly underrepresented. In this work, we construct di-          cohorts) significantly under-sampled in major neuroimaging
+                                           rected hyper-connectomes among large-scale functional brain        datasets [4]. Such lack of representation undermines the fair-
+                                           systems based on causal influences between brain regions,          ness and generalizability of AI models, potentially leading to
+                                           and examine their links to Alzheimer’s progression and worry       biased biomarkers that overlook population-specific disease
+                                           levels across racial groups. By using Health and Aging Brain       patterns. Consequently, this limits interpretability of neu-
+                                           Study–Health Disparities (HABS-HD) dataset, our experi-            ral mechanisms underlying disparities and may exacerbate
+                                           mental results suggest that neglecting racial variation in brain   inequities in diagnosis, treatment, and outcomes [5, 6]. To
+                                           network architecture may reduce predictive performance in          address this, it is critical to extend AI-based neuroimaging
+                                           both cognitive and affective phenotypes. Important shared          research to racially diverse populations, ensuring equitable
+                                           and population-specific hyper-connectome patterns related to       model performance and enabling trustworthy biomarker dis-
+                                           both AD progression and worry levels were identified. We           covery to support precision medicine across all groups.
+                                           further observed distinct closed-loop directed circuits across         Functional MRI–derived causal brain networks offer a
+                                           groups, suggesting that different populations may rely on          principled way to quantify directional, strength-based, and
+                                           distinct feedback-based network regulation strategies when         valence-specific (excitatory/inhibitory) influences between
+                                           supporting cognition or managing emotional states. Together,       brain regions. These asymmetric interactions reflect core
+                                           these results indicate a common backbone of network vul-           aspects of brain organization, and their disruption may un-
+                                           nerability with population-dependent variations in regulatory      derlie neurodegenerative and psychiatric disorders. While
+                                           coordination, underscoring the importance of population-           interest in causal connectivity is growing, most studies focus
+                                           aware neuroimaging models.                                         on a few localized ROIs, limiting insights into large-scale
+                                                                                                              directed network dynamics. Such region-specific approaches
+                                               Index Terms— Racial heterogeneity; Early Alzheimer’s           overlook system-level disruptions critical to disease progres-
+                                           disease; Functional brain subsystems; Directed network inter-      sion. Moreover, how these causal patterns vary across racial
+                                           actions; Worry-related neurodynamics                               groups remains largely unexplored, leaving a significant gap
+                                                                                                              in our understanding of population-specific brain–behavior
+                                                              1. INTRODUCTION                                 mechanisms.
+                                                                                                                  In this work, we propose a novel framework that models
+                                           Recent advances in data-driven artificial intelligence (AI)        heterogeneous causal influences as directed hyper-networks
+                                           applied to neuroimaging have greatly enhanced early diag-          among major brain systems, including seven canonical corti-
+                                           nosis of neurodegenerative diseases and improved mental            cal networks, the cerebellum, vermis brainstem, and subcor-
+                                           health prediction. However, racial diversity remains severely      tical regions. Grounded in the Yeo atlas and neuroanatomical
+                                           underrepresented in this field, despite mounting evidence          priors [7], this coarse-grained representation enhances inter-
+                                              ∗ Corresponding Author                                          pretability and reduces noise in ROI-level data. Using these
+                                              Submitted and Reviewed by IEEE-ISBI 2026                        signed hyper-networks as inputs to a deep neural network,
+we accurately predict both Alzheimer’s disease stages and
+trait worry level. Beyond prediction, we identify key di-
+rected connections that are strongly associated with different
+clinical phenotypes, revealing potential causal pathways in-
+volved in disease progression and mental health traits. We
+also observe notable variations in the most salient directional     Fig. 1. Causal influences are inferred from ROI-level BOLD
+patterns across racial cohorts, suggesting the presence of          signals and aggregated into a directed hyper-network among
+population-specific mechanisms in neurodegeneration and             functional subnetworks. A multilayer perceptron machine is
+affective regulation.                                               trained to identify key hyper connectomes associated with
+                                                                    phenotypes with SHAP.
+                       2. METHODS
+                                                                    ality at the system level. This hierarchical abstraction enables
+2.1. Inference of Causal Brain Networks                             interpretable system-level analysis while retaining the causal
+                                                                    directionality embedded in the original fine-grained connec-
+To infer directed causal interactions among brain regions
+                                                                    tivity matrix B.
+from fMRI BOLD signals, we employ the Independent Com-
+ponent Analysis–Linear Non-Gaussian Acyclic Model (ICA-
+LiNGAM) model [8, 9]. Let X ∈ RN ×T denote the prepro-              2.3. Discovering Phenotype-Relevant Connections via
+cessed BOLD time series, where N is the number of ROIs              Prediction Models
+and T is the number of time points. ICA-LiNGAM assumes              To identify key system-level directed connections associated
+a linear non-Gaussian acyclic model:xt = Bxt + et , where           with clinical phenotypes, we flatten each subject’s hyper-
+xt ∈ RN is the brain activation vector at time t, B ∈ RN ×N         network Bhyp ∈ RM ×M into a feature vector x ∈ Rd , where
+is the causal adjacency matrix representing directed influ-         d = M × (M − 1) is the number of directed inter-system
+ences among ROIs, and et is an independent non-Gaussian             connections (excluding self-loops). We train a multi-layer
+noise vector. The matrix B is estimated by first applying           perceptron (MLP) model fθ : Rd → RC to predict disease
+ICA to the observed signals to obtain an independent compo-         stages (e.g., Normal Control (NC), Mild Cognitive Impair-
+nent matrix S and a mixing matrix M such that X = MS.               ment (MCI), and AD) or mental health status (e.g., high vs.
+ICA-LiNGAM then determines a causal ordering of variables           low trait worry). The model is trained using the standard
+and transforms the mixing matrix into a strictly lower trian-                                            PI PC
+                                                                    cross-entropy loss: LCE = − I1 i=1 c=1 yc log ŷc ,
+                                                                                                                       (i)      (i)
+gular matrix, from which the causal structure is recovered          where I is the number of subjects, C is the number of classes,
+by: B = I − W−1 , where W is the estimated unmixing                   (i)                                                    (i)
+                                                                    yc is the one-hot encoded ground-truth label, and ŷc is
+matrix. The resulting B captures the weighted, directed in-
+                                                                    the predicted probability for class c. After model training,
+fluences among brain ROIs under the assumption of linear,
+                                                                    we apply SHapley Additive exPlanations (SHAP) [10] to
+non-Gaussian, and acyclic data-generating processes [8]. We
+                                                                    interpret the importance of each directed connectomes in
+use B as the directed brain network for each subject in all
+                                                                    hyper-network. SHAP assigns an additive importance value
+downstream tasks.                                                                                                       Pd
+                                                                    ϕj to each connectome xj , such that fθ (x) = ϕ0 + j=1 ϕj ,
+                                                                    where ϕ0 is the base value (expected model output), and ϕj
+2.2. System-Level Hyper-network Mapping                             reflects the contribution of feature xj to the prediction. We
+                                                                    rank the connectomes based on their mean absolute SHAP
+To enable analysis at the macroscopic level, we construct a
+                                                                    values |ϕj | across all subjects and cross-validation folds to
+directed hyper-network Bhyp ∈ RK×K , where each node
+                                                                    identify the top-K predictive directed influences. These con-
+represents one of K predefined functional subsystems (e.g.,
+                                                                    nectomes offer interpretable insights into phenotype-related
+Yeo’s 11 cortical and subcortical networks [7]). This hyper-
+                                                                    network changes and enable subgroup-level comparisons
+network is derived from the ROI-level directed causal connec-
+                                                                    across racial cohorts.
+tivity matrix B and the construction involves two mappings:
+1. ROI-to-system assignment: Each ROI ri (i = 1, . . . , N )
+is assigned to one functional subsystem Sk (k = 1, . . . , K),                  3. RESULTS AND DISCUSSIONS
+based on a predefined atlas.
+                                                                    3.1. Data Description and Implementation Details
+2. Edge aggregation: For each pair of systems (Sk , Sl ), the
+directed connection from Sk to Sl in the hyper-network is de-       We used resting-state fMRI data from the publicly available
+fined as the average of all directed edges
+                                         P from  P ROIs in Sk       Health and Aging Brain Study – Health Disparities (HABS-
+to ROIs in Sl : Bhyp (k, l) = |Sk1||Sl | i∈Sk j∈Sl B(i, j),         HD) cohort [11]. The dataset includes 3,840 participants
+where |Sk | denotes the number of ROIs in system Sk . Note          (mean age: 64.82 ± 8.19 years; 2,379 female), consisting
+that Bhyp (k, l) ̸= Bhyp (l, k) in general, preserving direction-   of 1,066 African American (AA), 1,425 Hispanic, and 1,349
+Non-Hispanic White adults. Preprocessing of the functional              Methods          Groups       Accuracy        Maro-F1
+BOLD signals was performed using the CONN toolbox [12],                   SVM               All      43.26±2.42      44.85±2.16
+including realignment, normalization to MNI space, spatial           Logistic Regres.       All      34.27±1.60      33.09±1.95
+smoothing, nuisance regression, and band-pass filtering. The         Random Forest          All      59.24±3.39      58.85±2.68
+brain was parcellated into 132 regions of interest (ROIs)               XGBoost             All      54.33±2.41      55.29±1.86
+based on the Harvard–Oxford and AAL atlases and Each                                        All      72.03±1.59      73.44±1.21
+ROI-level BOLD series contains 150 time points. To assess                                 White      85.59±1.91      85.01±1.77
+                                                                           MLP
+worry levels, we used the Penn State Worry Questionnaire                                   AA        70.52±1.89      70.86±0.84
+(PSWQ), a standard measure of trait worry [13]. Consistent                               Hispanic    73.10±2.04      74.24±1.35
+with prior work, individuals with PSWQ ≥ 60 were classi-
+fied as high worry, while those below were classified as low        Table 1. Mean classification accuracy and Macro-F1 scores
+worry [14, 15]. Following large-scale functional system orga-       with standard deviations under 5-fold cross-validation for
+nization, our constructed hyper-network includes 11 nodes:          NC, MCI, and AD prediction, reported for the entire cohort
+Dorsal Attention (DAN), Default Mode (DMN), Frontopari-             and for each racial group (White, African American (AA),
+etal (FPN), Limbic (LIM), Somatomotor (SMN), Ventral                and Hispanic).
+Attention/Salience (VAN/SAL), Visual (VIS), Cerebellum,
+Brainstem, Subcortical nuclei, and Cerebellar Vermis [7, 16].           Methods          Groups       Accuracy           F1
+    We performed 5-fold cross-validation in all experiments.              SVM               All      59.65±3.72      61.98±2.66
+The model was trained using the Adam optimizer with a batch          Logistic Regres.       All      57.77±1.59      56.24±1.98
+size of 32. The initial learning rate was set to 0.001 and de-       Random Forest          All      63.24±2.67      66.52±2.58
+cayed according to ((1 − maxepoch      0.9                              XGBoost             All      69.96±2.37      70.96±3.16
+                               epoch )     . We applied L2 weight
+decay of 1 × 10−4 and a dropout rate of 0.5 to reduce overfit-                              All      84.70±1.87      82.79±1.42
+ting. Training was early-stopped if the validation loss did not                           White      89.03±1.36      90.05±1.04
+                                                                           MLP
+improve for 50 consecutive epochs, with a maximum of 1500                                  AA        87.60±2.44      85.37±1.88
+epochs. All experiments were conducted on a single NVIDIA                                Hispanic    88.43±3.06      88.89±2.10
+A30 GPU.                                                            Table 2. Mean classification accuracy and F1 scores with
+                                                                    standard deviations under 5-fold cross-validation for Low and
+3.2. Race-specific Prediction of Early AD Stages                    High PSWQ Index prediction, reported for the entire cohort
+                                                                    and for each racial group (White, African American (AA),
+As shown in Table 1, classical machine learning models              and Hispanic).
+(SVM, Logistic Regression, Random Forest, and XGBoost)
+provide limited discrimination among NC, MCI, and AD,               suited for modeling worry-related differences in brain func-
+suggesting that linear or shallow decision boundaries do not        tionalities. When models are trained separately within each
+sufficiently capture disease-related network structure. In con-     racial group, all three subgroup-specific MLPs outperform
+trast, the MLP trained on all subjects achieves substantially       the pooled MLP. Moreover, the performance across White,
+higher performance, indicating that nonlinear representations       African American, and Hispanic groups remains comparably
+more effectively utilize functional subnetwork interactions         high and stable. This indicates that although worry-related
+for early-stage AD prediction. When training the MLP sep-           functional patterns are present across populations, the optimal
+arately within each racial group, performance consistently          decision boundaries vary by racial group. Thus, race-specific
+ranked highest in the White group, followed by the His-             modeling is necessary to fully capture the neural markers of
+panic and African American groups. This pattern suggests            chronic worry, rather than relying on a shared population-
+that the separability of disease stages varies across racial        level representation.
+populations, which may reflect group-specific differences in
+functional network organization. Notably, the African Amer-
+                                                                    3.4. Race-specific Key Hyper-connectomes
+ican group is the only group performing below the pooled
+model, indicating that network patterns in this group may be        To identify key hyper-connectome patterns that are closely
+more heterogeneous and therefore more challenging to model          associated with the target phenotypes, we performed SHAP-
+under a shared representation.                                      based attribution analysis on the trained MLP models. SHAP
+                                                                    values were computed on the validation subjects of each fold
+3.3. Race-specific Prediction of Trait Worry Index                  and then averaged across subjects and across the 5 folds to
+                                                                    obtain a stable importance score for each hyper-edge. The
+As shown in Table 2, the MLP trained on all subjects achieves       averaged SHAP values was subsequently ranked to identify
+substantially higher accuracy and F1 compared to other base-        the top 10% phenotype-associated hyper-connectome fea-
+lines, indicating that nonlinear representations are better         tures. Figure 2 illustrates the top 10% phenotype-associated
+Fig. 2. Top 10% directed hyper-connectomes related to MCI, AD, and high PSWQ. The results highlight population-shared
+network changes (row 2) and population-specific directed connectivity patterns (row 1).
+
+
+directed hyper-connectomes identified for MCI, AD, and           signature, Hispanic participants may rely on context-specific
+high-worry phenotypes. Statistical significance was assessed     network configurations.
+using permutation testing. Nearly all highlighted directed           Finally, we also observed a few closed-loop directed cir-
+                                                 0.05
+connections remained significant with p < 11×10       , except   cuits, suggesting differences in how brain networks regulate
+two cases: (i) the DAN → Cerebellum connection in the            cognitive and affective states across groups. For example
+African American AD group (p = 0.0027) and (ii) the              the Hispanic participants with AD, a brainstem → SMN →
+FPN → VIS connection in the African American high-worry          subcortical → brainstem loop was identified, indicating that
+group (p = 0.016). Figure 2 shows that some of these             network dynamics may shift toward lower-level arousal and
+highlighted hyper-connectomes were shared across racial          motor–subcortical coordination as neurodegeneration pro-
+groups, suggesting common neurofunctional substrates relted      gresses. This pattern is consistent with a reliance on more
+to different phenotypes. For example, 4 MCI-related hyper-       automatic and reflexive regulatory pathways when higher-
+connectomes were consistently shared across racial groups:       order cortical support becomes compromised in later disease
+FPN→VIS [17], FPN→DMN [18], Brainstem→DMN [19],                  stages [20]. Among African American participants with high
+and Brainstem→Cerebellum [20]. In contrast to the shared         worry, we found an SMN → DMN → SMN feedback loop,
+hyper-connectomes observed across all groups, several con-       aligning with the well-established interaction between so-
+nections were identified only within certain racial subpop-      matic tension (SMN) and self-referential rumination (DMN)
+ulations. These findings indicate that the brain may en-         in the maintenance of chronic worry [21]. This bidirec-
+gage different large-scale control pathways to express the       tional coupling suggests that bodily arousal and internal
+same clinical or behavioral phenotype depending on con-          thought may reinforce one another, forming a persistent emo-
+text, life experience, or disease burden. For example, within    tional–somatic feedback cycle. Importantly, these results do
+the African American high-worry subgroup, we observed a          not imply inherent biological differences across groups, but
+unique FPN → VIS pattern, suggesting stronger top-down           rather highlight distinct network regulation patterns that may
+monitoring of perceptual or internally imagined information,     arise from heterogeneous life experiences, stress exposures,
+consistent with cognitive models of heightened vigilance in      and sociocultural contexts.
+chronic worry.
+    Figure 2 also indicates that in both MCI and high-worry
+cohorts, a consistent FPN→DMN hyper-connectome is ob-                                 4. CONCLUSION
+served across racial groups, suggesting a shared mecha-
+nism in which reduced executive control over internally di-      This study demonstrates that directed hyper-connectomes can
+rected processes contributes to both cognitive vulnerability     effectively capture functional network organization relevant
+and elevated self-focused worry. We also find that His-          to both early AD progression and worry-related behavioral
+panic participants exhibit reversed directionality in brain-     traits. While several hyper-connectomes were shared across
+stem–VAN/SAL interactions across the two phenotypes,             racial groups, reflecting common vulnerability pathways, we
+brainstem→VAN/SAL in MCI and VAN/SAL→brainstem                   also identified population-specific regulatory circuits and di-
+in high worry, suggesting state-dependent modulation of          rectional interaction differences. These results suggest that
+salience–arousal dynamics rather than a fixed regulatory         functional network reorganization is not uniform across pop-
+pathway. This inversion in directionality implies that the co-   ulations, and that incorporating population context improves
+ordination between arousal systems (brainstem) and salience-     predictive performance and interpretability. Importantly, our
+driven attentional control (VAN/SAL) may shift depending on      findings highlight the value of population-aware connectomic
+whether the dominant challenge is cognitive decline or emo-      analysis rather than a one-model-fits-all approach for neuro-
+tional regulation. Rather than a consistent hyper-connectome     logical disease research.
+                5. ACKNOWLEDGEMENT                                       [8] Shohei Shimizu et al., “A linear non-gaussian acyclic model
+                                                                             for causal discovery.,” Journal of Machine Learning Research,
+This study is partially supported by the National Institutes                 vol. 7, no. 10, 2006.
+of Health (R21AG087888) and the National Science Foun-                   [9] Aiying Zhang et al.,     “Causal inference of brain con-
+dation (CCF 2523787, IIS 2319450, IIS 2045848). This                         nectivity from fmri with \psi-learning incorporated linear
+study used data from the Health and Aging Brain Study:                       non-gaussian acyclic model (\psi-lingam),” arXiv preprint
+Health Disparities (HABS-HD). Data collection was sup-                       arXiv:2006.09536, 2020.
+ported by the National Institute on Aging under Award                   [10] Scott M Lundberg and Su-In Lee, “A unified approach to in-
+Numbers R01AG054073, R01AG058533, R01AG070862,                               terpreting model predictions,” Advances in neural information
+P41EB015922, and U19AG078109. The content is solely                          processing systems, vol. 30, 2017.
+the responsibility of the authors. We also acknowledge the              [11] Melissa E Petersen et al., “Health and aging brain study–
+UTRGV High Performance Computing Resource, supported                         health disparities (habs-hd) methods and partner characteris-
+by NSF grants 2018900 and IIS-2334389, and DoD grant                         tics,” Alzheimer’s & Dementia: Translational Research &
+W911NF2110169.                                                               Clinical Interventions, vol. 11, no. 3, pp. e70140, 2025.
+                                                                        [12] Susan Whitfield-Gabrieli and Alfonso Nieto-Castanon, “Conn:
+                                                                             a functional connectivity toolbox for correlated and anticorre-
+  6. COMPLIANCE WITH ETHICAL STANDARDS
+                                                                             lated brain networks,” Brain connectivity, vol. 2, no. 3, pp.
+                                                                             125–141, 2012.
+This study analyzed de-identified human subject data from
+the HABS-HD study. As the dataset is fully de-identified and            [13] Thomas J Meyer et al., “Development and validation of the
+publicly distributed under a data use agreement, no additional               penn state worry questionnaire,” Behaviour research and ther-
+                                                                             apy, vol. 28, no. 6, pp. 487–495, 1990.
+institutional IRB approval was required.
+                                                                        [14] Silvia Molina and Thomas D Borkovec, “The penn state worry
+                                                                             questionnaire: Psychometric properties and associated charac-
+              7. CONFLICTS OF INTEREST                                       teristics.,” 1994.
+                                                                        [15] Evelyn Behar et al., “Screening for generalized anxiety disor-
+The authors declare no financial or non-financial competing                  der using the penn state worry questionnaire: A receiver oper-
+interests related to this work.                                              ating characteristic analysis,” Journal of behavior therapy and
+                                                                             experimental psychiatry, vol. 34, no. 1, pp. 25–43, 2003.
+                        8. REFERENCES                                   [16] Randy L Buckner et al., “The organization of the human cere-
+                                                                             bellum estimated by intrinsic functional connectivity,” Journal
+ [1] Ganesh M Babulal et al., “Perspectives on ethnic and racial             of neurophysiology, vol. 106, no. 5, pp. 2322–2345, 2011.
+     disparities in alzheimer’s disease and related dementias: up-
+     date and areas of immediate need,” Alzheimer’s & Dementia,         [17] Nela Nemcova Elfmarkova et al., “Neural evidence for defec-
+     vol. 15, no. 2, pp. 292–312, 2019.                                      tive top-down control of visual processing in parkinson’s and
+                                                                             alzheimer’s disease,” Neuropsychologia, vol. 106, pp. 236–
+ [2] Elijah Sterling et al., “Demographic reporting across a decade          244, 2017.
+     of neuroimaging: a systematic review,” Brain Imaging and
+                                                                        [18] Jessica R Andrews-Hanna et al., “The default network and
+     Behavior, vol. 16, no. 6, pp. 2785–2796, 2022.
+                                                                             self-generated thought: Component processes, dynamic con-
+ [3] Haoteng Tang et al., “Brain structural network alterations in           trol, and clinical relevance,” Annals of the new York Academy
+     alzheimer’s disease: Perspectives from ethnicity-specific fac-          of Sciences, vol. 1316, no. 1, pp. 29–52, 2014.
+     tors,” in Alzheimer’s Association International Conference.
+                                                                        [19] Matthew J Betts et al., “Locus coeruleus imaging as a
+     ALZ, 2025.
+                                                                             biomarker for noradrenergic dysfunction in neurodegenerative
+ [4] Aaron C Lim et al., “Quantification of race/ethnicity represen-         diseases,” Brain, vol. 142, no. 9, pp. 2558–2571, 2019.
+     tation in alzheimer’s disease neuroimaging research in the usa:    [20] Xavier Guell et al., “Functional gradients of the cerebellum,”
+     a systematic review,” Communications medicine, vol. 3, no. 1,           elife, vol. 7, pp. e36652, 2018.
+     pp. 101, 2023.
+                                                                        [21] Martin P Paulus and Murray B Stein, “An insular view of anx-
+ [5] Shayna La Scala et al., “Equity, diversity, and inclusion in de-        iety,” Biological psychiatry, vol. 60, no. 4, pp. 383–387, 2006.
+     velopmental neuroscience: Practical lessons from community-
+     based participatory research,” Frontiers in integrative neuro-
+     science, vol. 16, pp. 1007249, 2023.
+ [6] Andre Esteva et al., “A guide to deep learning in healthcare,”
+     Nature medicine, vol. 25, no. 1, pp. 24–29, 2019.
+ [7] BT Thomas Yeo et al., “The organization of the human cerebral
+     cortex estimated by intrinsic functional connectivity,” Journal
+     of neurophysiology, 2011.
+

@@ -1,0 +1,1108 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A knowledge base for whole-brain simulation, neural mass models, and neuroimaging integration. From the Wilson-Cowan model to TVB platform tutorials.">
+      
+      
+        <meta name="author" content="Hermes Agent">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Wong-Wang Excitatory-Inhibitory Model - TVB Wiki – Connectome‑Based Whole‑Brain Modeling</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#wong-wang-excitatory-inhibitory-model" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" class="md-header__button md-logo" aria-label="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TVB Wiki – Connectome‑Based Whole‑Brain Modeling
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Wong-Wang Excitatory-Inhibitory Model
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/maedoc/tvb-wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../entities/tvb/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../topics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Browse by Topic
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../comparisons/tvb-vs-nest-vs-neuron/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Compare Tools
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Catalog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" class="md-nav__button md-logo" aria-label="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    TVB Wiki – Connectome‑Based Whole‑Brain Modeling
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/maedoc/tvb-wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../entities/tvb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is TVB?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neural-mass-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural Mass Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connectome/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Connectome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Browse by Topic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comparisons/tvb-vs-nest-vs-neuron/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compare Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catalog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Catalog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../entities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Entities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comparisons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Comparisons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation-why-separate-excitatory-and-inhibitory-populations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation: Why Separate Excitatory and Inhibitory Populations?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-population-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two Population Framework
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mathematical-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical Formulation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#biological-grounding-and-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Biological Grounding and Applications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-to-other-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship to Other Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="wong-wang-excitatory-inhibitory-model">Wong-Wang Excitatory-Inhibitory Model<a class="headerlink" href="#wong-wang-excitatory-inhibitory-model" title="Permanent link">&para;</a></h1>
+<p>The Wong-Wang Excitatory-Inhibitory (E-I) Model is an extended version of the reduced <a href="../wong-wang/">wong-wang</a> neural mass model that incorporates separate excitatory (E) and inhibitory (I) populations rather than treating them as a single consolidated unit. This two-population architecture provides a more biophysically grounded representation of cortical circuitry, capturing the fundamental excitation-inhibition balance that underlies spontaneous brain dynamics and task-evoked responses. The model has become a cornerstone in <a href="../whole-brain-modeling/">whole-brain modeling</a> efforts, particularly those seeking to simulate resting-state fluctuations and metastable brain dynamics observed in <a href="../functional-connectivity/">functional-connectivity</a> analyses of <a href="../fmri/">fmri</a> data.</p>
+<h2 id="motivation-why-separate-excitatory-and-inhibitory-populations">Motivation: Why Separate Excitatory and Inhibitory Populations?<a class="headerlink" href="#motivation-why-separate-excitatory-and-inhibitory-populations" title="Permanent link">&para;</a></h2>
+<p>The original reduced <a href="../wong-wang/">wong-wang</a> model, developed by Wong and Wang in 2006, consolidated excitatory and inhibitory synaptic dynamics into a single population variable S, greatly simplifying the mathematical analysis but sacrificing important biological realism. cortical microcircuits in vivo exhibit a rich repertoire of dynamics that emerge from the explicit interaction between excitatory pyramidal cells and inhibitory interneurons. These interactions govern critical phenomena including balanced amplification, winner-take-all competition, oscillatory dynamics in the gamma band (30–100 Hz), and the stable switching between discrete brain states that characterizes resting-state networks.</p>
+<p>The E-I extension addresses this limitation by introducing distinct dynamical variables for excitatory and inhibitory populations, each with its own timescale and nonlinear response function. This architecture enables the model to capture phenomena that the single-population reduction cannot adequately represent, such as the suppression of runaway excitation, the generation of coherent oscillations through recurrent inhibition, and the metastable dynamics that arise from the interplay between fast inhibitory feedback and slower excitatory integration. The extended model has proven particularly valuable in <a href="../personalized-brain-modeling/">personalized-brain-modeling</a> pipelines, where individual <a href="../structural-connectivity/">structural-connectivity</a> data from <a href="../diffusion-mri/">diffusion-mri</a> tractography can be integrated with region-specific E-I parameters to generate personalized whole-brain simulations.</p>
+<h2 id="model-architecture">Model Architecture<a class="headerlink" href="#model-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="two-population-framework">Two Population Framework<a class="headerlink" href="#two-population-framework" title="Permanent link">&para;</a></h3>
+<p>The model comprises two coupled neural populations that interact through reciprocal synaptic connections. The excitatory population represents primarily glutamatergic pyramidal cells, while the inhibitory population represents GABAergic interneurons of various subtypes (parvalbumin, somatostatin, and vasoactive intestinal peptide-expressing cells), each contributing to distinct aspects of gain modulation and network stabilization.</p>
+<table>
+<thead>
+<tr>
+<th>Population</th>
+<th>Synaptic Variable</th>
+<th>Timescale (τ)</th>
+<th>Biological Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Excitatory</strong></td>
+<td>S_E</td>
+<td>100 ms</td>
+<td>Pyramidal cell synaptic gating (NMDA-mediated)</td>
+</tr>
+<tr>
+<td><strong>Inhibitory</strong></td>
+<td>S_I</td>
+<td>10 ms</td>
+<td>Interneuron synaptic gating (GABA-A mediated)</td>
+</tr>
+</tbody>
+</table>
+<p>The substantial difference in timescales reflects the biophysical reality that inhibitory GABA-A receptors mediate fast synaptic currents (with decay constants of approximately 10–20 ms), while excitatory NMDA receptor-mediated currents have substantially slower dynamics (approximately 100–300 ms). This timescale separation is critical for generating the metastable dynamics observed in empirical <a href="../resting-state/">resting-state</a> <a href="../fmri/">fmri</a> data, where slow fluctuations in the blood-oxygen-level-dependent (<a href="../bold-signal/">BOLD</a>) signal emerge from the integration of faster neural processes.</p>
+<h2 id="mathematical-formulation">Mathematical Formulation<a class="headerlink" href="#mathematical-formulation" title="Permanent link">&para;</a></h2>
+<p>The model is formulated as a system of coupled <a href="../stochastic-differential-equations/">stochastic-differential-equations</a> describing the synaptic gating dynamics of each population. The equations capture both the intrinsic dynamics of each population and the effects of network coupling through <a href="../structural-connectivity/">structural-connectivity</a> matrices derived from <a href="../diffusion-mri/">diffusion-mri</a> data.</p>
+<p><strong>Excitatory population dynamics:</strong>
+<div class="highlight"><pre><span></span><code>dS_E/dt = -S_E/τ_E + (1 - S_E) · γ_E · H_E(x_E)
+x_E = w_+·J_N·S_E - J_i·S_I + I_o + J_N·C·Σ(S_E_j)
+</code></pre></div></p>
+<p><strong>Inhibitory population dynamics:</strong>
+<div class="highlight"><pre><span></span><code>dS_I/dt = -S_I/τ_I + γ_I · H_I(x_I)
+x_I = w_+·J_N·S_E - J_i·S_I + I_o
+</code></pre></div></p>
+<p>The term dS/dt = -S/τ captures the exponential decay of synaptic gating toward baseline in the absence of input, with timescale τ governing the rate of decay. The second term represents activity-dependent activation: the factor (1 - S_E) for the excitatory population implements a saturation nonlinearity preventing unbounded activity (since synaptic gating cannot exceed its maximum value of 1), while γ represents the synaptic gain parameter.</p>
+<p>The total synaptic input x to each population comprises several components: recurrent excitation from the population's own activity (w_+·J_N·S_E), recurrent inhibition from the opposing population (-J_i·S_I), constant external input (I_o), and long-range connectivity from other brain regions (J_N·C·ΣS_E_j). The weight matrix C encodes the <a href="../structural-connectivity/">structural-connectivity</a> of the brain, typically derived from <a href="../tractography/">tractography</a> pipelines applied to diffusion tensor imaging (DTI) or advanced diffusion MRI data. This formulation enables the model to generate <a href="../dynamic-causal-modeling/">effective connectivity</a> patterns that emerge from the interaction between anatomy (the C matrix) and intrinsic neural dynamics.</p>
+<h2 id="biological-grounding-and-applications">Biological Grounding and Applications<a class="headerlink" href="#biological-grounding-and-applications" title="Permanent link">&para;</a></h2>
+<p>The E-I architecture captures several key biological phenomena relevant to <a href="../../entities/brain-dynamics-toolbox/">computational neuroscience</a> research. The excitation-inhibition balance maintained by the model is a fundamental organizing principle of cortical circuits, with misbalanced E-I ratio hypotheses proposed for conditions including <a href="../schizophrenia-models/">schizophrenia-models</a> and <a href="../epilepsy-modeling/">epilepsy-modeling</a>. The fast inhibitory timescale (τ_I = 10 ms) enables the model to generate gamma oscillations when driven by sufficient excitatory input, a phenomenon directly linked to inhibitory interneuron firing patterns in vivo.</p>
+<p>Recent work on <a href="../mean-field-theory/">mean-field-theory</a> in spatially structured networks has further validated the importance of heterogeneous inhibitory cell types for maintaining stability while allowing diverse computational dynamics. This research demonstrates that while homogeneous E-I circuits with long-range inhibitory projections tend toward instability, networks incorporating cell-type-specific <a href="../connectivity/">connectivity</a> patterns (such as long-range somatostatin <a href="../../entities/neuron/">neuron</a> projections) maintain stability—a finding consistent with the simplified two-population E-I model as an approximation of more complex circuit architectures.</p>
+<p>The model has been extensively used in conjunction with <a href="../../entities/tvb/">tvb</a> for simulating whole-brain dynamics, where it serves as the regional neural mass model underlying large-scale brain network simulations. When combined with personalized connectivity matrices from the <a href="../../entities/human-connectome-project/">human-connectome-project</a> or <a href="../../entities/uk-biobank/">uk-biobank</a> datasets, the E-I model can generate synthetic BOLD signals that reproduce key features of empirical functional connectivity, enabling in silico experiments that would be impossible to conduct in vivo.</p>
+<h2 id="relationship-to-other-models">Relationship to Other Models<a class="headerlink" href="#relationship-to-other-models" title="Permanent link">&para;</a></h2>
+<p>The Wong-Wang E-I model occupies a specific niche in the landscape of <a href="../neural-mass-models/">neural-mass-models</a>, sitting between simpler single-population reductions (like the original <a href="../wong-wang/">wong-wang</a> model or the <a href="../jansen-rit/">jansen-rit</a> model) and more detailed spiking neuron simulations (such as those implementable in <a href="../../entities/nest/">nest</a> or Brian2). Compared to the <a href="../jansen-rit/">jansen-rit</a> model, which uses three populations (excitatory pyramidal, inhibitory, and non-pyramidal excitatory), the Wong-Wang E-I formulation is more parsimonious while retaining the essential E-I interaction dynamics.</p>
+<p>For researchers interested in <a href="../bifurcation-analysis/">bifurcation-analysis</a> of brain dynamics, the model provides an excellent testbed for studying how changes in E-I parameters shift the system between qualitatively different dynamical regimes—fixed points, limit cycles, and chaotic attractors—using tools from <a href="../nonlinear-dynamics/">nonlinear-dynamics</a> and <a href="../bifurcation-theory/">bifurcation-theory</a>. The model's relative mathematical tractability (compared to large-scale spiking networks) makes it suitable for <a href="../variational-bayes/">variational-bayes</a> approaches to parameter estimation, where the goal is to infer model parameters that best explain observed neuroimaging data.</p>
+<h2 id="related-concepts">Related Concepts<a class="headerlink" href="#related-concepts" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../wong-wang/">wong-wang</a> — Reduced single-population precursor model</li>
+<li><a href="../neural-mass-model/">neural-mass-model</a> — General framework category</li>
+<li><a href="../mean-field-theory/">mean-field-theory</a> — Theoretical foundation for the model</li>
+<li><a href="../excitation-inhibition-balance/">excitation-inhibition-balance</a> — Biological principle captured by the model</li>
+<li><a href="../whole-brain-modeling/">whole-brain-modeling</a> — Application context for large-scale simulations</li>
+<li><a href="../../entities/tvb/">tvb</a> — Software platform commonly used with this model</li>
+<li><a href="../structural-connectivity/">structural-connectivity</a> — Input anatomical data for network coupling</li>
+<li><a href="../functional-connectivity/">functional-connectivity</a> — Empirical counterpart to model predictions</li>
+<li><a href="../resting-state/">resting-state</a> — Paradigm for studying spontaneous <a href="../brain-dynamics/">brain-dynamics</a></li>
+<li><a href="../dynamic-causal-modeling/">dynamic-causal-modeling</a> — Related framework for inferring <a href="../effective-connectivity/">effective-connectivity</a></li>
+</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Pascal Helson, Etienne Tanré, Romain Veltz. <em>Mean-field analysis of a <a href="../neural-network/">neural-network</a> with stochastic STDP</em>. <a href="](https://arxiv.org/abs/2510.02545)">Link</a></li>
+<li>Soon Ho Kim, Hannah Choi. (2025). <em>Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1</em>. bioRxiv. <a href="](https://doi.org/10.1101/2025.03.13.643046)">DOI</a></li>
+<li>Potjans &amp; Diesmann (2014). <em>The cell-type specific cortical microcircuit: relating structure and activity</em>. Cerebral Cortex. <a href="](https://doi.org/10.1093/cercor/bhs358)">DOI</a></li>
+<li>Sanz Leon et al. (2013). <em><a href="../the-virtual-brain/">the-virtual-brain</a>: a simulator of primate brain <a href="../network-dynamics/">network-dynamics</a></em>. Frontiers in Neuroinformatics. <a href="](https://doi.org/10.3389/fninf.2013.00010)">DOI</a></li>
+<li>Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). <em>Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using <a href="../wilson-cowan/">wilson-cowan</a> Dynamics</em>. <a href="](https://arxiv.org/abs/2506.22951)">Link</a></li>
+</ol>
+<hr />
+<h2 id="references_1">References<a class="headerlink" href="#references_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Arxiv 2510.02545</strong>.</li>
+<li><strong>Semanticscholar A9Ff4Dda4E4C</strong>.</li>
+<li>Tobias C. Potjans, Markus Diesmann (2012) <strong>The cell-type specific cortical microcircuit: relating structure and activity</strong>. <em>Cerebral Cortex</em>.</li>
+<li>Paula Sanz Leon, S. A. Knock, Marmaduke Woodman, Lia Domide, Jochen Mersmann, Anthony R. McIntosh, Viktor Jirsa (2013) <strong>The Virtual Brain: a simulator of primate brain network dynamics</strong>. <em>Frontiers in Neuroinformatics</em>.</li>
+<li><strong>Arxiv 2506.22951</strong>.</li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2026 – TVB Wiki. Content available under CC BY‑SA 4.0.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/maedoc/tvb-wiki" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://arxiv.org" target="_blank" rel="noopener" title="arxiv.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M384 512H96c-53 0-96-43-96-96V96C0 43 43 0 96 0h304c26.5 0 48 21.5 48 48v288c0 20.9-13.4 38.7-32 45.3V448c17.7 0 32 14.3 32 32s-14.3 32-32 32zM96 384c-17.7 0-32 14.3-32 32s14.3 32 32 32h256v-64zm32-232c0 13.3 10.7 24 24 24h176c13.3 0 24-10.7 24-24s-10.7-24-24-24H152c-13.3 0-24 10.7-24 24m24 72c-13.3 0-24 10.7-24 24s10.7 24 24 24h176c13.3 0 24-10.7 24-24s-10.7-24-24-24z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "search.suggest", "search.highlight", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

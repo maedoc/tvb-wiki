@@ -1,0 +1,1346 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A knowledge base for whole-brain simulation, neural mass models, and neuroimaging integration. From the Wilson-Cowan model to TVB platform tutorials.">
+      
+      
+        <meta name="author" content="Hermes Agent">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Epilepsy Modeling - TVB Wiki – Connectome‑Based Whole‑Brain Modeling</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#epilepsy-modeling" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" class="md-header__button md-logo" aria-label="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TVB Wiki – Connectome‑Based Whole‑Brain Modeling
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Epilepsy Modeling
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/maedoc/tvb-wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../entities/tvb/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../topics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Browse by Topic
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../comparisons/tvb-vs-nest-vs-neuron/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Compare Tools
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Catalog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" class="md-nav__button md-logo" aria-label="TVB Wiki – Connectome‑Based Whole‑Brain Modeling" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    TVB Wiki – Connectome‑Based Whole‑Brain Modeling
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/maedoc/tvb-wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../entities/tvb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is TVB?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neural-mass-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural Mass Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connectome/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Connectome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Browse by Topic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comparisons/tvb-vs-nest-vs-neuron/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compare Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catalog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Catalog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../entities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Entities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comparisons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Comparisons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#seizure-dynamics-as-bifurcations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seizure Dynamics as Bifurcations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Seizure Dynamics as Bifurcations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-dynamical-perspective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Dynamical Perspective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bifurcation-taxonomy-in-seizure-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bifurcation Taxonomy in Seizure Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#neural-mass-models-for-epilepsy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Neural Mass Models for Epilepsy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Neural Mass Models for Epilepsy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-jansenrit-foundation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Jansen‑Rit Foundation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-wendling-fourpopulation-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Wendling Four‑Population Extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spatial-extensions-neural-field-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spatial Extensions: Neural Field Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seizure-classification-by-modeling-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seizure Classification by Modeling Mechanism
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Seizure Classification by Modeling Mechanism">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#focal-seizures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Focal Seizures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generalized-seizures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generalized Seizures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-sensitivity-and-personalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameter Sensitivity and Personalization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameter Sensitivity and Personalization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#critical-parameters-for-seizure-dynamics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Critical Parameters for Seizure Dynamics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patientspecific-modeling-in-tvb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Patient‑Specific Modeling in TVB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clinical-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clinical Translation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Clinical Translation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#seizure-prediction-and-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seizure Prediction and Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#surgical-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Surgical Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations-and-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations and Open Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#orphan-page-context-netlogo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ORPHAN PAGE CONTEXT (netlogo)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="epilepsy-modeling">Epilepsy Modeling<a class="headerlink" href="#epilepsy-modeling" title="Permanent link">&para;</a></h1>
+<p>Computational epilepsy modeling applies <a href="../neural-mass-models/">neural-mass-models</a> and <a href="../dynamical-systems-theory/">dynamical-systems-theory</a> to understand the mechanisms underlying seizure generation, propagation, and termination. This approach bridges clinical observations—particularly from <a href="../eeg/">eeg</a> recordings with the underlying neurophysiology of pathological neural dynamics. By representing large populations of neurons as coupled oscillators or neural fields, computational models can reproduce the characteristic rhythmic activity observed during epileptic seizures and provide quantitative predictions about seizure threshold, optimal stimulation targets, and surgical outcomes.</p>
+<p>The field emerged from the recognition that seizures are not random events but rather deterministic manifestations of pathological neural dynamics. Like meteorological patterns emerging from atmospheric dynamics, seizure activity arises when the brain's excitatory‑inhibitory balance shifts across critical thresholds. This perspective transformed epilepsy from a purely clinical syndrome into a problem amenable to the mathematical tools of <a href="../nonlinear-dynamics/">nonlinear-dynamics</a>, enabling researchers to pose precise questions about bifurcation structures, parameter sensitivity, and network organization that would be intractable through experimental methods alone.</p>
+<h2 id="seizure-dynamics-as-bifurcations">Seizure Dynamics as Bifurcations<a class="headerlink" href="#seizure-dynamics-as-bifurcations" title="Permanent link">&para;</a></h2>
+<h3 id="core-dynamical-perspective">Core Dynamical Perspective<a class="headerlink" href="#core-dynamical-perspective" title="Permanent link">&para;</a></h3>
+<p>Seizures are mathematically understood as transitions between distinct dynamical regimes—qualitative changes in system behavior that occur when key parameters cross critical values. This bifurcation framework, extensively analyzed in the <a href="../bifurcation-analysis/">bifurcation-analysis</a> literature, provides a unified language for describing seizure onset across different clinical phenotypes. Touboul et al. (2011) demonstrated that the <a href="../jansen-rit/">jansen-rit</a> neural mass model exhibits multiple codimension-1 and codimension-2 bifurcations thatmap directly onto observed seizure types, establishing a rigorous connection between dynamical systems theory and clinical epilepsy.</p>
+<p>The therapeutic implication of this framework is profound: if seizures arise at bifurcation boundaries, then seizure control can be reframed as parameter perturbation—gently nudging the system away from its critical threshold rather than completely suppressing neural activity. This principle underlies contemporary approaches to closed-loop neurostimulation, where detection of pre‑seizure dynamics triggers precisely timed inhibitory stimuli.</p>
+<h3 id="bifurcation-taxonomy-in-seizure-models">Bifurcation Taxonomy in Seizure Models<a class="headerlink" href="#bifurcation-taxonomy-in-seizure-models" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Bifurcation Type</th>
+<th>Seizure Manifestation</th>
+<th>Dynamical Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Saddle-Node on Invariant Circle (SNIC)</td>
+<td>Tonic onset</td>
+<td>Progressive frequency increase from baseline</td>
+</tr>
+<tr>
+<td>Andronov-Hopf</td>
+<td>Spike-wave discharge</td>
+<td>Sudden onset with fixed oscillation amplitude</td>
+</tr>
+<tr>
+<td>Saddle-Homoclinic</td>
+<td>Tonic‑clonic transition</td>
+<td>Transient high-frequency burst</td>
+</tr>
+<tr>
+<td>Torus (Neimark‑Sacker)</td>
+<td>Absence seizures</td>
+<td>3 Hz spike‑wave via quasiperiodic dynamics</td>
+</tr>
+</tbody>
+</table>
+<p>The torus bifurcation deserves particular attention for absence seizures, where the model's solution becomes quasiperiodic—neither simply oscillatory nor stationary—before locking onto the characteristic 3 Hz spike‑wave rhythm observed clinically. This explains why absence seizures often exhibit subtle precursory dynamics that complicate real‑time detection.</p>
+<h2 id="neural-mass-models-for-epilepsy">Neural Mass Models for Epilepsy<a class="headerlink" href="#neural-mass-models-for-epilepsy" title="Permanent link">&para;</a></h2>
+<h3 id="the-jansenrit-foundation">The Jansen‑Rit Foundation<a class="headerlink" href="#the-jansenrit-foundation" title="Permanent link">&para;</a></h3>
+<p>The Jansen‑Rit model, originally developed to explain scalp potentials generated by cortical columns, provides the foundational architecture for most computational epilepsy models. This three‑population model couples pyramidal cells with excitatory and inhibitory interneurons through nonlinear connections, producing alpha‑frequency oscillations under normal parameter regimes. Touboul et al. (2011) systematically explored the model's bifurcation structure, identifying parameter regions corresponding to <a href="../resting-state/">resting-state</a>, physiological alpha rhythms, and pathological high‑amplitude epileptiform activity.</p>
+<p>The model's sensitivity to the excitatory‑inhibitory gain ratio makes it particularly suitable for epilepsy applications: small increases in excitation or decreases in inhibition can push the system through a Hopf bifurcation into sustained oscillatory states that closely resemble ictal EEG patterns. Critically, the same model can generate either focal or generalized seizures depending on whether parameter changes are localized or global, providing a unified framework for understanding clinical heterogeneity.</p>
+<h3 id="the-wendling-fourpopulation-extension">The Wendling Four‑Population Extension<a class="headerlink" href="#the-wendling-fourpopulation-extension" title="Permanent link">&para;</a></h3>
+<p>Wendling et al. (2002) extended the Jansen‑Rit model by distinguishing between fast and slow inhibitory interneurons, reflecting the distinction between GABA‑A and GABA‑B receptor‑mediated inhibition at the synaptic level. This fourth population—slow inhibitory interneurons with longer time constants—enables the model to capture phenomena that the three‑population model cannot produce, including interictal spikes (where fast inhibition briefly dominates) transitioning into ictal periods (where slow inhibition is overwhelmed).</p>
+<p>The Wendling model's clinical validation against intracranial EEG demonstrated its ability to reproduce fast ripples (14‑60 Hz) observed in hippocampal formations during seizure onset—a frequency range that standard models cannot generate. This extension represents a significant advance in linking computational models to the physiological substrates of epileptogenesis, though it comes at the cost of increased parameter complexity that challenges identifiability in clinical settings.</p>
+<h3 id="spatial-extensions-neural-field-models">Spatial Extensions: Neural Field Models<a class="headerlink" href="#spatial-extensions-neural-field-models" title="Permanent link">&para;</a></h3>
+<p>Breakspear et al. (2006) extended the neural mass framework to spatially distributed systems, modeling cortical sheets as continuous media where neighboring columns couple through anatomical <a href="../connectivity/">connectivity</a>. This <a href="../neural-field-theory/">neural field</a> approach captures the fundamental observation that seizures propagate: pathological activity at a seizure focus spreads to anatomically connected regions, producing the characteristic spatial evolution of ictal events visible in EEG source imaging.</p>
+<p>The asymptotic analysis in this work reduced the infinite‑dimensional neural field equations to low‑dimensional ordinary differential equations describing the collective dynamics of the cortical sheet. This reduction revealed that seizure propagation itself can exhibit bifurcations—transitions from localized focal seizures to secondary generalization that depend on the coupling strength and the excitability profile of the network. The framework thus connects local mechanisms of seizure onset with the global <a href="../network-dynamics/">network-dynamics</a> that determine clinical outcome. Agent‑based platforms like <a href="../../entities/netlogo/">netlogo</a> provide complementary approaches for simulating individual <a href="../../entities/neuron/">neuron</a> interactions.</p>
+<h2 id="seizure-classification-by-modeling-mechanism">Seizure Classification by Modeling Mechanism<a class="headerlink" href="#seizure-classification-by-modeling-mechanism" title="Permanent link">&para;</a></h2>
+<h3 id="focal-seizures">Focal Seizures<a class="headerlink" href="#focal-seizures" title="Permanent link">&para;</a></h3>
+<p>Focal seizures emerge when localized parameter changes create regions of reduced seizure threshold within an otherwise healthy network. The modeling approach treats the brain as a heterogeneous system where excitability varies across regions due to anatomical differences, prior lesion history, or pathological <a href="../plasticity/">plasticity</a>. Seizure propagation in this framework depends critically on the <a href="../structural-connectivity/">structural-connectivity</a>: regions with strong anatomical connections to the focus receive stronger ictal input and are more likely to recruit into the seizure.</p>
+<p>This perspective has direct clinical applications for surgical planning. By simulating the effect of resecting candidate regions, models can predict post‑operative seizure freedom and identify “hidden” epileptic networks that may contribute to surgical failure. The framework also explains why some patients exhibit consistent seizure foci while others show variable onset regions—variations in individual connectivity architecture produce different propagation patterns from the same underlying mechanism.</p>
+<h3 id="generalized-seizures">Generalized Seizures<a class="headerlink" href="#generalized-seizures" title="Permanent link">&para;</a></h3>
+<p>Generalized seizures arise from global parameter changes that affect the entire network simultaneously, such as diffuse changes in <a href="../excitation-inhibition-balance/">excitation-inhibition-balance</a> or global modulation of cortical excitability. The absence seizure—a hallmark of childhood absence epilepsy—provides a particularly clear modeling target: the characteristic 3 Hz spike‑wave pattern emerges naturally from torus bifurcation in neural mass models, where the system's <a href="../../entities/trajectory/">trajectory</a> winds around a torus before settling into periodic locking.</p>
+<p>The distinction between focal and generalized seizures in computational models reflects the broader classification in clinical epilepsy, though the boundary can be blurred. Some seizures begin focally but recruit widespread networks, producing secondary generalization that combines elements of both mechanisms. Understanding these hybrid cases requires models that can represent both local parameter heterogeneity and global state changes—a requirement that motivates the multiscale approaches discussed below.</p>
+<h2 id="parameter-sensitivity-and-personalization">Parameter Sensitivity and Personalization<a class="headerlink" href="#parameter-sensitivity-and-personalization" title="Permanent link">&para;</a></h2>
+<h3 id="critical-parameters-for-seizure-dynamics">Critical Parameters for Seizure Dynamics<a class="headerlink" href="#critical-parameters-for-seizure-dynamics" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Physiological Interpretation</th>
+<th>Model Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Excitatory synaptic gain</td>
+<td>AMPA receptor efficacy, spine density</td>
+<td>Lowers seizure threshold</td>
+</tr>
+<tr>
+<td>Inhibitory synaptic gain</td>
+<td>GABA receptor efficacy, interneuron density</td>
+<td>Raises seizure threshold</td>
+</tr>
+<tr>
+<td>Inhibitory time constants</td>
+<td>Receptor kinetics (GABA‑A vs GABA‑B)</td>
+<td>Determines oscillation frequency</td>
+</tr>
+<tr>
+<td>External input magnitude</td>
+<td>Sensory drive, neuromodulatory tone</td>
+<td>Can trigger or suppress seizures</td>
+</tr>
+<tr>
+<td>Connectivity weight</td>
+<td>Synaptic density, efficacy</td>
+<td>Controls propagation speed</td>
+</tr>
+</tbody>
+</table>
+<p>The sensitivity analysis conducted by Touboul et al. (2011) revealed that the Jansen‑Rit model's behavior is highly nonlinear: some parameter regions exhibit extreme sensitivity where small changes produce large dynamical shifts, while other regions are relatively robust. This non‑uniform sensitivity has implications for therapy: interventions that target parameters in highly sensitive regions may achieve disproportionate therapeutic benefit, while parameters in robust regions may be poor intervention targets.</p>
+<h3 id="patientspecific-modeling-in-tvb">Patient‑Specific Modeling in TVB<a class="headerlink" href="#patientspecific-modeling-in-tvb" title="Permanent link">&para;</a></h3>
+<p><a href="../../entities/tvb/">tvb</a> and <a href="../../entities/tvb-multiscale/">tvb-multiscale</a> frameworks enable construction of patient‑specific models by combining individualized structural connectivity—derived from <a href="../dti/">dti</a> <a href="../tractography/">tractography</a> and preprocessed with tools like <a href="../../entities/sdcflows/">sdcflows</a>—with personalized neural mass parameters estimated from the patient's own EEG or MEG recordings. This personalization pipeline addresses the fundamental limitation of generic models: inter‑patient variability in anatomy and dynamics means that findings from one patient may not generalize to others.</p>
+<p>The clinical workflow typically proceeds through several stages: acquiring <a href="../diffusion-imaging/">diffusion-imaging</a> data, reconstructing the structural <a href="../connectome/">connectome</a>, fitting neural mass parameters to baseline recordings, validating the model against recorded seizures, and finally using the validated model to predict optimal intervention targets. While promising, this approach faces significant challenges in parameter identifiability—many different parameter combinations can produce similar dynamical patterns—and in validation, where access to invasive intracranial recordings needed for model calibration is limited to patients undergoing surgical evaluation.</p>
+<h2 id="clinical-translation">Clinical Translation<a class="headerlink" href="#clinical-translation" title="Permanent link">&para;</a></h2>
+<h3 id="seizure-prediction-and-control">Seizure Prediction and Control<a class="headerlink" href="#seizure-prediction-and-control" title="Permanent link">&para;</a></h3>
+<p>The dynamical systems perspective suggests that seizures may be predictable if the brain's state approaches a bifurcation boundary before clinical onset. Model‑based prediction approaches track slow parameter variations—potentially reflecting accumulating excitability or declining inhibition—and detect signatures of approaching criticality in the evolving dynamics. While pure <a href="../machine-learning/">machine-learning</a> approaches have dominated the <a href="../seizure-prediction/">seizure-prediction</a> literature, models that incorporate dynamical constraints show promise for improving specificity by distinguishing true pre‑ictal states from similar‑looking interictal variability.</p>
+<p>Closed‑loop stimulation represents the most direct clinical application of seizure modeling. By monitoring model state in real‑time and delivering stimulation when dynamics approach the seizure attractor, these systems can interrupt seizures with minimal latency and energy delivery. The theoretical framework of controlling chaotic dynamical systems provides guidance for stimulation timing: the goal is to push the system away from its current attractor toward a stable low‑activity state, rather than simply suppressing all neural activity.</p>
+<h3 id="surgical-optimization">Surgical Optimization<a class="headerlink" href="#surgical-optimization" title="Permanent link">&para;</a></h3>
+<p>For patients with medication‑resistant epilepsy, surgical resection of the seizure onset zone offers the possibility of seizure freedom, but identifying the optimal resection volume remains challenging. Computational models support surgical planning by simulating the effects of candidate resections on seizure propagation, predicting whether removing a particular region will prevent secondary generalization or merely shift the seizure focus to another area. This application leverages the whole‑brain modeling capability to capture network effects that would be invisible to purely local analysis.</p>
+<p>The concept of an “epileptic network”—a distributed set of regions that cooperate to generate seizures—is increasingly influential in surgical planning. Rather than pursuing complete resection of all potentially epileptogenic tissue, surgeons may target hub regions that are critical for network recruitment, achieving therapeutic benefit with smaller resections. Computational models enable quantitative comparison of different surgical strategies, potentially reducing the trial‑and‑error that has historically characterized epilepsy surgery.</p>
+<h2 id="limitations-and-open-questions">Limitations and Open Questions<a class="headerlink" href="#limitations-and-open-questions" title="Permanent link">&para;</a></h2>
+<p>Despite substantial progress, computational epilepsy modeling faces several fundamental limitations. The simplifying assumption that large neuronal populations can be represented by mean‑field equations neglects the substantial heterogeneity within any population—whether across cell types, cortical layers, or spatial scales. While this approximation captures population‑level dynamics relevant to EEG, it may miss crucial features such as the role of specific interneuron populations or the effects of microscale structure on mesoscale dynamics.</p>
+<p>Parameter identifiability remains a persistent challenge: the dynamical patterns generated by neural mass models can often be reproduced by many different parameter combinations, making it difficult to determine which physiological parameters are actually altered in a given patient. This non‑identifiability limits the clinical utility of parameter estimates and motivates approaches that constrain models using multiple independent data types or that focus on structural features (like connectivity) that can be measured more directly.</p>
+<p>Finally, the relationship between computational models and the underlying neurobiology remains imperfect. While models can reproduce the phenomenological features of seizure EEG, the extent to which model parameters map onto specific cellular or molecular abnormalities—and therefore can guide mechanism‑informed therapy—varies considerably across applications. Bridging this gap between dynamical systems theory and molecular neurobiology represents a central challenge for the field.</p>
+<h2 id="related-concepts">Related Concepts<a class="headerlink" href="#related-concepts" title="Permanent link">&para;</a></h2>
+<ul>
+<li>neural‑mass‑models – The mathematical framework underlying most epilepsy models</li>
+<li>bifurcation‑analysis – Mathematical tools for understanding seizure transitions</li>
+<li>jansen‑rit – Foundational neural mass model for epilepsy applications</li>
+<li><a href="../../entities/tvb/">tvb</a> – Software platform for patient‑specific epilepsy modeling</li>
+<li>whole‑brain‑modeling – Large‑scale network context for seizure propagation</li>
+<li>structural‑connectivity – Anatomical networks determining seizure spread</li>
+<li><a href="../epileptor/">epileptor</a> – Dedicated epilepsy model for seizure dynamics</li>
+<li>resting‑state – Baseline dynamics from which seizures emerge</li>
+<li>dynamical‑systems‑theory – Theoretical foundation for understanding seizure dynamics</li>
+<li>effective‑connectivity – Functional interactions inferred from seizure data</li>
+<li>Wilson Cowan</li>
+<li>Epileptor Rs</li>
+<li><a href="../wilson-cowan/">Wilson Cowan</a></li>
+<li><a href="../epileptor-rs/">Epileptor Rs</a></li>
+<li><a href="../../entities/trc-toolkit/">trc-toolkit</a></li>
+</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. <em>A dynamic‑causal‑modeling study of the generation of epileptic fast activity</em>. NeuroImage. <a href="https://doi.org/10.1006/nimg.2002.1234">DOI</a>)</li>
+<li>Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. <em>Large‑scale brain‑dynamics of seizures: asymptotic analysis of a neural field model</em>. Journal of computational‑neuroscience. <a href="https://doi.org/10.1007/s10827-006-8135-2">DOI</a>)</li>
+<li>Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. <em>Bifurcation analysis of Jansen's neural mass model</em>. Neural Computation. <a href="https://doi.org/10.1162/NECO_a_00151">DOI</a>)</li>
+<li>Huda Mahdi, Jan Sieber, Krasimira Tsaneva‑Atanasova. <em>Alpha‑Delta Transitions in Cortical Rhythms as grazing bifurcations</em>. <a href="https://arxiv.org/abs/2411.16449">Link</a>)</li>
+<li>S. Fatima, F. Nasir, A. Ahmed. (2026). <em>Antiepileptic potential of Jatropha integerrima Jacq. extracts: an exploratory study integrating in vivo seizure models and computational analysis</em>. SAR and QSAR in environmental research (Print). <a href="https://doi.org/10.1080/1062936x.2026.2640387">DOI</a>)</li>
+<li>Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). <em>Hierarchical afferent connectivity drives population‑wide bursting dynamics in a computational model of human‑derived excitatory neuronal networks</em>. Journal of Neuroscience. <a href="https://doi.org/10.1523/jneurosci.0912-25.2026">DOI</a>)</li>
+</ol>
+<h2 id="orphan-page-context-netlogo">ORPHAN PAGE CONTEXT (netlogo)<a class="headerlink" href="#orphan-page-context-netlogo" title="Permanent link">&para;</a></h2>
+<hr />
+<p>created: 2025-01-15
+sources:
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+tags:
+- software-brain-modeling
+- network-dynamics
+- <a href="../computational-neuroscience/">computational-neuroscience</a>
+- <a href="../spiking-neural-networks/">spiking-neural-networks</a>
+title: NetLogo
+type: entity
+updated: '2026-05-12'</p>
+<hr />
+<p>NetLogo is a multi-agent programmable modeling environment designed for simulating complex systems composed of many interacting autonomous agents. Developed at Northwestern University</p>
+<hr />
+<h2 id="references_1">References<a class="headerlink" href="#references_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Teresa Murta, Alberto Leal, Marta I. Garrido, Patrícia Figueiredo (2012) <strong>A dynamic causal modeling study of the generation of epileptic fast activity</strong>. <em>NeuroImage</em>.</li>
+<li>HongHui Zhang, YanHong Zheng, JianZhong Su, PengCheng Xiao (2017) <strong>Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model</strong>. <em>Science China Technological Sciences</em>.</li>
+<li>François Grimbert, Olivier Faugeras (2006) <strong>Bifurcation analysis of Jansen's neural mass model</strong>. <em>Neural Computation</em>.</li>
+<li><strong>Arxiv 2411.16449</strong>.</li>
+<li><strong>Semanticscholar 9E6C3252D305</strong>.</li>
+<li><strong>Semanticscholar 71Ffb8153870</strong>.</li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2026 – TVB Wiki. Content available under CC BY‑SA 4.0.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/maedoc/tvb-wiki" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://arxiv.org" target="_blank" rel="noopener" title="arxiv.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M384 512H96c-53 0-96-43-96-96V96C0 43 43 0 96 0h304c26.5 0 48 21.5 48 48v288c0 20.9-13.4 38.7-32 45.3V448c17.7 0 32 14.3 32 32s-14.3 32-32 32zM96 384c-17.7 0-32 14.3-32 32s14.3 32 32 32h256v-64zm32-232c0 13.3 10.7 24 24 24h176c13.3 0 24-10.7 24-24s-10.7-24-24-24H152c-13.3 0-24 10.7-24 24m24 72c-13.3 0-24 10.7-24 24s10.7 24 24 24h176c13.3 0 24-10.7 24-24s-10.7-24-24-24z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "search.suggest", "search.highlight", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

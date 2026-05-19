@@ -1,0 +1,411 @@
+                                                         Multi-Compartment Volume Conductor with Complete Electrode
+                                                            Model: Simulated Stereo-EEG Source Localization using
+                                                                          Brainstorm-Zeffiro Plugin
+
+                                                  Fernando Galaz Prieto1 , Takfarinas Medani2 , Chinmay Chinara2 , Richard M. Leahy2 , and Sampsa Pursiainen1
+arXiv:2602.00684v1 [physics.med-ph] 31 Jan 2026
+
+
+
+
+                                                     Abstract— This study introduces a novel integration of the              using an unstructured multi-compartment tetrahedral finite
+                                                  Brainstorm (BST) software and the Zeffiro Interface (ZI) to                element (FE) mesh which incorporates complete electrode
+                                                  enable whole-head, multi-compartment volume conductor mod-                 model (CEM) boundary conditions [3], one can successfully
+                                                  eling for electroencephalography (EEG) source imaging, with a
+                                                  particular focus on stereotactic EEG applications. We present              discretize the whole head with a stereotactic electrode setting
+                                                  the BST-2-ZI plugin, a MATLAB-based tool that facilitates                  and perform source localization in the near vicinity of the
+                                                  seamless transfer of tissue segmentations and anatomical atlases           electrodes.
+                                                  from BST into ZI for finite element (FE) mesh generation                      EEG and MEG source localization represent an inverse
+                                                  as well as forward and inverse modeling. The generated FE                  problem, where the goal is to estimate the brain’s primary
+                                                  meshes support variable spatial resolution and implement
+                                                  the complete electrode model (CEM), allowing for precise                   current density from measurement data by inverting a linear
+                                                  modeling of both invasive depth electrodes and non-invasive                forward model described by the lead field (LF) matrix.
+                                                  scalp electrodes. Using the ICBM152 template and synthetic                 This inversion must be performed using data that typically
+                                                  source simulation, we demonstrate the end-to-end pipeline from             includes noise. Solving the inverse problem requires model-
+                                                  MRI data to lead field (LF) computation and source localization            ing the subject’s head as a volume conductor. For accurate
+                                                  in a stereotactic EEG (stereo-EEG) setting. Our numerical
+                                                  experiments highlight the capability of the pipeline to accurately         solutions across the entire brain, it is generally necessary to
+                                                  model multi-compartment head geometry and conductivity                     employ multi-compartment head models derived from mag-
+                                                  with a stereotactic CEM-based electrode configuration. Our                 netic resonance imaging (MRI) [4], [5], [6]. These models
+                                                  preliminary source localization results show how a synthetic               capture individual anatomical features and local variations in
+                                                  stereo-EEG probe corresponding to a bidirectional deep brain               tissue properties, particularly electrical conductivity, which
+                                                  stimulation (DBS) probe with four omnidirectional contacts can,
+                                                  in principle, be coupled with scalp electrodes to improve source           is essential for precisely mapping neural sources in clinical
+                                                  localization in its vicinity.                                              applications such as epilepsy source localization [7], [8].
+                                                                                                                             The electric fields recorded in EEG are especially sensitive
+                                                                          I. I NTRODUCTION                                   to conductivity changes, meaning that both the forward
+                                                     This numerical study aims to advance whole-head multi-                  mapping and the inverse solution are strongly influenced by
+                                                  compartment volume conductor modeling with variable spa-                   the structure of the volume conductor.
+                                                  tial resolution for localizing human brain activity. Ad-                      Several numerical methods have been explored to find the
+                                                  vanced numerical whole-brain modeling is an important topic                LF matrix, each with distinct advantages based on how they
+                                                  when invasive depth-electroencephalography (depth-EEG)                     model head tissues and electrical conductance. Boundary
+                                                  measurements are combined with non-invasive scalp-EEG                      Element Method (BEM) [9], [10] is commonly employed,
+                                                  or magnetoencephalography (MEG) data [1], [2]. Namely,                     assuming homogeneous conductivities across different re-
+                                                  in such a system, both invasive EEG electrodes and their                   gions. While the computational cost of BEM grows along
+                                                  surroundings need to be modelled in conjunction with the                   with the number of compartments, we focus on the FE
+                                                  subject’s whole head, which calls for adapting the spatial                 method [11], [12], [13] which allows for creating a head
+                                                  resolution of the numerical discretization locally within                  model with an arbitrary number of compartments, spatially
+                                                  the volume conductor. In particular, we aim to show how                    varying conductivity and level of detail, as well as to solve
+                                                                                                                             the source localization problem for the whole brain [14], [8].
+                                                     This study was supported by the Research Council of Finland through        We perform our numerical experiments using Brainstorm-
+                                                  the Center of Excellence in Inverse modeling and Imaging 2018–2025
+                                                  (353089) and the Flagship of Advanced Mathematics for Sensing, Imaging     Zeffiro pipeline BST-2-ZI for creating a FE mesh-based
+                                                  and modeling (FAME) (359185).                                              volume conductor model using the anatomical data imported
+                                                     1 Fernando Galaz Prieto (fernando.galazprieto@tuni.fi)
+                                                                                                                             from Brainstorm (BST) [15] to another open MATLAB-
+                                                  and Sampsa Pursiainen (sampsa.pursiainen@tuni.fi) are with
+                                                  Mathematics Research Center, Computing Sciences, Tampere University,       based toolbox Zeffiro Interface’s (ZI’s) [12] and its FE mesh
+                                                  Tampere, Finland.                                                          generation routine [6]. To demonstrate the capabilities of
+                                                     2 Takfarinas  Medani (medani@usc.edu), Chinmay Chinara                  BST-2-ZI, we use BST’s average brain template ICBM152
+                                                  (chinara@usc.edu) and Richard M. Leahy (leahy@usc.edu)
+                                                  are with the Signal & Image Processing Institute, University of Southern   (International Consortium for Brain Mapping) [16]. The
+                                                  California, Los Angeles, CA USA.                                           workflow spans from importing the ICBM152 template from
+BST into ZI to generating the LF matrix and solving the             these assumptions, the potential field u ∈ S is determined
+source localization problem for a synthetic source using            by solving the following weak formulation:
+ZI. We demonstrate that our numerical framework enables              Z                     Z
+us to accurately localize synthetic thalamic dipoles using              σ∇u · ∇v dV = − (∇ · J⃗p )v dV
+a whole-head FE-based stereotactic EEG setting combining              Ω                         Ω
+                                                                                               L         Z         Z        
+non-invasive scalp and invasive depth electrodes. Our im-                                      X   1
+                                                                                         +                    u dS        v dS
+plementation has been integrated as part of the MATLAB-                                        Zℓ |eℓ |2   eℓ          eℓ
+                                                                                           ℓ=1
+based forward and inverse processing tool in ZI platform,                                   L           Z
+supporting both FE meshing and simulated EEG source                                        X      1
+                                                                                         −                 uv dS,
+imaging.                                                                                       Zℓ |eℓ | eℓ
+                                                                                           ℓ=1
+                                                                                                                              (5)
+              II. M ETHODS AND M ATERIALS                           for all v ∈ S ⊂ H 1 (Ω), where S is a suitably defined sub-
+   We begin by briefly deriving the weak formulation of             space of the Sobolev space H 1 (Ω), consisting of functions
+the EEG forward problem under CEM boundary conditions               with square-integrable values and gradients. We discretize
+and how the LF matrix formulation can be obtained from              Ω using the finite element method with S spanned by
+it via FE discretization. CEM assumes that a portion of the         continuous finite element basis functions.
+external boundary ∂Ω of the head domain Ω, modeled as a
+volume conductor, is covered by electrodes. Each electrode          B. Derivation of the Lead Field Matrix
+corresponds to a surface patch eℓ for ℓ = 1, 2, . . . , L, with         The finite element discretization of the potential field
+contact area |eℓ | and electrode potential Uℓ . The governing       u and the P    primary current density P  J⃗p can be represented
+equation for the electric potential distribution inside Ω is        as uT =
+                                                                                     N             ⃗p           M
+                                                                                     i=1 zi ψi and JT =         k=1 xk w
+                                                                                                                       ⃗ k , where the
+derived from the principle of charge conservation, which            coefficient vectors z = (z1 , z2 , . . ., zN ) and x = (x1 , x2 ,
+states that the divergence of the total current density J⃗          . . ., xM ) are associated with scalar-valued basis functions
+vanishes within Ω, i.e.,                                            ψ1 , . . . , ψN and vector-valued basis functions w   ⃗ 1, . . . , w
+                                                                                                                                       ⃗M ,
+                                                                    respectively, both defined over the finite element mesh T .
+                                   
+           ∇ · J⃗ = ∇ · J⃗p − σ∇u = 0 in Ω.
+                                                                    These representations are substituted into the weak formula-
+Here, u : Ω → R denotes the electric potential field and            tion, leading to the following structured linear system:
+volume conduction, σ : Ω → R3×3 denotes the electrical                                                           
+                                                                                       A       −B     z         −Gx
+conductivity tensor field, and J⃗p denotes the primary current                                            =             ,
+                                                                                      −BT      C     u            0
+density. This leads to the Poisson-type equation:
+                                                                    which arises from a Ritz-Galerkin finite element discretiza-
+                 ∇ · (σ∇u) = ∇ · J⃗p      in Ω.              (1)    tion of the weak form (2) and must be solved for the
+A. CEM Boundary Conditions                                          unknown electrode voltage vector u = (U1 , U2 , . . . , UL )⊤ .
+                                                                    The stiffness matrix A ∈ RN ×N is then assembled as
+  The CEM boundary conditions are as follows:
+                                                                          Z                   L      Z
+          ∂u
+                                                                                             X    1
+   0 = σ (⃗x),                    in ∂Ω\ ∪L                         aij =     σ∇ψi ·∇ψj dV +             ψi ψj dS, for i, j ̸= i′ .
+                                               ℓ=1 eℓ         (2)                                Z ℓ eℓ
+        Z ∂n                                                                Ω                       ℓ=1
+              ∂u
+   0=       σ (⃗x)dS,            for ℓ = 1, 2, . . . , L      (3)     The coupling and source matrices are explicitly defined
+         eℓ   ∂n
+                                                                    by:
+                     ∂u                                                               Z
+  Uℓ = u(x) + Z̃ℓ σ (⃗x), for ℓ = 1, 2, . . . , ⃗x ∈ eℓ (4)                         1
+                     ∂n                                                      biℓ =        ψi dS,
+                                                                                   Z ℓ eℓ
+   The first condition (2) assumes no electrical currents flow                      1
+                                                                                      Z
+through the parts of the scalp not covered by electrodes.                    cℓℓ =        dS, ciℓ = 0 for i ̸= ℓ,
+                                                                                   Z
+The second condition (3) states that the total current passing                     Z ℓ eℓ
+through the ℓ-th electrode equals zero. According to the third               gik = (∇ · w  ⃗ k )ψi dV,
+condition (4), the potential Uℓ at the ℓ-th electrode is given by                        Ω
+the sum of the skin potential and the electrode–skin potential      yielding the matrices B ∈ RN ×L , C ∈ RL×L , and
+                          ∂u
+jump, expressed as Z̃ℓ σ ∂n  (⃗x), where Z̃ℓ (in Ω · m2 ) denotes   G ∈ RN ×M . The measurement vector y = Ru consists
+the pointwise effective contact impedance. For simplicity,          of the electrode potentials referenced to their average. The
+the impedance is assumed to have the form Z̃ℓ = Zℓ |eℓ |,           reference projection matrix R ∈ RL×L is constructed as
+where Zℓ (in Ω) is the average contact impedance of the             rjj = 1 − 1/L, rij = −1/L for i ̸= j, j = 1, . . . , L. Solving
+electrode and |eℓ | is the electrode’s surface   area. This leads   the linear system for u leads to an explicit expression for
+                                         −1 R
+to the integral expression Uℓ = |eℓ |         eℓ
+                                                 u dS, indicating   the measured voltages y = Lx in which L is the CEM LF
+that Uℓ is the sum of the mean potential over the electrode         matrix of the form
+and the potential jump caused by the contact
+                                           PL impedance. The                                           −1 T −1
+reference potential is fixed by requiring ℓ=1 Uℓ = 0. Under                    L = R BT A−1 B − C          B A G.
+C. BST-2-ZI Pipeline                                            ZI’s online repository3 . Further information can be found
+                                                                in BST’s web pages4 .
+   To transfer the data from BST to ZI, we use the BST-2-
+ZI plugin, which we have implemented as a part of ZI to
+allow generation of a tetrahedral FE mesh-based volumetric
+conductor model in ZI based on a tissue segmentation, a
+set of closed triangular surfaces obtained from the BST
+protocol1 . For the user, BST-2-ZI appears as a simple dialog
+box (Fig. 1) which can be prompted when BST is running.
+BST-2-ZI is, for example, prompted by BST’s FE mesh
+generation routine if ZI is chosen as the mesh generation
+platform. Preliminary user instructions can be found in [17],
+[18]. In BST, a typical full head segmentation includes the
+five main tissues: white matter (WM), gray matter (GM),
+CSF, skull, and scalp. In addition to these, BST-2-ZI allows
+importing BST protocol’s MRI-based anatomical atlases as        Fig. 1. BST-2-ZI plugin dialog window as it appears when called from
+                                                                BST in a MATLAB environment. This interface allows the user to select the
+compartments in ZI. In BST’s atlas, each voxel in the MRI is    required input files for mesh generation—namely, the settings file and the
+assigned to a specific tissue class. When importing an atlas    run script—and to define the run mode (Fresh start, Import compartments,
+to ZI, the voxel-based segmentation is converted into a set     or Use project).
+of surface meshes.
+   Integrating ZI with BST constitutes an important way to      D. ICBM152 Template
+enhance model creation capabilities, since BST is extensively      Brainstorm utilizes a version of the ICBM152 template
+used by the neuroscience community2 , and fully interfaced      [16] as its default anatomical model. This template can serve
+with several well-established segmentation software such as     as a substitute when individual MRI scans are unavailable or
+FastSurfer [19], FreeSurfer [20], SPM [21], CAT12 [22],         unsuitable for processing or can be employed as a common
+BrainSuite [23], CIVET [24], and BrainVISA [25]. BST            reference for group analyses. Brainstorm’s default ICBM152
+can either call some of these tools from the main interface     anatomy incorporates a tissue atlas and parcellations derived
+for the anatomical segmentation or import precomputed           from FreeSurfer’s processing pipeline. These parcellations
+segmentation results. Note that only a T1-weighted (T1w)        include the Desikan-Killiany atlas, which labels cortical re-
+MRI data is required for the complete head segmentation,        gions based on gyral and sulcal anatomy, and Aseg atlas with
+although T2-weighted (Tw2) data is optional but strongly        subcortical structures segmented by FreeSurfer, providing a
+recommended for better definition of the interface between      comprehensive anatomical framework for source localization
+skull and cerebrospinal fluid (CSF).                            and other analyses.
+   After     importing     mesh     segments     as    closed
+triangular surfaces, BST-2-ZI plugin (root path in ZI:          E. Numerical Experiments
++utilities/+brainstorm2zef/) allows the user
+                                                                                            TABLE I
+to create an unstructured multi-compartment tetrahedral
+                                                                           FE MESH SPECIFICATIONS FOR THE WHOLE - HEAD
+mesh through ZI’s mesh creation routine (see Fig. 1). To
+                                                                             MULTI - COMPARTMENT STEREO -EEG MODEL .
+produce the mesh, BST-2-ZI must be supplied a settings file
+(default settings: ./+settings/zef bst default.m                   Parameter                               Value / Description
+w.r.t. root path) which lists user-defined parameters              Mesh resolution (base)                  0.6 mm
+                                                                   Mesh resolution (refined near probe)    0.3 mm
+with their respective initial values; and run script               Number of compartments                  116
+(./+m/zef bst plugin start.m w.r.t. root path)                     Total nodes                             18.7 million
+featuring a list of nested functions with explicitly declared      Total tetrahedra                        91.8 million
+                                                                   Scalp electrodes                        72 (10–20 system)
+inputs which define the instructions to be executed. A             Stereo-EEG probe contacts               4 (Medtronic 3389-like)
+modal dialog box enables users to select these files as            Electrode model                         Complete Electrode Model
+well as define at which point should the mesh generation
+shall commence based on the run type, which is one of              The numerical setup for this study was established by
+the following: Fresh start (BST’s compartment data is used      first importing anatomical data from the ICBM152 template,
+directly); Import compartments (compartment data created        specifically using the Desikan-Killiany and Aseg atlases,
+by the previous run is imported); or Use project (all data      into ZI via Brainstorm (BST). This process yielded 116
+comes from a previously created ZI project).                    segmented compartments, each represented by a closed sur-
+   Preliminary instructions for BST-2-ZI can be found in        face mesh in Right-Anterior-Superior (RAS) orientation, as
+                                                                  3 \https://github.com/sampsapursiainen/zeffiro_
+ 1 https://neuroimage.usc.edu/brainstorm/Tutorials/             interface/wiki/BST_2_ZI
+CreateProtocol                                                    4 https://neuroimage.usc.edu/brainstorm/Tutorials/
+  2 https://neuroimage.usc.edu/brainstorm/Community             FemMesh#Zeffiro
+             Transparent                          Surface mesh
+               surface                            compartments                  Fig. 4. Deep structures with stereo-EEG probe; the FE mesh was refined in
+            segmentation                           inside skull                 the vicinity of the probe to result in accuracy of approximately 0.3 mm with
+                                                                                respect to the surface model. From Top to bottom: Ventricle Lateral (Dark
+Fig. 2. A transparent surface segmentation of the whole head (left) with        purple), Putamen (Magenta), Hippocampus (Yellow), Amygdala (Cyan),
+the stereo-EEG probe and the compartments inside the CSF layer (right)          Ventral Diencephalon (Red), Thalamus (Green).
+as of after importing them from BST to ZI. Altogether, the number of
+compartments (scouts) imported from tissue atlas, Desikan-Killiany atlas
+and Aseg atlas, was 116. The electrical conductivities (S/m) of the different
+tissue types represented by those were chosen to be isotropic with the          compartments of the Desikan-Killiany and Aseg atlas. In
+following values: white matter 0.14, gray matter 0.33, CSF 1.79, scalp
+0.43, eyes 1.5, compact bone 0.0064, spongy bone 0.028, blood 0.7, muscle       addition, to prevent void space inside the final volume con-
+0.33, probe 1E-15, and probe encapsulation 0.33. The white and gray matter      ductor model, an envelope compartment with conductivity
+compartments were composed of various sub-compartments of the Desikan-          0.33 S/m was defined as a container of all other compart-
+Killiany and Aseg atlas.
+                                                                                ments and was associated with those FE mesh elements, if
+                                                                                they otherwise were not labelled in the determination of the
+                                                                                sub-compartments.
+                                                                                   The base resolution of the FE mesh was chosen to be 0.6
+                                                                                mm everywhere in the domain. The stereo-EEG probe and its
+                                                                                encapsulation were refined uniformly to establish a sufficient
+                                                                                mesh resolution of about 0.3 mm for modeling the electrodes
+                                                                                on its surface (Figure 4). The final mesh was composed of
+           FE mesh with
+          scalp electrodes
+                                             FE mesh without CSF                18.7 M nodes and 91.8 M tetrahedra.
+Fig. 3. A tetrahedral FE mesh with overall 0.6 mm resolution was generated
+                                                                                   To perform a simple source localization test using the
+as described in [6] based on the 116 imported compartments together with 72     whole-head electrode setting, two EEG LF matrices were
+scalp electrodes, placed according to 10-20 system and a cylindrical stereo-    generated and tested: one for scalp-EEG and the other for
+EEG probe model with its 4 omnidirectional contacts (approximating those
+of Medtronic 3389, see, e.g., [26]) reaching the ANT region.
+                                                                                stereo-EEG, corresponding to the combined configuration of
+                                                                                scalp electrodes and stereo-EEG. The source space of both
+                                                                                LF matrices was composed of altogether 100.000 source
+generated by the BST-to-ZI pipeline (Fig. 2). Following this,                   positions evenly distributed in the active compartments of the
+72 ring electrodes were positioned on the scalp in accordance                   brain, including both cortical and subcortical areas, each one
+with the 10-20 system. Each electrode had an outer diameter                     containing a triplet of three dipolar sources with Cartesian
+of 10.0 mm, an inner diameter of 4.0 mm, and a contact                          orientations.
+impedance of 2 kΩ. Subsequently, a synthetic stereo-EEG                            Synthetic data was generated using a single dipolar source
+probe was inserted approximately at the location of the                         placed in the region of the ventral posterior nucleus (VPN)
+anterior nuclei of the thalamus (ANT) using ZI’s strip tool—a                   in the left thalamus within 16 mm distance from the probe.
+graphical interface for implanting linear probes or electrode                   The following two alternative orientations were examined: (i)
+strips within the brain. The implanted cylindrical probe had                    close to parallel and (ii) close to perpendicular with respect
+a diameter of 1.27 mm and included four omnidirectional                         to the probe. Gaussian zero-mean white noise with a 30 dB
+contacts, each with a length of 1.5 mm, an inter-contact                        signal-to-noise ratio was used. As the source reconstruction
+spacing of 0.5 mm, and a contact impedance of 2 kΩ. The                         techniques ZI’s versions of sLORETA, Dipole Scan, and
+geometry corresponds to the Medtronic 3389 device, com-                         scalar Unit-Noise-Gain Beamformer (sUNGB) [28] were
+monly used in Deep Brain Stimulation (DBS) applications                         applied.
+[26], and suitable for stereo-EEG recordings in bidirectional
+                                                                                                             III. R ESULTS
+modes [27]. To mimic the encapsulation typically observed in
+DBS procedures, the probe was enclosed within a concentric                         In the numerical experiments, two LF matrices were first
+cylindrical layer of 0.5 mm thickness.                                          generated using the whole-head multi-compartment FE mesh
+   The FE mesh (Table I) was created (Fig. 3) using ZI’s                        with two different CEM-based electrode settings; one of the
+mesh generator [6] considering all 116 compartments. The                        matrices corresponds to scalp-EEG only and the other one
+electrical conductivities (S/m) of the different tissue types                   to the combined stereo-EEG configuration. Fig. 5 displays
+(Figure 2) were chosen to be isotropic. The white and                           the relative spatial amplitude of the LF matrix for both
+gray matter compartments were composed of various sub-                          scalp-EEG and combined stereo-EEG settings between 0 dB
+(visualization threshold) and 40 dB (maximum amplitude).           hances the sensitivity of the lead field in its immediate
+In the stereo-EEG case, the LF distribution is concentrated        vicinity. Sources aligned approximately parallel to the elec-
+around the stereo-EEG probe, demonstrating the probe’s             trode axis were more accurately and focally reconstructed
+ability to confine sensitivity to its immediate surroundings.      compared to those oriented perpendicularly. This effect is
+In contrast, the scalp-EEG LF is more evenly spread and            consistent with prior findings in DBS modeling and stereo-
+exhibits a larger overall footprint, with sensitivity increasing   EEG studies, where the spatial distribution and intensity
+toward the scalp.                                                  of electric fields have been shown to depend on electrode
+   The two LF matrices were applied to localize two dipolar        orientation [29].
+sources in the left thalamus. Fig. 6 shows the source localiza-       An obvious future work topic would be to use the present
+tion results using sLORETA, Dipole Scan, and sUNGB for             approach to generate an accurate model for some local en-
+two orthogonal orientations of a synthetic thalamic dipole         vironment of the brain, for example, a thalamic parcellation,
+placed in the VPN region of the left thalamus. For all three       which could be done in a straightforward manner using the
+reconstruction techniques, the results demonstrate that the        existing code platform. Such a study could also cover an
+inclusion of the stereo-EEG setting substantially improves         application-specific FE mesh adaptation to focus the model
+the localization focus in the thalamic region. Specifically,       into a well-chosen region of interest, such as ANT which
+when the dipole orientation is nearly parallel to the stereo-      is targeted in various DBS studies. The findings concerning
+EEG probe, the spatial accuracy and concentration of the           stereotactic source localization sensitivity motivates further
+reconstructed source are consistently higher than for the          numerical analysis concerning, for example, directional DBS
+perpendicular orientation. This phenomenon is evident for          probes, which have a complex pattern of electrodesthat
+all three methods, with the effect being most pronounced in        required advanced FEM modeling.
+the sUNGB reconstructions.
+   In contrast, in the absence of the probe electrodes (scalp-                               V. C ONCLUSION
+EEG setting), the localization results are generally more
+diffuse and show less dependence on dipole orientation. This          We have presented a novel pipeline integrating Brainstorm
+suggests that the inclusion of invasive electrodes provides        and Zeffiro Interface for constructing whole-head, multi-
+not only enhanced spatial precision but also sensitivity to        compartment volume conductor models suitable for stereo-
+the source orientation relative to the probe. While sUNGB          EEG simulations. Our results demonstrate that combining
+yields the most focal results overall, it also appears to be the   non-invasive scalp electrodes with invasive stereo-EEG probe
+least affected by the presence or absence of the stereo-EEG        contacts using a multi-compartment finite element framework
+probe in the perpendicular case.                                   with complete electrode model boundary conditions can be
+                                                                   advantageous in source localization, particularly stereotactic
+                      IV. D ISCUSSION                              applications targeting specific regions of the brain, such as
+   This study demonstrated a preliminary step toward               the thalamus and other deep structures.
+anatomically accurate whole-head FE modeling for stereo-
+tactic EEG source localization. By defining electrodes via
+the CEM boundary conditions, we could create a whole-head
+system, in which both scalp electrodes and deep omnidirec-
+tional contacts (inspired by Medtronic 3389 see, e.g., [26])
+are modelled according to their actual shape and size.
+   Using the anatomical information of BST’s ICBM152
+template and ZI’s FE mesh generator [6], we constructed
+a detailed multi-compartment tetrahedral FE mesh in which                                      LF for stereo-EEG
+all subcomponents of the anatomical segmentation, cortical
+and subcortical tissues, were explicitly treated as individual
+compartments. The BST-2-ZI pipeline facilitated the integra-
+tion of anatomical data from BST [15] into ZI [12], enabling
+the generation this FE mesh.
+   The successful generation of a high-resolution LF matrix
+with 100.000 source positions for this configuration demon-
+strated the feasibility of localizing deep sources such as                                     LF for scalp-EEG
+thalamic activity using a whole-head model. Considering the
+dense placement of the omnidirectional DBS contacts, the           Fig. 5. The relative stereo LF amplitude for stereo-EEG and scalp-EEG as
+high 0.6 mm base FE resolution for the mesh and refinement         a volumetric distribution in decibels with respect to minimum value 0 dB
+                                                                   and with 10 dB as a top threshold value. In the case of stereo-EEG the field
+towards the DBS probe were essential features to obtain a          can be observed to be concentrated into the vicinity of the probe, while for
+sufficiently high mesh density in the vicinity of the probe.       scalp-EEG, the amplitudes are observed to be more evenly distributed with
+   The results of our source localization tests demonstrate        a growth towards the scalp electrodes.
+that the presence of the stereotactically placed probe en-
+                                                                                  [10] J. C. Mosher, R. M. Leahy, and P. S. Lewis, “Eeg and meg: forward
+                                                                                       solutions for inverse methods,” IEEE Transactions on biomedical
+                                                                                       engineering, vol. 46, no. 3, pp. 245–259, 1999.
+                                                                                  [11] T. Miinalainen, A. Rezaei, D. Us, A. Nüßing, C. Engwer, C. H.
+     sLORETA,        sLORETA,         sLORETA,        sLORETA,                         Wolters, and S. Pursiainen, “A realistic, accurate and fast source
+    Orientation (i) Orientation (ii) Orientation (i) Orientation (ii)                  modeling approach for the eeg forward problem,” NeuroImage, vol.
+                                                                                       184, pp. 56–67, 2019.
+                                                                                  [12] Q. He, A. Rezaei, and S. Pursiainen, “Zeffiro user interface for
+                                                                                       electromagnetic brain imaging: a gpu accelerated fem tool for forward
+                                                                                       and inverse computations in matlab,” Neuroinformatics, vol. 18, pp.
+                                                                                       237–250, 2020.
+    Dipole Scan, Dipole Scan, Dipole Scan, Dipole Scan,                           [13] S. Pursiainen, B. Agsten, S. Wagner, and C. H. Wolters, “Advanced
+    Orientation (i) Orientation (ii) Orientation (i) Orientation (ii)                  boundary electrode modeling for tes and parallel tes/eeg,” IEEE Trans-
+                                                                                       actions on Neural Systems and Rehabilitation Engineering, vol. 26,
+                                                                                       no. 1, pp. 37–44, 2017.
+                                                                                  [14] A. Rezaei, J. Lahtinen, F. Neugebauer, M. Antonakakis, M. C. Pias-
+                                                                                       tra, A. Koulouri, C. H. Wolters, and S. Pursiainen, “Reconstructing
+                                                                                       subcortical and cortical somatosensory activity via the ramus inverse
+      sUNGB,           sUNGB,          sUNGB,           sUNGB,                         source analysis technique using median nerve sep data,” Neuroimage,
+    Orientation (i) Orientation (ii) Orientation (i) Orientation (ii)                  vol. 245, p. 118726, 2021.
+                                                                                  [15] F. Tadel, S. Baillet, J. C. Mosher, D. Pantazis, and R. M. Leahy,
+              Stereo-EEG                        Scalp-EEG                              “Brainstorm: A user-friendly application for meg/eeg analysis,” Com-
+                                                                                       putational intelligence and neuroscience, vol. 2011, no. 1, p. 879716,
+Fig. 6. The source localization results obtained for a synthetic dipole                2011.
+with 30 dB SNR placed in the VPN region of the left thalamus with two             [16] J. L. Lancaster, D. Tordesillas-Gutiérrez, M. Martinez, F. Salinas,
+alternative orientations: (i) close-to-parallel and (ii) close-to-perpendicular        A. Evans, K. Zilles, J. C. Mazziotta, and P. T. Fox, “Bias between mni
+w.r.t. stereo-EEG probe. The sLORETA, Dipole Scan, and sUNGB were                      and talairach coordinates analyzed using the icbm-152 brain template,”
+used as the source localization techniques and two whole-head LF matrices,             Human brain mapping, vol. 28, no. 11, pp. 1194–1205, 2007.
+one for scalp-EEG and the other one for stereo-EEG, as alternative forward        [17] Brainstorm, “FEM Mesh Generation,” https://neuroimage.usc.edu/
+mappings. The stereo-EEG LF included the 4 omnidirectional contacts of                 brainstorm/Tutorials/FemMesh, 2025, accessed: 2025-05-23.
+the probe in the configuration. Illustrated is the relative amplitude of the      [18] Zeffiro Interface, “BST 2 ZI – Brainstorm to Zeffiro Interface Conver-
+source reconstruction obtained in thalamus. The results demonstrate that,              sion Guide,” https://github.com/sampsapursiainen/zeffiro\ interface/
+overall the distributions are more focused in the case of the stereo-EEG               wiki/BST\ 2\ ZI, 2025, accessed: 2025-05-23.
+LF matrix. In the presence of the probe, the close-to-parallel orientation (i)    [19] L. Henschel, S. Conjeti, S. Estrada, K. Diers, B. Fischl, and M. Reuter,
+yields a more focused estimate than the close-to-perpendicular one (ii). This          “Fastsurfer - a fast and accurate deep learning based neuroimaging
+tendency is not observed if the probe is absent. Dipolar source placement              pipeline,” NeuroImage, vol. 219, p. 117012, 2020.
+and orientation in VPN thalamus corresponds to the blue pin.                      [20] A. M. Dale, B. Fischl, and M. I. Sereno, “Cortical surface-based
+                                                                                       analysis: I. segmentation and surface reconstruction,” NeuroImage,
+                                                                                       vol. 9, no. 2, pp. 179–194, 1999.
+                                                                                  [21] J. Ashburner and K. J. Friston, “Unified segmentation,” NeuroImage,
+                              R EFERENCES                                              vol. 26, no. 3, pp. 839–851, 2005.
+                                                                                  [22] C. Gaser and R. Dahnke, “Cat–a computational anatomy toolbox
+ [1] T. R. Knösche and J. Haueisen, EEG/MEG Source Reconstruction.
+                                                                                       for the analysis of structural mri data,” in Human Brain Mapping
+     Springer, 2022.
+                                                                                       Conference, Geneva, Switzerland, 2016, available at: http://www.
+ [2] M. Hämäläinen, R. Hari, R. J. Ilmoniemi, J. Knuutila, and O. V.
+                                                                                       neuro.uni-jena.de/cat/.
+     Lounasmaa, “Magnetoencephalography—theory, instrumentation, and
+                                                                                  [23] D. W. Shattuck and R. M. Leahy, “Brainsuite: An automated cortical
+     applications to noninvasive studies of the working human brain,”
+                                                                                       surface identification tool,” Medical Image Analysis, vol. 6, no. 2, pp.
+     Reviews of modern Physics, vol. 65, no. 2, p. 413, 1993.
+                                                                                       129–142, 2002.
+ [3] S. Pursiainen and F. Lucka, “Complete electrode model in eeg:
+                                                                                  [24] Y. Ad-Dab’bagh, O. Lyttelton, J.-S. Muehlboeck, C. Lepage, D. Einar-
+     relationship and differences to the point electrode model,” Physics
+                                                                                       son, K. Mok, O. Ivanov, R. D. Vincent, J. Lerch, E. Fombonne,
+     in Medicine & Biology, vol. 57, no. 4, p. 999, 2012.
+                                                                                       and A. C. Evans, “Civet: Automated pipeline for measuring cortical
+ [4] J. Vorwerk, J.-H. Cho, S. Rampp, H. Hamer, T. R. Knösche, and C. H.              thickness,” in Proceedings of the 12th Annual Meeting of the Organi-
+     Wolters, “A guideline for head volume conductor modeling in eeg and               zation for Human Brain Mapping, Florence, Italy, 2006, available at:
+     meg,” NeuroImage, vol. 100, pp. 590–607, 2014.                                    http://www.bic.mni.mcgill.ca/ServicesSoftware/CIVET.
+ [5] T. Medani, J. Garcia-Prieto, F. Tadel, M. Antonakakis, T. Erdbrügger,       [25] D. Rivière, Y. Cointepas, D. Papadopoulos-Orfanos, A. Cachia,
+     M. Höltershinken, W. Mead, S. Schrader, A. Joshi, C. Engwer,                     C. Poupon, and J.-F. Mangin, “Brainvisa: an extensible software
+     C. H. Wolters, J. C. Mosher, and R. M. Leahy, “Brainstorm-                        environment for sharing multimodal neuroimaging data and processing
+     duneuro: An integrated and user-friendly finite element method for                tools,” NeuroImage, vol. 19, no. 3, pp. 1873–1884, 2003.
+     modeling electromagnetic brain activity,” NeuroImage, vol. 267, p.           [26] D. N. Anderson, B. Osting, J. Vorwerk, A. D. Dorval, and C. R. But-
+     119851, 2023. [Online]. Available: https://www.sciencedirect.com/                 son, “Optimized programming algorithm for cylindrical and directional
+     science/article/pii/S1053811922009727                                             deep brain stimulation electrodes,” Journal of neural engineering,
+ [6] F. Galaz Prieto, J. Lahtinen, M. Samavaki, and S. Pursiainen, “Multi-             vol. 15, no. 2, p. 026005, 2018.
+     compartment head modeling in eeg: Unstructured boundary-fitted tetra         [27] J. Ansó, M. Benjaber, B. Parks, S. Parker, C. R. Oehrn, M. Petrucci,
+     meshing with subcortical structures,” Plos one, vol. 18, no. 9, p.                R. Gilron, S. Little, R. Wilt, H. Bronte-Stewart et al., “Concurrent
+     e0290715, 2023.                                                                   stimulation and sensing in bi-directional brain interfaces: a multi-
+ [7] K. A. Salayev, N. Nakasato, M. Ishitobi, H. Shamoto, A. Kanno, and                site translational experience,” Journal of Neural Engineering, vol. 19,
+     K. Iinuma, “Spike orientation may predict epileptogenic side across               no. 2, p. 026025, 2022.
+     cerebral sulci containing the estimated equivalent dipole,” Clinical         [28] J. Lahtinen, “Mathematical methods for the neuroelectromagnetic
+     neurophysiology, vol. 117, no. 8, pp. 1836–1843, 2006.                            inverse problem for focal and unbiased brain imaging,” Doctoral
+ [8] J. Lahtinen, A. Koulouri, S. Rampp, J. Wellmer, C. Wolters, and                   dissertation, Tampere University, Tampere, Finland, 2025. [Online].
+     S. Pursiainen, “Standardized hierarchical adaptive lp regression for              Available: https://trepo.tuni.fi/handle/10024/187945
+     noise robust focal epilepsy source reconstructions,” Clinical Neuro-         [29] A. Li, N. Trotta, G. A. Worrell, L. Yang, and B. He, “Impact of
+     physiology, vol. 159, pp. 24–40, 2024.                                            electrode orientation and location on stereo-eeg source imaging,”
+ [9] A. Gramfort, T. Papadopoulo, E. Olivi, and M. Clerc, “Forward                     NeuroImage, vol. 232, p. 117866, 2021. [Online]. Available: https:
+     field computation with openmeeg,” Computational intelligence and                  //www.sciencedirect.com/science/article/pii/S1053811921000239
+     neuroscience, vol. 2011, no. 1, p. 923703, 2011.
+

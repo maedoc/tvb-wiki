@@ -1,0 +1,973 @@
+                                                 Taming Epilepsy: Mean Field Control of Whole-Brain Dynamics
+                                                                            Ming Li1,5,6 , Ting Gao2,3,4* , Jingqiao Duan5,6
+                                             1
+                                             School of Mathematics and Information Science, Guangzhou University, Guangzhou 510000,
+                                                                                         China.
+                                         2
+                                           School of Mathematics and Statistics, Huazhong University of Science and Technology, Wuhan
+                                                                                     430074, China.
+arXiv:2603.18035v1 [cs.LG] 11 Mar 2026
+
+
+
+
+                                             3
+                                               Center for Mathematical Science, Huazhong University of Science and Technology, Wuhan
+                                                                                     430074, China
+                                           4
+                                             Steklov-Wuhan Institute for Mathematical Exploration, Huazhong University of Science and
+                                                                           Technology, Wuhan 430074, China
+                                                         5
+                                                           School of Sciences, Great Bay University, Dongguan 523000, China.
+                                         6
+                                           Guangdong Provincial Key Laboratory of Mathematical and Neural Dynamical Systems, Great
+                                                                        Bay University, Dongguan 523000, China.
+
+                                                                                                March 20, 2026
+
+
+                                                                                                    Abstract
+                                                     Controlling the high-dimensional neural dynamics during epileptic seizures remains a significant challenge
+                                                 due to the nonlinear characteristics and complex connectivity of the brain. In this paper, we propose a novel
+                                                 framework, namely Graph-Regularized Koopman Mean-Field Game (GK-MFG), which integrates Reservoir
+                                                 Computing (RC) for Koopman operator approximation with Alternating Population and Agent Control Network
+                                                 (APAC-Net) for solving distributional control problems. By embedding Electroencephalogram (EEG) dynamics
+                                                 into a linear latent space and imposing graph Laplacian constraints derived from the Phase Locking Value (PLV),
+                                                 our method achieves robust seizure suppression while respecting the functional topological structure of the brain.
+
+                                                   Keywords: Mean field control; Reservoir computing; Koopman operator; Key node detection; Epilepsy
+
+
+                                         1       Introduction
+                                         In the interdisciplinary field of neuroscience and engineering control, the structural analysis, dynamic characteri-
+                                         zation, and precise regulation of complex systems are core research propositions. As a typical complex nonlinear
+                                         system, the brain’s network topology changes and neural activity synchronization are directly related to the real-
+                                         ization of cognitive functions and the occurrence of pathological states, and graph-theoretic modeling provides a
+                                         rigorous mathematical tool for deciphering this ”black box”. In recent years, graph-theoretic modeling has achieved
+                                         remarkable results in brain network research: Seth et al. [1] laid the foundation for graph-theoretic analysis of
+                                         neuronal networks; Rangaprakash et al. [2]and Shovon et al. [3] constructed functional brain networks and realized
+                                         state quantification based on fMRI and EEG data [4], respectively; Cao et al. [5] and Szalkai et al. [6] revealed
+                                         abnormal brain network topology under pathological conditions and gender differences; Shang’s [7] spectral graph
+                                         invariant theory and Sinke et al.’s [8] life-cycle brain network modeling improved the dynamic analysis system;
+                                         Luo et al. [9] combined graph neural networks with brain-inspired mechanisms, promoting its extension to the
+                                         interdisciplinary field of artificial intelligence.
+                                             Corresponding to the dynamic characteristics of brain networks, power systems, nonlinear processes, and network
+                                         systems in the engineering field face control challenges such as uncertainty and nonlinearity. Reservoir Computing
+                                         (RC) has become an effective solution by virtue of its strong robustness and adaptability. In power systems, Sayem
+                                         et al. [10] combined RC with Active Disturbance Rejection Control to optimize load frequency regulation, and
+
+
+                                                                                                         1
+Neto et al. [11] verified the harmonic compensation performance of RC-based controllers; in the regulation of
+complex networks and nonlinear systems, Wu et al. [12] use data-driven RC scheme to realize trajectory guidance
+of heterogeneous networks, and the RC-related strategies proposed by Tilli et al.[13] and Jordanou et al. [14]
+performed better than traditional methods in multiple scenarios. In addition, Lima et al. [15] design ensured the
+stability of RC, Jalalvand et al. [16] extended RC to acoustic modeling, and Saiz-Vela et al. [17]’s comparative
+analysis provided a reference for the selection of control strategies.
+     The dynamic evolution and optimal control of complex stochastic systems are the key bridge connecting neu-
+roscience and engineering control [18]. This field has witnessed fruitful research achievements: Qin, B.-W et al.
+[19] established a coupled fast-slow node model and a reaction-diffusion coordinator, revealing the pulsation os-
+cillation mechanism and the regulation law of biological oscillators; Tian Ge et al. [20]’s linear feedback control
+provided theoretical support for the modulation of biological systems; Kent et al. [21] verified the effectiveness of
+next-generation reservoir computing in complex system control tasks; Xueqin Li [22]., Kai Du et al [23]., and Hong
+Xiong et al. [24]. constructed stochastic control theoretical frameworks and applied them to pension and portfolio
+optimization; Mohamed et al. [25] and Grigoriy Kimaev et al. [26] improved the near-optimality and computational
+efficiency of stochastic control, respectively.
+     As an important branch of optimal control for complex stochastic systems, Mean Field Optimal Control (MFOC)
+[27] plays a prominent role in the modeling of large-scale stochastic systems, and related research covers rich theories
+and applications: Hafayed [28]explored singular MFOC problems and applied them to portfolio selection; Fornasier
+et al. [29][30] established the limit connection between finite-dimensional and infinite-dimensional control, improving
+the connection between micro and macro models; E et al. [31] transformed the population risk minimization problem
+into an MFOC problem, providing a mathematical foundation for neural network training; Zhang et al. [32] and
+Burger et al. [33] improved the MFOC theory from the perspectives of variation and measure theory, respectively; Ge
+et al. [34] integrated reinforcement learning with MFOC; Bonnet et al. [35] optimized the derivation and theoretical
+analysis of MFOC; Albi et al. [36] realized selective control of multi-population MFOC. These achievements have
+further enriched the theoretical system of complex stochastic system control.
+     In summary, graph-theoretic modeling provides a core tool for the structural analysis of complex systems, reser-
+voir computing offers an efficient method for dynamic regulation, the research on the dynamics of complex stochastic
+systems builds a bridge for their integration, and the development of MFOC further improves the theoretical and
+application system of complex stochastic system control. This study proposes a novel, fully integrated closed-loop
+neuromodulation framework: Graph-Regularized Koopman[37] Mean-Field Game (GK-MFG). This framework is
+logically highly coherent: first, establish the mean field distribution control objective with APAC-Net as the core;
+second, use graph Laplacian operators based on PLV to constrain the control objective to the physical topology
+of the brain; finally, introduce the RC-Koopman operator[38] to address the computational bottleneck of high-
+frequency nonlinear prediction. Through the deep integration of these three modules, this framework demonstrates
+unprecedented robustness and accuracy in suppressing seizures in high-dimensional epileptic networks.
+
+
+2     Methodology
+This study aims to address the global suppression problem of high-dimensional stochastic epileptic networks. To
+endow this complex optimization process with logical coherence and physiological rationality, the derivation of this
+framework follows the following core logical chain: First (Sections 2.1 and 2.2), establish the core paradigm of
+control—solving the MFG using the APAC-Net to achieve direct distributional control over the probability density
+of neural populations; Second (Section 2.3), since abstract density control must comply with the inherent physical
+connectivity rules of the brain, introduce GSP and graph Laplacian regularization to rigidly embed the functional
+network topology into the cost functional of the MFG; Finally (Section 2.4), to achieve ultra-fast forward simulation
+of complex brain dynamics in adversarial generative training, adopt RC to approximate the Koopman operator,
+completing the global data-driven linearization of system evolution.
+
+2.1    MFG Modeling for Epilepsy Suppression
+Epileptic seizures are not merely abnormalities of individual neurons, but rather abrupt changes in the synchronous
+behavior of large-scale neuronal ensembles. Therefore, traditional Proportional-Integral-Derivative (PID) or linear
+control targeting a single node cannot cope with the overall complexity of the system. This study models the
+closed-loop suppression process of epilepsy as a continuous-time Stochastic Mean Field Game problem. Within
+
+
+                                                           2
+this framework, the control objective is no longer to force the electroencephalographic signal of a specific channel
+to rigidly track a preset reference trajectory, but rather to control the PDF of the entire neural network state
+from a macroscopic statistical perspective. Specifically, it enforces the reshaping of the pathological state dis-
+tribution—characterized by high variance and a ”long tail”—into a safe, low-energy healthy state distribution
+concentrated around the zero baseline.
+    In the linearized latent observable space constructed subsequently via the Koopman operator, the macroscopic
+dynamics of neural populations are described as a controlled Stochastic Differential Equation (SDE):
+
+                                       dz(t) = (Kz(t) + Blatent u(t))dt + ΣdWt                                     (1)
+
+where z(t) ∈ RNres denotes the lifted high-dimensional neural state vector, K is the linearized Koopman system
+evolution matrix learned through data-driven methods, Blatent is the projected representation of the physical space
+control matrix in the latent space, and u(t) is the optimal closed-loop neuromodulation input signal (control law)
+to be solved. ΣdWt encompasses complex biophysical noise and measurement perturbations within the brain neural
+system, serving as a stochastic diffusion term driven by the Wiener Process.
+    The objective of solving for the optimal control law u∗ (t) is to minimize the global cost functional J(u) defined
+over a finite time horizon [0, T ], which includes a running cost and a terminal constraint:
+                                         "Z                                                #
+                                              T                              
+                                                                 1     T
+                          J(u) = Ez∼ρ           Cstate (z(t)) +    u(t) Ru(t) dt + G(z(T ))                         (2)
+                                            0                   2γ
+
+    In this functional: - Cstate (z(t)) is the state penalty term, designed to constrain the degree of system deviation
+from the healthy baseline. This term will be deeply integrated with the brain network graph topology in Section
+         1
+2.3. - 2γ  u(t)T Ru(t) is the control energy regularization term, where R is a positive definite weight matrix and
+γ is the control tolerance coefficient. It ensures that the generated electrical stimulation signals are physically
+feasible and smooth, avoiding irreversible thermal damage or electrical breakdown to fragile brain tissue caused by
+high-frequency chattering. - G(z(T )) is the terminal distribution cost, used to constrain the probability distribution
+shape of the system at the final time.
+
+2.2     APAC-Net Deep Solver: From Variational Principle to Adversarial Generative
+        Architecture
+Solving the aforementioned high-dimensional stochastic optimal control problem is mathematically equivalent to
+finding the solution to a set of strongly coupled nonlinear Partial Differential Equations (PDEs): - The backward-
+time Hamilton-Jacobi-Bellman (HJB) equation: used to determine the optimal value function ϕ over the entire
+state space. - The forward-time Fokker-Planck (FP) equation: used to describe the spatiotemporal evolution of the
+probability density ρ(z, t) of neural populations under the optimal control law.
+    In traditional numerical analysis methods, solving such coupled PDEs requires spatial meshing, whose com-
+putational complexity explodes exponentially with the spatial dimension (i.e., the Curse of Dimensionality). To
+enable solution in brain network spaces with dimensions of tens or even hundreds, this framework introduces the
+APAC-Net for mesh-free computation.
+
+2.2.1   Variational Primal-Dual Structure of Potential MFGs
+The core of APAC-Net’s ability to bypass the Curse of Dimensionality lies in its clever utilization of the underlying
+variational properties of Potential MFGs. According to the Benamou-Brenier formula in Optimal Transport theory,
+the aforementioned coupled PDE system can be reformulated as a constrained convex optimization problem. By
+treating the Fokker-Planck equation (representing the physical evolution law of populations) as a constraint condi-
+tion and introducing the value function ϕ(z, t) as a Lagrange Multiplier, the solution process can be transformed
+into a Convex-Concave Saddle-Point optimization problem:
+                                    Z TZ                                  
+                                                  1      T
+                            inf sup        ∂t ϕ + Tr(ΣΣ ∆ϕ) − H(z, ∇ϕ) ρ(z, t)dzdt
+                             ρ   ϕ   0   Ω        2
+                                       Z                   Z                                                      (3)
+                                   +       ϕ(z, T )ρ(z, T )dz −       ϕ(z, 0)ρ0 (z)dz
+                                       Ω                          Ω
+
+
+                                                             3
+    This exquisite mathematical equivalence perfectly aligns the solution of high-dimensional PDEs with the game
+intuition of Generative Adversarial Networks (GANs): - The Population Network (Generator) controls the
+density distribution ρ, aiming to explore the high-dimensional manifold and satisfy dynamic evolution laws. - The
+Value Network (Discriminator) controls the value surface ϕ, aiming to provide the strictest cost-risk assessment for
+the current density distribution.
+
+2.2.2   ValueNet and HJB Value Function Approximation
+The Value Network is parameterized as ϕω (z, t), acting as the ”discriminator” in the adversarial game and respon-
+sible for evaluating the potential risk of the system in any brain state.
+    In terms of network architecture design, the first and hidden layers of the Value Network must adopt smooth
+nonlinear activation functions with continuous second-order differentiability (e.g., Softplus). This design is mathe-
+matically crucial because the computation of the HJB equation involves taking the second partial derivative of the
+value function (i.e., the Laplacian operator ∆ϕ). If traditional ReLU activation functions are used, their second
+derivatives are zero, leading to gradient breakdown of the diffusion term used to simulate stochastic noise.
+    The optimization of the Value Network aims to minimize the continuous-time residual of the HJB equation, and
+its loss function Lϕ is defined as:
+                                      "                                                     #
+                                                                                          2
+                                                 1      T
+                           Lϕ = Ez∼ρ ∂t ϕω + Tr(ΣΣ ∆ϕω ) + Cstate (z) − H(z, ∇z ϕω )                              (4)
+                                                 2
+
+    where the Hamiltonian H(z, p) determines the optimal energy evolution direction of the system. Thanks to the
+strictly linear evolution matrix K extracted by the subsequent Koopman module (system drift term f (z) = (K−I)z),
+the Hamiltonian has an analytic form with extremely high computational efficiency:
+                                                           1
+                        H(z, ∇z ϕ) = (∇z ϕ)T (K − I)z −      (∇z ϕ)T (Blatent R−1 Blatent
+                                                                                   T
+                                                                                          )(∇z ϕ)                   (5)
+                                                          4γ
+
+2.2.3   Generator Network and Density Evolution: Global Spatial Exploration Driven by Real Data
+The Generator Network is parameterized as Gθ (z0 , t), responsible for simulating and advancing the spatiotemporal
+evolution of the probability density ρ(z, t) of the entire neural population. At the beginning of theoretical derivation
+and adversarial training, the system samples noise from a standard normal distribution (z ∼ N (0, I)) as the initial
+prior input to the Generator Network.
+    It is important to clarify that this sampling mechanism based on random priors does not mean the control
+strategy is divorced from real electroencephalographic data. Instead, it is an Active Spatial Exploration strategy
+adopted in mean field control to avoid ”overfitting to historical data” and cope with extreme stochastic perturba-
+tions. Since the core objective of mean field control is not to track a single historical trajectory but to reshape
+the global ”probability density flow” in high-dimensional space, the task of the Generator is to push forward the
+simple initial distribution and map it to a high-dimensional electroencephalographic distribution manifold covering
+all potential extreme states.
+    To ensure that this extensive virtual exploration and the risk assessment made by the Value Network have
+strict physiological and dynamic significance, the real multi-channel EEG sequences of patients are abstracted as
+the ”underlying physical laws” and ”boundary constraints” of the control system, comprehensively dominating the
+adversarial training process through the following three Hard-binding mechanisms:
+
+   • Dynamic Evolution Law Binding (Driving Engine): The natural evolution direction of any exploration
+     point generated by the Generator in the state space over time is strictly framed by the system drift term f (z)
+     in the Hamiltonian. In this framework, this drift term is completely determined by the Koopman transition
+     matrix K extracted from patients’ real epileptic EEG data (learned using the RC-ESN method). This means
+     that any state evolution in the virtual space absolutely complies with the real brain physiological dynamic
+     laws of the patient.
+   • Topological Structure Penalty Binding (Spatial Constraint): When the system evaluates the risk of
+     the Generator’s output distribution, it relies on the state penalty function Cstate (z). This function rigidly
+     embeds the Phase Locking Value (PLV) adjacency matrix and graph Laplacian matrix calculated from real
+
+
+                                                           4
+        raw EEG data. This forces the Value Network to evaluate risks in full compliance with the inherent physical
+        connectivity topology of the real brain.
+   • Empirical HJB Residual Alignment (Real Data Anchoring): In the core loss calculation and network
+     optimization stage, the algorithm not only evaluates the virtual states explored by the Generator but also di-
+     rectly extracts real EEG time series observations as the benchmark for calculating the discrete-time Empirical
+     Bellman Residual:
+                                  h                                                                                  i
+                                                                                                                   2
+                LHJB-Real = Ezreal |ϕω (zreal , t + ∆t) − ϕω (zreal , t) + Cstate (zreal )∆t − H(zreal , ∇z ϕω )∆t|    (6)
+
+This alignment mechanism provides a ”real anchor” with absolute physical significance for the optimization of
+the value function ϕ, forcing the high-dimensional value surface evaluated by the network to not only maintain
+mathematical convexity in the unknown exploration space but also achieve strict numerical convergence on the
+epileptic seizure trajectories that have actually occurred in the patient’s history.
+    Through the aforementioned adversarial game mechanism of ”using the Generator to actively explore unknown
+high-dimensional manifolds and using real data to set evolution boundaries and penalty rules”, the model finally
+converges to a Nash Equilibrium point with extremely strong generalization ability and robust defense capability.
+
+2.2.4     Direct Extraction of Optimal Control Law u∗ (t)
+After completing the variational adversarial training, the network weights are fixed, making the closed-loop execution
+phase extremely efficient. The system receives real-time brain electrical states z(t) from scalp or intracranial
+electrodes and feeds them into the Value Network to perform a spatial gradient calculation. According to MFG
+theory, the optimal control signal u∗ (t) applied to the brain network is analytically given by the negative gradient
+of the current state on the value surface:
+                                                      1
+                                           u∗ (t) = − R−1 Blatent
+                                                              T
+                                                                   ∇z ϕ(z, t)                                      (7)
+                                                     2γ
+   This formula indicates that the controller always applies regulatory current along the gradient direction where
+”the total system cost decreases the fastest”, which is naturally smooth in the time domain and also has prospective
+defense capabilities against sudden epileptic fluctuations.
+
+2.3      Network Control with Graphic Constrain and Laplacian Regularization
+Although the aforementioned APAC-Net engine solves the problem of solving high-dimensional optimal control,
+its default state space is an isotropic Euclidean space when applied directly. However, the human brain is not a
+homogeneous medium, and the outbreak and propagation of epilepsy are strictly limited by the anatomical structural
+constraints and dynamic functional connectivity topology of the brain. Therefore, it is essential to introduce Graph
+Signal Processing (GSP) theory to hard-code the physical topological manifold of the brain network into the cost
+functional of the mean field game through Graph Laplacian Regularization.
+
+2.3.1     Construction of Dynamic Brain Networks Based on Phase Locking Value (PLV)
+To capture the complex nonlinear functional connectivity between different brain regions (nodes), the original multi-
+channel EEG time series are first mapped to the complex analytic space via the Hilbert Transform. For the signal
+xi (t) of any channel i, its analytic signal is extracted as:
+                                        zi (t) = xi (t) + jH[xi (t)] = Ai (t)ejφi (t)                                 (8)
+where Ai (t) is the instantaneous envelope amplitude and φi (t) is the instantaneous phase. During epileptic seizures,
+the amplitude of EEG signals is often disturbed by strong transient artifacts, so the Phase Locking Value (PLV)
+is selected as a robust indicator to evaluate the strength of functional connectivity. PLV decouples amplitude
+information and specifically quantifies the degree of phase synchronization between oscillatory signals.
+    Within a time window ∆t, the PLV between nodes i and j is defined as:
+                                                          M
+                                                     1 X j(φi (tk )−φj (tk ))
+                                            wij =       e                                                             (9)
+                                                     M
+                                                         k=1
+
+
+                                                               5
+     After calculating the full matrix, a hard threshold based on the percentile of the data distribution is applied to
+filter background noise, generating a highly sparse and physiologically meaningful weighted adjacency matrix A of
+the functional network.
+
+2.3.2   Graph Laplacian Operator and Manifold Regularized Cost
+Based on the adjacency matrix, the Graph LaplacianP Matrix L = D − A of the brain network is defined, where D is
+the degree matrix with diagonal elements Dii = j Aij . As a discrete differential operator reflecting the diffusion
+properties of the network, the graph Laplacian matrix accurately characterizes the manifold structure of the brain
+functional topology.
+    To enable the MFG controller to ”perceive” this topological structure, the Laplacian matrix is directly embedded
+into the state penalty term Cstate (z) of the mean field cost functional:
+
+                              Cstate (z) = ∥(I + L)xphys ∥22 = xTphys (I + L)T (I + L)xphys                       (10)
+
+    In graph theory, the quadratic form xT Lx is known as the Dirichlet Energy of the graph, which measures the
+difference and fluctuation of signal values between adjacent nodes in the graph. Given that epilepsy is essentially
+the rapid diffusion of local hypersynchronous discharges along strongly connected edges, this graph regularization
+design not only penalizes the abnormal absolute amplitude of a single node but also extremely severely penalizes
+abnormal potential differences and pathological diffusion (smoothness constraint) along connected edges on the
+network manifold. This is equivalent to forcing the controller to actively identify network topology vulnerabilities
+and block epileptic cascades by cutting off physical propagation paths.
+
+2.3.3   Pinning Control Based on Core Node Theory
+In clinical neuromodulation, applying electrical stimulation to all nodes of the whole brain is not only difficult to
+implement but also causes enormous energy consumption and side effects. Based on the ”Pinning Control” principle
+in complex network theory, effective suppression of global network synchronization behavior can be achieved by
+controlling a very small number of key nodes with high influence. To this end, the physical control matrix Bphys is
+designed as a highly sparse diagonal matrix.
+    This framework abandons a single indicator and adopts a weighted evaluation strategy integrating multi-
+dimensional graph-theoretic Centrality to accurately locate epileptogenic and propagation hubs, incorporating
+the following three topological dimensions: - Weighted Degree Centrality: Identifies direct seizure hubs with the
+strongest local physical and functional connections. - Betweenness Centrality: Identifies key connector nodes that
+act as bridges for information flow between different cortical micro-networks. - Eigenvector Centrality: Identifies
+deep core brain regions whose connected neighbors also have high influence.
+    Through this strategy, the system only selects a very small number of nodes with top comprehensive rankings
+as actual Actuators, thereby greatly compressing the control dimension while ensuring reliable blocking coverage of
+whole-brain dynamics.
+
+2.4     Global Linearization of Complex Nonlinear Dynamics Using RC-Koopman Op-
+        erators
+After completing the MFG theoretical derivation of optimal control and the embedding of graph-theoretic topology,
+the system faces the final severe computational physics challenge: in the adversarial training of APAC-Net, it is
+necessary to evaluate the underlying dynamic evolution equation at an extremely high frequency to perform millions
+of forward simulations and Hamiltonian partial derivative calculations. Traditional biophysical delay differential
+equations (such as Neural Mass Models) are prone to explosive time costs and even gradient divergence when coping
+with such massive computations.
+    To break through the bottleneck of real-time prediction and optimal control of nonlinear systems, this study
+introduces Koopman operator theory. For a nonlinear dynamical system xt+1 = F (xt ) defined in the state space,
+the Koopman operator K is an infinite-dimensional linear operator acting on the space of all scalar observable
+functions, satisfying strictly linear time evolution:
+
+                                            Kψ(xt ) = ψ(F (xt )) = ψ(xt+1 )                                       (11)
+
+
+                                                           6
+    Its core idea is to lift a finite-dimensional nonlinear dynamic into a high-dimensional function space, describ-
+ing the original nonlinear evolution with an absolutely linear dynamic equivalent, thereby elegantly transforming
+complex nonlinear control into a standard linear control problem.
+    To eliminate the high BPTT computing overhead required for deep autoencoders to find lifting dictionaries,
+this framework deploys an ultra-fast data-driven linearization scheme based on Reservoir Computing (RC-ESN).
+Its mathematical execution process is as follows:
+
+2.4.1    Spatio-Temporal Feature Fusion and Reservoir State Lifting
+To capture the non-Markovian time-lag effects and spatial interactions of the brain, the system first constructs a
+multi-dimensional enhanced input vector uin (t):
+
+                                           uin (t) = [xt ; Axt ; xt−1 ; . . . ; xt−τ ]                             (12)
+
+where Axt represents the neighbor spatial coupling term introduced based on the graph-theoretic adjacency matrix,
+and xt−τ represents historical time-delay features.
+   Subsequently, uin (t) is fed into a large-scale and highly sparse Echo State Network (ESN). Its internal high-
+dimensional hidden state vector rt follows the following dynamic update:
+
+                                    rt+1 = (1 − α)rt + α tanh(Win uin (t) + Wres rt )                              (13)
+
+    Since the input weight matrix Win and the reservoir recurrent weight Wres are absolutely frozen after initialization
+and do not require any gradient descent updates, the state rt can automatically map complex nonlinear combinations
+of input signals with extremely low computing power, serving as a nearly perfect training-free observable feature
+dictionary.
+
+2.4.2    Closed-Form Ultra-Fast Solution via Ridge Regression
+Benefiting from the fixed weights of the feature generation layer, the nonlinear optimization problem of finding the
+optimal global linear transition matrix K ∈ RNres ×Nres in the latent space is completely reduced to a pure Convex
+Optimization problem.
+   By collecting complete time series to construct the current state matrix Rcurr and the next-time state matrix
+Rnext , the transition matrix K is solved in closed-form via Ridge Regression with an L2 regularization term:
+                                              X
+                                         min      ∥rt+1 − Krt ∥22 + λreg ∥K∥2F                                  (14)
+                                           K
+                                                t
+
+                                                   T
+                                        K = Rnext Rcurr         T
+                                                        (Rcurr Rcurr + λreg I)−1                                   (15)
+    This purely algebraic matrix operation compresses the model training time to the millisecond level.
+
+2.4.3    Spectral Normalization and Hard Stability Constraints
+To ensure that the surrogate model does not experience numerical divergence in multi-step forward rolling prediction,
+strict algebraic constraints must be imposed on the transition matrix. By calculating all complex eigenvalues λi (K)
+of matrix K, its spectral radius ρ(K) = max |λi | is extracted. Once ρ(K) > 1 is identified, spectral normalization
+scaling is immediately performed:
+                                                  Ksafe = K/ρ(K)                                                 (16)
+This strict physical boundary constraint fundamentally guarantees the asymptotic stability of the closed-loop control
+system from a mathematical perspective.
+
+
+3       Results
+3.1     Brain Network Construction via PLV an Selection of Key Nodes
+To introduce physical constraints and achieve efficient sparse control in the Mean Field Game (MFG) framework,
+we first constructed the functional connectivity network of the brain based on EEG data and determined the
+
+
+                                                               7
+optimal control sites using graph theory metrics. As shown in Fig. 1 (Left), we calculated the instantaneous phase
+synchronization strength between 23 EEG channels using the Phase Locking Value (PLV) to construct a weighted
+adjacency matrix A ∈ R23×23 . The heatmap shows that during epileptic seizures, specific brain regions exhibit
+strong coupling (dark blue areas), which corresponds to pathological hypersynchronous activity.
+    To filter out noisy connections and extract the core topological structure, we applied thresholding to A (retaining
+connections with weights > 0.4), and the generated sparse network topology is shown in Fig. 1 (Right). The
+visualization results reveal that this brain network has significant Scale-Free characteristics, i.e., a small number of
+nodes (such as Channel 8, 21, 20) have extremely high connectivity and act as ”Hubs” for information flow.
+    The middle heatmap shows the corresponding Graph Laplacian matrix L = D − A. The diagonal elements of L
+reflect the degree of each node, and the inhomogeneity of their numerical distribution further confirms the existence
+of the Rich-club effect in the network, i.e., hub nodes tend to be closely connected to each other. This Laplacian
+operator is directly embedded into our MFG cost function (see Equation 12) as a diffusion operator to constrain
+the distribution of control signals on the manifold.
+    Based on the ”Pinning Control” theory, controlling the most influential nodes in a complex network can achieve
+global synchronization suppression at the minimum cost. Therefore, instead of applying control to all channels,
+we selected the top 5 nodes as Actuators based on the weighted combination of Weighted Degree Centrality,
+Betweenness Centrality, and Eigenvector Centrality.
+    As shown in Fig. 2, the control matrix B ∈ R23×23 is designed as a sparse diagonal matrix. Only the diagonal
+elements corresponding to Channel 4, 8, 13, 20, and 21 are set to 1 (dark blue squares), and the rest are set to 0.
+                                                 (
+                                                   1, if i ∈ {4, 8, 13, 20, 21}
+                                           Bii =                                                                   (17)
+                                                   0, otherwise
+
+This selection strategy directly utilizes the topological structure identified in Fig. 2: Channel 8 and 21 are the
+hubs with the highest connectivity, and controlling them can effectively block the propagation path of epileptic
+waves; while Channel 13 and 20 act as key Connectors linking different local communities. This Physics-Informed
+Sparse Control design significantly reduces the control dimension while ensuring effective coverage of the whole-brain
+dynamics.
+
+
+
+
+Figure 1: Brain Network Construction and Topological Structure Exploration: Figure 1(a) is the adja-
+cency matrix A of the brain network connections constructed from PLV, with colors mapped to the weights of the
+edges. (b) is the Laplacian matrix of the brain network: L = D − A, where D is the degree matrix. (c) is the 2-D
+visualization of the brain network constructed from PLV with an edge weight threshold of 0.4.
+
+
+3.2    Koopman Operator Solution via RC
+The difficulty of epilepsy control lies in the fact that the brain is a high-dimensional, strongly nonlinear complex
+network. Traditional control methods (PID, linear control) cannot handle this complexity, while Deep Reinforcement
+Learning (DRL) often lacks physical interpretability and suffers from unstable training. To address the nonlinearity,
+we introduce Koopman operator theory to lift the finite-dimensional nonlinear system to an infinite-dimensional
+
+
+                                                           8
+Figure 2: Solution of Control Matrix B: Figure 2 shows the top 5 key sub-nodes identified by the weighted
+combination of Degree Centrality, Betweenness Centrality, and Eigenvector Centrality. For the control matrix B,
+the diagonal elements corresponding to nodes with control inputs are all set to 1, and the remaining elements are
+all set to 0.
+
+
+linear space. Using Reservoir Computing (RC) as an efficient, backpropagation-free ”Observable” generator, we
+construct a closed-loop linear model.
+    To validate the efficacy of the proposed Reservoir Computing (RC) framework in capturing the highly nonlinear
+dynamics of epileptic Electroencephalogram (EEG) signals, we analyzed the reconstruction performance of the
+learned Koopman operator K on the test dataset. The core premise of our control strategy relies on the assumption
+that the nonlinear brain dynamics can be effectively embedded into a high-dimensional linear latent space. As
+illustrated in Fig. 3 (Left Panels), the RC-Koopman model demonstrates exceptional capability in tracking the
+temporal evolution of seizure dynamics across multiple channels. The predicted trajectories (dashed red lines),
+generated by iterating the linear equation zt+1 = Kzt in the latent space and projecting back via Wout , closely
+align with the ground truth EEG signals (solid black lines).
+    For Mean-Field Game (MFG) control, accurately modeling the probability distribution of the neural population
+is more critical than point-wise trajectory matching. Fig. 3 (Right Panels) presents a comparison between the
+Probability Density Functions (PDFs) of the true and predicted signals. We observe a substantial overlap between
+the two distributions across representative channels (e.g., Channel 21, Channel 8).
+    Quantitatively, the global Wasserstein distance between the true and predicted distributions is computed as
+0.0243, indicating that the linear surrogate model successfully preserves the higher-order statistical moments of the
+nonlinear epileptic system. This statistical fidelity ensures that the subsequent APAC-Net controller is optimizing
+against a physically meaningful density evolution.
+    Notably, the model accurately captures both the high-frequency oscillations and the phase shifts inherent in the
+seizure onset, yielding a relatively low Global Root Mean Square Error (RMSE) of 0.3279. The Global Squared
+Error Heatmap further confirms that the approximation error remains sparse and bounded over the prediction
+horizon (T = 200 steps), with significant deviations occurring only during extreme transient spikes.
+
+3.3    Optimal Control with MFG
+Epilepsy involves synchronous behavior of a large number of neuronal populations, making single-agent control
+impractical. We model it as a Mean Field Game (MFG) problem, i.e., controlling the probability density distribution
+of neuronal populations. A mesh-free method based on GAN, APAC-Net, is used to solve the high-dimensional
+
+
+                                                         9
+Figure 3: Linearization of Stochastic Nonlinear Dynamical Systems via RC Reservoir: Panels 3a-e
+show the prediction performance of the top 5 key sub-nodes (electrode channels) after approximating the Koopman
+operator with RC, where the solid black lines are the trajectories of the original data from 1300s to 1500s, and the
+dashed red lines are the predicted trajectories. Panels 3f-j show the corresponding Probability Density Functions
+(PDFs), where the gray represents the PDF of the original data from 1300s to 1500s, and the red represents the
+predicted PDF. Panel 3h is the global (23 channels) RMSE heatmap, where darker colors indicate larger errors.
+Panel 3i is the global (23 channels) PDF, where the gray represents the PDF of the original data from 1300s to
+1500s across 23 channels, and the red represents the predicted PDF of the 23 channels from 1300s to 1500s.
+
+
+HJB-FP coupled equations. Existing MFGs usually assume Euclidean distance interaction, ignoring the Functional
+Connectivity of the brain. We introduce a graph Laplacian regularization term based on Phase Locking Value
+(PLV) into the cost function, forcing the controller to consider the topological structure of the brain network and
+accurately target abnormally synchronous nodes.
+    To validate the efficacy of our proposed Graph-Regularized Koopman MFG framework in suppressing epileptic
+seizures, we applied the trained APAC-Net controller to epileptic seizure segments in the test set. Figs. 4 and 5
+show the performance of this method in temporal trajectory tracking, control input generation, and Distributional
+Reshaping.
+    Amplitude Suppression: The original signals exhibit typical high-amplitude oscillations and paroxysmal dis-
+charges, which are prominent features of epileptic seizures. In contrast, the amplitude of the controlled trajectories
+is significantly suppressed, and the signal variance is markedly reduced, indicating that the controller successfully
+drives the neural states back to a baseline level close to zero (i.e., the healthy reference state).
+    Control Smoothness: The middle column of Fig. 4 shows the generated control input signals u(t) for the
+corresponding channels. Notably, the control signals do not exhibit severe high-frequency jitter (Chattering) but
+instead show smooth dynamic adjustment characteristics. This is attributed to the control energy regularization
+term 12 uT Ru introduced in our MFG cost function, which ensures the physical feasibility and safety of the control
+strategy in practical implementation.
+    The core objective of Mean Field Games is to control the Probability Density Function (PDF) of the population
+
+
+                                                         10
+Figure 4: Optimal Control u∗ Solution via MFG: Panels a-e show the trajectory control performance of the
+top 5 key sub-nodes (channels), where the red lines are the trajectories of the original uncontrolled data from 1300s
+to 1500s, and the blue lines are the corresponding controlled trajectories. Panels f-j are the corresponding control
+input signals. Panels k-o are the corresponding Probability Density Functions (PDFs), where the red represents
+the amplitude PDF of the original data from 1300s to 1500s, and the blue represents the amplitude PDF after
+corresponding control. Panel p is the global amplitude PDF, where the red represents the amplitude PDF of the
+original data (23 channels), the green represents the amplitude PDF of the original healthy state data from 0s to
+500s, and the blue represents the amplitude PDF of the 23 channels after control. Panel q is the training loss curve
+of the ϕ function (purple) and the Gθ function (green) in the APAC-Net.
+
+
+state, rather than the trajectory of a single particle. This is the fundamental difference between this study and
+traditional PID or LQR control.
+    Single-Channel Distribution Sharpening: The PDF comparison in the right column of Fig. 4 intuitively
+reveals the essence of the control mechanism. The PDF of the original epileptic state (red filled) exhibits obvious
+”long-tail” characteristics and a wide distribution range ([−1.0, 1.0]), reflecting the high instability and abnormal
+synchronous discharge of the neuronal population. After APAC-Net control, the PDF (blue filled) presents a
+significant Leptokurtic shape, with its mass highly concentrated near 0. This means that the state uncertainty
+(Entropy) of the nervous system is reduced, and the system is effectively ”confined” in a safe low-energy manifold.
+    Whole-Brain Network Robustness: Fig. 5 further shows the PDF changes of all 23 EEG channels. The re-
+sults demonstrate that this Distributional Sharpening effect is highly consistent across the whole brain. Whether
+in channels in the core seizure zone or peripheral zones, APAC-Net successfully shifts their state distributions from
+the pathological mode (red) to the healthy mode (blue). This proves the effectiveness of introducing the graph
+Laplacian regularization (xT Lx) — it forces the control strategy to utilize the topological structure of the brain
+network, synergistically suppressing abnormal synchronization across the whole brain and preventing the seizure
+from escaping or spreading in the network.
+    Global Probability Density Function: The global PDF aggregating all channels further confirms the above
+
+
+                                                         11
+Figure 5: Controlled Probability Density Functions of 23 Channels: Panels a-w show the controlled PDFs
+of the 23 channels of original data, where the red represents the amplitude PDF of each channel from 1300s to
+1500s, and the blue represents the corresponding PDF after control.
+
+
+conclusions. The controlled global distribution (blue) is highly consistent with the healthy state as a reference
+(green dashed line, assumed to be an ideal Gaussian distribution), while the uncontrolled distribution (red) deviates
+significantly. This indicates that our controller is not only effective locally but also successfully restores the steady
+state of the brain at the macro statistical level.
+    Training Loss: The loss curve in the lower right corner shows the game process between the two adversarial
+networks in APAC-Net — the Value Net (ϕ) and the Generator (G). As the number of iterations increases,
+the Loss shows a trend of oscillatory convergence, which is a typical feature of Generative Adversarial Networks
+(GANs) searching for saddle points. The final stable state indicates that the system has successfully found the
+Nash Equilibrium under the stochastic differential game, i.e., the optimal robust control strategy for the worst-case
+epileptic fluctuations.
+
+
+
+
+                                                           12
+4     Conclusion
+This paper proposes a novel closed-loop neuromodulation framework — Graph-Regularized Koopman Mean Field
+Game (GK-MFG), aiming to solve the optimal suppression problem in high-dimensional epileptic brain networks.
+By integrating Reservoir Computing, operator theory, and deep mean field games, this study achieves significant
+breakthroughs in both theoretical modeling and empirical control.
+    First, we verified the effectiveness of Koopman operator theory in modeling neural dynamics. Experimental
+results show that the Koopman approximator based on Reservoir Computing can embed the highly nonlinear EEG
+epilepsy manifold into a high-dimensional latent linear space (Global RMSE ≈ 0.33) while preserving the phase
+locking characteristics of the original signals. This ”data-driven linearization” strategy avoids the complex Lyapunov
+analysis in traditional nonlinear control, making it possible to solve optimal control on a millisecond time scale.
+    Second, this study reveals the essential advantages of Mean Field Games (MFG) over Model Predictive Control
+(MPC) in whole-brain network control. Our comparative experiments (see Appendix C) show that the traditional
+graph-coupled MPC algorithm is limited by the locality of trajectory tracking and tends to concentrate control
+energy on network hubs, resulting in ineffective suppression of epileptic activity in peripheral nodes (the global
+Wasserstein distance is only improved by 7%). In contrast, the GK-MFG framework directly shapes the Probability
+Density Function (PDF) of the neural population by solving the coupled Hamilton-Jacobi-Bellman (HJB) and
+Fokker-Planck (FP) equations. The results confirm that the APAC-Net controller successfully compresses the state
+distributions of all 23 brain channels from the high-variance pathological mode to the healthy low-energy state
+distribution, achieving a global Wasserstein distance improvement of over 95%.
+    Finally, the introduction of graph Laplacian regularization (Rgraph = xT Lx) is the core innovation of this
+framework. By embedding the PLV-based brain functional topology into the control cost function, we force the
+control strategy to not only minimize the amplitude of abnormal discharges but also disrupt pathological network
+synchronization. This ”topology-aware” control mechanism ensures that interventions can conform to the brain’s
+inherent connectivity structure, achieving global stability at the minimum energy cost.
+    In summary, GK-MFG provides a computationally paradigm with rigorous mathematical support for the treat-
+ment of drug-resistant epilepsy. Future work will focus on deploying this algorithm on Neuromorphic Hardware to
+verify its real-time performance in low-power implantable closed-loop brain-computer interface systems.
+
+
+Acknowledgements
+   This work was supported by the National Natural Science Foundation of China (12401233), NSFC International
+Creative Research Team (W2541005), National Key R&D Program of China (2021ZD0201300), the Guangdong
+Provincial Key Laboratory of Mathematical and Neural dynamic Systems (2024B1212010004), Guangdong Major
+Project of Basic Research (2025B0303000003), the Guangdong-Dongguan Joint Research Fund (2023A1515140016),
+the Cross Disciplinary Research Team on Data Science and Intelligent Medicine (2023KCXTD054), and Hubei Key
+Laboratory of Engineering Modeling and Scientific Computing.
+
+
+A     Appendix
+A.1     Model Predictive Control (MPC)
+To rigorously evaluate the superiority of the proposed Graph-Regularized Koopman Mean Field Game (GK-MFG)
+framework, we implemented a baseline controller based on Graph-Coupled Model Predictive Control (GC-
+MPC). This GC-MPC adopts the same Koopman linearized dynamic model derived from the RC-based Koopman
+operator, but it solves a finite-horizon trajectory optimization problem at each time step instead of solving the
+global population density equilibrium problem. The visualization results of the GC-MPC intervention are shown in
+Figs. 6 and 7. We observed a significant performance gap according to the topological importance of brain regions
+(channels).
+    Core Biased Suppression Effect: As shown in Fig. 6, GC-MPC achieves satisfactory suppression effects
+on topologically important nodes (core nodes), such as Channel 21 and Channel 8. The control input u(t) can
+effectively drive the states of these nodes to near zero, making the Probability Density Function (PDF) exhibit
+sharpening characteristics and closer to the healthy reference state. This is consistent with the conclusions of
+
+
+
+                                                         13
+network control theory — controlling high-connectivity nodes is the most energy-efficient way to affect the average
+trajectory of scale-free networks.
+    Peripheral Node Control Failure: However, Fig. 7 reveals a key flaw. For many non-core or peripheral
+nodes (such as Channel 1, 7, 9, 19), their controlled distributions (green) fail to converge to the healthy reference
+state (blue dashed line) and still maintain a wide and irregular distribution pattern (similar to the red epileptic
+state).
+    Quantitatively, the global Wasserstein distance is only slightly improved from 0.540 in the uncontrolled
+state to 0.506 in the MPC-controlled state. In stark contrast, our APAC-Net based on Mean Field Game (MFG)
+achieves a global Wasserstein distance of 0.0243 (see Section 3), which means an order of magnitude improvement
+in distribution reshaping effect.
+    This comparative study highlights the fundamental advantages of the mean field game paradigm over classical
+MPC in high-dimensional neural control scenarios:
+   • Trajectory Control vs. Distribution Control: The goal of MPC is to minimize the tracking error of a
+     single desired trajectory. In a high-noise, underactuated network environment, the optimizer tends to sacrifice
+     peripheral nodes to minimize the weighted Euclidean error norm, ultimately leading to local rather than global
+     suppression effects.
+   • Topology-Aware Distribution Control: The MFG framework (especially the improved version with the
+     graph Laplacian regularization term E) treats the system as an evolution process of probability density. It
+     penalizes the state variance and inconsistency across the entire graph topology by introducing a structural
+     cost term. This forces the control strategy to consider the random behavior of the entire population, ensuring
+     that peripheral nodes are not overlooked during the suppression process.
+
+
+
+
+                                                         14
+A.2    Algorithm
+
+Algorithm 1 Data-Driven Control Algorithm Based on RC-Koopman and APAC-Net
+Require: EEG time series X ∈ RN ×T , Latent dimension Nres , Delay step τ , Training iterations Niter , Control
+    penalty weight matrix R
+Ensure: Latent Koopman operator K, Readout matrix Wout , Value network Φ, Generator network G, Optimal
+    control policy u∗
+ 1: /* Stage 1: Graph Feature Extraction & Control Matrix Construction */
+ 2: Calculate Phase Locking Value (PLV) to obtain network adjacency matrix A and Laplacian matrix L;
+ 3: Compute degree centrality of A and select the top-k core nodes to construct the physical control matrix Bphys ;
+ 4: /* Stage 2: RC-Koopman Latent Space Dynamics Identification */
+ 5: Initialize reservoir input weights Win and internal weights Wres ;
+ 6: for t = τ to T do
+ 7:    Construct augmented input with graph coupling and time delay: ut = [xt , Axt , xt−τ :t−1 ];
+ 8:    Update latent state: rt = (1 − α)rt−1 + α tanh(Win ut + Wres rt−1 );
+ 9: end for
+10: Collect latent state transition matrices Rcurr and Rnext ;
+11: Fit Koopman operator via ridge regression: K = arg minK ∥Rnext − KRcurr ∥2F + λ∥K∥2F ;
+12: Apply spectral radius constraint to stabilize K;
+13: Fit readout matrix: Wout = arg minWout ∥X − Wout Rcurr ∥2F + λ∥Wout ∥2F ;
+14: Map control matrix to the latent space: Blatent = Win Bphys ;
+15: /* Stage 3: APAC-Net for Solving High-Dimensional HJB Equation */
+16: Initialize Value network Φ(z, t; θΦ ) and Generator network G(z0 , t; θG );
+17: for i = 1 to Niter do
+18:    Sample initial state batch z0 ∼ Rcurr and time t ∼ U (0, 1);
+19:    Generate trajectory points via generator network: zt = G(z0 , t);
+20:                                                                              T
+       Compute physical state cost with graph Laplacian coupling: f (zt ) = ztT Wout (I + L)Wout zt ;
+21:    Calculate Hamiltonian H:
+                                  1
+22:    H = ⟨(K − I)zt , ∇z Φ⟩ − (∇z Φ)T Blatent R−1 Blatent
+                                                        T
+                                                              ∇z Φ
+                                  4                         2
+23:    Compute HJB residual loss: LΦ = E[(∇t Φ + H + σ2 Tr(∇zz Φ) + f (zt ))2 ];
+24:    Update parameters θΦ using Adam optimizer;
+25:    Compute generator loss with Φ fixed: LG = E[∇t Φ + H + f (zt )];
+26:    Update parameters θG using Adam optimizer;
+27: end for
+28: /* Stage 4: Feedback Control Execution */
+29: For a given latent state zt , generate the optimal control law:
+     ∗       1 −1 T
+30: u = − R Blatent ∇z Φ(zt , t)
+             2
+31: Apply u∗ to the physical system to suppress network synchronization and observe dynamic evolution.
+
+
+
+
+                                                        15
+A.3      Mathematical Derivation of the Optimal Control Law and the HJB Equation
+In this appendix, we provide a rigorous mathematical derivation of the optimal control law u∗ (t) and the analytical
+Hamiltonian H(z, p) utilized in the APAC-Net solver. The derivation is fundamentally rooted in the Dynamic
+Programming Principle and the Hamilton-Jacobi-Bellman (HJB) equation.
+
+System Dynamics and Objective Functional
+Through the Reservoir Computing (RC) based Koopman operator, the highly nonlinear brain network dynamics
+are lifted into a high-dimensional latent space. In this continuous-time latent space, the evolution of the neural
+population state z(t) ∈ RNres is governed by the following controlled stochastic differential equation (SDE):
+
+                                        dz(t) = ((K − I)z(t) + Blatent u(t)) dt + ΣdWt                              (18)
+
+where K is the discrete-time Koopman evolution matrix learned from data, (K − I) represents the continuous-time
+drift matrix, Blatent is the physical control input matrix projected into the latent space, u(t) is the control law to be
+optimized, Σ is the diffusion coefficient matrix, and Wt denotes a standard Wiener process modeling the intrinsic
+biological noise.
+    The objective of the Mean Field Game (MFG) controller is to find an optimal policy u∗ (t) that minimizes the
+expected cumulative cost functional J(u) over a finite time horizon T :
+                                         "Z                                               #
+                                             T
+                                                                     ⊤
+                                                                           
+                               J(u) = E         Cstate (z(t)) + γu(t) Ru(t) dt + G(z(T ))                            (19)
+                                                0
+
+
+Here, Cstate (z(t)) penalizes the deviation from the healthy brain state (incorporating the graph Laplacian topological
+constraints), γu(t)⊤ Ru(t) acts as the control energy regularization term with a positive-definite weight matrix R
+and a penalty scaling factor γ > 0, and G(z(T )) represents the terminal distribution cost.
+
+The Hamilton-Jacobi-Bellman (HJB) Equation
+According to the Bellman Principle of Optimality, we define the value function ϕ(z, t), which represents the minimum
+expected cost-to-go from state z at time t:
+                                    "Z                                                           #
+                                       T
+                                                                 ⊤
+                                                                        
+                   ϕ(z, t) = min E        Cstate (z(τ )) + γu(τ ) Ru(τ ) dτ + G(z(T )) z(t) = z                   (20)
+                              u[t,T ]      t
+
+
+By applying Itô’s Lemma to the stochastic differential equation, the value function must satisfy the backward-in-time
+HJB equation:
+                                                                                                      
+                                           ⊤               ⊤                          1        ⊤
+                                                                                                     
+               −∂t ϕ = min Cstate (z) + γu Ru + (∇z ϕ) ((K − I)z + Blatent u) + Tr ΣΣ ∆z ϕ                        (21)
+                        u                                                             2
+
+with the terminal condition ϕ(z, T ) = G(z).
+
+Extraction of the Optimal Control Law
+To solve the minimization problem on the right-hand side of Equation (21), we isolate the terms explicitly dependent
+on the control variable u. This formulation is defined as the control Hamiltonian Hcontrol (u):
+
+                                           Hcontrol (u) = γu⊤ Ru + (∇z ϕ)⊤ Blatent u                                (22)
+
+Since R is positive-definite and γ > 0, Hcontrol (u) is strictly convex with respect to u. We can obtain the global
+minimum by taking the first-order partial derivative with respect to u and setting it to zero:
+                                               ∂Hcontrol           ⊤
+                                                         = 2γRu + Blatent ∇z ϕ = 0                                  (23)
+                                                 ∂u
+
+
+
+                                                               16
+Solving for u yields the closed-form optimal control law u∗ (t):
+                                                         1 −1 ⊤
+                                           u∗ (t) = −      R Blatent ∇z ϕ(z, t)                                     (24)
+                                                        2γ
+
+This elegant mathematical result indicates that the optimal intervention current u∗ (t) is directly proportional to
+the spatial negative gradient of the value function (−∇z ϕ). Physically, it implies that the controller dynamically
+steers the neural state along the path of steepest descent on the risk manifold.
+
+Derivation of the Analytical Hamiltonian
+To enable efficient neural network training without repeatedly computing the minimization over u, we substitute
+the optimal control law u∗ back into the HJB equation. Let us evaluate the control-dependent terms under u∗ :
+                                                                                                 
+                                                1                                1
+       γ(u∗ )⊤ Ru∗ + (∇z ϕ)⊤ Blatent u∗ = γ − (∇z ϕ)⊤ Blatent R−1 R − R−1 Blatent        ⊤
+                                                                                              ∇z ϕ
+                                               2γ                               2γ
+                                                                                   
+                                                  ⊤             1   −1 ⊤
+                                          + (∇z ϕ) Blatent − R Blatent ∇z ϕ
+                                                               2γ
+                                           1                                      1
+                                        =    (∇z ϕ)⊤ Blatent R−1 Blatent
+                                                                  ⊤
+                                                                         ∇z ϕ −     (∇z ϕ)⊤ Blatent R−1 Blatent
+                                                                                                         ⊤
+                                                                                                                ∇z ϕ
+                                          4γ                                     2γ
+                                             1
+                                        = − (∇z ϕ)⊤ Blatent R−1 Blatent
+                                                                     ⊤
+                                                                          ∇z ϕ                                       (25)
+                                            4γ
+
+Recombining this minimized term with the uncontrolled system drift (K − I)z, we obtain the fully analytical
+Hamiltonian H(z, ∇z ϕ) used in the APAC-Net loss function:
+                                                              1
+                        H(z, ∇z ϕ) = (∇z ϕ)⊤ (K − I)z −         (∇z ϕ)⊤ Blatent R−1 Blatent
+                                                                                     ⊤
+                                                                                            
+                                                                                              ∇z ϕ                  (26)
+                                                             4γ
+This analytical formulation allows the Value Network in the APAC-Net framework to directly evaluate the Hamil-
+tonian without explicitly constructing the control sequence at every training step, thereby avoiding the curse of
+dimensionality and achieving the required computational efficiency for high-dimensional Mean Field Games.
+
+
+
+
+                                                             17
+References
+ [1] A. K. Seth and G. M. Edelman, “Theoretical neuroanatomy: Analyzing the structure, dynamics, and function
+     of neuronal networks,” LECTURE NOTES IN PHYSICS, 2004.
+ [2] D. Rangaprakash, X. Hu, and G. Deshpande, “Phase synchronization in brain networks derived from correlation
+     between probabilities of recurrences in functional mri data,” INTERNATIONAL JOURNAL OF NEURAL
+     SYSTEMS, 2013.
+ [3] M. H. I. Shovon, N. Nandagopal, R. Vijayalakshmi, J. T. Du, and B. Cocks, “Transfer entropy and information
+     flow patterns in functional brain networks during cognitive activity,” in Neural Information Processing. Cham:
+     Springer International Publishing, 2014.
+ [4] L. E. Ismail and W. Karwowski, “A graph theory-based modeling of functional brain connectivity based on
+     eeg: A systematic review in the context of neuroergonomics,” IEEE Access, vol. 8, pp. 155 103–155 135, 2020.
+ [5] R. Cao, Z. Wu, H. Li, J. Xiang, and J. Chen, “Disturbed connectivity of eeg functional networks in alcoholism:
+     A graph-theoretic analysis,” BIO-MEDICAL MATERIALS AND ENGINEERING, 2014.
+ [6] B. Szalkai, B. Varga, and V. Grolmusz, “Graph theoretical analysis reveals: Women’s brains are better con-
+     nected than men’s,” PLOS ONE, 2015.
+ [7] Y. Shang, “Laplacian estrada and normalized laplacian estrada indices of evolving graphs,” PLOS ONE, 2015.
+ [8] M. R. T. Sinke, R. M. Dijkhuizen, A. Caimo, C. J. Stam, and W. M. Otte, “Bayesian exponential random
+     graph modeling of whole-brain structural networks across lifespan,” NEUROIMAGE, 2016.
+
+ [9] X. Luo, J. Wu, J. Yang, S. Xue, A. Beheshti, Q. Z. Sheng, D. McAlpine, P. Sowman, A. Giral, and P. S. Yu,
+     “Graph neural networks for brain graph learning: A survey,” IJCAI, 2024.
+[10] A. H. M. Sayem, Z. Cao, and Z. Man, “Performance enhancement of adrc using rc for load frequency control
+     of power system,” 2013 IEEE 8TH CONFERENCE ON INDUSTRIAL ELECTRONICS AND ..., 2013.
+[11] R. Neto, F. Neves, E. V. Stangler, F. Bradaschia, and H. D. de Souza, “Structural and performance comparison
+     between harmonic selective repetitive controllers for shunt active power filter,” 2019 IEEE 15TH BRAZILIAN
+     POWER ELECTRONICS CONFERENCE AND ..., 2019.
+[12] G. Wu, L. Tang, and W. Zhao, “Tracking control of complex dynamical networks via reservoir computing,”
+     CHAOS (WOODBURY, N.Y.), 2025.
+
+[13] A. Tilli, E. Ruggiano, C. Conficoni, and A. Bosso, “A hybrid adaptation strategy for repetitive control of an
+     uncertain-delay lagrangian system,” IFAC-PAPERSONLINE, 2020.
+[14] J. P. Jordanou, E. A. Antonelo, and E. Camponogara, “Echo state networks for practical nonlinear model
+     predictive control of unknown dynamic systems,” IEEE TRANSACTIONS ON NEURAL NETWORKS AND
+     LEARNING SYSTEMS, 2022.
+
+[15] P. V. S. G. de Lima, R. Neto, F. Neves, F. Bradaschia, H. D. de Souza, and E. J. Barbosa, “Zero-phase fir
+     filter design algorithm for repetitive controllers,” ENERGIES, 2023.
+[16] A. Jalalvand, F. Triefenbach, K. Demuynck, and J.-P. Martens, “Robust continuous digit recognition using
+     reservoir computing,” COMPUT. SPEECH LANG., 2015.
+
+[17] A. Saiz-Vela, P. Miribel-Catala, J. Colomer, M. Puig-Vidal, and J. Samitier, “Low-power high-voltage non-
+     overlapping clock generators for switched-capacitor step-up dc-dc converters,” 2006 49TH IEEE INTERNA-
+     TIONAL MIDWEST SYMPOSIUM ON CIRCUITS ..., 2006.
+[18] J. Cheng, T. Gao, and J. Duan, “Adaptive control for multi-scale stochastic dynamical systems with stochastic
+     next generation reservoir computing,” CoRR, vol. abs/2505.09327, 2025.
+
+
+
+                                                        18
+[19] B.-W. Qin and W. Lin, “Tipping point for pulsatile oscillations in dynamical networks,” Phys. Rev. Res., vol. 5,
+     no. 4, p. 043209, 2023.
+[20] T. Ge, X. Tian, J. Kurths, J. Feng, and W. Lin, “Achieving modulated oscillations by feedback control,” Phys.
+     Rev. E, vol. 90, no. 2, p. 022909, 2014.
+
+[21] R. M. Kent, S. Barbosa, and D. J. Gauthier, “Controlling chaotic maps using next-generation reservoir com-
+     puting,” Chaos an Interdisciplinary Journal of Nonlinear Science, vol. 34, no. 2, 2024.
+[22] X. Li, T. Huang, and C. Tang, “Initial-data-parameterized linear quadratic stochastic optimal control problems
+     with random jumps,” in Proceedings of the 2017 2nd International Conference on Computer Science and
+     Software Engineering (CCSSE), 2017, pp. 10–15.
+[23] K. Du and Z. Wu, “Linear-quadratic stackelberg game for mean-field backward stochastic differential system
+     and application,” Mathematical Problems in Engineering, vol. 2019, pp. 1–17, 2019.
+[24] H. Xiong, M. Tang, and Q. Meng, “Linear-quadratic optimal control problems for mean-field stochastic differ-
+     ential equation with lévy process,” Communications on Applied Mathematics and Computation, vol. 4, no. 4,
+     pp. 1386–1415, 2022.
+[25] M. Mohamed, S. Chakravorty, R. Goyal, and R. Wang, “On the feedback law in stochastic optimal nonlinear
+     control,” arXiv preprint arXiv:2004.01041, 2020.
+[26] G. Kimaev and L. A. Ricardez-Sandoval, “Artificial neural networks for dynamic optimization of stochastic
+     multiscale systems subject to uncertainty,” Chemical Engineering Research and Design, vol. 161, pp. 11–25,
+     2020.
+[27] A. T. Lin et al., “Alternating the population and control neural networks to solve high-dimensional stochastic
+     mean-field games,” Proceedings of the National Academy of Sciences of the United States of America, vol. 118,
+     no. 31, p. e2024713118, 2021.
+
+[28] M. Hafayed, “Singular mean-field optimal control for forward-backward stochastic systems and applications to
+     finance,” INTERNATIONAL JOURNAL OF DYNAMICS AND CONTROL, 2014.
+[29] M. Fornasier, B. Piccoli, and F. Rossi, “Mean-field sparse optimal control,” PHILOSOPHICAL TRANSAC-
+     TIONS. SERIES A, MATHEMATICAL, ..., 2014.
+
+[30] M. Fornasier, S. Lisini, C. Orrieri, and G. Savaré, “Mean-field optimal control as gamma-limit of finite agent
+     controls,” ARXIV-MATH.AP, 2018.
+[31] W. E, J. Han, and Q. Li, “A mean-field optimal control formulation of deep learning,” ARXIV-MATH.OC,
+     2018.
+[32] C. Zhang, A. Taghvaei, and P. G. Mehta, “A mean-field optimal control formulation for global optimization,”
+     IEEE TRANSACTIONS ON AUTOMATIC CONTROL, 2019.
+[33] M. Burger, R. Pinnau, C. Totzeck, and O. Tse, “Mean-field optimal control and optimality conditions in the
+     space of probability measures,” ARXIV-MATH.OC, 2019.
+[34] Y. Ge, X. Liu, and Y. Li, “Optimal control for unknown mean-field discrete-time system based on q-learning,”
+     INTERNATIONAL JOURNAL OF SYSTEMS SCIENCE, 2021.
+[35] B. Bonnet, C. Cipriani, M. Fornasier, and H. Huang, “A measure theoretical approach to the mean-field
+     maximum principle for training neurodes,” ARXIV-MATH.OC, 2021.
+[36] G. Albi, S. Almi, M. Morandotti, and F. Solombrino, “Mean-field selective optimal control via transient
+     leadership,” APPLIED MATHEMATICS AND OPTIMIZATION, 2022.
+
+[37] S. Klus and N. Djurdjevac Conrad, “Dynamical systems and complex networks: a koopman operator perspec-
+     tive,” Journal of Physics: Complexity, vol. 5, no. 4, p. 041001, 2024.
+
+
+                                                         19
+[38] M. Gulina and A. Mauroy, “Two methods to approximate the koopman operator with a reservoir computer,”
+     Chaos: An Interdisciplinary Journal of Nonlinear Science, vol. 31, no. 2, p. 023116, 2021.
+[39] D. Chen, J. Chen, X. Zhang, Q. Jia, X. Liu, Y. Sun, L. Lü, and W. Yu, “Critical nodes identification in
+     complex networks: a survey,” Complex Engineering Systems, vol. 5, no. 3, p. 11, 2025.
+
+[40] Z. Liang, Y. Zhang, J. Wu, and Q. Liu, “Reverse engineering the brain input: Network control theory to identify
+     cognitive task-related control nodes,” in 2024 46th Annual International Conference of the IEEE Engineering
+     in Medicine and Biology Society (EMBC), 2024, pp. 1–4.
+[41] Z. Liang, G. Zhao, Y. Zhang, W. Sun, J. Lin, J. Wang, and Q. Liu, “Suppressing seizure via optimal electrical
+     stimulation to the hub of epileptic brain network,” in Human Brain and Artificial Intelligence. Singapore:
+     Springer Nature Singapore, 2025, pp. 144–158.
+[42] S. Mandal, S. Chauhan, U. K. Verma, M. D. Shrimali, and K. Aihara, “Adaptive control of dynamical systems
+     using reservoir computing,” Chaos: An Interdisciplinary Journal of Nonlinear Science, vol. 35, no. 9, p. 091102,
+     2025.
+
+[43] L. Carboni, D. Nwaigwe, M. Mainsant, R. Bayle, M. Reyboz, M. Mermillod, M. Dojat, and S. Achard, “Ex-
+     ploring continual learning strategies in artificial neural networks through graph-based analysis of connectivity:
+     Insights from a brain-inspired perspective,” NEURAL NETWORKS : THE OFFICIAL JOURNAL OF THE
+     INTERNATIONAL ..., 2025.
+[44] T. Dan, J. Ding, and G. Wu, “Explore brain-inspired machine intelligence for connecting dots on graphs
+     through holographic blueprint of oscillatory synchronization,” ARXIV-Q-BIO.NC, 2026.
+[45] J. Wang, K. Chen, Q. Liu, and Q. Ma, “Observer-based adaptive consensus tracking control for nonlinear
+     multiagent systems with actuator hysteresis,” Nonlinear Dynamics, vol. 95, no. 3, pp. 2181–2195, 2019.
+[46] B. Qin, L. Zhao, and W. Lin, “A frequency-amplitude coordinator and its optimal energy consumption for
+     biological oscillators,” Nature Communications, vol. 12, no. 1, p. 5894, 2021.
+
+[47] B. Bonnet and H. Frankowska, “Semiconcavity and sensitivity analysis in mean-field optimal control and
+     applications,” ARXIV-MATH.OC, 2021.
+
+
+
+
+                                                         20
+Figure 6: Model Predictive Control (MPC) Plots: Panels a-e show the model predictive trajectory control
+plots of the top 5 ranked channels, where the gray represents the original trajectories of the raw data from 1300s
+to 1500s, the green represents the corresponding controlled trajectories, and the orange lines below represent the
+corresponding control input signals. Panels f-j are the corresponding Probability Density Functions (PDFs), where
+the red represents the amplitude PDF of the original data from 1300s to 1500s, the green represents the corresponding
+amplitude PDF after control, and the blue represents the amplitude PDF of the original healthy state data (0s to
+500s). Panel h represents the global (23 channels) amplitude PDF from 1300s to 1500s.
+
+
+
+
+                                                         21
+Figure 7: Model Predictive Control Results of 23 Channels: Panels a-w respectively represent the model
+predictive control effects of the 23 channels, where the red represents the amplitude PDF of the original data from
+1300s to 1500s, the green represents the corresponding amplitude PDF after control, and the blue represents the
+amplitude PDF of the original healthy state data (0s to 500s).
+
+
+
+
+                                                        22
+

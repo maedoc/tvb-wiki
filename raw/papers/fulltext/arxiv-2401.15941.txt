@@ -1,0 +1,2452 @@
+                                              High order conservative LDG-IMEX methods for the degenerate nonlinear
+                                                            non-equilibrium radiation diffusion problems⋆
+
+                                                                            Shaoqin Zhenga , Min Tangb , Qiang Zhangc , Tao Xionga,∗
+                                                              a School of Mathematical Sciences, Xiamen University, Xiamen, Fujian 361005, PR China
+                                                             b Institute of Natural Sciences, Shanghai Jiao Tong University, Shanghai, 200240, PR China
+                                                                   c Department of Mathematics, Nanjing University, Nanjing, 210093, PR China
+                                           d School of Mathematical Sciences, Fujian Provincial Key Laboratory of Mathematical Modeling and High-Performance Scientific
+
+                                                                            Computing, Xiamen University, Xiamen, Fujian 361005, PR China
+arXiv:2401.15941v1 [math.NA] 29 Jan 2024
+
+
+
+
+                                           Abstract
+                                           In this paper, we develop a class of high-order conservative methods for simulating non-equilibrium radiation
+                                           diffusion problems. Numerically, this system poses significant challenges due to strong nonlinearity within the
+                                           stiff source terms and the degeneracy of nonlinear diffusion terms. Explicit methods require impractically small
+                                           time steps, while implicit methods, which offer stability, come with the challenge to guarantee the convergence
+                                           of nonlinear iterative solvers. To overcome these challenges, we propose a predictor-corrector approach and
+                                           design proper implicit-explicit time discretizations. In the predictor step, the system is reformulated into a
+                                           nonconservative form and linear diffusion terms are introduced as a penalization to mitigate strong nonlinearities.
+                                           We then employ a Picard iteration to secure convergence in handling the nonlinear aspects. The corrector step
+                                           guarantees the conservation of total energy, which is vital for accurately simulating the speeds of propagating
+                                           sharp fronts in this system.
+                                               For spatial approximations, we utilize local discontinuous Galerkin finite element methods, coupled with
+                                           positive-preserving and TVB limiters. We validate the orders of accuracy, conservation properties, and suitabil-
+                                           ity of using large time steps for our proposed methods, through numerical experiments conducted on one- and
+                                           two-dimensional spatial problems. In both homogeneous and heterogeneous non-equilibrium radiation diffusion
+                                           problems, we attain a time stability condition comparable to that of a fully implicit time discretization. Such
+                                           an approach is also applicable to many other reaction-diffusion systems.
+                                           Keywords: non-equilibrium radiation diffusion, predictor-corrector procedure, conservative, high order, local
+                                           discontinuous Galerkin method, IMEX
+
+
+                                           1. Introduction
+
+                                               In scenarios where radiation interacts dynamically with a material, but does not fully reach thermodynamic
+                                           equilibrium, a commonly employed description involves a system of coupled time-dependent nonlinear diffusion
+                                           equations. This system is known for its strong nonlinearity and close coupling, and it finds extensive applications
+                                           across various fields, including inertial confinement fusion [47], astrophysics [8], and Z-pinch experiments [38].
+                                           In this work, we specifically explore a two-temperature (2T) model. This model comprises a radiation diffusion
+                                           equation within the framework of a gray approximation and a material energy balance equation [8, 36, 50]. The
+                                           2T model writes:
+                                                                                    ∂E
+                                                                                 
+                                                                                        − ∇ · (Dr ∇E) = σ T 4 − E ,
+                                                                                                                   
+                                                                                 
+                                                                                     ∂t                                                                  (1.1)
+                                                                                  ∂T − ∇ · (Dt ∇T ) = σ E − T 4 ,
+                                                                                                                  
+                                                                                     ∂t
+
+                                              ⋆ The first and the fourth authors are supported by National Key R&D Program of China No. 2022YFA1004500, NSFC No.
+
+                                           11971025 and No. 92270112, NSF of Fujian Province No. 2023J02003. The second author is partially supported by NSFC No.
+                                           12031013, Shanghai pilot innovation project No. 21JC1403500 and the Strategic Priority Research Program of Chinese Academy
+                                           of Sciences Grant No. XDA25010401. The third author is supported by NSFC No. 12071214.
+                                              ∗ Corresponding author
+
+                                                Email addresses: sqzheng@stu.xmu.edu.cn (Shaoqin Zheng), tangmin@sjtu.edu.cn (Min Tang), qzh@nju.edu.cn (Qiang
+                                           Zhang), txiong@xmu.edu.cn (Tao Xiong)
+
+
+
+
+                                           Preprint submitted to Elsevier                                                                                 January 30, 2024
+where E(x, t) is the radiation energy and T (x, t) is the material temperature. The energy exchange between
+materials and photons is controlled by the photon absorption cross-section σ, which is modeled by
+
+                                                            z(x)3
+                                                 σ(T ) =          ,                                           (1.2)
+                                                             T3
+where z(x) is a spatial dependent material coefficient that represents an atomic mass number. The following
+flux-limited energy radiation diffusion coefficient Dr is widely used [8, 23]:
+                                                             1
+                                                Dr =                  .                                       (1.3)
+                                                       3σ + |∇E|
+                                                             E
+
+Moreover, the material conduction coefficient has the following form [43]
+                                                                 5
+                                                   Dt = κT 2 ,                                                (1.4)
+
+where κ is a constant.
+  Adding the two equations of (1.1) together, one gets
+
+                                    ∂(E + T )
+                                              = ∇ · (Dr ∇E) + ∇ · (Dt ∇T ) ,                                  (1.5)
+                                       ∂t
+which indicates that the system (1.1) conserves the energy E + T over the space. Energy conservation is not
+only physically important, but also crucial to capture a useful simplification of the 2T model. As σ approaches
+∞, the radiation energy tends to approximate the thermal equilibrium, namely E ≈ T 4 , (1.5) would lead to the
+gray radiative diffusion equation [26]
+
+                                   ∂(T 4 + T )
+                                               = ∇ · Dr ∇T 4 + ∇ · (Dt ∇T ) .
+                                                            
+                                                                                                              (1.6)
+                                       ∂t
+The gray radiation equation is an important approximation widely employed for studying diverse radiative heat
+transfer phenomena, including radiative transfer in stellar atmospheres.
+    Non-equilibrium radiation diffusion equations have attracted extensive research efforts. Marshak, for in-
+stance, developed a time-dependent radiative transfer model to investigate the impact of radiation on shock
+wave behavior [30]. Analytical solutions have also been provided for specific Marshak wave problems in previous
+studies [37, 6]. However, solving the system (1.1) numerically presents substantial challenges, mainly due to the
+following several reasons:
+   • The source terms might be very stiff. Specifically, the coefficient σ, as defined in (1.2), tends to be very
+     large for large values of z or small values of T . This leads to pronounced energy exchanges and a close
+     coupling between E and T 4 . Dealing with such stiff source terms when σ is large requires implicit time
+     discretizations, resulting in a highly nonlinear system with multiscale coefficients.
+   • The diffusion terms ∇ · (Dr ∇E) and ∇ · (Dt ∇T ) are nonlinear and degenerate. The coefficients Dr and Dt
+     defined in (1.3)-(1.4) nonlinearly depend on T , and they may vary by several orders of magnitude when
+     the temperature T varies over a wide range. Moreover, when T is small, both Dr and Dt are close to 0,
+     which result in degenerate diffusion. Consequently, solutions exhibit sharp fronts that propagate at finite
+     speeds, akin to shock wave solutions in hyperbolic systems [46].
+   • A challenging condition number for a nonlinear iteration. When the temperature T is low, energy E and
+     temperature T operate at significantly different scales, with E roughly proportionate to T 4 . Consequently,
+     using a fully implicit time discretization for both E and T , combined with Newton iteration, can lead to
+     a coefficient matrix with a challenging condition number. It is essential to devise suitable iterative solvers
+     and efficient preconditioners to tackle this challenge effectively.
+    When solving (1.1) with explicit schemes, it is relatively straightforward to maintain the conservation of
+total energy E + T , however a significant drawback is the requirement of very small time steps. A parabolic time
+step ∆t = O(h2 ) with ∆t being the time step and h being the mesh size is needed due to the nonlinear diffusion
+terms, and the stiff source terms lead to a severe time step constraint as well [55]. Fully implicit schemes
+offer the advantage of using large time steps. However, the presence of strong nonlinearity and multiscale
+coefficients, when employing a large time step, the solutions from the previous time step may not serve as a
+
+                                                        2
+suitable initial guess. As a result, iterative solvers used in fully implicit methods may struggle to converge
+effectively [1, 20]. In past years, significant research efforts have been dedicated to developing efficient iterative
+solvers with effective preconditioners. One notable approach is the Jacobian-free Newton-Krylov method [23,
+24], which combines Newtonian external iterations and conjugate gradient-like (Krylov) internal iterations,
+resulting in superlinear convergence without the need to form Jacobian matrices. Additionally, a physical-
+based preconditioning Newton-Krylov method was explored in [33], and an operator-split preconditioner was
+investigated in [31]. Various other efficient time discretization methods have also been examined in [21, 29, 9,
+32, 35, 22] and references therein. Two semi-implicit schemes allowing for large time steps for the gray radiation
+diffusion equation (1.6) have been developed in [46]. Furthermore, radiation diffusion models are frequently
+coupled with hydrodynamic equations, and large deformations of complex fluid flows lead to mesh distortions.
+Consequently, for spatial discretization, there have been some works built upon distorted meshes [19, 40, 56, 62],
+as well as moving meshes [54, 55].
+    Schemes that efficiently handle non-equilibrium radiation diffusion equations, while being robust and capable
+of accommodating large time steps for accurate sharp front capturing, remain relatively rare in the existing
+literature. To design such a scheme, several requirements have to be met:
+   I Preservation of the energy equation (1.5) at the discrete level. This indicates that the source terms in the
+     two equations in (1.1) are in balance with each other. As far as (1.5) is preserved at the discrete level,
+     when σ is large and the system reaches the thermodynamic equilibrium E = T 4 , the scheme’s accuracy
+     can be controlled by the gray radiation equation (1.6);
+   II Conservation of energy. Because of the presence of the nonlinear degenerate diffusion terms, the solution
+      exhibits hyperbolic properties at the front. As is well-established in the study of hyperbolic simulations,
+      preserving the conservation properties of the scheme’s discretization is of paramount importance to accu-
+      rately capture finite-speed front propagations.
+  III Positivity Preserving. The system is only physically meaningful for positive radiation energy E and
+      positive material temperature T . The radiation temperature Tr = E 1/4 and all coefficients in (1.1) depend
+      on T . Hence, it would be crucial to maintain positivity of E and T in order to ensure the robustness of
+      the scheme and obtain physically meaningful solutions.
+  IV Efficient iterative solvers which can guarantee convergence and the providing of a good initial guess. Fully
+     implicit time discretizations coupled with proper spatial discretizaitons may possibly meet the above
+     mentioned requirements, but due to strong nonlinearities and multiscale variations of coefficients, one has
+     to provide a good initial guess and a suitable preconditioner in order to make an iterative solver converging
+     properly.
+    We note that radiation diffusion equations belongs to reaction-diffusion equations which appear in many
+other fields, such as in material sciences [34], chemical reactions [14], ecology and biology systems [18], and
+many numerical approaches have been developed for reaction-diffusion equations, e.g. [63, 61, 27] and reference
+therein. However, for the radiation diffusion equations (1.1), the main challenges are the degeneracy in the
+nonlinear diffusion operators and stiffness in the source terms. Both are caused by the low material temperature
+T , making degeneracy, stiffness and nonlinearity strongly coupled, while standard reaction diffusion equations
+usually involve only linear diffusion but various nonlinear reactions. The design of an efficient iterative solver
+for radiation diffusion equations is very challenging. In this paper, to address such difficulties, we present a
+novel and efficient method for (1.1) utilizing implicit-explicit (IMEX) time discretizations, designed to satisfy all
+four of the aforementioned criteria. Some techniques we develop can also be applied to other reaction diffusion
+systems. We introduce a predictor-corrector procedure as our proposed approach. In the predictor step, we
+multiply both sides of the second equation in (1.1) with 4T 3, introduce B = T 4 , and obtain a simpler system for
+B and E [16]. This new system does not meet requirements I, II, and III. However, we can design an efficient
+iterative solver capable of ensuring convergence even for large time steps. The predictor step can provide a
+good initial guess. Then, in the corrector step we solve the energy conservative equation (1.5), and substitute
+E + T into the first equation of (1.1) to further update E. Requirements I and II are satisfied in the corrector
+step and the bad condition number for solving E and T together is avoided. Finally, requirement III can be
+attained through the utilization of suitable spatial discretizations.
+    For requirement IV, several strategies are employed to alleviate the challenges associated with solving a
+highly nonlinear system. First of all, implicit treatments of nonlinear diffusion terms are avoided by using the
+idea in [51, 49] from adding the same linear diffusion terms on both sides of those equations, which however
+are discretized explicitly and implicitly respectively. For both the predictor and corrector steps, only a mildly
+
+                                                          3
+nonlinear system needs to be solved, and a simple Picard iteration is adopted. Secondly, a local discontinuous
+Galerkin (LDG) finite element method is employed for spatial discretiztions, due to a shock wave-like behavior in
+the solutions of radiation [30]. The LDG method was introduced by Cockburn and Shu in [12, 13] for convection-
+diffusion problems, which is well-suited for h-p adaptivity and is also very good at shock or sharp gradient
+capturing. For a first order in space LDG method, the iterative matrix for E and B can be shown to be an M-
+matrix [16]. This can guanrantee the convergence of the Picard iteration in the predictor step. Finally, for second
+and third orders of discretizations, appropriate spatial limiters are applied to control numerical oscillations for
+sharp gradient solutions and preserve the positivity of radiation energy E and material temperature T . After
+spatial discretizations, the nonlinearity iteration can be written in the form of a linear system, with nonlinearities
+mainly appear in the diagonal part of the resulting system, a fast convergence can be obtained.
+    The rest of this paper is organized as follows. In section 2, an efficient IMEX time discretization is introduced
+via a predictor-corrector procedure, followed by an LDG space discretization in section 3. In section 4, one and
+two spatial dimensional numerical examples are performed to verify the high order accuracy, conservation and
+large time step conditions, and good performances for capturing sharp fronts of the radiation energy in both
+homogeneous and heterogeneous media. Finally, a conclusion is drawn in section 5.
+
+2. Time discretization
+
+    In this section, we present an efficient IMEX time discretization for (1.1), employing a predictor-corrector
+procedure. The predictor step, though non-conservative, ensures fast and robust nonlinear convergence. In
+contrast, the corrector step maintains conservation, which is crucial for accurately propagating sharp fronts.
+This novel approach significantly mitigates nonlinearity as compared to a fully implicit time discretization,
+while maintaining a generous time step stability condition and ensuring fast and robust convergence. We begin
+with a first-order IMEX scheme, which serves as a general framework that can be readily extended to higher
+orders by integrating a multistage Runge-Kutta (RK) or multistep IMEX time-marching approach. Here, we
+adopt an IMEX RK scheme. The IMEX time discretization can be combined with any front-capturing spatial
+discretization. In this section, we keep space continuous, with a detailed description of the spatial discretization
+provided in the next section.
+
+2.1. First order IMEX scheme
+    Let the discrete time steps be tn (n = 0, 1, . . .) and the time step size be ∆t = tn+1 − tn . Instead of solving
+(1.1) directly, we propose a predictor-corrector procedure:
+   • The predictor step:
+     To mitigate the stiffness of the source terms caused by σ = z 3 /T 3 , as in [16], we multiply both sides of
+     the second equation in (1.1) by 4T 3 . (1.1) can be rewritten as:
+                               ∂E
+                                  − ∇ · (Dr ∇E) = σ (B − E) ,
+                               ∂t
+                              
+                              
+                              
+                              
+                                ∂B        h      11          9
+                                                                        i
+                                                                                                                (2.1)
+                                   −  4κ    ∇ ·  T 2 ∇T   − 3T 2 |∇T |2   = 4z 3 (E − B) ,
+                               ∂t
+                              
+                              
+                              
+                              
+                                T = B 1/4 .
+                              
+
+
+      As discussed in the introduction, T 4 in the source term of (1.1) needs to be treated implicitly to ensure
+      thermal dynamic equilibrium (E = T 4 ) in the stiff regime when T is small. To achieve this without
+      resorting to nonlinear iterations for a given σ, we introduce a new variable, B = T 4 , and update a
+      system for both E and B in this predictor step. Utilizing the equation for B not only avoids the stiffness
+      associated with σ in the second equation but also maintains balance between E and B, ensuring they
+      remain at the same scale when T is small, thus preventing unfavorable condition numbers. Furthermore,
+      in this equation, we continue to use the material temperature T rather than B for the diffusion terms,
+      thereby preventing negative powers of B which can lead to stiffness when B = T 4 is small. Once we have
+      determined B, we can calculate T using the relationship B = T 4 . It is noteworthy that throughout this
+      process and in the following, we consistently use E and T as our input and output variables.
+      To update (2.1) for E and B, the diffusion terms remain nonlinear. An implicit treatment would lead to a
+      complex nonlinear system. Following the approach presented in [51, 49], we introduce two linear diffusion
+      terms α0 ∆E and β0 ∆B with constant coefficients α0 , β0 on both sides of (2.1) for E and B, respectively.
+
+                                                          4
+     Starting from E n and T n , a first-order IMEX scheme for updating predicted solutions Ẽ n+1 and T̃ n+1 is
+     defined as follows:
+                   n+1 n                                                                          
+                     Ẽ     −E            n    n           n          n+1      n+1     n+1      n+1
+                  
+                   ∆t
+                                − ∇ · (D r ∇E   ) + α0 ∆E   = α0 ∆Ẽ     + σ̃      B̃     − Ẽ       ,
+                  
+                  
+                                                                                    
+                     B̃ n+1 −B n                                                                           (2.2)
+                         ∆t     − Hn + β0 ∆B n = β0 ∆B̃ n+1 + 4z 3 Ẽ n+1 − B̃ n+1 ,
+                  
+                  
+                  
+                  T̃ n+1 = (B̃ n+1 )1/4 ,
+                  
+
+     where                                     h    11                i
+                                                                9
+                                         H = 4κ ∇ · T 2 ∇T − 3T 2 |∇T |2 .                                     (2.3)
+
+     Here, the superscript n or n + 1 denotes the corresponding values at time step tn or tn+1 respectively,
+     similarly in the following. As we can see, in each equation, two added identical terms are discretized
+     differently, one explicitly and the other implicitly. This approach allows us to achieve time stability close
+     to that of an implicit scheme while only needing to solve linearly implicit diffusion operators [49, 51]. From
+     the above, we observe that by introducing B and adding the linear diffusion terms, when we solve (2.2)
+     with an IMEX method, the only nonlinearity arises from the source term σ(E − B) due to the coefficient
+     σ appearing in the first equation. If σ is constant or a predefined function, (2.2) becomes a simple linear
+     system. Additionally, if κ = 0 for H in (2.3), (2.2) is in a conservative form, and such a 2T model can be
+     efficiently solved.
+   • The corrector step:
+     However, if κ is not zero, the term H in (2.3) within the equation of B is in a non-conservative form.
+     This non-conservative form can result in incorrect sharp front propagation, as will be demonstrated in
+     our numerical examples. To address this issue, a corrector step is required. To ensure the conservation of
+     total energy, as shown in (1.5), we begin by replacing the second equation in the original equation (1.1)
+     with (1.5), resulting in the following:
+                                         ∂E
+                                              − ∇ · (Dr ∇E) = σ T 4 − E ,
+                                                                        
+                                        
+                                           ∂t
+                                        
+                                        
+                                        
+                                        
+                                        
+                                          ∂Q                                                                   (2.4)
+                                              = ∇ · (Dr ∇E) + ∇ · (Dt ∇T ) ,
+                                        
+                                        
+                                        
+                                          ∂t
+                                        
+                                          T = Q − E.
+                                        
+
+     The equation for Q is in a conservative form, allowing for easy conservation of total energy across space.
+     Following (2.2), we also introduce two linear diffusion terms, α0 ∆E and γ0 ∆Q, on both sides of (2.4).
+     Using a first-order IMEX time discretization, we obtain:
+                 n+1
+                   E     − En
+                              − ∇ · (Drn ∇E n ) + α0 ∆E n = α0 ∆E n+1 + σ̃ n+1 (T n+1 )4 − E n+1 ,
+                                                                                               
+                
+                       ∆t
+                
+                
+                
+                
+                
+                     n+1
+                   Q     − Qn                                                                             (2.5)
+                              − ∇ · (Drn ∇E n ) − ∇ · (Dtn ∇T n ) + γ0 ∆Qn = γ0 ∆Qn+1 ,
+                       ∆t
+                
+                
+                
+                
+                
+                 n+1
+                         = Qn+1 − E n+1 .
+                
+                  T
+
+     Solving for E and Q ensures good convergence and the conservation of Q. As we can see, in (2.5), adding
+     these linear diffusion terms is crucial to simplify the nonlinear system. With this approach, we can first
+     solve a linear system for Q from the second equation. Then, we can use T = Q − E to replace the T 4
+     term in the first equation, allowing us to solve this mildly nonlinear equation to further update E. The
+     nonlinearity is simply (Q − E)4 for E and only appears in the diagonal part of the mass matrix after
+     spatial discretization.
+
+Remark 1. In the corrector step, we utilize the values obtained from the predictor step to determine the
+coefficients σ in the source term and to provide an initial guess for the corrector step. One could contemplate
+simplifying the scheme by eliminating the predictor step and directly employing a Picard iteration in the
+corrector step to handle these coefficients. However, we would mention that σ = z 3 /T 3 and T 4 = (Q − E)4
+appears as a nonlinear term. In case of T being small, with a stiff coefficient, the nonlinear iteration for solving
+
+                                                         5
+E in (2.5) may not converge well, for example, the stand Marshak wave problem in Example 4.4. Instead, in
+the predictor step, except σ, others linearly depend on E and B. Even with a stiff σ, it appears in the diagonal
+part of the mass matrix, so that a fast and robust convergence can be obtained. Starting from a good initial
+guess provided by the predictor step, the corrector step can also converge well.
+
+2.2. High order IMEX scheme
+   The first-order IMEX scheme with a predictor-corrector procedure has offered a highly efficient and versatile
+framework for solving the 2T model (1.1). To attain high-order accuracy in time while preserving these desirable
+properties, we employ a globally stiffly accurate IMEX RK time discretization [7]. However, a multistep IMEX
+method can also be utilized [2].
+   We consider a system of additive ordinary differential equations:
+                                                 dy
+                                                    = L(t, y) + N (t, y),              y (t0 ) = y0 ,                                        (2.6)
+                                                 dt
+where y = (y1 , y2 , . . . , yd )T . L(t, y) and N (t, y) are linear and nonlinear operators, respectively. L(t, y) will be
+discretized implicitly, while N (t, y) will be discretized explicitly. An s-stage IMEX RK time discretization can
+be represented by a double Butcher tableau
+
+                                                           ĉ   Â                c     A
+                                                                         ,                  .
+                                                                b̂   T                 bT
+
+Here A = (aij ) and Â = (âij ) ∈ Rs×s . Â is a strictly lower triangular matrix for explicit parts. For the implicit
+part, A can be taken as a lower triangular matrix with a nonzero diagonal to get an efficient implementation,
+which is usually referred to as a diagonally implicit RK (DIRK) scheme. The vectors are bT = (b1 , b2 , . . . , bs ),
+                                                                                                                 i               i−1
+b̂T = (b̂1 , b̂2 , . . . , b̂s ), cT = (c1 , c2 , . . . , cs ), and ĉT = (ĉ1 , ĉ2 , . . . , ĉs ), where ci =
+                                                                                                                 P               P
+                                                                                                                   aij and ĉi =     âij . Denoting
+                                                                                                          j=1                j=1
+ (j)                   (j)
+tn = tn + cj ∆t, t̂n = tn + ĉj ∆t, the solution of (2.6) can be updated from time level tn to tn+1 in the following
+way:            (1)
+               Y
+                        = yn ,
+               
+               
+                                   i−1                         i                  
+                                                  (j)                         (j)
+               
+                   Y (i) = yn + ∆t      âij N t̂n , Y (j) + ∆t      aij L tn , Y (j) , 2 ≤ i ≤ s,
+                                    P                           P
+                                                                                                                (2.7)
+                                   j=1                         j=1
+                                     s                       s                 
+                                                 (i)                      (i)
+               
+                                         b̂i N t̂n , Y (i) + ∆t     bi L tn , Y (i) .
+                                     P                          P
+               yn+1 = yn + ∆t
+               
+               
+                                             i=1                                 i=1
+
+The IMEX RK scheme is called to be globally stiffly accurate, if the coefficients satisfy [7] are required to satisfy:
+
+                                      ĉs = cs = 1, and asj = bj , âsj = b̂j ,             j = 1, 2, . . . , s.
+
+With such an IMEX scheme, the final updating of yn+1 in (2.7) coincides with the last stage of updating Y (s) ,
+so that we can take yn+1 = Y (s) and avoid the last cumulative step. In Appendix A, Butcher tableaux from
+first order to third order, which are adopted in this work, are provided.
+    If we choose L and N in (2.6) based on the first order scheme (2.2) and (2.5), with (2.7), the updating of
+the solutions at tn+1 from tn can be presented as follows:
+                         s−1                                        s
+           E n+1 − E n   X      h                               i X      h                                  i
+                       =     b̂i ∇ · (Dr(i) ∇E (i) ) − α0 ∆E (i) +     bi α0 ∆E (i) + σ (i) (B (i) − E (i) ) ,                              (2.8a)
+               ∆t        i=1                                       i=1
+                      s−1                                                       s
+           Qn+1 − Qn X h                          
+                                                      (i)
+                                                                        i     X
+                    =     b̂i ∇ · Dr(i) ∇E (i) + ∇ · Dt ∇T (i) − γ0 ∆Q(i) + γ0     bi ∆Q(i) ,                                               (2.8b)
+              ∆t      i=1                                                      i=1
+                   T n+1 = Qn+1 − E n+1 .                                                                                                   (2.8c)
+                                                                                                   (i)       (i)
+Here similarly the superscript (i) denotes variables at the time stage tn or t̂n , and the intermediate stage
+values for 2 ≤ i ≤ s are obtained from:
+
+
+
+
+                                                                             6
+   • the predictor step:
+
+                                  Ẽ (i) − E n             (i)
+                                                                   h                                 i
+                                                  = RHSE + aii α0 ∆Ẽ (i) + σ̃ (i) (B̃ (i) − Ẽ (i) ) ,            (2.9a)
+                                        ∆t
+                                  B̃ (i) − B n             (i)
+                                                                   h                              i
+                                                  = RHSB + aii β0 ∆B̃ (i) + z 3 (Ẽ (i) − B̃ (i) ) ,               (2.9b)
+                                        ∆t
+                                           T̃ (i) = (B̃ (i) )1/4 ,                                                 (2.9c)
+
+   • the corrector step:
+
+                                  E (i) − E n          (i)
+                                                                 h                              i
+                                                = RHSE + aii α0 ∆E (i) + σ̃ (i) (B (i) − E (i) ) ,                (2.10a)
+                                       ∆t
+                                  Q(i) − Qn            (i)
+                                                = RHSQ + aii γ0 ∆Q(i) ,                                           (2.10b)
+                                       ∆t
+                                          T (i) = Q(i) − E (i) .                                                  (2.10c)
+
+   The shorthand notations in (2.9)-(2.10) are defined as:
+         
+                     i−1
+                     Ph                                                                                  i
+               (i)                    (j)    (j)           (j)                 (j)     (j)    (j)     (j)
+           RHS     =     â    ∇ · (D     ∇E     ) − α  ∆E       + a     α  ∆E     + σ     (B     − E     )   ,
+         
+                            ij        r               0              ij   0
+         
+         
+              E
+         
+                    j=1
+                     i−1
+         
+         
+               (i)
+                         âij H(j) − β0 ∆B (j) + aij β0 ∆B (j) + z 3 (E (j) − B (j) ) ,
+                     P                                                                 
+           RHSB =
+         
+                    j=1
+                     i−1
+         
+         
+               (i)   Ph           
+                                       (j)
+                                                        
+                                                             (j)
+                                                                                                       i
+                         âij ∇ · Dr ∇E (j) + ∇ · Dt ∇T (j) − γ0 ∆Q(j) + aij γ0 ∆Q(j) .
+         
+         RHSQ =
+         
+         
+                         j=1
+
+For the first stage, we take Ẽ (1) = E n , B̃ (1) = (T n )4 , E (1) = E n , Q(1) = E n + T n .
+
+2.3. Picard iteration
+    For the first-order IMEX scheme (2.2) and (2.5), or the high-order IMEX scheme in the intermediate stages
+(2.9)-(2.10), each system is mildly nonlinear. Here we will describe how to solve those mildly nonlinear systems
+with a simple Picard iteration. The iteration does not rely on any specific spatial discretization, so we keep
+space continuous first.
+    Taking the high-order IMEX scheme for the predictor step (2.9) as an example, the updating Ẽ and B̃ can
+be rewritten as:
+                                                     
+                            1                                                            (i)    1 n
+                               − aii α0 ∆ + aii σ̃ (i) Ẽ (i) − aii σ̃ (i) B̃ (i) = RHSE +         E ,    (2.11a)
+                            ∆t                                                                  ∆t
+                                                   
+                            1                                                        (i)     1 n
+                               − aii β0 ∆ + aii z 3 B̃ (i) − aii z 3 Ẽ (i) = RHSB +            B .       (2.11b)
+                            ∆t                                                               ∆t
+For a Picard iteration, starting from the iterative number l = 0, we set Ẽ i,0 = E (i−1) and B̃ i,0 = B (i−1) , and
+update Ẽ i,l+1 and B̃ i,l+1 from Ẽ i,l and B̃ i,l iteratively as:
+                                                       
+                            1                       i,l                                         (i)    1 n
+                                − aii α0 ∆ + aii σ̃       Ẽ i,l+1 − aii σ̃ i,l B̃ i,l+1 = RHSE +        E , (2.12a)
+                            ∆t                                                                        ∆t
+                                                    
+                            1                                                               (i)     1 n
+                                − aii β0 ∆ + aii z 3 B̃ i,l+1 − aii z 3 Ẽ i,l+1 = RHSB +              B .   (2.12b)
+                            ∆t                                                                      ∆t
+As observed, when σ̃ i,l is set based on the previous iterative step, (2.12) gives rise to a linear system for Ẽ i,l+1
+and B̃ i,l+1 that exhibits diagonal dominance. This property arises from the positivity of σ and z(x), resulting
+in rapid convergence when employing iterative methods to solve it.
+    Similar to (2.11), the corrector step (2.10) for E and Q can be rewritten as:
+                                                      
+                             1                                                        (i) 1 n
+                                − aii α0 ∆ + aii σ̃ (i) E (i) − aii σ̃ (i) B (i) = RHSE +    E ,              (2.13a)
+                             ∆t                                                           ∆t
+                                         
+                             1                             (i)    1 n
+                                − aii γ0 ∆ Q(i) = RHSQ +              Q .                                     (2.13b)
+                             ∆t                                  ∆t
+
+
+                                                                7
+Here, Q(i) can be readily obtained by solving the linear system (2.13b), which also possesses diagonal dominance.
+Subsequently, we solve (2.13a) through a Picard iteration, with initial values B i,0 = B̃ (i) = (T̃ (i) )4 , as follows:
+                                                     
+                           1                      (i)                                   (i) 1 n
+                              − aii α0 ∆ + aii σ̃       E i,l+1 = aii σ̃ (i) B i,l + RHSE +    E ,                (2.14a)
+                           ∆t                                                               ∆t
+                         B i,l+1 = (Q(i) − E i,l+1 )4 .                                                          (2.14b)
+
+We solve the linear system (2.14a) to get E i,l+1 , and then update B i,l+1 from (2.14b). Since the initial values
+are set as E i,0 = Ẽ (i) and B i,0 = (Q(i) − E i,0 )4 from the predictor step, a fast convergence can be obtained for
+the corrector step.
+   The above procedures are similar for the first order IMEX scheme (2.2) and (2.5), we omit them to save
+space.
+
+3. LDG spatial discretization
+
+   For the first-order IMEX scheme (2.2)-(2.5), or the high-order IMEX scheme (2.8)-(2.10), we can couple
+them with any front capturing spatial discretizations [28, 5, 1, 49, 58]. In this work, we utilize an LDG finite
+element method. The LDG method offers great flexibility for h-p adaptivity and excels at capturing sharp
+gradient propagations.
+
+3.1. Some notations
+    For a computational domain Ω ⊆ R2 , we consider a partition Th of Ω with ha set of non-overlapping
+                                                                                              i        h rectangulari
+elements {Ii,j }, which can cover the whole domain Ω. Here Iij = Ii ×Ij , Ii = xi− 21 , xi+ 12 and Ij = yj− 21 , yj+ 12
+for i = 1, 2, · · · , Nx , j = 1, 2, · · · , Ny . We denote the element length and width as hxi = xi+ 21 − xi− 12 , hyj =
+yj+ 21 − yj− 21 , respectively. h = max{hxi , hyj } is the maximum edge size of these elements. The center of the
+                                     i,j
+element Ii,j is (xi , yj ). We also assume that Th is quasi-uniform, namely, max{h/hxi } and max{h/hyj } are upper
+                                                                                  i                j
+bounded by a given positive constant.
+    With the above partition, we follow [51] to give some notations which will be used in the following. Given
+any non-negative integer vector k = (k1 , k2 ), we define a finite-dimensional discrete piecewise polynomial space
+as follows
+                                 Whk = {u ∈ L2 (Ω) : u|K ∈ Qk (K), ∀K ∈ Th },
+where Qk (K) consists of tensor product polynomials of degree not exceeding kℓ along the ℓ-th direction on each
+element K, for ℓ = 1, 2. Besides, we denote Whk = Whk × Whk as a vector space, where each component belongs
+to Whk . We define a unit normal vector ne on each edge e of Th as follows: if e ∈ ∂Ω, ne is defined as the unit
+normal vector pointing outside of Ω; for an interior edge e = ∂K + ∩ ∂K − , the outward unit normal vectors of
+e taken from the elements K + and K − are denoted by n+ and n− , respectively. Here we fix ne as one of n± .
+If we denote u+ and u− as the values of a function u on e, taken from K + and K − respectively, then the jump
+[[u]] over an edge e for a scalar-valued function u is defined as
+
+                                          [[u]]|e = − u+ n+ + u− n− · ne .
+                                                                   
+
+For a vector-valued function v, the jump [[v · n]] is defined as
+
+                                      [[v · n]]|e = − v+ · n+ + v− · n− ne · n+ .
+                                                                       
+
+Accordingly, we express the averages of u and v · n as
+                            1 + +                                           1 + +
+                              u n − u − n− · ne ,                             v · n − v − · n− ne · n+ .
+                                                                                             
+              {{u}}|e = −                                 {{v · n}}|e = −
+                            2                                               2
+In this work, we take ne = n− , then
+                                                                       1 +
+                                    [[u]]|e = u+ − u− ,                  u + u− ,
+                                                                               
+                                                           {{u}}|e =
+                                                                       2
+and
+                                                                              1 +
+                        [[v · n]]|e = −(v+ − v− ) · n− ,                        v + v − · n− .
+                                                                                       
+                                                            {{v · n}}|e = −
+                                                                              2
+
+                                                             8
+   In our implementation, we use an orthogonal basis of Whk with a uniform rectangular partition hx = hix for
+1 ≤ i ≤ Nx and hy = hjy for 1 ≤ j ≤ Ny . In this case, the numerical solution can be expressed as
+
+                                                Ny k1 k2
+                                             Nx X
+                                                                um,n
+                                             X     XX
+                                                                      m     n
+                               uh (x, y) =                       i,j Hi (x)Hj (y),           (x, y) ∈ Ω,
+                                             i=1 j=1 m=1 n=1
+
+
+uh is Eh , Th , or Bh respectively. The local basis of Qk (K) on each element K is denoted as Him (x)Hjn (y) for
+K = Ii,j ∈ Th , and k = (k1 , k2 ). For example, up to third order, the local bases are chosen as follows
+                                                                             2
+                                                                             
+                                                 x − xi               x − xi      1
+                          Hi1 (x) = 1, Hi2 (x) =        , Hi3 (x) =             − , x ∈ Ii ,
+                                                   hx                   hx       12
+                                                                            2
+                                                 y − yj               y − yj      1
+                          Hj1 (y) = 1, Hj2 (y) =        , Hj3 (y) =             − , y ∈ Ij ,
+                                                   hy                   hy       12
+
+with zero extension outside the cell Ii or Ij respectively.
+
+3.2. First order IMEX-LDG scheme
+    With the above notations, a fully-discrete LDG scheme utilizing a first-order IMEX scheme (2.2) and (2.5)
+is defined as follows. First, for the predictor step (2.2), the scheme reads: given Ehn , Thn , Bhn ∈ Whk and pnh , qnh ,
+rnh ∈ Whk , we find Ẽhn+1 , B̃hn+1 ∈ Whk and p̃n+1 h    , q̃n+1
+                                                             h   ∈ Whk , such that for any µ, ν, ζ ∈ Whk , and υ , ξ ∈ Whk ,
+such that
+               1  n+1                                                                                             
+                    Ẽh − Ehn , µ = Ghn (µ) − α0 Lnh,p (µ) + α0 Ln+1     h,p̃ (µ) +   σ̃h
+                                                                                         n+1
+                                                                                             (B̃ n+1
+                                                                                                 h    −  Ẽh
+                                                                                                            n+1
+                                                                                                                ), µ   , (3.1a)
+              ∆t
+               1                                                                                             
+                    B̃hn+1 − Bhn , ν = Hhn (ν) − β0 Lnh,q (ν) + β0 Ln+1                3
+                                                                        h,q̃ (ν) + z (B̃h
+                                                                                            n+1
+                                                                                                   − Ẽhn+1 ), ν ,       (3.1b)
+              ∆t
+                           (T̃hn+1 , ζ) = ((B̃hn+1 )1/4 , ζ),                                                            (3.1c)
+                            (p̃n+1
+                               h   , υ ) = K h (Ẽhn+1 , υ ),                                                                        (3.1d)
+                            (q̃n+1
+                               h   , ξ ) = K h (B̃hn+1 , ξ ),                                                                        (3.1e)
+
+with
+                                  Ghn (µ) = C h ((Dr ph )n , µ),       Hhn (ν) = D h (Thn , rnh , ν),
+where
+
+        Ln+1               n+1
+         h,p̃ (µ) = L h (p̃h   , µ),    Ln+1               n+1
+                                         h,q̃ (ν) = L h (q̃h   , ν),       Lnh,p (µ) = L h (pnh , µ),   Lnh,q (ν) = L h (qnh , ν).
+
+Correspondingly, for the corrector step (2.5), the scheme is defined as: we look for Ehn+1 , Qn+1
+                                                                                              h   ∈ Whk and pn+1
+                                                                                                             h   ,
+ n+1      k                    k                 k
+wh ∈ Wh , for any µ, φ ∈ Wh , and υ , η ∈ Wh , such that
+
+                1
+                   E n+1 − Ehn , µ = Ghn (µ) − α0 Lnh,p (µ) + α0 Ln+1         n+1
+                                                                                  (Bhn+1 − Ehn+1 ), µ ,
+                                                                                                    
+                                                                  h,p (µ) + σ̃h                                                      (3.2a)
+                ∆t h
+                1
+                   Qhn+1 − Qnh , φ = Ehn (φ) − γ0 Lnh,w (φ) + γ0 Ln+1
+                                  
+                                                                  h,w (φ),                                                           (3.2b)
+                ∆t
+                              n+1      n+1      n+1
+                            Th = Qh − Eh ,                                                                                           (3.2c)
+                           (pn+1
+                             h   , υ ) = K h (Ehn+1 , υ ),                                                                           (3.2d)
+                           (whn+1 , η ) = K h (Qn+1
+                                                h   , η ),                                                                           (3.2e)
+
+with
+                                         Ehn (φ) = F h ((Dt r)nh , φ) + C h ((Dr ph )n , φ),
+where
+                                       Lnh,p (µ) = Lh (pnh , µ),       Lnh,w (φ) = L h (whn , φ).
+
+
+
+
+                                                                   9
+   Those operators in (3.1)-(3.2) are defined as:
+                                       X Z                  X Z
+                      L h (ph , µ) = −          ph · ∇µdx +                             ne · p̂h µds,
+                                              K∈Th    K                   K∈Th     ∂K
+
+                                              X Z                           X Z
+                          K h (Eh , υ ) = −               Eh ∇ · υ dx +                 ne · υ Êh ds,
+                                              K∈Th    K                    K∈Th    ∂K
+
+                                              X Z                                 X Z
+                        C h (Dr ph , µ) = −               Dr,h ph · ∇µdx +                    D̂r,h ne · p̂h µds,
+                                              K∈Th    K                         K∈Th     ∂K
+
+
+                                              X Z                                X Z
+                        F h (Dt rh , φ) = −               Dt,h rh · ∇φdx +                    D̂t,h ne · r̂h φds.
+                                              K∈Th    K                        K∈Th     ∂K
+
+
+                                                  X Z           11             9
+                                                                                          
+                       D h (Th , rh , ν) = − 4κ                Th2 rh · ∇ν + 3Th2 |rh |2 ν dx
+                                                  K∈Th    K
+                                                  X Z
+                                          + 4κ                 dˆh (Th ; ne )ne · r̂h νds.
+                                                  K∈Th    ∂K
+
+
+In the above and below, (·, ·) denotes the usual L2 inner product on Ω. We can find that ph , qh , rh , and wh
+approximate ∇E, ∇B, ∇T , and ∇Q respectively.
+    The variables with ˆ· are numerical fluxes. For such a diffusion system, we adopt an alternating left-right
+flux, namely
+
+                          ûh = u−
+                                 h,                  for a scalar-valued function u = E, B, T, Q,
+
+                          ne · v̂h = n− · vh+ ,      for a vector-valued function v = p, q, r, w.
+
+The alternating right-left flux or central fluxes as in [10, 17, 48, 51] can also be used. As used in [12, 52, 53],
+D̂r,h = {{Dr,h }}|e is defined as a central numerical flux in approximating of Dr,h , and dˆh (Th ; ne ) in D h (Th , rh , ν)
+                            11
+is an approximation to T 2 ,
+                                                          13
+                                                      2
+                                                 [[ 13
+                                                        Th2 ]]|e /[[Th ]]|e , if [[Th ]]|e 6= 0,
+                               dˆh (Th ; ne ) =
+                                                 (T 11
+                                                       2 −
+                                                      h ) ,                    otherwise.
+
+D̂t,h is chosen to approximate Dt in the same manner as dˆh (Th ; ne ).
+
+3.3. High order IMEX-LDG scheme
+    By applying a high-order IMEX RK scheme (2.7) to (3.1)-(3.2), similar to the first-order scheme, the updating
+of the solutions at tn+1 from tn is given as follows:
+                           s h 
+     1                  X         (i)         (i)
+                                                          
+                                                                (i)
+                                                                         
+                                                                           (i) (i)  (i)
+                                                                                           i
+        Ehn+1 − Ehn , µ =     b̂i Gh (µ) − α0 Lh,p (µ) + bi α0 Lh,p (µ) + σh (Bh − Eh ), µ     ,                      (3.3a)
+     ∆t                   i=1
+                          s h 
+     1                 X           (i)            (i)
+                                                          
+                                                                       (i)
+                                                                              i
+        Qn+1
+         h   − Q n
+                 h , φ =     b̂ i E h   (φ) − γ 0 Lh,w (φ)  + b i γ 0 Lh,w (φ)  ,                                     (3.3b)
+     ∆t                  i=1
+                     Thn+1 = Qn+1
+                              h   − Ehn+1 ,                                                                           (3.3c)
+                (pn+1
+                  h   , υ ) = K h (Ehn+1 , υ ),                                                                       (3.3d)
+                (whn+1 , η ) = K h (Qn+1
+                                     h   , η ).                                                                       (3.3e)
+
+The intermediate stage values for 2 ≤ i ≤ s are obtained from:
+
+
+
+
+                                                                  10
+   • the predictor step:
+
+                        1  (i)         
+                                                  (i)
+                                                             h
+                                                               (i)
+                                                                         
+                                                                            (i)    (i)    (i)
+                                                                                                i
+                           Ẽh − Ehn , µ = RHSE (µ) + aii α0 Lh,p̃ (µ) + σ̃h (B̃h − Ẽh ), µ ,                                   (3.4a)
+                        ∆t
+                        1  (i)         
+                                                  (i)
+                                                             h
+                                                               (i)
+                                                                        
+                                                                                (i)    (i)
+                                                                                              i
+                           B̃h − Bhn , ν = RHSB (ν) + aii β0 Lh,q̃ (ν) + z 3 (B̃h − Ẽh ), ν ,                                   (3.4b)
+                        ∆t
+                                   (i)          (i)
+                                (T̃h , ζ) = ((B̃h )1/4 , ζ),                                                                     (3.4c)
+                                         (i)                 (i)
+                                      (p̃h , υ ) = K h (Ẽh , υ ),                                                               (3.4d)
+                                          (i)              (i)
+                                       (q̃h , ξ ) = K h (B̃h , ξ );                                                              (3.4e)
+
+   • the corrector step:
+
+                        1  (i)        
+                                               (i)
+                                                         h
+                                                                (i)
+                                                                       
+                                                                          (i) (i)  (i)
+                                                                                         i
+                           Eh − Ehn , µ = RHSE (µ) + aii α0 Lh,p̃ (µ) + σ̃h (Bh − Eh ), µ ,                                      (3.5a)
+                        ∆t
+                        1  (i)        
+                                               (i)           (i)
+                           Qh − Qnh , φ = RHSQ (φ) + aii γ0 Lh,w (φ),                                                            (3.5b)
+                        ∆t
+                                      (i)  (i)     (i)
+                                   Th = Qh − Eh ,                                                                                (3.5c)
+                                        (i)             (i)
+                                      (ph , υ ) = K h (Eh , υ ),                                                                 (3.5d)
+                                        (i)             (i)
+                                      (wh , η ) = K h (Qh , η ).                                                                 (3.5e)
+
+   The shorthand notations in (3.4)-(3.5) are defined as:
+       
+                        i−1
+                         P h  (j)                                                                           i
+              (i)                               (j)                    (j)            (j)     (j)      (j)
+         RHS      (µ) =     â    G  (µ) − α  L     (µ)  + a      α  L     (µ) +   σ̃     (B      − E      ), µ     ,
+       
+                               ij           0                ij    0
+       
+       
+             E                    h            h,p                    h,p           h       h        h
+       
+                       j=1
+                        i−1
+       
+       
+             (i)        P h  (j)               (j)
+                                                               
+                                                                      (j)
+                                                                                 
+                                                                                           (j)      (j)
+                                                                                                            i
+         RHSB (ν) =         âij Hh (ν) − β0 Lh,q (ν) + aij β0 Lh,q (ν) + z 3 (B̃h − Ẽh ), ν                     ,
+       
+                       j=1
+                        i−1
+       
+       
+            (i)         P h  (j)             (j)
+                                                       
+                                                                    (j)
+                                                                            i
+       RHSQ (φ) =          âij Eh (φ) − γ0 Lh,w (φ) + aij γ0 Lh,w (φ) .
+       
+       
+                           j=1
+
+    As we can observe, each of the intermediate steps (3.4)-(3.5) in a high-order scheme shares the same structure
+as the first-order scheme (3.1)-(3.2). Thus, the first-order scheme provides a general framework for coupling
+with a multi-stage IMEX RK method, making it convenient to extend to higher orders. Furthermore, the choice
+of operators and numerical fluxes remains consistent with the first-order scheme.
+
+3.4. Picard iteration for a full scheme
+    To represent our scheme as a mildly nonlinear system more effectively, we introduce notations for matrices
+and vectors. We define a long vector uc to represent the coefficients of a two-dimensional numerical solution
+uh , as follows:
+                                                                                                                         T
+                uc = u1,1            k1 ,k2 1,1            k1 ,k2         1,1              k1 ,k2   1,1            k1 ,k2
+                      1,1 , · · · , u1,1 , u2,1 , · · · , u2,1 , · · · , uNx ,1 , · · · , uNx ,1 , u1,2 , · · · , uNx ,Ny    .    (3.6)
+
+Such a vector uc is the value to be updated by a numerical method in the LDG framework. For instance,
+when taking the nonlinear integrals (σh Eh , µ) and (σh Bh , µ) in (3.1) and (3.2), practical approximations are
+employed. These approximations involve Gaussian quadrature integration along each direction, facilitated by
+the use of an interpolation operator Ih within each cell K = Ii × Ij , i.e.
+
+                                                  1 2          k +1 k +1                                                 
+                                            hx hy X                                                  hx          hy
+                           Z                        X
+         (σh Eh , µ)K ≈   Ih (σh Eh µ) dx =           ω̂G ω̂G′ (σh Eh µ)                                ηG + xi , ηG′ + yj ,
+                        K                     4                                                       2          2
+                                                    ′          G=1 G =1
+
+where ηG are Gaussian quadrature points on the interval [−1, 1] with corresponding weights ω̂G . We define
+k1,2 = (k1 + 1)(k2 + 1), therefore, by taking µ over the local bases Him (x)Hjn (y) in each cell, (σh Eh , µ) can be
+formatted as a matrix Λh,T multiplied by a long vector Ec , that is Λh,T Ec , where Λh,T is a k1,2 -block at most
+
+
+                                                                      11
+tri-diagonal matrix in the size of Nx Ny . Here σ is T -dependent, so that Λh,T depends on T , and Λh,T Ec is
+nonlinear.
+    With similar matrix-by-vector notations, the high order fully-discrete IMEX-LDG scheme (3.4), correspond-
+ing to (2.11), can be written in the following form
+                                                          
+                               1                       (i)                (i)             (i)
+                                 Mh − aii α0 Sh + aii Λh,T̃ Ẽc(i) − aii Λh,T̃ B̃c(i) = FE ,            (3.7a)
+                              ∆t
+                                                       
+                               1                                                      (i)
+                                 Mh + aii Zh − aii β0 Sh B̃c(i) − aii Zh Ẽc(i) = FB ,                  (3.7b)
+                              ∆t
+where Mh Ec , Mh Bc , Sh Ec , Sh Bc , Zh Ec and Zh Bc are matrix-by-vector forms of (Eh , µ), (Bh , ν), (Lh,p , µ),
+                                                                                              (i) (i)
+(Lh,q , ν), (z 3 Eh , ν) and (z 3 Bh , ν), respectively. The right-hand-side long vectors FE and FB are corresponding
+          (i)                                  (i)
+to (RHSE , µ) + (Eh , µ)/∆t and (RHSB , ν) + (Bh , ν)/∆t respectively.
+    Similar to (3.7), the corrector step (3.5), corresponding to (2.13), can be written as
+                                                                 
+                                     1                        (i)               (i)           (i)
+                                        Mh − aii α0 Sh + aii Λh,T̃ Ec(i) − aii Λh,T̃ Bc(i) = FE ,               (3.8a)
+                                    ∆t
+                                                      
+                                     1                            (i)    1
+                                        Mh − aii γ0 Sh Q(i)c = FQ +        Mh Qnc .                             (3.8b)
+                                    ∆t                                  ∆t
+   For the predictor step, (3.7) can be expressed as a nonlinear algebraic system
+                                      A(Ũ (i) )Ũ (i) = F (U n , U (1) , U (2) , . . . , U (i−1) ),                        (3.9)
+with                                                   "            #
+                                                            (i)                                                 
+                                    Ec                       FE                            M1 (U )       M2 (U )
+                        U=                   ,   F =          (i)       ,    A(U ) =                                   .
+                                    Bc                       FB                             M3            M4
+The corresponding submatrices in A(U ) are given by
+                                    1
+                          M1 (U ) =   Mh − aii α0 Sh + aii Λh,T , M2 (U ) = −aii Λh,T ,
+                                  ∆t
+                                                 1
+                          M3 = −aii Zh , M4 =      Mh + aii Zh − aii β0 Sh .
+                                                ∆t
+As we can see, only M1 (U ) and M2 (U ) mildly depend on U due to Λh,T . Hence an iteration procedure,
+corresponding to (2.12), can be written as
+                                     A(U i,l )U i,l+1 = F (U n , U (1) , U (2) , . . . , U (i−1) ),                        (3.10)
+with the initial value taking to be U i,0 = U (i−1) .
+    A detailed procedure of the Picard iteration for solving (3.10) is as follows: starting from an iterative number
+                        (i−1)            (i−1)
+l = 0, we set Ehi,0 = Eh      , Bhi,0 = Bh     , and update the unknowns Bhi,l+1 and Ehi,l+1 iteratively through the
+following three steps:
+   • Step 1: compute A(U i,l )
+                                                                    M1 (U i,l )    M2 (U i,l )
+                                                                                                
+                                                       i,l
+                                                 A(U ) =                                             ;
+                                                                      M3             M4
+
+   • Step 2: if z(x) is piecewise constant, M3 is an easy invertible diagonal matrix. From (3.10), by Gauss
+     elimination, we update Ehi,l+1 and Bhi,l+1 with their long vectors by
+                            (         −1
+                                                    
+                                                                        −1 (i)  (i)
+                               M1 (M3 ) M4 − M2 Bci,l+1 = M1 (M3 ) FB − FE ,
+                                             (i)
+                                                                                                      (3.11)
+                             M3 Eci,l+1 = FB − M4 Bci,l+1 .
+
+       Otherwise, we solve (3.10) with the GMRES method [39].
+                          (i)                      (i)
+   • Step 3: we take Ẽh = Ehi,l+1 and B̃h = Bhi,l+1 when iteration stops. The stop criteria is
+
+                                                              kEci,l+1 − Eci,l k < δ.
+       In our numerical tests, we take an L2 norm and a threshold δ = 10−8 .
+
+                                                                        12
+                                        (i)                                                           (i)   (i)
+   For the corrector step (3.8), Qc is solved directly from (3.8b), and then obtain Ec and Bc iteratively by
+
+                                                              
+                               1                        (i)                       (i)          (i)
+                                  Mh − aii α0 Sh + aii Λh,T̃       Eci,l+1 = aii Λh,T̃ Bci,l + FE ,               (3.12a)
+                               ∆t
+                           Bci,l+1 = (Q(i)  i,l+1 4
+                                       c − Ec    ) .                                                              (3.12b)
+                                  (i)
+with the initial values Bhi,0 = B̃h . The stop criteria is the same as Step 3 in the predictor step.
+                                                                                            (0,0)
+   For the Picard iteration in the predictor step, we can show that, if Eh and Bh ∈ Wh , and the implicit
+part of the IMEX RK time discretizations has a nonnegative diagonal, the resulting matrix A(Ũ (i) ) in (3.9) is
+an M matrix if Ũ (i) ≥ 0:
+Theorem 1. The matrix A(Ũ (i) ) in (3.9) is an M matrix for piecewise constant Q0 finite elements if Ũ (i) ≥ 0.
+   We can easily show that the mass matrix A(Ũ (i) ) has a nonnegative diagonal, while off-diagonal entries
+are all non-positive. Besides, A(U (i) ) is diagonally dominant, so A(U (i) ) is an M matrix, namely its inverse
+has all nonnegative arguments [4]. Thanks to this property, rapid convergence can be assured. A similar fast
+convergence is also observed in the iteration for the correction step (3.12), with Λh,T̃ obtained from the predictor
+step and initial values taken from B̃.
+
+3.5. Positivity preserving and TVB limiters
+    For the solutions of (1.1), both the radiation energy E(x, t) and the material temperature T (x, t) remain
+positive at all times [57]. Unfortunately, the schemes described above cannot preserve the positivity of the
+                                                              (0,0)                             (i)       (i)
+solutions when they are close to zero. For solutions in Wh , if the right-hand side terms FE and FB in (3.7)
+are non-negative, the solutions without correction preserve positivity. However, this requires a time step size
+on the order of O(h2 ). Furthermore, an M-matrix cannot be guaranteed for higher-order schemes. In this work,
+to develop an efficient scheme with larger time steps, we rely on the following procedure to preserve positivity
+and control numerical oscillations.
+    Here we employ a positivity preserving limiter denoted as P Πh from [59]. The P Πh limiter has also been
+applied to porous medium equations in [49]. Additionally, TVB limiters [11] are utilized to control numerical
+oscillations in the case of non-smooth solutions for second and third-order schemes. As mentioned earlier, even
+for a first-order scheme with solutions in Wh0,0 , the cell averages may not necessarily remain positive when using
+large time step sizes. For diffusion systems, a cut-off limiter is commonly employed to ensure a lower bound on
+the solutions [41, 51, 55].
+    For a one-dimensional case, we denote ūj as the cell average of the numerical solution uh in the cell Ij and
+ucold as the minimum value of u(x, 0). First, for the limiter P Πh , it is applied as follows:
+  1. Check the cell average ūj in each cell Ij , if it is less than ucold , we set
+
+                                                       P Πh uh = ucold ;
+
+  2. Then if ūj ≥ ucold , but at least one value is less than ucold appearing at two endpoints of the cell Ij or at
+     any Gaussian point inside the cell Ij , we set P Πh uh = P Π1h u1h , where u1h is a local L2 -projection of the
+     solution uh to a linear polynomial within this cell, where
+                               
+                                          −1
+                                                                    −1                1,−
+                                1 − 2hj (x − xj ) ūj + 2ucold hj (x − xj ) , if uh,j+ 21 < ucold ,
+                               
+                               
+                   P Π1h u1h =
+                                1 + 2h−1 (x − xj ) ūj − 2ucold h−1 (x − xj ) , if u1,+ 1 < ucold ;
+                               
+                                                    
+                                          j                          j                 h,j−             2
+
+
+
+  3. Otherwise, we set P Πh uh |Ij = uh |Ij .
+
+    After applying the PP limiter P Πh , a generalized TVB limiter is further applied to control numerical
+oscillations for second and third order schemes:
+                                                                                                       
+           u+,(1mod ) = TVB minmod ūj − u+ 1 , θ (ūj − ūj−1 ) , θ (ūj+1 − ūj ) , 1 (ūj+1 − ūj−1 ) ,
+              j− 2                            j− 2 2               2                  4                 
+           u−,(1mod ) = TVB minmod u− 1 − ūj , θ (ūj − ūj−1 ) , θ (ūj+1 − ūj ) , 1 (ūj+1 − ūj−1 ) ,
+              j+2                          j+   2
+                                                    2               2                  4
+
+
+
+                                                           13
+where
+                                                                  (
+                                                                      a,                              if |a| ≤ M h2 ,
+                            TVB minmod (a, b, c, d) =
+                                                                      minmod(a, b, c, d),             otherwise,
+
+and
+                                                     (
+                                                         sign(a) min(|a|, |b|, |c|),          if ab > 0, ac > 0,
+                            minmod(a, b, c, d) =
+                                                         0,                                   otherwise.
+
+     +,( mod )                                −,( mod )
+If uj− 1    is different from u+
+                               j− 12
+                                     , or uj+ 1     is different from u−j+ 12
+                                                                              , the cell Ij is identified as a troubled cell,
+       2                                      2
+and the polynomial in this cell is modified to be
+                                                                         
+                                                  −,( mod )     +,( mod )
+                               uh (x) = ūj + uj+ 1         + uj− 1         h−1
+                                                                              j (x − xj ) .
+                                                             2                2
+
+
+In the generalized TVB limiter, we take the parameters M = 0.1 and θ = 1.5 in our numerical tests.
+    For the two-dimensional case, we denote ūi,j as the cell average of the numerical solution uh in the cell Iij
+and ucold as the minimum value of uh (x, 0). ui± 12 ,j± 21 = uh (xi± 12 , yj± 21 ) are denoted the values of the endpoints
+within the cell Ii,j . The PP limiter P Πh is applied as follows:
+
+     1. Check the cell average ūi,j in each cell Ii,j , if it is less than ucold , we set
+
+                                                                 P Πh uh = ucold ;
+
+     2. Then if ūi,j ≥ ucold , but at least one value is less than ucold appearing at those endpoints of the cell Iij
+        or at any Gaussian point inside the cell Iij , we set P Πh uh = P Π1h u1h , where
+                                                                                       x − xi j     y − yj
+                                    u1h = ūi,j + α1 ψxi + α2 ψyj ,         ψxi =            , ψy =        .
+                                                                                         hix          hjy
+
+        u1h is a local L2 -projection of the solution uh to P 1 within this cell Ii,j . For u1h , the extremum occurs only
+        at four endpoints of the cell Ii,j , and due to ūi,j ≥ ucold at most two adjacent points are less than ucold .
+        We set those end-point values to be ucold if they are less than ucold. Next we only need to determine the
+        parameters α1 , α2 by using two end-point values, and we take two minimum point values at those end
+        points. They are determined as follows:
+           • if only one end-point value at (xi− 12 , yj− 21 ) is modified, we have
+
+                                                                                   u1i+ 1 ,j− 1 − u1i− 1 ,j+ 1
+                                                                                                                          !
+                                     P Π1h u1h =ūi,j +          ūi,j − ucold +         2        2           2       2
+                                                                                                                              ψxi
+                                                                                                      2
+                                                                              u1i+ 1 ,j− 1 − u1i− 1 ,j+ 1
+                                                                                                                  !
+                                                    +     ūi,j − ucold −          2      2               2   2
+                                                                                                                      ψyj ,
+                                                                                              2
+
+           • otherwise if two end-point values at (xi− 12 , yj− 21 ) and (xi− 21 , yj+ 12 ) are changed, we take
+
+                                                        P Π1h u1h = ūi,j + 2(ūi,j − ucold )ψxi .
+
+        Other cases can be determined similarly, we omit them to save space;
+     3. Otherwise, we set P Πh uh |Iij = uh |Iij .
+
+   For the two-dimensional generalized TVB limiter, we define w1 (y) = uh (xi , y) in the cell Ii,j and then modify
+ 1
+w (y) along x = xi as in the one-dimensional case, that is,
+
+                                                                                                                      
+     u+,(1mod ) = TVB minmod ūi,j − w1 (y + 1 ), θ (ūi,j − ūi,j−1 ) , θ (ūi,j+1 − ūi,j ) , 1 (ūi,j+1 − ūi,j−1 ) ,
+       j− 2                               j− 2     2                      2                      4                     
+     u−,(1mod ) = TVB minmod w1 (y − 1 ) − ūi,j , θ (ūi,j − ūi,j−1 ) , θ (ūi,j+1 − ūi,j ) , 1 (ūi,j+1 − ūi,j−1 ) .
+       j+   2                       j+          2
+                                                    2                      2                      4
+
+
+
+                                                                       14
+    +,( mod )                          +               −,( mod )                          −
+If uj− 1        is different from w1 (yj− 1 ), or u
+                                                    j+ 1
+                                                                   is different from w1 (yj+ 1 ), the cell Ii,j is identified as a
+       2                                    2             2                                        2
+troubled cell along x = xi and w1 (y) is modified to be
+                                                                      
+                                                −,( mod )    +,( mod )
+                             w1 (y) = ūi,j + uj+ 1       + uj− 1        h−1
+                                                                          j (y − yj ) .
+                                                               2            2
+
+
+Similarly, along y = yj we can also define w2 (x) = uh (x, yj ), and
+                                                                                                                    
+   u+,(1mod ) = TVB minmod ūi,j − w2 (x+ 1 ), θ (ūi,j − ūi−1,j ) , θ (ūi+1,j − ūi,j ) , 1 (ūi+1,j − ūi−1,j ) ,
+       i− 2                                  i− 2 2                     2                      4                     
+   u−,(1 mod ) = TVB minmod w2 (x− 1 ) − ūi,j , θ (ūi,j − ūi−1,j ) , θ (ūi+1,j − ūi,j ) , 1 (ūi+1,j − ūi−1,j ) .
+       i+  2                           i+         2
+                                                   2                     2                      4
+
+    +,( mod )                       −,( mod )
+If ui− 1        6= w2 (x+
+                        i− 1
+                             ), or ui+ 1        6= w2 (x−
+                                                        i+ 1
+                                                             ), the cell Ii,j is identified as a troubled cell along y = yj and
+       2                   2           2                   2
+w2 (x) is modified to be                                                            
+                                                          −,( mod )      +,( mod )
+                                   w2 (x) = ūi,j + ui+ 1             + ui− 1            h−1
+                                                                                          i (x − xi ) .
+                                                               2            2
+
+    If Ii,j is a troubled cell along either the x or the y direction, we set uh (x, y) in the cell Ii,j as uh (x, y) =
+w1 (y) + w2 (x) − ūi,j .
+
+3.6. Algorithm flowchart
+   Finally we present our high order IMEX-LDG scheme updating procedure from time level tn to tn+1 in
+Algorithm 1.
+
+ Algorithm 1: The updating from tn to tn+1 with an s-stage (k + 1)-th order IMEX method
+   Input: E n , T n
+   Output: E n+1 , T n+1
+     (1)
+ 1 E     = E n , B (1) = (T n )4 ;
+ 2 for i = 2 to s do
+ 3     E i,0 = E (i−1) , B i,0 = B (i−1) , l = 0;
+                                      1
+ 4     M3 = −aii Zh , M4 = ∆t           Mh + aii Zh − aii β0 Sh ;
+                    i,l+1       i,l
+ 5     while kE           − E k ≥ δ or l = 0 do
+                      1
+ 6           M1 = ∆t    Mh − aii α0 Sh + aii Λh,T , M2 = −aii Λh,T ;
+ 7           update E i,l+1 and B i,l+1 by (3.11);
+ 8           apply the limiters to E i,l+1 and B i,l+1 ;
+ 9           l = l + 1;
+10     end
+11     Ẽ (i) = E i,l+1 , B̃ (i) = B i,l+1 , T̃ (i) = (B̃ (i) )1/4 ;
+12     obtain Q(i) by (3.8b);
+13     E i,0 = Ẽ (i) , l = 0;
+14     while kE i,l+1 − E i,l k ≥ δ or l = 0 do
+15           update E i,l+1 by (3.12a);
+16           apply the limiters to E i,l+1 ;
+17           B i,l+1 = (Q(i) − E i,l+1 )4 ;
+18           apply the limiters to B i,l+1 ;
+19           l = l + 1;
+20     end
+21     E (i) = E i,l+1 , T (i) = Q(i) − E (i) ;
+22 end
+     n+1
+23 E       = E (s) , T n+1 = T (s) ;
+
+
+
+Remark 2. (Numerical boundary treatment) There are mainly three types of boundary conditions in our
+numerical experiments: periodic, Neumann, and mixed boundary conditions. The numerical fluxes at the
+boundary under periodic or Neumann boundary conditions are chosen as in [12].
+
+
+                                                                   15
+    Taking 1D with Ω = [xL , xR ] as an example, for a periodic boundary condition, we take φ−         −    +
+                                                                                                 L = φR , φR = φL
+                                                                                                                  +
+                                                                              +       −
+where φ = u or ux . For a Neumann boundary condition, we set ûL = uL , ûR = uR , while v̂L = v̂R = 0 where
+v = ux . Here φ±     ±                                                                           +       −
+                L , φR , are the left and right limits at xL and xR respectively. Similarly for uL and uR .
+    For a mixed boundary condition, e.g. in the Marshak wave problem in section 4, the physical boundary and
+initial conditions on the domain x ∈ Ω = [xL , xR ] = [0, 1] are given as
+
+                                       E     1 ∂E           ∂T
+                                     
+                                      −
+                                                   = 1,       = 0, x = 0,
+                                     4     6σ ∂x           ∂x
+                                     
+                                     
+                                       E     1 ∂E           ∂T                                                (3.13)
+                                          +         = 0,       = 0, x = 1,
+                                     
+                                     
+                                      4    6σ  ∂x          ∂x
+                                                        −5
+                                                           , T |t=0 = E 1/4 |t=0 .
+                                     
+                                     E|
+                                         t=0 = 1.0 × 10
+
+
+Taking the left boundary xL = x 12 = 0 as an example, we omit the artificial term |∇E|
+                                                                                   E in Dr and the boundary
+condition is simplified to [60, 19, 16]
+                                              E    1    ∂E
+                                                 − Dr        = 1.
+                                               4   2     ∂x
+Hence, in both the predictor and corrector steps, we set the numerical fluxes as
+
+                                                                        Êh
+                                          Êh = Eh+ ,     D̂r,h p̂h =       − 2.
+                                                                         2
+Similarly at the right boundary xN + 21 = 1, we take
+
+                                                                           Êh
+                                           Êh = Eh− ,     D̂r,h p̂h = −       .
+                                                                            2
+In the corrector step, we set
+                                      Q̂h = Êh + T̂h ,    ŵh = 3σ(T̂h )D̂r,h p̂h .
+
+4. Numerical Examples
+
+    In this section, we conduct numerical experiments to validate the high-order accuracy, conservation prop-
+erties, suitability for large time steps, and effectiveness in capturing sharp fronts in both homogeneous and
+heterogeneous media using our proposed schemes. For the added diffusion terms, we take the coefficients as
+                1
+α0 = τ max{ 3σ    }, β0 = τ max{Dt } and γ0 = α0 + β0 with τ = 0.6 [49]. In space, the Qk basis with k-th
+piecewise polynomial in each direction for k = 0, 1, 2 is taken. Correspondingly, an s-stage (k + 1)-th order
+globally stiffly accurate IMEX RK time discretization is employed in time with the double Butcher tableau
+given in Appendix A. In the following, our schemes are denoted as (k + 1)-th order methods for k = 0, 1, 2 with
+s = 2, 3, 5, respectively.
+
+   Example 4.1. (Accuracy test in 1D) First we consider a 1D example with smooth initial values and
+periodic boundary conditions at the equilibrium, which are given by
+                                       
+                                       T (x, 0) = 0.8 + 0.1 sin(x),
+                                                                                               (4.1)
+                                       E(x, 0) = T (x, 0)4 ,
+
+on the computational domain [−π, π]. We take κ = 0.1 and a homogeneous medium z(x) = 1. The problem
+is run to time t = 5 using the 1st, 2nd, and 3rd order methods, respectively. Since the exact solution is not
+available, we compute the numerical errors by comparing numerical solutions with a reference solution. In this
+case, the source term is not stiff as T is away from 0, so we compute the reference solution by a 3rd order LDG
+method with a 3rd order explicit strong-stability-preserving RK time discretization [15], on a much refined mesh
+N = 1024. In Tables 4.1-4.3, we show the numerical L2 errors and orders of accuracy for the 1st, 2nd, and 3rd
+order schemes with different time steps, respectively. From these tables, we can see that our methods achieve
+the corresponding orders of accuracy when the time step is ∆t = O(h). From the numerical results, we find that
+larger ∆t lead to larger errors. In Table 4.3, for the 3rd order method, an order reduction can be observed for
+a large ratio of ∆t/h. The order increases with further mesh refinements. Such a phenomeno may be due to a
+high order IMEX time discretization.
+
+
+                                                           16
+Table 4.1: The numerical L2 errors and orders of accuracy for the 1st order scheme with different time steps for Example 4.1. t = 5.
+                                        L2 error order         L2 error order        L2 error order
+                           N      ∆t
+                                               E                      T                     B
+                           4            3.46e-2    -           1.74e-2    -          3.51e-2    -
+                           8            1.73e-2  1.00          8.65e-3  1.01         1.76e-2  0.99
+                           16      h    8.68e-3  1.00          4.34e-3  0.99         8.84e-3  1.00
+                           32      2    4.34e-3  1.00          2.17e-3  1.00         4.42e-3  1.00
+                           64           2.17e-3  1.00          1.09e-3  1.00         2.21e-3  1.00
+                          128           1.08e-3  1.00          5.43e-4  1.00         1.10e-3  1.00
+                           4            3.47e-2    -           1.75e-2    -          3.52e-2    -
+                           8            1.74e-2  1.00          8.68e-3  1.01         1.77e-2  0.99
+                          16            8.70e-3  1.00          4.36e-3  1.00         8.86e-3  1.00
+                                   h
+                          32            4.35e-3  1.00          2.18e-3  1.00         4.43e-3  1.00
+                          64            2.17e-3  1.00          1.09e-3  1.00         2.21e-3  1.00
+                          128           1.09e-3  1.00          5.44e-4  1.00         1.11e-3  1.00
+                           4            3.52e-2    -           1.77e-2    -          3.57e-2    -
+                           8            1.77e-2  0.99          8.85e-3  1.00         1.80e-2  0.99
+                          16            8.86e-3  1.00          4.44e-3  1.00         9.02e-3  1.00
+                                  3h
+                          32            4.43e-3  1.00          2.22e-3  1.00         4.51e-3  1.00
+                          64            2.21e-3  1.00          1.11e-3  1.00         2.25e-3  1.00
+                          128           1.11e-3  1.00          5.55e-4  1.00         1.13e-3  1.00
+                           4            3.53e-2    -           1.78e-2    -          3.58e-2    -
+                           8            1.79e-2  0.98          9.00e-3  0.98         1.82e-2  0.97
+                          16            9.04e-3  0.99          4.55e-3  0.98         9.21e-3  0.99
+                                  5h
+                          32            4.56e-3  0.99          2.30e-3  0.99         4.64e-3  0.99
+                          64            2.28e-3  1.00          1.15e-3  1.00         2.32e-3  1.00
+                          128           1.14e-3  1.00          5.74e-4  1.00         1.16e-3  1.00
+
+
+    Example 4.2. Next we consider the following initial boundary data [29], with a sharp transition in the
+initial values
+                                                      1 + tanh[50(x − 0.25)]
+                        
+                        
+                         E(x, 0) = EL + (ER − EL )                          ,
+                        
+                        
+                                                               2
+                        T (x, 0) = E(x, 0)1/4 ,
+                        
+                        
+                        
+                          E     1 ∂E         ∂T                                                       (4.2)
+                        
+                           −         =  1,      =  0, x = 0,
+                          4    6σ ∂x         ∂x
+                        
+                        
+                        
+                         E + 1 ∂E = VR , ∂T = 0, x = 1,
+                        
+                        
+                        
+                          4    6σ ∂x         ∂x
+where VR = 1 × 10−3 , EL = 4 and ER = 4 × 10−3 . We consider two cases κ = 0 and κ = 0.1 in Dt . For the
+case of κ = 0, the system of E and B itself is in a conservative form. We take z(x) = 1 and a time step size
+∆t = 51 h. The results at t = 1 for κ = 0 and t = 0.5 for κ = 0.1 are shown in Fig. 4.1 and 4.2, respectively.
+Reference solutions are obtained by a 1st order explicit RK LDG method on 1024 elements with a small enough
+time step, which is denoted as “ref”. The left column is the radiation temperature Tr and the right column
+is the material temperature T . Two different mesh sizes are considered, N = 64 and N = 128. “WL” refers
+to numerical solutions obtained with limiters, and correspondingly “NL” refers to numerical solutions without
+limiters. It can be observed that the higher the order, the closer the numerical solutions are, as compared to
+the reference solutions. In addition, the 1st order solutions perform well without limiters, but the 2nd order
+and 3rd order solutions have small oscillations in front of the sharp gradient. After applying limiters, these
+oscillations can be well controlled. As we can see from Fig. 4.1 and Fig. 4.2, refining the mesh from N = 64
+to N = 128, the numerical solutions match the reference solutions better, no matter with or without limiters.
+Especially, deviations due to the application of the limiters are also reduced with the mesh refinement.
+
+
+
+
+                                                                17
+Table 4.2: The numerical L2 errors and orders of accuracy for the 2nd order scheme with different time steps for Example 4.1.
+t = 5.
+                                      L2 error order       L2 error order        L2 error order
+                          N     ∆t
+                                             E                    T                     B
+                          4           1.25e-2    -         6.18e-3    -          1.27e-2    -
+                          8           3.00e-3  2.06        1.57e-3  1.98         3.04e-3  2.06
+                          16     h    7.36e-4  2.02        3.86e-4  2.02         7.48e-4  2.02
+                          32     2    1.83e-4  2.01        9.60e-5  2.01         1.86e-4  2.01
+                          64          4.58e-5  2.00        2.40e-5  2.00         4.66e-5  2.00
+                         128          1.14e-5  2.00        5.99e-6  2.00         1.16e-5  2.00
+                          4           1.25e-2    -         6.19e-3    -          1.27e-2    -
+                          8           3.00e-3  2.06        1.57e-3  1.98         3.04e-3  2.06
+                         16           7.36e-4  2.02        3.86e-4  2.02         7.48e-4  2.02
+                                 h
+                         32           1.83e-4  2.01        9.60e-5  2.01         1.86e-4  2.01
+                         64           4.58e-5  2.00        2.40e-5  2.00         4.66e-5  2.00
+                         128          1.14e-5  2.00        5.99e-6  2.00         1.16e-5  2.00
+                          4           1.25e-2    -         6.29e-3    -          1.27e-2    -
+                          8           3.03e-3  2.05        1.60e-3  1.97         3.10e-3  2.04
+                         16           7.41e-4  2.03        3.90e-4  2.04         7.58e-4  2.03
+                                3h
+                         32           1.85e-4  2.01        9.63e-5  2.02         1.87e-4  2.02
+                         64           4.61e-5  2.00        2.41e-5  2.00         4.68e-5  2.00
+                         128          1.15e-5  2.00        6.03e-6  2.00         1.17e-5  2.00
+                          4           1.30e-2    -         6.29e-3    -          1.27e-2    -
+                          8           3.18e-3  2.03        1.93e-3  1.71         3.81e-3  1.74
+                         16           9.11e-4  1.80        4.37e-4  2.14         8.77e-4  2.12
+                                5h
+                         32           2.00e-4  2.19        9.99e-5  2.13         1.93e-4  2.18
+                         64           4.81e-5  2.05        2.52e-5  1.99         4.92e-5  1.97
+                         128          1.20e-5  2.01        6.28e-6  2.00         1.22e-5  2.00
+
+
+
+
+                                                             18
+Table 4.3: The numerical L2 errors and orders of accuracy for the 3rd order scheme with different time steps for Example 4.1.
+t = 5.
+                                      L2 error order       L2 error order        L2 error order
+                          N     ∆t
+                                             E                    T                     B
+                          4           1.71e-3    -         1.03e-3    -          1.78e-3    -
+                          8           1.97e-4  3.12        1.14e-4  3.18         2.04e-4  3.12
+                          16     h    2.49e-5  2.99        1.47e-5  2.96         2.61e-5  2.97
+                          32     2    3.11e-6  3.00        1.86e-6  2.98         3.31e-6  2.98
+                          64          3.89e-7  3.00        2.34e-7  2.99         4.15e-7  2.99
+                         128          4.86e-8  3.00        2.93e-8  3.00         5.20e-8  3.00
+                          4           1.72e-3    -         1.04e-3    -          1.78e-3    -
+                          8           1.97e-4  3.12        1.14e-4  3.18         2.04e-4  3.12
+                         16           2.49e-5  2.99        1.47e-5  2.96         2.62e-5  2.96
+                                 h
+                         32           3.12e-6  3.00        1.87e-6  2.97         3.33e-6  2.98
+                         64           3.91e-7  3.00        2.36e-7  2.98         4.21e-7  2.98
+                         128          4.90e-8  3.00        2.97e-8  2.99         5.29e-8  2.99
+                          4           1.98e-3    -         1.15e-3    -          2.06e-3    -
+                          8           2.21e-4  3.17        1.28e-4  3.17         2.36e-4  3.12
+                         16           2.99e-5  2.89        1.78e-5  2.85         3.30e-5  2.84
+                         32           4.28e-6  2.80        2.81e-6  2.66         5.30e-6  2.64
+                                3h
+                         64           7.37e-7  2.54        6.50e-7  2.11         1.31e-6  2.01
+                         128          1.25e-7  2.56        1.07e-7  2.61         2.16e-7  2.60
+                         256          1.97e-8  2.66        1.60e-8  2.74         3.23e-8  2.74
+                         512          2.85e-9  2.79        2.21e-9  2.85         4.48e-9  2.85
+                          4           2.13e-3    -         1.19e-3    -          2.20e-3    -
+                          8           4.29e-4  2.31        2.37e-4  2.32         4.82e-4  2.19
+                         16           6.43e-5  2.74        3.65e-5  2.70         7.39e-5  2.71
+                         32           1.06e-5  2.61        8.27e-6  2.14         1.68e-5  2.13
+                                5h
+                         64           1.94e-6  2.44        1.64e-6  2.33         3.31e-6  2.35
+                         128          3.70e-7  2.39        3.09e-7  2.41         6.18e-7  2.42
+                         256          6.82e-8  2.44        5.69e-8  2.44         1.15e-7  2.43
+                         512          1.11e-8  2.61        8.99e-9  2.66         1.82e-8  2.66
+
+
+
+
+                                                             19
+    1.4                                                                         1.4
+
+
+
+    1.2                                                                         1.2
+
+
+
+      1                                                                          1
+
+
+               0.3                                                                         0.3
+    0.8                                                                         0.8
+
+              0.28                                                                        0.28
+
+    0.6                                                                         0.6
+              0.26                                                                        0.26
+
+
+    0.4       0.24                                                              0.4       0.24
+
+                     0.74     0.76   0.78         0.8   0.82                                     0.74     0.76   0.78         0.8   0.82
+    0.2                                                                         0.2
+          0                 0.2             0.4            0.6   0.8   1              0                 0.2             0.4            0.6   0.8   1
+
+
+
+
+    1.4                                                                         1.4
+
+
+
+    1.2                                                                         1.2
+
+
+
+      1                                                                          1
+
+
+               0.3                                                                         0.3
+    0.8                                                                         0.8
+
+              0.28                                                                        0.28
+
+    0.6                                                                         0.6
+              0.26                                                                        0.26
+
+
+    0.4       0.24                                                              0.4       0.24
+
+                     0.74     0.76   0.78         0.8   0.82                                     0.74     0.76   0.78         0.8   0.82
+    0.2                                                                         0.2
+          0                 0.2             0.4            0.6   0.8   1              0                 0.2             0.4            0.6   0.8   1
+
+
+
+
+Figure 4.1: The numerical results for Example 4.2 with κ = 0. 1st, 2nd, and 3rd order schemes are used. “WL”: with limiters,
+“NL”: without limiters. “ref” represents the reference solutions. Top row: N = 64; Bottom row: N = 128. Left column: radiation
+temperature Tr ; Right column: material temperature T . t = 1, ∆t = h5 .
+
+
+
+
+                                                                           20
+    1.4                                                                   1.4
+
+
+
+    1.2                                                                   1.2
+
+
+
+      1                                                                    1
+
+              0.34                                                                  0.34
+    0.8                                                                   0.8
+              0.32                                                                  0.32
+
+               0.3                                                                   0.3
+    0.6                                                                   0.6
+              0.28                                                                  0.28
+
+              0.26                                                                  0.26
+    0.4                                                                   0.4
+              0.24                                                                  0.24
+
+                0.64   0.66    0.68   0.7     0.72                                    0.64   0.66    0.68   0.7     0.72
+    0.2                                                                   0.2
+          0              0.2                0.4      0.6   0.8   1              0              0.2                0.4      0.6   0.8   1
+
+
+
+
+    1.4                                                                   1.4
+
+
+
+    1.2                                                                   1.2
+
+
+
+      1                                                                    1
+
+              0.34                                                                  0.34
+    0.8                                                                   0.8
+              0.32                                                                  0.32
+
+               0.3                                                                   0.3
+    0.6                                                                   0.6
+              0.28                                                                  0.28
+
+              0.26                                                                  0.26
+    0.4                                                                   0.4
+              0.24                                                                  0.24
+
+                0.64   0.66    0.68   0.7     0.72                                    0.64   0.66    0.68   0.7     0.72
+    0.2                                                                   0.2
+          0              0.2                0.4      0.6   0.8   1              0              0.2                0.4      0.6   0.8   1
+
+
+
+
+Figure 4.2: The numerical results for Example 4.2 with κ = 0.1, and N = 128. 1st, 2nd, and 3rd order schemes are used. “WL”
+: with limiters, “NL”: without limiters. “ref” represents the reference solutions. Top row: N = 64; Bottom row: N = 128. Left
+column: radiation temperature Tr ; Right column: material temperature T . t = 0.5, ∆t = h5 .
+
+
+
+
+                                                                     21
+   Example 4.3. We now consider an example with a periodic boundary condition to verify the conservation
+errors. The initial values are taken to be
+                                                                          2
+                             E(x, 0) = E + (E − E ) 1 + tanh[200(x − 0.5) ] ,
+                             
+                                           L       R   L
+                                                                2                                  (4.3)
+                               T (x, 0) = E(x, 0)1/4 ,
+                             
+
+with EL = 1, ER = 0.0001, which are shown in the left column of Fig. 4.3. We run the solution with κ = 0.5
+up to time t = 1. We take z(x) = 1 and mesh numbers N = 128. 1st, 2nd, and 3rd order schemes are used. “c”
+denotes numerical results obtained with the conservation corrector step, while “nc” is without the corrector step.
+As we have observed numerically, without the corrector step, a smaller time step is needed for the convergence
+                             1                                   1
+of iteration. We take ∆t = 30  h for the 2nd method, and ∆t = 50   h for the 3rd order method, without a corrector
+                 1
+step, and ∆t = 5 h for all others. In Fig. 4.3, on the right column, we show the time evolution of conservation
+errors for the total energy Q = E + T . We can observe that with a corrector step, the errors are much smaller
+than those without a corrector step. In Fig. 4.4, we show the numerical solutions for different orders with or
+without a corrector step. As we can see, with a corrector step, all results match each other well. Without a
+corrector step, we can clearly observe a deviation, especially for first and second order methods. However, we
+would note that with a corrector step, the method itself is conservative for the total energy, although limiters
+for second and third order methods would slightly destroy such a conservation.
+
+
+                                                                               10 -3
+     0.9                                                              16
+                                                       E
+     0.8                                               T              14
+
+     0.7                                                              12                              10-5
+
+
+     0.6                                                              10
+                                                                                                      10-9
+                                                                                                     10-10
+     0.5                                                              8
+                                                                                                     10-11
+
+                                                                                                           0.7   0.8   0.9
+     0.4                                                              6
+
+     0.3                                                              4
+
+     0.2                                                              2
+
+     0.1                                                              0
+
+      0                                                               -2
+           0    0.2       0.4       0.6       0.8          1               0           0.2   0.4     0.6         0.8         1
+
+
+
+
+Figure 4.3: The numerical results for Example 4.3 with κ = 0.5 and N = 128. 1st, 2nd, and 3rd order schemes are used. “c”: with
+a conservation corrector step; “nc”: without a corrector step. Left: initial values; Right: time evolution of conservation errors.
+      1                         1
+∆t = 30 h for “2nd, nc”, ∆t = 50  h for “3rd, nc” and ∆t = 15 h for all others.
+
+
+    Example 4.4. Here we consider the standard homogeneous Marshak wave problem [30, 45, 59] with the
+initial and boundary conditions (3.13), where the atomic mass number z(x) = 1. This is a benchmark problem
+for radiation diffusion problems. It is very challenging since the left inflow boundary value is not consistent with
+the initial datum. Similarly, we consider both κ = 0 and κ = 0.1 in Dt , respectively. The reference solutions are
+computed by a 1st order explicit RK LDG method on 1024 elements with a small enough time step. In Fig. 4.5
+and Fig. 4.6, we show the results at different times t = 1, 2 and t = 1, 1.5, respectively. The left column is for
+the radiation temperature Tr and the right column is for the material temperature T . A mesh refinement from
+N = 64 to N = 128 is also considered. As we can see that the 1st order numerical results are very deviated from
+the reference solutions, second and third order methods capture the sharp fronts more accurately. With mesh
+refinement, all results are getting closer to the reference solutions, indicating that our methods are convergent
+with mesh refinement. The results are also consistent with those in [33, 22]. As compared to [60, 16], a relatively
+larger time step size ∆t = 51 h can be used, where ∆t = 125 4
+                                                               h with h = 80 1                                  1
+                                                                               in [60] and ∆t = 18 h2 with h = 16 in
+[16]. In Fig 4.7, we compare the results with and without a corrector step. In the case of κ = 0, the system E
+and B in (2.1) itself is in a conservative form, although it only conserves the total energy Q = E + T up to an
+error of numerical precision, the results with or without a corrector step are almost the same. For κ = 0.1, the
+results with a corrector step clearly match the reference solutions better, especially for first and second order
+methods. This has demonstrated that the corrector step is very necessary.
+
+                                                               22
+    0.06                                                             0.5
+
+
+                                                                    0.45
+    0.05
+
+                                                                     0.4
+
+    0.04
+                                                                    0.35
+
+
+    0.03                                                             0.3
+
+
+                                                                    0.25
+    0.02
+
+                                                                     0.2
+
+    0.01
+                                                                    0.15
+
+
+      0                                                              0.1
+           0    0.2       0.4       0.6       0.8        1                 0     0.2       0.4       0.6       0.8        1
+
+
+
+
+Figure 4.4: The numerical results for Example 4.3 with κ = 0.5 and N = 128. 1st, 2nd, and 3rd order schemes are used. “c”: with
+                                                                                                                               1
+a conservation corrector step; “nc”: without a corrector step. Left: radiation energy E; Right: material temperature T . ∆t = 30 h
+                     1                           1
+for “2nd, nc”, ∆t = 50 h for “3rd, nc” and ∆t = 5 h for all others.
+
+
+
+Remark 3. As discussed in Remark 1, if we eliminate the predictor step and directly employ a Picard iteration
+in the corrector step, it may not work well for some challenge problems. For this standard Marshak wave problem,
+if we consider E(x, 0) = 10−7 , N = 64 and ∆t = h5 , even a first order scheme does not converge well. Such an
+approach with higher orders work even worse. However, our predictor-corrector procedure works well for these
+test cases. With the results in the previous Example 4.3, we have shown that our methods can ensure both
+conservation and robustness.
+
+    Example 4.5. In this example, we consider a heterogeneous Marshak problem [30, 45, 59] with the initial
+and boundary conditions (3.13) with z = 3 inside the interval [ 13 , 23 ] and z = 1 elsewhere. We take κ = 0.1
+and two different times t = 1, 3. In Fig. 4.8, we show the results of 2nd and 3rd order methods, on a mesh
+                                                 1
+N = 180 and the time step is taken to be ∆t = 15   h. The 1st order results are not presented since they deviate
+a lot as shown above. From the numerical results, we can observe that the radiation temperature Tr and the
+material temperature propagate much slower with a large value of z in the middle region. Besides, the radiation
+temperature Tr is approaching the material temperature T in the middle region, reaching a thermodynamic
+equilibrium. In Fig. 4.9, we compare the numerical results between the 2nd and 3rd order methods. “ref”
+represents the reference solution obtained by the 1st order explicit RK LDG method on 1024 elements with a
+small enough time step. We can find that the solutions of the 3rd order method match the reference better than
+the 2nd order ones, especially for the radiation temperature. From this example, we can see that high order
+methods can capture fine structures than corresponding lower order methods.
+
+   Example 4.6. (Accuracy test in 2D) In this example we test the errors and convergence orders of
+accuracy at the equilibrium in the 2D case. We consider a 2D radiation diffusion problem with two given source
+terms f1 (x, y, t) and f2 (x, y, t), which are chosen properly so that exact solutions are available for the following
+system:
+                                      ∂E
+                                   
+                                         − ∇ · (Dr ∇E) = σ T 4 − E + f1 (x, y, t),
+                                                                    
+                                   
+                                      ∂t                                                                          (4.4)
+                                    ∂T − ∇ · (Dt ∇T ) = σ E − T 4 + f2 (x, y, t),
+                                                                   
+                                      ∂t
+where T (x, y, t) = (0.8 + 0.1 sin (2π (x − t))) (0.8 + 0.1 sin (2π (y − t))) and E(x, y, t) = T (x, y, t)4 , Ω = [0, 1]2 .
+                                                                                                                 1
+For convenience we remove the artificially added term in the energy radiation coefficient, that is Dr = 3σ          .
+   We take κ = 0.01 and z(x) = 1. The problem is run to time t = 0.5 using the 1st, 2nd, and 3rd order
+methods, respectively. We list the numerical L2 errors and orders of accuracy with different time step sizes in
+Table 4.4. Similar results as the 1D case are obtained.
+
+
+
+
+                                                               23
+     1.4                                                            1.4
+
+
+     1.2                                                            1.2
+
+
+      1                                                              1
+
+
+     0.8                                                            0.8
+
+
+     0.6                                                            0.6
+
+
+     0.4                                                            0.4
+
+
+     0.2                                                            0.2
+
+
+      0                                                              0
+           0    0.2       0.4       0.6       0.8       1                 0     0.2       0.4      0.6       0.8        1
+
+
+
+
+     1.4                                                            1.4
+
+
+     1.2                                                            1.2
+
+
+      1                                                              1
+
+
+     0.8                                                            0.8
+
+
+     0.6                                                            0.6
+
+
+     0.4                                                            0.4
+
+
+     0.2                                                            0.2
+
+
+      0                                                              0
+           0    0.2       0.4       0.6       0.8       1                 0     0.2       0.4      0.6       0.8        1
+
+
+
+
+Figure 4.5: The numerical results of 1st, 2nd, and 3rd order schemes for Example 4.4 with κ = 0, ∆t = h5 , time t = 1 and t = 2.
+“ref” represents the reference solutions. Top: N = 64; Bottom: N = 128. Left column: radiation temperature Tr ; Right column:
+material temperature T .
+
+
+
+
+                                                              24
+     1.4                                                              1.4
+
+
+     1.2                                                              1.2
+
+
+      1                                                                 1
+
+
+     0.8                                                              0.8
+
+
+     0.6                                                              0.6
+
+
+     0.4                                                              0.4
+
+
+     0.2                                                              0.2
+
+
+      0                                                                 0
+           0     0.2       0.4       0.6       0.8        1                 0     0.2       0.4        0.6       0.8        1
+
+
+
+
+     1.4                                                              1.4
+
+
+     1.2                                                              1.2
+
+
+      1                                                                 1
+
+
+     0.8                                                              0.8
+
+
+     0.6                                                              0.6
+
+
+     0.4                                                              0.4
+
+
+     0.2                                                              0.2
+
+
+      0                                                                 0
+           0     0.2       0.4       0.6       0.8        1                 0     0.2       0.4        0.6       0.8        1
+
+
+
+
+Figure 4.6: The numerical results of 1st, 2nd, and 3rd order schemes for Example 4.4 with κ = 0.1, ∆t = h5 , time t = 1 and t = 1.5.
+“ref” represents the reference solutions. Top: N = 64; Bottom: N = 128. Left column: radiation temperature Tr ; Right column:
+material temperature T .
+
+
+
+
+                                                                25
+     1.4                                                             1.4
+
+
+     1.2                                                             1.2
+
+
+      1                                                               1
+
+
+     0.8                                                             0.8
+
+
+     0.6                                                             0.6
+
+
+     0.4                                                             0.4
+
+
+     0.2                                                             0.2
+
+
+      0                                                               0
+           0       0.2    0.4       0.6       0.8           1              0       0.2    0.4       0.6       0.8           1
+
+
+
+
+     1.4                                                             1.4
+
+
+     1.2                                                             1.2
+
+
+      1                                                               1
+
+
+     0.8                                                             0.8
+
+
+     0.6                                                             0.6
+
+
+     0.4                                                             0.4
+
+
+     0.2                                                             0.2
+
+
+      0                                                               0
+           0       0.2    0.4       0.6       0.8           1              0       0.2    0.4       0.6       0.8           1
+
+
+
+
+Figure 4.7: The numerical results of 1st, 2nd and 3rd order schemes for Example 4.4 with t = 1, ∆t = h5 , N = 64. “ref” means the
+reference solutions. Left column: radiation temperature Tr ; Right column: material temperature T . Top: κ = 0; Bottom: κ = 0.1.
+“c” and “nc” denote numerical results with or without a corrector step, respectively.
+
+
+
+
+      1.4                                                             1.4
+
+
+      1.2                                                             1.2
+
+
+          1                                                               1
+
+
+      0.8                                                             0.8
+
+
+      0.6                                                             0.6
+
+
+      0.4                                                             0.4
+
+
+      0.2                                                             0.2
+
+
+          0                                                               0
+               0   0.2    0.4       0.6       0.8       1                      0   0.2    0.4       0.6       0.8       1
+
+
+
+
+                                                                                                                         h
+Figure 4.8: The numerical results of 2nd and 3rd order schemes for Example 4.5 at time t = 1 and t = 3. N = 180 and ∆t = 15 .
+Left: 2nd order; Right: 3rd order.
+
+
+
+
+                                                                26
+     1.4                                                            1.4
+
+
+     1.2                                                            1.2
+
+
+       1                                                             1
+
+
+     0.8                                                            0.8
+
+
+     0.6                                                            0.6
+
+
+     0.4                                                            0.4
+
+
+     0.2                                                            0.2
+
+
+       0                                                             0
+           0    0.2         0.4        0.6        0.8    1                0    0.2      0.4       0.6      0.8       1
+
+
+
+
+Figure 4.9: The comparison between the results of 2nd and 3rd order schemes for Example 4.5 at time t = 1 and t = 3. Left:
+                                                                            h
+radiation temperature Tr ; Right: material temperature T . N = 180 and ∆t = 15 .
+
+
+
+
+Table 4.4: The numerical L2 errors and orders of accuracy for the 1st, 2nd and 3rd order schemes with different time steps for
+Example 4.6. t = 0.5.
+                                                  L2 error order   L2 error order      L2 error order
+                                  N          ∆t
+                                                         E                T                   B
+                             16 × 16              1.22e-2    -     1.02e-2    -        1.23e-2    -
+                                             h
+                             32 × 32         2
+                                                  6.21e-3  0.98    5.17e-3  0.98       6.23e-3  0.98
+                             64 × 64              3.13e-3  0.99    2.60e-3  0.99       3.14e-3  0.99
+                             16 × 16              1.85e-2    -     1.80e-2    -        2.10e-2    -
+                      1st    32 × 32         h    9.54e-3  0.96    9.35e-3  0.95       1.08e-2  0.95
+                             64 × 64              4.84e-3  0.98    4.77e-3  0.97       5.50e-3  0.98
+                             16 × 16              3.67e-2    -     4.07e-2    -        4.48e-2    -
+                             32 × 32         2h   1.89e-2  0.96    2.14e-2  0.93       2.33e-2  0.94
+                             64 × 64              9.65e-3  0.97    1.10e-2  0.96       1.19e-2  0.97
+                             16 × 16              1.11e-3    -     1.04e-3    -        1.14e-3    -
+                                             h
+                             32 × 32         2
+                                                  2.78e-4  2.00    2.63e-4  1.99       2.90e-4  1.98
+                             64 × 64              6.93e-5  2.00    6.57e-5  2.00       7.27e-5  2.00
+                             16 × 16              2.56e-3    -     2.89e-3    -        2.51e-3    -
+                      2nd    32 × 32         h    6.33e-4  2.01    7.45e-4  1.95       6.40e-4  1.97
+                             64 × 64              1.57e-4  2.01    1.88e-4  1.99       1.61e-4  1.99
+                             16 × 16              9.68e-3    -     1.01e-2    -        8.91e-3    -
+                             32 × 32         2h   2.34e-3  2.05    2.79e-3  1.86       2.33e-3  1.94
+                             64 × 64              5.81e-4  2.01    7.22e-4  1.95       5.93e-4  1.97
+                             16 × 16              7.63e-5    -     2.40e-5    -        2.59e-5    -
+                                             h
+                             32 × 32         2
+                                                  1.13e-5  2.75    3.26e-6  2.88       3.31e-6  2.97
+                             64 × 64              1.59e-6  2.83    4.32e-7  2.91       4.22e-7  2.97
+                             16 × 16              4.56e-4    -     1.11e-4    -        1.23e-4    -
+                      3rd    32 × 32         h    7.17e-5  2.67    1.62e-5  2.78       1.50e-5  3.04
+                             64 × 64              1.08e-5  2.73    2.37e-6  2.78       1.95e-6  2.94
+                             16 × 16              2.80e-3    -     8.52e-4    -        1.11e-3    -
+                             32 × 32         2h   4.55e-4  2.62    1.10e-4  2.95       1.21e-4  3.20
+                             64 × 64              7.16e-5  2.67    1.61e-5  2.77       1.47e-5  3.04
+
+
+
+
+                                                              27
+     Example 4.7. Now we consider a 2D blast wave problem (1.1) with initial and boundary conditions given
+by
+                                                               −100((x−1)2 +(y−1)2 )
+                                 
+                                                  −3
+                                 E(x, y, 0) = 10 + 100e
+                                                                                    ,
+                                                           1
+                                  T (x, y, 0) = E(x, y, 0) 4 ,                                                 (4.5)
+                                  ∂E
+                                                ∂T
+                                   ∂n |∂Ω = 0,   ∂n |∂Ω = 0,
+
+where Ω = [0, 1] × [0, 1], κ = 0.01.
+    First we consider a homogeneous case with z(x, y) = 1. In Fig. 4.10 and Fig. 4.11, we show the numerical
+solutions Tr and T at time t = 0.5, 1.5, 2 on a mesh of 64 × 64, respectively. We take a time step ∆t = 51 h. From
+top to bottom, numerical results obtained by the 1st, 2nd, and 3rd order methods are presented, respectively.
+We can observe that our methods can capture the sharp fronts of the blast wave well. Moreover, in Fig. 4.12,
+we show the cutting plots for the numerical solutions along y = x + 1 at time t = 2 on a mesh of N × N
+for N = 64, 128, 512. We can see that the three methods converge and match each other. 2nd and 3rd order
+methods are clearly better than the 1st order method. From zoom-in figures, we can see the results of 3rd order
+method are slightly better than the 2nd order ones.
+    Example 4.8. Finally we consider the problems (1.1)-(4.5) in a heterogeneous medium. The atomic mass
+                                                                      3        7    9        13       9        13
+number z(x, y) is 1 everywhere except in two inner square regions 16    < x < 16  , 16 < y < 16  and 16  < x < 16 ,
+ 3           7
+16  < y   < 16 , where the value of z(x, y) is 3, as shown  in Fig. 4.13. In Fig.  4.14 and Fig.  4.15, we present
+the numerical solutions Tr and T at time t = 1, 2, 2.5 on a mesh of 64 × 64, respectively. As compared to
+        1                                                 1
+∆t = 32   h in [16, 62], we use a lager time step ∆t = 10    h. From top to bottom, numerical results obtained
+by the 1st, 2nd, and 3rd order methods are presented, respectively. From the results, we find that the results
+of the 1st order method are very smeared due to numerical viscosities. 2nd and 3rd order methods perform
+better. In Fig. 4.16, we show the cutting plots for the numerical solutions along y = x + 1 at t = 2 on a mesh
+of N × N for N = 64, 128, 512. We can observe that by a mesh refinement, the results of 2nd and 3rd methods
+match each other. In addition, we observe that when the front of the radiation temperature propagates to
+the interface of two different materials, the process is hindered by a region with dense atoms. Higher energy
+exchange σ = z(x)3 /T 3 occurs in these regions, resulting in a well balance between the material and radiation
+temperatures. The temperature propagates faster in the lower z(x) region. Our results agree with those in
+[57, 55].
+
+Remark 4. We are not able to prove the convergence of the Picard iteration for (3.9) theoretically. For the 2nd
+and 3rd order methods in space, the matrix A(U (i) ) may not be diagonally dominant, so that A(U (i) ) cannot
+be guaranteed to be an M matrix. However, in our numerical examples, all results converge quickly under a
+tolerance δ = 10−8 . In Table 4.5, we show an average number of iterations per stage for the nonlinear algebraic
+system (3.9) in the heterogeneous medium. We can observe that in such challenging cases, our methods with
+large time steps converge around four iterations, which show the robustness of our proposed methods.
+
+
+              Table 4.5: Average iteration numbers per stage for some examples in the heterogeneous medium.
+                                                                       time     an average number
+                                                             mesh
+                                                                       step    of iteration per stage
+                  1D heterogeneous Marshak          2nd                  1               4.02
+                                                              180       15 h
+                     wave(Example 4.5)              3rd                                  5.05
+                                                    1st                                  4.12
+                    2D heterogeneous Blast                               1
+                                                    2nd    64 × 64      10 h             3.99
+                      wave(Example 4.8)
+                                                    3rd                                  4.00
+
+
+
+5. Conclusion
+
+    In this paper, we have developed a class of high order conservative LDG-IMEX methods for non-equilibrium
+radiation diffusion problems. The proposed scheme is based on a predictor-corrector approach. During the pre-
+dictor step, we solve a reformulated system to improve convergence and approach thermodynamic equilibrium.
+Subsequently, in the corrector step, we solve the original system using nonlinear coefficients and initial estimates
+obtained from the predictor step. This dual-step process ensures the conservation of total energy and robust
+
+
+                                                           28
+Figure 4.10: The numerical results for Example 4.7. From top to bottom: the radiation temperature Tr for 1st, 2nd, and 3rd order
+schemes. From left to right: time t = 0.5, 1.5, 2. ∆t = 15 h.
+
+
+
+
+                                                              29
+Figure 4.11: The numerical results for Example 4.7. From top to bottom: the material temperature T for 1st, 2nd, and 3rd order
+schemes. From left to right: time t = 0.5, 1.5, 2. ∆t = 51 h.
+
+
+
+
+     0.9                                                                  0.9
+
+
+     0.8                                                                  0.8
+
+
+     0.7                                                                  0.7
+                0.85
+
+     0.6                                                                  0.6        0.86
+               0.845
+                                                                                    0.855
+     0.5                                                                  0.5
+                0.84
+                   0.4   0.45         0.5         0.55     0.6                       0.85
+                                                                                        0.4   0.45         0.5         0.55     0.6
+     0.4                                                                  0.4
+
+
+     0.3                                                                  0.3
+
+
+     0.2                                                                  0.2
+
+
+     0.1                                                                  0.1
+           0       0.2          0.4         0.6          0.8     1              0       0.2          0.4         0.6          0.8     1
+
+
+
+
+Figure 4.12: The numerical results for Example 4.7 at time t = 2. Left: the radiation temperature Tr ; Right: the material
+temperature T . ∆t = 51 h.
+
+
+
+
+                                                                     30
+                                           y
+
+
+                                           1
+                                         13
+                                         16
+                                                        3           1
+                                          9
+                                         16
+                                          7
+                                         16
+                                                                    3
+                                          3
+                                         16
+
+
+
+                                               0    3        7 9        13   1      x
+                                                   16       16 16       16
+
+
+
+                      Figure 4.13: The atomic mass number z in the heterogeneous case for Example 4.8.
+
+
+
+
+Figure 4.14: The numerical results for Example 4.8. From top to bottom: the radiation temperature Tr for 1st, 2nd, and 3rd order
+                                                          1
+schemes. From left to right: time t = 1.0, 2.0, 2.5. ∆t = 10 h.
+
+
+
+
+                                                               31
+Figure 4.15: The numerical results for Example 4.8. From top to bottom: the material temperature T for 1st, 2nd, and 3rd order
+                                                           1
+schemes. From left to right: time t = 1.0, 2.0, 2.5. ∆t = 10 h.
+
+
+
+
+     0.9                                                            0.9
+
+
+     0.8                                                            0.8
+
+
+     0.7                                                            0.7
+
+
+     0.6                                                            0.6
+
+
+     0.5                                                            0.5
+
+
+     0.4                                                            0.4
+
+
+     0.3                                                            0.3
+
+
+     0.2                                                            0.2
+
+
+     0.1                                                            0.1
+           0    0.2       0.4      0.6      0.8       1                   0    0.2      0.4       0.6      0.8       1
+
+
+
+
+Figure 4.16: The numerical results for Example 4.8 at time t = 2. Left: the radiation temperature Tr ; Right: the material
+                      1
+temperature T . ∆t = 10 h.
+
+
+
+
+                                                             32
+convergence. We incorporate linear diffusion terms to circumvent implicit discretization for nonlinear diffusion
+terms. This approach permits the use of larger time step sizes, in contrast to the restrictive parabolic time
+step conditions ∆t = O(h2 ) associated with purely explicit discretizations. Local discontinuous Galerkin finite
+element approximations in space are employed. Numerical examples in both 1D and 2D illustrate the benefits
+of high-order conservative methods in accurately capturing steep solution fronts within both homogeneous and
+heterogeneous media. Our proposed methods exhibit robustness, as confirmed by numerical experiments. How-
+ever, theoretical analysis to ensure the convergence of such a nonlinear iteration is a challenging task, which we
+plan to explore in our future work. The extension to a 3D radiation diffusion model [25] or three-temperature
+(3T) model [44, 56], and other reaction-diffusion equations [42] will also be investigated.
+
+
+
+
+                                                       33
+Appendix A. IMEX Butcher tableau
+
+  In this paper, the double Butcher tableaux we used from [3] are listed below:
+  Tableau Appendix A.1. 2 stage 1st order:
+
+                                                0    0     0        0   0   0
+                                                1    0     1        1   1   0 .
+                                                     0     1            1   0
+
+
+  Tableau Appendix A.2. 3 stage 2nd order:
+
+                                           0    0    0     0        0   0   0     0
+                                           γ    0    γ     0        γ   γ   0     0
+                                                                                    ,
+                                           1    γ    0     γ        1   0   1     0
+                                                γ    0     γ            0   1     0
+
+
+  where γ = 12 .
+  Tableau Appendix A.3. 5 stage 3rd order:
+
+                    0    0     0      0         0     0          0        0          0     0      0    0
+                   1/2   0   1/2      0         0     0         1/2      1/2         0     0      0    0
+                   2/3   0   1/6    1/2         0     0         2/3     11/18      1/18    0      0    0
+                                                                                                         .
+                   1/2   0   -1/2   1/2        1/2    0         1/2      5/6       -5/6   1/2     0    0
+                    1    0   3/2    -3/2       1/2   1/2         1       1/4        7/4   3/4   -7/4   0
+                         0   3/2    -3/2       1/2   1/2                 1/4        7/4   3/4   -7/4   0
+
+
+
+References
+
+[1] T. Arbogast, C.-S. Huang, and X. Zhao. Finite volume WENO schemes for nonlinear parabolic problems
+    with degenerate diffusion on non-uniform meshes. Journal of Computational Physics, 399:108921, 2019.
+[2] U. M. Ascher, S. J. Ruuth, and B. T. Wetton. Implicit-explicit methods for time-dependent partial differ-
+    ential equations. SIAM Journal on Numerical Analysis, 32:797–823, 1995.
+[3] U.M. Ascher, S.J. Ruuth, and R.J. Spiteri. Implicit-explicit Runge-Kutta methods for time-dependent
+    partial differential equations. Applied Numerical Mathematics, 25(2-3):151–167, 1997.
+[4] A. Berman and R.J. Plemmons. Nonnegative Matrices in the Mathematical Sciences. SIAM, 1994.
+[5] Marianne Bessemoulin-Chatard and Francis Filbet. A finite volume scheme for nonlinear degenerate
+    parabolic equations. SIAM Journal on Scientific Computing, 34(5):B559–B583, 2012.
+[6] S. Bingjing and G.L. Olson. Benchmark results for the non-equilibrium Marshak diffusion problem. Journal
+    of Quantitative Spectroscopy and Radiative Transfer, 56(3):337–351, 1996.
+[7] S. Boscarino, L. Pareschi, and G. Russo. Implicit-explicit Runge--Kutta schemes for hyperbolic systems
+    and kinetic equations in the diffusion limit. SIAM Journal on Scientific Computing, 35(1):A22–A51, 2013.
+[8] R.L. Bowers and J.R. Wilson. Numerical Modeling in Applied Physics and Astrophysics. Jones and Bartlett
+    Publishers, Inc., 1991.
+[9] P.N. Brown, D.E. Shumaker, and C.S. Woodward. Fully implicit solution of large-scale non-equilibrium
+    radiation diffusion with high order time integration. Journal of Computational Physics, 204(2):760–783,
+    2005.
+
+
+
+
+                                                               34
+[10] P. Castillo, B. Cockburn, D. Schötzau, and C. Schwab. Optimal a priori error estimates for the hp-version of
+     the local discontinuous Galerkin method for convection-diffusion problems. Mathematics of Computation,
+     71(238):455–478, 2002.
+[11] B. Cockburn and C.-W. Shu. TVB Runge-Kutta local projection discontinuous Galerkin finite element
+     method for conservation laws. II. General framework. Mathematics of Computation, 52(186):411–435,
+     1989.
+[12] B. Cockburn and C.-W. Shu. The local discontinuous Galerkin method for time-dependent convection-
+     diffusion systems. SIAM Journal on Numerical Analysis, 35(6):2440–2463, 1998.
+[13] B. Cockburn and C.-W. Shu. Runge-Kutta discontinuous Galerkin methods for convection-dominated
+     problems. Journal of Scientific Computing, 16(3):173–261, 2001.
+[14] Irving R. Epstein and John A. Pojman. An introduction to nonlinear chemical dynamics. Oxford Academic,
+     1998.
+[15] S. Gottlieb and C.-W. Shu. Total variation diminishing Runge-Kutta schemes.                 Mathematics of
+     Computation, 67(221):73–85, 1998.
+[16] Z. Huang and Y. Li. Monotone finite point method for non-equilibrium radiation diffusion equations. BIT
+     Numerical Mathematics, 56(2):659–679, 2016.
+[17] J. Jang, F. Li, J.-M. Qiu, and T. Xiong. Analysis of asymptotic preserving DG-IMEX schemes for linear
+     kinetic transport equations in a diffusive scaling. SIAM Journal on Numerical Analysis, 52(4):2048–2072,
+     2014.
+[18] A.M. Jokisaari, P.W. Voorhees, J.E. Guyer, J. Warren, and O.G. Heinonen. Benchmark problems for
+     numerical implementations of phase field models. Computational Materials Science, 126:139–151, 2017.
+[19] K.S. Kang. P1 Nonconforming Finite Element Multigrid Method for Radiation Transport. SIAM Journal
+     on Scientific Computing, 25(2):369–384, 2003.
+[20] D.I. Ketcheson, C.B. Macdonald, and S. Gottlieb. Optimal implicit strong stability preserving Runge--
+     Kutta methods. Applied Numerical Mathematics, 59(2):373–392, 2009.
+[21] D.A. Knoll, L. Chacon, L.G. Margolin, and V.A. Mousseau. On balanced approximations for time integra-
+     tion of multiple time scale systems. Journal of Computational Physics, 185(2):583–611, 2003.
+[22] D.A. Knoll, R.B. Lowrie, and J.E. Morel. Numerical analysis of time integration errors for nonequilibrium
+     radiation diffusion. Journal of Computational Physics, 226(2):1332–1347, 2007.
+[23] D.A. Knoll, W.J. Rider, and G.L. Olson. An efficient nonlinear solution method for non-equilibrium
+     radiation diffusion. Journal of Quantitative Spectroscopy and Radiative Transfer, 63(1):15–29, 1999.
+[24] D.A. Knoll, W.J. Rider, and G.L. Olson. Nonlinear convergence, accuracy, and time step control in
+     nonequilibrium radiation diffusion. Journal of Quantitative Spectroscopy and Radiative Transfer, 70(1):25–
+     36, 2001.
+[25] X. Lai, Z. Sheng, and G. Yuan. Monotone finite volume scheme for three dimensional diffusion equation
+     on tetrahedral meshes. Communications in Computational Physics, 21(1):162–181, 2017.
+[26] E.W. Larsen, G.C. Pomraning, and V.C. Badham. Asymptotic analysis of radiative transfer problems.
+     Journal of Quantitative Spectroscopy and Radiative Transfer, 29:285–310, 1983.
+[27] Shu Liu, Siting Liu, Stanley Osher, and Wuchen Li. A first-order computational algorithm for reaction-
+     diffusion type equations via primal-dual hybrid gradient method. Journal of Computational Physics,
+     500:112753, 2024.
+[28] Yuanyuan Liu, Chi-Wang Shu, and Mengping Zhang. High order finite difference WENO schemes for
+     nonlinear degenerate parabolic equations. SIAM Journal on Scientific Computing, 33(2):939–965, 2011.
+[29] R.B. Lowrie. A comparison of implicit time integration methods for nonlinear relaxation and diffusion.
+     Journal of Computational Physics, 196(2):566–590, 2004.
+
+                                                       35
+[30] R.E. Marshak. Effect of radiation on shock wave behavior. The Physics of Fluids, 1(1):24–29, 1958.
+[31] V.A. Mousseau and D.A. Knoll. New physics-based preconditioning of implicit methods for non-equilibrium
+     radiation diffusion. Journal of Computational Physics, 190(1):42–51, 2003.
+[32] V.A. Mousseau and D.A. Knoll. Temporal accuracy of the nonequilibrium radiation diffusion equations
+     applied to two-dimensional multimaterial simulations. Nuclear Science and Engineering, 154(2):174–189,
+     2006.
+[33] V.A. Mousseau, D.A. Knoll, and W.J. Rider. Physics-based preconditioning and the Newton–Krylov
+     method for non-equilibrium radiation diffusion. Journal of Computational Physics, 160(2):743–765, 2000.
+[34] J. D. Murray. Mathematical Biology II: Spatial Models and Biomedical Applications, volume 3rd Edition.
+     Springer New York, 2003.
+[35] C.C. Ober and J.N. Shadid. Studies on the accuracy of time-integration methods for the radiation--diffusion
+     equations. Journal of Computational Physics, 195(2):743–772, 2004.
+[36] D.L. Peterson, R.L. Bowers, J.H. Brownell, A.E. Greene, K.D. McLenithan, T.A. Oliphant, N.F. Roderick,
+     and A.J. Scannapieco. Two-dimensional modeling of magnetically driven Rayleigh-Taylor instabilities in
+     cylindrical Z pinches. Physics of Plasmas, 3(1):368–381, 1996.
+[37] G.C. Pomraning. The non-equilibrium Marshak wave problem. Journal of Quantitative Spectroscopy and
+     Radiative Transfer, 21(3):249–261, 1979.
+[38] A.C. Robinson and C.J. Garasi. Three-dimensional z-pinch wire array modeling with ALEGRA-HEDP.
+     Computer Physics Communications, 164(1-3):408–413, 2004.
+[39] Y. Saad and M.H. Schultz. GMRES: A generalized minimal residual algorithm for solving nonsymmetric
+     linear systems. SIAM Journal on scientific and Statistical Computing, 7(3):856–869, 1986.
+[40] Z. Sheng, J. Yue, and G. Yuan. Monotone finite volume schemes of nonequilibrium radiation diffusion
+     equations on distorted meshes. SIAM Journal on Scientific Computing, 31(4):2915–2934, 2009.
+[41] Y. Shi, H. Yong, C. Zhai, J. Qi, and P. Song. A functional expansion tally method for gray radiative transfer
+     equations in implicit Monte Carlo. Journal of Computational and Theoretical Transport, 47(7):581–598,
+     2018.
+[42] J. Smoller. Shock Waves and Reaction—Diffusion Equations, volume 258. Springer Science & Business
+     Media, 2012.
+[43] L. Spitzer Jr and R. Härm. Transport phenomena in a completely ionized gas. Physical Review, 89(5):977,
+     1953.
+[44] S. Su and J. Wu. A vertex-centered and positivity-preserving finite volume scheme for two-dimensional
+     three-temperature radiation diffusion equations on general polygonal meshes. Numerical Mathematics:
+     Theory, Methods and Applications, 13(1):220–252, 2020.
+[45] M. Tang, L. Wang, and X. Zhang. Accurate front capturing asymptotic preserving scheme for nonlinear
+     gray radiative transfer equation. SIAM Journal on Scientific Computing, 43(3):B759–B783, 2021.
+[46] M. Tang and X. Zhang. Semi-implicit front capturing schemes for the degenerate nonlinear radiative
+     diffusion equation. Journal of Computational Physics, 436:110290, 2021.
+[47] N.J. Turner and J.M. Stone. A module for radiation hydrodynamic calculations with ZEUS-2D using
+     flux-limited diffusion. The Astrophysical Journal Supplement Series, 135(1):95, 2001.
+[48] H. Wang, C.-W. Shu, and Q. Zhang. Stability and error estimates of local discontinuous Galerkin meth-
+     ods with implicit-explicit time-marching for advection-diffusion problems. SIAM Journal on Numerical
+     Analysis, 53(1):206–227, 2015.
+[49] H. Wang, Q. Zhang, S. Wang, and C.-W. Shu. Local discontinuous Galerkin methods with explicit-
+     implicit-null time discretizations for solving nonlinear diffusion problems. Science China Mathematics,
+     63(1):183–204, 2020.
+
+                                                       36
+[50] A.M. Winslow. Multifrequency-gray method for radiation diffusion with Compton scattering. Journal of
+     Computational Physics, 117(2):262–273, 1995.
+[51] T. Xiong, W. Sun, Y. Shi, and P. Song. High order asymptotic preserving discontinuous Galerkin methods
+     for gray radiative transfer equations. Journal of Computational Physics, page 111308, 2022.
+[52] Y. Xu and C.-W. Shu. Local discontinuous Galerkin methods for high-order time-dependent partial differ-
+     ential equations. Communications in Computational Physics, 7(1):1, 2010.
+[53] J. Yan and C.-W. Shu. Local discontinuous Galerkin methods for partial differential equations with higher
+     order derivatives. Journal of Scientific Computing, 17(1):27–47, 2002.
+[54] X. Yang, W. Huang, and J. Qiu. A moving mesh finite difference method for equilibrium radiation diffusion
+     equations. Journal of Computational Physics, 298:661–677, 2015.
+[55] X. Yang, W. Huang, and J. Qiu. Moving mesh finite difference solution of non-equilibrium radiation
+     diffusion equations. Numerical Algorithms, 82(4):1409–1440, 2019.
+[56] Y. Yu, X. Chen, and G. Yuan. A finite volume scheme preserving maximum principle for the system of
+     radiation diffusion equations with three-temperature. SIAM Journal on Scientific Computing, 41(1):B93–
+     B113, 2019.
+[57] G. Yuan, X. Hang, Z. Sheng, and J. Yue. Progress in numerical methods for radiation diffusion equations.
+     Chinese Journal of Computational Physics, 26(4):475, 2009.
+[58] Peng Zhang and Tao Xiong. High order implicit finite difference schemes with a semi-implicit WENO
+     reconstruction for nonlinear degenerate parabolic equations. Journal of Computational Physics, 467:111442,
+     2022.
+[59] Q. Zhang and Z.-L. Wu. Numerical simulation for porous medium equation by local discontinuous Galerkin
+     finite element method. Journal of Scientific Computing, 38(2):127–148, 2009.
+[60] R. Zhang, X. Yu, X. Cui, and T. Feng. Discontinuous finite element method for 1D non-equilibrium
+     radiation diffusion equations. Chinese Journal of Computational Physics, 29(5):641, 2012.
+[61] Rongpei Zhang, Xijun Yu, Jiang Zhu, and Abimael F.D. Loula. Direct discontinuous galerkin method for
+     nonlinear reaction–diffusion systems in pattern formation. Applied Mathematical Modelling, 38:1612–1621,
+     2014.
+[62] X. Zhao, Y. Chen, Y. Gao, C. Yu, and Y. Li. Finite volume element methods for nonequilibrium radiation
+     diffusion equations. International Journal for Numerical Methods in Fluids, 73(12):1059–1080, 2013.
+[63] Jianfeng Zhu, Yong-Tao Zhang, Stuart A. Newman, and Mark Alber. Application of discontinuous galerkin
+     methods for reaction-diffusion systems in developmental biology. Journal of Scientific Computing, 40:391–
+     418, 2009.
+
+
+
+
+                                                      37
+

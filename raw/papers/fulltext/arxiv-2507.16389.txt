@@ -1,0 +1,1168 @@
+                                          From Flat to Round: Redefining Brain Decoding with Surface-Based fMRI and
+                                                                       Cortex Structure
+
+                                                   Sijin Yu1      Zijiao Chen2 Wenxuan Wu1 Shengxian Chen1 Zhongliang Liu1
+                                                               Jingxin Nie3 Xiaofen Xing1 Xiangmin Xu1,4 Xin Zhang⋆ 1
+                                                                            1
+                                                                              South China University of Technology
+                                                                                      2
+                                                                                        Stanford University
+                                                                                3
+                                                                                  South China Normal University
+arXiv:2507.16389v1 [cs.CV] 22 Jul 2025
+
+
+
+
+                                                                                           4
+                                                                                             Pazhou Lab
+
+
+                                                                 Abstract                                    struction, which focuses on the exploration of the brain’s
+                                                                                                             visual functions. Over time, techniques have evolved from
+                                            Reconstructing visual stimuli from human brain activity          semantic category reconstruction [7, 9, 18] to pixel-level re-
+                                         (e.g., fMRI) bridges neuroscience and computer vision by            construction [2, 35]. Currently, the most popular approach
+                                         decoding neural representations. However, existing meth-            is to train an fMRI encoder [4, 5, 24, 32, 38, 40, 45], whose
+                                         ods often overlook critical brain structure-function rela-          output fMRI embeddings are used as conditions to guide a
+                                         tionships, flattening spatial information and neglecting in-        diffusion model [8, 14, 31] for image reconstruction. Fol-
+                                         dividual anatomical variations. To address these issues, we         lowing these approaches, fMRI-image reconstruction has
+                                         propose (1) a novel sphere tokenizer that explicitly models         expanded from single-subject to cross-subject applications
+                                         fMRI signals as spatially coherent 2D spherical data on the         [16, 29, 36, 43, 46]. Methods that encode fMRI signals
+                                         cortical surface; (2) integration of structural MRI (sMRI)          and use them as conditions to guide diffusion models have
+                                         data, enabling personalized encoding of individual anatom-          achieved success.
+                                         ical variations; and (3) a positive-sample mixup strategy               However, existing methods share fundamental limita-
+                                         for efficiently leveraging multiple fMRI scans associated           tions stemming from the oversimplification of fMRI data
+                                         with the same visual stimulus. Collectively, these inno-            as one-dimensional signals, disregarding critical spatial and
+                                         vations enhance reconstruction accuracy, biological inter-          structural properties. Specifically: (1) fMRI signals arise
+                                         pretability, and generalizability across individuals. Exper-        from voxels located on the cerebral cortex, naturally form-
+                                         iments demonstrate superior reconstruction performance              ing spatial patterns on a two-dimensional non-Euclidean
+                                         compared to SOTA methods, highlighting the effectiveness            cortical surface [11]. Ignoring this spatial organization di-
+                                         and interpretability of our biologically informed approach.         minishes the richness of spatial information available. (2)
+                                                                                                             Structural brain differences among individuals significantly
+                                                                                                             influence functional responses [12, 26], resulting in varied
+                                                                                                             neural responses to identical stimuli [19]. Current methods
+                                         1. Introduction                                                     fail to effectively capture these structural variations, thus
+                                         The human brain, shaped by evolution, can be viewed as a            impairing performance in cross-subject generalization.
+                                         highly optimized, naturally “pre-trained” neural network. It            Based on this observation, we propose the Sphere Tok-
+                                         encodes sensory stimuli such as visual and auditory signals         enizer, which processes fMRI signals into fMRI tokens that
+                                         from various organs into intricate patterns of neural activ-        incorporate spatial structural information. These tokens are
+                                         ity. Brain decoding, the reverse of this process, aims to re-       then fed into the fMRI encoder for encoding. fMRI sig-
+                                         construct sensory stimuli from recorded brain activity, typ-        nals located on the cerebral cortex are mapped onto a stan-
+                                         ically measured using functional magnetic resonance imag-           dard sphere using FreeSurfer-based [10] method. Spherical
+                                         ing (fMRI). This decoding holds significant implications for        convolution [17, 51] is introduced to extract fMRI features.
+                                         both neuroscience, by revealing how the brain represents            Similarly to planar convolution [20], each voxel (pixel)
+                                         sensory information, and brain-computer interfaces (BCIs),          only gathers information from its neighbors and updates
+                                         by translating neural signals into actionable outputs.              its value. In addition, unlike previous spherical convolu-
+                                             A pivotal area of brain decoding is fMRI-image recon-           tion frameworks, we introduce structural information of the
+
+
+                                                                                                         1
+ Previous Drawbacks
+                                                                                           1-image
+                                                  w/o brain                                3-fMRI         Training:   Random(         )
+                               1D data
+                                                  structure
+                                                                                                         Inference:   Average(        )
+ The lack of modeling fMRI spatial features    Ignoring the differences in brain structure
+                                                                                           There is a data distribution gap between       The models lack
+ leads to insufficient spatial perception in   across subjects leads to differences in
+                                                                                           training and inference.                        biological interpretability.
+ the fMRI encoder.                             brain function.
+
+ Our Contributions
+                                                                                           1-image
+                              Spherical                                                    3-fMRI         Training:
+                                                   w/ brain
+                               2D data
+                                                  structure                                              Inference:                       Our model demonstrates
+ We propose the sphere tokenizer to                                                                                                       good interpretability,
+ enhance the model’s spatial and structural We introduce cortical structure (sMRI) to We propose a positive sample mixup                  benefiting from a design
+ perception of fMRI data.                   facilitate cross‐subject brain decoding.  strategy to mitigate the distribution gap.
+                                                                                                                                          closer to bio‐mechanisms.
+            Novel Framework                       Novel Conditional Information                      Novel Training Strategy                  Interpretability
+
+                                  Figure 1. The drawbacks of previous work and the contributions of this paper.
+
+
+cerebral cortex and sphere positional embedding into the                             fMRI Tokenizer. The tokenizer processes the raw fMRI
+Sphere Tokenizer. The cortical structure allows the model                            data into an appropriate format and passes it to the model.
+to perceive differences in brain structures across subjects,                         A simple approach is to treat fMRI as 1D data and then
+while the sphere positional embedding enables the model to                           process it using a linear module [40] or as one-dimensional
+account for functional pattern differences across different                          convolution [4]. The linear tokenizer and 1D convolution
+regions of the cortex. To the best of our knowledge, we are                          tokenizer simply flatten the fMRI data, without taking its
+the first to incorporate brain structure into the fMRI-image                         spatial and structural information into account. Therefore,
+reconstruction task.                                                                 the ROI embedder is proposed [27, 29], which processes
+    In addition, current fMRI-image datasets typically pro-                          fMRI data from different brain regions separately, enabling
+vide asymmetric matching samples, i.e., one image corre-                             the fMRI tokens to have better spatial representation ca-
+sponds to multiple fMRI scans. Previous work apply each                              pabilities. Unlike the ROI-wise spatial representation of
+individual fMRI scan for training, but employ the averaged                           fMRI, our proposed sphere tokenizer provides voxel-wise
+fMRI scan for inference. This creates a data distribution                            spatial representation capability.
+gap between training and inference. To address this, we
+proposed a positive sample mixup strategy, where during                              3. Method
+training, we randomly mixup the corresponding fMRI scans
+to match the averaging process during inference. Contribu-                           3.1. Data Elaboration and Task Setup
+tions: we summarize the drawbacks of previous works and                              Dataset Our experiments build upon the Natural Scenes
+the contributions of this paper in Fig. 1.                                           Dataset (NSD) [1], which contains large-scale fMRI–image
+                                                                                     pairs for eight healthy adult participants. The images are
+2. Related Work                                                                      sampled from MS-COCO [21]. Following standard prac-
+fMRI-Image Reconstruction. Early works of vision                                     tice [29, 32, 37, 43], we focus on four participants (subj01,
+brain decoding are represented by approaches using sparse                            02, 05, 07), each having viewed 10,000 images (scanned
+linear regression [15], VAE-based methods [9], and GAN-                              three times per image). Of these, 1,000 images are shared
+based methods [13, 25, 33]. With the advancement of im-                              across all four participants, forming our test set. The re-
+age generation models, brain decoding tasks have evolved                             maining images are split into 8,500 for train and 500 for
+from semantic classification to pixel level reconstruction.                          val. We use the fMRI data mapped to the fsaverage surface
+With the development of multimodal technologies and dif-                             provided by NSD, then resample it onto the FreeSurfer [10]
+fusion models [8, 14, 31], the current popular pipeline in-                          fsaverage6 standard mesh (40,962 × 2 voxels per subject).
+volves aligning fMRI with CLIP [30] and then using it                                Further preprocessing details are in Appendix §A.
+as a condition for diffusion models to perform image re-
+construction [4, 32, 38, 40, 45]. Building on this, re-                              Task Setup and Notations. Our goal is to reconstruct an
+searchers have extended this pipeline to cross-subject sce-                          image I from fMRI responses. Each image I is paired
+narios [16, 29, 36, 43, 46]. These methods typically achieve                         with a COCO annotation T and three corresponding fMRI
+cross-subject training by introducing subject-specific pa-                           scans {FiL , FiR } (i = 1, 2, 3), which represent left (L) and
+rameters into the model [29, 43] or incorporating subject-                           right (R) hemisphere activities. The model inputs FiL , FiR ∈
+independent tokens [46].                                                             Rn×1 (where n is the number of voxels on a hemisphere),
+
+
+                                                                                2
+  Previous
+  fMRI Data
+                      flatten                select                    (d1) Cortex Structure                       (d2) Sphere Positional Emb.
+                                                                                                                                     spherical
+                                                                                                                                                                       Stage 1
+                                                                                                                                                               The Sphere Tokenizers are
+                                           vision ROI                                                                               coordinates
+
+    Our                                                                                                                             (train only)               pretrained independently for
+  fMRI Data
+                                                                             thickness           area
+                                                                                                                                    random SO(3)               the left and right hemispheres
+                                                                                                                                      rotation                 using an autoencoder approach.
+                                                                               sulc            curvature                            augmentation
+
+ (a)    fMRI input                               (Hemisphere) Sphere Tokenizer                                                Structure Condition                         Decoder
+                                                                                                                               Position Condition          Position Condition
+
+
+
+                      Sphere                                 Sphere                                          Sphere                                                  Sphere
+                     fMRI Down                              fMRI Down                                       fMRI Down                                               fMRI Up
+
+ 40626 voxels                           10242 voxels                                  2562 voxels                                   642 voxels                                       40626 voxels
+
+
+ (c)                       Sphere Convolution                                            (b)                      Sphere fMRI Down                                       Sphere fMRI Up
+
+                                                                                                                  Conditional ResNet Block                                    Conditional
+                                                                                         structure
+                                                                                                                                                                               ResNet
+
+
+
+
+                                                                                                                                                                                             Interpolation
+                                                                                         position
+                                                                                                                                                                                Block
+
+
+
+
+                                                                                                                                                     Pooling
+                                                                                                                                                                   position
+
+
+
+
+                                                                                                           Conv
+
+
+
+
+                                                                                                                             SiLU
+
+                                                                                                                                    Conv
+                                                                                                                   +                             +
+
+
+
+
+                                                                                                                        BN
+
+
+
+
+                                                                                                                                           BN
+                                                                                               fMRI
+                                                                                                                                                                      fMRI
+
+
+                            Convolution Kernel          Voxel Value Update
+
+
+
+Figure 2. Illustration of sphere tokenizer (§3.2). (a) [blue] The tokenizer downsamples the fMRI data three times and maps it to fMRI
+tokens. (b) [brown, bottom] Each downsampling layer consists of L conditional ResNet blocks. (c) [purple] The ResNet blocks are based
+on the sphere convolution, a 2D convolution on the sphere with a receptive field of one-hop neighbors. (d) [brown, top] The conditional
+ResNet block has two types of conditional guidance: cortex structure (d1) and sphere positional embeddings (d2).
+
+
+and outputs a reconstructed image I.  ˆ                                                                 Overview of the Tokenizer. Focusing on the left hemi-
+   To capture both spatial and structural variations in the                                             sphere for illustration, the tokenizer T L takes high-
+cortex, we also introduce two additional conditions: cor-                                               resolution fMRI data FiL on fsaverage6 (40,962 voxels),
+tical structure information {S L , S R } and sphere positional                                          progressively downsamples it three times until fsaverage3
+embeddings P (see §3.2). These elements provide the tok-                                                (642 voxels), generating the fMRI token xL . A lightweight
+enizer with explicit cues about individual structural differ-                                           decoder then upsamples xL back to the fsaverage6 space to
+ences and topological positions on the cortical surface.                                                compute reconstruction losses (MSE and L1). Formally,
+
+                                                                                                                         xL = T L F L | S L , P ,
+                                                                                                                                               
+                                                                                                                                                               (1)
+Method Overview. Stage 1: A sphere tokenizer (§3.2,                                                     where S L is cortical structure information and P is the
+Fig. 2) first maps the raw fMRI data to the appropriate fMRI                                            sphere positional embedding.
+tokens. The sphere tokenizer has strong spatial and struc-
+tural perception due to (i) data interaction on a 2D spherical
+                                                                                                        Incorporating Brain Structure and Position. Prior re-
+surface instead of the previous 1D space, (ii) the incorpora-
+                                                                                                        search [12, 26] shows that structural brain properties (e.g.,
+tion of individual cortical structure information S L , S R , and
+                                                                                                        thickness, curvature) strongly influence neural functions.
+(iii) spherical position embedding P . Stage 2: An fMRI
+                                                                                                        Because no two brains are identical, we introduce structural
+encoder (§3.3, Fig. 3) takes the fMRI tokens output by
+                                                                                                        MRI data to help the tokenizer separate function from in-
+the sphere tokenizer as input and aligns it with CLIP [30].
+                                                                                                        dividual anatomical variation. In parallel, we add a sphere
+Stage 3: An image decoder (§3.4, Fig. 3) reconstructs the
+                                                                                                        positional embedding (P ) based on 3D coordinates on the
+image from the aligned fMRI embedding.
+                                                                                                        cortical surface. This helps the tokenizer distinguish signals
+                                                                                                        arising from different cortical locations.
+3.2. Sphere Tokenizer
+To leverage the inherent 2D structure of cortical data, we                                              Sphere Conditional ResNet Blocks. Each downsam-
+design the sphere tokenizer to project fMRI signals into                                                pling or upsampling stage stacks multiple conditional
+fMRI tokens. It encodes raw fMRI signals on a spherical                                                 ResNet blocks, each containing two sphere convolu-
+surface, then reconstructs them at high resolution to ensure                                            tions [51] that update voxel values using information from
+spatial fidelity. We train separate tokenizers for the left and                                         their one-hop neighbors on the spherical mesh. Between the
+right hemispheres (denoted T L , T R ), given their roughly                                             two convolutions, we inject structural and positional fea-
+mirrored structural layout.                                                                             tures to condition the ResNet blocks. Specifically:
+
+
+                                                                                                 3
+ Stage 2            Left fMRI
+                                           Left Brain
+                                        Sphere Tokenizer
+                                                                    Select
+                                                                Vision Tokens
+                                                                                   [CLS]                               Image
+                                                                                                                   Predicted Head
+                                                                                                                                                         CLIP
+                                                                                                                                                     Image Encoder
+                                                                                               Transformer-Based
+                                                                                               fMRI Encoder
+ The fMRI‐CLIP                                                                  concat
+ alignment using                           Right Brain              Select                                              Text                             CLIP          “A cat is on
+                 Right fMRI             Sphere Tokenizer                                                           Predicted Head                    Text Encoder
+ fMRI Encoder.                                                  Vision Tokens                                                                                           the bed”
+                                                                                                                                      Latent Space
+
+
+                                                                                                                      Stage 3 The
+                         Raw Training Sample                          Augmented Sample
+                                                                                                                                  Image Decoder reconstruct the
+                                                                                                                              image based on the fMRI Encoder.
+                                                     positive                                   Uniformly sample
+The positive                                          sample
+sample mixup                                          mixup
+                                                                                 ...
+augmentation                                                                                                                                fMRI              Image
+in Stage 2.                1‐Image‐3‐fMRI               with           1‐Image‐K‐fMRI                                                      Encoder           Decoder
+                                                    probability
+                                                                                                                     Average fMRI Input
+
+
+
+Figure 3. Illustration of the fMRI encoder (§3.3) and the image reconstruction pipeline (§3.4). (top) We select vision-relevant tokens
+from the sphere tokenizer output and feed them into the fMRI encoder, which predicts both image and text embeddings aligned with CLIP.
+(bottom left) Our positive sample mixup strategy: when selected, multiple fMRI scans of the same image are mixed with random weights
+to better approximate the averaging process used at inference. (bottom right) At test time, the three fMRI scans are averaged; the image
+decoder then reconstructs the final image from the aligned fMRI embedding.
+
+
+ • Structure Condition S L ∈ Rn×4 : We concatenate four                                         eimage , etext ⇔ x1 , x2 , x3 . Here, x1 , x2 , x3 represent the
+   cortical properties (thickness, surface area, sulcal depth,                                  fMRI vision tokens from the three scans, and “⇔” means
+   curvature) and resample them to match the current fMRI                                       “corresponds to”.
+   resolution in the ResNet blocks.                                                                Previous works use eimage , etext ⇔ xj for training and
+ • Positional Condition P ∈ Rn×3 : We project each                                              eimage , etext ⇔ mean(x1 , x2 , x3 ) for inference, creating a
+   voxel’s 3D coordinates by an MLP, optionally applying                                        mismatch between training and testing distributions To re-
+   random rotations to improve robustness to orientation.                                       solve this, we propose positive sample mixup, which ran-
+Together, these blocks yield fMRI tokens that capture local                                     domly combines the three fMRI scans for training, reflect-
+spatial context (via sphere convolution) and individual cor-                                    ing the eventual inference step more accurately. Specifi-
+tical distinctions (via structural and positional conditions).                                  cally, we form a mixup sample:
+
+3.3. fMRI-Image-Text Alignment                                                                                     x̃k = αk x1 + βk x2 + γk x3 .                               (2)
+We apply a transformer-based [42] fMRI encoder (EfMRI ),                                        Here, αk , βk and γk are random numbers uniformly sam-
+which takes fMRI tokens as input and aligns it with the                                         pled from the convex polytope that satisfies the linear con-
+CLIP [30] (image encoder: Eimage , text encoder: Etext )                                        straints defined by equation (3).
+embedding. The input to EfMRI is the fMRI vision tokens,                                                          (
+which are based on the output of the pretrained sphere to-                                                           0 ≤ αk , βk , γk ≤ 1
+                                                                                                                                                         (3)
+kenizer. The output of EfMRI is the predicted image em-                                                              α k + βk + γ k = 1
+bedding êimage and the predicted text embedding êtext . To
+                                                                                                Let the number of mixup samples be K. Then, for a given
+more efficiently utilize the 1-image-3-fMRI data in the NSD
+                                                                                                image, we obtain K corresponding fMRI augmentation data
+[1] and alleviate the training-inference data distribution gap,
+                                                                                                samples: eimage , etext ⇔ x̃k (k ∈ [1 : K]). During
+we design a positive sample mixup augmentation.
+                                                                                                contrastive learning, these K samples are used as positive
+                                                                                                samples with respect to each other (refer to the follow-
+fMRI Vision Tokens. Once the tokenizer is trained, we                                           ing “Learning Objectives” part). In inference time, we set
+can obtain the fMRI token xL , xR as a representation of the                                    K = 1, α1 = 31 and β1 = 13 , which is equivalent to
+raw fMRI data. However, in our visual reconstruction task,                                      x̃1 = mean(x1 , x2 , x3 ). Our positive sample mixup effi-
+only the visual brain regions are meaningful. To eliminate                                      ciently leverages the data while mitigating the data distri-
+redundant fMRI information, we select only the tokens cor-                                      bution gap between training and inference. In practice, we
+responding to the visual brain regions, i.e., xLvis , xRvis . To                                apply positive sample augmentation to a λ proportion of the
+isolate visually responsive regions, we apply the “NSDGen-                                      data within a single batch.
+eral” ROI mask from NSD [1], selecting only those fMRI                                             Note. For simplicity, we use the vision tokens x1 , x2 , x3
+tokens corresponding to these visual areas. Then, we con-                                       to illustrate mixup. In practice, we apply mixup at the to-
+catenate the two hemisphere tokens to obtain the tokens that                                    kenizer’s input level, e.g., F1L , F2L , F3L , to avoid confusion
+are input to the fMRI encoder: x = concat(xLvis , xRvis ).                                      and ensure direct consistency with the rest of our pipeline.
+
+Positive Sample Mixup. In NSD [1], each image is                                                Contrastive Learning. Assume that for a training sam-
+paired with three fMRI scans, i.e., in embedding space,                                         ple eimage , etext ⇔ xk , the prediction of the fMRI encoder
+
+
+                                                                                           4
+        token‐wise alignment          contrastive learning
+                                                                                 GT
+
+
+
+
+                                             Causal
+                                                                                Ours
+            Text
+       Predicted Head                     Text Encoder                                  subj 01     subj 02      subj 05       subj 07
+
+
+                                                                               Figure 5. fMRI vision voxels reconstruction results using the
+        fMRI embeddings       [cls]    text tokens [eos] [pad]
+                                                                               sphere tokenizer on the NSD [1] test. The sphere tokenizer
+                                                                               demonstrates excellent encoding-decoding capabilities across the
+      outputs of fMRI Encoder          outputs of text tokenizer
+                                                                               four subjects. See related analysis in §4.1.
+Figure 4. In fMRI-text alignment, we only compute the loss for
+tokens that carry semantic information, unlike previous work that
+simply aligns all tokens.                                                      ment is MSE (LMSE ). Finally, the total loss function is
+                                                                               L = LbiInfo + Lcos + LMSE .
+
+is: êimage,k , êtext,k = EfMRI (xk ). We compute the bidi-                   3.4. Image Reconstruction
+rectional InfoNCE loss [23] for both the image and the text
+separately. Taking the image as an example, the bidirec-                       After obtaining the reconstructed CLIP space semantic em-
+tional InfoNCE for sample êimage,k is defined as:                             beddings êimage and êtext , we need an image decoder to
+                                                                               reconstruct the image. We choose versatile diffusion [47] as
+                        K · exp(êimage,k · eimage /τ )                        our image decoder, a multimodal diffusion model guided by
+  Limage
+   biInfo = − log       b                                                      both CLIP image embeddings and CLIP text embeddings.
+                        P
+                            K · exp(êimage,k · eimg /τ )                      During inference, we also use classifier-free guidance [31]
+                       img=1
+                                                                               and Ecphory Mechanism introduced by Psychometry [29].
+                          K
+                          P                                          (4)
+                              exp(eimage · êimage,k /τ )
+               − log      k
+                                                                 .             4. Experiments
+                        b
+                        P K
+                          P
+                                    exp(eimage · eimg,k /τ )                   Evaluation Metrics. We follow the standard settings in
+                       img=1 k
+                                                                               the previous work [29, 32, 37, 43] and use eight image
+Here, b represents the batch size, τ is the temperature hy-                    quality evaluation metrics. For low-level properties, we ap-
+perparameter, and K is the number of augmentation sam-                         ply pixel-wise correlation (PixCorr), structural similarity
+ples (where image is augmented with probability λ) or 3                        (SSIM) [44], AlexNet(2), and AlexNet(5) [20]. For
+(when image is not augmented with probability 1−λ). The                        high-level evaluation, we adapt Inception [39], CLIP
+bidirectional InfoNCE for the text Ltext
+                                     biInfo is defined in the
+                                                                               [30], EffNet-B [41], and SwAV [3]. The reported results
+same way. The final bidirectional InfoNCE with positive                        are the averages computed across four subject.
+sample augmentation is: LbiInfo = Limage          text
+                                       biInfo + LbiInfo . To
+further reduce the distance between embeddings, we also
+                                                                               Reproducibility. The model is trained on one NVIDIA
+use a cosine similarity loss:
+                                                                               A800 GPU. Inference is conducted on the same machine.
+                                  êimage,k · eimage,k                         Other hyperparameters are at Appendix §C.
+          Limage
+           cos   =1−                                         .       (5)
+                              ||êimage,k || · ||eimage,k ||
+                                                                               4.1. Sphere Tokenizer
+Token-Wise Alignment. Previous work [16, 29, 43] have                          The proposed sphere tokenizer maps the raw fMRI data into
+shown that token-wise alignment is more effective than per-                    input embeddings for the encoder, and it is trained using an
+forming contrastive learning only on the [cls] token, i.e.,                    autoencoder architecture. Since the sphere tokenizer effec-
+by computing the prediction loss for each token. We adopt                      tively handles data compression before the fMRI encoder,
+this approach for text alignment and further refine it to bet-                 we are interested in its ability to reconstruct fMRI data.
+ter suit the textual domain. Because the CLIP [30] text                        We present the fMRI reconstruction results of visual voxels
+encoder is causal, any tokens generated after the [eos]                        on the NSD test using the sphere tokenizer autoencoder
+marker in its output embeddings no longer hold mean-                           (Fig. 5). The displayed data has been min-max normalized
+ingful information. As shown in Fig. 4, we only com-                           to range [0:1] across all visual voxels of each sample. The
+pute the loss for the parts with semantic information in                       qualitative results demonstrate a high similarity between the
+token-wise alignment. For the image, all tokens partici-                       reconstructed fMRI and the groundtruth. This shows that
+pate in the loss calculation. The loss for token-wise align-                   the sphere tokenizer can retain a large amount of informa-
+
+
+                                                                           5
+                         # fMRI                              Low-Level                                                    High-Level
+          Method
+                      Vision Voxels   PixCorr ↑     SSIM ↑    AlexNet(2) ↑      AlexNet(5) ↑      Inception ↑       CLIP ↑      EffNet-B ↓     SwAV ↓
+     Mind-Vis [4]       14K-1D          0.067        0.196        67.7%             74.2%                67.9%       69.3%             0.898   0.513
+    MindEye [32]        14K-1D          0.129        0.255        84.2%             89.2%                84.1%       85.0%             0.812   0.487
+ Neuro-Vision [37]      14K-1D          0.265        0.357        93.1%             97.1%                96.8%       97.5%             0.633   0.321
+ Psychometry [29]       14K-1D          0.297        0.340        96.4%             98.6%                95.8%       96.8%             0.628   0.345
+   UMBRAE [46]          14K-1D          0.283        0.328        93.9%             96.7%                93.4%       94.1%             0.700   0.393
+  NeuroPictor [16]      14K-1D          0.141        0.349        91.4%             95.7%                88.3%       88.9%             0.722   0.417
+  MindBridge [43]       14K-1D          0.151        0.263        87.7%             95.5%                92.4%       94.7%             0.712   0.418
+    Gu et al. [13]    7K-sphere         0.103        0.264           -                 -                    -           -              0.892   0.508
+  MindBridge [43]       9K-1D           0.143        0.307        75.0%             86.7%                83.8%       87.0%             0.769   0.413
+             Ours     9K-sphere         0.165        0.305        78.2%             89.0%                85.1%       88.3%             0.733   0.398
+
+
+Table 1. Quantitative comparison results on NSD [1] test. All methods are trained using a single model on 4 subjects. Our method uses
+a lower fMRI resolution (9K) compared to SOTA (14K) due to the standard settings of SphericalUnet [51]. See related analysis in §4.2.
+
+              Takagi et al. Brain‐Diffuser      MindEye        DREAM      Neuro‐Vision      MindBridge      GroundTruth          Ours
+                 (14K‐1D)      (14K‐1D)         (14K‐1D)      (14K‐1D)      (14K‐1D)          (9K‐1D)                         (9K‐sphere)
+
+
+
+
+                     CVPR   Nature Scientific   NeurIPS         WACV          NeurIPS          CVPR
+                     2023     Reports 2023       2023           2023           2024            2024
+
+
+Figure 6. Qualitative results on NSD [1] test subj01. In comparison to previous single-subject models [24, 32, 40, 45] and recent
+cross-subject models [37, 43], our model is trained on lower fMRI resolution without subject-specific parameters. The visual results of
+reconstruction demonstrate the effectiveness of our approach. See related discussion in §4.2.
+
+
+tion from the visual voxels. We also provide more evalua-                     the fMRI resolution of each model in Tab. 1, expressed
+tion results for the sphere tokenizer in Appendix §D.                         in terms of the number of vision voxels. “14K-1D” indi-
+                                                                              cates that each subject has approximately 14K voxels1 and
+4.2. Comparison to Previous Work                                              treats them as a one-dimensional signal. Gu et al. applies
+                                                                              the spherical convolution framework on the FreeSurfer 32k
+Quantitative Results. We compare our model with eight                         surface, containing 7,531 visual voxels (7K-sphere). The
+previous methods: Mind-Vis [4], MindEye [32], Gu et al.                       data we used (9K-sphere) contains 9,548 visual voxels,
+[13], Psychometry [29], UMBRAE [46], NeuroPictor [16],                        which entails lower computational costs compared to the
+Neuro-Vision [37] and MindBridge [43]. The quantitative                       14K data (e.g., in contrast to 7T, our model is also com-
+evaluation results are shown in Tab. 1. All models are                        patible with 3T fMRI data). Compared to methods that
+trained using a single model in the 4 subjects, and the re-                   also use a spherical framework as the fMRI encoder (Gu
+sults are the average performance in the 4 subjects. Due to                   et al. [13]), our model shows a significant performance
+the fact that the sphere tokenizer is based on SphericalUnet                  improvement (e.g., 0.103/0.264 → 0.165/0.305 in low-
+[51], which only supports standard spheres, the fMRI reso-
+lution we used is different from other studies. We present                       1 subj01: 15,247, subj02: 14,278, subj05: 13,039, and subj07: 12,682.
+
+
+
+
+                                                                          6
+                                                          Low-Level                                            High-Level
+  #       Setting
+                                     PixCorr ↑   SSIM ↑    AlexNet(2) ↑       AlexNet(5) ↑   Inception ↑    CLIP ↑    EffNet-B ↓    SwAV ↓
+  1       Conv1×1                      0.190     0.319         64.0%             78.9%           76.7%       79.4%          0.819    0.405
+  2       ROI Embedder                 0.139     0.312         73.6%             85.4%           83.4%       85.5%          0.771    0.415
+  3       w/o structure condition      0.146     0.311         75.4%             85.9%           83.3%       86.0%          0.758    0.410
+  4       w/o positional condition     0.142     0.302         74.0%             85.0%           84.3%       86.0%          0.758    0.413
+  5       w/o token-wise LMSE          0.118     0.301         69.6%             79.8%           79.2%       81.6%          0.809    0.448
+  6       full tokens Ltext
+                       MSE             0.152     0.312         75.6%             86.7%           83.9%       86.7%          0.751    0.408
+  7       Full Model                   0.165     0.305         78.2%             89.0%           85.1%       88.3%          0.733    0.398
+
+
+Table 2. Ablation study (§4.3) on sphere tokenizer on NSD [1] test. The experimental results substantiate the efficacy of the sphere
+tokenizer, the structural and positional conditions, as well as the token-wise alignment.
+
+   GroundTruth
+
+                                                                                Ground
+                                                                                 Truth
+
+
+
+                                                                                subj01
+
+
+   Ours
+                                                                                subj02
+Figure 7. Failed cases in the NSD [1] test subj01. In these cases,
+although the reconstruction results are not entirely satisfactory, our
+                                                                                subj05
+model has managed to reconstruct partial or analogous semantics.
+See related analysis in §4.2.
+                                                                                subj07
+
+
+level metrics PixCorr and SSIM, and 0.892/0.508 →
+0.733/0.398 in high-level metrics EffNet-B and SwAV).                          Figure 8. Visual samples on NSD [1] test over 4 subjects. The
+However, compared to the current state-of-the-art, our                         results demonstrate the cross-subject robustness of our model.
+model performs relatively worse due to the use of a lower
+fMRI resolution. To demonstrate that this performance de-                      8, demonstrating the model’s cross-subject robustness. For
+cline is solely due to resolution (14K vs. 9K), we repli-                      more visualization results, please refer to Appendix §D.
+cate MindBridge [43] at the same resolution (9K-1D). At
+the same resolution of fMRI data, our model improves                           4.3. Ablation Study
+upon MindBridge by 0.022/−0.002/3.2%/2.3% on the
+                                                                               Different Tokenizers. We first evaluate the effectiveness
+four low-level metrics and by 1.3%/1.3%/0.036/0.015 on
+                                                                               of the proposed sphere tokenizer. We consider two other
+the four high-level metrics. Additionally, our model out-
+                                                                               variants of the fMRI tokenizer: Conv1×1 [4] and ROI
+performs higher resolution models in certain aspects, e.g.,
+                                                                               Embedder [27, 29]. The results are shown in Tab. 2.
+our model shows improvements over MindEye [32] by
+                                                                               The results show that Conv1×1 has poor ability to cap-
+1.0%/3.3%/0.079/0.089 on the four high-level metrics.
+                                                                               ture the spatial and structural properties of fMRI data.
+                                                                               When replacing the fMRI tokenizer from a Conv1×1 with
+Qualitative Results. We present some brain decoding                            ROI Embedder that considers the spatial characteristics of
+samples on the NSD [1] test for subj01 in Fig 6. The                           different brain regions, we observe a significant perfor-
+baseline models are Takagi et al. [40], Brain-Diffuser [24],                   mance improvement. When the modeling of fMRI spa-
+MindEye [32], DREAM [45], Neuro-Vision [37] and Mind-                          tial information is upgraded from the ROI level (ROI Em-
+Bridge [43]. The results of MindBridge are obtained on low                     bedder, #2) to the voxel level (ours, Sphere Tokenizer,
+fMRI resolution (9K-1D). The image quality reconstructed                       #7), we also observe performance improvement (e.g.,
+by our method is not worse than that of other methods. We                      the performance increase 4.6%/3.6%/2.8%/2.8% across
+also provide the failed cases in Fig. 7. In these cases, our                   AlexNet(2), AlexNet(5), Inception and CLIP).
+model captures partial but incomplete semantics (e.g., rid-
+ing a motorcycle → riding a horse, cat → dog, and fris-                        Cortex Structure and Positional Embedding. Tab. 2
+bee → soccer), which affects quantitative metrics. We also                     also investigates the impact of cortex structure and po-
+present the reconstruction results for four subjects in Fig.                   sitional embedding in the sphere tokenizer. As the re-
+
+
+                                                                          7
+                                                                                    subj 01                  subj 02
+
+
+
+
+                                                                                   subj 05                   subj 07
+
+                                             (batch size)
+                                                                       Figure 10. Average neural activity representation differential
+Figure 9. The impact of λ and K in positive sample mixup (§4.3).       heatmaps on the NSD [1] test. See analysis in §4.4.
+
+
+sults show, the introduction of the structural informa-                4.4. Biological Interpretability
+tion of the cerebral cortex into sphere tokenizer brings               To further our understanding of the importance of different
+a performance boost (e.g., 83.4%/85.5%/0.771/0.415 →                   brain voxels in the vision brain decoding task, we compute
+85.1%/88.3%/0.733/0.398 on all high-level metrics from                 the average fMRI heatmaps using Grad-CAM [34] across
+#3 to #7). This suggests that subject-specific brain structural        all samples in the NSD [1] test (Fig. 10).
+information facilitates cross-subject brain decoding. Addi-
+tionally, when removing the sphere positional embedding                Brain Region. The bright spots in are distributed across
+(#4), we observe a decline in performance.                             the visual regions, with high-level areas being more impor-
+                                                                       tant than low-level areas. Our model focuses more on high-
+                                                                       level areas due to the alignment with CLIP [30] semantics.
+Token-Wise Alignment. We first remove the token-wise
+alignment, optimizing only the [cls] token, which led to a
+performance drop (#5). Additionally, we observe that the at-           Cross Subjects. The model explores subject-independent
+tention weights for each token are almost identical, causing           patterns and features when handling cross subject fMRI
+the transformer to degrade into an MLP. When optimizing                data. As shown in Fig. 10, the four subjects have very simi-
+all tokens during the fMRI-text alignment (#6), the mean-              lar fMRI heatmaps. This explains why our model is able to
+ingless [pad] tokens in the text also contribute to the loss,          achieve cross-subject vision brain decoding.
+leading to a certain degree of performance degradation.
+                                                                       5. Discussion and Conclusion
+                                                                       We approach fMRI-image reconstruction from a novel per-
+Positive Sample Mixup. We also design ablation exper-
+                                                                       spective. We introduce the sphere tokenizer, which treats
+iments to validate the effectiveness of the positive sample
+                                                                       fMRI signals as 2D data on spherical surface instead of
+mixup. There are two adjustable hyperparameters here: the
+                                                                       1D. Considering the individual brain structure-function re-
+mixup ratio λ and target mixup samples number K. How-
+                                                                       lationships and differences from cortical locations, we ad-
+ever, variations in λ and K may affect the batch size. To
+                                                                       ditionally incorporate structure and positional condition for
+ensure a fair comparison, we control the expected batch size
+                                                                       the sphere tokenizer. Furthermore, we use positional em-
+(or number of images in a batch) to be a constant B in the
+                                                                       bedding to help the model better understand the function
+experiments. Let the batch size in an experiment be b, then
+                                                                       of different brain regions. In addition, we design positive
+the following condition holds: λKb+3(1−λ)b = 3B. Then
+                   3B                                                  sample mixup to more efficiently utilize training data and
+we have b = 3+(K−3)λ     . We show the impact of λ and K in
+                                                                       alleviate the data distribution gap between training and in-
+Fig. 9. Both λ and K have a peak effect on performance,
+                                                                       ference. Our model achieves satisfactory performance even
+reflecting the trade-off in positive sample mixup. When λ
+                                                                       under the constraint of fMRI resolution.
+is too low, the augmentation strength is insufficient. On the
+other hand, when λ is too high, almost all data become syn-            6. Acknowledgements
+thetic, affecting the characteristics of the original data. For
+K, a value that is too small makes the augmentation too                This work is funded by Guangdong Provincial Key Labo-
+weak, while a value that is too large leads to an insufficient         ratory of Human Digital Twin (2022B1212010004), Gen-
+number of negative samples within a batch. In practice, our            eral Program of the National Natural Science Foundation of
+base batch size is B = 64. To ensure that b is an integer,             China (NSFC-62471185), Guangdong Basic and Applied
+we conduct four sets of experiments on K with the optimal              Basic Research Foundation (2024A1515010180), and Key-
+λ = 0.5: K = 1, 3, 5, 9 with b = 96, 64, 48, 32. Based on              Area Research and Development Program of Guangdong
+the results, we ultimately choose λ = 0.5 and K = 3.                   Province (2023B0303040001).
+
+
+                                                                   8
+References                                                                   [13] Zijin Gu, Keith Jamison, Amy Kuceyeski, and Mert R
+                                                                                  Sabuncu. Decoding natural image stimuli from fmri data
+ [1] Emily J Allen, Ghislain St-Yves, Yihan Wu, Jesse L                           with a surface-based convolutional network. In Medical
+     Breedlove, Jacob S Prince, Logan T Dowdle, Matthias Nau,                     Imaging with Deep Learning, pages 107–118. PMLR, 2023.
+     Brad Caron, Franco Pestilli, Ian Charest, et al. A massive                   2, 6
+     7t fmri dataset to bridge cognitive neuroscience and artificial
+                                                                             [14] Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising dif-
+     intelligence. Nature neuroscience, 25(1):116–126, 2022. 2,
+                                                                                  fusion probabilistic models. Advances in neural information
+     4, 5, 6, 7, 8, 12, 14, 15, 16, 17, 18
+                                                                                  processing systems, 33:6840–6851, 2020. 1, 2
+ [2] Roman Beliy, Guy Gaziv, Assaf Hoogi, Francesca Strappini,
+                                                                             [15] Tomoyasu Horikawa and Yukiyasu Kamitani. Generic de-
+     Tal Golan, and Michal Irani. From voxels to pixels and
+                                                                                  coding of seen and imagined objects using hierarchical vi-
+     back: Self-supervision in natural-image reconstruction from
+                                                                                  sual features. Nature communications, 8(1):15037, 2017. 2
+     fmri. Advances in Neural Information Processing Systems,
+                                                                             [16] Jingyang Huo, Yikai Wang, Yun Wang, Xuelin Qian, Chong
+     32, 2019. 1
+                                                                                  Li, Yanwei Fu, and Jianfeng Feng. Neuropictor: Refining
+ [3] Mathilde Caron, Ishan Misra, Julien Mairal, Priya Goyal, Pi-                 fmri-to-image reconstruction via multi-individual pretrain-
+     otr Bojanowski, and Armand Joulin. Unsupervised learning                     ing and multi-level modulation. In European Conference on
+     of visual features by contrasting cluster assignments. Ad-                   Computer Vision, pages 56–73. Springer, 2025. 1, 2, 5, 6, 14
+     vances in neural information processing systems, 33:9912–
+                                                                             [17] Chiyu Jiang, Jingwei Huang, Karthik Kashinath, Philip Mar-
+     9924, 2020. 5
+                                                                                  cus, Matthias Niessner, et al. Spherical cnns on unstructured
+ [4] Zijiao Chen, Jiaxin Qing, Tiange Xiang, Wan Lin Yue, and                     grids. arXiv preprint arXiv:1901.02039, 2019. 1
+     Juan Helen Zhou. Seeing beyond the brain: Conditional dif-
+                                                                             [18] Yukiyasu Kamitani and Frank Tong. Decoding the visual and
+     fusion model with sparse masked modeling for vision decod-
+                                                                                  subjective contents of the human brain. Nature neuroscience,
+     ing. In Proceedings of the IEEE/CVF Conference on Com-
+                                                                                  8(5):679–685, 2005. 1
+     puter Vision and Pattern Recognition, pages 22710–22720,
+                                                                             [19] Meenakshi Khosla, Gia H Ngo, Keith Jamison, Amy
+     2023. 1, 2, 6, 7, 14
+                                                                                  Kuceyeski, and Mert R Sabuncu. Cortical response to nat-
+ [5] Zijiao Chen, Jiaxin Qing, and Juan Helen Zhou. Cinematic                     uralistic stimuli is largely predictable with deep neural net-
+     mindscapes: High-quality video reconstruction from brain                     works. Science Advances, 7(22):eabe7547, 2021. 1
+     activity. NeurIPS, 2023. 1
+                                                                             [20] Alex Krizhevsky, Ilya Sutskever, and Geoffrey E Hinton.
+ [6] Zhaojin Chen, Sijin Yu, Xuejiao Li, Huirong Lei, Jiyu Qian,                  Imagenet classification with deep convolutional neural net-
+     Yingxue Yao, Zicong Zheng, Guodong Liang, Xiaofen Xing,                      works. Advances in neural information processing systems,
+     Xin Zhang, et al. Sss: Signature-sequence-statistical model                  25, 2012. 1, 5
+     for exploring the impact of prenatal depression on newborns’
+                                                                             [21] Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays,
+     brain using fnirs. In 2025 IEEE 22nd International Sympo-
+                                                                                  Pietro Perona, Deva Ramanan, Piotr Dollár, and C Lawrence
+     sium on Biomedical Imaging (ISBI), pages 1–4. IEEE, 2025.
+                                                                                  Zitnick. Microsoft coco: Common objects in context. In
+     14
+                                                                                  Computer Vision–ECCV 2014: 13th European Conference,
+ [7] David D Cox and Robert L Savoy. Functional magnetic res-                     Zurich, Switzerland, September 6-12, 2014, Proceedings,
+     onance imaging (fmri)“brain reading”: detecting and clas-                    Part V 13, pages 740–755. Springer, 2014. 2, 12
+     sifying distributed patterns of fmri activity in human visual           [22] Xuan-Hao Liu, Yan-Kai Liu, Yansen Wang, Kan Ren, Han-
+     cortex. Neuroimage, 19(2):261–270, 2003. 1                                   wen Shi, Zilong Wang, Dongsheng Li, Bao-Liang Lu, and
+ [8] Prafulla Dhariwal and Alexander Nichol. Diffusion models                     Wei-Long Zheng. Eeg2video: Towards decoding dynamic
+     beat gans on image synthesis. Advances in neural informa-                    visual perception from eeg signals. Advances in Neural In-
+     tion processing systems, 34:8780–8794, 2021. 1, 2                            formation Processing Systems, 37:72245–72273, 2024. 14
+ [9] Changde Du, Kaicheng Fu, Jinpeng Li, and Huiguang He.                   [23] Aaron van den Oord, Yazhe Li, and Oriol Vinyals. Repre-
+     Decoding visual neural representations by multimodal learn-                  sentation learning with contrastive predictive coding. arXiv
+     ing of brain-visual-linguistic features. IEEE Transactions                   preprint arXiv:1807.03748, 2018. 5, 13
+     on Pattern Analysis and Machine Intelligence, 45(9):10760–              [24] Furkan Ozcelik and Rufin VanRullen. Natural scene recon-
+     10777, 2023. 1, 2                                                            struction from fmri signals using generative latent diffusion.
+[10] Bruce Fischl. Freesurfer. Neuroimage, 62(2):774–781, 2012.                   Scientific Reports, 13(1):15666, 2023. 1, 6, 7
+     1, 2                                                                    [25] Furkan Ozcelik, Bhavin Choksi, Milad Mozafari, Leila
+[11] Bruce Fischl, Martin I Sereno, and Anders M Dale. Cortical                   Reddy, and Rufin VanRullen. Reconstruction of perceived
+     surface-based analysis: Ii: inflation, flattening, and a surface-            images from fmri patterns and semantic brain exploration us-
+     based coordinate system. Neuroimage, 9(2):195–207, 1999.                     ing instance-conditioned gans. In 2022 International Joint
+     1                                                                            Conference on Neural Networks (IJCNN), pages 1–8. IEEE,
+[12] Panagiotis Fotiadis, Linden Parkes, Kathryn A Davis,                         2022. 2
+     Theodore D Satterthwaite, Russell T Shinohara, and Dani S               [26] James C Pang, Kevin M Aquino, Marianne Oldehinkel, Pe-
+     Bassett. Structure–function coupling in macroscale human                     ter A Robinson, Ben D Fulcher, Michael Breakspear, and
+     brain networks. Nature Reviews Neuroscience, 25(10):688–                     Alex Fornito. Geometric constraints on human brain func-
+     704, 2024. 1, 3                                                              tion. Nature, 618(7965):566–574, 2023. 1, 3
+
+
+                                                                         9
+[27] Xuelin Qian, Yikai Wang, Yanwei Fu, Xinwei Sun, Xi-                 [38] Jingyuan Sun, Mingxiao Li, Zijiao Chen, Yunhao Zhang,
+     angyang Xue, and Jianfeng Feng. Joint fmri decoding and                  Shaonan Wang, and Marie-Francine Moens. Contrast, attend
+     encoding with latent embedding alignment. arXiv preprint                 and diffuse to decode high-resolution images from brain ac-
+     arXiv:2303.14730, 2023. 2, 7                                             tivities. Advances in Neural Information Processing Systems,
+[28] Yixiang Qiu, Hao Fang, Hongyao Yu, Bin Chen, MeiKang                     36, 2024. 1, 2
+     Qiu, and Shu-Tao Xia. A closer look at gan priors: Exploit-         [39] Christian Szegedy, Vincent Vanhoucke, Sergey Ioffe, Jon
+     ing intermediate features for enhanced model inversion at-               Shlens, and Zbigniew Wojna. Rethinking the inception archi-
+     tacks. In European Conference on Computer Vision, pages                  tecture for computer vision. In Proceedings of the IEEE con-
+     109–126. Springer, 2024. 14                                              ference on computer vision and pattern recognition, pages
+[29] Ruijie Quan, Wenguan Wang, Zhibo Tian, Fan Ma, and                       2818–2826, 2016. 5
+     Yi Yang. Psychometry: An omnifit model for image re-                [40] Yu Takagi and Shinji Nishimoto. High-resolution image re-
+     construction from human brain activity. In Proceedings of                construction with latent diffusion models from human brain
+     the IEEE/CVF Conference on Computer Vision and Pattern                   activity. In Proceedings of the IEEE/CVF Conference on
+     Recognition, pages 233–243, 2024. 1, 2, 5, 6, 7, 14                      Computer Vision and Pattern Recognition, pages 14453–
+[30] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya                       14463, 2023. 1, 2, 6, 7
+     Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry,               [41] Mingxing Tan and Quoc Le. Efficientnet: Rethinking model
+     Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning               scaling for convolutional neural networks. In International
+     transferable visual models from natural language supervi-                conference on machine learning, pages 6105–6114. PMLR,
+     sion. In International conference on machine learning, pages             2019. 5
+     8748–8763. PMLR, 2021. 2, 3, 4, 5, 8                                [42] A Vaswani. Attention is all you need. Advances in Neural
+[31] Robin Rombach, Andreas Blattmann, Dominik Lorenz,                        Information Processing Systems, 2017. 4
+     Patrick Esser, and Björn Ommer. High-resolution image              [43] Shizun Wang, Songhua Liu, Zhenxiong Tan, and Xinchao
+     synthesis with latent diffusion models. In Proceedings of                Wang. Mindbridge: A cross-subject brain decoding frame-
+     the IEEE/CVF conference on computer vision and pattern                   work. In Proceedings of the IEEE/CVF Conference on Com-
+     recognition, pages 10684–10695, 2022. 1, 2, 5                            puter Vision and Pattern Recognition, pages 11333–11342,
+[32] Paul Scotti, Atmadeep Banerjee, Jimmie Goode, Stepan Sha-                2024. 1, 2, 5, 6, 7
+     balin, Alex Nguyen, Aidan Dempster, Nathalie Verlinde,              [44] Zhou Wang, Alan C Bovik, Hamid R Sheikh, and Eero P Si-
+     Elad Yundler, David Weisberg, Kenneth Norman, et al. Re-                 moncelli. Image quality assessment: from error visibility to
+     constructing the mind’s eye: fmri-to-image with contrastive              structural similarity. IEEE transactions on image processing,
+     learning and diffusion priors. Advances in Neural Informa-               13(4):600–612, 2004. 5
+     tion Processing Systems, 36, 2023. 1, 2, 5, 6, 7, 14                [45] Weihao Xia, Raoul de Charette, Cengiz Oztireli, and Jing-
+[33] Katja Seeliger, Umut Güçlü, Luca Ambrogioni, Yagmur                   Hao Xue. Dream: Visual decoding from reversing human vi-
+     Güçlütürk, and Marcel AJ Van Gerven. Generative adver-               sual system. In Proceedings of the IEEE/CVF Winter Confer-
+     sarial networks for reconstructing natural images from brain             ence on Applications of Computer Vision, pages 8226–8235,
+     activity. NeuroImage, 181:775–785, 2018. 2                               2024. 1, 2, 6, 7
+[34] Ramprasaath R Selvaraju, Michael Cogswell, Abhishek Das,            [46] Weihao Xia, Raoul de Charette, Cengiz Oztireli, and Jing-
+     Ramakrishna Vedantam, Devi Parikh, and Dhruv Batra.                      Hao Xue. Umbrae: Unified multimodal brain decoding. In
+     Grad-cam: Visual explanations from deep networks via                     European Conference on Computer Vision, pages 242–259.
+     gradient-based localization. In Proceedings of the IEEE in-              Springer, 2025. 1, 2, 6, 14
+     ternational conference on computer vision, pages 618–626,           [47] Xingqian Xu, Zhangyang Wang, Gong Zhang, Kai Wang,
+     2017. 8                                                                  and Humphrey Shi. Versatile diffusion: Text, images and
+[35] Guohua Shen, Tomoyasu Horikawa, Kei Majima, and                          variations all in one diffusion model. In Proceedings of the
+     Yukiyasu Kamitani. Deep image reconstruction from human                  IEEE/CVF International Conference on Computer Vision,
+     brain activity. PLoS computational biology, 15(1):e1006633,              pages 7754–7765, 2023. 5
+     2019. 1                                                             [48] Hongyao Yu, Yixiang Qiu, Hao Fang, Bin Chen, Sijin Yu,
+[36] Guobin Shen, Dongcheng Zhao, Xiang He, Linghao Feng,                     Bin Wang, Shu-Tao Xia, and Ke Xu. Calor: Towards
+     Yiting Dong, Jihang Wang, Qian Zhang, and Yi Zeng.                       comprehensive model inversion defense. arXiv preprint
+     Neuro-vision to language: Enhancing brain recording-based                arXiv:2410.05814, 2024. 14
+     visual reconstruction and language interaction. In The              [49] Hongyao Yu, Yixiang Qiu, Yiheng Yang, Hao Fang, Tianqu
+     Thirty-eighth Annual Conference on Neural Information                    Zhuang, Jiaxin Hong, Bin Chen, Hao Wu, and Shu-Tao Xia.
+     Processing Systems, 2024. 1, 2                                           Icas: Detecting training data from autoregressive image gen-
+[37] Guobin Shen, Dongcheng Zhao, Xiang He, Linghao Feng,                     erative models. arXiv preprint arXiv:2507.05068, 2025. 14
+     Yiting Dong, Jihang Wang, Qian Zhang, and Yi Zeng.                  [50] Sijin Yu, Xuejiao Li, Huirong Lei, Yingxue Yao, Zhaojin
+     Neuro-vision to language: Enhancing brain recording-based                Chen, Zicong Zheng, Guodong Liang, Xiaofen Xing, Xin
+     visual reconstruction and language interaction. Advances in              Zhang, and Chengfang Xu. Attention-based-features-fusion
+     Neural Information Processing Systems, 37:98083–98110,                   emotion-guided fnirs classification network for prenatal de-
+     2025. 2, 5, 6, 7, 14                                                     pression recognition. In International Workshop on PRedic-
+
+
+                                                                    10
+     tive Intelligence In MEdicine, pages 12–23. Springer, 2024.
+     14
+[51] Fenqiang Zhao, Shunren Xia, Zhengwang Wu, Dingna
+     Duan, Li Wang, Weili Lin, John H Gilmore, Dinggang Shen,
+     and Gang Li. Spherical u-net on cortical surfaces: meth-
+     ods and applications. In Information Processing in Medical
+     Imaging: 26th International Conference, IPMI 2019, Hong
+     Kong, China, June 2–7, 2019, Proceedings 26, pages 855–
+     866. Springer, 2019. 1, 3, 6, 12
+[52] Tianqu Zhuang, Hongyao Yu, Yixiang Qiu, Hao Fang, Bin
+     Chen, and Shu-Tao Xia. Stealthy shield defense: A con-
+     ditional mutual information-based approach against black-
+     box model inversion attacks. In The Thirteenth International
+     Conference on Learning Representations, 2025. 14
+
+
+
+
+                                                                    11
+ From Flat to Round: Redefining Brain Decoding with Surface-Based fMRI and
+                              Cortex Structure
+                                             Supplementary Material
+A. Data Preprocessing                                                ply Rodrigues’ rotation formula, a mathematical tool used
+                                                                     for rotating 3D coordinates in 3D Euclidean space.
+fMRI Data. This paper is based on the Natural Scenes
+Dataset (NSD)2 [1]. Since we use spherical data as model’s
+input, we employ the data preprocessed with FreeSurfer,               Algorithm B-1: Random Rotation Augmentation
+which is provided by the official NSD dataset. Taking                 of Sphere Positional Embedding
+subj01 as an example, the original fMRI path we use is:                     input : Original spherical coordinates x ∈ Rn×3
+                                                                                    Maximum rotation angle θmax
+  nsddata betas/ppdata/subj01/fsaverage                                     output: Augmented coordinates x′ ∈ Rn×3
+   /betas fithrf GLMdenoise RR/
+                                                                        1 # get a random rotation axis v
+The data values here are single-trial beta weights estimated            2 ϕ ∼ U(0, 2π)
+by applying a general linear model (GLM) to the raw fMRI                3 φ ∼ U(0, π)
+time series, representing the voxel-wise response and its               4 v = (vx , vy , vz ) = (sin ϕ cos φ, sin ϕ sin φ, cos ϕ)
+correlation with visual stimuli. The data provided by the of-           5   # get a random rotation angle θ
+ficial source are registered to the FreeSurfer standard fsav-           6   θ ∼ U(0, θmax )
+erage7 surface. We resample the data to a 40,962 sphere to
+match the compatibility with SphericalUNet [51]. Resam-                 7 # apply
+                                                                                Rodrigues’ rotation
+                                                                                                    formula
+                                                                                                                          
+pling is performed using the open-source SphericalUNet                              0   −vz vy               1 0         0
+[51] package. Then, we independently apply zero-score                   8 K =  vz        0   −vx , I = 0 1            0
+normalization for each voxel within the train data of a                           −vy vx       0             0 0         1
+                                                                                                              2
+subject. The val and test data are zero-centered using                  9 R = I + sin θ · K + (1 − cos θ) · K
+                                                                           ′
+the mean and variance from the train data. The data split              10 x = xR
+                                                                                   ′
+follows the standard setup used in previous works.                     11 return x
+
+
+
+Cortex Structure Data. Still taking subj01 as an exam-
+ple, our cortical structural data comes from the path:
+                                                                     Positive Sample Mixup. We present the pseudocode for
+       nsddata/freesurfer/subj01/surf                                positive sample mixup augmentation in Algorithm B-2. To
+We use four types of structural information: cortical thick-         uniformly sample a point w as the mixup weight in the con-
+ness, surface area, sulcal depth, and curvature. Taking              vex polytope defined by equation (3), we sample a point
+the left hemisphere as an example, we use the following              from the 3-dimensional Dirichlet distribution D with pa-
+four files: lh.thickness, lh.area, lh.sulc, and                      rameters a = (1, 1, 1). The N -dimensional Dirichlet dis-
+lh.curv. We apply the same method as with the fMRI                   tribution is the N -dimensional generalization of the Beta
+data to resample it to the fsaverage6 surface. Then, we              distribution, and its probability density function is given by:
+performed zero-score normalization on each individual file
+                                                                                                           N
+(i.e., each hemisphere of each subject).                                                           1 Y an −1
+                                                                                     pD (w|a) =           w  .                 (B-1)
+                                                                                                  B(a) n=1 n
+Image-Text Pair. All images in the NSD dataset are de-
+rived from the MS-COCO [21] dataset. The text annotations            Here, B(n) is the normalization factor, ensuring that the
+we use are from the official MS-COCO3 dataset.                       probability density function integrates to 1 over the domain:
+
+B. Technical Details                                                                                  N
+                                                                                                      Q
+                                                                                                          Γ(an )
+Random Rotation of Sphere Positional Emb. The pseu-                                      B(a) =    n=1
+                                                                                                    N         .              (B-2)
+docode is shown in Algorithm B-1. In the algorithm, we ap-                                            P
+                                                                                                  Γ         an
+  2 https://naturalscenesdataset.org                                                                  n=1
+  3 http://images.cocodataset.org
+
+
+
+
+                                                                12
+    Algorithm B-2: Positive Sample Mixup                           rotation augmentation (maximum rotation angle: 5◦ ) for po-
+                                                                   sition condition mentioned in our paper §3.2. To make the
+     input : Three fMRI scans x = (x1 , x2 , x3 )
+                                                                   model focus more on visual brain regions, we only compute
+             Mixup ratio λ
+                                                                   the loss for visual voxels.
+             Mixup number K
+     output: Augmented samples x̃1 , x̃2 , · · ·
+1 t ∼ U(0, 1)                                                                Hyperparameters                         Value
+2 if t < λ then                                                              encoder channels                    [64, 128, 256]
+3      for k ← 1 to K do                                                     dncoder channels                     [32, 64, 128]
+4          a = (1, 1, 1)                                                      hidden channels                          32
+5          w ∼ D(a) # Dirichlet Dist., Eq. (B-1)                    encoder ResNet blocks per down layer                4
+6          x̃k = w · x                                              decoder ResNet blocks per down layer                2
+                                                                                  batch size                           32
+7         return x̃1 , x̃2 , · · · , x̃K
+                                                                                learning rate                        4.0e-5
+8    else                                                                      weight decay                           0.05
+9        return x1 , x2 , x3                                                 max gradient norm                         0.1
+                                                                                    epoch                              80
+
+Multi Positive Samples InfoNCE. We modify the In-                     Table C-1. Hyperparameters for training sphere tokenizer.
+foNCE [23] to accommodate the scenario where multiple
+positive samples exist within a batch. The algorithm for
+multi positive samples InfoNCE is in Algorithm B-3.
+
+                                                                   fMRI Encoder. The training is conducted on a sin-
+    Algorithm B-3: LInfo for Multi Positive Samples
+                                                                   gle NVIDIA A800 80GB GPU. The hyperparameters are
+     input : Query q ∈ Rn                                          shown in Tab. C-1. We use a cosine learning rate sched-
+             Positive key k ∈ Rn                                   uler during training. To improve the model’s generalization
+             Temperature coefficient τ                             ability, we applied augmentation to the images. Each train-
+             Image index I ∈ Nn                                    ing image has a 50% chance of being randomly horizon-
+     output: The InfoNCE loss l                                    tally flipped. The color properties are perturbed as follows:
+1 q = q/||q||                                                      brightness, contrast, and saturation with a maximum per-
+2 k = k/||k||                                                      turbation of 0.2, and hue with a maximum perturbation of
+             ⊤
+3 W = q · k /τ # W ∈ R
+                           n×n                                     0.1. Then the image is randomly rotated by up to 30◦ and
+                                                                   scaled within the range of [0.8, 1.0]. The temperature coef-
+                        (
+                          1 if Ii = Ij
+4 Let sample mask θij =                                            ficient of LbiInfo is 0.1. To avoid the influence of outliers,
+                          0 if Ii ̸= Ij                            the CLIP embeddings are clamped to the range [-1.5, 1.5].
+              n
+   all
+                exp (Wij ) # eall ∈ Rn
+              P
+5 ei   = log
+                    j=1
+                     n
+     epos                 θij exp (Wij ) # epos ∈ Rn
+                    P
+6     i   = log                                                                    Hyperparameters         Value
+                    j=1
+          n                                                                         embedding dim           1024
+                     − epos
+                            
+                eall
+          P
+7    l=          i      i     /n                                                       MLP ratio              4
+          i=1
+                                                                                          depth              24
+8    return l
+                                                                                       num heads             16
+                                                                                   projection dropout        0.5
+                                                                                        batch size           64
+C. Training Details                                                                   learning rate        5.0e-4
+                                                                                     weight decay           0.05
+Sphere Tokenizer. The training is conducted on a sin-                              max gradient norm         0.5
+gle NVIDIA A800 80GB GPU. The hyperparameters are                                         epoch              30
+shown in Tab. C-1. We use a cosine learning rate scheduler
+during training. To improve the robustness of the model, we            Table C-2. Hyperparameters for training fMRI encoder.
+introduce two data augmentation techniques: mixup with
+parameters ratio=0.3 and beta=0.3, and the random
+
+
+                                                              13
+                                     Low-Level                                                   High-Level
+  Inference
+              PixCorr ↑     SSIM ↑    AlexNet(2) ↑      AlexNet(5) ↑        Inception ↑       CLIP ↑    EffNet-B ↓       SwAV ↓
+  subj01         0.172       0.314         78.6%             88.7%              84.8%          88.9%          0.736       0.396
+  subj02         0.167       0.302         77.7%             89.0%              85.9%          88.2%          0.733       0.394
+  subj05         0.163       0.305         78.6%             90.1%              86.4%          89.6%          0.717       0.393
+  subj07         0.157       0.298         78.0%             88.3%              83.2%          86.7%          0.746       0.409
+  Average        0.165       0.305         78.2%             89.0%              85.1%          88.3%          0.733       0.398
+
+                                Table D-1. Quantitative results for each subject on NSD [1] test.
+
+
+D. More Results                                                      generalization. To achieve more robust vision brain decod-
+                                                                     ing, larger-scale datasets are required.
+Sphere Tokenizer. We present more reconstruction re-
+sults of the sphere tokenizer autoencoder in Fig. D-1, which
+demonstrates its effectiveness.                                      Challenges in Practical Application. Our model is based
+                                                                     on fMRI, which requires stringent conditions and high costs
+                                                                     for data collection. This limits the widespread adoption
+Comparison to Previous Work. We report the quantita-
+                                                                     and application of brain decoding technology. Some tech-
+tive evaluation metrics in Tab. 1. The results for Mind-
+                                                                     nologies that are more suitable for real-time brain activity
+Vis [4] and MindEye [32] are cited from the report in [29],
+                                                                     recording, such as EEG [22] and fNIRS [6, 50], fall far short
+while the result for UMBRAE [46] is from the report in
+                                                                     of fMRI decoding performance due to their low signal-to-
+[37]. The authors of NeuroPictor [16] fine-tune the model
+                                                                     noise ratio. This highlights the need for more efficient meth-
+for each subject to achieve higher performance. However,
+                                                                     ods to enable models to capture representations of brain ac-
+to ensure a fair comparison with other methods, we cite and
+                                                                     tivity.
+report the version w/o fine-tuning. The remaining methods
+are cited from their respective original papers.
+                                                                     Challenges in Neuroscience. The scientific community
+                                                                     still has no definitive understanding of the detailed mech-
+Quantitative and Qualitative Results. We present
+                                                                     anisms behind the functioning of the human brain. The
+the quantitative results on each subject of NSD [1]
+                                                                     development of brain decoding can provide novel perspec-
+test in Tab. D-1. We also provide additional de-
+                                                                     tives on this, highlighting the significance of biological in-
+coding results in Fig. D-2, D-3, and D-4. Readers
+                                                                     terpretability in brain decoding models. We will conduct a
+can download all reconstruction images results from here:
+                                                                     deeper exploration of this.
+https://huggingface.co/datasets/yusijin/
+sphere tokenizer results NSD.
+                                                                     Privacy and Security Considerations. Personal brain
+E. Limitations and Future Work                                       activity data is highly sensitive private information, so pro-
+                                                                     tecting data security is crucial. For example, member-
+Although we propose a novel approach for vision brain de-            ship inference attacks [49] and model inversion attacks
+coding, there are limitations that should be acknowledged.           [28, 48, 52] can cause serious privacy leaks during the infer-
+                                                                     ence stage of the model. We will incorporate considerations
+Low fMRI Resolution. Our model is trained on low                     of data security in the future.
+fMRI resolution, constrained by the spherical resolution
+supported by the standard SphericalUNet. Experimental
+results demonstrate that fMRI resolution has a significant
+impact on performance. In the future, we plan to (1) use
+higher-resolution spherical convolutions and (2) adjust the
+architecture of the sphere tokenizer to more efficiently han-
+dle low-resolution fMRI data.
+
+Constrained Dataset Size. Similar to most previous
+work, we have only validated our results on the NSD
+dataset. Although current techniques can handle cross-
+subject decoding, they are far from achieving cross-dataset
+
+
+                                                                14
+  GT
+subj 01
+
+
+  Ours
+subj 01
+
+
+
+
+  GT
+subj 02
+
+
+  Ours
+subj 02
+
+
+
+
+  GT
+subj 05
+
+
+  Ours
+subj 05
+
+
+
+
+  GT
+subj 07
+
+
+  Ours
+subj 07
+
+
+          Figure D-1. More fMRI vision voxels reconstruction results using the sphere tokenizer on the NSD [1] test.
+
+
+
+
+                                                             15
+Ground
+Truth
+
+
+subj01
+
+
+
+subj02
+
+
+
+subj05
+
+
+
+subj07
+
+
+
+
+Ground
+Truth
+
+
+subj01
+
+
+
+subj02
+
+
+
+subj05
+
+
+
+subj07
+
+
+         Figure D-2. More fMRI-image reconstruction results on the NSD [1] test.
+
+
+
+
+                                           16
+Ground
+Truth
+
+
+subj01
+
+
+
+subj02
+
+
+
+subj05
+
+
+
+subj07
+
+
+
+
+Ground
+Truth
+
+
+subj01
+
+
+
+subj02
+
+
+
+subj05
+
+
+
+subj07
+
+
+         Figure D-3. More fMRI-image reconstruction results on the NSD [1] test.
+
+
+
+
+                                           17
+Ground
+Truth
+
+
+subj01
+
+
+
+subj02
+
+
+
+subj05
+
+
+
+subj07
+
+
+
+
+Ground
+Truth
+
+
+subj01
+
+
+
+subj02
+
+
+
+subj05
+
+
+
+subj07
+
+
+         Figure D-4. More fMRI-image reconstruction results on the NSD [1] test.
+
+
+
+
+                                           18
+

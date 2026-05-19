@@ -1,0 +1,1495 @@
+Tuan et al. EJNMMI Reports     (2025) 9:4
+https://doi.org/10.1186/s41824-024-00232-6
+                                                                                                                                                 EJNMMI Reports
+
+
+
+    REVIEW                                                                                                                                            Open Access
+
+FDG‑PET‑based brain network analysis:
+a brief review of metabolic connectivity
+Pham Minh Tuan1,2,3,4, Mouloud Adel1,5* , Nguyen Linh Trung4, Tatiana Horowitz1,3, Ismail Burak Parlak5 and
+Eric Guedj1,2,3
+
+
+*Correspondence:
+mouloud.adel@univ-amu.fr
+                                       Abstract
+1
+  Fresnel Institute, Aix-Marseille     Background: Over the past decades, the analysis metabolic connectivity patterns
+University, Marseille, France          has received significant attention in exploring the underlying mechanism of human
+2
+  Institut Marseille Imaging,          behaviors, and the neural underpinnings of brain neurological disorders. Brain net-
+Marseille, France
+3
+  CERIMED, Aix-Marseille               work can be considered a powerful tool and play an important role in the analysis
+University, Marseille, France          and understanding of brain metabolic patterns. With the advantages and emer-
+4
+  VNU University of Engineering        gence of metabolic-based network analysis, this study aims to systematically review
+and Technology, Vietnam
+National University, Hanoi,            how brain properties, under various conditions, can be studied using Fluorodeoxy-
+Vietnam                                glucose Positron Emission Tomography (FDG-PET) images and graph theory, as well
+5
+  Department of Computer               as applications of this approach. Additionally, this study provides a brief summary
+Engineering, Galatasaray
+University, Istanbul, Turkey           of graph metrics and their uses in studying and diagnosing different types of brain
+                                       disorders using FDG-PET images.
+                                       Main body: In this study, we used several databases in Web of Science including Web
+                                       of Science Core Collection, MEDLINE to search for related studies from 1980 up to the
+                                       present, focusing on FDG-PET images and graph theory. From 68 articles that matched
+                                       our keywords, we selected 28 for a full review in order to find out the most recent find-
+                                       ings and trends. Our results reveal that graph theory and its applications in analyzing
+                                       metabolic connectivity patterns have attracted the attention of researchers since 2015.
+                                       While most of the studies are focusing on group-level based analysis, there is a grow-
+                                       ing trend in individual-based network analysis. Although metabolic connectivity can
+                                       be applied to both neurological and psychiatric disorders, the majority of studies
+                                       concentrate on neurological disorders, particularly Alzheimer’s Disease and Parkinson’s
+                                       Disease. Most of the findings focus on changes in brain network topology, includ-
+                                       ing brain segregation and integration.
+                                       Conclusion: This review provides an insight into how graph theory can be used
+                                       to study metabolic connectivity patterns under various conditions including neurologi-
+                                       cal and psychiatric disorders.
+                                       Keywords: Fluorodeoxyglucose positron emission tomography, Metabolic
+                                       connectivity, Network analysis, Graph metrics, Alzheimer’s disease, Parkinson’s disease,
+                                       Temporal lobe epilepsy
+
+
+
+
+                                     © The Author(s) 2024. Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
+                                     International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long
+                                     as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you
+                                     modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of
+                                     it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise
+                                     in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted
+                                     by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy
+                                     of this licence, visit http://​creat​iveco​mmons.​org/​licen​ses/​by-​nc-​nd/4.​0/.
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                         Page 2 of 28
+
+
+
+
+                  1. Background
+                  The human brain is one of the most complex systems in the world, consisting of approxi-
+                  mately 86 billion neurons. These neurons are interconnected by around 150 trillion
+                  synapses and communicate through the transmission of signals, including both electri-
+                  cal and chemical signals, in order to generate human behaviours (Azevedo et al. 2009;
+                  Pakkenberg 2003). Understanding the underlying mechanism of human cognition
+                  and behaviour under various conditions, including normal and abnormal states, is an
+                  extremely important goal of neuroscience. Recently, numerous studies have considered
+                  modeling and analysing the brain from the perspective of connectivity patterns. This
+                  approach provides comprehensive information behind human cognition, behavior, and
+                  perception (Park and Friston 2013; Reijneveld et al. 2007; Bullmore and Sporns 2009).
+                  Brain connectivity patterns can be divided into the structural and functional connectiv-
+                  ity. However, the majority of studies have been devoted to functional connectivity (Bull-
+                  more and Sporns 2009).
+                     There are many tools for analyzing connectivity patterns; however, due to the com-
+                  plexity of brain connectivity patterns, as well as its network nature, graph theory is more
+                  commonly used. This theory has become the most popular tool for analyzing brain con-
+                  nectivity patterns (Sporns et al. 2004, 2005). Graph theory provides a robust mathemati-
+                  cal framework to model and investigate brain connectivity from the network point of
+                  view. The graph-based network analysis has the potential to reveal meaningful informa-
+                  tion about the topological architectures of the human brain and their changes under
+                  various conditions, including normal and abnormal states (Bullmore and Bassett 2011;
+                  Stam 2014). These changes can provide insight into the underlying mechanism of human
+                  cognition, and can be used to guide diagnosis and treatments.
+                     Thanks to advancements of neuron imaging, nowadays, neuronal imaging modalities
+                  such as diffusion tensor imaging (DTI), functional magnetic resonance imaging (fMRI),
+                  Fluorodeoxyglucose Positron Emission Tomography (FDG-PET) can be used to model
+                  brain networks and study different disease pathways, contributing significantly to our
+                  knowledge about the brain and brain disorders. Among those imaging modalities, fMRI
+                  is a most common one and there have been numerous studies using fMRI to model brain
+                  networks (Wang 2010; Farahani et al. 2019), just to name a few. Compared to fMRI and
+                  other neuroimaging modalities, FDG-PET images provide unique information which
+                  cannot be achieved by the others. It provides information about glucose consumption
+                  in the brain, which is directly correlated with brain synaptic activity (Attwell and Iade-
+                  cola 2002). Moreover, metabolic brain networks highlighted by FDG-PET images are not
+                  completely explained by functional or structural brain networks (Thielcke et al. 2017; Li
+                  et al. 2023), even highly correlated. This suggests that metabolic connectivity networks
+                  might exhibit distinct properties from functional connectivity, highlighting the impor-
+                  tance of brain metabolic connectivity analysis using FDG-PET images. However, the
+                  number of studies on metabolic networks and graph theory is still limited compared to
+                  fMRI imaging. Moreover, there is a lack of survey articles discussing FDG-PET-based
+                  brain connectivity networks and graph theory as tools for analyzing metabolic connec-
+                  tivity patterns.
+                     In this study, we conduct a systematic search to review recent studies using graph
+                  theory for studying FDG-PET based connectivity patterns. Our work has two primary
+Tuan et al. EJNMMI Reports    (2025) 9:4                                                                         Page 3 of 28
+
+
+
+
+                  objectives: first, to determine where FDG-PET based connectivity and graph the-
+                  ory can enhance our understanding of underlying mechanisms across various con-
+                  ditions; and second, to provide a brief overview of the most common techniques for
+                  constructing and analyzing metabolic networks. The following sections details our
+                  methodology, an introduction to graph theory applications in metabolic networks,
+                  findings from our literature review, and a discussion on the critical roles, challenges,
+                  as well as potential future developments in this rapidly advancing field.
+
+
+
+                  Main text
+                  Methodology
+                  Research Questions (RQs): Based on the objectives of this study, the following research
+                  questions were derived and form as the basis for this study:
+
+                    • RQ1: How have methods for modeling brain metabolic patterns with FDG-PET
+                      changed over time? (Evolution)
+                    • RQ2: How can we categorize research on mapping the human metabolic connec-
+                      tome using FDG-PET? (Categorization)
+                    • RQ3: How has the application of graph theory concepts evolved in understanding
+                      brain metabolism through FDG-PET imaging? (Graph Foundations)
+                    • RQ4: What are the latest advancements in utilizing graph-based approaches to
+                      explore metabolic networks using FDG-PET images? (Applications)
+                    • RQ5: What challenges and promising future directions emerge from the current
+                      state of graph-based research on metabolic networks with FDG-PET? (Challenges
+                      and Futures)
+
+                     For those RQs, while RQ1, 2 and 3 provide the answers for the important graph the-
+                  ory for FDG-PET-based metabolic network analysis and related knowledge. The RQ4
+                  and 5 give a more detailed picture about related research studies, as well as future
+                  directions.
+                     Search Strategy and Eligibility Criteria: The search strategy involves several steps,
+                  including determining the search space and exploring relevant materials. In this study,
+                  we focus on the studies regarding graph-based methods for analyzing FDG-PET-based
+                  metabolic network, including peer-reviewed journal articles, proceedings, conferences
+                  articles. The research process is performed on Web of Science with two data collections,
+                  including Web of Science Core Collection and MEDLINE. Since initial work with PET
+                  that started in the 1980s (Phelps et al. 1979; Chugani et al. 1987), we collect all articles
+                  which have been published after 1980, with the following keyword combinations in the
+                  title, keywords or abstract: ("FDG-PET" OR "FDG PET") AND ("metabolic network"
+                  AND "metabolic graph" OR "metabolic connectomics" OR "metabolic connectiv-
+                  ity"). After searching process, these included articles are ones which satisfied the follow-
+                  ing criteria: (a) written in English; (b) peer reviewed; (c) identify and describe methods
+                  to build, quantify or compare metabolic connectivity patterns in the human brain net-
+                  work; (d) applied to FDG-PET data. Based on searching articles, we perform analysis
+                  and summarize results in order to find out the answers for research questions.
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                        Page 4 of 28
+
+
+
+
+                  A brief introduction to graph
+                  Graph Theory: The roots of graph theory and network analysis can be traced back to
+                  eighteenth century when Leonhard Euler solved the Konigsberg Bridge Problem. In
+                  Euler’s work, he described graph as a finite set of nodes that are connected together
+                  by edges. Since then, graph theory has been used and applied in a variety of fields,
+                  including physics, biology, chemistry, information systems, just to name a few. How-
+                  ever, the application of graph theory for brain networks, only became widespread
+                  after 2005, following the introduction of the "Human Connectome" by Olaf Sporns
+                  and his colleagues (Sporns et al. 2004) (Sporns et al. 2005). From this time point, the
+                  term "Brain Connectome" or "Brain Connectomics" became more prevalent.
+                    When working with brain networks, two fundamental questions need to be
+                  addressed: (i) the methodology for graph construction and (ii) the techniques for graph
+                  analysis (Fornito et al. 2016; Bassett and Sporns 2017; Sporns 2018). Specifically, dur-
+                  ing the construction phase, the essential components of any brain network are its
+                  nodes and edges (Rubinov and Sporns 2010). Therefore, two key considerations must
+                  be taken into account: (i.1) how to define the nodes, and (i.2) how to determine the
+                  connections between them (Qi et al. 2015; Sporns 2013). Meanwhile, when analyzing
+                  a graph, various metrics can be computed to reveal its topologies and characteristics
+                  (Rubinov and Sporns 2010; He and Evans 2010). Studying the changes in graph topol-
+                  ogies is expected to provide insights into brain structure and the underlying mecha-
+                  nisms of behavior (Medaglia et al. 2015; Bullmore and Bassett 2011). In the following
+                  paragraphs, we will briefly describe several important properties of the brain from a
+                  graph theory perspective.
+                    To survive in a changing world, our brains have to process a lot of information and
+                  convert it into clear thoughts to help us make smart decisions. This process is related
+                  to two important properties of brain networks: integration and segregation (Sporns
+                  2013). Integration refers to the ability of different brain regions to work together,
+                  allowing efficient exchange of information and the coordination of various cognitive
+                  functions. Segregation, on the other hand, is the capacity of the brain to separate and
+                  process information within specialized, local networks or modules. Maintaining a
+                  balance between integration and segregation is crucial for the optimal functioning of
+                  the brain (Sporns 2013; Lord et al. 2017).
+                    Another important property of brain networks is the "small-world" property. This con-
+                  cept originated from the work of Watts and Strogatz in 1998 (Watts and Strogatz 1998),
+                  which revealed that various networks in social and biological domains exhibit a unique
+                  organization. Small-world networks display characteristics of both regular and random
+                  networks, featuring a short average path length between nodes and a high clustering
+                  coefficient. This architecture efficiently balances the minimization of resource costs and
+                  the maximization of information flow within the network components. The anticipated
+                  small-world architecture of the human brain network is attributed to lower metabolic
+                  and wiring costs in connections among nearby brain areas compared to distant regions.
+                  Both theoretical and empirical studies support the notion that brain regions tend to
+                  interact more with their neighbors to reduce overall metabolic costs, while maintaining
+                  a small number of long-distance connections to enhance the efficiency of data transmis-
+                  sion Bassett and Bullmore (2006; Meunier et al. 2010; Bullmore and Sporns 2012).
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                          Page 5 of 28
+
+
+
+
+                    In addition to integration, segregation, and small-world properties, there are other
+                  graph metrics employed to assess the topological properties of networks, such as short-
+                  est path length, global coefficient, hub, and so on (Fornito et al. 2016; Rubinov and
+                  Sporns 2010). They all play a crucial role in network-based studies. Each of these metrics
+                  has its own advantages and disadvantages. While it’s challenging to determine the most
+                  suitable measures for studying the complex structure of the human brain, those capable
+                  of representing small-world properties and hub topologies are deemed significant. In the
+                  following subsections, we will briefly describe the process of building a brain connectiv-
+                  ity network using FDG-PET data, as well as the most common graph measures found in
+                  the literature.
+                    Construction of Metabolic Connectivity network using FDG-PET: The most common
+                  procedure for building a graph involves several steps, including the definition of the net-
+                  work’s nodes and edges (Qi et al. 2015; Sporns 2013). For node definition, it is essential
+                  to determine a suitable parcellation scheme, such as brain parcellations, random tem-
+                  plates, or predefined anatomical templates (Qi et al. 2015), to divide the entire brain into
+                  smaller parts known as regions of interest (ROIs). While various parcellation schemes
+                  exist, the Automated anatomical labelling (AAL) atlas (Tzourio-Mazoyer et al. 2002)
+                  can be considered as the most common one (Qi et al. 2015). The ROIs can then be con-
+                  sidered as the nodes of the graph. Subsequently, the edges or links between nodes can
+                  be computed using correlation metrics such as covariance estimation (Liu et al. 2022),
+                  Pearson correlation coefficients (Yao and Bin 2016; Huang et al. 2018), probability diver-
+                  gence measures (Li et al. 2023; Wang et al. 2020) and so on. After these steps, we obtain
+                  a correlation matrix which illustrates relationships between vertices in a network. Brain
+                  graphs can be either directed or undirected, depending on the presence of directional
+                  information in the links. Furthermore, brain graphs can be weighted or binary, with
+                  weighted networks incorporating diverse information, such as fiber number and length,
+                  obtained from techniques like diffusion MRI. In order to facilitate further analysis, pre-
+                  vious studies (Li et al. 2023; Huang et al. 2020; Zhijun Yao et al. 2018) typically convert
+                  the correlation matrix into a binary connectivity matrix by applying a specific threshold
+                  value, which is often set to retain the top 5% to 50% of the strongest connections. Finally,
+                  several key topological metrics of graph can be computed and used to compare graphs
+                  together.
+                    Computing Graph Measures: In graph theory, an adjacency matrix illustrates rela-
+                  tionships between vertices in a network. Extracting metrics from this matrix enables
+                  the topological analysis of graphs, such as the human brain network. Due to technical
+                  constraints, most human brain investigations have focused on undirected networks
+                  (Rubinov and Sporns 2010). Graph metrics can be divided into two groups: global and
+                  local metrics (Bassett and Sporns 2017). The differences between the two groups are:
+                  while global metrics reveal global characteristics of the network such as segregation,
+                  integration, smallworldness, network resilience; local metrics give information about
+                  most significant nodes which have a lot of contribution to network topology (Rubinov
+                  and Sporns 2010).
+
+                    a) Global metrics: Global measures in brain network analysis aim to uncover several
+                       key aspects: (a) functional segregation, which assesses how network elements form
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                           Page 6 of 28
+
+
+
+
+                       specialized communities; (b) functional integration, providing insights into the effi-
+                       ciency of global information communication; (c) small-worldness, indicating an opti-
+                       mal balance between network segregation and integration; and (d) network resilience
+                       against failure (Fornito et al. 2016; Rubinov and Sporns 2010). Segregation is meas-
+                       ured by clustering coefficients and modularity, which quantify topological proper-
+                       ties in brain networks, considering anatomically adjacent or functionally connected
+                       areas as modules (Fornito et al. 2016). Functional integration is typically assessed by
+                       the characteristic path length, representing the ability for global information inte-
+                       gration (Fornito et al. 2016). Various studies show that networks based on modu-
+                       lar structures often reflect small-world properties Bassett and Bullmore (2006). The
+                       smallworld property ensures an optimal balance between segregation and integra-
+                       tion, facilitating efficient communication across the network (Sporns et al. 2004;
+                       Rubinov and Sporns 2010). Additionally, assortativity measures the network’s resil-
+                       ience against random or deliberate damages in its main components, addressing a
+                       significant concern in network science.
+                    b) Local metrics: In network science, hubs are nodes with high nodal centrality, signifi-
+                       cantly influencing the network topology (Fornito et al. 2016). There are two types of
+                       hub nodes: connector hubs, which interconnect nodes between different modules,
+                       and provincial hubs, responsible for linking nodes within the same module. Detect-
+                       ing hubs in a network is commonly done by calculating nodal degree, i.e., counting
+                       the edges connected to each node (Fornito et al. 2016; Rubinov and Sporns 2010).
+                       The degree distribution of a network, represented by P(k), provides insights into
+                       the presence of hubs; for example, in scale-free networks, the existence of several
+                       high-degree nodes is associated with a power-law distribution. Other frequently used
+                       measures for nodal centrality include betweenness, closeness, eigenvector, participa-
+                       tion coefficient, and PageRank (Fornito et al. 2016; Rubinov and Sporns 2010). These
+                       measures help assess the importance and influence of nodes within a network.
+
+                    Most common graph metrics: In this section, we provide a brief introduction to the
+                  most popular graph metrics appearing in our review; more details about these metrics
+                  can be found in Fornito et al. (2016); Rubinov and Sporns 2010). Formally, a graph can
+                  be represented by G = (V,E) with n nodes, V = {vi|i ∈ 1,2,…,n} is the set of all nodes (or
+                  vertexes) in the network, |E| is the set of links (or connections, edges) between two
+                  nodes E = {(vi,vj)|i,j ∈ 1,2,…,n}, ai,j is the connection status between node vi and node vj.
+                  |V |, |E| denotes the number of nodes and the number edges, respectively. Graph can be
+                  classified as directed or undirected based on whether the edges have sense of direction
+                  information. Graph can also be divided into unweighted (binary) or weighted graph. If
+                  every edges in the graph has an equal value 1, it can be considered as binary graph, while
+                  edges are signed with different values, we call it as weighted graph. Since weighted and
+                  directed graph can be very complex for visualizing and analysis, most of studies focus
+                  on undirected and unweighted graph. In this section we will mainly focus on graph met-
+                  rics for undirected and unweighted graph. However, Graph metrics for directed and
+                  weighted graph can be found in Rubinov and Sporns (2010).
+                    For an undirected and unweighted graph G(V,E) the connectivity pattern can be
+                  described by a symmetric matrix with size n × n, named adjacency matrix A, whose
+Tuan et al. EJNMMI Reports    (2025) 9:4                                                                        Page 7 of 28
+
+
+
+
+                  element aij is 1 if there exists an edge between two node i and j and 0 for the rest. Based
+                  on the adjacency matrix A, we now describe the most commonly used graph metrics in
+                  previous studies on metabolic connectivity analysis.
+                    Network Degree and Network Density: In a graph G, the degree of node i is the num-
+                  ber of edges linked to it and is calculated as:
+                               
+                       k(i) =      ai,j
+                               j∈V
+
+
+                    Degree is one of the most basic graph metrics which measuring the connectivity
+                  of a node with the other ones in a network (Rubinov and Sporns 2010). The mean of
+                  degrees over all the nodes in G, called average degree, measures the extent to which
+                  the graph is connected. The higher value of average degree indicates the more con-
+                  nected network. Network density, or network density score (Rubinov and Sporns
+                  2010), is another simple metric that quantifies the proportion of realized connections
+                  among all possible connections in a network:
+
+                               2 × |E|
+                        D=
+                             n × (n − 1)
+
+                    It provides insights into how well-connected or sparse a network is. The network
+                  density takes a value in range from 0 (no edges) to 1 (fully connected graph).
+                    Shortest path length and Characteristic Path Length: Shortest path length (Fornito
+                  et al. 2016; Rubinov and Sporns 2010), di,j, between two nodes i and j measures the
+                  minimum number of edges needed to traverse between two nodes. It quantifies the
+                  efficiency of information transfer between two nodes. It is computed as
+                                 
+                        di,j =        au,v
+                              au,v ∈gi←→j
+
+
+                  where gi←→j is the shortest path between node i and j. The smaller value of shortest path
+                  length indicates a more efficient and well-connected network. Or in the other words,
+                  nodes can be reached more quickly with very few steps. Based on shortest path length,
+                  the characteristic path length (L) of a network is defined as the average shortest path
+                  length between all pairs of nodes in the graph:
+
+                                1     
+                        L=              di,j
+                             n(n − 1)
+                                           i� =j
+
+
+                    It is a global graph metric indicating how well information can be exchanged
+                  between different parts of the network.
+                    Network efficiency: Efficiency (Fornito et al. 2016; Rubinov and Sporns 2010) is a
+                  more biologically relevant metric to describe brain networks from the perspective of
+                  information flow. It quantifies how efficiently information can be exchanged between
+                  nodes in the network. The global efficiency (E) is defined as average of the inverses of
+                  the shortest path lengths between all pairs of nodes:
+Tuan et al. EJNMMI Reports      (2025) 9:4                                                                           Page 8 of 28
+
+
+
+
+                                  1      1
+                        E=
+                               n(n − 1)  di,j
+                                             i� =j
+
+
+                    The local efficiency of G is measured as:
+
+                                 1
+                        Eloc =      E(Gi )
+                                 n
+                                    i∈G
+
+                  where E(Gi) is the global efficiency of sub-graph Gi which contains the neighbors of
+                  node i. Similar to characteristic path length, global and local efficiency are global metrics
+                  measuring how efficiently information can be transmitted between nodes. A higher effi-
+                  ciency value indicates a more efficient network for information exchange.
+                     Number of Triangles and Clustering coefficient: The number of triangles around a node
+                  i (ti) captures the presence of interconnected triads. It signifies a strong clustering pat-
+                  tern and reveals the extent to which vertices tend to form interconnected groups:
+
+                               1 
+                        ti =       ai,j × ai,h × aj,h
+                               2
+                                 j,h∈V
+
+
+                   Based on the number of triangles, the clustering coefficient (Fornito et al. 2016) of
+                  node i (Ci) can be defined as:
+
+                                   2 × ti
+                        Ci =
+                               ki × (ki − 1)
+
+                  and clustering coefficient of network G equals to:
+
+                               1
+                        C=        Ci
+                               n
+                                 i∈V
+
+                     Nodal centrality: Nodal centrality quantifies how important a node is within a net-
+                  work. A node with high centrality is considered a hub in the network which means that it
+                  is a highly connected node, serving as a central point in the network, facilitating efficient
+                  communication and information transfer between different parts of the network. The
+                  removal or changes of a hub can have a large impact on network connectivity. In order
+                  to measure nodal centrality, several metrics can be used such as nodal degree, closeness
+                  centrality, and betweenness centrality. In which, the closeness centrality (Fornito et al.
+                  2016; Rubinov and Sporns 2010) of node i is computed as
+
+                                   n−1
+                        ci = 
+                                  j∈V ,j� =i di,j
+
+                                                                                                          σmn (i)
+                  and the betweenness centrality of node i is equivalent to bi = (n−1)(n−2)
+                                                                                     1
+                                                                                                            σmn ,
+                                                                                                 m,n∈V
+                                                                                                 m,n� =i
+                  where σmn and σmn(i) are the number of shortest paths between node m to node n, the
+                  total number of shortest paths from node m to node n that pass through node i, respec-
+                  tively. While the closeness centrality reflects the average distance from a node to all
+                  other nodes in a network, the betweenness centrality captures the influence that one
+                  node has over the flow of information between all other nodes in the network.
+Tuan et al. EJNMMI Reports     (2025) 9:4                                                                           Page 9 of 28
+
+
+
+
+                    Small-world: A small-world network (Rubinov and Sporns 2010; Bassett and Bullmore
+                  2006) is a type of network that exhibits two key characteristics: high clustering and short
+                  average path lengths. In other words, in small-world networks, most nodes are closely
+                  connected to their neighbors, which promotes local information processing and efficient
+                  communication within clusters. At the same time, there are a few "long-range" connec-
+                  tions that bridge different clusters, facilitating global communication and information
+                  transfer across the network.
+                    Small-worldness can be quantified by comparing a given network’s clustering and
+                  average path lengths to those of a random network with the same number of nodes and
+                  edges (Humphries and Gurney 2008). The most commonly used measure to quantify
+                  small-worldness is the small-world index (σ), which is defined as the ratio of the cluster-
+                  ing coefficient (C) to the average path length (L) of the network divided by the clustering
+                  coefficient (Crand) and the average path length (Lrand) of a random network with the same
+                  number of nodes and edges:
+                                   
+                                 C L
+                       σ =         
+                             Crand Lrand
+
+                    or
+                               γ
+                         σ =
+                               
+
+                  in which  = L L , and γ = C C . If the small-world index (σ) is greater than 1, the net-
+                                    rand          rand
+                  work is considered to have small-world properties. A value of σ much greater than 1,
+                  which corresponding to γ >> 1 and λ ∼ 1, indicates that the network has a high degree of
+                  clustering and short average path lengths compared to a random network, which are
+                  characteristic features of small-world networks.
+                    This section is partly addressed the research question 3. More details regarding the
+                  construction of brain networks, graph metrics and way to interpret their meanings can
+                  be found in Bullmore and Sporns (2009); Fornito et al. 2016; Rubinov and Sporns 2010).
+
+
+                  Results
+
+                    1) Literature Search: In order to select articles for this review, we followed steps from
+                       the PRISMA guideline (Moher et al. 2009) including identification, screening and
+                       selection. In the first step, 68 articles were identified. The oldest article is from 1998
+                       and the number of articles published before 2008 is 5, accounting for only 7 per-
+                       cent of all papers. Most of the articles are published during the period from 2014 to
+                       the present, accounting for approximately 84 percent, reflecting the growing inter-
+                       est in the research of brain metabolic patterns and FDG-PET images. In the second
+                       step, relevant articles were selected from the 68 articles using an abstract screening
+                       process with inclusion criteria, as mentioned in Methodology section. We mainly
+                       focus on neuroimaging and graph theory with applications in the human brain as
+                       research subject, removing any research regarding animals, as well as non-graph-
+                       based approaches. After these steps, 28 articles were selected for full-text verifica-
+                       tion and detailed review. Details about these selected articles can be found in Table 1.
+Tuan et al. EJNMMI Reports     (2025) 9:4                                                                                    Page 10 of 28
+
+
+
+
+                  Table 1 List of included studies in this survey
+                       Title                     Year Subject Group       Data Size Data source Ref
+
+                  1    Hole Detection in         2014 Alzheimer’s Disease 91       Not specify   Lee et al. (2014)
+                       Metabolic Connectivity
+                       of Alzheimer’s Disease
+                       Using k-Laplacian
+                  2    A FDG-PET Study of        2015 Alzheimer’s Disease 330      ADNI          Zhijun Yao et al. (2015 )
+                       Metabolic Networks
+                       in Apolipoprotein E ε4
+                       Allele Carriers
+                  3    Individual Metabolic      2016 Alzheimer’s Disease 222      ADNI          Yao and Bin (2016)
+                       Network for the Accu-
+                       rate Detection of Alzhei-
+                       mer’s Disease Based on
+                       FDG-PET imaging
+                  4    Predicting MCI Progres-   2017 Alzheimer’s Disease 79       ADNI          Shengfu et al. (2017)
+                       sion with Individual
+                       Metabolic Network
+                       Based on Longitudinal
+                       FDG-PET
+                  5    Indirect relation based   2018 Alzheimer’s Disease 365      ADNI          Li et al. (2018)
+                       individual metabolic
+                       network for identifica-
+                       tion of mild cognitive
+                       impairment
+                  6    Characteristic patterns    2018 Alzheimer’s Disease 300     ADNI          Huang et al. (2018)
+                       of inter- and intra-hem-
+                       ispheric metabolic con-
+                       nectivity in patients with
+                       stable and progressive
+                       mild cognitive impair-
+                       ment and Alzheimer’s
+                       disease
+                  7    Learning Metabolic Brain 2018 Alzheimer’s Disease 272       ADNI          Zhijun Yao et al. (2018)
+                       Networks in MCI and
+                       AD by Robustness and
+                       Leave-One-Out Analysis:
+                       An FDG-PET Study
+                  8    Metabolic Brain Network 2019 Alzheimer’s Disease 700        ADNI          Kuang et al. (2019)
+                       Analysis of FDG-PET
+                       in Alzheimer’s Disease
+                       Using Kernel-Based
+                       Persistent Features
+                  9    A Novel Individual Meta- 2020 Alzheimer’s Disease 300       ADNI          Huang et al. (2020)
+                       bolic Brain Network for
+                       18F-FDG PET Imaging
+                  10   Individual brain        2020 Alzheimer’s Disease 610        ADNI          Wang et al. (2020)
+                       metabolic connec-
+                       tome indicator based
+                       on Kullback–Leibler
+                       Divergence Similarity
+                       Estimation predicts
+                       progression from mild
+                       cognitive impairment to
+                       Alzheimer’s dementia
+                  11   Metabolic covariance    2019 Epilepsy              41       Local         Wang et al. (2018)
+                       networks combining
+                       graph theory measuring
+                       aberrant topological
+                       patterns in mesial tem-
+                       poral lobe epilepsy
+Tuan et al. EJNMMI Reports     (2025) 9:4                                                                                 Page 11 of 28
+
+
+
+
+                  Table 1 (continued)
+                       Title                     Year Subject Group     Data Size Data source Ref
+
+                  12   Metabolic Brain Network 2021 Epilepsy            79       Local        Ren (2021)
+                       and Surgical Outcome
+                       in Temporal Lobe
+                       Epilepsy: A Graph Theo-
+                       retical Study Based on
+                       18F-fluorodeoxyglucose
+                       PET
+                  13   Metabolic network         2022 Epilepsy          75       Local        Kyoo Ho Cho et al. (2022)
+                       is related to surgical
+                       outcome in temporal
+                       lobe epilepsy with hip-
+                       pocampal sclerosis: A
+                       brain FDG-PET study
+                  14   Abnormal metabolic        2023 Epilepsy          81       Local        Wang et al. (2023)
+                       connectivity in default
+                       mode network of right
+                       temporal lobe epilepsy
+                  15   Small-worldness and       2015 Healthy Control   400      Local        Yuxiao et al. (2015)
+                       gender differences
+                       of large scale brain
+                       metabolic covariance
+                       networks in young
+                       adults: a FDG PET study
+                       of 400 subjects
+                  16   Age-associated reor-      2020 Healthy Control   201      Local        Huang et al. (2020)
+                       ganization of metabolic
+                       brain connectivity in
+                       Chinese children
+                  17   Aging-Related Modular     2022 Healthy Control   432      Local        Huang et al. (2022)
+                       Architectural Reorgani-
+                       zation of the Metabolic
+                       Brain Network
+                  18   Cross-modality compari- 2023 Healthy Control     209      Local        Li et al. (2023)
+                       son between structural
+                       and metabolic networks
+                       in individual brain based
+                       on the Jensen-Shannon
+                       divergence method: a
+                       healthy Chinese popula-
+                       tion study
+                  19   Metabolic Network       2020 Other               205      Local        Imai et al. (2020)
+                       Topology of Alzheimer’s
+                       Disease and Dementia
+                       with Lewy Bodies Gener-
+                       ated Using Fluorode-
+                       oxyglucose Positron
+                       Emission Tomography
+                  20   Regional metabolic and    2021 Other             100      Local        Liu et al. (2021)
+                       network changes in
+                       Meige syndrome
+                  21   Brain Metabolic           2022 Other             120      Local        Ma et al. (2022)
+                       Network Redistribution
+                       in Patients with White
+                       Matter Hyperintensities
+                       on MRI Analyzed with
+                       an Individualized Index
+                       Derived from 18F-FDG-
+                       PET/MRI
+Tuan et al. EJNMMI Reports       (2025) 9:4                                                                                Page 12 of 28
+
+
+
+
+                  Table 1 (continued)
+                         Title                      Year Subject Group         Data Size Data source Ref
+
+                  22     Cerebral Metabolic      2022 Other                    34       Local        Huang et al. (2022)
+                         Network in Patients
+                         With Anti-N-Methyl-
+                         D-Aspartate Receptor
+                         Encephalitis on 18F-FDG
+                         PET Imaging
+                  23     Reconfigured metabo-       2022 Other                 83       Local        Liu et al. (2022)
+                         lism brain network
+                         in asymptomatic
+                         microtubule-associated
+                         protein tau mutation
+                         carriers: a graph theo-
+                         retical analysis
+                  24     Construction of an       2023 Other                   138      Local        Jie et al. (2023)
+                         individualized brain
+                         metabolic network in
+                         patients with advanced
+                         non-small cell lung
+                         cancer by the Kullback–
+                         Leibler divergence-
+                         based similarity method:
+                         A study based on
+                         18Ffluorodeoxyglucose
+                         positron emission
+                         tomography
+                  25     Parkinson’s disease        2011 Parkinson’s Disease   29       Local        Mure et al. (2011)
+                         tremor-related meta-
+                         bolic network: Charac-
+                         terization, progression,
+                         and treatment effects
+                  26     Metabolic network as       2020 Parkinson’s Disease   84       Local        Ge et al.(2020)
+                         an objective biomarker
+                         in monitoring deep
+                         brain stimulation for
+                         Parkinson’s disease: a
+                         longitudinal study
+                  27     Alternation of the         2022 Parkinson’s Disease   98       Local        Peng et al. (2022)
+                         Rich-Club Organiza-
+                         tion of Individual Brain
+                         Metabolic Networks in
+                         Parkinson’s Disease
+                  28     The reconfiguration pat- 2023 Parkinson’s Disease     98       Local        Li et al. (2023)
+                         tern of individual brain
+                         metabolic connectome
+                         for Parkinson’s disease
+                         identification
+
+
+
+
+                          Figures 1, 2 describe the publication trend and categorization based on data group,
+                          respectively.
+                       2) Study Characteristics: The sample size across studies varied from 29 to 700 partic-
+                          ipants. The mean and standard deviation of participants in all study samples were
+                          206 and 172, respectively. Depending on the selected criteria, these studies can be
+                          divided into groups based on the type of methods for constructing graphs (group-
+                          based graph, individual-based graph) or patient conditions (Normal condition or
+                          Abnormal conditions). More specifically, from FDG-PET images, previous studies
+                          either constructed a single graph for each group of data or an individual graph for
+                          every image. Different techniques can be applied, subsequently creating different
+Tuan et al. EJNMMI Reports      (2025) 9:4                                                                            Page 13 of 28
+
+
+
+
+                    Fig. 1 Publication trend by year of keyword-matched studies (left) and included studies (right)
+
+
+
+
+                    Fig. 2 Categorization of included studies based on data group
+
+
+
+                       types of group-based graphs (Huang et al. 2018; Lee et al. 2014; Imai et al. 2020), and
+                       individual-based graph networks (Yao and Bin 2016; Wang et al. 2020; Huang et al.
+                       2020). For patient conditions, the studies can be performed with only a healthy con-
+                       trol group. These types of studies typically focus on studying the correlation between
+                       FDG-PET network-based data and metadata such as subject’s gender (Yuxiao et al.
+                       2015), age (Huang et al. 2020, 2022). They may also investigate the correlation and
+                       similarity between FDG-PET-based network and network from other modalities
+                       such as sMRI (Li et al. 2023). When patient group data is available, most of these
+                       studies focus on either investigating the topology changes in brain networks (Huang
+                       et al. 2018, 2020) or using connectivity and machine learning for classification tasks
+                       (Yao and Bin 2016; Li et al. 2018, 2023). In the next sections, we will go further into
+                       details and discuss these studies.
+                    3) General Overview: In this section, we present an overview about the selected articles,
+                       focusing on publication year and keywords analysis. This discussion addresses the
+                       research question 1, 2, and 3.
+
+
+
+                    From Fig. 1 which illustrates the growing interest in research topics, we can observe
+                  that there is an increasing trend. Among the articles matched by keywords, most
+                  studies belong to the period from 2014 to the present. Simultaneously, among the
+Tuan et al. EJNMMI Reports      (2025) 9:4                                                                                          Page 14 of 28
+
+
+
+
+                  selected articles, most of them belong to the period from 2018 to the present. Com-
+                  paring the periods from 2011 to 2017, the number of publications from 2018 to the
+                  present has increased approximately fourfold. This trend is expected to show a sub-
+                  stantial increase in the coming years as FDG-PET becomes more accessible.
+                    Figure 2 categorizes the included studies into 5 groups based on the data they used.
+                  It provides a visual breakdown of the prevalence of neurological disorder analysis
+                  using graph theory and FDG-PET images. Alzheimer’s Disease (AD) emerges as the
+                  dominant category, reflecting its widespread occurrence and significant impact on
+                  neurological research. Following closely are Parkinson’s Disease (PD) and Epilepsy,
+                  highlighting their prominence and relevance in the metabolic connectivity studies
+                  using graph theory. This observation is reasonable as these disorders are common and
+                  of substantial importance to the world healthcare system. AD and other related dis-
+                  orders have attracted a lot of attention from the research community. Moreover, the
+                  dominance of AD in our collection can be explained by the contribution and the avail-
+                  ability of the Alzheimer’s Disease Neuroimaging Initiative (ADNI) dataset (Petersen
+                  et al. 2010).
+                    Figures 3 and 4 present the word-cloud for the top 50 most frequently used words
+                  from title (left) and abstract(right), corresponding to keyword-matched articles and
+                  selected articles, respectively. From Fig. 3, we observe that keywords such as "net-
+                  work", "FDG", "PET", "metabolic", "PD", "AD", "epilepsy", are predominant. The first
+                  four keywords are reasonable as they were our used keywords for searching relevant
+                  articles. The rest are related to most common group applications, which is in line with
+                  observation of the prevalence of neurological disorder analysis using graph theory
+                  and FDG PET images from Fig. 2. Comparing Figs. 3 to 4, even though they are very
+                  similar, we observe some differences. When comparing the top words in the title, we
+                  can see that the word "rat" disappears in Fig. 4. This observation is reasonable since
+                  we have removed a lot of studies related to rat models, as those studies are not related
+                  to the human brain. When comparing the top words in abstract, we can observe
+                  changes, including: (i) The appearance of new words such as "topological", "modular",
+                  and "hub". Interestingly, they are all related to graph and graph metrics. This obser-
+                  vation emphasizes the important role of topological changes in selected studies. (ii)
+
+
+
+
+                    Fig. 3 Word Clouds illustrate the top 50 of most frequency words in title (left) and abstract (right) of
+                    keyword-matched articles. The size of each word reflects its frequency of occurrence, with larger words
+                    indicating higher relevance within the initial set of keyword-matched articles. This visualization highlights
+                    general themes and topics associated with the search terms
+Tuan et al. EJNMMI Reports      (2025) 9:4                                                                                              Page 15 of 28
+
+
+
+
+                    Fig. 4 Word Clouds illustrate the top 50 of most frequency words in title (left) and abstract (right) of included
+                    articles. The size of each word reflects its frequency, with larger words representing core topics and recurring
+                    themes specific to the analyzed articles. This visualization illustrates the primary focus areas relevant to the
+                    research objective and offers insights into the detailed themes of the selected literature
+
+
+
+                  The keywords "individual" becomes more dominant in Fig. 4. This suggests a grow-
+                  ing interest in applying graph theory to analyze differences between each individual
+                  under different conditions.
+                     Figure 5 depicts the collocation analysis illustrating the correlation between words in
+                  the abstracts of selected papers. It provides us with information regarding the relation-
+                  ships between words and their co-occurrence patterns within the given context. It is
+                  notable that certain keywords such as "FDG-PET," "18F," and "network" emerge as the
+                  most salient collocates. This observation aligns with findings from Figs. 3 and 4, which
+                  is consistent given our studies’ primary focus on the metabolic brain network. Addition-
+                  ally, keywords like "Alzheimer’s disease," "Parkinson’s disease," and "Epilepsy" appear
+                  more frequently. Given that most studies concentrate on Alzheimer’s disease, Parkin-
+                  son’s disease, and epilepsy, it is reasonable to encounter these keywords and their related
+                  terms, such as "dementia," "mild," and "seizure," multiple times. Further examination
+                  of this figure can reveal additional insights. For instance, the keywords "topological,"
+                  "integration," and "inefficiency" are associated with epilepsy, indicating alterations in
+                  the brain network topology of epilepsy patients, particularly in the network’s integra-
+                  tion properties. These alterations can lead to inefficient communication between nodes
+                  within the patient’s brain network. Another example is that the keyword "parietal" is
+                  linked to both "Alzheimer’s disease" and "Parkinson’s disease,"suggesting the importance
+                  of graph nodes corresponding to the parietal lobe of the brain in these conditions.
+
+
+                  Discussion
+                  The critical role of metabolic network analysis
+                  FDG-PET imaging provides valuable insights into brain glucose consumption, which
+                  is directly correlated with brain synaptic activity (Attwell and Iadecola 2002). By
+                  quantifying the degree of association between pairs of brain regions (referred to as
+                  metabolic connectivity), this approach can help detect early signs of abnormal brain
+                  states, such as AD (Wang et al. 2020). Observations from our results underscore the
+                  critical role of metabolic network analysis in enhancing our understanding of brain
+                  function and related disorders. As shown in Fig. 1, there is a growing interest in
+Tuan et al. EJNMMI Reports      (2025) 9:4                                                                                       Page 16 of 28
+
+
+
+
+                    Fig. 5 Collocation analysis of words appearing in the abstracts of selected articles. This visualization
+                    illustrates the relationships between frequently co-occurring terms, highlighting core concepts and
+                    associations within the included literature. The size and proximity of words reflect the strength of their
+                    collocation, offering insights into prominent themes and connections specific to the research focus
+
+
+
+                  metabolic network analysis, particularly from 2014 onward, with a notable fourfold
+                  increase in publications since 2018. This trend reflects the growing recognition of
+                  brain metabolic connectivity as an interesting research topic.
+                    Metabolic connectivity analysis using graph theory has broad applications across
+                  various neurological conditions (Fig. 2), including Alzheimer’s disease (Wang et al.
+                  2020; Lee et al. 2014; Shengfu et al. 2017), Parkinson’s disease (Li et al. 2023; Mure
+                  et al. 2011), and Epilepsy (Wang et al. 2018; Ren 2021), and others (Imai et al. 2020;
+                  Liu et al. 2021). Despite its diverse applications, these studies can generally be cat-
+                  egorized into two primary groups: (i) Healthy controls; (ii) Neurological disorders.
+                  The first group mainly focuses on investigating the neural mechanism that underlie
+                  human cognitive function and behaviour through the lens of brain ROIs interactions.
+                  While the second group focuses on assumptions about disconnection phenomena
+                  found in brain disorders (Catani and Ffytche 2005). In the next two subsections, we
+                  will discuss in greater detail the applications of graph theory for both healthy controls
+                  and various neurological conditions. These subsections aim to address research ques-
+                  tion 4.
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                        Page 17 of 28
+
+
+
+
+                  Healthy control‑based metabolic network analysis
+                  In exploring brain connectivity within the healthy control group, previous studies reveal
+                  valuable insights into the intricate organization of human brain networks. More specifi-
+                  cally, in the study (Li et al. May 2023), authors concentrate on cross-modality similarity
+                  and dissimilarity between metabolic and structural brain networks. Based on compar-
+                  ing graph metrics computing from metabolic and structural graphs, it shows that both
+                  networks exhibited small-world architecture; highlight the central role of default mode
+                  network. The study came to the conclusion that there was a structural substrate that
+                  supported the brain to globally and efficiently integrate and process metabolic interac-
+                  tion across brain regions. The cross-modality cooperation or specialization in both met-
+                  abolic and structure networks might imply mechanisms of achieving higher-order brain
+                  functions.
+                    Other studies (Yuxiao et al. 2015; Huang et al. 2020, 2022) have considered the effects
+                  of age and gender to metabolic brain organization. Study (Huang et al. 2022) delves into
+                  aging-related reorganization, noting shifts in modular architecture and reduced connec-
+                  tor nodes in older age, particularly in temporo-occipital areas. Study (Huang et al. 2020)
+                  focuses on brain developmental trajectories. Based on the analysis of metabolic net-
+                  works from hundred subjects across different age groups, the study shows that both net-
+                  work connectivity and global efficiency increase with age. Brain networks were grouped
+                  into modules, showing that modular architecture was dramatically reorganized from
+                  childhood to early adolescence. Hubs spatiotemporally rewired, and the ratio of connec-
+                  tor hub to provincial hub also changed with age. Based on these studies (Huang et al.
+                  2020, 2022), it appears that topological properties and modular reorganization of human
+                  brain networks dramatically change with age, especially from childhood to early adoles-
+                  cence. Not only age but gender might also modify brain metabolic connectivity. Study
+                  (Yuxiao et al. 2015) explores gender differences in brain metabolic networks. Based on
+                  the analysis of 400 healthy subjects, study (Yuxiao et al. 2015) showed while both gen-
+                  ders exhibited small-world properties in metabolic networks with no significant global
+                  gender differences, nodal differences were observed in a few brain regions. Hubs were
+                  distributed bilaterally and showed lateralized patterns in females and males. In compar-
+                  ing those studies together, all studies leverage graph theory to explore the topological
+                  properties and modular architectures of brain networks, emphasizing the applicability of
+                  this analytical framework for understanding complex neural systems. Moreover, effects
+                  of age and gender on connectivity highlighted in the above studies suggest the need for a
+                  multifaceted approach when studying brain connectivity. One should consider age, gen-
+                  der, and their interplay in shaping the intricate architecture of the healthy brain.
+
+
+
+                  Metabolic network patterns in brain disorders
+                  Many brain disorders can be conceptualized as a disconnection phenomenon within
+                  brain networks. In (Catani and Ffytche 2005), authors detail disconnection syndromes,
+                  which occur when localized and specialized areas are disconnected to each other, lead-
+                  ing to dysfunction. The disconnection phenomenon has been successfully applied to
+                  analyze various types of brain disorders. For instance, in Yakushev et al. (2017) and
+                  (Rahmani et al. 2020), authors reported that based on the analysis of network properties
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                         Page 18 of 28
+
+
+
+
+                  of metabolic brain networks using the graph theory, AD subjects could be distinguished
+                  from control subjects. In the following, we will describe several studies which have used
+                  graph theory and FDG-PET-based brain networks for the diagnosis of brain disorders.
+
+                    1) Epilepsy: is a neurological disorder characterized by recurrent, unprovoked seizures.
+                       Seizures occur due to abnormal and excessive electrical activity in the brain, leading
+                       to temporary disruptions in normal brain function. The manifestations of seizures
+                       can vary widely, ranging from brief lapses in attention or muscle jerks to more severe
+                       convulsions. Temporal lobe epilepsy (TLE) is a common form of partial epilepsy.
+                       Studies (Wang et al. 2018; Ren 2021; Kyoo Ho Cho et al. 2022; Wang et al. 2023)
+                       on metabolic networks in TLE provide a complementary understanding of altered
+                       network dynamics, prognostic indicators, and specific regional changes in this dis-
+                       ease. More specifically, study (Wang et al. 2018) examined the metabolic covariance
+                       networks in mesial temporal lobe epilepsy (mTLE). The study highlighted damag-
+                       ing and compensatory effects in metabolic networks of mTLE,—emphasizing the
+                       role of reduced inter-hemisphere connection. Study (Ren 2021) focused on surgical
+                       prognosis in drug resistant TLE. This study demonstrates that ongoing postoperative
+                       seizures are associated with elevated networks integration, altered connectivity pat-
+                       terns, and redistributed hub nodes. It provides insights into the complexity of TLE
+                       cases that do not achieve seizure freedom after surgery. Study (Kyoo Ho Cho et al.
+                       2022) investigated differences in metabolic networks among TLE patients with hip-
+                       pocampal sclerosis, based on surgical outcomes following anterior temporal lobec-
+                       tomy: seizure-free and non-seizure-free. Authors found that the seizure free group
+                       had a lower assortative coefficient and widespread regional differences. This empha-
+                       sizes the potential role of metabolic network analysis on FDG-PET to predict surgi-
+                       cal outcomes in TLE patients with hippocampal sclerosis. Study (Wang et al. 2023)
+                       focused on the default mode network (DMN) in TLE. This study reveals abnormal
+                       metabolic connectivity patterns in DMN of TLE, particularly in regions like the bilat-
+                       eral posterior cingulate gyrus and hippocampus. It provides insights into the dys-
+                       function mechanism of DMN in TLE as well as pathophysiology of TLE. The above
+                       studies gave interesting insights into the altered network dynamics associated with
+                       TLE. They offer distinct perspectives on different aspects of TLE, ranging from sur-
+                       gical prognosis and outcomes to specific network alterations in DMN; emphasizing
+                       the importance of metabolic connectivity analysis in epilepsy.
+                    2) Parkinson’s Disease: is a neurodegenerative disorder that primarily affects move-
+                       ment. It is characterized by symptoms such as tremors, stiffness, slowness of move-
+                       ment, and difficulty with balance and coordination. The condition results from the
+                       gradual loss of dopamine-producing neurons in the brain. Previous studies using
+                       FDG-PET-based metabolic network and graph theory analysis have emphasized the
+                       important role of FDG-PET images as a valuable tool for both diagnosis and treat-
+                       ment evaluation of PD. Authors in Mure et al. (2011) revealed a Parkinson’s disease
+                       tremor-related metabolic network. When investigating metabolic brain networks of
+                       PD patients with tremor, they found a distinct pattern involving cerebello-thalamo-
+                       cortical pathways. This specific metabolic network, identified through FDG-PET
+                       and analyzed using ordinal trends canonical variate analysis, demonstrated excellent
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                           Page 19 of 28
+
+
+
+
+                       reproducibility and responsiveness to interventions, providing a valuable objective
+                       measure for evaluating treatment effects on tremor symptoms. The study (Ge et al.
+                       2020) explored the potential of a metabolic network derived from PET in moni-
+                       toring subthalamic nucleus deep brain stimulation (STN DBS) treatment for PD.
+                       PD patients with STN DBS were longitudinally followed after FDG-PET scans. It
+                       showed that Parkinson’s Disease Related Pattern (PDRP) expression was elevated in
+                       PD patients, decreased significantly post-STN DBS treatment, and correlated with
+                       clinical improvements. Based on that, authors concluded that PDRP could serve
+                       as an objective biomarker for monitoring and assessing STN DBS treatment in PD
+                       patients. The exploration of the rich-club organization in the metabolic connec-
+                       tome of PD patients uncovered alterations in connections, suggesting potential early
+                       markers for PD diagnosis (Peng et al. 2022). Lastly, the investigation into individual
+                       metabolic connectomes using Jensen-Shannon Divergence Similarity Estimation
+                       method demonstrated altered nodal properties in PD (Li et al. 2023), highlighting the
+                       method’s promise for accurate PD diagnosis. In conclusion, these studies collectively
+                       underscore the power of FDG-PET and graph theory in providing novel insights into
+                       the intricate metabolic networks associated with PD, offering valuable tools for both
+                       diagnosis and treatment evaluation.
+                    3) Alzheimer’s Disease: is a neurodegenerative disorder affecting memory and cogni-
+                       tive functions, leading to dementia. It is characterized by altered structural and func-
+                       tional connectivity, making it a disconnection syndrome. Mild Cognitive Impair-
+                       ment (MCI) is a condition that represents a noticeable decline in cognitive abilities
+                       beyond what is expected with normal aging but is not severe enough to be classi-
+                       fied as dementia. MCI can be a precursor to Alzheimer’s disease, but not everyone
+                       with MCI will progress to AD. FDG-PET and graph theory have been extensively
+                       used to study AD, revealing notable alterations primarily observed in the small-
+                       worldness properties of metabolic brain networks in AD subjects ( Zhijun Yao et al.
+                       2018; Zhijun Yao et al. 2015). More specifically, upon exploring brain network char-
+                       acteristics, the main differences between AD and cognitive normal (CN) groups
+                       includes reduced number of connectivity, global efficiency, clustering coefficient,
+                       loss of small-world properties. The key patterns can be found in parieto-occipital,
+                       and parieto-occipital connectivity. Graph theory applied to FDG-PET data in those
+                       studies has also revealed changes in the inter and intra-hemispheric connectivity pat-
+                       terns at both group-based and individual-based networks (Huang et al. 2018; Huang
+                       et al. 2020). These metabolic network patterns not only serve as reliable biomarkers
+                       for diagnostic purposes (Yao and Bin 2016; Huang et al. 2018) disease progression
+                       assessment (Wang et al. 2020; Lee et al. 2014; Shengfu et al. 2017), but also can be
+                       used to investigate the relationship between several factors regarding the risk of AD
+                       progression. In (Zhijun Yao et al. 2015), authors used graph theory and FDG-PET-
+                       based metabolic networks to explore the relationship between APOE ε4 and the risk
+                       of AD progression. Based on the comparison of graph metrics between APOE ε4
+                       carriers and noncarriers, the author concluded that there was a less optimal organi-
+                       zation of metabolic networks in APOE ε4 carriers, which might explain the risk of
+                       developing AD. Loss of small-world properties, topological aberrations, and altered
+                       connectivity identified through graph theory differentiate CN from AD, and disease
+Tuan et al. EJNMMI Reports    (2025) 9:4                                                                           Page 20 of 28
+
+
+
+
+                        states like stable MCI (sMCI) and progressive MCI (pMCI). They also offer interest-
+                        ing insights into the pathophysiological mechanisms driving cognitive dysfunction
+                        (Zhijun Yao et al. 2018).
+                        The application of machine learning has played a significant role as a powerful tool
+                        for better diagnosing AD. Studies such as (Yao and Bin 2016; Li et al. 2018; Shengfu
+                        et al. 2017) have harnessed the capabilities of machine learning as a diagnostic tool,
+                        showcasing the potential of metabolic networks to achieve remarkable accuracy in
+                        distinguishing disease groups and predicting clinical progression. The roles of FDG-
+                        PET in these studies are pivotal, with metabolic networks emerging as sensitive bio-
+                        markers for MCI progression (Shengfu et al. 2017), determining persistent features
+                        for disease (Lee et al. 2014; Kuang et al. 2019), disease expression (Wang et al. 2020).
+                        More specifically, in study (Kuang et al. 2019), authors focused on employing persis-
+                        tent homology from algebraic topology to investigate alterations in network organi-
+                        zation across various stages of AD. They developed a novel network measurement,
+                        called Kernel-based integrated persistent feature (KBI), to quantify differences in
+                        integrated persistent features curves in AD. Compared to standard graph metrics,
+                        this new feature showed a superior sensitivity in revealing network disruptions
+                        throughout the progression of AD. Based on that, authors suggested KBI as a poten-
+                        tial preclinical AD imaging biomarker. In study (Wang et al. 2020), authors develop a
+                        new method to capture individual pathological connectivity and use this method to
+                        study metabolic connectome expression between sMCI and pMCI group. This new
+                        method provides detailed individual information, greater stability, and is a better pre-
+                        dictor of MCI conversion than other clinical assessments. In order to explore disrup-
+                        tions in the modular structure of brain networks, study (Lee et al. 2014) investigated
+                        persistent homology to detect higher-order topological invariants, called holes, in
+                        AD metabolic networks. The combination of FDG-PET, graph theory, and machine
+                        learning not only enhances diagnostic precision but also offers a deeper understand-
+                        ing of the complex and evolving landscape of AD, paving the way for more effective
+                        diagnostic and therapeutic strategies.
+                        The landscape of Alzheimer’s disease analysis using graph theory has undergone
+                        an interesting evolution, with a notable shift from traditional group-based network
+                        studies to an individual approach. Studies at a group level utilized Pearson correla-
+                        tion to compute graph connections (Huang et al. 2018; Zhijun Yao et al. 2018; Zhi-
+                        jun Yao et al. 2015), while recent individual-level studies, such as (Wang et al. 2020;
+                        Huang et al. 2020), use diverse methods to construct graphs. This approach distin-
+                        guishes itself by focusing on the unique profile of patients, moving beyond gener-
+                        alized group-based analyses. More specifically, in Yao and Bin (2016), authors used
+                        cube to define node, and Pearson score for computing correlation matrix for AD
+                        classification. In another work from the same authors (Shengfu et al. 2017), they used
+                        brainnetome atlas to define nodes, and combined rough and precision distance to
+                        compute correlation matrix and used them for predicting MCI. Both of those meth-
+                        ods showed promising results. In study (Huang et al. 2020), the authors proposed
+                        a new method for constructing an individual connectivity matrix based on adjust-
+                        ments to a correlation matrix derived from a group of HC subjects. This method
+                        involves normalizing the effect size of differences in metabolism level between brain
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                          Page 21 of 28
+
+
+
+
+                       regions in an individual PET scan and the average activity observed in the HC group.
+                       Through experiments, they showed that the insights obtained from the individual
+                       network align with the group-based network using Pearson scores. In a recent work
+                       (Wang et al. 2020), authors proposed a novel method for constructing individual
+                       brain networks using Kernel Density Estimation and Kullback–Leibler Divergence
+                       Similarity Estimation. These methods offer superior performance in predicting MCI
+                       conversion, and are adapted to the study of other brain disorders such as PD (Li et al.
+                       2023), or even the brain of patients with cancer (Jie et al. 2023). These studies col-
+                       lectively underscore the importance of individualized analyses, allowing for a more
+                       nuanced understanding of AD heterogeneity. Moreover, the transition from group to
+                       individual-based graph studies not only enhances diagnostic precision but also rep-
+                       resents a promising trajectory for tailoring interventions to the unique profiles of AD
+                       patients.
+                    4) Others: The applications of FDG-PET-based metabolic networks and graph theory
+                       are not limited to the most prevalent neurological disorders like AD and PD; they
+                       also offer a valuable insight into the complexities of rare disorders and other neuro-
+                       logical conditions. The studies on White Matter Hyperintensities (WMHs) (Ma et al.
+                       2022) reported the impaired metabolic networks in patients with WMHs. The find-
+                       ings reveal a distinctive redistribution of the brain metabolic network in individu-
+                       als with WMHs. On the other hand, study (Liu et al. 2022) investigated metabolic
+                       network patterns in presymptomatic microtubule-associated protein tau mutation
+                       carriers for genetic frontotemporal dementia. Through metabolic network analysis
+                       in asymptomatic carriers, the study identifies reconfigured hubs in brain regions, lost
+                       hubs in specific regions, and compensation in task-related regions, enhanced met-
+                       abolic connectivity in salience and default mode networks. Study (Liu et al. 2021)
+                       focused on Meige Syndrome, a rare movement disorder. Firstly, authors identified
+                       hypometabolism in the globus pallidus and thalamus on FDG-PET, which might
+                       be a sign that the basal ganglia-thalamocortical motor circuit is altered. Secondly,
+                       authors observed abnormal small-world properties and centrality changes int the
+                       same regions found hypometabolic, reinforcing the possible roles of these regions in
+                       the pathogenesis of Meige syndrome. Study (Huang et al. 2022) demonstrated altered
+                       metabolic connectivity networks in AntiNmethyl-D-aspartate receptor encephalitis,
+                       the most common autoimmune encephalitis. It showed the following: reduced global
+                       and local efficiencies, longer characteristic path length, enhanced network functions
+                       in specific regions, and poor internal connection integration in the left hemisphere.
+                       Another subject of interest which is not a proper brain disorder, is the study of brain
+                       function in patients with cancers, and more specifically, non-small cell lung cancer
+                       (NSCLC). In (Jie et al. 2023), authors found significant differences in the degree and
+                       betweenness distributions of brain network nodes between the NSCLC and con-
+                       trol groups. Abnormal brain network connections and nodes were identified in the
+                       temporal lobe, frontal lobe, and limbic system of patients with advanced NSCLC.
+                       The predictive model, constructed using these abnormal brain network features,
+                       showed a significant correlation with actual survival times of NSCLC patients. Based
+                       on these observations, authors suggested that individual metabolic brain networks
+                       could provide additional clinical information to guide further treatment. However,
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                             Page 22 of 28
+
+
+
+
+                       more studies and larger sample sizes are necessary to confirm this suggestion. Nev-
+                       ertheless, it still emphasizes the significance of metabolic networks in understanding
+                       cognitive dysfunctions in cancer patients.
+                    5) Multiple/Cross disorder Analysis: Given the intricate landscape of neurological dis-
+                       orders, it’s essential to acknowledge that multiple diseases can coexist within an
+                       individual, giving rise to complex interplay. Additionally, some brain disorders may
+                       exhibit similar symptoms and affect the same brain regions. This realization under-
+                       scores the critical need for a cross-disorders approach to provide a holistic perspec-
+                       tive on the interconnected nature of neurological conditions. Considering this, in
+                       study (Imai et al. 2020), the author investigated the differences between AD patients,
+                       dementia with Lewy bodies (DLB) patients, and CN individuals. The main findings
+                       are the whole metabolic network was preserved in CN individuals, while AD patients
+                       exhibited diffusely decreased connection, and DLB patients showed a partially but
+                       more deeply decreased connection. It also revealed significant metabolic topology
+                       differences in the right posterior cingulate and the left transverse temporal gyrus
+                       between AD and DLB. This study not only sheds light on commonalities and differ-
+                       ences in affected brain regions but also emphasizes promise cross-disorder approach
+                       to uncovering shared pathophysiological mechanisms, paving the way for more effec-
+                       tive interventions different brain disorders.
+
+
+
+
+                  Challenges and future directions
+                  In this section, we briefly discuss several challenges and future perspectives in metabolic
+                  network analysis. This section aims to address research question 5.
+
+                    1) From Data Perspective: Limited number of related studies: Although FDG-PET dem-
+                       onstrates great potential for analyzing and studying brain disorders, the application
+                       of graph theory in analyzing metabolic-based networks is still limited compared to
+                       other neuroimaging modalities such as fMRI (Farahani et al. 2019). Given that FDG-
+                       PET can be considered as a proxy for regional neuronal activity (Rahmani et al.
+                       2020), it can provide early signs of abnormal brain states. In the future, it would be
+                       interesting to explore the effectiveness of graph theory and FDG-PET in other brain
+                       and psychiatric disorders.
+                       Small sample size: Many previous studies have had small sample sizes (smaller than
+                       50 subjects for each group of data) (Mure et al. 2011; Wang et al. 2018; Ren 2021).
+                       In order to archive more robust observations and generalized results, it is impor-
+                       tant to increase the dataset size. Additionally, longitudinal studies are also crucial for
+                       improved diagnosis and treatment monitoring.
+                       Mono scale: Most previous studies solely rely on static FDG-PET images, implying
+                       a single modality and a single time point. However, it would be interesting to create
+                       a network that takes integrated information from a single modality but at multiple
+                       time points (e.g., dynamic PET images) and scales (e.g., resolutions), or from mul-
+                       tiple modalities. Recent studies demonstrate that FDG-PET images combined with
+                       sMRI or fMRI can offer complementary views (Thielcke et al. 2017; Li et al. 2023).
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                              Page 23 of 28
+
+
+
+
+                       Therefore, combining networks from multiple modalities is expected to provide a
+                       more comprehensive understanding about higher-order brain functions.
+                       Mono nature: Most prior studies have focused on a single disorder at a time. How-
+                       ever, recent research on cross-disorders (Heuvel and Sporns 2019; Lange and
+                       Scholtens 2019) indicate that multiple diseases can have similar effects on the same
+                       brain regions and being able to distinguish them is extremely important in order
+                       to provide effective treatment. Hence, cross-disorder analysis is a crucial research
+                       direction. It is necessary for better understanding and distinction between various
+                       disorders, ultimately leading to improved diagnosis.
+                    2) Building and Analyzing brain metabolic networks: Group-based or Individual-based
+                       Network Analysis: When building metabolic-based networks from FDG-PET images,
+                       previous studies have either followed group-based or individual-based approaches.
+                       Individual approaches provide more precise information, contributing to better diag-
+                       noses (Wang et al. 2020) and can be considered a step towards individualized treat-
+                       ments or precision medicine. However, it is challenging to build an individual graph
+                       from single static FDG-PET images, as the methods used need to capture both group
+                       properties and subject variances. Therefore, for future work, it would be relevant to
+                       study and explore optimal methods to build individual graphs. Moreover, it is also
+                       important to compare multiple approaches and to compare the significance between
+                       group-based approaches and individual methods to understand the similarities and
+                       differences between them.
+                       Brain network nodes: It’s obvious that the choice of nodes greatly affects the analy-
+                       sis results. In the literature review, the most common choice for defining nodes is
+                       the use of predefined brain atlases such as AAL, as in Huang et al. (2018); Wang
+                       et al. 2020; Yuxiao et al. 2015). Besides using predefined atlas for defining nodes, the
+                       cube-based approach can be used to define the network nodes. This approach can be
+                       considered as an intermediate level analysis between voxel-based nodes, and region-
+                       based nodes (Yao and Bin 2016). It can both represent details about nodes and over-
+                       come the limitation of using voxel-based approach. Moreover, using adapted brain
+                       mapping, which is more adapted to a specific type of brain disorders ( Pham Minh
+                       Tuan et al. 2022) could be an interesting approach for future study. Lastly, examin-
+                       ing the network at various node scales (e.g., ranging from hundreds to thousands of
+                       nodes, or possibly more) can provide a complementary view of the disease, revealing
+                       subtle patterns and connections that may not be apparent at a single scale.
+                       Brain network connections: Similar to the selection of graph nodes, the choice of
+                       connectivity measurements also significantly impacts graph construction and analy-
+                       sis. In previous studies, for group-based analysis, Pearson correlation has been one
+                       of the most commonly used connectivity metrics, as found in Yuxiao et al. (2015);
+                       Huang et al. 2020; Kuang et al. 2019). Concerning individual-based analysis, most
+                       common used metrics are information-based distance measures such as Kullback-
+                       Leibler divergence (Wang et al. 2020; Jie et al. 2023) and Jensen Shannon divergence
+                       (Li et al. 2023; Li et al. 2023); even though there is still room for exploring alternative
+                       correlation methods and similarity measurements. It is also important to assess the
+                       effectiveness of these approaches, their stability regarding artifacts, and their ability
+                       to perform well across multiple scales.
+Tuan et al. EJNMMI Reports   (2025) 9:4                                                                             Page 24 of 28
+
+
+
+
+                       Furthermore, all the studies discussed so far have primarily focused on the con-
+                       nectivity between two brain regions, often referred to as pairwise connections or
+                       second-order relations. However, this approach tends to overlook the interactions
+                       among multiple ROIs, known as higher-order relations. Considering that brain net-
+                       works are inherently more complex and involve intricate relationships, exploring
+                       higher-order connections can provide valuable insights into the non-random attrib-
+                       utes of these networks (Sporns 2018). Tools from hypergraph theory (Bretto 2013)
+                       can be utilized to represent and study these higher-order relations. For instance, in
+                       a recent study (Jie et al. 2016), authors investigated a hypergraph-based approach to
+                       construct a hypergraph from fMRI data and its applications in AD diagnosis. The
+                       results of this study demonstrated that a hyperconnectivity-based network not only
+                       enhances classification performance but also helps identify crucial disease-related
+                       biomarkers. Therefore, it is worthwhile to explore the potential applications of hyper-
+                       connectivity and hypergraph theory in the analysis of metabolic networks.
+                       Graph metrics: Since, graph metrics play a pivotal role in extracting meaningful
+                       information from the complex network structures, selecting optimal graph metrics
+                       is an extremely important and crucial step before the analysis. There is no rules for
+                       selecting optimal graph metrics, it depends on the type of study and its objectives.
+                       Most commonly used graph metrics are shortest path length, global coefficient, local
+                       efficient, small-worldness. Other types of metrics such as motif measurements and
+                       resilient measurements can be used depending on the purpose of the study (Rubinov
+                       and Sporns September 2010). Integrating results from different studies also raises a
+                       big challenge. Graph metrics can exhibit variability with different network thresh-
+                       olds, across diverse sources of datasets, and in the presence of varied graph construc-
+                       tion methods. This variability hampers the reliability and generalizability of findings.
+                       Additionally, addressing the need to establish a clear connection between graph met-
+                       rics and cognitive meaning is crucial. As we delve into the intricate details of brain
+                       network analysis, elucidating how specific graph metrics relate to cognitive functions
+                       becomes essential for translating the findings into clinically relevant insights.
+                    3) Neural Network as a tool for exploring brain connectivity: Studying brain disorders
+                       across various scales and resolutions is crucial, yet it introduces complexities in
+                       understanding networks and determining connectivity patterns. To address this chal-
+                       lenge, the application of neural networks becomes paramount. Their inherent abil-
+                       ity to autonomously learn pertinent features from data offers a promising solution.
+                       Furthermore, within the realm of Deep Learning, a specific subset known as Graph
+                       Neural Networks (GNNs) (Bessadok et al. 2023) has garnered significant interest
+                       from the research community. Hence, employing deep learning and GNNs as tools
+                       for analyzing metabolic networks appears particularly relevant. This approach holds
+                       the potential to enhance our comprehension of underlying patterns and correlations
+                       between different groups, paving the way for more effective analyses and interpreta-
+                       tions.
+                    4) Clinical Intervention: Transition from neuroimaging and graph theory analyses to
+                       practical clinical applications is crucial for a better diagnosis and treatment. Translat-
+                       ing insights gained from intricate graph analyses into actionable clinical diagnoses
+                       and treatment strategies is paramount for the field’s advancement. Integrating neuro-
+Tuan et al. EJNMMI Reports        (2025) 9:4                                                                                                 Page 25 of 28
+
+
+
+
+                         imaging features into disease classification might help to define novel sub-types clas-
+                         sification, based on pathophysiological mechanisms and not only clinical symptoms.
+                         Following diagnosis, the predictive and monitoring capabilities of neuroimaging
+                         and graph theory might help to better grasp disease progression, enabling accurate
+                         tracking of changes over time or in response to interventions. This not only refines
+                         diagnostic precision but also establishes a foundation for tailoring treatments to indi-
+                         vidual patient needs.
+                         Overcoming these challenges will be pivotal for advancing the utility of FDG-PET
+                         and graph theory in unravelling the complexities of neurological disorders and cog-
+                         nitive processes.
+
+
+                  Conclusion
+                  This paper offers a brief overview of graph theory and its application to the analysis of
+                  FDG-based metabolic networks. We begin with a concise description of graphs and
+                  graph metrics. Following that, we provide a summary of recent work on metabolic net-
+                  works and graph theory, covering various aspects such as types of graphs and targeted
+                  brain disorders. And in the final section, we provide a brief description of several chal-
+                  lenges and emphasize some interesting research directions for the future.
+
+                  Abbreviations
+                  FDG-PET	Fluorodeoxyglucose Positron Emission Tomography
+                  MRI	Magnetic Resonance Imaging
+                  CN	Cognitive Normal
+                  MCI	Mild Cognitive Impairment
+                  AD	Alzheimer’s Disease
+                  PD	Parkinson’s Disease
+                  TLE	Temporal Lobe Epilepsy
+
+                  Acknowledgements
+                  We would like to extend our heartfelt gratitude to our colleagues at the Institut Marseille Imaging and the Advanced
+                  Institute of Engineering and Technology (VNU) for their invaluable support in acquiring and analysing the papers for our
+                  survey.
+
+                  Author contributions
+                  PMT, MA, and EG proposed ideas about the work and the concepts of the study. PMT performed the systematic review
+                  and data extraction. PMT and IBP performed the meta-analysis. PMT prepared the first draft of the manuscript. PMT, MA,
+                  NLT, TH, IBP, and EG reviewed the manuscript. All authors have read the final manuscript and approved the version to be
+                  published.
+
+                  Funding
+                  The project is funded by Excellence Initiative of Aix-Marseille University—A*MIDEX, a french "Investissements d’Avenir"
+                  programme (AMX-19-IET-002), and Vietnam National Foundation for Science and Technology Development (NAFOSTED)
+                  under grant number 102.04-2021.55.
+
+                  Availability of data and materials
+                  All data generated or analyzed during this study are included in this published article.
+
+
+                  Declarations
+                  Ethics approval and consent to participate
+                  This is a review article; therefore, ethical approval is not applicable.
+
+                  Consent to participate
+                  Not applicable.
+
+                  Consent for publication
+                  Not applicable.
+
+                  Competing interests
+                  The other authors declare no conflicts of interest.
+Tuan et al. EJNMMI Reports       (2025) 9:4                                                                                                     Page 26 of 28
+
+
+
+
+                  Received: 29 August 2024 Accepted: 4 December 2024
+
+
+
+
+                  References
+                  Attwell D, Iadecola C (2002) The neural basis of functional brain imaging signals. Trends Neurosci 25(12):621–625
+                  Azevedo FA, Carvalho LR, Grinberg LT, Farfel JM, Ferretti RE, Leite RE, Filho WJ, Lent R, Herculano-Houzel S (2009) Equal
+                         numbers of neuronal and nonneuronal cells make the human brain an isometrically scaled-up primate brain. J
+                         Comp Neurol 513(5):532–541
+                  Bassett DS, Bullmore ED (2006) Small-World Brain Networks. Neuroscientist 12(6):512–523
+                  Bassett DS, Sporns O (2017) Network Neuroscience. Nat Neurosci 20(3):353–364
+                  Bessadok A, Mahjoub MA, Rekik I (2022) Graph neural networks in network neuroscience. IEEE Transact Pattern Anal
+                         Mach Intell 45(5):5833–5848
+                  Bretto A (2013) Hypergraph theory: an introduction. Mathematical Engineering. Springer International Publishing,
+                         Heidelberg
+                  Bullmore ET, Bassett DS (2011) Brain graphs: graphical models of the human brain connectome. Annu Rev Clin Psychol
+                         7(1):113–140
+                  Bullmore E, Sporns O (2009) Complex brain networks: graph theoretical analysis of structural and functional systems. Nat
+                         Rev Neurosci 10(3):186–198
+                  Bullmore E, Sporns O (2012) The economy of brain network organization. Nat Rev Neurosci 13(5):336–349
+                  Catani M, Ffytche DH (2005) The rises and falls of disconnection syndromes. Brain 128(10):2224–2239
+                  Cho KH, Park KM, Lee HJ, Cho H, Lee DA, Heo K, Kim SE (2022) Metabolic network is related to surgical outcome in tem-
+                         poral lobe epilepsy with hippocampal sclerosis: A brain FDG-PET study. J Neuroimag 32(2):300–313
+                  Chugani HT, Phelps ME, Mazziotta JC (1987) Positron emission tomography study of human brain functional develop-
+                         ment. Ann Neurol 22(4):487–497
+                  Di X, Gohel S, Thielcke A, Wehrl HF, Biswal BB (2017) Alzheimer’s Disease Neuroimaging Initiative. Do all roads lead to
+                         Rome? A comparison of brain networks derived from inter-subject volumetric and metabolic covariance and
+                         moment-to-moment hemodynamic correlations in old individuals. Brain Struct Funct 222:3833–3845
+                  Farahani FV, Karwowski W, Lighthall NR (2019) Application of graph theory for identifying connectivity patterns in human
+                         brain networks: a systematic review. Front Neurosci 13:585
+                  Fornito A, Zalesky A, Bullmore E (2016) Fundamentals of Brain Network Analysis. Academic press
+                  Ge J, Wang M, Lin W, Ping Wu, Guan Y, Zhang H, Huang Z, Yang L, Zuo C, Jiang J, Rominger A, Shi K (2020) Metabolic net-
+                         work as an objective biomarker in monitoring deep brain stimulation for Parkinson’s disease: a longitudinal study.
+                         EJNMMI Res 10(1):131
+                  He Y, Evans A (2010) Graph theoretical modeling of brain connectivity. Curr Opin Neurol 23(4):341–350
+                  Huang S-Y, Hsu J-L, Lin K-J, Liu H-L, Wey S-P, Hsiao I-T (2018) Characteristic patterns of interand intra-hemispheric meta-
+                         bolic connectivity in patients with stable and progressive mild cognitive impairment and Alzheimer’s disease. Sci
+                         Rep 8(1):13807
+                  Huang SY, Hsu JL, Lin KJ, Hsiao IT (2020) A novel individual metabolic brain network for 18F-FDG PET imaging. Front
+                         Neurosci 14:344
+                  Huang Qi, Zhang J, Zhang T, Wang H, Yan J (2020) Age-associated reorganization of metabolic brain connectivity in
+                         Chinese children. Eur J Nucl Med Mol Imaging 47(2):235–246
+                  Huang G, Xin M, Hao Y, Bai S, Liu J, Zhang C (2022) Cerebral metabolic network in patients with anti-N-Methyl-D-aspar-
+                         tate receptor encephalitis on 18F-FDG PET imaging. Front Neurosci 29(16):885425
+                  Huang Qi, Ren S, Zhang T, Li J, Jiang D, Xiao J, Hua F, Xie F, Guan Y (2022) AgingRelated modular architectural reorganiza-
+                         tion of the metabolic brain network. Brain Connect 12(5):432–442
+                  Humphries MD, Gurney K (2008) Network ‘small-world-ness’: a quantitative method for determining canonical network
+                         equivalence. PLoS ONE 3(4):e0002051
+                  Imai M, Tanaka M, Sakata M, Wagatsuma K, Tago T, Toyohara J, Sengoku R, Nishina Y, Kanemaru K, Ishibashi K, Murayama
+                         S, Ishii K (2020) Metabolic network topology of alzheimer’s disease and dementia with lewy bodies generated using
+                         fluorodeoxyglucose positron emission tomography. J Alzheimer’s Disease 73(1):197–207
+                  Jie B, Wee C-Y, Shen D, Zhang D (2016) Hyper-connectivity of functional networks for brain disease diagnosis. Med Image
+                         Anal 32:84–100
+                  Kuang L, Zhao D, Xing J, Chen Z, Xiong F, Han X (2019) Metabolic brain network analysis of FDG-PET in Alzheimer’s
+                         disease using Kernel-based persistent features. Molecules 24(12):2301
+                  de Lange SC, Scholtens LH, Alzheimer’s Disease Neuroimaging Initiative, van den Berg LH, Boks MP, Bozzali M, Cahn W,
+                         Dannlowski U, Durston S, Geuze E, van Haren NE (2019) Shared vulnerability for connectome alterations across
+                         psychiatric and neurological brain disorders. Nature human behaviour. 3(9): 988-98
+                  Lee H, Chung MK, Kang H, Lee DS (2014) Hole detection in metabolic connectivity of Alzheimer’s disease using k− lapla-
+                         cian. InMedical Image Computing and Computer-Assisted Intervention–MICCAI 2014: 17th International Confer-
+                         ence, Boston, MA, USA, September 14-18, 2014, Proceedings, Part III 17 2014 (pp. 297-304). Springer International
+                         Publishing
+                  Li Y, Yao Z, Zhang H, Bin Hu (2018) Indirect relation based individual metabolic network for identification of mild cogni-
+                         tive impairment. J Neurosci Methods 309:188–198
+                  Li Y-L, Zheng M-X, Hua X-Y, Gao X, Jia-Jia Wu, Shan C-L, Zhang J-P, Wei D, Jian-Guang Xu (2023) Crossmodality
+                         comparison between structural and metabolic networks in individual brain based on the Jensen-Shannon
+                         divergence method: a healthy Chinese population study. Brain Struct Funct 228(3–4):761–773
+                  Li W, Tang Y, Peng L, Wang Z, Shuo Hu, Gao X (2023) The reconfiguration pattern of individual brain metabolic con-
+                         nectome for Parkinson’s disease identification. MedComm 4(4):e305
+Tuan et al. EJNMMI Reports      (2025) 9:4                                                                                                  Page 27 of 28
+
+
+
+
+                  Liu J, Li L, Li Y, Wang Q, Liu R, Ding Hu (2021) Regional metabolic and network changes in Meige syndrome. Sci Rep
+                        11(1):15753
+                  Liu Li, Chu M, Nie B, Liu L, Xie K, Yue Cui Yu, Kong ZC, Nan H, Chen K, Rosa-Neto P, Liyong Wu (2022) Reconfigured
+                        metabolism brain network in asymptomatic microtubule-associated protein tau mutation carriers: a graph
+                        theoretical analysis. Alzheimer’s Res Therapy 14(1):52
+                  Lord L-D, Stevner AB, Deco G, Kringelbach ML (2017) Understanding principles of integration and segregation using
+                        whole-brain computational connectomics: Implications for neuropsychiatric disorders. Philosophical Transact
+                        Royal Soc Math Phys Eng Sci 375(2096):20160283
+                  Ma J, Hua X-Y, Zheng M-X, Jia-Jia Wu, Huo B-B, Xing X-X, Gao X, Zhang H, Jian-Guang Xu (2022) Brain metabolic net-
+                        work redistribution in patients with white matter hyperintensities on MRI analyzed with an individualized index
+                        derived from 18F-FDG-PET/MRI. Korean J Radiol 23(10):986–997
+                  Medaglia JD, Lynall M-E, Bassett DS (2015) Cognitive network neuroscience. J Cogn Neurosci 27(8):1471–1491
+                  Meunier D, Lambiotte R, Bullmore ET (2010) Modular and hierarchically modular organization of brain networks.
+                        Front Neurosci 8(4):200
+                  Moher D, Liberati A, Tetzlaff J, Altman DG (2009) Preferred reporting items for systematic reviews and meta-analyses:
+                        the PRISMA statement. J Clin Epidemiol 62(10):1006–1012
+                  Mure H, Hirano S, Tang CC, Isaias IU, Antonini A, Ma Y, Dhawan V, Eidelberg D (2011) Parkinson’s disease tremor-
+                        related metabolic network: characterization, progression, and treatment effects. Neuroimage 54(2):1244–1253
+                  Pakkenberg B (2003) Aging and the human neocortex. Exp Gerontol 38(1–2):95–99
+                  Park H-J, Friston K (2013) Structural and functional brain networks: from connections to cognition. Science
+                        342(6158):1238411
+                  Peng L, Zhang Z, Chen X, Gao X (2022) Alternation of the Rich-Club organization of individual brain metabolic net-
+                        works in Parkinson’s disease. Front Aging Neurosci 8(14):9648745
+                  Petersen RC, Aisen PS, Beckett LA, Donohue MC, Gamst AC, Harvey DJ, Jack CR, Jagust WJ, Shaw LM, Toga AW,
+                        Trojanowski JQ, Weiner MW (2010) Alzheimer’s disease neuroimaging initiative (ADNI): Clinical characterization.
+                        Neurology 74(3):201–209
+                  Tuan PM, Phan TL, Adel M, Bourennane S, Trung NL, Guedj E. C-Atlas: A Brain Mapping based on FDG-PET Images
+                        for Alzheimer’s Disease Diagnosis. In2022 RIVF international conference on computing and communication
+                        technologies (RIVF) 2022 Dec 20 (pp. 150-155). IEEE
+                  Phelps ME, Huang SC, Hoffman EJ, Selin C, Sokoloff L, Kuhl DE (1979) Tomographic measurement of local cerebral
+                        glucose metabolic rate in humans with (F-18)2-fluoro-2-deoxy-D-glucose: validation of method. Ann Neurol
+                        6(5):371–388
+                  Qi S, Meesters S, Nicolay K, ter Haar Romeny BM, Ossenblok P (2015) The influence of construction methodology on
+                        structural brain network measures: a review. J Neurosci Methods 30(253):170–182
+                  Rahmani F, Sanjari Moghaddam H, Rahmani M, Aarabi MH (2020) Metabolic connectivity in Alzheimer’s diseases. Clin
+                        Translat Imag 8(3):157–166
+                  Reijneveld JC, Ponten SC, Berendse HW, Stam CJ (2007) The application of graph theoretical analysis to complex
+                        networks in the brain. Clin Neurophysiol 118(11):2317–2331
+                  Ren S, Huang Q, Bao W, Jiang D, Xiao J, Li J, Xie F, Guan Y, Feng R, Hua F (2021) Metabolic brain network and surgical
+                        outcome in temporal lobe epilepsy: a graph theoretical study based on 18F-fluorodeoxyglucose PET. Neurosci-
+                        ence 478:39–48
+                  Rubinov M, Sporns O (2010) Complex network measures of brain connectivity: uses and interpretations. Neuroimage
+                        52(3):1059–1069
+                  Zhao Y, Yao Z, Zheng W, Yang J, Ding Z, Li M, Lu S. Predicting MCI progression with individual metabolic network
+                        based on longitudinal FDG-PET. In2017 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+                        2017 Nov 13 (pp. 1894-1899). IEEE
+                  Sporns O (2013) Network attributes for segregation and integration in the human brain. Curr Opin Neurobiol
+                        23(2):162–171
+                  Sporns O (2013) Structure and function of complex brain networks. Dialogues Clin Neurosci 15(3):247–262
+                  Sporns O (2018) Graph theory methods: applications in brain networks. Dialogues Clin Neurosci 20(2):111–121
+                  Sporns O, Chialvo D, Kaiser M, Hilgetag C (2004) Organization, development and function of complex brain networks.
+                        Trends Cogn Sci 8(9):418–425
+                  Sporns O, Tononi G, Kötter R (2005) The human connectome: a structural description of the human brain. PLoS
+                        Comput Biol 1(4):e42
+                  Stam CJ (2014) Modern network science of neurological disorders. Nat Rev Neurosci 15(10):683–695
+                  Tzourio-Mazoyer N, Landeau B, Papathanassiou D, Crivello F, Etard O, Delcroix N, Mazoyer B, Joliot M (2002) Auto-
+                        mated anatomical labeling of activations in SPM using a macroscopic anatomical parcellation of the MNI MRI
+                        single-subject brain. Neuroimage 15(1):273–289
+                  Van Den Heuvel MP, Sporns O (2019) A cross-disorder connectome landscape of brain dysconnectivity. Nat Rev
+                        Neurosci 20(7):435–446
+                  Wang J (2010) Graph-based network analysis of resting-state functional MRI. Front Syst Neurosci 7(4):1419
+                  Wang K-L, Wei Hu, Liu T-H, Zhao X-B, Han C-L, Xia X-T, Zhang J-G, Wang F, Meng F-G (2018) Metabolic covariance
+                        networks combining graph theory measuring aberrant topological patterns in mesial temporal lobe epilepsy.
+                        CNS Neurosci Ther 25(3):396–408
+                  Wang M, Jiang J, Yan Z, Alberts I, Ge J, Zhang H, Zuo C, Jintai Yu, Rominger A, Shi K (2020) Individual brain metabolic
+                        connectome indicator based on Kullback-Leibler Divergence Similarity Estimation predicts progression from mild
+                        cognitive impairment to Alzheimer’s dementia. Eur J Nucl Med Mol Imaging 47(12):2753–2764
+                  Wang X, Lin D, Zhao C, Li H, Fu L, Huang Z, Xu S (2023) Abnormal metabolic connectivity in default mode network of
+                        right temporal lobe epilepsy. Front Neurosci 23(17):1011283
+                  Watts DJ, Strogatz SH (1998) Collective dynamics of ‘small-world’ networks. Nature 393(6684):440–442
+Tuan et al. EJNMMI Reports       (2025) 9:4                                                                                                Page 28 of 28
+
+
+
+
+                  Yakushev I, Drzezga A, Habeck C (2017) Metabolic connectivity: methods and applications. Curr Opin Neurol
+                        30(6):677–685
+                  Yao Z, Bin H, Zheng J, Zheng W, Chen X, Gao X, Xie Y, Fang L (2015) A FDG-PET study of metabolic networks in apolipo-
+                        protein E ε4 allele carriers. PLoS ONE 10(7):e0132300. https://​doi.​org/​10.​1371/​journ​al.​pone.​01323​00
+
+                        ness And Leave-One-Out analysis: an FDG-PET study. Am J Alzheimer’s Disease Other Dementias® 33(1):42–54
+                  Yao Z, Bin Hu, Chen X, Xie Y, Gutknecht J, Majoe D (2018) Learning metabolic brain networks in MCI and AD by Robust-
+
+                  Zhijun Yao, Bin Hu, Huailiang Nan, Weihao Zheng, and Yuanwei Xie. Individual metabolic network for the accurate detec-
+                        tion of Alzheimer’s disease based on FDGPET imaging. In 2016 IEEE International Conference on Bioinformatics and
+                        Biomedicine (BIBM), pages 1328–1335, December 2016.
+                  Yu J, Hua L, Cao X, Chen Q, Zeng X, Yuan Z, Wang Y (2023) Construction of an individualized brain metabolic network in
+                        patients with advanced non-small cell lung cancer by the Kullback-Leibler divergence-based similarity method: a
+                        study based on 18F-fluorodeoxyglucose positron emission tomography. Front Oncol 10(13):1098748
+                  Yuxiao Hu, Qiang Xu, Shen J, Li K, Zhu H, Zhang Z, Guangming Lu (2015) Small-worldness and gender differences of
+                        large scale brain metabolic covariance networks in young adults: A FDG PET study of 400 subjects. Acta Radiol
+                        56(2):204–213
+
+
+                  Publisher’s Note
+                  Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+

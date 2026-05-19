@@ -1,0 +1,893 @@
+                                                                                                   www.nature.com/scientificreports
+
+
+
+
+                OPEN             Stages prediction of Alzheimer’s
+                                 disease with shallow 2D and 3D
+                                 CNNs from intelligently selected
+                                 neuroimaging data
+                                 Jalees ur Rahman1, Muhammad Hanif1, Obaid ur Rehman2, Usman Haider3,
+                                 Saeed Mian Qaisar4,5 & Paweł Pławiak6,7
+                                 Detection of Alzheimer’s Disease (AD) is critical for successful diagnosis and treatment, involving the
+                                 common practice of screening for Mild Cognitive Impairment (MCI). However, the progressive nature
+                                 of AD makes it challenging to identify its causal factors. Modern diagnostic workflows for AD use
+                                 cognitive tests, neurological examinations, and biomarker-based methods, e.g., cerebrospinal fluid
+                                 (CSF) analysis and positron emission tomography (PET) imaging. While these methods are effective,
+                                 non-invasive imaging techniques like Magnetic Resonance Imaging (MRI) are gaining importance. Deep
+                                 Learning (DL) approaches for evaluating alterations in brain structure have focused on combining MRI
+                                 and Convolutional Neural Networks (CNNs) within the spatial architecture of DL. This combination
+                                 has garnered significant research interest due to its remarkable effectiveness in automating feature
+                                 extraction across various multilayer perceptron models. Despite this, MRI’s noisy and multidimensional
+                                 nature requires an intelligent preprocessing pipeline for effective disease prediction. Our study aims
+                                 to detect different stages of AD from the multidimensional neuroimaging data obtained through
+                                 MRI scans using 2D and 3D CNN architectures. The proposed preprocessing pipeline comprises
+                                 skull stripping, spatial normalization, and smoothing. It is followed by a novel and efficient pixel
+                                 count-based frame selection and cropping approach, which renders a notable dimension reduction.
+                                 Furthermore, the learnable resizer method is applied to enhance the image quality while resizing the
+                                 data. Finally, the proposed shallow 2D and 3D CNN architectures extract spatio-temporal attributes
+                                 from the segmented MRI data. Furthermore, we merged both the CNNs for further comparative
+                                 analysis. Notably, 2D CNN achieved a maximum accuracy of 93%, while 3D CNN reported the highest
+                                 accuracy of 96.5%.
+
+                                 Keywords Alzheimer’s disease, Convolutional neural network, Deep learning, Frames selection, Learnable
+                                 resizer, Magnetic resonance imaging, Multidimensional data, Preprocessing
+
+                                 Alzheimer’s Disease (AD) is an irretrievable, progressive, and chronic neurodegenerative disorder clinically
+                                 expressed by cognitive dysfunction, amnesia, and steady loss of various brain functions and everyday living
+                                 independent actions1. The number of AD patients is anticipated to grow worldwide from the existing 47 million
+                                 to 152 million by the end of 2050, which causes far-reaching medical, social, and economic aftereffects2. The
+                                 pathogenesis of AD remains unexplained, and the available therapies cannot cure it or stop its progression
+                                 completely. AD detection by Mild Cognitive Impairment (MCI) screening is critical for successful care
+                                 policies and actions to counter further disease deterioration. Magnetic Resonance Imaging (MRI) analyzes the
+                                 structural changes in the brain caused by AD, Mild Cognitive Impairment (MCI), and Cognitively Normal (CN)
+
+                                 1Faculty of Computer Science and Engineering, Ghulam Ishaq Khan Institute of Engineering Sciences and
+                                 Technology, Topi, Pakistan. 2Faculty of Computer Science and Information Technology, University of Malaya,
+                                 Kuala Lumpur, Malaysia. 3Department of AI & DS, FAST School of Computing, National University of Computer
+                                 and Emerging Sciences, Islamabad, Pakistan. 4College of Engineering and Technology, American University
+                                 of the Middle East, Egaila, Kuwait. 5Electrical and Computer Engineering Department, Effat University, 21478
+                                 Jeddah, Saudi Arabia. 6Department of Computer Science, Faculty of Computer Science and Telecommunications,
+                                 Cracow University of Technology, Warszawska 24, 31-155 Krakow, Poland. 7Institute of Theoretical and Applied
+                                 Informatics, Polish Academy of Sciences, Bałtycka 5, 44-100 Gliwice, Poland. email: saeed.qaisar@aum.edu.kw;
+                                 plawiak@pk.edu.pl
+
+
+Scientific Reports |   (2025) 15:9238               | https://doi.org/10.1038/s41598-025-93560-x                                            1
+www.nature.com/scientificreports/
+
+
+                                 manifestation. Neuroimaging helps in visualizing structural brain changes. Figure 1 demonstrates the brain
+                                 changes where the ventricle enlargement and hippocampal size can be observed in the sample MRI images (AD
+                                 brain with cortical atrophy is compared with the MRI image of MCI and CN). It is clear that the brain texture
+                                 changes with the progression of AD disease (CN to MCI to AD).
+                                     Neuroimaging biomarkers have been employed in earlier research to automatically predict various phases
+                                 of AD or the progression of AD3–5. These investigations use MRI images heavily because of their affordable
+                                 price and excellent resolution. The MRI images have been analyzed using a range of Machine Learning (ML)
+                                 frameworks, including Random Forrest (RF), Boosting Techniques, and the Support Vector Machine (SVM), to
+                                 identify AD6 automatically. However, current machine learning models typically require a deliberate selection
+                                 of previously established brain Regions of Interest (ROI). These are predicated on the representations of known
+                                 MRI features7,8. Additionally, a manual ROI assortment may contain subjective inaccuracies8. This is particularly
+                                 the case when there is an insufficient understanding of the conclusive MRI biomarkers. In such scenarios, the
+                                 pre-assorted ROIs are expected not to enclose all the potentially valuable indications to categorize the AD.
+                                     Early detection of AD can lead to a proper cure. Several solutions have been presented in this context using the
+                                 classical image processing approaches8,9, ML methods7, and the most advanced Deep Learning (DL) models4,5.
+                                 Classical approaches are focused on the protein side detection of the disease, which is limited to detecting AD
+                                 with high confidence9. On the other hand, ML methods are automated ways to detect AD with as high possible
+                                 confidence and probability6as possible. A simple workflow for the detection of any disease, especially AD,
+                                 consists of (i) data acquisition, (ii) data preprocessing, (iii) features selection or dimension reduction, (iv) model
+                                 selection, (v) training, (vi) validation, (vii) testing, and (viii) evaluation. Traditional ML algorithms rely on
+                                 information collected from the data rather than applying it to raw data, necessitating much work and extensive
+                                 domain knowledge10. The selection of data features and information significantly impacts the classification
+                                 framework’s accuracy, sensitivity, and specificity, among other aspects. Moreover, the number of parameters in
+                                 the ML methods is much higher, and single-subject neuroimaging data has millions of dimensions. On the other
+                                 hand, the DL-based approaches take their cues directly from the input data. The handcrafted feature selection in
+                                 ML is overcome by automated and self-learning-based feature selection with DL. The DL methods have multiple
+                                 layers that can automate the feature extraction process by learning to turn the raw data into a more composite
+                                 representation at each layer in a subsequent fashion5.
+                                     Attention mechanisms are crucial in deep learning architectures, particularly in tasks involving sequential or
+                                 spatial data. These mechanisms enable the model to selectively focus on specific parts of the input data, assigning
+                                 varying degrees of importance to different elements11. In the case of medical imaging, the attention mechanisms
+                                 can enhance the model’s ability to identify relevant features in a region-specific manner12. The mechanism has
+                                 recently been used to detect AD from MRI modalities because MRI scans provide highly detailed and spatially
+                                 complex information about the brain13–15. Attention mechanisms allow the model to focus on specific ROIs
+                                 within the brain, potentially capturing subtle patterns or abnormalities associated with AD.
+                                     The more cutting-edge approaches, including stacked auto-encoders (SAE)16, deep belief networks (DBNs)17,
+                                 convolutional neural networks (CNNs)18, recurrent neural networks (RNNs)19, and so on, are characterized
+                                 by deep learning. These techniques modify the data’s low-level properties to create an abstract or high-level
+                                 representation of the learning systems16. In this20, a dual-tree complex wavelet transform-based approach is used
+                                 to extract features from the input, after which a feed-forward neural network (FDNN) is used for classification.
+                                 Convolutional layers make up the CNN, a deep multilayer artificial neural network (ANN) that enables a model
+                                 to extract feature maps acquired from the product of inputs and kernels, enabling the detection of patterns.
+                                 Additionally, CNNs have demonstrated excellent feature categorization accuracy21–23. Two types of CNN
+                                 architectures for AD classification are 2D and 3D CNNs. Some studies have also focused on transfer learning-
+                                 based pre-trained models to detect the disease, including VGG architectures24. The authors have used VGG-16
+                                 to accurately classify brain MRI slices into CN, MCI, and AD in binary form. The maximum accuracy reported is
+                                 for AD vs. CN, which is 98%. Similarly, AlexNet is used with transfer learning to detect the disease from healthy
+                                 subjects with an accuracy of 95%25. These models are limited to the pre-trained shapes and sizes of the used
+                                 models, while the size and structure of neuroimaging data can be changed from person to person.
+                                     The majority of CNN designs are two-dimensional. CNN fared better in segmentation applications than
+                                 other techniques like logistic regression and SVM for discrimination. It demonstrates that ML algorithms like
+                                 SVM and logistic regression have lower inherent feature extraction capabilities26 than CNN. The detection of
+                                 neurodegenerative illnesses has been shown by the Computer-Aided Diagnosis (CAD) systems, which are based
+                                 on CNNs27. 2D CNN architectures, such as ResNet and GoogleNet, have achieved vital distinctions between
+                                 the CN AD and MCI21. The Alzheimer’s Disease Neuroimaging Initiative (ADNI) neuroimaging data produced
+                                 highly discriminative features via ResNet-152 to detect stage (AD, MCI, and CN) progression. LeNet-5, an
+
+
+
+
+                                 Fig. 1. Cross-sections from CN, MCI, and AD MRI images.
+
+
+Scientific Reports |   (2025) 15:9238                | https://doi.org/10.1038/s41598-025-93560-x                                                    2
+www.nature.com/scientificreports/
+
+
+                                 additional deep network and CNN architecture suggested18, separates the AD from the CN brain. Transfer
+                                 learning and the VGG-16 pre-trained architecture were utilized28 to classify AD, MCI, and CN into many classes.
+                                 Brain slices are classified into NC, MCI, and AD using a new 2D-CNN architecture29 that employs ResNet-50
+                                 with distinct activations and batch normalization. To classify the AD stages, the SegNet is proposed30 to extract
+                                 local information related to brain morphology. Resnet-101 executed AD, MCI, and CN classification. All the
+                                 above studies have focused on the 2D architectures of CNN models. A main drawback of the 2D CNNs is they
+                                 cannot detect the flow of structural changes in neuroimaging data.
+                                     However, using brain MRI images, a 3D-CNN architecture created a classifier to distinguish between the CN
+                                 and AD23. To reliably characterize the AD stages31, the authors have used 3D-ResNet-18 with data-augmented
+                                 Resnet-18 for feature extraction. For the binary AD classification—CN vs. AD, CN vs. MCI, and AD vs. MCI—
+                                 the ResNet-18 architecture is altered3132. The transfer learning technique is applied to three pre-trained CNNs,
+                                 ResNet-18, ResNet-50, and ResNet-101, for MRI images’ three-way classification (AD, CN, MCI). Similarly,
+                                 a different deep supervised adaptive 3D-CNN33 used 3D Convolutional autoencoder stacking to predict AD
+                                 without removing the skull’s structural elements. Using the ADNI dataset, a probability-based CNN fusion34
+                                 employed DenseNet to identify AD stages for identifying functional changes in the neuroimaging data. The
+                                 3D Net-121 identified the AD phases with a 70% dropout rate. An ensemble of densely connected 3D-CNNs is
+                                 proposed35 for the AD and MCI prediction to optimize the use of extracted data. The binary classification CNN
+                                 topologies (AD/MCI or MCI/CN). More research needs to be done specifically on 3D CNN architectures.
+                                     Deep learning techniques, particularly deep neural networks, have been widely used for AD detection in recent
+                                 years. For example, Farooq et al. developed a deep CNN-based multi-class classification model for AD using
+                                 MRI, achieving significant improvements in accuracy21. Likewise, Vision Transformers have been investigated
+                                 for their potential in AD categorization task36. Zhang et al. proposed two models namely the Convolutional
+                                 Voxel Vision Transformer (CVVT) and ConvNet3D-4 for a binary AD classification. They have shown that the
+                                 devised methods provide advantages in capturing global context between voxels in an MRI scan36. It is shown
+                                 that the CVVT and ConvNet3D-4 respectively secured 86% and 98% accuracy scores for the binary classification
+                                 problem. The Optimized Vision Transformer for AD (OViTAD) further refines transformer architecture by
+                                 reducing parameters and optimizing transformer input dimensions37. OViTAD handles rs-fMRI and sMRI,
+                                 applying complex preprocessing techniques and a majority voting system for subject-level predictions. Despite
+                                 achieving high accuracy, this method flattens 3D/4D data to 2D images, potentially losing spatial context, and
+                                 remains computationally expensive due to the nature of transformer models.
+                                     These aforementioned studies highlight the versatility of deep learning architectures across AD identification,
+                                 paving the way for our approach to AD detection. In contrast, to previous works21,36, and37 our method
+                                 emphasizes computational efficiency and task-specific optimization using shallow 2D and 3D CNNs. Our
+                                 approach integrates domain-specific preprocessing steps, such as skull stripping, normalization, and frame
+                                 selection, followed by a learnable resizer to optimize input frames dynamically. Unlike transformer-based
+                                 methods, we do not rely on transfer learning or large-scale pretraining, making the model more adaptable and
+                                 accessible for various clinical environments. Furthermore, our method preserves the 3D spatial structure of
+                                 MRI data, improving feature extraction and maintaining contextual information critical for AD diagnosis. These
+                                 differences highlight the practicality and versatility of our approach, particularly in scenarios where resources
+                                 are limited or real-time inference is required.
+
+                                 Contribution
+                                 It is observed from the literature that researchers have focused on deep 2D CNN or 3D CNN for the automated
+                                 identification of AD. Moreover, transfer learning is used for 2D CNN architectures to enhance the prediction
+                                 performance and avoid the respective model’s overfitting. Transfer learning has a limitation in the unchangeable
+                                 dimensions of the input data and hidden layers, which might not suit all cases. Similarly, 2D CNN architectures
+                                 cannot detect the temporal changes in the structures of the neuroimaging data. The 3D CNNs are suitable
+                                 for detecting the temporal and spatial structural changes in the MRI data. Still, these models have limited
+                                 classification accuracy due to the high and dense dimensions of the data38.
+                                      In contrast, our proposed approach introduces a statistically driven frame selection method that identifies
+                                 the most informative slices from MRI data, reducing computational load while preserving critical information.
+                                 Furthermore, the learnable resizer method is applied to the selected MRI data to enhance the image quality
+                                 for deep learning models. Additionally, we design shallow 2D and 3D CNN architectures with significantly
+                                 fewer parameters than traditional models, achieving competitive accuracy with enhanced efficiency. Compared
+                                 to existing few-shot object detection models, our method achieves higher accuracy with a reduced parameter
+                                 count, demonstrating the effectiveness of our frame selection and model design strategies.
+                                      The primary contributions of this work are:
+
+                                 • Devising an efficient frame selection and cropping-based dimensions reduction method. It statistically selects
+                                   the most informative slices and segments based on the pixel count, ensuring that critical features are retained
+                                   while reducing the computational cost and latency. Moreover, it diminishes the model’s overfitting and un-
+                                   derfitting.
+                                 • The selected frames are resized with the help of the learnable resizer instead of interpolation methods.
+                                 • Achieving a 31.1% reduction in dataset size from preprocessed frames and a striking 92.65% reduction from
+                                   raw data, highlighting its substantial efficiency for Deep Learning (DL) applications in AD detection.
+                                 • Proposing the shallow 3D and 2D architectures rather than using the known CNN deep models to enhance
+                                   the detection results of all the three stages of the AD, namely the CN, MCI, and AD.
+                                 • We reduced the number of parameters by ~ 33% for 2D and ~ 85% for 3D CNNs, respectively, while maintain-
+                                   ing comparable or better accuracy than their counterparts.
+
+
+Scientific Reports |   (2025) 15:9238                | https://doi.org/10.1038/s41598-025-93560-x                                                 3
+www.nature.com/scientificreports/
+
+
+                                 The functioning steps are:
+
+                                     (i)	The ANDI dataset is used to test the method’s applicability. Each intended instance contains a sagittal,
+                                          coronal, and transverse view.
+                                    (ii)	Each intended image is pre-processed for enhancement and noise removal. This stage includes skull strip-
+                                          ping, spatial normalization, smoothing, grey normalization, slicing, and resizing.
+                                   (iii)	Efficient frame selection and cropping-based dimension reductions are done using a novel approach.
+                                   (iv)	Resize the efficiently selected frames with the learnable resizer instead of using interpolation techniques.
+                                    (v)	To keep the system computationally efficient, the 3D and 2D shallow CNN architectures are employed for
+                                          automated categorization.
+                                   (vi)	To avoid biases, multiple evaluation measures, accuracy, F1-score, precision, and recall are used to assess
+                                          the classification performance.
+                                  (vii)	As per the author’s best knowledge, the MRI multi-view imaging-based automated categorization of all
+                                          the three stages of AD, the CN, MCI, and AD, is not carried out in the above-mentioned numerated man-
+                                          ner.
+                                 (viii)	The same dataset is comprehensively compared with recent state-of-the-art methods. The proposed meth-
+                                          od achieves similar or better performance, demonstrating the technique’s dependability and resilience in
+                                          detecting AD through MRI image processing.
+                                   (ix)	The rest of the paper is organized as follows: Section “Materials and methods” describes the materials and
+                                          methods used. Section “Experiments and results” presents and discusses the experimental settings and
+                                          findings. Finally, Section “Conclusion” concludes this paper.
+
+                                 Materials and methods
+                                 Figure 2 illustrates the overall flow of the proposed methodology. The raw MRI data undergoes initial preprocessing
+                                 to eliminate noisy data. Since the number of frames in all three MRI views is relatively high, the most informative
+                                 frames are selected using the proposed dimension reduction methods. The selected and cropped frames are
+                                 passed through the learnable resizer method to improve image quality and reduce computational complexity.
+                                 Finally, both 2D and 3D CNN architectures are introduced.
+
+                                 Dataset
+                                 The ADNI database provided the MRI data that were used in the investigation39,40. Three labels are included
+                                 in the labeled ADNI dataset: moderate cognitive impairment (MCI), cognitive normal (CN), and Alzheimer’s
+                                 disease (AD). The same patient appears across multiple visits within this dataset. Approximately 7,000 NIFTI
+                                 files (3D MRI scans) are available. A selection of opinions is shown in Fig. 3. We have considered T1-weighted
+                                 3-year data, which contains 2,182 NIFTI files. Each NIFTI file includes a subject’s sagittal, coronal, and transverse
+                                 views. There are more than 250 sequenced frames/slices for all three views of the MRI data. It is clear from Fig. 3
+                                 that the data is quite noisy. Therefore, the brain portion should be extracted from these images for further
+                                 processing. Additionally, the distribution of the dataset by gender and label, along with statistics on age and
+                                 number of visits, is as follows: CN: 748, MCI: 981, AD: 453, Male: 1,279, Female: 930, Average Age: 76.23,
+                                 Standard Deviation of Age: 6.8, and Average Number of Visits per subject: 4.1.
+
+                                 Preprocessing
+                                 Preprocessing is one of the critical steps in medical imaging. The standard preprocessing pipeline of medical
+                                 imaging includes the following:
+
+                                 • Skull stripping.
+                                 • Spatial normalization.
+                                 • Smoothing.
+
+                                 Using the default parameters of the CAT12 toolkit of the SPM12 toolbox (MATLAB third-party toolbox), the
+                                 T1-Weighted MRI data from the ANDI in NIFTI format was preprocessed. Skull stripping, spatial normalizing,
+                                 and smoothing are all part of the preprocessing pipeline, which results in MRI images that are all 3D and follow
+                                 the dimensions of 121, 145, and 121, respectively, for X, Y, and Z with a spatial resolution of (1.5 × 1.5 × 1.5)
+                                 mm3/voxel. Furthermore, every voxel value in an MRI image is normalized based on its signal intensity. The
+                                 initial value is split by the MRI image’s real maximum value. The values obtained from this normalization fall
+                                 between 0 and 1. Figure 4 displays the views that are produced following the preprocessing pipeline. Re-slicing
+                                 was used to get the 3D-MRI (121 × 145 × 121), which is the total number of sagittal, coronal, and transverse views
+                                 (145 × 121, 121 × 121, and 121 × 145, respectively). Following edge padding and zero filling, the dimensions of
+                                 each 2D slice were adjusted to (145 × 145). Each 2D slice was squared after scaling. However, the reformatted
+                                 MRI image’s central and spatial resolution remained unaltered. An explanation of the entire preprocessing
+                                 pipeline is presented following.
+
+                                 Skull stripping
+                                 The skull stripping technique is an essential field of research for applications involving brain image processing.
+                                 It speeds up and improves the precision of diagnosis in various medical applications. Therefore, it serves as
+                                 an initial step. Brain scans are altered to remove non-cerebral structures such as the dura, scalp, and skull.
+                                 The Adaptive Probability Region-Growing (APRG) method improves the probability maps41. Currently, this
+                                 approach yields the most accurate and consistent results. This study used the APRG approach to extract the skull
+
+
+
+Scientific Reports |   (2025) 15:9238                | https://doi.org/10.1038/s41598-025-93560-x                                                   4
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 2. The devised methodology.
+
+
+
+                                 from MRI data. Given the deviations of ud and ld, the upper and lower thresholds are computed to find the
+                                 membership region using (1) and (2).
+                                                               Tupper = mgv (n) + [ud (n) . w + c (n)](1)
+
+                                 While
+
+
+
+Scientific Reports |   (2025) 15:9238              | https://doi.org/10.1038/s41598-025-93560-x                                         5
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 3. Sample views of MRI images from the ADNI database.
+
+
+
+
+                                 Fig. 4. MRI Preprocessed Views; (A) Sagittal Slice, (B) Coronal Slice, and (C) Transverse Slice.
+
+
+
+
+                                 Algorithm. Generic windows size.
+
+
+
+                                                                 Tlower = mgv (n) − [ld (n) . w + c (n)](2)
+
+                                 Where n is the number of pixels used to compute the estimate.
+
+                                 Spatial normalization
+                                 Spatial normalization aims to modify human brain scans such that one position in a subject’s brain scan
+                                 corresponds to the exact location in a different brain scan. This is because human brains differ in size and shape.
+                                 To be more precise, pictures from various subjects need to be spatially converted so that they all live in the
+                                 same coordinate system and that anatomically relevant regions are situated similarly. To facilitate comparisons
+                                 between subjects with different brain morphologies, spatial normalization is a unique type of image registration
+                                 that aligns an individual’s MRI image with a reference brain space. This study used the DARTEL42 recordings to
+
+
+Scientific Reports |   (2025) 15:9238                | https://doi.org/10.1038/s41598-025-93560-x                                                 6
+www.nature.com/scientificreports/
+
+
+                                 an existing spatial registration template; additionally, by choosing the first of six photos (iterations) of a DARTEL
+                                 template, an optimal shooting strategy is used that uses an adaptive threshold and lower beginning resolutions
+                                 to achieve a good balance between accuracy and calculation time.
+
+                                 Smoothing
+                                 Smoothing is utilized to eliminate the various noises from the MRI frames. The MRI data is sent through a
+                                 Gaussian filter to cut down on noise. The finalized preprocessed frames of all three viewpoints are displayed in
+                                 Fig. 2, which displays the images.
+                                    Let I(x, y) represent the pixel’s intensity value in the input image at coordinates (x, y). Convolution of the
+                                 input image with a Gaussian kernel, G(x, y), is the process of smoothing and it is mathematically given as:
+                                                                                        ∑
+                                                                                        ∞
+                                                                                                ∑
+                                                                                                ∞
+
+                                                  IF ilter (x, y) = (I ∗ G) (x, y) =                  I (i, j) .G (x − i, y − j) .(3)
+                                                                                       i=−∞ j=−∞
+
+
+                                 In Eq. (2), * is the convolution operation. IFilter(x, y) is the smooth image and G(x, y) is given as:
+                                                                                                          2   2
+                                                                                      1         −
+                                                                                                  x +y
+                                                                    G (x, y) =               × e 2× σ 2 .(4)
+                                                                                  2× π × σ 2
+
+
+                                 In Eq. (4), σ is the standard deviation of the Gaussian distribution and in this study its vale is selected as 0.8.
+
+                                 Dimension reduction
+                                 Following preprocessing, each view of the MRI scans contains nearly 150 slices. Enough calculations are required
+                                 to train a CNN model on these enormous slices/frames. Additionally, redundant data could lead to a CNN
+                                 becoming overfit. To lower the overall computations per MRI image, each view’s frame count must be decreased.
+                                 To address this problem, a recent study randomly selected 33 transverse, 50 coronal, and 40 sagittal slices—a
+                                 total of 123 slices—of a subject’s three-dimensional brain image43.
+                                     Since its unclear which frame has more information, the random selection of frames is not persuasive. Data
+                                 loss due to random selection is a possibility. Based on the statistical analysis, the most relevant frames have been
+                                 chosen for our research. First, the count of valid pixels is performed. A slice is eliminated, and the remaining
+                                 frames are selected if they have fewer informative pixels than a threshold value. The following formula (5) can be
+                                 used to determine the count of informative pixels.
+
+                                                                                           Ñ0
+                                                                              I =1−             .(5)
+                                                                                        WF × HF
+
+                                 Where WF is the frame’s height, HF is its width, and Ñ0 is the total number of zeros in the same frame. For this
+                                 study, 16% of the most informative frames were selected from each view, ensuring optimal data representation.
+                                 This resulted in a total of ~120 carefully chosen frames per patient across all views. Statistically chosen frames led
+                                 to a decrease in MRI’s computational complexity. The instructive zone was varied in size in every single frame.
+                                 By using the suggested algorithm, a generic average window size is determined for each patient and each of the
+                                 three views (sagittal, coronal, and transverse):
+                                     The resulting slices have significantly decreased the processing of the MRI files in terms of computing
+                                 complexity. Figure 5 displays an example transverse view following slice cropping.
+
+                                 Learnable resizer
+                                 The learnable resizer is a critical component of the proposed preprocessing pipeline, integrated to optimize the
+                                 preparation of MRI frames for deep learning models. Unlike traditional resizing methods like bilinear or bicubic
+                                 interpolation, the learnable resizer enhances the image specifically for machine vision tasks as shown in Fig. 6.
+                                 This resizer is designed to transform the spatial dimensions and feature representation of frames dynamically.
+                                 The method improves both computational efficiency and model performance. The resizer is implemented as
+                                 a lightweight CNN that is trained jointly with the downstream deep learning model. It consists of multiple
+                                 convolution layers and uses a task-driven resizing operation that optimizes frame dimensions without
+                                 compromising critical features required for accurate diagnosis. This approach allows for more intelligent resizing
+                                 to emphasize the vital brain patterns, while non-informative regions and noise are suppressed.
+
+                                 Deep learning (DL) models
+                                 After the data preprocessing steps, the proposed methodology is divided into two categories, i.e., 2D CNNs
+                                 and 3D CNNs. Recent research used 2D CNNs, i.e., width × height × number_of_frames, for each view
+                                 and merged the results43. The proposed study reduces the number of hidden layers in the 2D CNNs because
+                                 the frame selection reduces the input data size, as shown in Fig. 7. Furthermore, this research has applied 3D
+                                 architecture as well, in which a shallow 3D CNN architecture, ash shown in Fig. 8, i.e., width × height × view
+                                  × number_of_frames, is proposed and compared with 2D CNN and recent research that has used 3D CNN for
+                                 the classification of AD23. The proposed 3D CNN captures the information from all three views simultaneously.
+
+
+
+
+Scientific Reports |   (2025) 15:9238                | https://doi.org/10.1038/s41598-025-93560-x                                                      7
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 5. Sample Transverse View of Slices.
+
+
+
+
+                                 Fig. 6. Selected Transverse View (A) before learnable resizer (B) after learnable resizer.
+
+
+
+                                 Experiments and results
+                                 Experimental setup
+                                 As discussed in the methodology section, this research has focused on the shallow 2D- and 3D-CNN architectures
+                                 to avoid the model’s underfitting and overfitting. 3D CNN is further divided into three different categories
+                                 belonging to the three views, i.e., coronal, sagittal, and transverse. The 2D and 3D CNN architectures are shown
+                                 in Figs. 6 and 7, respectively, where C stands for the convolutional layer, P for the pooling layer, and FC for
+                                 the fully connected layer. Both architectures are shallow because of intelligent frame selection and cropping
+                                 compared to the counterparts. The number of parameters for each 2D CNN is 1,152,115, while 3D CNN has a
+
+
+Scientific Reports |   (2025) 15:9238                | https://doi.org/10.1038/s41598-025-93560-x                                              8
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 7. 2D CNN architectures. Each view has its own CNN architecture with the same parameters.
+
+
+
+
+                                 Fig. 8. 3D CNN architecture.
+
+
+
+                                 total of 1,091,475 parameters. Moreover, Table 1 depicts the configurations of both the models, i.e., 2D CNNs
+                                 and 3D CNNs. All the models are used with the callbacks of early stopping and reduced learning rate to improve
+                                 the performance of the models.
+
+                                 Evaluation measures
+                                 The performance parameters used in this research are reported in terms of accuracy, precision, recall, and
+                                 F-measure. The equations for all four performance measures are given in Eqs. (6), (7), (8), and (9). True Positive
+                                 (TP) are those instances whose ground label is true and is predicted as true, while True Negative (TN) are
+                                 false and predicted as false. Moreover, False Positives (FP) is negative but predicted to be positive, while False
+
+
+Scientific Reports |   (2025) 15:9238                | https://doi.org/10.1038/s41598-025-93560-x                                                9
+www.nature.com/scientificreports/
+
+
+                                  Parameter           Configuration
+                                                      Initial Value             0.001
+                                                      Nature                    Timely Decreasing (Adaptive)
+                                                      Reduction Factor          0.1
+                                  Learning Rate
+                                                      Minimum Possible Value    0.00001
+                                                      Reduction Monitoring      Validation Accuracy
+                                                      Patient to Reduction      2 times
+                                                      Stopping Monitoring       Validation Accuracy
+                                  Stopping Criteria   Patience to Stop          4 times
+                                                      Initial Learning Rate     0.01
+                                                      Trainable                 Yes
+                                  Weights
+                                                      Initial Weights           Random
+                                                      Optimizer                 Adam
+                                                      Loss                      Categorical Cross Entropy
+                                                      Maximum Possible Epochs   Infinite
+                                  Training
+                                                      Batch Size                64
+                                                      Validation Split          15%
+                                                      Performance Metric        Accuracy
+
+
+                                 Table 1. Configuration table for the proposed DL architectures.
+
+
+
+                                 Negatives (FN) is positive but predicted to be negative. As there are four different datasets, i.e., three 2D datasets
+                                 (coronal, sagittal, and transverse) and one 3D dataset, this section has subdivided the results and described each
+                                 separately.
+                                                                                Precision = TP/(TP + FP)(6)
+                                                                                Recall = TP/(TP + FN)(7)
+                                                            F − measure = 2* (Recall * Precision) / (Recall + Precision(8)
+                                                                      Accuracy = (TP + TN)/(TP + FP + FN + TN)(9)
+
+                                 Results and discussion
+                                 2D CNN
+                                 All three views’ results are compiled and reported in the subsections below, which consist of training and
+                                 validation plots and confusion matrices. The number of epochs for each view differs because of the callbacks.
+
+                                 Coronal view
+                                 The number of epochs required to train and validate the 2D CNN model for coronal view is 31. After 31 epochs,
+                                 the model automatically stops the training as the model was going to overfit, as per our proposed callbacks
+                                 mentioned in Table 1. Training and validation plots for coronal view are depicted in Fig. 9, where x-axis has
+                                 total epochs until model is best fit while y-axis shows the accuracy of the model in percentage. Validation plot is
+                                 slightly unsmooth because the view has still some noise which causes the underfitting while training the model.
+                                 Confusion Matrix (CM)-1 shows the confusion matrix compiled between the actual labels and predicted labels.
+                                 The testing accuracy of the model is 92%.
+
+                                         CN    MCI     AD
+                                  CN     130   12      8
+                                  MCI    6     186     4
+                                  AD     2     4       84
+
+
+                                 CM-1: Confusion Matrix of 2D CNN for coronal view.
+
+
+
+                                 Sagittal view
+                                 The number of epochs required to train and validate the 2D CNN model for sagittal view is 16. After 16 epochs,
+                                 the model automatically stopped the training as the model was going to overfit. Training and validation plots
+                                 for the sagittal view are depicted in Fig. 10. It is shown from the figure that the model validation is not that
+                                 smooth in terms of accuracy, which means that the sagittal view has less information. Moreover, CM-2 shows
+                                 the confusion matrix compiled between actual and predicted labels. The testing accuracy of the model is 90.4%.
+
+
+
+
+Scientific Reports |   (2025) 15:9238                       | https://doi.org/10.1038/s41598-025-93560-x                                           10
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 9. Training and validation graph for coronal view (2D).
+
+
+
+
+                                 Fig. 10. Training and validation graph for sagittal view (2D).
+
+
+
+
+Scientific Reports |   (2025) 15:9238               | https://doi.org/10.1038/s41598-025-93560-x   11
+www.nature.com/scientificreports/
+
+
+                                        CN    MCI   AD
+                                  CN    129   11    10
+                                  MCI   6     181   9
+                                  AD    6     5     79
+
+
+                                 CM-2: Confusion Matrix of 2D CNN for sagittal view.
+
+
+
+                                 Transverse view
+                                 The number of epochs required to train and validate the 2D CNN model for the transverse view is 32. After 32
+                                 epochs, the model automatically stopped training as the model was going to overfit. Training and validation
+                                 plots for the coronal view are depicted in Fig. 11. CM-3 shows the confusion matrix compiled between the actual
+                                 labels and predicted labels. The testing accuracy of the model is 93%.
+
+                                        CN    MCI   AD
+                                  CN    130   10    6
+                                  MCI   5     184   7
+                                  AD    3     4     83
+
+
+                                 CM-3: Confusion Matrix of 2D CNN for transverse view.
+
+
+                                    From the above three CMs, the testing accuracy of the coronal view is 92%, the sagittal view is 90.4%, and the
+                                 transverse view has an accuracy of 93%. It can be seen from the results that the transverse view has much more
+                                 information than the sagittal view because the transverse view has less zero value (no information) in a single
+                                 subject’s MRI than the sagittal view. After compiling all the results separately, the mean accuracy, precision,
+                                 recall, and F-measure for all three 2D CNNs are 91.8%, 90.7%, 91.7%, and 91%, respectively.
+
+                                 3D CNN
+                                 After completing a set of 2D experiments, this research has suggested 3D CNN architectures along with the
+                                 results. The number of epochs required to train and validate the 3D CNN model is 34 because the data is in
+                                 higher dimensions than 2D. After 34 epochs, the model automatically stopped training as the model was going
+                                 to overfit. Training and validation plots for 3D data are depicted in Fig. 12. CM-4 shows the confusion matrix
+
+
+
+
+                                 Fig. 11. Training and validation graph for transverse view (2D).
+
+
+Scientific Reports |   (2025) 15:9238                    | https://doi.org/10.1038/s41598-025-93560-x                                          12
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 12. Training and validation graph for 3D CNN.
+
+
+
+                                 compiled between the actual labels and predicted labels. Compared to the other three figures of 2D CNN, the
+                                 validation plots of the 3D CNN are much smoother and diverge while training. It shows that the 3D CNN can
+                                 capture the information from all three views simultaneously, which avoids the model’s underfitting. Due to the
+                                 high dimensions of input data for 3D CNN, it also avoided the model’s overfitting compared to other 2D CNN
+                                 models. The testing accuracy reported for the 3D CNN is 96.4%.
+
+                                        CN    MCI   AD
+                                  CN    142   3     5
+                                  MCI   3     191   2
+                                  AD    2     1     87
+
+
+                                 CM-4: Confusion Matrix of 3D CNN.
+
+
+
+                                 Analysis and interpretation
+                                 From the complete set of experiments performed on 2D- and 3D-CNN architecture, this research has analyzed
+                                 the fact that data size can affect the performance of any deep learning model38. Figure 13 shows the overall
+                                 performance between the 2D CNN architectures and the 3D CNN architecture proposed by this research.
+                                 Figures 7 and 8 show that both models are shallow because of the intelligent frames’ selection and cropping.
+                                 Compared to 2D CNNs, 3D CNN performance is much better, and the model converges correctly because of the
+                                 simultaneous extraction of features from data. In 2D views, CNN models can extract features from a single one,
+                                 which is not the case in 3D data. Features from the same region are extracted in 3D CNN from all three views.
+                                 That is why 3D CNN models result in ~ 88% precision, recall, and F-measure better than 2D views.
+                                     2D CNNs perform well but lack 3D CNNs due to the individual classification of views. Due to the side view
+                                 of the brain, the sagittal view has less information than the other two views, which is why classification based on
+                                 the sagittal view is low compared to the other two views. Similarly, due to the top view of the brain, the transverse
+                                 view has a more informative region in the input data, which results in the best results among the other two views.
+                                 The front view of the brain, coronal view, has more region than sagittal view, which results in slightly better
+                                 results than sagittal. The CNN model used for the transverse view and coronal is a better fit than the sagittal view
+                                 due to the less information. The fitting of CNN models depends on the number of learnable parameters in any
+                                 DL model38.
+                                     Table 2 compares the proposed 2D- and 3D-CNN architectures and the most relevant counterparts. The
+                                 authors used 123 random frames selected from the input preprocessed data, trained all the 123 2D models
+                                 separately, and then took the average of all the accuracies. It is observed that the number of parameters43 has
+
+Scientific Reports |   (2025) 15:9238                    | https://doi.org/10.1038/s41598-025-93560-x                                             13
+www.nature.com/scientificreports/
+
+
+
+
+                                 Fig. 13. Performance comparison between the proposed architectures.
+
+
+
+                                                                                                               Accuracy
+                                  Study      Architecture      No. of Subjects   Parameters    No. of Models   (%)
+                                  41         2D CNN            509               1,227,731     123             84.05
+                                  25         2D VGG-19         300               138,423,208   1               87.15
+                                  Proposed   2D CNN            2186              1,152,115     3               93
+                                  24         3D CNN            988               10,467,315    1               84.57
+                                  35         3D DenseNet-121   3512              7,628,484     1               84
+                                  Proposed   3D CNN            2186              1,091,475     1               96.5
+
+
+                                 Table 2. Performance comparison of the proposed architectures with counterparts.
+
+
+
+                                 1.227 M parameters, which is more than the 2D CNN architecture proposed by this research. Results have
+                                 confirmed that the performance of the proposed model is 2+% higher than the work previously presented43.
+                                 Similarly, it has used a transfer learning-based 2D VGG-19 model containing 138,423,208 parameters, much
+                                 more than our proposed method24. Moreover, the dataset size is almost 7 times less than our selected dataset and
+                                 the accuracy is 5.85% less than our proposed method. Moreover, the number of parameters is much higher than
+                                 ours, and the dataset size is also much less than ours. This is the reason our proposed model has outperformed
+                                 the two intended counterparts.
+                                     The 3D CNN model used in this research has fewer learnable parameters than well-known research23.
+                                 The authors have performed a set of different layer-wise experiments, and the best performance for tertiary
+                                 classification, as reported by the authors, is 84.57%, almost 12% less than the proposed 3D CNN architecture.
+                                 Moreover, the number of subjects is just 988, which is relatively low compared to our selected dataset. The
+                                 possible reason is that the number of parameters in the proposed 3D CNN is almost 10 times less than the
+
+
+Scientific Reports |   (2025) 15:9238                  | https://doi.org/10.1038/s41598-025-93560-x                                           14
+www.nature.com/scientificreports/
+
+
+                                 models used in the literature. Similarly34, it used a much larger dataset size, but the number of parameters was
+                                 more significant than our proposed method, while the accuracy was less than ours. The authors have used 3D
+                                 DenseNet-121 architecture to train and predict the disease. Our proposed model performance is almost 12%
+                                 greater than34 our intelligent frames selection and cropping, as well as the simpler CNN architecture we have
+                                 proposed in this study.
+                                     The benefits of the proposed work in the context of AD detection using DL are multifaceted and significant,
+                                 as outlined through our contributions and corroborated by our final results. Firstly, the devised efficient frame
+                                 selection and cropping method substantially reduces the dimensionality of the dataset. This reduction achieves
+                                 lower latency and computational costs and minimizes the risks of overfitting and underfitting in model training,
+                                 leading to more robust and reliable diagnostic models.
+                                     Our novel approach facilitates a 31.1% reduction in dataset size from preprocessed frames and a remarkable
+                                 92.65% reduction from raw data. Such efficiency improvements are pivotal for Deep Learning applications in
+                                 AD detection, where large datasets often pose significant challenges regarding storage, processing time, and
+                                 computational resources. By addressing these challenges, our method enhances the accessibility and scalability
+                                 of DL applications in clinical settings.
+                                     Furthermore, the study significantly lowers computational costs by approximately 33% for 2D CNNs and
+                                 about 85% for 3D CNNs. This reduction is achieved without compromising the accuracy of 2D models and,
+                                 notably, while improving the accuracy of 3D models. Such advancements demonstrate the effectiveness of our
+                                 approach in optimizing resource utilization while maintaining, or even enhancing, diagnostic performance.
+                                 Our proposal of shallow 3D and 2D architectures, as opposed to conventional deep CNN models, is particularly
+                                 beneficial in enhancing the detection results across all three stages of AD, i.e., CN, MCI, and AD. This strategic
+                                 choice underscores the potential of shallower architectures in capturing the nuanced features of AD progression
+                                 with reduced complexity and improved interpretability.
+                                     The results of our study further validate the benefits of the proposed methods. Compared to existing studies,
+                                 our proposed 2D CNN model achieved a high accuracy of 93% with a significantly larger subject pool and lower
+                                 parameter count, highlighting efficiency and scalability. The proposed 3D CNN model stands out by achieving
+                                 the highest accuracy of 96.5% among the compared studies, with the lowest number of parameters, illustrating
+                                 the potential of our approach in setting new benchmarks for AD detection accuracy and computational efficiency.
+                                 In summary, the proposed work substantially benefits detecting AD by detecting a path toward more accessible,
+                                 efficient, and accurate diagnostic tools. These contributions offer the field technical promise to make early and
+                                 precise AD detection more feasible in clinical practices worldwide.
+
+                                 Conclusion
+                                 This paper proposes a novel method for automated detection of the Alzheimer’s Disease (AD) stages by
+                                 processing the Magnetic Resonance Imaging (MRI). The solution is based on an effective hybridization of the
+                                 preprocessing, frame selection, and cropping with shallow 2D and 3D Convolutional Neural Networks (CNNs).
+                                 The preprocessing stage involved skull stripping, spatial normalization, and smoothing. Onward, the proposed
+                                 pixel count-based frame selection and cropping approach is applied to the preprocessed MRI data, followed by
+                                 the learnable resizer method. It renders an efficient dimension reduction. Afterward, the designed shallow 2D
+                                 and 3D CNN architectures extract spatio-temporal attributes from the selected MRI data. Finally, both CNN
+                                 models are evaluated for a comparative analysis. Notably, 2D CNN achieved a maximum accuracy of 93%, while
+                                 3D CNN reported the highest accuracy of 96.5%. The performance of CNNs is dependent on the input data. The
+                                 cleaner and more informative the data is, the more accurate the CNN model will be. This research has concluded
+                                 this phenomenon by experimental results—training on the less informative data results in overfitting CNN
+                                 architectures. Similarly, a CNN with more learnable parameters can lead towards the model’s overfitting and vice
+                                 versa. Extracting features from data using 2D CNN architectures can lead to model underfitting compared to
+                                 3D. CNN models with higher dimensions can sometimes extract more data from different views simultaneously,
+                                 which is the cause behind more than 96% accuracy.
+                                     Moreover, training and inference time for shallow CNN models and small-sized data is less than that for deeper
+                                 CNN models. This is why MRI, a complex and high-dimensional dataset, is successfully classified with the help
+                                 of less learnable parameters. The frame selection and shallow CNN architectures proposed in this study can be
+                                 adapted for remote sensing applications, where large-scale image data requires efficient processing. By reducing
+                                 computational demands, our approach facilitates real-time analysis in resource-constrained environments.
+                                     An effective preprocessing is one of the main challenges in the MRI data analysis. If the preprocessing pipeline
+                                 changes according to the MRI data, the model overfitting or underfitting can be avoided. A limitation of this
+                                 research is that we have followed specific preprocessing steps, such as skull stripping and different normalization
+                                 and registration methods. In the future, the incorporation of other potential preprocessing approaches for
+                                 feature extraction and denoising, such as wavelet decomposition and empirical mode decomposition, can be
+                                 explored. Moreover, the performance of different feature selection algorithms, such as metaheuristic optimizers,
+                                 will be studied.
+
+                                 Data availability
+                                 The ADNI database is publicly available for research purpose and it is composed of the Magnetic Resonance
+                                 Images ( MRIs). This data set is used in this study.
+
+                                 Received: 15 April 2024; Accepted: 7 March 2025
+
+
+
+
+Scientific Reports |   (2025) 15:9238                | https://doi.org/10.1038/s41598-025-93560-x                                                15
+www.nature.com/scientificreports/
+
+
+                                 References
+                                  1. Ulep, M. G., Saraon, S. K. & McLea, S. Alzheimer disease. J. Nurse Practitioners. 14 (3), 129–135 (2018).
+                                  2. Gauthier, S., Webster, C., Servaes, S., Morais, J. & Rosa-Neto, P. World Alzheimer Report 2022: Life after Diagnosis: Navigating
+                                     Treatment, Care and Support Ed (Alzheimer’s disease international London, England, 2022).
+                                  3. Lorio, S. et al. Neurobiological origin of spurious brain morphological changes: A quantitative MRI study. Hum. Brain. Mapp. 37
+                                     (5), 1801–1815 (2016).
+                                  4. Arafa, D. A., Moustafa, H. E. D., Ali-Eldin, A. M. & Ali, H. A. Early detection of Alzheimer’s disease based on the state-of-the-art
+                                     deep learning approach: A comprehensive survey. Multimed. Tools Appl., pp. 1–42 (2022).
+                                  5. Ebrahimighahnavieh, M. A., Luo, S. & Chiong, R. Deep learning to detect Alzheimer’s disease from neuroimaging: A systematic
+                                     literature review. Comput. Methods Progr. Biomed. 187, 105242 (2020).
+                                  6. Moradi, E., Pepe, A., Gaser, C., Huttunen, H. & Tohka, J. and A. s. D. N. Initiative, Machine learning framework for early MRI-
+                                     based Alzheimer’s conversion prediction in MCI subjects. Neuroimage 104, 398–412 (2015).
+                                  7. Sharma, S. & Mandal, P. K. A comprehensive report on machine learning-based early detection of Alzheimer’s disease using multi-
+                                     modal neuroimaging data. ACM Comput. Surv. (CSUR). 55 (2), 1–44 (2022).
+                                  8. Hinrichs, C. et al. Spatially augmented LPboosting for AD classification with evaluations on the ADNI dataset. Neuroimage 48 (1),
+                                     138–149 (2009).
+                                  9. Terry, R. D. Alzheimer’s disease and the aging brain. J. Geriatr. Psychiatr. Neurol. 19 (3), 125–128 (2006).
+                                 10. Rathore, S., Habes, M., Iftikhar, M. A., Shacklett, A. & Davatzikos, C. A review on neuroimaging-based classification studies and
+                                     associated feature extraction methods for Alzheimer’s disease and its prodromal stages. NeuroImage 155, pp. 530–548 (2017).
+                                 11. Soydaner, D. Attention mechanism in neural networks: Where it comes and where it goes. Neural Comput. Appl. 34 (16), 13371–
+                                     13385 (2022).
+                                 12. Li, X. et al. Deep learning attention mechanism in medical image analysis: Basics and beyonds. Int. J. Netw. Dyn. Intell., pp. 93–116
+                                     (2023).
+                                 13. Liu, Z. et al. Diagnosis of Alzheimer’s disease via an attention-based multi-scale convolutional neural network. Knowl. Based Syst.
+                                     238, 107942 (2022).
+                                 14. Yadav, B. K. & Hashmi, M. F. An attention-based CNN architecture for Alzheimer’s classification and detection. In 2023 IEEE IAS
+                                     Global Conference on Emerging Technologies (GlobConET). IEEE, pp. 1–5 (2023).
+                                 15. Golovanevsky, M., Eickhoff, C. & Singh, R. Multimodal attention-based deep learning for Alzheimer’s disease diagnosis. J. Am.
+                                     Med. Inform. Assoc. 29 (12), 2014–2022 (2022).
+                                 16. Vincent, P. et al. Stacked denoising autoencoders: Learning useful representations in a deep network with a local denoising
+                                     criterion. J. Mach. Learn. Res., 11, 12, (2010).
+                                 17. Hinton, G. E. Deep belief networks. Scholarpedia 4 (5), 5947 (2009).
+                                 18. Ebrahimi, A. Luo, and F. T. A. S. Disease neuroimaging initiative, convolutional neural networks F.r Alzheimer’s disease detection
+                                     on MRI images. J. Med. Imaging. 8 (2), 024503–024503 (2021).
+                                 19. Cui, R., Liu, M. & Initiative, A. D. N. RNN-based longitudinal analysis for diagnosis of Alzheimer’s disease. Comput. Med. Imaging
+                                     Graph. 73, 1–10 (2019).
+                                 20. Sharma, M., Sharma, P., Pachori, R. B. & Acharya, U. R. Dual-tree complex wavelet transform-based features for automated
+                                     alcoholism identification. Int. J. Fuzzy Syst. 20 (4), 1297–1308 (2018).
+                                 21. Farooq, A., Anwar, S., Awais, M. & Rehman, S. A deep CNN based multi-class classification of Alzheimer’s disease using MRI. In
+                                     IEEE International Conference on Imaging systems and techniques (IST). IEEE, pp. 1–6. (2017).
+                                 22. Haarburger, C. et al. Multi scale curriculum CNN for context-aware breast MRI malignancy classification. In International
+                                     Conference on Medical Image Computing and Computer-Assisted Intervention. Springer, pp. 495–503 (2019).
+                                 23. Khagi, B. & Kwon, G. R. 3D CNN design for the classification of Alzheimer’s disease using brain MRI and PET. IEEE Access. 8,
+                                     217830–217847 (2020).
+                                 24. Mehmood, A. et al. A transfer learning approach for early diagnosis of Alzheimer’s disease on MRI images. Neuroscience 460,
+                                     43–52 (2021).
+                                 25. Acharya, R. M. H. & Singh, D. K. Alzheimer disease classification using transfer learning. In 5th International Conference on
+                                     Computing Methodologies and Communication (ICCMC), pp. 1503–1508 (2021).
+                                 26. Deepak, S. & Ameer, P. Automated categorization of brain tumor from mri using Cnn features and Svm. J. Ambient Intell. Humaniz.
+                                     Comput. 12 (8), 8357–8369 (2021).
+                                 27. Shakarami, A., Tarrah, H. & Mahdavi-Hormat, A. A CAD system for diagnosing Alzheimer’s disease using 2D slices and an
+                                     improved AlexNet-SVM method. Optik 212, 164237 (2020).
+                                 28. Ebrahim, D., Ali-Eldin, A. M., Moustafa, H. E. & Arafat, H. Alzheimer disease early detection using convolutional neural networks.
+                                     In 15th international conference on computer engineering and systems (ICCES). IEEE, pp. 1–6. (2020).
+                                 29. Yadav, K. S. & Miyapuram, K. P. A novel approach towards early detection of Alzheimer’s disease using deep learning on magnetic
+                                     resonance images. In International Conference on Brain Informatics. Springer, pp. 486–495 (2021).
+                                 30. Buvaneswari, P. & Gayathri, R. Deep learning-based segmentation in classification of Alzheimer’s disease. Arab. J. Sci. Eng. 46 (6),
+                                     5373–5383 (2021).
+                                 31. Odusami, M., Maskeliūnas, R., Damaševičius, R. & Krilavičius, T. Analysis of features of alzheimer’s disease: detection of early
+                                     stage from functional brain changes in magnetic resonance images using a finetuned ResNet18 network. Diagnostics 11(6), 1071
+                                     (2021).
+                                 32. Prakash, D. et al. Diagnosing Alzheimer’s disease based on multiclass MRI scans using transfer learning techniques. Curr. Med.
+                                     Imaging. 17 (12), 1460–1472 (2021).
+                                 33. Huang, Y., Xu, J., Zhou, Y., Tong, T. & Zhuang, X. S. D. N. Initiative, diagnosis of Alzheimer’s disease via multi-modality 3D
+                                     convolutional neural network. Front. NeuroSci. 13, 509 (2019).
+                                 34. Solano-Rojas, B., Villalón-Fonseca, R. & Marín-Raventós, G. Alzheimer’s disease early detection using a low cost three-dimensional
+                                     densenet-121 architecture. In International Conference on Smart Homes and Health Telematics. Springer, pp. 3–15 (2020).
+                                 35. Wang, H. et al. Ensemble of 3D densely connected convolutional network for diagnosis of mild cognitive impairment and
+                                     Alzheimer’s disease, Neurocomputing 333, 145–156 (2019).
+                                 36. Zhang, Z. and Farzad Khalvati. Introducing vision transformer for Alzheimer’s disease classification task with 3D input. arXiv
+                                     preprint arXiv:2210.01177 (2022).
+                                 37. Sarraf, S. et al. OViTAD: Optimized vision transformer to predict various stages of Alzheimer’s disease using resting-state fMRI
+                                     and structural MRI data. Brain Sci. 13 (2), 260 (2023).
+                                 38. Han, S. et al. Dsd: Dense-sparse-dense training for deep neural networks, presented at the 5th International Conference on
+                                     Learning Representations, France (2017).
+                                 39. Weiner, M. W. et al. The Alzheimer’s disease neuroimaging initiative 3: Continued innovation for clinical trial improvement.
+                                     Alzheimer’s Dement. 13 (5), 561–571 (2017).
+                                 40. Mueller, S. G. et al. The Alzheimer’s disease neuroimaging initiative. Neuroimaging Clin. 15 (4), 869–877 (2005).
+                                 41. a., R. P. & Toennies, K. D. Segmentation of medical images using adaptive region growing, Med. Imaging Image Process, pp. 1337–
+                                     1346 (2017).
+                                 42. Ashburner, J. A fast diffeomorphic image registration algorithm. Neuroimage 38, 95–113 (2007).
+
+
+
+Scientific Reports |   (2025) 15:9238                    | https://doi.org/10.1038/s41598-025-93560-x                                                                 16
+www.nature.com/scientificreports/
+
+
+                                 43. Pan, A. Z. D., Jia, L., Huang, Y., Frizzell, T. & Song, X. Early detection of Alzheimer’s disease using magnetic resonance imaging: A
+                                     novel approach combining convolutional neural networks and ensemble learning. Front. NeuroSci., 14, (2020).
+
+                                 Acknowledgements
+                                 The authors are grateful to Ghulam Ishaq khan institute of engineering sciences and technology, American Uni-
+                                 versity of the Middle East, Effat University, National University of Computer and Emerging Sciences, University
+                                 of Malaya, Cracow University of Technology, and Polish Academy of Sciences for the technical and logistic
+                                 support. They are also thankful to the Effat University, Cracow University of Technology, and Polish Academy of
+                                 Sciences for financially supporting this work.
+
+                                 Author contributions
+                                 Conceptualization, Jalees ur Rahman, Muhammad Hanif, Saeed Mian Qaisar, and Usman Haider; Methodology,
+                                 Jalees ur Rahman, Muhammad Hanif, and Obaid ur Rehman; Implementation, Jalees ur Rahman, and Obaid
+                                 ur Rehman; Formal analysis, Jalees ur Rahman, Muhammad Hanif, Usman Haider, and Saeed Mian Qaisar;
+                                 Investigation, Obaid ur Rehman, and Pawel Plawiak; Resources, Saeed Mian Qaisar, Muhammad Hanif, and
+                                 Pawel Plawiak; Writing—original draft preparation, Jalees ur Rahman, Saeed Mian Qaisar, Obaid ur Rehman,
+                                 and Usman Haider; Writing—review and editing, Muhammad Hanif, and Pawel Plawiak; Visualization, Jalees
+                                 ur Rahman, and Obaid ur Rehman; Supervision, Muhammad Hanif, and Saeed Mian Qaisar; Project adminis-
+                                 tration, Saeed Mian Qaisar, and Muhammad Hanif; Funding acquisition, Saeed Mian Qaisar, and Pawel Plawiak.
+                                 All authors have read and agreed to the published version of the manuscript.
+
+                                 Declarations
+
+                                 Competing interests
+                                 The authors declare no competing interests.
+
+                                 Additional information
+                                 Correspondence and requests for materials should be addressed to S.M.Q. or P.P.
+                                 Reprints and permissions information is available at www.nature.com/reprints.
+                                 Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in published maps and
+                                 institutional affiliations.
+                                 Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives
+                                 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in
+                                 any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide
+                                 a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have
+                                 permission under this licence to share adapted material derived from this article or parts of it. The images or
+                                 other third party material in this article are included in the article’s Creative Commons licence, unless indicated
+                                 otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence
+                                 and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to
+                                 obtain permission directly from the copyright holder. To view a copy of this licence, visit ​h​t​t​p​:​//​ ​c​r​e​a​t​i​v​e​co
+                                                                                                                                                              ​ ​m​m​o​
+                                 n​s​.​o​r​g/​ ​l​i​c​e​n​s​e​s​/b
+                                                                 ​ ​y​-​n​c​-​n​d​/​4​.​0​/​​​​.​​
+
+                                 © The Author(s) 2025
+
+
+
+
+Scientific Reports |   (2025) 15:9238                    | https://doi.org/10.1038/s41598-025-93560-x                                                                 17
+

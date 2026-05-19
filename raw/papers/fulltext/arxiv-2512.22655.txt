@@ -1,0 +1,2008 @@
+                                            Bend to Mend: Toward Trustworthy Variational Bayes
+                                                    with Valid Uncertainty Quantification
+                                                                             Jiaming Liu1 and Meng Li∗1
+                                                                   1
+                                                                       Department of Statistics, Rice University
+arXiv:2512.22655v1 [stat.ME] 27 Dec 2025
+
+
+
+
+                                                                                           Abstract
+                                                        Variational Bayes (VB) is a popular and computationally efficient method to ap-
+                                                   proximate the posterior distribution in Bayesian inference, especially when the exact
+                                                   posterior is analytically intractable and sampling-based approaches are computation-
+                                                   ally prohibitive. While VB often yields accurate point estimates, its uncertainty quan-
+                                                   tification (UQ) is known to be unreliable. For example, credible intervals derived from
+                                                   VB posteriors tend to exhibit undercoverage, failing to achieve nominal frequentist cov-
+                                                   erage probabilities. In this article, we address this challenge by proposing Trustworthy
+                                                   Variational Bayes (TVB), a method to recalibrate the UQ of broad classes of VB proce-
+                                                   dures. Our approach follows a bend-to-mend strategy: we intentionally misspecify the
+                                                   likelihood (bend ) to correct VB’s flawed UQ (mend ). In particular, we first relax VB by
+                                                   building on a recent fractional VB method indexed by a fraction ω, and then identify
+                                                   the optimal fraction parameter using conformal techniques such as sample splitting and
+                                                   bootstrapping. This yields recalibrated UQ for any given parameter of interest. On
+                                                   the theoretical front, we establish that the calibrated credible intervals achieve asymp-
+                                                   totically correct frequentist coverage for a given parameter of interest; this, to the best
+                                                   of our knowledge, is the first such theoretical guarantee for VB. On the practical front,
+                                                   we introduce the “TVB table”, which enables (1) massive parallelization and remains
+                                                   agnostic to the parameter of interest during its construction, and (2) efficient identifi-
+                                                   cation of the optimal fraction parameter for any specified parameter of interest. The
+                                                   proposed method is illustrated via Gaussian mixture models and Bayesian mixture lin-
+                                                   ear regression models, and numerical experiments demonstrate that the TVB method
+                                                   outperforms standard VB and achieves normal frequentist coverage in finite samples.
+                                                   A real data application is also discussed.
+
+                                           Keywords: Variational Bayes, fractional posterior, sample splitting bootstrap, credible in-
+                                           terval calibration
+                                             ∗
+                                                 Corresponding author: meng@rice.edu
+
+
+                                                                                               1
+1    Introduction
+Variational Bayes (VB) has emerged as a powerful method for Bayesian inference particu-
+larly when the exact posterior distribution is not available and Markov Chain Monte Carlo
+(MCMC) becomes computationally too intensive. VB reformulates Bayesian inference as an
+optimization problem (Wainwright and Jordan, 2008; Blei et al., 2017; Hoffman et al., 2013;
+Tran et al., 2021) and can achieve results orders of magnitude faster than traditional MCMC
+methods, making it particularly attractive for applications in high-dimensional settings and
+complex modeling. In addition, we note that numerical convergence in VB is often easier to
+diagnose than the distributional convergence encountered in MCMC.
+    Uncertainty quantification (UQ) enables researchers to assess the reliability of their es-
+timates and make informed decisions, and is often viewed as a key advantage of Bayesian
+inference. However, it is well known that the UQ yielded by VB might be problematic and
+lack trustworthiness. This limitation stems from the inherent bias introduced by the vari-
+ational approximation and the potential underestimation of posterior variance (Wang and
+Titterington, 2005; Bishop, 2006; Wang and Blei, 2019). While VB’s limitation in UQ is well
+documented and acknowledged, improving its UQ is challenging. Existing work includes im-
+proved variance and covariance estimates (Giordano et al., 2018); Syring and Martin (2019)
+proposed a recalibration approach for general Gibbs posteriors, but their focus is not on
+VB and theoretical guarantees were not established. We are not aware of any existing work
+that achieves recalibrated interval estimates for VB with theoretical guarantees. The current
+article contributes to filling this gap.
+    In this paper, we aim to recalibrate VB such that the credible intervals attain the nominal
+coverage level, leading to new approximate Bayesian methods that build on the computa-
+tional advantage of the traditional VB while maintaining guaranteed frequentist properties
+on UQ. We propose a strategy called “bend to mend” to achieve trustworthy VB, where we
+first consider a broader class of approximations and then choose one from this broader class
+for recalibration. In particular, we use recently developed fractional VB which adjusts the
+scale of the posterior distribution via a fractional parameter ω (Yang et al., 2020). Such
+fractional VB approximates the fractional posterior distribution, in which we intentionally
+misspecify the likelihood function by raising it to a power. Then we select this ω parameter
+such that frequentist coverage is attained. Our approach differs from the General Posterior
+Calibration method of Syring and Martin (2019) both algorithmically and theoretically, with
+a specific focus on variational Bayes. In particular, the fractional VB we employ extends
+existing tempered posteriors or the Gibbs posterior considered in Syring and Martin (2019)
+when the models involve latent variables. More importantly, we propose to use a simple but
+powerful sample splitting approach (Rinaldo et al., 2019; Wasserman et al., 2020) and the
+flexibility of bootstrap to develop a computationally efficient approach to choose ω. These
+
+                                              2
+differences turn out to be crucial for theoretical developments and finite-sample performance.
+    The employed fractional VB can typically be implemented by minor modifications of
+existing algorithms to the traditional VB, facilitating algorithmic development. Our theory
+shows that fractional VB with our selected ω achieves guaranteed nominal frequentist cov-
+erage, leading to a class of approximate Bayesian methods building on VB yet with justified
+UQ that is not available for the traditional VB. To the best of our knowledge, this is the
+first such result that provides a theoretical guarantee when recalibrating the UQ produced
+by variational Bayesian methods.
+    The rest of this paper is organized as follows. Section 2 reviews variational Bayes and dis-
+cusses its limitation in uncertainty quantification. Section 3 presents our proposed method
+utilizing fractional VB and a novel sample splitting-based calibration method that yields
+trustworthy VB. Section 4 provides theoretical guarantees that our method successfully cal-
+ibrates the VB posterior, ensuring its credible intervals attain the nominal frequentist cov-
+erage. Section 5 examines two canonical examples: the Bayesian Gaussian mixture model
+and the Bayesian mixture linear regression model, demonstrating their VB posterior approx-
+imations under the fractional posterior framework. In Section 6, we present a comparative
+study of three approaches: standard VB and two strategies of implementing our proposed
+trustworthy VB method, using the examples from Section 5. Section 7 provides a real-world
+data application. Section 8 concludes the paper. Proofs are deferred to Section 9.
+
+
+2     Preliminaries on Variational Bayes
+This section reviews variational Bayes and its limitation in uncertainty quantification. We
+first introduce the model setup used throughout this article. Suppose we have n observations
+                       i.i.d.
+X = (X1 , · · · , Xn ) ∼ Pθ with a p-dimensional unknown parameter θ = (θ1 , · · · , θp )′ ∈
+Θ, where Θ ⊂ Rp is the parameter space. Given the prior distribution π(θ) and likeli-
+                              n
+                              Q
+hood function p(X|θ) =          p(Xi |θ), the posterior distribution is obtained via p(θ|X) =
+                           i=1
+   π(θ)p(X|θ)
+R                . Suppose we are interested in inference on h(θ), where h(·) : Θ → R is
+ Θ
+   π(θ)p(X|θ)dθ
+a continuous functional of θ, such as a specific component or a transformation involving all
+components. In practice, users might be interested in one such h(θ) or multiple h(θ).
+
+
+2.1    Basic Variational Bayes
+When the posterior distribution p(θ|X) lacks tractability, inference on h(θ) often proceeds
+using sampling-based methods, such as MCMC (Hastings, 1970; Gelfand and Smith, 1990).
+However, MCMC implementation can be computationally intensive, particularly when the
+
+
+                                               3
+model is complicated or high-dimensional(Hoffman and Gelman, 2014; Betancourt, 2018),
+motivating the need for more efficient methods of posterior approximation. Variational
+inference, or variational Bayes (VB), provides an alternative approach that is often compu-
+tationally much more efficient to approximate the posterior distribution (Wainwright and
+Jordan, 2008).
+      VB seeks to find a function within a pre-specified space of distribution, denoted by Q,
+that is closest to the true posterior distribution p(θ|X) under certain divergence, commonly
+the Kullback-Leibler (KL) divergence. Formally speaking, the variational approximation
+q ∗ (·) is obtained by
+                                                        Z                    
+                ∗                                                       q(θ)
+               q = arg min KL (q(·) ∥ p(·|X)) = arg min     q(θ) log            dθ.        (1)
+                      q∈Q                          q∈Q    Θ            p(θ|X)
+In practice, VB turns to solving an equivalent optimization problem that maximizes the
+evidence lower bound (ELBO):
+                                      Z                     
+                          ∗                          p(θ, X)
+                        q = arg max       q(θ) log             dθ ,                (2)
+                                q∈Q     Θ             q(θ)
+                                      |            {z           }
+                                                  ELBO(q)
+
+thereby bypassing the analytical intractability of the true posterior distribution p(θ | X) in
+the original formulation (1).
+    A commonly used approximation family for Q is the so-called mean-field variational
+family
+                          Wang and Blei, 2019; Han and Yang, 2019), which assumes Q =
+        (Blei et al., 2017;
+              p
+              Q
+  q : q(θ) =     qθi (θi ) . Other variational Bayes methods beyond the mean-field family are
+            i=1
+also available in the literature (Jaakkola and Jordan, 1998; Hoffman and Blei, 2015; Tran
+et al., 2015; Ranganath et al., 2016). For a comprehensive treatment of variational inference,
+we refer readers to an excellent review article Blei et al. (2017).
+
+
+2.2    VB’s limitation in Uncertainty Quantification (UQ)
+After obtaining the variational posterior approximation q ∗ , we can construct a 100(1 − α)%
+credible interval for a parameter of interest h(θ), denoted by Cq∗ (X; α). However, a well-
+documented limitation of variational Bayes is its tendency to underestimate posterior covari-
+ance, producing approximations that are overly concentrated compared to the true posterior
+distribution p(·|X) (Wang and Titterington, 2005; Bishop, 2006; Wang and Blei, 2019). For
+example, under the mean-field approximations, the adopted independence assumption breaks
+posterior dependence structures. In particular, Theorem 5 and Corollary 9 in Wang and Blei
+(2019) show that the mean-field variational approximation q ∗ converges to a Gaussian dis-
+tribution but with a diagonal precision matrix, thereby discarding posterior correlations and
+underestimating posterior variances.
+
+                                              4
+    This underestimation of the covariance matrix results in 100(1 − α)% credible inter-
+vals constructed from q ∗ that may not achieve the nominal frequentist coverage probabil-
+ity. Suppose Q∗θ (·) is the probability measure of q ∗ (·) and Pθ (·) is the probability mea-
+sure of p(·|X). We have Q∗θ (θ ∈ Cq∗ (X; α)) = 1 − α, but it might well be the case that
+Pθ (θ ∈ Cq∗ (X; α)) < 1 − α even in the limit. There is literature on correcting the variance
+estimate and improving the robustness of the traditional VB, such as Giordano et al. (2018).
+However, statistical guarantees for interval estimation derived by VB require more than the
+corrected variance estimate. In contrast, under conditions, by Bernstein–von Mises theorem,
+the 100(1 − α)% credible interval constructed by the true posterior distribution will have
+correct frequentist coverage asymptotically (Van der Vaart, 2000; Ghosal and Van der Vaart,
+2017).
+    Therefore, with the computational advantage, VB sacrifices its trustworthiness in UQ that
+could be maintained by the true posterior distribution, in the sense of frequentist coverage.
+Undercoverage of Cq∗ (X; α) is particularly concerning as it points to misleading statistical
+significance, and in this paper we will recalibrate it to the nominal frequentist coverage with
+theoretical guarantees, while maintaining a similar computational architecture of the VB.
+
+
+3    Trustworthy VB via Fractional Posterior Calibration
+To solve the undercoverage issue discussed in Section 2.2, we propose a calibrating method
+based on fractional VB and sample splitting bootstrap. To begin with, recall that in clas-
+sical Bayesian inference, we have p(θ|X) ∝ π(θ)p(X|θ), where p(X|θ) is the likelihood
+function. For fractional posterior, we replace the likelihood function with exp (−ωnR(θ)),
+                 1
+where R(θ) = − log p(X|θ) is the negative log-likelihood function. This is a special case of
+                n
+Gibbs posterior where R(θ) is any empirical risk function (Alquier et al., 2016; Syring and
+Martin, 2023; Alquier, 2024). The corresponding posterior distribution is
+                                                 π(θ)pω (X|θ)
+                                pω (θ|X) = R          ω (X|θ)dθ
+                                                                ;                           (3)
+                                               Θ
+                                                 π(θ)p
+
+this posterior distribution is called fractional posterior and its theoretical properties have
+been studied in Bhattacharya et al. (2019). Consider the more general case with latent
+variables Z, which is common in the applications of VB. Then the fractional posterior dis-
+tribution is
+                                           π(θ)pω (X|θ, Z)pω (Z|θ)
+                        pω (θ, Z|X) = R                               .                    (4)
+                                         π(θ)pω (X|θ, Z)pω (Z|θ)dθdZ
+The variational approximation qω∗ (θ) of the fractional posterior distribution is referred to as
+fractional VB (Yang et al., 2020), which extends tempered posterior or Gibbs posterior when
+there are latent variables. With smaller ω ∈ (0, 1], the posterior distribution becomes more
+
+                                                 5
+“flattened”, which enlarges the credible interval and thus increases the frequentist coverage.
+For a special case when ω = 1, the posterior distribution degenerates to the classical VB
+posterior distribution.
+    Recall that h(·) : Θ → R is a continuous mapping of θ that defines our parameter
+of interest h(θ). Let Cqω∗ (X; α) be the 100(1 − α)% credible interval of h(θ) constructed
+by fractional variational posterior qω∗ , and cq∗ (ω; α) be its frequentist coverage probability.
+The continuous fraction parameter ω induces credible intervals of varying width and, conse-
+quently, varying coverage. Our aim is to select an “optimal” ω such that the 100(1 − α)%
+credible interval for h(θ) attains its nominal frequentist coverage 1 − α. A discussion of
+related calibration literature can be found in Section 3.3. More specifically, we propose a
+sample splitting bootstrap-based procedure, called trustworthy variational Bayes (TVB),
+that proceeds as follows: We partition the full dataset X into X1 and X2 , where X1 serves
+to construct a surrogate for the true h(θ) at each ω ∈ (0, 1], and X2 is used to generate boot-
+strap samples and estimate the empirical coverage for a given ω. For a fixed ω, we generate
+                          (1)         (B)
+B bootstrap datasets X2 , . . . , X2 by resampling from X2 and compute the corresponding
+                          (b)                                                           X1
+credible intervals Cqω∗ (X2 ; α) for b = 1, . . . , B, along with the posterior mean θ̂ ω obtained
+from the first split X1 . The frequentist coverage of h(θ) for a 100(1 − α)% credible interval
+under the ω-VB procedure is then estimated via the bootstrap empirical coverage
+                                           B   n      X1
+                                                                       o
+                                              1 h(θ̂ω ) ∈ Cqω∗ (X2 ; α)
+                                                                  (b)
+                                          P
+                             B            b=1
+                           ĉq∗ (ω; α) =                                 .                     (5)
+                                                          B
+To achieve the nominal 100(1−α)% coverage, we would ideally select ω0 such that ĉB
+                                                                                  q ∗ (ω; α) =
+1 − α. In practice, we approximate this root by choosing
+
+                              ω0 = arg min ĉB
+                                             q ∗ (ω; α) − (1 − α) ,                           (6)
+                                      ω∈Ω
+
+where Ω ⊆ (0, 1] will be specified in the following Section 3.1 and Section 3.2 respectively.
+With the selected ω0 , we use the corresponding fractional VB approximation to construct
+the 100(1 − α)% credible interval that attains the target coverage.
+    Next we propose two approaches for optimizing ω0 in (6): a sequential updating method
+via stochastic approximation (Robbins and Monro, 1951), and a grid-point search strategy
+that provides enhanced computational efficiency and flexibility.
+
+
+3.1    Strategy I: Sequential Update TVB
+The sequential updating strategy is based on stochastic approximation: Starting with ω (0) =
+1, and at (k + 1)th iteration, we can update ω by
+
+                         ω (k+1) = ω (k) + κk ĉB      (k)
+                                                                         
+                                                q ∗ (ω     ; α) − (1 − α) ,              (7)
+
+                                                6
+                                                   κk = ∞, κ2k < ∞. The corresponding
+                                                P         P
+where κk is a user-defined step size satisfying
+procedure is summarized in Algorithm 1, with the use of reparametrization η = log ω for
+numerical stability. For the sequential update of TVB, we assume Ω = [δ, 1] for some small
+δ > 0.
+
+ Algorithm 1: Trustworthy Variational Posterior Calibration with Sequential Up-
+ date
+  Require: Observation data X, target coverage 100(1 − α)%, number of bootstrap samples
+       B, mapping function h(·), step size κk , maximum number of iterations max iter,
+       tolerance ϵ > 0. Initialization: η (0) = 0, coverage = FALSE, k = 0
+    1: while k < max iter and not coverage do
+    2:   Smoothing parameter ω (k) = exp(η (k) )
+    3:   Randomly Split X into X1 , X2 with the same number of samples
+    4:   Use X1 to obtain variational approximation qω∗ (k) (θ) of fractional posterior (4) with
+                                                  X1
+          corresponding posterior mean θ̂ ω(k)
+    5:    Implement non-parametric bootstrap on X2 and get B bootstrap samples
+            (1)         (B)
+          X2 , · · · , X2
+    6:    for b = 1 to B do
+                                                         (b)           (b)
+    7:      Obtain mean-field variation approximation qω(k) (θ) using X2
+                                                             (b)
+    8:      Construct 100(1 − α)% credible interval Cq(b) (X2 ; α)
+                                                                          ω (k)
+    9:    end for
+   10:    Obtain empirical bootstrap coverage probability ĉB
+                                                            q ∗ (ω
+                                                                   (k)
+                                                                       ; α) by
+
+                                                    B
+                                                                                                    
+                                                                        X1
+                                                           1                                    (b)
+                                                    P
+                                                                   h(θ̂ ω(k) ) ∈ Cq(b)        (X2 ; α)
+                                                                                      ω (k)
+                                 ĉB
+                                   q ∗ (ω
+                                          (k)
+                                              ; α) = b=1                                                 (8)
+                                                                                  B
+   11:   if ĉB
+              q ∗ (ω
+                     (k)
+                         ; α) > 1 − α or (1 − α) − ĉBq ∗ (ω
+                                                             (k)
+                                                                 ; α) < ϵ then
+   12:      coverage = TRUE
+   13:   else
+                                                                               
+   14:      Update η by η (k+1) = η (k) + κk ĉB   q ∗ (ω  (k)
+                                                               ; α) −  (1 − α)
+   15:      k =k+1
+   16:   end if
+   17: end while
+   18: Return ω̂0 = ω (k)
+
+
+
+
+                                                       7
+3.2    Strategy II: Grid-Search TVB
+The sequential updating TVB approach discussed in Section 3.1 presents two significant limi-
+tations. First, the method’s iterative nature, requiring multiple runs of the variational Bayes
+algorithm at each step, results in substantial computational overhead when determining ω0 .
+Second, and perhaps more critically, the selected ω0 is inherently “parameter-specific”; that
+is, for any new component or transformation of θ (such as h1 (θ)), Algorithm 1 must be
+executed anew.
+    We address both limitations through a grid-search strategy. Consider a grid of values
+ω = (ω1 , · · · , ωm )′ , where m denotes the number of grid points satisfying 0 < ω1 < · · · <
+ωm < 1. Our procedure has two phases: table/dictionary construction and table/dictionary
+utilization. In the first phase, we run the VB algorithm in parallel for each ωi , i ∈ [m],
+and store the resulting variational posteriors in a dictionary-like structure. This “TVB
+table” serves as a reusable reference for subsequent queries. In the second phase, for any
+given functional h(θ), we evaluate the criterion in (6) over the grid and select the ω that
+minimizes it. The resulting implementation is summarized in Algorithm 2. For grid-search
+TVB, the parameter space Ω in equation (6) corresponds to ω.
+    The idea of precomputing multiple, parallel runs of an algorithm over a grid and packing
+the results into a table that enables efficient, parameter-agnostic look-up is reminiscent of
+cycle spinning in multiscale image analysis, including wavelet-based methods (Li and Ghosal,
+2015; Coifman and Donoho, 1995), where a translation-invariant table is constructed to
+encode information across all shifts. This analogy motivates our terminology of a “TVB
+table” for the grid-search implementation.
+    Our numerical experiments in Section 6 demonstrate that both strategies achieve effective
+coverage calibration. Nevertheless, we advocate for the grid-search approach because it is
+parameter-agnostic, applies broadly, and readily supports parallel computation.
+
+
+3.3    Related Literature
+Although not specifically focused on VB, Syring and Martin (2019) proposes the general pos-
+terior calibration (GPC) algorithm to update the tuning parameter ω in the Gibbs posterior,
+by comparing the bootstrap empirical coverage with the target 100(1 − α)% coverage. We
+extend the GPC algorithm in the context of VB on two fronts. First, we build on the recent
+fractional VB method developed in (Yang et al., 2020), which differs from the Gibbs poste-
+rior considered in Syring and Martin (2019) particularly in the presence of latent variables.
+We have found that fractional VB is critical to ensure the validity of recalibrated credible
+intervals. Also fractional VB has appealing theoretical properties, including its posterior
+consistency for any ω ∈ (0, 1], which ensures certain assumptions required to establish our
+
+
+                                              8
+ Algorithm 2: Trustworthy Variational Posterior Calibration with Grid-Search Up-
+ date
+  Require: Observation data X, target coverage 100(1 − α)%, number of bootstrap samples
+       B, mapping function h(·), grid points ω = (ω1 , · · · , ωm )′
+    1: Dictionary Construction:
+    2: for k = 1, 2, · · · , m do
+    3:   Randomly Split X into X1 , X2 with the same number of samples
+    4:   Use X1 to obtain variational approximation qω∗ k (θ) of fractional posterior (4) with
+                                              X1
+          corresponding posterior mean θ̂ ωk
+     5:   Implement non-parametric bootstrap on X2 and get B bootstrap samples
+            (1)          (B)
+          X2 , · · · , X2
+     6:   for b = 1 to B do
+                                                        (b)              (b)
+     7:      Obtain mean-field variation approximation qωk (θ) using X2
+     8:   end for
+     9:   Save the VB estimation with bootstrap estimation w.r.t. ωk in a dictionary D
+    10: end for
+    11: Dictionary Utilization:
+    12: for k = 1, 2, · · · , m do
+    13:   for b = 1 to B do
+                                                                       (b)
+    14:      Using D, construct 100(1 − α)% credible interval Cqω(b) (X2 ; α) of h(θ)
+                                                                            k
+    15:      Obtain empirical bootstrap coverage probability ĉB
+                                                               q ∗ (ωk ; α) by
+
+                                                   B  n    X1
+                                                                                   o
+                                                     1 h(θ̂ωk ) ∈ Cqω(b) (X(b)
+                                                   P
+                                                                           2   ; α)
+                                                   b=1                  k
+                                  ĉB
+                                    q ∗ (ωk ; α) =                                                      (9)
+                                                                  B
+    16:   end for
+                                             ′
+    17:   Compare all ĉBq ∗ (ωk ; α), find k such that (6) is minimized
+    18: end for
+    19: Return ω̂0 = ωk′
+
+
+
+theory (see the next section and remark after Assumption 1). Second, since GPC treats the
+empirical bootstrap coverage ĉB q ∗ (ω; α) as an approximation of the true frequentist coverage
+cq∗ (ω; α), when using the full dataset X to implement both original estimation and bootstrap
+estimation, the corresponding ĉB q ∗ (ω; α) may suffer from “overconfidence” as h(θ̂ ω ) (where θ̂ ω
+                                                                                                 X1
+denotes the ω-VB posterior mean computed on the full dataset X, which differs from θ̂ ω )
+is not independent of Cqω∗ (X(b) ; α). Specifically, the optimal ω obtained through the GPC
+algorithm may not be sufficiently small to achieve proper coverage probability calibration
+
+
+                                                   9
+for the credible set Cqω∗ (X; α). Motivated by split conformal prediction (Lei et al., 2018) and
+bootstrap with split sample (Rinaldo et al., 2019), we propose the sample splitting bootstrap
+procedure integrated with GPC algorithm to improve the selection of ω, with corresponding
+theoretical guarantees.
+    Existing procedures, such as that of Syring and Martin (2019), lack formal guarantees for
+the resulting uncertainty quantification, which is particularly concerning because coverage as-
+sessment is typically more demanding than assessing point estimation accuracy. In contrast,
+as we show later, our theoretical results both establish asymptotically correct frequentist
+coverage for calibrated fractional VB credible intervals and clarify the conditions required
+of the underlying VB approximation. Informally, they indicate how far one can “bend” a
+VB posterior, and which variational approximations are amenable to such “mending”, which
+carries direct practical relevance.
+
+
+4     Theoretical Results
+In this section we establish theoretical results to verify the validity of the proposed method,
+i.e., the selected ω̂0 in (6) can recalibrate the credible interval for the corresponding varia-
+tional posterior distribution, such that cq∗ (ω̂0 ; α) converges to 1 − α. Recall that the param-
+eter of interest we wish to recalibrate credible intervals for is given by a general continuous
+mapping h(·) : Θ → R.
+     We will first show that the bootstrap coverage probability ĉB   q ∗ (ω; α) converges in proba-
+bility to the true coverage probability cq∗ (ω; α) for all ω. Our theoretical results are based
+on empirical process theory, especially the conditional multiplier central limit theorem and
+functional delta-method (Van der Vaart and Wellner, 2013). The following conditions are
+assumed:
+
+Assumption 1 (Consistency). Let θ̂ ω = Θ θqω∗ (θ)dθ be the variational approximation pos-
+                                             R
+
+terior mean under smoothing parameter ω. The plug-in estimator h(θ̂ ω ) is consistent, i.e.,
+         P
+h(θ̂ ω ) → h(θ) for all ω ∈ (0, 1] as n → ∞.
+
+Remark 1. Assumption 1 requires that the plug-in posterior mean estimator under fractional
+VB is consistent for every ω ∈ (0, 1]. This is a mild condition, as the existing theory for
+fractional VB already establishes stronger results. For example, for ω ∈ (0, 1], Yang et al.
+(2020) showed that the variational posterior mean θ̂ ω achieves minimax concentration rates
+around the true parameter θ, which is stronger than consistency. When h(·) is a continuous
+                                                               P
+function, the continuous mapping theorem ensures that h(θ̂ ω ) → h(θ).
+
+    Let fω (Xi ) = pω (Xi |θ, Z)pω (Z|θ) as in (4), which also includes the simplified case
+fω (Xi ) = pω (Xi |θ) when there is no latent variable Z.
+
+                                                10
+Assumption 2 (Donsker Class). Suppose F := {fw (·) : ω ∈ (0, 1]} is a Donsker class
+and fω is measurable for all ω ∈ (0, 1]. In addition, for any δ > 0, the class Fδ :=
+{fω1 − fω2 : fω1 ∈ F, fω2 ∈ F and ρP (fω1 − fω2 ) < δ} is measurable, where ρP (·) is any met-
+ric that depends on true data distribution P .
+
+Remark 2. Assumption 2 is useful for establishing the uniform convergence of bootstrap-
+based credible interval coverage to that of the original sample. Specifically, since different
+values of ω generate distinct posterior distributions, this assumption ensures that the conver-
+gence holds uniformly across the entire range of ω values. This assumption can be verified us-
+ing a standard Donsker theorem argument (see, for example, Sen (2018)). Suppose there is an
+envelope function F of F, i.e. sup |fω (x)| < F (x) for all x, such that EP [F ] < ∞, and that
+                                fω ∈F
+                                                       R1p
+the bracketing entropy satisfies J[] (1, F, L2 (P )) := 0 log N[] (ϵ, F ∪ {0}, L2 (P ))dϵ < ∞.
+Then F is a Donsker class. When there is no latent variable, F is the space of all power
+likelihood functions fω (Xi ) = pω (Xi |θ) with ω ∈ (0, 1]. For many common models (e.g.,
+Gaussian and other exponential family distributions), the distribution is upper-bounded by
+a constant, so there exists some constant M < ∞ with sup |fω (x)| < M , and we can let
+                                                               fω ∈F
+M be the envelope function, which satisfies EP [M ] < ∞. For the bracketing condition, sup-
+pose fω (x) ∈ F is Lipschitz in ω under the L2 (P ) metric with Lipschitz constant L < ∞,
+that is, ∥fω1 − fω2 ∥L2 (P ) ≤ L|ω1 − ω2 |. Then for any ϵ > 0, we can cover (0, 1] by at most
+L/ϵ grid points in ω, which implies log N[] (ϵ, F ∪ {0}, L2 (P )) = O(log(ϵ−1 )), and hence
+J[] (1, F, L2 (P )) < ∞. The extension of this argument to the case with latent variables
+follows analogously under similar suitable conditions.
+
+    Our next assumption imposes a regularity on credible intervals, formulated via Hadamard
+differentiability (see, Van der Vaart and Wellner (2013), for example). A map T : D → E
+is Hadamard differentiable at ξ ∈ D if there is a continuous linear map Tξ′ : D → E that
+                   T (ξ + abn ) − T (ξ)
+satisfies lim                           = Tξ′ (b) for sequence a ∈ R, bn → b ∈ D.
+         a→0,n→∞            a
+Assumption 3 (Hadamard Differentiability). For a fixed θ, let Pn denote the empirical mea-
+sure of the observation data X = (X1 , · · · , Xn ), and let Pθ denote the true data-generating
+distribution. We define the mapping Tθ (·) that takes an empirical measure Pn and produces
+a functional Tθ (Pn ) : F → R given by
+
+                 Tθ (Pn )(fω ) = σ (h(θ) − L(Pn )(fω )) · σ (U (Pn )(fω ) − h(θ)) ,
+
+where L(Pn ), U (Pn ) : F → R are functionals that extract the lower and upper bounds of
+the credible interval from any fractional posterior fω ∈ F. Here, σ(z) = (1 + e−kz )−1 is
+the sigmoid function that provides a smooth approximation to the coverage indicator. We
+assume that Tθ (·) is Hadamard differentiable at Pθ .
+
+                                                11
+Remark 3. Hadamard differentiability describes how smoothly a mapping Tθ (Pn ) changes
+under a small perturbation direction bn → b. If it behaves almost linearly in response to
+the perturbation, then the map is Hadamard differentiable. For any θ and Pn , the op-
+erator Tθ (Pn ) in Assumption 3 maps the class F to a real value between (0, 1). For a
+specific fω ∈ F, Tθ (Pn )(fω ) is a smoothing approximation of indicator function 1{h(θ) ∈
+[L(Pn )(fω ), U (Pn )(fω )]}. The sigmoid function used in the assumption is a smooth surrogate
+of the indicator function. To apply functional delta-method, it is necessary to make sure that
+Tθ (·) is Hadamard differentiable, which requires both L(·) and U (·) to be Hadamard differ-
+entiable. For more detail of functional delta-method and Hadamard differentiability, readers
+are referred to Van der Vaart (1991b,a).
+
+Theorem 1 (Convergence of Coverage Probability). Suppose cq∗ (ω; α) is the frequentist
+coverage probability of the 100(1−α)% credible interval of h(θ) constructed from the fractional
+VB posterior distribution qω∗ , and ĉB
+                                      q ∗ (ω; α) is the bootstrap empirical coverage probability
+defined in (5). If Assumptions 1-3 hold, then for each fixed ω ∈ (0, 1],
+                                                 P
+                                     ĉB
+                                       q ∗ (ω; α) → cq ∗ (ω; α),                              (10)
+
+as n, B → ∞.
+
+   The proof of Theorem 1 is provided in Section 9.
+
+Remark 4. Theorem 1 claims that under conditions, the empirical coverage probability of
+split bootstrap samples will converge to that of the original samples for any ω ∈ (0, 1]. There-
+fore, if we can select ω0 such that ĉB
+                                      q ∗ (ω0 ; α) = 100(1−α)%, the corresponding credible interval
+constructed by original data X with ω0 can also attain target frequentist coverage probability.
+This is formally described in Theorem 2 under additional mild assumptions.
+
+   Theorem 1 ensures that the bootstrap empirical coverage ĉB     q ∗ (ω; α) converges to the true
+coverage cq∗ (ω; α) pointwise for all ω ∈ (0, 1]. To ensure that the coverage equipped with the
+M -estimator obtained by solving (6) converges to its nominal level, we also require uniform
+convergence over Ω. This follows straightforwardly from the proof of Theorem 1 under an
+additional mild assumption on the fractional VB posterior mean.
+                                                                                                 P
+Assumption 4. For the fractional VB posterior mean θ̂ ω defined above, assume h(θ̂ ω ) →
+                                                         P
+h(θ) uniformly for all ω ∈ Ω (i.e., sup∥h(θ̂ ω ) − h(θ)∥ → 0) as n → ∞.
+                                      ω∈Ω
+
+Remark 5. Assumption 4 strengthens Assumption 1 by requiring uniform convergence over
+Ω. When Ω = ω in grid-search TVB, uniform convergence on the finite grid is automatically
+satisfied since we have pointwise convergence. For the continuous case Ω = [δ, 1] for small
+δ > 0, Yang et al. (2020) establish uniform convergence on [δ, 1 − δ]. While their risk
+
+                                                 12
+bound diverges as ω → 1, consistency at the boundary ω = 1 holds under stronger regularity
+conditions (Yang et al., 2020). Therefore, uniform convergence of θ̂ ω can be established
+under sufficiently strong conditions when Ω = [δ, 1]. By the continuous mapping theorem,
+uniform convergence of h(θ̂ ω ) follows immediately.
+
+   Under Assumption 4, we can extend the pointwise convergence results in Theorem 1 to
+uniform convergence over Ω, as stated below.
+
+Corollary 1 (Uniform Convergence of Coverage Probability). Suppose cq∗ (ω; α) is the fre-
+quentist coverage probability of the 100(1 − α)% credible interval of h(θ) constructed from
+the fractional VB posterior distribution qω∗ , and ĉB
+                                                     q ∗ (ω; α) is the bootstrap empirical coverage
+probability defined in (5). If Assumptions 2-4 hold, then
+                                                              P
+                                sup ĉB
+                                      q ∗ (ω; α) − cq ∗ (ω; α) → 0,                           (11)
+                                ω∈Ω
+
+as n, B → ∞.
+
+    The proof of Corollary 1 follows as a straightforward extension of the proof of Theorem 1
+and is provided in Section 9. With Corollary 1 established, to ensure that our calibration
+procedure is well-defined and that the M -estimator from (6) converges to a unique true value
+of the smoothing parameter, we introduce the following assumption.
+
+Assumption 5. For any target coverage level 1 − α ∈ (0, 1), there exists a unique ω ∗ ∈
+Ω, such that the 100(1 − α)% credible interval from ω ∗ -VB posterior achieves the nominal
+coverage, namely                                    
+                           lim P h(θ) ∈ Cqω∗ ∗ (X; α) = 1 − α.
+                          n→∞
+                                         
+Additionally, assume P h(θ) ∈ Cqω∗ (X; α) is equicontinuous as function of ω ∈ (0, 1] for
+                                 ∗
+
+
+all n.
+
+Theorem 2. Let ω̂0 be the smoothing parameter estimated by Algorithm 1 or Algorithm 2.
+For continuous map h(·) : Θ → R, let Cqω̂∗ (X; α) be the 100(1 − α)% credible interval of
+                                               0
+h(θ) based on variational posterior qω̂∗ 0 . Under Assumptions 2-5, we have
+                                                     
+                                                        P
+                              P h(θ) ∈ Cqω̂∗ (X; α) → 1 − α,                        (12)
+                                               0
+
+
+as n, B → ∞.
+
+    Theorem 2 provides a theoretical guarantee that the M -estimator selected by Algorithm 1
+or Algorithm 2 achieves nominal 100(1 − α)% coverage. We verify this result through nu-
+merical analysis across different scenarios in the following sections. The proof of Theorem 2
+is provided in Section 9.
+
+                                                   13
+5     Two examples: Gaussian Mixture Model and Bayesian
+      Mixture Linear Regression Model
+In this section, we use Gaussian Mixture Model and Bayesian Mixture Linear Regression
+Model to illustrate fractional VB that our proposed TVB method relies on.
+    We use the mean-field variational family for Q in both examples.
+                                                                   The mean-field  vari-
+                                                                             p
+                                                                                        
+                                                                             Q
+ational family is a factorizable distribution family given by Q = q : q(θ) =   qθi (θi ) .
+                                                                                      i=1
+To solve optimization problem (2) with Q being mean-field variational family, we apply a
+coordinate ascent algorithm (CAVI) by updating qθi (·) coordinately at each iteration until
+convergence. In particular, at each iteration, qθ∗i (·) is obtained by
+                          Z                         !
+                                      Y
+               log qθ∗i =     p(θ, X)     qθ∗j (θj ) dθi · · · dθi−1 dθi · · · dθp + C, (13)
+                           Θ           j̸=i
+
+
+where C is a normalizing constant for the distribution qθ∗i . Once the algorithm converges,
+                     p
+we can use q ∗ (θ) =   qθ∗i (θi ) as the mean-field variational approximation of the posterior
+                     Q
+                     i=1
+distribution p(θ|X).
+    However, the mean-field variational updates for the fractional posterior with latent vari-
+ables in (4) require specific modifications, which we detail in the algorithmic implementations
+for each example below.
+
+
+5.1    Gaussian Mixture Model
+Suppose each row of the observation matrix X ∈ RN ×p is a p-dimensional random vector
+                                                                        K
+                                                                          πk N (µk , Λ−1
+                                                                        P
+drawn from Gaussian mixture model (GMM) with K clusters, such that xn ∼               k ),
+                                                                                k=1
+where the mixing coefficient of K clusters is π = (π1 , · · · , πK )′ . The membership matrix
+Z ∈ RN ×K consists of binary entries znk , where znk = 1 indicates that the nth observation xn
+belongs to cluster k. For each cluster, we denote the mean vectors as µ = (µ1 , · · · , µK )′ and
+the precision matrices Λ = (Λ1 , · · · , ΛK )′ . The prior distribution and likelihood function
+
+
+
+
+                                               14
+are
+                                              K
+                                              Y
+            p (π) = Dir(π|α0 ) = C(α0 )             πkα0 −1
+                                              k=1
+                        N Y
+                        Y K
+            p (Z|π) =             πkznk
+                        n=1 k=1
+                                             K
+                                                                                            (14)
+                                             Y
+                                                   N µk |m0 , (β0 Λk )−1 W (Λk |W0 , ν0 )
+                                                                        
+            p (µ, Λ) = p (µ|Λ) p (Λ) =
+                                             k=1
+                              N Y
+                                K
+                              Y                               znk
+            p (X|Z, µ, Λ) =               N xn |µk , Λ−1
+                                                      k              ,
+                              n=1 k=1
+
+where α0 = (α0 , · · · , α0 )′ , m0 , β0 , W0 and ν0 are hyperparameters that will be updated.
+This is a latent variable model, and we have both the global parameters (π, µ, Λ) and local
+parameter (latent variable) Z. Let θ = (π, Z, µ, Λ). We use the following fractional posterior
+distribution (Han and Yang, 2019; Yang et al., 2020):
+
+               p (X, π, Z, µ, Λ) = pω (X|Z, µ, Λ) pω (Z|π) p (π) p (µ|Λ) p (Λ) .            (15)
+
+The mean-field variational approximation is obtained by maximizing the following modified
+ELBO by assuming the factorization that q (π, Z, µ, Λ) = q (Z) q (π, µ, Λ)
+                              Z                                        
+                ∗                                     p (X, π, Z, µ, Λ)
+               q = arg max       q(π, µ, Λ)q(Z) log                       dθ.       (16)
+                       q∈Q     Θ                      q(π, µ, Λ)q ω (Z)
+
+For notational simplicity, we suppress the subscripts of each q(·) in equation (16). Algorithm
+3 summarizes the procedure for solving optimization problem (16). The detailed derivation
+and evaluation of the corresponding ELBO are provided in the supplemental materials.
+    It is noteworthy that Algorithm 3 has the similar updating rule as the traditional vari-
+ational approximation (for example, see Bishop (2006)), except for the presence of the pa-
+rameter ω in most terms.
+    Section 6 contains numerical results for our proposed TVB method under this model. To
+apply the grid-search TVB method with N samples, K clusters, and p-dimensional data on
+a grid ω ∈ (0, 1]m with B bootstrap replicates, we require a dictionary D ∈ Rd×m according
+to Algorithm 3, where
+                                                                          
+
+                d = (B + 1 + 1) × |{z}    K + (p + 1)K + (p2 + 1)K  .
+                                    N K + |{z}
+                                                                    
+                                    ∗      ∗
+                                               |   {z  }  |   {z   }
+                                           q (Z)    q (π)       q ∗ (µ|Λ)   q ∗ (Λ)
+
+
+This accounts for storing posterior parameters from the full data VB, VB on the first split
+dataset, and B bootstrap replicates. Therefore, we obtain d = (B + 2) × (N + p + p2 + 3)K.
+
+                                                     15
+Algorithm 3: Fractional Mean-Field Variational Inference for GMM
+ Require: Observation data X ∈ RN ×p , number of clusters K, hyperparameters
+     α0 = (α0 , · · · , α0 )′ , m0 , β0 , W0 , ν0 , smoothing parameter ω, maximum number of
+     iterations max iter, tolerance ϵ > 0. Initialization:
+                                                                       coverage = FALSE, posterior
+                        (0)     (0)   (0)  (0)      (0)
+     parameters αk , mk , βk , νk , Wk                    for k = 1, · · · , K, iteration number t = 0.
+  1: while t < max iter and not coverage do
+  2:    Update posterior parameters of q ∗ (Z) by
+                                                                    ρnk
+                                                             rnk = PK        ,                            (17)
+                                                                    j=1 ρ nj
+
+                                          1               1
+          where log ρnk = Eπ [log πk ] + EΛ [log |Λk |] − Eµ,Λ [(xn − µk )′ Λk (xn − µk )]
+                                          2               2
+   3:     For k = 1, · · · , K, update posterior parameters of q ∗ (πk ) by
+
+                                                            αk = α0 + ω · Nk ,                            (18)
+                             N
+                             P
+          where Nk =               rnk
+                             n=1
+   4:     For k = 1, · · · , K, update posterior parameters of q ∗ (µk |Λk ) by
+                                                                          1
+                                     βk = β0 + ω · Nk ,            mk =      (β0 m0 + ω · Nk x̄k ) ,      (19)
+                                                                          βk
+
+                          1 P N
+          where x̄k =           rnk xn
+                        Nk n=1
+   5:     For k = 1, · · · , K, update posterior parameters of q ∗ (Λk ) by
+
+                               νk = ν0 + ω · Nk
+                                                                      β0 Nk                               (20)
+                               Wk−1 = W0−1 + ω · Nk Sk +                     (x̄k − m0 )′ (x̄k − m0 ),
+                                                                     β0 + Nk
+
+                             1 P N
+          where Sk =                rnk (xn − x̄k )(xn − x̄k )′
+                             Nk n=1
+   6: end while
+                               N Q
+                                 K
+                                           znk
+   7: Return q ∗ (Z) =                         , q ∗ (π) = Dir(π|α) where αk is in (18),
+                               Q
+                                          rnk
+                               n=1 k=1
+                        K                        K
+        q ∗ (µ|Λ) =         q ∗ (µk |Λk ) =            N (µk |mk , (βk Λk )−1 ) and
+                        Q                        Q
+                      k=1                        k=1
+                    K                    K
+        q ∗ (Λ) =         q ∗ (Λk ) =
+                    Q                    Q
+                                               W(Λk |Wk , νk ).
+                    k=1                  k=1
+
+
+
+
+                                                              16
+5.2     Bayesian Mixture Linear Model
+In Bayesian mixture linear model (BMLR), we denote the observation data (Y, X ), where
+Y ∈ RN ×Jn means N response vectors with yn ∈ RJn , and X ∈ RN ×Jn ×p is a 3-dimensional
+tensor with each slice Xn ∈ RJn ×p being a design matrix of p covariates. Therefore, we have
+totally N datasets (yn , Xn ) for classical linear regression and each of them belongs to one of
+K clusters, distinguished by the regression coefficient β k for k = 1, · · · , K.
+   Let Z ∈ RN ×K be the membership matrix, and π = (π1 , · · · , πK )′ the mixing coefficient.
+Then we have prior and likelihood distribution as follows
+                         N Y
+                         Y K                                 K
+                                                             Y
+                                   πkznk ,                          N β k |0, τk−1 Ip
+                                                                                             
+             p (Z|π) =                        p (β|τ ) =
+                         n=1 k=1                             k=1
+                                                  K
+                                                  Y                                  K
+                                                                                     Y
+             p (π) = Dir(π|α0 ) = C(α0 )                πkα0 −1 ,     p (τ ) =             Gamma(τk |a0 , b0 )   (21)
+                                                  k=1                                k=1
+                                N Y
+                                  K
+                                Y                                         znk
+             p (Y|Z, β, X ) =                N yn |Xn β k , λ−1 IJn              ,
+                                n=1 k=1
+
+where α0 = (α0 , · · · , α0 )′ , τ = (τ1 , · · · , τK )′ , a0 , b0 , λ are hyperparameters and λ as preci-
+sion of noise level that is assumed to be known. Similar to the GMM example, the joint
+distribution under the fractional posterior framework with smoothing parameter ω is
+
+               p (Y, Z, π, β, τ |X ) = pω (Y|Z, β, X ) pω (Z|π) p (π) p (β|τ ) p (τ ) .                          (22)
+
+When we assume the factorization of mean-field variational approximation to be q(Z, β, τ , π) =
+q(Z)q(π, β)q(τ ), the corresponding q ∗ that maximizes ELBO is
+                                                                            
+                                                       p (Y, Z, π, β, τ |X )
+                             Z
+               ∗
+             q = arg max        q(Z)q(π, β)q(τ ) log                           dθ,       (23)
+                      q∈Q     Θ                         q(π, β)q(τ )q ω (Z)
+
+for θ = (Z, π, β, τ ) in this example.
+    Algorithm 4 summarizes the procedure of estimating posterior parameters of this model.
+Similarly, to apply the grid-search TVB method with N samples, K clusters, and p-dimensional
+data on a grid ω ∈ (0, 1]m with B bootstrap replicates, we require a dictionary D ∈ Rd×m
+according to Algorithm 4, where
+                                                                   
+
+                     d = (B + 1 + 1) × |{z}
+                                         N K + |{z} 2K + (p2 + p)K  .
+                                                K + |{z}
+                                                                  
+                                         ∗      ∗    ∗
+                                                         | {z }
+                                                  q (Z)      q (π)      q (τ )             q ∗ (β)
+
+This accounts for storing posterior parameters from the full data VB, VB on the first split
+dataset, and B bootstrap replicates. Therefore, we obtain d = (B+2)×(N +p+p2 +3)K. The
+detailed derivation as well as evaluation of ELBO can be found in supplemental materials.
+
+                                                          17
+ Algorithm 4: Mean-Field Variational Approximation of Bayesian Mixture Linear
+ Regression Model with Fractional Posterior
+  Require: Observation data (Y, X ), number of clusters K, hyperparameters
+      α0 = (α0 , · · · , α0 )′ , a0 , b0 , noise level λ, smoothing parameter ω, maximum number of
+      iterations max iter, tolerance ϵ > 0.Initialization: coverage = FALSE, posterior
+                         (0)     (0)     (0) (0) (0)
+      parameters αk , mk , Sk , ak , bk                for k = 1, · · · , K, iteration number t = 0.
+   1: while t < max iter and not coverage do
+   2:    Update posterior parameters of q ∗ (Z) by
+                                                                      ρnk
+                                                               rnk = PK        ,                                        (24)
+                                                                      j=1 ρ nj
+
+
+                                           λ
+           where log ρnk = Eπ [log πk ] − Eβ [(yn − Xn β k )′ (yn − Xn β k )]
+                                           2
+    3:     For k = 1, · · · , K, update posterior parameters of q ∗ (τk ) by
+                                                         p                 1
+                                                  ak =     + a0 ,      bk = Eβ [β ′k β k ] + b0                         (25)
+                                                         2                 2
+    4:     For k = 1, · · · , K, update posterior parameters of q ∗ (πk ) by
+
+                                                               αk = α0 + ω · Nk ,                                       (26)
+                               N
+                               P
+           where Nk =               rnk
+                              n=1
+    5:     For k = 1, · · · , K, update posterior parameters of q ∗ (β k ) by
+
+                                          N                                                    N
+                                                                                                                  !−1
+                                          X                                                    X
+                     mk = ω · λSk               rnk X′n yn ,    Sk =     Eτk [τk ]Ip + ω · λ         rnk X′n Xn         (27)
+                                          n=1                                                  n=1
+
+    6: end while
+                                 N Q
+                                   K                                                   K
+                                            znk
+    7: Return q ∗ (Z) =                         , q ∗ (π) = Dir(π|α), q ∗ (τ ) =
+                                 Q                                                     Q
+                                           rnk                                              Gamma(τk |ak , bk ) and
+                                n=1 k=1                                               k=1
+                     K                K
+         q ∗ (β) =         q ∗ (β k ) =
+                     Q                Q
+                                                N (β k |mk , Sk ).
+                     k=1                  k=1
+
+
+
+
+6    Empirical Results
+In this section, we present numerical results for the two models discussed in Section 5. We
+demonstrate that our proposed TVB approach with either sequential update (strategy I) or
+grid-search update (strategy II) achieves superior calibration of credible intervals compared
+to original VB estimation.
+    In Section 6.1, we evaluate our method using both updating strategies and compare
+
+                                                                18
+it against the standard variational Bayes approach (corresponding to ω = 1 in (4)) for
+Gaussian mixture model. For the Bayesian mixture linear regression example in Section 6.2,
+we implement only the grid-search TVB and compare its coverage with standard VB results,
+as sequential update TVB yields similar coverage results to grid-search TVB. Additionally,
+for both examples, we compare the TVB calibration with the general posterior calibration
+(GPC) method (Syring and Martin, 2019). As discussed earlier, the original GPC method is
+not specifically designed for VB, and its calibration approach does not account for the use of
+fractional VB in the presence of latent variables. We adapt it to incorporate the fractional VB
+as we found that this adapted version outperforms standard GPC in our setting. Therefore,
+we report results for this ‘fractional GPC’, referred to hereafter as GPC. The comparative
+results between TVB and GPC are presented in the supplementary materials.
+    For grid-search TVB, we construct a grid of 100 points ω = (ω1 , · · · , ω100 )′ by evenly
+spacing values between log 0.001 and log 1 on the logarithmic scale and then applying the
+exponential function. For each model and method, we conducted n = 500 independent
+replications to obtain the frequentist coverage probability.
+
+
+6.1    Numerical Study using Gaussian Mixture Model
+For Gaussian Mixture Model described in Section 5.1, we use p = 2 covariates and K = 2
+Gaussian clusters N (µ1 , Σ1 ) and N (µ2 , Σ2 ), where µ1 = (0, 0)′ , µ2 = (2, 2)′ , Σ1 = Σ2 = I2 .
+We set the mixing parameter π = 0.65, and vary the sample size N ∈ {1000, 1500, 2000, 2500, 3000}.
+    For the traditional VB method, we implement Algorithm 3 with ω = 1 for the variational
+approximation of posterior distribution. For calibrated methods (TVB with both updating
+strategies), we first apply Algorithm 1 and Algorithm 2 with nominal level 1 − α = 0.95 to
+select the proper smoothing parameter ω0 , and then use Algorithm 3 to obtain the variational
+posteriors and credible intervals.
+    In this example, we investigate the frequentist coverage performance of estimated mixing
+parameter π = 0.65. Since the variational posterior of π = (π, 1 − π)′ follows the Dirichlet
+distribution with posterior parameter α = (α1 , α2 )′ , which reduces to that π follows the
+beta distribution with parameters
+                             h        (α1 , α2 ). The corresponding 100(1     i − α)% = 95% credible
+                                  −1                    −1
+interval is constructed by FBeta(α1 ,α2 ) (0.5α) , FBeta(α1 ,α2 ) (1 − 0.5α) where F is the corre-
+sponding cumulative distribution function. Note that in view of the label switching issue,
+we always let π̂ = max(π̂1 , π̂2 ), where π̂ = (π̂1 , π̂2 )′ is the posterior mean.
+    As shown in the left panel of Figure 1, the TVB with both updating strategies successfully
+calibrates credible intervals to the nominal 95% level across varying sample sizes. This
+calibration performance demonstrates similar accuracy and robustness of both updating
+strategies, while the standard VB approach consistently exhibits substantial undercoverage.
+As expected, credible interval of the TVB method is larger than that of the original VB
+
+                                              19
+Figure 1: Frequentist coverage performance for original VB method (VB) and trustworthy
+VB method (TVB). The left panel displays the coverage of the mixing parameter π in the
+GMM example, comparing TVB with both updating strategies. The right panel presents the
+                                                  p
+                                                K P
+                                                P
+coverage of the sum of regression coefficients,     βki in the BMLR example, using TVB
+                                              k=1 i=1
+with grid-search update only. In each panel, dot plots with error bars indicate the average
+coverage and the 95% confidence interval.
+
+
+
+
+Figure 2: Boxplots of credible interval length for original VB method (VB) and trustworthy
+VB method (TVB). The left panel is for π in the GMM example, comparing TVB with both
+                                            K P
+                                            P   p
+updating strategies; the right panel is for       βki in the BMLR example, using TVB with
+                                         k=1 i=1
+grid-search update only.
+
+
+
+
+                                            20
+Figure 3: Boxplots of the selected smoothing parameter ω for trustworthy VB method
+(TVB). The left panel is for the GMM example comparing TVB with both updating strate-
+gies, while the right panel is for the BMLR example using TVB with grid-search update
+only.
+
+ones; see Figure 2 (left panel) and 3 (left panel) for the boxplot of selected ω0 , respectively.
+The VB running time for this simulation when N = 3000 is 4.52 seconds (averaged over
+20 repeats), demonstrating that our TVB method is scalable given sufficient computational
+resources.
+
+
+6.2     Numerical Study of Bayesian Mixture Linear Model
+Consider the Bayesian mixture linear model discussed in Section 5.2, we set N = 500 datasets
+with the observation of each dataset (yi , Xi ) to be Jn = (1000, 1500, 2000, 2500, 3000).
+We again let K = 2 as the number of mixed clusters with mixing probability π = 0.65,
+                      the regression coefficient β k ∈ Rp for k = 1, 2 is generated from
+and for!each cluster,!!
+      0     τ −1 0
+N        , k            , where p = 2 and τ1 = τ2 = 1. Also, we generate noise ϵk ∈
+      0       0 τk−1
+                                                             i.i.d.
+RJn , k = 1, 2 as the noise term of each cluster by ϵkj ∼ N (0, 1), j = 1, · · · , Jn . For each
+i = 1, · · · , N , we first obtain the membership matrix Z randomly based on π, suppose ith
+dataset (yi , Xi ) belongs to kth cluster for k = 1, 2. To get such dataset, we let Xi ∈ RJn ×p
+                                                               ∥Xi β k ∥22    ϵk
+be from iid N (0, 1), and then yi = Xi β k + ϵ̃k , where ϵ̃k =             ·         for a prespecified
+                                                                SNR          ∥ϵk ∥22
+signal-to-noise ratio (SNR). Throughout our simulation, we let the signal-to-noise ratio to
+be 0.1.
+
+
+
+                                                  21
+                                                                                              p
+                                                                                            K P
+                                                                                            P
+    For this example, we want to build 100(1 − α)% = 95% credible interval for                       βki .
+                                                                                           k=1 i=1
+According to Algorithm 4, the posterior distribution of β k is Gaussian with mean mk
+                                                                             PK P p
+and variance Sk , and therefore we know the posterior distribution of                βki should be
+    P      P             P     P                                             k=1 i=1
+N ( m, S), where            m, S represents the summation of all elements of mk , Sk across
+                                                                     K P
+                                                                     P   p
+k, respectively. Therefore, the 100(1 − α)% credible interval of            βki is constructed by
+hP                                              i                   k=1 i=1
+                 pP P                    pP
+     m − z1−0.5α       S, m + z1−0.5α         S where z1−0.5α is 1 − 0.5α quantile of N (0, 1).
+    It is shown in the right panel of Figure 1 that again, TVB method with grid-search update
+successfully calibrates credible intervals to the nominal level, and has better and more robust
+performance than traditional VB. The length of credible interval for TVB method is larger
+than original VB ones, as shown in Figure 2 (right panel). The boxplot of selected ω0 values
+is shown in 3 (right panel). This finding aligns with our previous results from the Gaussian
+mixture model example. The VB running time in this simulation when N = 500, Jn = 3000
+is 0.491 seconds (averaged over 20 repeats), demonstrating that our TVB method is scalable
+given sufficient computational resources.
+
+
+7     Real Data Analysis
+In this section, we apply grid-search TVB method based on Gaussian Mixture Models
+(GMM) to analyze the faithful dataset from R’s datasets package R Core Team (2024).
+The faithful dataset contains 272 observations of the Old Faithful geyser in Yellowstone
+National Park, with two variables: eruptions (the duration of eruptions in minutes) and
+waiting (the waiting time until the next eruption in minutes) (Azzalini and Bowman, 1990).
+Our analytical approach involved fitting a two-component GMM to identify the underlying
+bimodal distribution structure of the geyser’s behavior, facilitating the classification of erup-
+tions into short/long categories and corresponding waiting times. The analysis revealed
+distinct clusters in the eruption patterns, with longer eruptions typically followed by longer
+waiting periods, suggesting a potential physical mechanism related to the geyser’s under-
+ground reservoir refilling process. As shown in Figure 4 left panel, the visualization of these
+clusters, obtained by VB with K = 2, clearly demonstrates the bimodal nature of Old
+Faithful’s eruption cycles, with the GMM effectively capturing the natural groupings in the
+data.
+    First, we implement original variational Bayes and grid-search TVB with K = 2 for mix-
+ing probability π (for the larger cluster), where we use a grid of 500 points ω = (ω1 , · · · , ω500 )′
+by evenly spacing values between log 0.001 and log 1 on the logarithmic scale and then ap-
+plying the exponential function. We build the 95% credible interval for mixing probability
+
+
+                                                  22
+Figure 4: TVB recalibration of the mixing parameter for the faithful dataset. The left
+panel is faithful dataset clustered by variational Bayes with K = 2; The right plot is the
+posterior distribution of VB and grid-search TVB of mixing parameter π with 95% credible
+intervals.
+
+under each method: The VB 95% CI is (0.584, 0.698) while the grid-search TVB 95% CIs is
+(0.538, 0.726). As we can see, after TVB calibration, the 95% credible interval is wider which
+increases the trustworthiness of the corresponding uncertainty quantification. Furthermore,
+the grid-search TVB approach demonstrates significant computational efficiency, as it re-
+quires only a single bootstrap estimation procedure, with results stored as a comprehensive
+”dictionary” for subsequent uncertainty quantification of any target parameter. In contrast,
+the sequential update TVB necessitates repeated bootstrap simulations whenever inference
+on different parameters is required, resulting in substantially higher computational overhead.
+    To better illustrate the computational efficiency of grid-search TVB, we next obtain cal-
+                                                         2
+                                                         P
+ibrated 95% credible intervals for µij , i, j = 1, 2 and    µij , i = 1, 2, where µij is the j-th
+                                                         j=1
+coordinate of the mean vector of the i-th cluster. Recall that in Algorithm 3, the posterior
+distribution of µi conditional on Λi follows a Gaussian-Wishart distribution. Therefore, fol-
+lowing Murphy (2007), the marginal distribution of µi is a multivariate t-distribution with
+                                                                          Wi−1
+degrees of freedom νi − p + 1, location vector mi , and scale matrix βi (νi −p+1) . As shown in
+Table 1, for each parameter of interest, we obtain calibrated 95% credible intervals that are
+wider than or equal to the original VB intervals, demonstrating substantial improvements
+in coverage properties for all target parameters relative to the original VB approach. Addi-
+tionally, by using the TVB dictionary constructed in the grid-search TVB method, we avoid
+having to re-run the entire update procedure (as required by the sequential TVB method)
+for different target parameters, making grid-search TVB more efficient and therefore recom-
+mended.
+
+
+                                               23
+                                        VB               TVB             ω
+                        µ11         (4.22, 4.35)      (4.22, 4.35)     1.000
+                        µ12        (79.06, 80.85)    (78.90, 81.01)    0.717
+                        µ21         (1.98, 2.13)      (1.90, 2.35)     0.265
+                        µ22        (53.49, 55.91)    (52.01, 60.37)    0.127
+                       2
+                       P
+                         µ1j       (83.33, 85.16)    (83.17, 85.31)    0.737
+                       j=1
+                       P2
+                             µ2j   (55.52, 58.00)    (55.05, 61.81)    0.124
+                       j=1
+
+Table 1: 95% credible intervals for variational Bayes (VB) and grid-search TVB for different
+target parameters.
+
+8    Discussion
+This paper introduces a novel approach to recalibrate credible intervals in variational Bayes
+inference through fractional variational Bayes and sample splitting bootstrap. Our method
+successfully addresses the undercoverage issue common in VB posterior approximations while
+maintaining computational efficiency. The proposed method demonstrates superior empirical
+performance compared to standard VB, and we provide theoretical guarantees for the cov-
+erage probability of calibrated VB credible intervals. Overall, our work enables trustworthy
+VB with strong empirical and theoretical guarantees.
+    There are a few future research directions building on our work. First, while our method
+achieves guaranteed calibration in moderate to large samples, there is increased variance in
+small-sample settings due to the sample splitting procedure. However, this limitation is well-
+understood given the inherent variance-bias trade-off: sample splitting method will increase
+variance when we try to reduce the bias. Future work could explore adaptive splitting ratios
+or alternative resampling schemes that are particularly well suited for small samples.
+    In addition, our method can be extended to recalibrate other approximating methods
+with misspecified models, as well as complex data structures with temporal or spatial de-
+pendencies.
+
+
+9    Proof
+In this section, we present the proofs of Theorem 1, Corollary 1, and Theorem 2. We begin
+with a simple technical result:
+                                                                         1
+Lemma 1. For random variable X ∼ fX (x), suppose σ(z) =                        is sigmoid function.
+                                                                      1 + e−kz
+
+
+                                                24
+Then for any θ ∈ R, we have
+
+                                 EfX [σ(X − θ)] → P (θ < X) ,                                    (28)
+
+as k → ∞. Therefore, σ(X − θ) is a smooth surrogate of the indicator function 1{θ < X}.
+                                                 1
+Proof of Lemma 1. For σ(X − θ) =                             , as k → ∞, if X > θ, then σ(X − θ) → 1,
+                                       1 + e−k(X−θ)
+and if X < θ, then σ(X − θ) → 0. Therefore, we have
+                          Z ∞                        Z ∞
+                                    1
+         EfX [σ(X − θ)] =                  f (x)dx →
+                                    −k(x−θ) X
+                                                         fX (x)dx = P (θ < X) ,                  (29)
+                           −∞ 1 + e                   θ
+
+as k → ∞. This completes of the proof.
+                                                                                      1P n
+                                        i.i.d.
+Proof of Theorem 1. For X1 , · · · , Xn ∼ Pθ , denote the empirical measure by Pn =         δX ,
+                                                                                      n i=1 i
+where δXi is the Dirac delta measure at Xi . After splitting the sample into X1 and X2 , let
+  (b)           (b)
+X2,1 , · · · , X2,l be bootstrap samples from X2 with l = n/2 (without loss of generality, let n
+                                                                            (b)
+be an even integer), and denote the corresponding empirical measure by Pl . The associated
+bootstrap empirical process is
+                                                  n 
+                                 √  (b)
+                                                             
+                                             1 X          l
+                         Ĝn,l := l Pl − Pn = √      Nli −                                       (30)
+                                               l i=1       n
+
+as in Van der Vaart and Wellner (2013), where Nli is the random variable counting the times
+Xi is resampled. For any measurable g, Ĝn,l g = l−1/2 ni=1 (Nli − l/n)g(Xi ).
+                                                          P
+                                   (b)
+    Recall that Tθ (Pn ) and Tθ (Pl ) are operators on the Donsker class F := {fω (·) : ω ∈ (0, 1]}.
+Let l∞ (F) be the space of bounded real-valued functions on F, equipped with the norm
+                                                                     (b)
+∥T ∥F := supfω ∈F |T (fω )|, for T ∈ l∞ (F). For either Pn or Pl and any fω ∈ F, we have
+                  (b)                                                     (b)
+Tθ (Pn )fω , Tθ (Pl )fω ∈ (0, 1]. Therefore, with fixed θ, Tθ (Pn ), Tθ (Pl ) ∈ l∞ (F).
+    Define ψ : l∞ (F) → R by
+                                       ψ(T ) := sup |T (fω )|.
+                                                     fω ∈F
+
+Then ψ(T ) ∈ (0, 1] for the operators of interest, and for any T, T̃ ∈ l∞ (F),
+
+     ψ(T ) − ψ(T̃ ) = sup |T (fω )| − sup |T̃ (fω )| ≤ sup |T (fω ) − T̃ (fω )| = ∥T − T̃ ∥F .
+                        fω ∈F           fω ∈F                   fω ∈F
+
+
+Thus ψ is a bounded Lipschitz functional on l∞ (F).
+    By Assumption 2 and Assumption 3, according to Theorem 3.7.3 and Theorem 3.10.11
+in Van der Vaart and Wellner (2013), we have
+                      √                                    P
+                                (b)                  ′
+                   Eψ    l Tθ (Pl ) − Tθ (Pn ) − Eψ Tθ,P θ
+                                                           (G)  → 0,            (31)
+
+
+                                                     25
+                                                                  ′
+where G is a tight Brownian bridge with mean 0 and Tθ,P             θ
+                                                                       is the Hadamard derivative in
+Assumption 3.
+            ′
+   Since Tθ,P  θ
+                 (G) is a tight mean-zero Gaussian process in l∞ (F), the random variable
+    ′                          ′                                              ′
+                                                                                      
+ψ Tθ,P  (G)   =   supf   ∈F |Tθ,P   (G)fω | has finite expectation, so E  ψ T θ,P   (G)  < ∞ and hence
+     √θ       (b)
+                       ω
+                                 θ                                               θ
+
+E ψ l{Tθ (Pl ) − Tθ (Pn )} = OP (1), that is,
+                                     √      (b)
+                           E sup      l Tθ (Pl )fω − Tθ (Pn )fω            = OP (1).
+                             fω ∈F
+
+Since l = n/2 → ∞,
+   the preceding display yields
+                                                                      
+                                                     (b)                       P
+                               E sup         Tθ (Pl )fω − Tθ (Pn )fω           → 0.                        (32)
+                                 fω ∈F
+                                                                                                      
+                                                                                 (b)                       P
+This, together with the triangle inequality, implies that                  ETθ (Pl )fω − ETθ (Pn )fω
+                                                                                →0
+                                                                                      
+                                                     (b)                 (b)          (b)
+for any fω ∈ F. Invoking Lemma 1 leads to that ETθ (Pl )fω → P h(θ) ∈ L Pl fω , U Pl fω
+when k → ∞. Therefore we have shown that
+                                
+                     (b)        (b)                                      P
+      P h(θ) ∈ L Pl fω , U Pl fω − P (h(θ) ∈ (L (Pn )fω , U (Pn ) fω )) → 0,     (33)
+
+for ∀fω ∈ F and as n → ∞.
+    For any fixed empirical measure Pn , since both the sigmoid function σ(·) and h(·) are con-
+tinuous functions, Tθ (Pn )fω is also a continuous function of θ. Let the variational posterior
+                                X1                                                 X1
+mean obtained using X1 be θ̂ ω . According to Assumption 1, there holds h(θ̂ ω ) → h(θ)
+                                                           (b)            (b)
+in probability as n → ∞. Then it follows that Tθ (Pl )fω − Tθ̂X1 (Pl )fω = op (1), and
+                                                                     ω
+consequently as n → ∞, for any fω ∈ F, we have
+                                               (b)                         P
+                                     ETθ̂X1 (Pl )fω − ETθ (Pn )fω → 0,                                     (34)
+                                         ω
+
+
+i.e.,
+               X1
+                                  
+                        (b)       (b)                                         P
+        P h(θ̂ ω ) ∈ L Pl fω , U Pl fω − P (h(θ) ∈ (L (Pn )fω , U (Pn ) fω )) → 0.                         (35)
+
+By the definitions of cB
+                       q ∗ (ω; α) and cq ∗ (ω; α), this yields
+
+                                                   P
+                                     cB
+                                      q ∗ (ω; α) → cq ∗ (ω; α),    n → ∞.                                  (36)
+
+    Finally, since ĉB                                                   B                 B             B
+                     q ∗ (ω; α) defined in (5) is the sample version of cq ∗ (ω; α) with ĉq ∗ (ω; α) − cq ∗ (ω; α) =
+Op (B −1/2 ), by weak law of large number, we have
+                                               P
+                                 ĉB
+                                   q ∗ (ω; α) → cq ∗ (ω; α),      n, B → ∞.                                (37)
+
+This completes the proof of Theorem 1.
+
+                                                           26
+Proof of Corollary 1. The proof of Corollary 1 follows a similar argument to that of Theo-
+                                                        √        (b)
+                                                                                    
+                                                                                      P
+rem 1. From the proof of Theorem 1, we have E sup         l Tθ (Pl )fω − Tθ (Pn )fω   → 0.
+                                                fω ∈F
+                                                   X1
+With Assumption 4, it is straightforward that h(θ̂ ω ) → h(θ) in probability as n → ∞
+uniformly over ω ∈ Ω, and thus
+              X1
+                                  
+                          (b)     (b)                                        P
+   sup P h(θ̂ ω ) ∈ L Pl fω , U Pl fω − P (h(θ) ∈ (L (Pn )fω , U (Pn ) fω )) → 0.
+   ω∈Ω
+
+By the definitions of cB
+                       q ∗ (ω; α) and cq ∗ (ω; α), this yields
+                                                            P
+                            sup cB
+                                 q ∗ (ω; α) − cq ∗ (ω; α) → 0,    n → ∞.                           (38)
+                            ω∈Ω
+
+Since ĉB                                                   B                 B             B
+        q ∗ (ω; α) defined in (5) is the sample version of cq ∗ (ω; α) with ĉq ∗ (ω; α) − cq ∗ (ω; α) =
+Op (B −1/2 ), by weak law of large number, we have
+                                                        P
+                          sup ĉB
+                                q ∗ (ω; α) − cq ∗ (ω; α) → 0,    n, B → ∞.                         (39)
+                          ω∈Ω
+
+This completes the proof of Corollary 1.
+
+Proof of Theorem 2. In proving Theorem 2, we denote the data-dependent smoothing pa-
+rameter as ω̂n (instead of ω̂0 ) to emphasize its dependence on the sample. Recall that we
+obtain ω̂n as an M -estimator by solving (6). From Corollary 1, we know that ĉB    q ∗ (ω; α) →
+cq∗ (ω; α) as n, B → ∞ uniformly over Ω. By Assumption 5, if we further define f (ω) :=
+                         
+ lim P h(θ) ∈ Cqω∗ (X; α) , then ĉBq ∗ (ω; α) converges to f (ω) uniformly over Ω as B → ∞.
+n→∞
+Therefore, by Theorem 5.7 in Van der Vaart (2000), the M -estimator ω̂n converges to ω ∗ as
+n, B → ∞.
+    Now we show that using the consistent estimator ω̂n yields
+                                                                the correct coverage.
+                                                                                        We want
+to evaluate the limit of the true coverage probability, P h(θ) ∈ Cqω̂∗ n (X; α) . Consider the
+difference between this probability and our target value, 1 − α = f (ω ∗ ). Using the triangle
+inequality, we have:
+                                                            
+   P h(θ) ∈ Cqω̂∗ n (X; α) − f (ω ∗ ) ≤ P h(θ) ∈ Cqω̂∗ n (X; α) − f (ω̂n ) + |f (ω̂n ) − f (ω ∗ )| .
+Since both terms converge to 0 as n, B → ∞, we complete the proof.
+
+
+Supplementary Material
+The supplementary material contains additional technical details and results. Section A
+provides detailed derivation of Algorithm 3 and Algorithm 4. Section B presents additional
+simulation studies exploring the comparison between TVB and GPC methods. Code im-
+plementing the proposed method, along with illustrative numerical examples and scripts to
+reproduce selected experiments, is publicly available at https://github.com/JmL130169/
+Trustworthy-Variational-Bayes.
+
+                                                  27
+References
+Alquier, P. (2024). User-friendly introduction to PAC-Bayes bounds. Foundations and
+  Trends® in Machine Learning, 17(2):174–303.
+
+Alquier, P., Ridgway, J., and Chopin, N. (2016). On the properties of variational approxi-
+  mations of Gibbs posteriors. Journal of Machine Learning Research, 17(236):1–41.
+
+Azzalini, A. and Bowman, A. W. (1990). A look at some data on the old faithful geyser.
+  Journal of the Royal Statistical Society: Series C (Applied Statistics), 39(3):357–365.
+
+Betancourt, M. (2018). A conceptual introduction to Hamiltonian Monte Carlo. arXiv
+  preprint arXiv:1701.02434.
+
+Bhattacharya, A., Pati, D., and Yang, Y. (2019). Bayesian fractional posteriors. The Annals
+  of Statistics, 47(1):39 – 66.
+
+Bishop, C. M. (2006). Pattern Recognition and Machine Learning, volume 4. Springer.
+
+Blei, D. M., Kucukelbir, A., and McAuliffe, J. D. (2017). Variational inference: A review for
+  statisticians. Journal of the American statistical Association, 112(518):859–877.
+
+Coifman, R. R. and Donoho, D. L. (1995). Translation-invariant de-noising. In Wavelets
+  and statistics, pages 125–150. Springer.
+
+Gelfand, A. E. and Smith, A. F. (1990). Sampling-based approaches to calculating marginal
+ densities. Journal of the American Statistical Association, 85(410):398–409.
+
+Ghosal, S. and Van der Vaart, A. W. (2017). Fundamentals of Nonparametric Bayesian
+ Inference, volume 44. Cambridge University Press.
+
+Giordano, R., Broderick, T., and Jordan, M. I. (2018). Covariances, robustness, and varia-
+  tional Bayes. Journal of Machine Learning Research, 19(51):1–49.
+
+Han, W. and Yang, Y. (2019). Statistical inference in mean-field variational Bayes. arXiv
+  preprint arXiv:1911.01525.
+
+Hastings, W. K. (1970). Monte Carlo sampling methods using Markov chains and their
+  applications. Biometrika, 57(1):97–109.
+
+Hoffman, M. D. and Blei, D. M. (2015). Structured stochastic variational inference. In
+  Artificial Intelligence and Statistics, pages 361–369.
+
+
+
+                                             28
+Hoffman, M. D., Blei, D. M., Wang, C., and Paisley, J. (2013). Stochastic variational
+  inference. Journal of Machine Learning Research, 14(40):1303–1347.
+
+Hoffman, M. D. and Gelman, A. (2014). The No-U-Turn sampler: adaptively setting path
+  lengths in Hamiltonian Monte Carlo. Journal of Machine Learning Research, 15(1):1593–
+  1623.
+
+Jaakkola, T. S. and Jordan, M. I. (1998). Improving the mean field approximation via the
+  use of mixture distributions. In Learning in Graphical Models, pages 163–173. Springer.
+
+Lei, J., G’Sell, M., Rinaldo, A., Tibshirani, R. J., and Wasserman, L. (2018). Distribution-
+  free predictive inference for regression. Journal of the American Statistical Association,
+  113(523):1094–1111.
+
+Li, M. and Ghosal, S. (2015). Fast translation invariant multiscale image denoising. IEEE
+  Transactions on Image Processing, 24(12):4876–4887.
+
+Murphy, K. P. (2007).     Conjugate bayesian analysis of the gaussian distribution.      def,
+ 1(2σ2):16.
+
+R Core Team (2024). R: A Language and Environment for Statistical Computing. R Foun-
+  dation for Statistical Computing, Vienna, Austria.
+
+Ranganath, R., Tran, D., and Blei, D. (2016). Hierarchical variational models. In Interna-
+  tional Conference on Machine Learning, pages 324–333. PMLR.
+
+Rinaldo, A., Wasserman, L., and G’Sell, M. (2019). Bootstrapping and sample splitting for
+  high-dimensional, assumption-lean inference. The Annals of Statistics, 47(6):3438 – 3469.
+
+Robbins, H. and Monro, S. (1951). A stochastic approximation method. The Annals of
+  Mathematical Statistics, pages 400–407.
+
+Sen, B. (2018). A gentle introduction to empirical process theory and applications. Lecture
+  Notes, Columbia University, 11:28–29.
+
+Syring, N. and Martin, R. (2019). Calibrating general posterior credible regions. Biometrika,
+  106(2):479–486.
+
+Syring, N. and Martin, R. (2023). Gibbs posterior concentration rates under sub-exponential
+  type losses. Bernoulli, 29(2):1080–1108.
+
+Tran, D., Blei, D., and Airoldi, E. M. (2015). Copula variational inference. Advances in
+  neural information processing systems, 28.
+
+                                             29
+Tran, M.-N., Nguyen, T.-N., and Dao, V.-H. (2021). A practical tutorial on variational
+  Bayes. arXiv preprint arXiv:2103.01327.
+
+Van der Vaart, A. W. (1991a). Efficiency and hadamard differentiability. Scandinavian
+  Journal of Statistics, pages 63–75.
+
+Van der Vaart, A. W. (1991b). On differentiable functionals. The Annals of Statistics, pages
+  178–204.
+
+Van der Vaart, A. W. (2000). Asymptotic Statistics, volume 3. Cambridge university press.
+
+Van der Vaart, A. W. and Wellner, J. A. (2013). Weak Convergence and Empirical Processes:
+  With Applications to Statistics. Springer Science & Business Media.
+
+Wainwright, M. J. and Jordan, M. I. (2008). Graphical models, exponential families, and
+ variational inference. Foundations and Trends® in Machine Learning, 1(1–2):1–305.
+
+Wang, B. and Titterington, D. M. (2005). Inadequacy of interval estimates corresponding to
+ variational Bayesian approximations. In International Workshop on Artificial Intelligence
+ and Statistics, pages 373–380. PMLR.
+
+Wang, Y. and Blei, D. M. (2019). Frequentist consistency of variational Bayes. Journal of
+ the American Statistical Association, 114(527):1147–1161.
+
+Wasserman, L., Ramdas, A., and Balakrishnan, S. (2020). Universal inference. Proceedings
+ of the National Academy of Sciences, 117(29):16880–16890.
+
+Yang, Y., Pati, D., and Bhattacharya, A. (2020). α-variational inference with statistical
+  guarantees. The Annals of Statistics, 48(2):886–905.
+
+
+
+
+                                            30
+Supplementary Material of “Bend to Mend: Toward Trustworthy
+   Variational Bayes with Valid Uncertainty Quantification”
+   This supplementary material provides additional technical details to support the main
+text. Section A contains the derivation of Algorithm 3 and Algorithm 4, and Section B
+presents comparative study between TVB and GPC methods.
+
+
+A     Derivation of Algorithms
+In Appendix A, we present the complete derivation of Algorithms 3 and 4, which extend the
+original variational Bayes approach to fractional variational Bayes. Throughout this section,
+we use C to denote a generic constant, whose value may change from line to line.
+
+
+A.1     Derivation of Algorithm 3
+Recall that the general updating rule for mean-field variational Bayes is presented in Equation
+(13). Consequently, based on the model specification in (14), we derive the following updates.
+
+• Update of q(Z):
+  Utilizing Equations (13), (15) and (16), we obtain
+
+  ω log q ∗ (Z) = Eπ,µ,Λ {log p (X, Z, π, µ, Λ)} + C
+              = Eπ,µ,Λ {log pω (X|Z, µ, Λ) + log pω (Z|π) + log p (π) + log p (µ|Λ) + log p (Λ)} + C
+              = Eµ,Λ {log pω (X|Z, µ, Λ)} + Eπ {log pω (Z|π)} + C
+                     ( N K                               )     ( N K           )
+                         XX                                       XX
+                                znk log N xn |µk , Λ−1
+                                                       
+              = Eµ,Λ ω                              k      + Eπ ω    znk log πk + C
+                              n=1 k=1                                     n=1 k=1
+                    N X
+                      K                                                                    
+                    X                      1                 1               ′
+              =ω         znk Eπ [log πk ] + EΛ [log |Λk |] − Eµ,Λ [(xn − µk ) Λk (xn − µk )] +C.
+                 n=1 k=1
+                                           2                 2
+                            |                               {z                              }
+                                                                log ρnk
+                                                                                          (40)
+                                        N Q
+                                          K                                         ρnk
+  Thus, it follows that q ∗ (Z) ∝         ρznknk , and by normalizing ρnk as rnk = K
+                                        Q
+                                                                                          , we
+                                  n=1 k=1                                          P
+                                                                                      ρnj
+                                                                                       j=1
+                     K
+                   N Q
+                              znk
+  have q ∗ (Z) =                  . From equation (40), updating q ∗ (Z) requires the expectations
+                   Q
+                             rnk
+                   n=1 k=1
+  of other unknown parameters π, µ, Λ. In practice, we therefore need to estimate the varia-
+  tional approximation of these posterior distributions iteratively. Although the smoothing
+  parameter ω does not affect the update of q ∗ (Z) due to the power of q(Z) in (16), it
+  remains crucial when evaluating the corresponding Evidence Lower Bound (ELBO).
+
+                                                  31
+• Update of q (π, µ, Λ):
+  Similarly, the log-posterior for the remaining parameters is given by
+
+  log q ∗ (π, µ, Λ) = EZ {log p (X, Z, π, µ, Λ)} + C
+                  = EZ {log pω (X|Z, µ, Λ) + log pω (Z|π) + log p (π) + log p (µ|Λ) + log p (Λ)} + C
+                                                                                                   K
+                                                                                                   X
+                              ω                                              ω
+                  = EZ {log p (Z|π)} + log p(π) + EZ {log p (X|Z, µ, Λ)} +     log p (µk , Λk ) +C.
+                    |            {z           }
+                                                                           k=1
+                                for π             |                   {z                     }
+                                                                                      for (µ, Λ)
+                                                                                    (41)
+  From equation (41), the variational approximation of π, µ, Λ can be factorized as the
+  variational approximation of π and the variational approximation of (µ, Λ). First, for
+  q ∗ (π), we have
+
+                  log q ∗ (π) = EZ {log pω (Z|π)} + log p(π) + C
+                                    K
+                                                   ( N K                )
+                                    Y                 XX
+                              = log    πkα0 −1 + EZ ω         znk log πk + C
+                                   k=1                           n=1 k=1
+                                                                                                       (42)
+                                          K
+                                          X                      N X
+                                                                 X K
+                             = (α0 − 1)          log πk + ω                   rnk log πk + C,
+                                          k=1                    n=1 k=1
+
+  which yields
+                                                                 N
+                                               K
+                                               Y       α0 −1+ω
+                                                                 P
+                                                                       rnk
+                                  q ∗ (π) =          πk          n=1
+                                                                             + C.                      (43)
+                                               k=1
+
+  Therefore,
+                                         q ∗ (π) ∼ Dir(π|α),
+                                         N
+                                         P
+  where αk = α0 + ω · Nk with Nk =             rnk .
+                                         n=1
+
+
+
+
+                                                     32
+Next, to update the variational approxmiation q ∗ (µ, Λ) (or q ∗ (µk , Λk )), we have
+                                                           K
+                                                           X
+           ∗                        ω
+      log q (µ, Λ) = EZ {log p (X|Z, µ, Λ)} +                     log p (µk , Λk ) + C
+                                                            k=1
+                         K X
+                           N                   ω
+                         X                                         ω                          
+                     =             EZ {znk }        log |Λk | −      (xn − µk )′ Λk (xn − µk )
+                         k=1 n=1
+                                                2                  2
+                           XK                        K
+                                                     X
+                         +    log p (µk |Λk ) +            p (Λk ) + C
+                          k=1                        k=1                                             (44)
+                         K
+                            ( N
+                         X X                    ω        ω                         
+                                                                     ′
+                     =          EZ {znk }      log |Λk | − (xn − µk ) Λk (xn − µk )
+                       k=1  n=1
+                                            2              2
+                                                                         
+                               1             1            ′
+                           +     log |Λk | − (µk − m0 ) β0 Λk (µk − m0 )
+                               2             2
+                                                                           
+                               1                          1     −1
+                           +     (ν0 − p − 1) log |Λk | − tr(W0 Λk ) + C ,
+                               2                          2
+
+and
+                              N                 ω
+                ∗
+                              X                             ω         ′
+                                                                                     
+           log q (µk , Λk ) =     EZ {znk }     log |Λk | − (xn − µk ) Λk (xn − µk )
+                              n=1
+                                              2             2
+                                                                           
+                                  1             1            ′                                       (45)
+                              +     log |Λk | − (µk − m0 ) β0 Λk (µk − m0 )
+                                  2             2
+                                                                       
+                                  1                          1    −1
+                              +     (ν0 − p − 1) log |Λk | − tr(W0 Λk ) + C.
+                                  2                          2
+                                                                     1 P N                1 P N
+For q ∗ (µk , Λk ), by equation (45) and letting x̄k =                      rnk xn , Sk =        rnk (xn −
+                                                                     Nk n=1               Nk n=1
+x̄k )(xn − x̄k )′ , we have
+                               1
+          log q ∗ (µk |Λk ) = − µ′k (β0 + ωNk ) Λk µk + µ′k Λk (β0 m0 + ωNk x̄k ) + C.               (46)
+                               2
+So q ∗ (µk |Λk ) ∼ N (µk |mk , (βk Λk )−1 ), where the updated hyperparameters can be ob-
+                                                                 1
+tained via equation (46) as βk = β0 + ω · Nk and mk =              (β0 m0 + ω · Nk x̄k ). Fi-
+                                                                βk
+nally, for q ∗ (Λk ), by equations (45) and (46) as well as the fact that log q ∗ (Λk ) =
+
+
+
+
+                                                     33
+ log q ∗ (µk , Λk ) − log q ∗ (µk |Λk ), we have
+                1                               1           1
+ log q ∗ (Λk ) = (µk − m0 )′ β0 Λk (µk − m0 ) + log |Λk | − tr W0−1 Λk
+                                                                           
+                2                               2           2
+                                              N
+                  1                        1X
+                + (ν0 − p − 1) log |Λk | −       ωrnk (xn − µk )′ Λk (xn − µk )
+                  2                        2 n=1
+                      N
+                 1X                    βk                             1
+              +        ωrnk log |Λk | + (µk − mk )′ Λk (µk − mk ) − log |Λk | + C
+                 2 n=1                 2                              2
+                                                        N
+               1         −1                          ′
+                                                         X
+            = tr W0 + β0 (µk − m0 )(µk − m0 ) +              ωrnk (xn − µk )(xn − µk )′
+               2                                         n=1
+                                                                N
+                                                                                 !
+                                                       1         X
+                   − βk (µk − mk )(µk − mk )′ Λk +          ν0 +     ωrnk − p − 1 log |Λk | + C.
+                                                       2         n=1
+                                                                                        (47)
+ Therefore, the variational approximation q ∗ (Λk ) ∼ W (Λk |Wk , νk ), where
+                                 N
+                                 X
+                 νk = ν0 + ω ·         rnk
+                                 n=1                                                     (48)
+                                                                       −1
+                       −1               β0 Nk                         ′
+                 Wk = W0 + ω · Nk Sk +          (x̄k − m0 )(x̄k − m0 )      .
+                                       β0 + N k
+
+• ELBO of GMM:
+ First, for (40), according to Bishop (2006), we have
+                                        K
+                                             !
+                                       X
+             Eπ [log πk ] = ψ(αk ) − ψ    αk
+                                                 k=1
+                                p                         
+                                X             νk + 1 − j                                 (49)
+             EΛ [log |Λk |] =         ψ                        + p log 2 + log |Wk |
+                                j=1
+                                                  2
+
+             Eµ,Λ [(xn − µk )′ Λk (xn − µk )] = pβk−1 + νk (xn − mk )′ Wk (xn − mk ),
+
+ where ψ(·) in (49) is digamma function. Then, the ELBO of this model defined in (16)
+ can be evaluated by
+             Z                                        
+                                     p (X, π, Z, µ, Λ)
+   ELBO =       q(π, µ, Λ)q(Z) log                       dθ
+              Θ                      q(π, µ, Λ)q ω (Z)
+            = Eq {log pω (X|Z, µ, Λ) + log pω (Z|π) + log p (π) + log p (µ|Λ) + log p (Λ) −
+              log q (π) − log q (µ, Λ) − log q ω (Z)}.
+                                                                                         (50)
+
+
+
+                                                       34
+  For each term in (50), we have
+                               K    
+                          ωX
+         ω
+  E {log p (X|Z, µ, Λ)} =         Nk E [log |Λk |] − pβk−1 − νk Tr(Sk Wk )−
+                          2 k=1
+                                                                   
+                                       ′
+                         νk (x̄k − mk ) Wk (x̄k − mk ) − p log(2π)
+                                   N X
+                                   X K
+         E [log pω (Z|π)] = ω                rnk E [log πk ]
+                                   n=1 k=1
+                                                                                  K
+                                                                                  X
+              E [log p (π)] = log Γ(Kα0 ) − K log Γ(α0 ) + (α0 − 1)                         E [log πk ]
+                                                                                      k=1
+                                   N X
+                                   X K
+             E [log q ω (Z)] = ω             rnk log rnk
+                                   n=1 k=1
+                                        K
+                                                   !       K                    K
+                                        X                  X                    X
+              E [log q (π)] = log Γ           αk       −         log Γ(αk ) +         (αk − 1)E [log πk ]
+                                        k=1                k=1                  k=1
+                               K                                                                
+                            1X          β0                   pβ0                   ′
+         E [log p (µ, Λ)] =       p log    + E [log |Λk |] −     − β0 νk (mk − m0 ) Wk (mk − m0 )
+                            2 k=1       2π                   βk
+                                             K                          K
+                              ν0 − p − 1 X                          1X
+                                                                            νk Tr W0−1 Wk
+                                                                                             
+                              +                 E [log |Λk |] −
+                                    2       k=1
+                                                                    2 k=1
+                                                                    p                   !−1
+                                             ν0      ν0 p   p(p−1) Y         ν 0 − j + 1
+                            + K log |W0 |− 2 2 2 π 4                   Γ
+                                                                   j=1
+                                                                                   2
+                             K 
+                            X      1                  p        βk     p νk − p − 1                       νk p
+         E [log q (µ, Λ)] =          E [log |Λk |] + log           − +                   E [log |Λk |] −
+                            k=1
+                                   2                  2        2π 2                2                      2
+                                                                 p                    !−1 
+                                          νk     νk p    p(p−1) Y        ν k −   j + 1
+                            + log |Wk |− 2 2 2 π 4                  Γ                          .
+                                                                j=1
+                                                                                 2
+                                                                                                            (51)
+  This completes the derivation of Algorithm 3.
+
+
+A.2    Derivation of Algorithm 4
+For Bayesian mixture linear regression (BMLR) modeled in (4), we update each term of q
+in the mean-field family based on updating rule (13) as follows.
+
+
+
+
+                                                       35
+• Update of q(Z): According to (13), (22) and (23), we have
+   ω log q ∗ (Z) = Eπ,β,τ [log p (Y, Z, π, β, τ |X )] + C
+                  = Eβ [ω log p (Y|Z, β, X )] + Eπ [ω log p (Z|π)] + C
+                          N X
+                          X K                                            N X
+                                                                         X K
+                                                                 −1
+                                                                   
+                  =ω                 znk Eβk log N yn |Xn β k , λ In + ω     znk Eπk [log πk ] + C
+                          n=1 k=1                                                    n=1 k=1
+                          N X
+                            K                                                
+                          X         λ              ′
+                  =ω         znk E − (yn − Xn β k ) (yn − Xn β k ) + E [log πk ] +C.
+                     n=1 k=1
+                                    2
+                                |                     {z                        }
+                                                                     log ρnk
+                                                                                             (52)
+                                        N Q
+                                          K                                      ρ nk
+  Therefore, we have q ∗ (Z) ∝         ρznknk , and by normalizing ρnk as rnk = K
+                                        Q
+                                                                                        , we have
+                               n=1 k=1                                          P
+                                                                                    ρnj
+                                                                                                        j=1
+              N Q
+                K
+                         znk
+  q ∗ (Z) =
+              Q
+                        rnk  .
+              n=1 k=1
+
+• Update of log q ∗ (τ ): Similarly, by (13), we have
+                            log q ∗ (τ ) = EZ,π,β [log p (Y, Z, π, β, τ |X )] + C
+                                        = log p(τ ) + Eβ [log p (β|τ )] + C
+                                                                                                              (53)
+                                            K
+                                            X 
+                                        =          Eβk [log p (β k |τk )] + log p (τk ) + C.
+                                            k=1
+
+  Then, we have
+                                                                       
+                                 ∗
+                                          p                  1    ′
+                      log q (τk ) = a0 + − 1 log τk − b0 + E [β k β k ] τk ,                                  (54)
+                                           2                   2
+                                                       p              1
+  i.e. q ∗ (τk ) = Gamma(τk |ak , bk ), where ak = a0 + and bk = b0 + E[β ′k β k ].
+                                                       2              2
+• Update of q (π, β): For (π, β), we have
+                   ∗
+
+
+  log q ∗ (π, β) = EZ,τ [log p (Y, Z, π, β, τ |X )] + C
+                  = ωEZ [log p (Y|Z, β, X )] + Eτ [log p (β|τ )] + ωEZ [log p (Z|π)] + log p(π) +C.
+                    |                   {z                     } |              {z            }
+                                              for β                                             for π
+                                                                                                              (55)
+  Collecting the terms that depend on π, we obtain
+                             log q ∗ (π) = ωEZ [log p (Z|π)] + log p(π) + C
+                                             K
+                                             X                       K X
+                                                                     X N
+                                         =         log πkα0 −1 + ω             rnk log πk + C
+                                             k=1                  k=1 n=1
+                                                                                                              (56)
+                                             XK                 N
+                                                                 X 
+                                         =          α0 − 1 + ω         rnk log πk + C.
+                                             k=1                 n=1
+
+
+                                                           36
+  This implies that q ∗ (π) follows a Dirichlet distribution
+                                                                       N
+                                                                       X
+                          ∗
+                         q (π) = Dir(π|α),         where αk = α0 + ω         rnk .
+                                                                       n=1
+
+
+  For q ∗ (β k ), we similarly collect the terms that depend on β k :
+
+      log q ∗ (β k ) = ωEZ [log p (Y|Z, β, X )] + Eτ [log p (β|τ )] + C
+                         N                                         
+                        X              λ                                  1
+                     =ω        rnk − (yn − Xn β k ) (yn − Xn β k ) − Eτk [τk ] β ′k β k + C
+                                                     ′
+
+                        n=1
+                                       2                                  2                     (57)
+                                N
+                                                    (                  N
+                                                                                    )
+                               X               1                      X
+                     = λβ ′k ω     rnk X′n yn − β ′k Eτk [τk ]Ip + λω     rnk X′n Xn β k + C.
+                               n=1
+                                               2                      n=1
+
+  Thus, q ∗ (β k ) = N (β k |mk , Sk ) , where
+                                                 N
+                                                              −1
+                                −1                        ′
+                                                   P
+                           S = Eτ [τk ]Ip + ω · λ   rnk X Xn
+                          
+                          
+                              k          k                        n
+                                                         n=1                    .
+                                        N
+                                          rnk X′n yn
+                                        P
+                          mk = ω · λSk
+                         
+                         
+                                             n=1
+
+
+• ELBO of BMLR: Finally, we provide the evidence lower bound of Bayesian mixture
+  linear regression which is formulated as (23). According to (23), we have
+                                                              
+                                         p (Y, Z, π, β, τ |X )
+              Z
+     ELBO =       q(Z)q(π, β)q(τ ) log                           dθ
+                Θ                         q(π, β)q(τ )q ω (Z)
+                                                                                             (58)
+            = Eq [log pω (Y|Z, β, X ) + log pω (Z|π) + log p (π) + log p (β|τ ) + log p (τ )
+              − log q (π, β) − log q (τ ) − log q ω (Z)] .
+
+
+
+
+                                                   37
+  Each term in equation (58) is
+                                 N X
+                                   K     
+                                 X          1                λ
+         ω
+  E [log p (Y|Z, β, X )] = ω          rnk − log 2πλ−1 In − yn′ yn + λm′k X′n yn
+                              n=1 k=1
+                                            2                2
+                                                        
+                              λ
+                            − Tr (X′n Xn (mk m′k + Sk ))
+                              2
+                              XN X K                X 
+         E [log pω (Z|π)] = ω         rnk ψ(αk ) − ψ      αk
+                                 n=1 k=1
+                                                                            K 
+                                                                            X                  X        
+              E [log p (π)] = log Γ(Kα0 ) − K log Γ(α0 ) + (α0 − 1)               ψ(αk ) − ψ        αk
+                                                                            k=1
+                                K                                                                 
+                                X  D            D                        ak        ′
+         E [log p (β|τ )] =      − log 2π + (ψ(ak ) − log bk ) −              (mk mk + Tr(Sk ))
+                             k=1
+                                    2            2                       2bk
+                              K                                                                 
+                             X                                              b 0 ak
+            E [log p (τ )] =     a0 log b0 + (a0 − 1) (ψ(ak ) − log bk ) −           − log Γ(a0 )
+                             k=1
+                                                                              bk
+                                 N X
+                                 X K
+                    ω
+             E [log q (Z)] = ω              rnk log rnk
+                                 n=1 k=1
+                                       X       XK              K
+                                                                 X                  X 
+              E [log q (π)] = log Γ          αk −   log Γ(αk ) +   (αk − 1) ψ(αk − ψ   αk
+                                                    k=1               k=1
+                                K                                
+                                X       1           p
+              E [log q (β)] =          − log |Sk | − log(2πe)
+                                k=1
+                                        2           2
+                                XK
+              E [log q (π)] =         (− log Γ(ak ) + log bk + (ak − 1)ψ(ak ) − ak ) .
+                                k=1
+                                                                                                         (59)
+  This completes the derivation of Algorithm 4.
+
+
+B     Comparative Study
+In Appendix B, we present a comparative study between General Posterior Calibration
+(GPC) and TVB with sequential updates for both the Gaussian mixture model (GMM)
+and the Bayesian mixture linear regression (BMLR) examples discussed in Section 6. For
+the GMM example, we maintain the same settings as described in Section 6.1. Similarly,
+for the BMLR example, we use the same setup as Section 6.2, but with N = 1000 and
+Jn = (2000, 3000, 5000). The results are presented below.
+    As shown in Figure 5, the TVB method achieves better accuracy and robustness compared
+to the GPC method, although GPC still improves calibration over standard VB. As expected,
+
+                                                     38
+Figure 5: Frequentist coverage performance for original VB method (VB), general posterior
+calibration method (GPC) and trustworthy VB method (TVB) with sequential update. The
+left panel displays the coverage of the mixing parameter π in the GMM example. The right
+                                                                     p
+                                                                   K P
+                                                                   P
+panel presents the coverage of the sum of regression coefficients,     βki in the BMLR
+                                                                  k=1 i=1
+example. In each panel, dot plots with error bars indicate the average coverage and the 95%
+confidence interval.
+
+the TVB method produces wider credible intervals than GPC, while utilizing a smaller
+smoothing parameter ω; see Figures 6 and 7, respectively.
+
+
+
+
+                                            39
+Figure 6: Boxplots of credible interval length for original VB method (VB), general posterior
+calibration method (GPC) and trustworthy VB method (TVB) with sequential update. The
+                                                                    PK Pp
+left panel is for π in the GMM example; the right panel is for            βki in the BMLR
+                                                                    k=1 i=1
+example.
+
+
+
+
+Figure 7: Boxplots of the selected smoothing parameter ω for general posterior calibration
+method (GPC) and trustworthy VB method (TVB) with sequential update. The left panel
+is for the GMM example, while the right panel is for the BMLR example.
+
+
+
+                                             40
+

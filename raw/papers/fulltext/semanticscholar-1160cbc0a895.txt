@@ -1,0 +1,957 @@
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                       It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                            Open-source C++ Framework of Nonnegative
+                              Matrix Factorization and its applications in
+                                                             neuroimaging
+                                                               Youngha Hwang
+
+                                                                LG Display
+                                                             November 16, 2025
+
+
+                                                                     Abstract
+
+                                   Non-negative matrix factorization (NMF) produces a factorization that
+                               constrains the elements of both the factor matrices to be non-negative.
+                               It has been a popular feature extraction method in many applications
+                               including neuroimaging. One limitation of the existing softwares of NMF
+                               is that they were written in and dependent on the proprietary software
+                               of MATLAB. To address this limitation, we introduced an open-source
+                               C++ package for performing NMF. To make NMF more accessible to the
+                               scientific research community, we describe a NMF algorithm implemented
+                               using the Insight Toolkit ITK and Armadillo, a MATLAB style C++
+                               based math library. Armadillo facilitates the computations in linear
+                               algebra by calling functions without any need to implement functions in
+                               C++. In addition, This framework supports the read and write interface
+                               to images specific to neuroscience. Finally, The package supports NMF
+                               with multiplicative update and sophisticated initialization methods. We
+                               showed that the package has accuracy matching MATLAB and its speed
+                               close to that of MATLAB. We used simple simulated images to test its
+                               functionality. Then, we demonstrated how the package can be used to
+                               analyze neuroimaging data. Specifically, we used the package to find a data-
+                               driven set of structural patterns(factor matrices) that are similar across
+                               individuals. We validated this factorization method by associating their
+                               weighted loading matrices with body mass indices (BMI) of individuals
+                               from the human connectome project.
+
+
+
+
+                                                                           1
+
+
+
+
+         NOTE: This preprint reports new research that has not been certified by peer review and should not be used to guide clinical practice.
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                           Keywords— non-negative matrix factorization, Insight Toolkit, Armadillo, human
+                       connectome project
+
+
+
+                       1      Introduction
+                       Non-negative factorization (NMF) has been a popular choice of feature extraction due
+                       to its interpretability and enforcing sparsity[6, 9]. In neuroimaging area, [16] discussed
+                       NMF to analyze structural neuroimaging data. [17] discussed association between grey
+                       matter and disease with aging. [7] applied NMF to resting-state functional magnetic
+                       resonance imaging (fMRI) to find a functional brain network.
+                           The non-negativity constraints differentiate NMF with respect to the rest of
+                       factorization methods and lead to the following two properties of significant interest in
+                       medical imaging[16]. First, the non-negativity of the entries of the components matrix
+                       matches the expectation of the physical properties of the measured signal. Second,
+                       the non-negative entries result in a purely additive combination of the non-negative
+                       components. In other words, the data is approximated as a parts-based representation.
+                           There are many publicly available NMF implementations in MATLAB such as
+                       [8], NMF Library (https://github.com/hiroyuki-kasai/NMFLibrary), and NMF Toolbox
+                       (https://github.com/colinvaz/nmf-toolbox) in addition to the ours (https://github.com/asotiras/brainparts).
+                       Even a proprietary function of NMF has been available in MATLAB version 2020a
+                       (https://www.mathworks.com/help/stats/nnmf.html). Other implementations include
+                       the scikit-learn library from Python[11] and one from the Insight Toolkit (ITK)[14].
+                           However, problems exist of the previous implementations. Firstly, they tend to
+                       depend on the proprietary software of MATLAB. So the users must have access to
+                       MATLAB before they can use the implementations. Secondly, NMF Toolbox, the imple-
+                       mentation in scikit-learn library and the proprietary implementation by MATLAB does
+                       not have sophisticated initialization methods such as Non-Negative Double Singular
+                       Value Decomposition (NNDSVD) and its variations[1]. Thirdly, C++ based ITK is not
+                       easy to use for general public and it is not flexible because it was specially designed for
+                       medical image filtering, segmentation, registration, etc. A NMF method implementation
+                       in ITK has a limit its expansion in biomedical image processing because different appli-
+                       cations require C++ implementation of different metrics, different methods of updating
+                       the decomposition matrices, convergence criteria, etc. Finally, the previous softwares
+                       do not have any neuroimaing oriented interfaces to Neuroimaging Informatics Technol-
+                       ogy Initiative (NIFTI) and Connectivity Informatics Technology Initiative (CIFTI),
+                       respectively (https://nifti.nimh.nih.gov/, https://www.nitrc.org/projects/cifti/) .
+                           Aiming towards a good balance between speed and ease of use, a high quality linear
+                       algebra library, Armadillo, has been developed[13]. It is the open-source C++ template
+                       wrapper of linear algebra libraries. It provides high-level syntax and functionality
+                       deliberately similar to Matlab as shown in the Appendix. Thus, it is useful for
+
+
+                                                                       2
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                       quick conversion of research code into production environments. From the ITK-
+                       based class framework defining the common interface of NMF[10], an Armadillo-based
+                       implementation of a specific method was provided in this article using the Frobenius
+                       norm as the underlying objective function. In addition, NIFTI read and write functions
+                       were provided from ITK. Similarly, CIFTI read and write functions given from Cifti
+                       Library (https://github.com/Washington-University/CiftiLib).
+                           We demonstrated its effectiveness in accuracy and speed against MATLAB along
+                       with its versatileness in adopting other metrics, initialization methods, etc. Then, we
+                       showed three working examples. One is a self contained unit test showing the method
+                       usage. The second test uses a simulated data set corrupted by noise illustrating the
+                       class usage for image data. Finally, we used this method to understand association
+                       between BMI and the weighted loading matrices from the cortical thickness data of
+                       human connectome project[4]. We expect this research can be extended for higher
+                       dimensional data.
+
+
+
+                       2      Non-negative matrix factorization
+                       The NMF method reduces data dimensionality by imposing non-negativity constraints.
+                       These constraints lead to a part-based representation because they allow only additive
+                       combinations of the original data. The decomposition finds two new matrices W and
+                       H shown in Eq. 1. Each column of W contains a basis vector while each column of H
+                       has the weights to approximate the corresponding column in X using the basis vector
+                       from the W matrix.
+                           The method starts with a user-defined initialization. The initialized matrices are
+                       iteratively updated to minimize the Frobenius norm objective function in Eq. 1. In our
+                       standard implementation of the projective orthonormal NMF[19] the objective function
+                       is minimized subject to the non-negativity constraints on W and H, the projective
+                       constraint in Eq. 2, and the orthonormal constraint in Eq. 3. The projection matrix is
+                       set as P = WWT from the constraint H = WT X with the objective of approximating
+                       X as PX.
+
+                                                        min          kX − WHk2F                                     (1)
+                                                       W≥0,H≥0
+                                                       subject to      H = WT X                                     (2)
+                                                                             T
+                                                                       WW = I                                       (3)
+
+                           With an appropriate scaling coefficient to the gradient of the cost function, we have
+                       the multiplicative update as follows[19]:
+
+                                                       0              (XXT W)ik
+                                                      Wik = Wik                   .                                 (4)
+                                                                    (WWT XXT W)ik
+
+
+                                                                       3
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                           We have two different versions of the multiplicative update depending on the
+                       dimension of the input matrix X.
+                           if XX := XXT has a small size,
+
+                                                        0             (XXW)ik
+                                                       Wik = Wik                                                    (5)
+                                                                    (WWT XXW)ik
+
+                           otherwise, XX is separated for efficient memory use.
+
+                                                     0              (X(XT W))ik
+                                                    Wik = Wik                                                       (6)
+                                                                 (W(WT X)(XT W))ik
+
+
+                       3      NMF class design
+                       The interface to the NMF methods was provided via the abstract class defined in
+                       itkNMFBase.h [10]. The base class has the common data containers and parameters
+                       associated with the decomposition method, such as the input matrix, the decomposed
+                       matrices, the number of basis decomposition classes, and the default initialization. The
+                       interface for the derived classes via virtual function has been revised for this package.
+                       For a specific instantiation of the framework, an implementation of the decomposition
+                       by the class named itkEuclideanNMF.h is provided for the Euclidean norm based
+                       objective function defined in the previous section.
+                           The decomposition method requires the implementation of a convergence testing
+                       that terminates the iterations when no significant changes occur in the decomposed
+                       W and H matrices. The definition of significance is difficult and can change from
+                       application to application. In our case, we compute the Frobenius norm of the change in
+                       W matrix normalized by the norm of W matrix itself shown as the variable diffW in the
+                       Appendix. The relative norm should be less than the tolerance value for convergence.
+                       The iterations also terminate if the method does not converge within a user defined
+                       maximum number of iterations.
+                           In this implementation The matrix W is initialized by the nonnegative double
+                       singular value decomposition (NNDSVD) or its variations[1]. NNDSVD starts either
+                       by the partial SVD that computes the largest K eigenvalues and their eigenvectors or
+                       by its randomized version[5]. Then NNDSVD chooses the larger magnitude of positive
+                       or negative eigenvectors.
+
+
+                       3.1      Modification from ITK NMF Class
+                       The class itkNMFBase now has the additional method called ”SetInput” to remove
+                       zeros rows and check the negative values from the data matrix. The cost of the
+                       Euclidean norm (Frobenius norm) of the factorization error was implemented in the
+                       itkEuclideanNMF class that was modified from the itkKullbackLeiblerNMF class that
+
+
+
+                                                                       4
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                       implemented the corresponding cost of the Kullback Leiber divergence between the
+                       original matrix and the product of the two factorization matrices because The matrices
+                       can be thought as the probability distributions after normalization. Initialization of
+                       the factor (W matrix) was moved from the itkNMFBase class to the derived class
+                       itkEuclideanNMF because the initialization requires the member variables of the derived
+                       class, ‘initMeth’ that is not a member of the base class. In addition, many functions
+                       have been added to set up the member variables of the derived class. The following
+                       methods of TestConvergence(), NMFUpdate() and WriteMLE() were merged into
+                       Compute() because they are not complex.
+
+
+                       3.2      Data Flow
+                       There are two possible ways of inputs and outputs of NMF application. The first one
+                       generates the data matrix whose columns correspond to the vectorized input images of
+                       each samples. The second one has the data matrix provided directly by the user. The
+                       data matrix is loaded by Armadillo. In the same way, the first one outputs the W as a
+                       number of factor images in either NIFTI or CIFTI format. The second one generates
+                       the factor matrices W and H as ‘csv’ files. For the first case, ‘preprocess image.cxx’ or
+                       ‘preprocess surf image.cxx’ reads the NIFTI or CIFTI images to analyze, convert them
+                       into the data matrix, then the factor matrices are generated by Armadillo. Similarly,
+                       ‘write image.cxx’ or ‘write surf image.cxx’ reads the columns of the W matrix and
+                       writes them into the image output files in NIFTI or CIFTI format. Figure 1 shows the
+                       overall algorithm of the proposed package.
+
+
+                       3.3      Usage
+                       The minted box below shows the interface of the NMF decomposition. This example
+                       also works as a unit test in the toolkit. The code was successfully compiled with
+                       GCC 7.4.0, Armadillo 9.600.6, ITK library 5.0.1, and executed on Ubuntu 18.04.3
+                       LTS. After declaring the itkEulideanNMF class ‘nmf’, the input matrix is set up by
+                       the class method ‘SetInput’. Then the class member variables are set up such as the
+                       number of classes(factors), the output directory, and the initialization method. The
+                       initialization of the class is followed. After the computing the factor matrices in the
+                       method ‘Compute()’, its output matrices are read from the class and saved into the
+                       csv files.
+
+
+                       #include <i o s t r e a m >
+                       #include <a r m a d i l l o >
+                       #include ” itkEuclideanNMF . h”
+
+
+
+
+                                                                       5
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                       i n t main ( i n t argc , char ∗ argv [ ] )
+                       {
+                                    typedef Mat<double> InMatrixType , OutMatrixType ;
+
+
+                                    // D e c l a r e t h e i n p u t m a t r i x
+                                    unsigned i n t nrows = 4 ;
+                                    unsigned i n t n c o l s = 6 ;
+                                    InMatrixType mat ( nrows , n c o l s ) ;
+
+
+                                    // I n i t i a l i z e t h e i n p u t m a t r i x
+                                    mat ( 0 , 0 ) =1; mat ( 0 , 1 ) =1; mat ( 0 , 2 ) =1; mat ( 0 , 3 ) =2; mat ( 0 , 4 ) =2; mat ( 0 , 5 ) =2;
+                                    mat ( 1 , 0 ) =4; mat ( 1 , 1 ) =4; mat ( 1 , 2 ) =4; mat ( 1 , 3 ) =3; mat ( 1 , 4 ) =3; mat ( 1 , 5 ) =3;
+                                    mat ( 2 , 0 ) =4; mat ( 2 , 1 ) =4; mat ( 2 , 2 ) =4; mat ( 2 , 3 ) =3; mat ( 2 , 4 ) =3; mat ( 2 , 5 ) =3;
+                                    mat ( 3 , 0 ) =1; mat ( 3 , 1 ) =1; mat ( 3 , 2 ) =1; mat ( 3 , 3 ) =2; mat ( 3 , 4 ) =2; mat ( 3 , 5 ) =2;
+
+
+                                    // D e c l a r e t h e d e c o m p o s i t i o n f i l t e r
+                                    i t k : : itkEuclideanNMF nmf ;
+
+
+                                    // S e t t h e i n p u t m a t r i x
+                                    nmf . S e t I n p u t ( mat ) ;
+
+
+                                    // S e t t h e number o f c l a s s e s i n t h e d e c o m p o s i t i o n
+                                    nmf . SetNumberOfClasses ( 2 ) ;
+
+
+                                    // I n i t i a l i z e t h e f i l t e r
+                                    nmf . I n i t i a l i z e ( ) ;
+
+
+                                    // S e t t h e o u t p u t d i r e c t o r y
+                                    nmf . S e t o u t p u t i m a g e d i r ( ” . / output ” ) ;
+
+
+                                    // Make t h e o u t p u t d i r e c t o r y i f          i t does not e x i s t
+                                    nmf . Makeoutputimagedir ( ) ;
+
+
+                                    // S e t t h e i n i t i a l i z a t i o n method
+                                    nmf . S e t i n i t M e t h ( 0 ) ;
+
+
+                                    // S e t t h e f i l t e r t o compute t h e d e c o m p o s i t i o n
+                                    nmf . Compute ( ) ;
+
+
+                                    // Get t h e r e s u l t s o f d e c o m p o s i t i o n
+
+
+                                                                            6
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                      It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                                    OutMatrixType& W = nmf . GetWMatrix ( ) ;
+                                    OutMatrixType& H = nmf . GetHMatrix ( ) ;
+
+
+                                    // w r i t e W, H m a t r i c e s o nto c s v f i l e s
+                                     s t r i n g outputmatrixname = nmf . G e t o u t p u t i m a g e d i r ( ) + ”H. c s v ” ;
+                                    H. s a v e ( outputmatrixname , c s v a s c i i ) ;
+                                    outputmatrixname = nmf . G e t o u t p u t i m a g e d i r ( ) + ”W. c s v ” ;
+                                    W. s a v e ( outputmatrixname , c s v a s c i i ) ;
+
+
+
+                                    return 0 ;
+                       }
+
+                            The NMF application requires the input data and the number of components K as
+                       its input. The optional parameters of NMF can be set as follows:
+
+
+
+
+                       . /NMF −−h e l p
+                        − example command l i n e o p t i o n s
+                       Usage :
+                           . /NMF [OPTION . . . ]
+                           −i , −−i n p u t FILE               I nput F i l e
+                           −K, I n t e g e r     Number o f f a c t o r s
+                           [−o , −−output DIR ]                Output f i l e d i r e c t o r y ( default : . / output )
+                                 [−− i n t e r m e d i a t e DIR ]            d i r e c t o r y f o r i n t e r m e d i a t e f i l e s ( default : ” ” )
+                                 [−−initW FILE ]               I n i t i a l W matrix F i l e ( default : ” ” )
+                                 [−− h e l p ]    Print help
+                                 [−− m a x i t e r I n t e g e r ] Maximum number o f i t e r a t i o n s ( default : 5 0 0 0 0 )
+                                 [−− i n i t m e t h o d I n t e g e r ] Method o f i n i t i a l i z a t i o n ,
+                                                                              0 : NNDSVD ( default ) ,
+                                                                              1 : NNDSVDa,
+                                                                              2 : NNDSVDar,
+                                                                           3 : NNDSVD using random SVD c a l c u l a t i o n ,
+                                                                              4 : random number
+                                 [−− i t e r 0 I n t e g e r ] S t a r t i n g i t e r a t i o n number f o r r e s t a r t ( default : 1 )
+                                 [−− s a v e s t e p I n t e g e r ] e v e r y s t e p s t o s a v e t h e i n t e r m e d i a t e r e s u l t s ( default : 0 )
+                                 [−− t o l double ] T o l e r a n c e o f c o n v e r g e n c e ( default : 1 e −5)
+                                 [−−dim a r g ] Dimension o f b i n a r y i n p u t f i l e ,
+                                                                              −−dim=n rows , n c o l s ( default : 1 , 1 )
+                                 [−− c i f t i f l a g b o o l e a n ] CIFTI Flag , e i t h e r NIFTI ( f a l s e : default ) or CIFTI ( true )
+
+
+                                                                          7
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                                [−−mem flag b o o l e a n ] Memory Flag t o u s e t h e memory s a v i n g code ( default : f a l s e )
+                                [−− i n p u t f l a g b o o l e a n ] E i t h e r data m atr ix ( f a l s e : default ) or l i s t o f i n p u t images (
+
+
+
+                       4      Numerical Results
+                       This section shows the computing performances of the package in speed, accuracy, and
+                       memory requirement against MATLAB. In addition, toy examples of simulated images
+                       are provided to demonstrate that the package. Finally, the cortical thickness data are
+                       analyzed by the package to show its validity from the human connectome project[4].
+
+
+                       4.1      Computing Performances
+                       This subsection shows that the proposed software is reliable in terms of speed, accuracy,
+                       memory requirement, etc. The test was performed by four Intel Xeon Gold 6226
+                       processors with clock speed at 2.70GHZ under CentOS 6.10. The cortical thickness
+                       data was processed in the following way. The Multimodal Surface Matching (MSM)
+                       surface registration algorithm [12] was used to perform an initial gentle non-rigid
+                       surface registration based on folding patterns. This registration, together with the
+                       FNIRT nonlinear volume registration[15] to MNI template, was used to bring an initial
+                       version of the data into standard grayordinates space. For example, 32k standard
+                       mesh for each hemisphere’s cortical surface at 2 mm average vertex spacing and 2 mm
+                       isotropic MNI-space[2] voxels for the subcortical volume data. On the other hand, 164k
+                       standard mesh for the cortical surface has 0.9 mm average vertex spacing.
+                           The running hours appear consistent with respect to various number of components
+                       for a different number of samples in Figure 2. For 40 components, the running hours
+                       increase approximately ten hours per 200 subjects. The used memories are proportional
+                       to the numbers of samples in Figure 3. In the same way, the used memories are
+                       proportional to the size of images whose resolutions are either high or low in Figure
+                       5. The running hours increase in proportion to the data size from their resolution
+                       differences in Figure 4.
+                           The normalized norms of the error are practically negligible in the factor matrix W
+                       for various numbers of the factors in Figure 6 for both low resolution(32k) images and
+                       high resolution(164k) images. The proposed software is slightly slower than MATLAB
+                       for a variety of the number of threads for 164k cortical thinkness data that were
+                       smoothed with 8mm Gaussian kernel for ten factors in Figure 7. Although the authors
+                       of Armadillo claimed its speed excellent, MATLAB was apparently better optimized.
+
+
+
+
+                                                                       8
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                       4.2      Examples from Simulated Images
+                       For a validation, we have simulated a set of image data corrupted by noise. The
+                       test results were generated using the NMF code compiled with GCC 7.4.0, Armadillo
+                       9.600.6, ITK library 5.0.1, and executed on Ubuntu 18.04.3 LTS. We first generated 2
+                       basis images each of size (256 × 256 pixels) with 0 being background (black) and 1
+                       being foreground (white) in Fig. 8 (a) and (b). These are our ground truth images.
+                       The pixel intensity of the foreground was scaled to follow the Gaussian distribution
+                       with different means varying 100, 125, 155, and 175 for each circles and each group.
+                       Then the Gaussian noise with mean 0 and variance 4 was added to the basis images.
+                       The examples of the two basis images are shown in Fig. 8 (c) and (e). The underlying
+                       pattern is distinguishable in the figure. Then those corrupted images were converted
+                       to a vector of length equal to the total number of pixels by raster scanning along
+                       each column. 100 copies of the 2 basis vectors were made and arranged in two groups
+                       to form an input matrix of dimension 63556 rows and 200 columns (2 groups of 100
+                       images). The recovered basis images from NMF match the original image bases in Fig.
+                       8 (e) and (f).
+
+
+                       4.3      Application to HCP data
+                       The experimental data were drawn from the human connectome project (HCP), which
+                       is a collaboration between Washington University and University of Minnesota. The
+                       population-based sample included young adults who volunteered to participate in
+                       the studies charting the neural pathways that underlie brain function and behavior,
+                       including high-quality neuroimaging data in 1206 healthy young adults. Of these,
+                       110 subjects were excluded because their cortical thickness images did not exist. The
+                       resulting sample, which was used for the structural neuroimaging analysis, included
+                       1096 young adults (596 females) ages 22-37 (mean, 28.79 years; SD, 3.69) of mixed race
+                       (822 white; 160 black; 114 other) was used.
+                           The image acquisition method is presented in [4]. After acquisition, registration
+                       and smoothing operation was applied as described in the subsection 4.1. Then the
+                       data matrix was formed by vectorizing the three dimensional voxels of each subject
+                       and concatenating them columnwise for every subjects. Then the data matrix was
+                       factorized as 16 components by NMF(Figure 11). The number of the components,
+                       intrinsic data dimension, were chosen either by finding the inflection point of the
+                       decrease of the reconstruction errors(Figure. 9) or by finding the local maximum of
+                       the reproducible decompositions from the split half analysis(Figure 10).
+                           The corresponding loading coefficient matrices were normalized and called the
+                       weighted thickness data. Finally, the regression analysis was performed of the weighted
+                       thickness data against epidemiological independent variables such as age, gender, and
+                       categorized body mass indices such as underweight, normal, overweight, and obese.
+
+
+                                                                       9
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                                             underweight             gender by normal          gender by overweight
+                        factor number
+                                        βunderweight p−value     βgender×normal p−value    βgender×overweight p−value
+                               3          -0.0880     0.0034
+                               4                                    -0.0428       0.0327        -0.0472         0.0172
+                              11           -0.0680     0.0461
+                              14           -0.0706     0.0231
+                              16           -0.0635     0.0461
+
+                                                      Table 1: Regression analysis
+
+
+                       ‘Underweight’ is defined when the body mass index (BMI) is less than 18.5; ‘normal’
+                       when 18.5 ≤ BMI < 25 holds; ‘overweight’ when 25 ≤ BMI < 30 holds; ‘obese’ when
+                       BMI ≥ 30 holds.
+                           The regression analysis gave all the components significant with respect to age except
+                       the sixth factor and four significant factors against gender. There were four significant
+                       factors with respect to underweight. Especially, factor 11 matched the dorsolateral
+                       prefrontal cortex from [18]. With respect to the product term overweight*gender was
+                       significant the factor 4 that corresponds to medial prefrontal cortex in [18, 3]. The same
+                       factor 4 was significant for both product terms normal*gender and overweight*gender
+                       in Figure 11. The associated false discovery rate (FDR) adjusted pvalues are shown in
+                       Table 1.
+
+
+
+                       5      Discussion
+                       We introduced an open-source C++ package for performing NMF based on ITK and
+                       Armadillo, a MATLAB style C++ based math library. Armadillo facilitates the
+                       computations in linear algebra by calling functions without any need to implement
+                       functions in C++. In addition, This framework supports the read and write interface
+                       to images specific to neuroscience such as NIFTI and CIFTI. We showed that the
+                       package has accuracy matching MATLAB and its speed close to that of MATLAB.
+                       We demonstrated that the package can be used to analyze neuroimaging data from
+                       the human connectome project. Specifically, we used the package to find a set of
+                       structural patterns(factor matrices) that are similar across individuals. We validated
+                       this factorization method by associating their weighted loading matrices with body
+                       mass indices (BMI) of individuals.
+                           In spite of the above merits, the package does not support many variations of NMF
+                       that were implemented in NMFLibrary and NMF toolbox. For example, it support
+                       only the multiplicative update and does not cover the alternative least squares method
+                       like NMF Library. So there are remaining work to add more functionality to this
+                       package in the future.
+
+
+
+
+                                                                      10
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                       Conflict of Interest Statement
+                       The authors declare that the research was conducted in the absence of any commercial
+                       or financial relationships that could be construed as a potential conflict of interest.
+
+
+
+                       Acknowledgments
+                       The authors appreciate Tim Coalson’s kind help to understand and use the Cifti library.
+
+
+
+                       References
+                        [1] Christos Boutsidis and Efstratios Gallopoulos. Svd based initialization: A head
+                            start for nonnegative matrix factorization. Pattern recognition, 41(4):1350–1362,
+                            2008.
+                        [2] Alan C Evans, D Louis Collins, SR Mills, Edward D Brown, Ryan L Kelly, and
+                            Terry M Peters. 3d statistical neuroanatomical models from 305 mri volumes.
+                            In 1993 IEEE conference record nuclear science symposium and medical imaging
+                            conference, pages 1813–1817. IEEE, 1993.
+                        [3] Isabel Garcı́a-Garcı́a, Andréanne Michaud, Mahsa Dadar, Yashar Zeighami, Selin
+                            Neseliler, D Louis Collins, Alan C Evans, and Alain Dagher. Neuroanatomical
+                            differences in obesity: meta-analytic findings and their validation in an independent
+                            dataset. International Journal of Obesity, 43(5):943–951, 2019.
+                        [4] Matthew F Glasser, Stamatios N Sotiropoulos, J Anthony Wilson, Timothy S
+                            Coalson, Bruce Fischl, Jesper L Andersson, Junqian Xu, Saad Jbabdi, Matthew
+                            Webster, Jonathan R Polimeni, et al. The minimal preprocessing pipelines for the
+                            human connectome project. Neuroimage, 80:105–124, 2013.
+                        [5] Nathan Halko, Per-Gunnar Martinsson, and Joel A Tropp. Finding structure
+                            with randomness: Probabilistic algorithms for constructing approximate matrix
+                            decompositions. SIAM review, 53(2):217–288, 2011.
+                        [6] Daniel D Lee and H Sebastian Seung. Learning the parts of objects by non-negative
+                            matrix factorization. Nature, 401(6755):788–791, 1999.
+                        [7] Xuan Li, John Q Gan, and Haixian Wang. Collective sparse symmetric non-
+                            negative matrix factorization for identifying overlapping communities in resting-
+                            state brain functional networks. NeuroImage, 166:259–275, 2018.
+                        [8] Yifeng Li and Alioune Ngom. The non-negative matrix factorization toolbox for
+                            biological data mining. Source code for biology and medicine, 8(1):10, 2013.
+
+
+
+
+                                                                      11
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                        [9] Pentti Paatero and Unto Tapper. Positive matrix factorization: A non-negative fac-
+                            tor model with optimal utilization of error estimates of data values. Environmetrics,
+                            5(2):111–126, 1994.
+                       [10] Sayan Pathak, David Haynor, Christopher Lau, and Michael Hawrylycz. Non-
+                            negative matrix factorization framework for dimensionality reduction and unsu-
+                            pervised clustering. Insight Journal, 2007.
+                       [11] F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel,
+                            M. Blondel, P. Prettenhofer, R. Weiss, V. Dubourg, J. Vanderplas, A. Passos,
+                            D. Cournapeau, M. Brucher, M. Perrot, and E. Duchesnay. Scikit-learn: Machine
+                            learning in Python. Journal of Machine Learning Research, 12:2825–2830, 2011.
+                       [12] Emma C Robinson, Saad Jbabdi, Jesper Andersson, Stephen Smith, Matthew F
+                            Glasser, David C Van Essen, Greg Burgess, Michael P Harms, Deanna M Barch,
+                            and Mark Jenkinson. Multimodal surface matching: fast and generalisable cor-
+                            tical registration using discrete optimisation. In International Conference on
+                            Information Processing in Medical Imaging, pages 475–486. Springer, 2013.
+                       [13] Conrad Sanderson and Ryan Curtin. Armadillo: a template-based c++ library
+                            for linear algebra. Journal of Open Source Software, 1(2):26, 2016.
+                       [14] Pathak SHDLCHM. Non-negative matrix factorization framework for dimension-
+                            ality reduction and unsupervised clustering. Insight Journal, 2007.
+                       [15] Stephen M Smith, Mark Jenkinson, Mark W Woolrich, Christian F Beckmann,
+                            Timothy EJ Behrens, Heidi Johansen-Berg, Peter R Bannister, Marilena De Luca,
+                            Ivana Drobnjak, David E Flitney, et al. Advances in functional and structural mr
+                            image analysis and implementation as fsl. Neuroimage, 23:S208–S219, 2004.
+                       [16] Aristeidis Sotiras, Susan M Resnick, and Christos Davatzikos. Finding imaging
+                            patterns of structural covariance via non-negative matrix factorization. Neuroimage,
+                            108:1–16, 2015.
+                       [17] Deepthi P Varikuti, Sarah Genon, Aristeidis Sotiras, Holger Schwender, Felix
+                            Hoffstaedter, Kaustubh R Patil, Christiane Jockwitz, Svenja Caspers, Susanne
+                            Moebus, Katrin Amunts, et al. Evaluation of non-negative matrix factorization of
+                            grey matter in age prediction. NeuroImage, 173:394–410, 2018.
+                       [18] Christopher M Weise, Paolo Piaggi, Martin Reinhardt, Kewei Chen, Cary R
+                            Savage, Jonathan Krakoff, and Burkhard Pleger. The obese brain as a heritable
+                            phenotype: a combined morphometry and twin study. International journal of
+                            obesity, 41(3):458–466, 2017.
+                       [19] Zhirong Yang and Erkki Oja. Linear and nonlinear projective nonnegative matrix
+                            factorization. IEEE Transactions on Neural Networks, 21(5):734–749, 2010.
+
+
+
+
+                                                                      12
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                       6      Appendix
+                       An Armadillo implementation is compared against a MATLAB implementation to
+                       show its similar syntax below. Matrix operations and norm functions from Armadillo
+                       match those of MATLAB. Hence Aramdillo has a concise and simple implementation
+                       like MATLAB. A MATLAB version is given here.
+
+
+                       XX = X ∗ X ’ ;
+                      W = W . ∗ (XX∗W) . / (W∗ (W’ ∗XX∗W) ) ;
+                      W(W<1e −16)=1e −16;
+                      W = W . / norm (W) ;
+                       diffW = norm ( W old−W,            ’ f r o ’ ) / norm ( W old ,     ’ fro ’ );
+
+                           An Armadillo version is given below.
+
+
+                       mat XX = X∗ t r a n s (X ) ;
+                      W = W % (XX ∗ W) / ( W ∗ ( t r a n s (W) ∗ (XX ∗ W) ) ) ;
+                       uvec idW = f i n d (W < 1 e −16);
+                      W. elem ( idW ) = 1 e −16∗ o n e s ( arma : : s i z e (idW ) ) ;
+                      W = W / norm (W, 2 ) ;
+                       diffW = norm ( W old−W, ” f r o ” ) / norm ( W old , ” f r o ” ) ;
+
+
+
+                       Figures
+
+
+
+
+                                                                      13
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                                                              read arguments
+
+
+
+
+                                                          load data matrix or
+                                                         generate one from the
+                                                         images: load data.cxx
+                                                               or prepro-
+                                                          cess image.cxx, pre-
+                                                         process surf image.cxx
+
+
+
+
+                                                               initialize Eu-
+                                                            clideanNMF class
+                                                              by declaration
+
+
+
+
+                                                         update EuclideanNMF
+                                                           class until conver-
+                                                           gence: Euclidean-
+                                                            NMF.compute()
+
+
+
+
+                                                             write factor ma-
+                                                              trices or factor
+                                                            images: save() or
+                                                             write image.cxx,
+                                                           write surf image.cxx
+
+                                             Figure 1: Overall work flow of the software
+
+
+                                                                      14
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                                                                                                                                          164k time
+                                                                    80
+
+
+
+
+                                                                    60
+
+
+
+
+                                               time (hours)
+                                                                                                                                                                                                         tot1096
+                                                                    40                                                                                                                                   sub800
+                                                                                                                                                                                                         sub600
+                                                                                                                                                                                                         sub400
+                                                                                                                                                                                                         sub200
+
+                                                                    20
+
+
+
+
+                                                                     0
+                                                                             2       4       6       8       10    12    14    16    18     20    22       24   26   28   30    32   34   36   38   40
+                                                                                                                                     number of components
+
+
+
+
+                       Figure 2: time complexity in cpu hours with various number of components for
+                       different number of samples
+
+
+
+
+                                                                     14
+
+
+
+
+                                                                    10.5
+                                                 memory used (GB)
+
+
+
+
+                                                                                                                                                                                                         tot1096
+                                                                                                                                                                                                         sub800
+                                                                         7                                                                                                                               sub600
+                                                                                                                                                                                                         sub400
+                                                                                                                                                                                                         sub200
+
+
+
+
+                                                                     3.5
+
+
+
+
+                                                                         0
+                                                                                 2       4       6       8    10    12    14    16     18   20        22   24   26   28   30    32   34   36   38   40
+                                                                                                                                      number of components
+
+
+
+
+                       Figure 3: Memory usage with various number of components for different number
+                       of samples
+
+
+
+
+                                                                                                                                164k vs 32k (time)
+                                                                    80
+
+
+
+
+                                                                    60
+
+
+
+
+                                                                                                                                                                                                          164k
+                                               time (hours)
+
+
+
+
+                                                                                                                                                                                                          32k
+                                                                    40
+
+
+
+
+                                                                    20
+
+
+
+
+                                                                     0
+                                                                                 0                                 10                            20                        30                       40
+                                                                                                                                       number of factors
+
+
+
+
+                       Figure 4: time complexity in cpu hours with various number of components for
+                       cortical thickness images of different resolutions, 32k and 164k
+
+
+
+
+                                                                                                                                                  15
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                                                                                   164k vs 32k (memory)
+                                                                    14
+
+
+
+
+                                                                   10.5
+
+
+
+
+                                                memory used (GB)
+                                                                                                                     164k
+                                                                                                                     32k
+                                                                     7
+
+
+
+
+                                                                    3.5
+
+
+
+
+                                                                     0
+                                                                          0   10              20           30   40
+                                                                                       number of factors
+
+
+
+
+                       Figure 5: memory usage with various number of components for cortical thickness
+                       images of different resolutions, 32k and 164k
+
+
+
+
+                       Figure 6: The normalized norms of the errors of the factor matrix W for the
+                       cortical thickness images with two different resolution, 32k and 164k
+
+
+
+
+                       Figure 7: Speed comparison between the proposed package and MATLAB for a
+                       various number of threads for 164k cortical thickness data for ten factors.
+
+
+                                                                                         16
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                       Figure 8: Recovery of noisy image bases from nonnegative factorization. Each
+                       columns represent the ground truths, noisy bases, and recovered bases, respec-
+                       tively. Two rows represent two groups of bases.
+
+
+
+
+                       Figure 9: Decrease of the reconstruction errors with increasing number of
+                       components for smoothed cortical thickness images of high resolution 164k. We
+                       note an infection point for 16 components suggesting that the intrinsic data
+                       dimension has been reached
+
+
+
+
+                                                                      17
+   medRxiv preprint doi: https://doi.org/10.1101/2025.11.27.25340327; this version posted November 30, 2025. The copyright holder for this
+preprint (which was not certified by peer review) is the author/funder, who has granted medRxiv a license to display the preprint in perpetuity.
+
+                                     It is made available under a CC-BY-NC-ND 4.0 International license .
+
+
+
+
+                       Figure 10: Reproducibility of the decomposition algorithm is plotted as a function
+                       of the estimated patterns for the split-half analysis. The decomposition is less
+                       stable with increasing number of estimated components, which is expected
+                       because the complexity of the problem increases, while the size of the patterns
+                       and the modeled effect decreases. The local maxima indicate the number of
+                       patterns that can be stably estimated (i.e., 8 and 16 patterns)
+
+
+
+
+                       Figure 11: Factor images of the cortical thickness data by the nonnegative matrix
+                       factorization. Factors 1-16 are shown in the order of rows. For example, factor 1
+                       and 2 are shown as the left and right images in the first row.
+
+
+
+                                                                      18
+

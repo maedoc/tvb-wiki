@@ -1,0 +1,1095 @@
+                                                                                                                         TYPE Review
+                                                                                                                         PUBLISHED   29 September 2025
+                                                                                                                         DOI 10.3389/fnhum.2025.1682852
+
+
+
+
+                                                    Precision TMS through the
+OPEN ACCESS                                         integration of neuroimaging and
+EDITED BY
+Pedro Miguel Rodrigues,
+Universidade Católica Portuguesa, Portugal
+                                                    machine learning: optimizing
+REVIEWED BY
+Marta Carè,
+                                                    stimulation targets for
+San Martino Hospital (IRCCS), Italy
+Zhengcao Cao,
+Beijing Normal University, China
+                                                    personalized treatment
+*CORRESPONDENCE
+Panxiao Bao                                         Bing Liu1 , Chunyun Hu2 and Panxiao Bao1*
+  zhexinli88@163.com
+                                                    1
+                                                      Zhejiang Joint Research Institute of Applied Psychology, Hangzhou, China, 2 Cixi Seventh People’s
+                                                    Hospital, Ningbo, China
+RECEIVED 09 August 2025
+ACCEPTED 15 September 2025
+PUBLISHED 29 September 2025
+
+CITATION
+Liu B, Hu C and Bao P (2025) Precision TMS          Transcranial Magnetic Stimulation (TMS), a non-invasive neuromodulation
+through the integration of neuroimaging
+                                                    technique based on electromagnetic induction, modulates cortical excitability
+and machine learning: optimizing
+stimulation targets for personalized                by inducing currents with a magnetic field. TMS has demonstrated significant
+treatment.                                          clinical potential in the treatment of various neuropsychiatric disorders,
+Front. Hum. Neurosci. 19:1682852.
+doi: 10.3389/fnhum.2025.1682852                     including depression, anxiety, and Parkinson’s disease. However, conventional
+COPYRIGHT
+                                                    TMS targeting methods that rely on anatomical landmarks do not adequately
+© 2025 Liu, Hu and Bao. This is an                  account for individual differences in brain structure and functional networks,
+open-access article distributed under the
+terms of the Creative Commons Attribution
+                                                    leading to considerable variability in treatment responses. In recent years,
+License (CC BY). The use, distribution or           advances in neuroimaging techniques–such as functional magnetic resonance
+reproduction in other forums is permitted,
+                                                    imaging (fMRI) and diffusion tensor imaging (DTI)–together with the application
+provided the original author(s) and the
+copyright owner(s) are credited and that the        of machine learning (ML) and artificial intelligence (AI) algorithms in big
+original publication in this journal is cited, in   data analysis, have provided novel approaches for precise TMS targeting and
+accordance with accepted academic
+practice. No use, distribution or reproduction      individualized treatment. This review summarizes the latest developments in
+is permitted which does not comply with             the integration of multimodal neuroimaging and AI technologies for precision
+these terms.
+                                                    neuromodulation with TMS. It focuses on critical issues such as imaging
+                                                    resolution, AI model generalizability, real-time feedback modulation, as well
+                                                    as data privacy and ethical considerations. Future prospects including closed-
+                                                    loop TMS control systems, cross-modal data fusion, and AI-assisted brain-
+                                                    computer interfaces (BCIs) are also discussed. Overall, AI-driven personalized
+                                                    TMS strategies hold promise for markedly enhancing treatment precision and
+                                                    clinical efficacy, thereby offering new theoretical and practical guidance for
+                                                    individualized treatment in neuropsychiatric and neurodegenerative disorders.
+
+                                                    KEYWORDS
+
+                                                    transcranial magnetic stimulation, neuroimaging, artificial intelligence, precision
+                                                    treatment, personalized medicine
+
+
+
+
+                                                    1 Introduction
+                                                        Since its initial description by Barker et al. (1985), Transcranial Magnetic Stimulation
+                                                    (TMS) has attracted widespread attention due to its unique advantage of non-
+                                                    invasively modulating neural activity via electromagnetic induction. With technological
+                                                    advancements, TMS has evolved from single-pulse stimulation to repetitive TMS (rTMS),
+
+
+
+Frontiers in Human Neuroscience                                            01                                                               frontiersin.org
+Liu et al.                                                                                                           10.3389/fnhum.2025.1682852
+
+
+
+
+demonstrating significant clinical eÿcacy in modulating                      to these challenges, emerging research is exploring closed-loop
+neuroplasticity and ameliorating brain dysfunction, particularly             TMS control systems, cross-modal data fusion techniques, and
+in the treatment of depression, anxiety, obsessive-compulsive                AI-assisted BCIs as potential future directions.
+disorder, and post-traumatic stress disorder (PTSD) (Lefaucheur                  To systematically address these issues, this review introduces
+et al., 2014, 2020; O’reardon et al., 2007). Although TMS is                 an integrative framework that links multimodal neuroimaging,
+associated with high safety and moderate eÿcacy, its conventional            computational modeling, and AI-driven closed-loop control into a
+targeting methods–primarily based on the “5-cm rule” or the                  coherent precision TMS workflow. Specifically, fMRI is employed
+use of electromyography (EMG) to identify motor evoked                       to capture individualized abnormal brain network patterns;
+potential (MEP) hotspots on the motor cortex, often referred                 diusion tensor imaging (DTI) combined with finite element
+to as “EEG-guided hotspot localization” in a broader sense of                modeling (FEM) guides the modulation of these aberrant neural
+electrophysiological guidance–largely overlook inter-individual              circuits through individualized electric field simulations; and
+variations in brain structure and functional connectivity.                   during treatment, high-temporal-resolution modalities such as
+Consequently, heterogeneity in cortical morphology, functional               EEG or MEG, coupled with AI algorithms, enable dynamic
+connections, and white matter pathways among patients limits                 adjustment of stimulation parameters in real time. This stepwise
+both treatment response and overall clinical eÿcacy (Fox et al.,             framework–diagnosis (fMRI) → guidance (DTI/FEM) → closed-
+2012; Hanoglu et al., 2023).                                                 loop optimization (EEG/MEG + AI)–is designed to bridge group-
+    To overcome these limitations, neuroimaging modalities such              level prior knowledge with individual-level variability, thereby
+as functional magnetic resonance imaging (fMRI) and diusion                 enhancing both generalizability and personalization in clinical
+tensor imaging (DTI) have been increasingly employed in TMS                  TMS applications.
+research in recent years. Owing to its high spatial resolution and               The objective of this review is to systematically summarize
+capability for real-time monitoring of brain activity, fMRI not only         the advances in integrating neuroimaging and AI technologies for
+reveals aberrations in functional brain networks but also provides           precision TMS. We discuss the underlying technical principles and
+robust evidence for identifying pathological targets. For instance,          implementation mechanisms related to target selection, parameter
+several fMRI studies in depression have demonstrated that the                optimization, and real-time feedback, while also analyzing current
+functional connectivity between the dorsolateral prefrontal cortex           challenges and future trends. The structure of this review is as
+(DLPFC) and the cingulate cortex can predict the therapeutic                 follows: an introduction to TMS and its conventional applications,
+response to TMS (Hanoglu et al., 2023; Liston et al., 2014).                 a discussion of the progress in neuroimaging and AI for TMS
+Simultaneously, DTI oers quantitative insights into the integrity           targeting, an examination of the technical and ethical challenges,
+and trajectories of white matter fibers, thereby elucidating the             and finally, a perspective on future directions aimed at facilitating
+structural underpinnings of functional connectivity and aiding in            the clinical translation and individualized treatment design of TMS.
+the optimization of TMS stimulation pathways and target selection            This review uniquely emphasizes the deep integration of artificial
+(Kubicki et al., 2007).                                                      intelligence and machine learning algorithms with multimodal
+    The integration of multimodal neuroimaging data–such as                  neuroimaging, particularly focusing on how AI drives personalized
+fMRI, DTI, and EEG–enables the construction of individualized                target optimization, treatment response prediction, and real-
+brain network maps, making it possible to precisely identify                 time feedback modulation, thereby oering a forward-looking
+optimal stimulation targets. In the era of big data, machine                 perspective on AI-driven precision neuromodulation.
+learning and AI techniques have shown immense potential in
+processing and analyzing large-scale neuroimaging and clinical
+datasets. These approaches can predict TMS treatment response,               2 Review of the basic principles and
+optimize stimulation parameters, and even facilitate real-time
+feedback modulation (Chekroud et al., 2016; Drysdale et al.,
+                                                                             clinical applications of TMS
+2017; Siddiqi et al., 2020). For instance, algorithms such as
+support vector machines (SVM), random forests, and deep learning             2.1 Physical principles and major
+have been successfully applied to identify neuroimaging features             technical modalities of TMS
+associated with TMS response (Orrù et al., 2012). Moreover, recent
+studies indicate that AI algorithms can automatically adjust TMS                  Transcranial Magnetic Stimulation (TMS) is a non-
+coil positioning and, through real-time neuroimaging feedback,               invasive neuromodulation technique based on the principle
+optimize the stimulation target to enhance treatment eÿcacy                  of electromagnetic induction. By generating a brief, high-intensity
+(Tubbs and Vazquez, 2024).                                                   magnetic field within the stimulation coil, the magnetic flux
+    Despite the promising theoretical and preliminary clinical               penetrates the skull and induces an electric current in the cortical
+outcomes of integrating neuroimaging with AI for precision                   tissue, thereby altering the membrane potential of neurons to either
+TMS, several challenges hinder its widespread adoption. First,               activate or inhibit local neuronal activity (Barker et al., 1985).
+the diversity of imaging platforms and data acquisition protocols                 With technological advancements, TMS has evolved from
+may limit the generalizability of AI models (Thut et al., 2011).             its initial form of single-pulse stimulation (sTMS) to repetitive
+Second, the high inter-individual variability in brain anatomy and           TMS (rTMS). Repetitive TMS, which delivers trains of pulses
+dynamic neural activity increases the complexity of individualized           either continuously or intermittently, not only provides immediate
+neuromodulation (Brunoni et al., 2017). Lastly, issues surrounding           modulation of neural activity but also induces long-term
+data privacy protection and ethical considerations require further           neuroplastic changes, thereby enabling sustained therapeutic eects
+exploration (O’reardon et al., 2007; Rossi et al., 2009). In response        in clinical applications (O’reardon et al., 2007).
+
+
+Frontiers in Human Neuroscience                                         02                                                          frontiersin.org
+Liu et al.                                                                                                           10.3389/fnhum.2025.1682852
+
+
+
+
+     In recent years, theta burst stimulation (TBS) has emerged as         accelerating the rehabilitation process (Li et al., 2022; Zhu et al.,
+an eÿcient TMS modality that has attracted considerable attention.         2024). Preliminary studies further suggest that TMS may have
+TBS typically employs a series of high-frequency (approximately            potential clinical applications in alleviating chronic pain, treating
+50 Hz) pulses over a short period to mimic the brain’s intrinsic           addictive behaviors, and ameliorating cognitive deficits (Kim et al.,
+theta rhythm. Its stimulation protocols are generally categorized          2023).
+into intermittent TBS (iTBS), which enhances cortical excitability,
+and continuous TBS (cTBS), which suppresses cortical activity
+(Cappon et al., 2022; Huang et al., 2005). This approach has               2.3 Limitations of current TMS targeting
+demonstrated distinct advantages in clinical practice by achieving
+                                                                           methods and future directions
+lasting neuromodulatory eects within a considerably shorter
+stimulation period.
+                                                                                Despite significant progress in various clinical domains,
+                                                                           traditional TMS targeting methods remain constrained by several
+                                                                           limitations. For example, the “5-cm rule” is essentially based on
+2.2 Clinical applications and efficacy                                     population-averaged anatomical landmarks to approximate the
+evaluation of TMS in neuropsychiatric                                      location of the DLPFC. Its primary limitation lies in neglecting
+disorders                                                                  substantial inter-individual cortical variability–such as dierences
+                                                                           in gyral and sulcal morphology–that can cause the stimulation site
+    In the treatment of psychiatric disorders, rTMS has received           to deviate considerably from the intended functional region (Fox
+approval from the United States Food and Drug Administration               et al., 2013).
+(FDA) and has shown significant eÿcacy, particularly in treatment-              To address these shortcomings, an increasing number of
+resistant depression (TRD) (Ilhan and Arikan, 2024; Philip                 studies have begun to explore connectivity-based target selection
+et al., 2018). Multi-center randomized controlled trials have              methods. By employing neuroimaging techniques such as fMRI
+demonstrated that rTMS targeting the left dorsolateral prefrontal          to assess individual brain network connectivity, researchers aim
+cortex (DLPFC) not only eectively alleviates depressive symptoms          to provide more precise, personalized TMS treatment protocols
+but also exhibits a favorable side-eect profile (Croarkin et al.,         (Cash et al., 2021; De Matola and Miniussi, 2025; Fox et al.,
+2021). Moreover, individualized TMS protocols that integrate               2012; Hollunder et al., 2022; Padberg et al., 2021). Moreover,
+neuroimaging modalities such as functional magnetic resonance              the substantial heterogeneity in cortical morphology, functional
+imaging (fMRI) or electroencephalography (EEG) hold promise for            connectivity, and white matter pathways among patients has
+further enhancing treatment precision and improving long-term              underscored the need for individualized targeting approaches,
+patient outcomes (Pettorruso et al., 2021).                                as standardized methods are insuÿcient for optimal therapeutic
+    A revolutionary breakthrough in this domain is the Stanford            outcomes in certain populations (Ekhtiari et al., 2019; Hollunder
+Neuromodulation Therapy (SNT, formerly SAINT). This protocol               et al., 2022).
+synergistically combines personalized targeting with optimized                  Importantly, cortical variability cannot be fully addressed by
+stimulation parameters: it uses resting-state fMRI to individually         optical navigation systems alone, since they do not account for skull
+target the DLPFC subregion most anticorrelated with the subgenual          thickness, cerebrospinal fluid layers, or cortical folding patterns, all
+anterior cingulate cortex (sgACC), and then applies a high-dose,           of which significantly shape the induced electric field distribution.
+accelerated intermittent theta-burst stimulation (iTBS) protocol           In recent years, finite element modeling (FEM), also referred
+over 5 days. A pivotal double-blind randomized controlled trial            to as electric-field (E-field) modeling, has emerged as a critical
+demonstrated remission rates of nearly 80% in patients with                tool for overcoming this limitation. By constructing individualized
+treatment-resistant depression, establishing a new paradigm for            head models from MRI data, FEM enables precise simulation of
+rapid and eective TMS therapy (Cole et al., 2020).                        the E-field generated by a TMS coil at specific positions. This
+    Beyond depression, the application of TMS is expanding                 allows target optimization that is tailored to each patient’s unique
+in other psychiatric disorders, including anxiety, obsessive-              anatomy, ensuring that the peak E-field intensity accurately engages
+compulsive disorder (OCD), and post-traumatic stress disorder              the desired cortical region rather than adjacent sulcal walls or
+(PTSD). For example, deep TMS (dTMS) has been employed                     cerebrospinal fluid (Balderston et al., 2022; Cao et al., 2024;
+to modulate the functional activity of the anterior cingulate              Windho et al., 2013).
+cortex (ACC) and the caudate nucleus, thereby improving clinical                Maximizing the use of individual-level information,
+symptoms in patients with OCD (Pettorruso et al., 2021).                   particularly through advanced connectivity-guided targeting
+Additionally, the incorporation of neuronavigation systems for             (which forms the mainstream of personalized clinical protocols),
+precise targeting has enhanced both the accuracy and eÿcacy of             is crucial for improving eÿcacy. In this context, AI has the
+TMS treatments in conditions such as anxiety disorders.                    unparalleled potential to facilitate and further enhance this
+    In the realm of neurological disorders, TMS has also garnered          process. Therefore, in response to these ongoing challenges and
+significant attention. Research has shown that rTMS applied to the         the need for deeper individualization, emerging machine learning
+primary motor cortex (M1) in patients with Parkinson’s disease             and artificial intelligence (AI) techniques are being integrated
+(PD) can improve motor function and alleviate tremor symptoms              into TMS research. By developing deep neural network models
+(Chung et al., 2020; Yap et al., 2020). In stroke rehabilitation,          that leverage multimodal data–including fMRI, DTI, and EEG–
+rTMS has been found to promote functional reorganization of the            researchers can predict individual responses to TMS and optimize
+aected hemisphere and facilitate neuroplastic recovery, thereby           stimulation parameters, thereby enhancing treatment precision
+
+
+Frontiers in Human Neuroscience                                       03                                                             frontiersin.org
+Liu et al.                                                                                                            10.3389/fnhum.2025.1682852
+
+
+
+
+and eÿcacy (Eleni Karakatsani et al., 2024; Tokatly Latzer et al.,           of dynamic changes in brain functional networks before and
+2025). However, the combination of TMS and AI-based strategies               after treatment, which is essential for optimizing therapeutic
+also faces several hurdles. First, the integration of multimodal data        protocols (Kotoula et al., 2023; Xia et al., 2024). Furthermore,
+remains challenging, as eective fusion of data from disparate               the integration of diverse imaging modalities holds the promise
+sources (fMRI, DTI, and EEG) is required to fully capture the                of constructing a comprehensive profile of an individual’s brain
+characteristics of individual brain networks (Tokatly Latzer                 network, a development that is critical for enhancing the precision
+et al., 2025). Second, the generalizability of current AI models is          and personalization of TMS interventions.
+limited when applied across dierent datasets and clinical settings,
+constraining their reliability and applicability (Ilhan and Arikan,
+2024). Additionally, the deep integration of TMS and AI has                  3.2 Application of fMRI in optimizing TMS
+raised concerns regarding data privacy and ethical compliance,               targeting
+which collectively pose significant barriers to widespread clinical
+translation (Cappon et al., 2022).                                               Functional magnetic resonance imaging (fMRI) remains one
+     Looking ahead, the future development of TMS technology is              of the most widely used modalities for assessing brain function by
+expected to focus on enhancing treatment precision and optimizing            detecting blood oxygen level-dependent (BOLD) signals that reflect
+personalized therapeutic protocols, encompassing both gradual                localized neural activity (Kleimaker et al., 2020; Xia et al., 2024).
+adjustments of targets and parameters across treatment sessions              By utilizing both resting-state fMRI (rs-fMRI) and task-based
+and, more ambitiously, closed-loop adjustments within a single               fMRI (task-fMRI), researchers are able to construct functional
+session. The incorporation of real-time neuroimaging feedback                connectivity maps of the brain and identify key networks such
+and the establishment of closed-loop control systems could                   as the default mode network (DMN) and the executive control
+enable dynamic monitoring and adjustment of TMS parameters,                  network (ECN) (Lefaucheur et al., 2024; Peterchev, 2024). In
+thereby providing specific advantages over pre-determined                    various neuropsychiatric conditions, these networks often exhibit
+targets/parameters by allowing immediate adaptation to a patient’s           abnormal connectivity patterns that can serve as important
+fluctuating brain state and optimizing neuromodulatory eects                indicators for optimizing TMS targeting (Jiang et al., 2024; Kumari,
+in real-time, further improving clinical outcomes (Esposito et al.,          2024; Marzouk et al., 2020). Recent advancements in individualized
+2020; Hanoglu et al., 2023). Simultaneously, leveraging big data             fMRI analysis have enabled the precise identification of optimal
+and advanced AI techniques to refine individualized treatment                stimulation sites among patients, which significantly enhances the
+strategies will provide robust theoretical support for connectivity-         response rate to TMS therapy. For instance, De Filippis et al. (2024)
+based target selection (Mutz et al., 2019). Furthermore, conducting          demonstrated through real-time fMRI monitoring that TMS-
+large-scale, multi-center randomized controlled trials will be               induced changes in neural excitability could provide clinicians with
+critical for validating the eÿcacy and safety of personalized                immediate feedback for adjusting treatment parameters, thereby
+TMS protocols across various neuropsychiatric conditions                     achieving more precise modulation. This strategy, which is based
+(Kannampallil et al., 2022; Nyeler and Müri, 2010).                         on functional connectivity data, oers both theoretical and practical
+                                                                             support for the development of personalized TMS treatment
+                                                                             protocols (Zhong et al., 2025).
+3 Applications and advances of
+neuroimaging techniques in precise
+                                                                             3.3 FMRI-based targeting in depression
+TMS targeting                                                                and anxiety: clinical case studies
+3.1 Overview of neuroimaging                                                     In the treatment of depression, fMRI has proven instrumental
+techniques and their role in TMS therapy                                     in precise target localization. Wang et al. (2025) reported that
+                                                                             resting-state fMRI revealed a strong correlation between the
+     Neuroimaging employs various non-invasive imaging                       functional connectivity patterns of the prefrontal cortex and
+modalities–including computed tomography (CT), magnetic                      the clinical response to TMS, thereby providing robust support
+resonance imaging (MRI), functional MRI (fMRI), diusion tensor              for selecting the optimal stimulation target based on individual
+imaging (DTI), and positron emission tomography (PET)–to                     dierences. Moreover, Cash et al. (2021) found that optimizing
+assess the brain’s structure, function, and connectivity. These              TMS targeting using fMRI data resulted in an improvement of
+techniques are increasingly pivotal in clinical diagnosis, disease           treatment response rates by over 30% compared to conventional
+monitoring, and precision treatment (Kleimaker et al., 2020; Wang            targeting methods, further validating the feasibility of connectivity-
+et al., 2025). With continuous improvements in imaging resolution            based approaches. In the realm of anxiety disorders, Vaccarino
+and data processing methods, multimodal neuroimaging has                     et al. (2024) observed significant aberrant functional connectivity
+provided a robust foundation for detecting aberrations in brain              between the prefrontal cortex and the amygdala during task-
+networks, thereby broadening its application in the precise                  based fMRI, suggesting a central role of these regions in the
+diagnosis and treatment of neuropsychiatric disorders (Lefaucheur            pathophysiology of anxiety (Gottschalk and Domschke, 2017).
+et al., 2024; Marzouk et al., 2020). In the context of TMS therapy,          Guided by these findings, researchers have used fMRI data to
+neuroimaging not only oers objective criteria for accurately                direct TMS protocols, with outcomes indicating that enhanced
+localizing stimulation targets but also enables the evaluation               functional connectivity between the left DLPFC and the amygdala
+
+
+Frontiers in Human Neuroscience                                         04                                                           frontiersin.org
+Liu et al.                                                                                                               10.3389/fnhum.2025.1682852
+
+
+
+
+is closely associated with improvements in anxiety symptoms,                   pathways, ensuring that modulation signals propagate eÿciently
+thus providing a novel perspective for personalized treatment                  along the most relevant structural tracts (Denche-Zamorano
+(Coppola et al., 2019). Collectively, these clinical cases underscore          et al., 2023). Studies have shown that, in the treatment of
+the substantial value of fMRI not only in identifying pathological             depression, targeting TMS based on DTI-derived connectivity
+network abnormalities but also in determining precise TMS                      yields significantly higher treatment response rates than traditional
+stimulation targets, thereby increasing treatment response and                 anatomical methods (Antal et al., 2022; Garnaat et al., 2018).
+eÿcacy and laying a solid foundation for the future development                Furthermore, in patients with Parkinson’s disease, DTI-based
+of individualized TMS therapies.                                               analyses of cortico-cortical or cortico-thalamic connections have
+                                                                               enabled the identification of more appropriate stimulation sites,
+                                                                               thereby improving motor function (Wang et al., 2019; Zhang and
+3.4 DTI and its role in analyzing white                                        Burock, 2020). Optimizing TMS stimulation pathways using DTI
+matter connectivity                                                            not only facilitates more eÿcient transmission of the stimulation
+                                                                               signal but also targets specific pathological networks, thereby
+    In recent years, diusion tensor imaging (DTI) has made                    further enhancing therapeutic outcomes (Luber et al., 2022; Muir
+significant strides in neuroimaging and has become a core tool for             et al., 2022). For instance, Liimatta demonstrated that integrating
+studying white matter structure and connectivity. DTI measures                 DTI data with TMS target selection in treatment-resistant
+the anisotropic diusion of water molecules, thereby reconstructing            depression resulted in a marked improvement in therapeutic
+the three-dimensional trajectories of white matter fibers and                  eÿcacy, with post-treatment assessments of white matter plasticity
+providing crucial insights into structural connectivity between                providing objective data for parameter optimization (Aydogan
+dierent brain regions (Aydogan et al., 2025). This technique                  et al., 2025; Morriss et al., 2024).
+has been pivotal in research on neurodegenerative diseases such
+as Alzheimer’s disease, psychiatric disorders like depression and
+schizophrenia, as well as brain injuries (Luigjes et al., 2019).               3.6 Clinical applications of DTI and future
+For example, DTI studies in Alzheimer’s disease have revealed                  directions
+significant reductions in the integrity of white matter fibers in the
+corpus callosum, internal capsule, and frontal regions, which may                  Diusion tensor imaging, as an advanced neuroimaging
+serve as potential biomarkers for early diagnosis (Amlien and Fjell,           modality, exhibits considerable promise in refining TMS targeting
+2014; Clark and Werring, 2002). In addition, DTI has demonstrated              and optimizing stimulation pathways. Personalized TMS protocols
+abnormal patterns of white matter damage in key pathways, such                 that incorporate DTI data not only enhance the precision of target
+as those within the fronto-limbic network, in both depression                  selection but also improve treatment outcomes by optimizing
+and schizophrenia, findings that are likely related to deficits in             the stimulation route. Future research is expected to focus on
+emotional regulation and cognitive function (Repple et al., 2023;              integrating DTI with other neuroimaging modalities (such as fMRI)
+Xu et al., 2024). Recent studies indicate that the reduction in white          and AI algorithms to achieve more refined target localization and
+matter integrity in schizophrenia is particularly pronounced in                treatment protocol design through big data analysis (Aydogan et al.,
+regions such as the corpus callosum, cingulum, and corticospinal               2025). Additionally, multi-center, large-scale clinical trials will be
+tract, thereby providing a structural basis for the observed cognitive         crucial for validating and promoting TMS strategies based on
+and aective dysfunctions (Ahdab et al., 2010; Zhong et al., 2025).            DTI, providing high-quality evidence for their clinical application
+Similarly, in anxiety and obsessive-compulsive disorder (OCD),                 (Morriss et al., 2024). With ongoing advances in the integration
+decreased white matter fiber density in the prefrontal–amygdala                and evolution of these technologies, DTI-assisted TMS treatment
+pathway has been identified, oering a structural rationale for                strategies are anticipated to play a more significant role in precision
+selecting TMS targets based on abnormal connectivity (Stoby et al.,            medicine for neuropsychiatric and other neurological disorders.
+2022; Zrenner et al., 2020).
+
+                                                                               4 Applications of multimodal
+3.5 Personalized TMS targeting strategies                                      neuroimaging data fusion in
+based on DTI data                                                              precision TMS treatment
+    Accurate target selection is critical for the therapeutic eÿcacy of
+TMS. Although diusion tensor imaging (DTI) provides valuable                  4.1 Background and applications of
+insights into white matter connectivity, it must be emphasized that            multimodal neuroimaging data
+the most established and widely applied personalization strategy               integration in TMS
+for TMS is based on functional connectivity (FC) derived from
+fMRI. Seminal studies by Fox et al. (2012) have demonstrated                       Multimodal neuroimaging data fusion seeks to integrate
+that identifying dorsolateral prefrontal cortex (DLPFC) subregions             information obtained from various imaging modalities–such
+functionally anticorrelated with the subgenual anterior cingulate              as functional magnetic resonance imaging (fMRI), diusion
+cortex represents the current gold standard for improving                      tensor imaging (DTI), electroencephalography (EEG), and
+antidepressant response to TMS. In this framework, DTI serves                  magnetoencephalography (MEG)–to comprehensively elucidate
+as a complementary tool to validate and optimize stimulation                   the interrelationships between brain structure and function
+
+
+Frontiers in Human Neuroscience                                           05                                                            frontiersin.org
+Liu et al.                                                                                                         10.3389/fnhum.2025.1682852
+
+
+
+
+(Pszczolkowski et al., 2022). Each modality oers distinct                  challenges. First, the heterogeneity of imaging modalities–each
+advantages: fMRI captures patterns of neural activity, DTI focuses          with distinct temporal and spatial resolutions as well as signal-
+on delineating the structural connectivity of white matter fibers,          to-noise ratios–presents a formidable obstacle to eective data
+while EEG and MEG provide high temporal resolution of neural                integration (Sui et al., 2023). Second, multimodal data fusion
+dynamics (Kuhn et al., 2025). By synthesizing these multimodal              generally relies on complex machine learning algorithms, such
+datasets, researchers can achieve a more holistic representation            as deep learning and graph neural networks, which impose
+of the brain, which is critical for the diagnosis and personalized          high demands on computational resources and increase data
+treatment of neuropsychiatric disorders. In recent years, the               processing and storage costs (Mingyu et al., 2022; Stefanini
+application of multimodal imaging in neuromodulation has                    et al., 2023). Furthermore, the lack of standardized protocols
+expanded considerably. Notably, integrating fMRI with DTI data              across research institutions for data acquisition and preprocessing
+has enabled the precise localization of aberrant functional networks        leads to variability in data formats and processing pipelines,
+in patients with depression, thereby providing individualized TMS           ultimately compromising the comparability and fusion eÿcacy of
+targets that significantly enhance therapeutic outcomes and                 the data (Sui et al., 2023). Lastly, although substantial progress
+promote neural plasticity (Mcnabb et al., 2025; Raymond et al.,             has been made in research settings, the clinical translation of
+2022; Yang et al., 2024).                                                   these advanced multimodal imaging techniques for the diagnosis,
+                                                                            monitoring, and personalized treatment of neuropsychiatric
+                                                                            disorders remains challenging and requires further validation (Liu
+4.2 Advantages of multimodal data fusion                                    et al., 2018).
+
+    The core advantage of multimodal data fusion lies in its
+ability to leverage the strengths of various imaging techniques             4.4 Future prospects and summary
+to obtain a panoramic understanding of brain structure and
+function. As depicted in Figure 1, this approach integrates                     Looking ahead, rapid advancements in artificial intelligence
+structural connectivity (via DTI), functional activation (via fMRI),        and computational neuroscience are expected to significantly
+and dynamic neural oscillations (via EEG) to map both spatial               enhance the role of multimodal neuroimaging data fusion in
+and temporal dimensions of brain activity, oering a marked                 precision medicine. By establishing standardized protocols for
+improvement over traditional unimodal targeting methods that                data acquisition, optimizing fusion algorithms, and leveraging
+often fail to capture the dynamic interplay between network                 high-performance computing platforms, future developments
+nodes. For example, the combination of fMRI, DTI, and magnetic              will not only overcome current challenges related to data
+resonance spectroscopy (MRS) has been shown to improve the                  heterogeneity and computational demands but also further
+accuracy of disease diagnosis by precisely identifying white matter         improve the accuracy of individualized TMS targeting and
+lesions in Alzheimer’s disease and predicting disease progression
+                                                                            treatment eÿcacy. Large-scale, multi-center clinical trials will
+(Gerwig et al., 2012). Moreover, when fMRI is combined with
+                                                                            be essential for validating and promoting the application of
+high-temporal resolution data from EEG, the integration of
+                                                                            multimodal fusion techniques in neuropsychiatric disorders.
+EEG’s millisecond-scale temporal resolution with fMRI’s spatial
+                                                                            Overall, multimodal neuroimaging data fusion oers novel
+precision (as shown in the real-time feedback module of Figure 1)
+                                                                            perspectives for elucidating the complex interactions between
+enables closed-loop adjustment of TMS parameters based on
+                                                                            brain structure and function. Despite the remaining challenges,
+phase-specific neural states, thereby facilitating the optimization
+                                                                            ongoing technological progress is poised to advance this field to
+of stimulation parameters and target selection to enhance
+                                                                            unprecedented levels, ultimately enhancing the precision of TMS
+individualized treatment outcomes (Peterchev, 2024). Additionally,
+                                                                            treatment in clinical practice.
+the integration of diverse data sources enriches the input for
+machine learning and AI algorithms, significantly strengthening
+the modeling of neural networks. The computational modeling
+framework (Figure 1) demonstrates how these multimodal inputs               5 Individualized TMS efficacy
+are synthesized through machine learning algorithms to generate             prediction using artificial
+personalized stimulation protocols, overcoming the limitations              intelligence and machine learning
+of “black-box” open-loop approaches that ignore endogenous
+brain dynamics. This improved modeling capability enhances the
+precision of disease progression forecasts and treatment response
+                                                                            5.1 Fundamental principles and
+analyses, ultimately revealing neurobiological dierences among             applications of machine learning in
+patients and providing robust data support for developing more              medical data analysis
+precise TMS stimulation protocols (Cash et al., 2021; Downar et al.,
+2024).                                                                          In precision TMS treatment, artificial intelligence (AI) and
+                                                                            machine learning (ML) play a dual role that bridges population-
+                                                                            level generalization with individual-level personalization. At the
+4.3 Challenges in multimodal data fusion                                    group level, AI primarily learns from large-scale, multicenter
+                                                                            clinical and neuroimaging datasets to identify robust biomarkers
+   Despite the significant potential demonstrated by multimodal             predictive of treatment response, thereby constructing models
+neuroimaging data fusion, its widespread application faces several          with strong generalizability that overcome the limitations of
+
+
+Frontiers in Human Neuroscience                                        06                                                         frontiersin.org
+Liu et al.                                                                                                             10.3389/fnhum.2025.1682852
+
+
+
+
+    FIGURE 1
+    Application of multimodal neuroimaging techniques in TMS target optimization.
+
+
+
+
+traditional statistical approaches when handling high-dimensional,             predictions across multiple decision trees (Raymond et al., 2022).
+heterogeneous data. At the individual level, these generalized                 Meanwhile, deep learning methods–such as convolutional
+models are then applied to each patient’s unique data (e.g.,                   neural networks (CNNs) and recurrent neural networks
+fMRI connectivity patterns, DTI tractography) to generate highly               (RNNs)–excel at processing neuroimaging and time-series
+personalized treatment strategies, such as predicting optimal                  data, capturing intricate neural patterns. Additionally, graph
+stimulation targets or the likelihood of clinical response. Thus, AI           neural networks (GNNs) have demonstrated unique advantages
+in precision TMS can be summarized as “trained on the group,                   in analyzing connectomic data by modeling relationships
+applied to the individual,” where population-level insights provide            among brain regions to predict individual TMS responses
+the foundation for true individualized optimization.                           (Cash et al., 2021), and ensemble learning techniques improve
+    In recent years, artificial intelligence (AI) and machine                  overall prediction accuracy and stability by integrating multiple
+learning (ML) techniques have been widely applied in the                       model outputs (Zhong et al., 2025). Together, these approaches
+treatment of neuropsychiatric disorders, with particular promise               provide a robust framework for medical data analysis and oer
+in predicting individual responses to transcranial magnetic                    diverse technological options for predicting TMS treatment
+stimulation (TMS) (Chen et al., 2022). Traditional TMS target                  response.
+selection largely relies on anatomical landmarks or group statistical
+data, which fail to account for individual dierences in neural
+network organization, thereby limiting treatment eÿcacy (Kuhn                  5.2 Multimodal data integration and
+et al., 2025). As a data-driven approach, machine learning                     construction of TMS efficacy prediction
+automatically detects latent patterns within complex datasets                  models
+and makes predictive inferences. Its workflow typically involves
+data preprocessing, feature extraction, model training, parameter                  A key element in predicting TMS eÿcacy lies in the integration
+optimization, and model validation (Dong et al., 2024). In                     of multiple data sources to comprehensively characterize a patient’s
+this context, support vector machines (SVMs) are frequently                    neurobiological status. Researchers typically aggregate multimodal
+employed for their robust classification capabilities when handling            information from neuroimaging (e.g., fMRI, DTI, EEG), clinical
+high-dimensional data, distinguishing between responders                       assessments (such as depression rating scales, medical history,
+and non-responders to TMS (Mcnabb et al., 2025). Random                        and medication usage), and genomic data (Kraguljac et al., 2021).
+forests (RF) enhance model generalizability by aggregating                     After performing feature engineering to extract critical features
+
+
+Frontiers in Human Neuroscience                                           07                                                         frontiersin.org
+Liu et al.                                                                                                           10.3389/fnhum.2025.1682852
+
+
+
+
+associated with TMS response–for instance, functional connectivity            pave the way for truly individualized treatment. In summary, as AI
+patterns, cortical thickness, and gene expression levels–machine              and computational neuroscience continue to evolve, multimodal
+learning methods (such as SVMs and deep learning) are employed                data-integrated TMS eÿcacy prediction models will provide a
+to construct predictive models (Hopman et al., 2021; Nobakhsh                 more robust technical foundation for the precision treatment
+et al., 2023). To ensure robust generalization, cross-validation              of neuropsychiatric disorders and further advance the field of
+methods (e.g., K-fold cross-validation) are routinely used to                 personalized medicine.
+assess model performance. Additionally, interpretability techniques
+such as SHAP (SHapley Additive Explanations) are applied to
+elucidate key factors in the model’s decision-making process,
+thereby enhancing clinical interpretability (Dong et al., 2024;
+                                                                              6 Individualized TMS targeting
+Elbau et al., 2023). For example, Arkin et al. (2020) trained                 strategies and clinical prospects
+a deep learning model using multimodal data to predict the                    based on multimodal neuroimaging
+response of patients with schizophrenia to repetitive TMS (rTMS),             and AI integration
+achieving an area under the ROC curve (AUC) of 0.84, which
+underscores the advantages of multimodal data in enhancing
+predictive accuracy (Arkin et al., 2020). Integrating information
+                                                                              6.1 Theoretical foundations and
+from diverse sources not only compensates for the limitations                 technical approaches
+inherent in single-modal data but also provides comprehensive
+support for the development of individualized TMS treatment                       In recent years, the integration of neuroimaging techniques–
+protocols.                                                                    such as functional MRI (fMRI), diusion tensor imaging (DTI),
+                                                                              and electroencephalography (EEG)–with artificial intelligence (AI)
+                                                                              has provided novel data-driven methodologies for TMS target
+                                                                              localization. Conventional TMS targeting methods predominantly
+5.3 Existing research, model evaluation,                                      rely on anatomical landmarks or group-level statistical data, which
+and future perspectives                                                       do not suÿciently account for inter-individual dierences in
+                                                                              brain functional and structural networks, thereby contributing
+    Several studies have already demonstrated significant progress            to substantial variability in treatment response (Haxel et al.,
+in constructing TMS response prediction models using machine                  2024; Humaidan et al., 2024). To overcome these limitations,
+learning techniques. Some investigations have successfully                    current research has explored optimization strategies based on
+integrated EEG, fMRI, and clinical evaluation data within                     functional connectivity, structural connectivity, and real-time
+deep learning frameworks to predict TMS response in patients                  neurodynamics through the application of deep learning, machine
+with schizophrenia, with reported AUC values reaching 0.85–                   learning, and multimodal data fusion. Theoretically, resting-state
+highlighting the critical role of multimodal data in enhancing                fMRI can be employed to analyze an individual’s functional
+predictive accuracy (Sachdeva et al., 2023). Furthermore, the                 connectivity network, enabling the identification of aberrant
+application of explainable AI (XAI) techniques in conjunction                 connections and the subsequent prediction of optimal TMS
+with fMRI-derived functional connectivity data has not only                   targets using AI algorithms. Concurrently, DTI provides crucial
+improved predictive performance but also enhanced the clinical                information regarding the strength of structural connections
+interpretability of the models, enabling clinicians to better                 between dierent brain regions, which can be leveraged to optimize
+understand the underlying decision processes (Herrmann and                    the TMS stimulation pathway. Moreover, the millisecond temporal
+Ebmeier, 2006). Other studies have found that patients exhibiting             resolution of EEG facilitates the capture of dynamic neural
+the strongest TMS responses often display specific functional                 responses induced by TMS, allowing for real-time adjustments
+connectivity features, and SVM-based classification models built              of stimulation parameters to achieve a personalized treatment
+on these neuroimaging markers have further refined the precision              approach (Moser et al., 2024; Tubbs and Vazquez, 2024; Vasileiadi
+of individualized TMS treatments (Jin et al., 2024). Common                   et al., 2023). In addition, the application of deep learning
+evaluation metrics for these models include accuracy, AUC-ROC,                models and graph neural networks (GNNs) has enabled the
+and the F1-score. Typically, model accuracies range between 80%               automatic extraction and integration of multimodal neuroimaging
+and 90%, with AUC values exceeding 0.8 considered indicative                  data, thereby enhancing both the precision and robustness of
+of excellent predictive performance; higher F1-scores suggest                 individualized TMS protocols.
+balanced performance across classes, particularly in imbalanced
+datasets (Mcinnes et al., 2024).
+    Despite these encouraging advances, challenges remain. The
+lack of standardized data acquisition across research institutions            6.2 Integration framework for
+introduces significant heterogeneity, limiting the generalizability of        neuroimaging data and machine learning
+the models. Furthermore, large-scale, high-quality datasets are still         models
+scarce, constraining the potential of deep learning models. Future
+research should focus on optimizing data integration strategies                   The overall framework for guiding TMS target optimization
+and exploring privacy-preserving techniques such as federated                 using multimodal neuroimaging data typically encompasses
+learning to facilitate cross-institutional data sharing. In addition,         several sequential stages: data acquisition, preprocessing, feature
+combining biomarker data with optimized TMS parameters may                    extraction, model training, and clinical feedback optimization.
+
+
+Frontiers in Human Neuroscience                                          08                                                         frontiersin.org
+Liu et al.                                                                                                             10.3389/fnhum.2025.1682852
+
+
+
+
+Initially, multimodal datasets–comprising fMRI, DTI, and EEG–                specific, actionable guidance for dynamically adjusting critical TMS
+are collected through standardized protocols and preprocessed                stimulation parameters. As shown in the figure, this includes the
+to ensure compatibility and comparability across modalities.                 coil’s precise position (X, Y, Z) and orientation (yaw, pitch, roll),
+Subsequently, advanced deep learning models (such as CNNs,                   as well as the stimulation intensity, frequency, and timing relative
+RNNs, or GNNs) are employed to extract salient features that                 to neural oscillations. This methodological framework provides
+reflect key indicators of brain functional connectivity, white matter        a concrete pathway for overcoming current limitations. Future
+structure, and neurodynamics. These features are then used to                research should aim to further optimize data acquisition and
+construct machine learning models capable of predicting TMS                  preprocessing standards, develop more eÿcient and robust fusion
+treatment responses in real time or in a pre-treatment setting               algorithms that can process inputs like connectivity matrices and
+(Bi et al., 2024; Ran et al., 2022). Based on an individual’s brain          EEG spectra, and employ privacy-preserving techniques such as
+network status, these models can recommend optimal stimulation               federated learning to enable large-scale, multi-center data sharing.
+targets and fine-tune stimulation parameters (e.g., frequency,               Moreover, the integration of biomarkers with optimized TMS
+intensity, and pulse patterns) (Liu et al., 2015). This integrated           parameters holds the potential to realize truly individualized and
+framework not only consolidates methods for analyzing functional             precise treatments, where the closed-loop architecture (Figure 2)
+and structural connectivity, as well as EEG-guided modulation,               could dynamically adapt stimulation protocols based on neural
+but also leverages data fusion and model ensemble techniques                 feedback. In summary, as advancements in AI and neuroimaging
+to provide a comprehensive depiction of the brain’s multi-level              continue, the clinical translation of multimodal data fusion for
+information. For example, Akhonda et al. (2022) demonstrated that            TMS target optimization is poised to revolutionize precision
+analyzing abnormalities in the default mode network and executive            medicine for neuropsychiatric disorders.
+control network via machine learning on fMRI data significantly
+optimized TMS target placement in patients with depression.
+Similarly, Bi et al. (2024) employed a multitask deep learning
+framework combined with real-time electric field simulation to               7 Current challenges, limitations,
+automatically recommend optimal TMS coil positioning, thereby                and future prospects: from technical
+further enhancing personalized treatment outcomes. This deep
+integration of data and modeling not only improves prediction
+                                                                             bottlenecks to personalized
+accuracy but also provides actionable clinical decision support.             neuromodulation
+                                                                             7.1 Challenges and limitations in current
+6.3 Success stories and future                                               technologies and clinical applications
+perspectives for clinical translation
+                                                                                  Despite the substantial promise demonstrated by integrating
+    Several studies have already illustrated the significant eÿcacy          TMS with neuroimaging and artificial intelligence for optimizing
+of integrating multimodal neuroimaging with AI for TMS                       treatment targets and achieving personalized, precise therapy,
+target optimization. For instance, a strategy based on fMRI-                 numerous challenges remain in its clinical application. First,
+derived functional connectivity to optimize TMS for depression               regarding neuroimaging, although fMRI and DTI play pivotal roles
+has successfully improved treatment response rates and has                   in optimizing TMS targets, they still face limitations in spatial and
+been validated in multi-center trials (Mandal et al., 2023). In              temporal resolution. fMRI is constrained by the indirect nature
+another study, the combination of EEG data with AI prediction                of the BOLD signal, and DTI may be insuÿcient in resolving
+models enabled real-time TMS modulation, resulting in marked                 fine white matter fiber connections. Simultaneously, while EEG
+improvements in patients’ emotional states; systems developed on             oers millisecond-level temporal resolution, its relatively low
+this basis are now progressing toward commercialization and are              signal-to-noise ratio and significant inter-individual variability
+being applied clinically in the treatment of anxiety and depression          can adversely aect the stability and accuracy of TMS target
+(Rahaman et al., 2024). Moreover, DTI-based applications in                  selection (Gebodh et al., 2023; Gu et al., 2023; Seriramulu
+Parkinson’s disease have shown that by identifying critical white            et al., 2024; Winchester et al., 2023). Furthermore, AI-based
+matter fiber tracts, TMS stimulation protocols can be optimized              TMS prediction models are typically developed using relatively
+to achieve approximately a 30% improvement in motor function                 limited clinical datasets, and they lack robust generalizability across
+recovery, a method that is gradually being incorporated into                 multiple centers and diverse patient populations. In addition,
+individualized TMS treatment guidelines for Parkinson’s disease              deep learning models are often considered “black boxes” due to
+(Liu et al., 2015).                                                          their opaque decision-making processes, which not only impairs
+    While these successful examples validate the utility of                  their performance across dierent pathological states but also
+multimodal data fusion for enhancing TMS eÿcacy, several                     diminishes clinicians’ trust and acceptance (Moser et al., 2024; Sun
+challenges remain. Issues related to data heterogeneity,                     et al., 2023). Data privacy and ethical issues further complicate
+computational resource demands, model interpretability, and                  matters; the high sensitivity of neuroimaging data necessitates
+cross-institutional data sharing persist. The operational framework          strict management protocols during data collection, storage, and
+for such an advanced system is detailed in Figure 2. This closed-            sharing to prevent breaches of patient privacy and data misuse
+loop architecture demonstrates how real-time neural monitoring               (Cappon et al., 2022; Trajkovic et al., 2024). Together, these
+(e.g., EEG/fMRI) can feed into an AI model, which in turn provides           technological bottlenecks and ethical concerns constitute major
+
+
+Frontiers in Human Neuroscience                                         09                                                            frontiersin.org
+Liu et al.                                                                                                                   10.3389/fnhum.2025.1682852
+
+
+
+
+    FIGURE 2
+    Methodological framework of an AI-driven closed-loop TMS system. The diagram illustrates the operational framework of a closed-loop TMS
+    system for personalized neuromodulation. The process begins with real-time monitoring of neural signals (e.g., EEG, fMRI). These data, represented
+    as inputs like a functional connectivity matrix or EEG power spectrum, are fed into the AI Analysis & Feedback module. The AI model processes this
+    information to generate real-time, optimized recommendations. This output directly guides the Parameter Adjustment module, which demonstrates
+    the dynamic optimization of key TMS parameters. These include the precise coil position (X, Y, Z), orientation (e.g., yaw, pitch, roll), stimulation
+    intensity (% MSO), frequency/pattern (e.g., 10 Hz, iTBS), and timing (e.g., phase-locked to neural oscillations). The adjusted parameters are then
+    applied in the TMS Stimulation stage, completing the adaptive feedback loop.
+
+
+
+
+barriers to the widespread clinical adoption of personalized                     7.3 Future directions and prospects for
+TMS treatment.                                                                   technological breakthroughs
+
+                                                                                     Looking forward, the future of personalized TMS treatment
+7.2 The need for multi-center validation                                         in neuromodulation is promising, yet it demands breakthroughs
+and standardization of ethical protocols                                         in technology, data integration, and ethical standards. The
+                                                                                 development of closed-loop TMS systems is widely regarded
+    At the clinical level, the precision treatment strategies that               as a critical future direction; by integrating real-time EEG
+combine TMS with AI require validation through large-scale,                      or fMRI monitoring of brain states with AI-driven dynamic
+multi-center studies. Currently, variations in imaging acquisition               adjustment of stimulation parameters, such systems could achieve
+protocols, spatial resolution, and preprocessing methods across                  adaptive control and significantly enhance treatment precision and
+institutions result in poor comparability of data, thereby limiting              flexibility (Duprat et al., 2025; Oliver et al., 2024). Additionally, the
+the generalizability and reproducibility of AI models in multi-                  advancement of real-time feedback control systems, which leverage
+center settings (Haxel et al., 2024; Humaidan et al., 2024; Tubbs                fMRI data and deep learning algorithms to automatically analyze
+and Vazquez, 2024). Moreover, the lack of mature, standardized                   brain signal changes during treatment and adjust stimulation
+protocols for multimodal data integration further restricts the                  patterns accordingly, may further refine individualized therapy
+stability and scalability of these predictive models. Ethical                    by closely matching the patient’s dynamic brain network state
+challenges also remain critical, particularly regarding the extent of            (Sitaram et al., 2012; Tervo-Clemmens et al., 2023). Future
+patient informed consent and the interpretability of AI-generated                research is also anticipated to focus on the deep fusion of
+treatment recommendations in the formulation of personalized                     multimodal data–including fMRI, DTI, EEG, PET, and genetic
+TMS protocols. In vulnerable populations (e.g., patients with                    information–using advanced algorithms such as graph neural
+autism or schizophrenia), diminished cognitive capacity may                      networks (GNN) or Transformer models to construct accurate,
+further complicate patients’ ability to fully understand and accept              individualized brain network models that can robustly inform
+AI-derived treatment plans, adding another layer of complexity to                TMS target selection (Cappon et al., 2022; Fujimoto et al., 2024).
+ethical decision-making (Dannhauer et al., 2022; Figee et al., 2022).            Clinically, as standardization of data acquisition, cross-center
+
+
+Frontiers in Human Neuroscience                                             10                                                               frontiersin.org
+Liu et al.                                                                                                             10.3389/fnhum.2025.1682852
+
+
+
+
+collaboration, and large-scale validation advance, it is expected that        DTI data could successfully predict TMS treatment responses in
+within the next 5–10 years, AI-driven personalized TMS treatment              depression, highlighting the substantial potential of multimodal
+strategies will be incorporated into standard clinical guidelines and         data integration for personalized therapy.
+achieve breakthrough outcomes in treating psychiatric disorders,                   Moreover, artificial intelligence and machine learning
+neurodegenerative diseases, and pain management (Lin et al.,                  techniques have shown significant promise in processing
+2020).                                                                        multimodal data and building predictive models. Deep learning,
+                                                                              graph neural networks, and ensemble learning methods have been
+                                                                              employed to extract critical features from complex neuroimaging
+7.4 Long-term prospects for personalized                                      and clinical datasets, enabling the prediction of TMS treatment
+and precise neuromodulation                                                   response and optimization of stimulation parameters (Marcu
+                                                                              et al., 2020). Kale et al. (2024) reported that a deep learning model
+    As AI and neuroimaging technologies continue to mature,                   integrating EEG, fMRI, and clinical data achieved an area under
+personalized TMS treatment is poised to usher in a transformative             the ROC curve (AUC) of 0.87, underscoring the advantage of
+era in neuromodulation. Precision psychiatry models built on                  these algorithms in enhancing prediction accuracy. Nevertheless,
+neuroimaging and genetic data will enable the prediction of optimal           current models face challenges related to limited sample sizes, the
+TMS parameters for individual patients, thereby facilitating truly            lack of standardized data acquisition protocols across centers, and
+personalized medical interventions. Moreover, the development of              limited generalizability, which restrict the robustness and clinical
+AI-assisted brain-computer interfaces (BCIs) is expected to oer              interpretability of these predictive systems (Cao et al., 2021).
+new avenues for neurorehabilitation, by potentially synergizing                    In addition, data privacy and ethical considerations pose
+with TMS interventions. For instance, BCIs could be used to detect            critical challenges for the integration of TMS and AI technologies.
+a patient’s volitional motor intent (e.g., in stroke rehabilitation),         High-sensitivity neuroimaging and genetic data require stringent
+which then triggers or modulates TMS stimulation to reinforce                 management during collection, storage, and sharing to protect
+the desired neural pathway activation, thereby enhancing motor                patient privacy and prevent misuse (Kale et al., 2024). Kale et al.
+recovery in stroke patients through targeted plasticity induction.            (2024) emphasized that ensuring data security and obtaining
+Overall, although current challenges persist in terms of technology,          informed consent are prerequisites for facilitating large-scale,
+ethics, and clinical validation, ongoing standardization of data              multi-center collaborations that can drive the clinical translation
+collection, multi-center large-scale trials, and the emergence of             of personalized TMS treatments.
+advanced algorithms are anticipated to drive the full clinical                     Within the context of interdisciplinary collaboration and
+translation of personalized, precision neuromodulation. This                  technological convergence, the development of closed-loop
+evolution will likely propel the treatment of neuropsychiatric                TMS systems and real-time feedback modulation represents
+disorders into a new era (Moon et al., 2020).                                 a promising avenue for future treatment paradigms. By
+                                                                              continuously monitoring brain states and dynamically adjusting
+                                                                              stimulation parameters, such systems could achieve highly
+8 Discussion                                                                  adaptive, individualized treatment (Zrenner and Ziemann,
+                                                                              2024). Additionally, the deep fusion of multimodal data and
+    This review systematically examined the progress in applying              the application of novel machine learning algorithms–such as
+neuroimaging techniques and artificial intelligence for precision             Transformer models and advanced graph neural networks–
+TMS treatment, with a particular focus on the role of multimodal              are expected to further enhance model prediction accuracy
+neuroimaging (e.g., fMRI, DTI, and EEG) in elucidating individual             and clinical applicability (Kale et al., 2024). Future research
+variations in brain structure and function, as well as on the                 should prioritize improvements in imaging resolution and data
+application of machine learning and deep learning methods                     quality, the standardization of cross-center data protocols, the
+for TMS target localization, treatment response prediction, and               enhancement of AI model generalizability and interpretability, and
+real-time feedback modulation. The evidence indicates that the                the reinforcement of data privacy safeguards (Cao et al., 2021; Kale
+integration of these technologies provides robust data support                et al., 2024).
+and a solid theoretical foundation for individualized, precise                     Overall, the application of neuroimaging and AI in precision
+TMS treatment, thereby significantly overcoming the limitations               TMS has opened new avenues for improving individualized
+inherent in conventional anatomical targeting methods (Cao et al.,            treatment protocols. While these advanced techniques oer
+2021; Zrenner and Ziemann, 2024).                                             promising solutions to overcome the limitations of conventional
+    Multimodal neuroimaging can reveal abnormal brain network                 anatomical targeting, challenges remain in data integration,
+patterns at dierent levels. fMRI captures functional connectivity            model generalization, and ethical regulation. Only through
+through the BOLD signal, DTI provides insights into the integrity             interdisciplinary      collaboration,    continuous      technological
+and structural connections of white matter fibers, and EEG oers              innovation, and rigorous clinical validation can these cutting-
+millisecond-level temporal resolution to track dynamic neural                 edge methods be fully translated into clinical practice to improve
+activity. The complementary nature of these imaging modalities                patient outcomes and quality of life. As large-scale, multi-center
+enables a more comprehensive modeling of an individual’s brain                data sharing and advanced algorithms evolve, personalized TMS
+network (Klooster et al., 2022). For example, a multi-center study            strategies based on multimodal data integration are poised to
+by Kim et al. (2023) and Klooster et al. (2022) demonstrated                  achieve broader clinical application in the treatment of psychiatric
+that constructing individual brain network maps using fMRI and                disorders, neurodegenerative diseases, and neurorehabilitation.
+
+
+Frontiers in Human Neuroscience                                          11                                                           frontiersin.org
+Liu et al.                                                                                                                                            10.3389/fnhum.2025.1682852
+
+
+
+
+9 Conclusion                                                                                     Author contributions
+     This review systematically examines the advancements in                                         BL: Writing – original draft. CH: Conceptualization, Writing –
+transcranial magnetic stimulation (TMS) for the treatment                                        review & editing. PB: Writing – review & editing.
+of neuropsychiatric disorders, emphasizing the pivotal roles
+of neuroimaging technologies–including functional magnetic
+resonance imaging (fMRI), diusion tensor imaging (DTI),                                         Funding
+and electroencephalography (EEG)–alongside artificial intelligence
+(AI) and machine learning methodologies in precise TMS                                               The author(s) declare that no financial support was received for
+target localization and personalized therapy. The integration of                                 the research and/or publication of this article.
+multimodal neuroimaging data elucidates the intricate networks
+of individual brain function and structure, while machine learning
+algorithms enhance the precision and predictive accuracy of TMS                                  Conflict of interest
+treatment protocols. This synergy not only refines target selection
+and stimulation pathways but also underpins the development                                          The authors declare that the research was conducted in the
+of real-time feedback mechanisms and closed-loop TMS systems,                                    absence of any commercial or financial relationships that could be
+thereby facilitating personalized precision therapy.                                             construed as a potential conflict of interest.
+     Furthermore, this article underscores the significance of
+interdisciplinary research. The convergence of neuroscience,
+computer science, engineering, and clinical medicine oers                                       Generative AI statement
+novel perspectives to address current challenges, such as data
+heterogeneity, model generalizability, and ethical considerations                                     The author(s) declare that no Generative AI was used in the
+regarding privacy. Through standardized data acquisition, inter-                                 creation of this manuscript.
+center collaboration, and the continuous optimization of advanced                                     Any alternative text (alt text) provided alongside figures in
+algorithms, there is potential to enhance the clinical eÿcacy of TMS                             this article has been generated by Frontiers with the support of
+across domains including psychiatric disorders, neurodegenerative                                artificial intelligence and reasonable eorts have been made to
+diseases, and pain management.                                                                   ensure accuracy, including review by the authors wherever possible.
+     Looking ahead, personalized precision TMS therapy is poised                                 If you identify any issues, please contact us.
+to advance the field of precision psychiatry. With the support of
+emerging technologies like AI-assisted brain-computer interfaces,
+its applications may extend to broader areas of neurorehabilitation                              Publisher’s note
+and functional restoration. In summary, as neuroimaging and AI
+technologies continue to evolve and multimodal data integration                                      All claims expressed in this article are solely those of the
+methods mature, individualized neuromodulation strategies based                                  authors and do not necessarily represent those of their aÿliated
+on precise TMS are expected to play an increasingly vital                                        organizations, or those of the publisher, the editors and the
+role in clinical translation and widespread application, oering                                 reviewers. Any product that may be evaluated in this article, or
+transformative breakthroughs in patient outcomes and quality of                                  claim that may be made by its manufacturer, is not guaranteed or
+life enhancement.                                                                                endorsed by the publisher.
+
+
+
+
+References
+  Ahdab, R., Ayache, S. S., Brugières, P., Goujon, C., and Lefaucheur, J. P. (2010).                Aydogan, D. B., Souza, V. H., Matsuda, R. H., Lioumis, P., and Ilmoniemi, R. J.
+Comparison of “Standard” and “Navigated” procedures of tms coil positioning over                 (2025). Real-Time tractography-assisted neuronavigation for transcranial magnetic
+motor, premotor and prefrontal targets in patients with chronic pain and depression.             stimulation. Hum. Brain Mapp. 46:E70122. doi: 10.1002/Hbm.70122
+Neurophysiol. Clin. 40, 27–36. doi: 10.1016/J.Neucli.2010.01.001
+                                                                                                    Balderston, N. L., Beer, J. C., Seok, D., Makhoul, W., Deng, Z. D., Girelli, T., et al.
+  Akhonda, M. A. B. S., Levin-Schwartz, Y., Calhoun, V. D., and Adali, T. (2022).                (2022). Proof of concept study to develop a novel connectivity-based electric-field
+Association of neuroimaging data with behavioral variables: A class of multivariate              modelling approach for individualized targeting of transcranial magnetic stimulation
+methods and their comparison using multi-task FMRI data. Sensors 22:1224. doi:                   treatment. Neuropsychopharmacology 47, 588–598. doi: 10.1038/S41386-021-01110-6
+10.3390/S22031224
+                                                                                                    Barker, A. T., Jalinous, R., and Freeston, I. L. (1985). Non-Invasive magnetic
+  Amlien, I. K., and Fjell, A. M. (2014). Diusion tensor imaging of white matter                stimulation of human motor cortex. Lancet 1, 1106–1107. doi: 10.1016/s0140-
+degeneration in Alzheimer’s disease and mild cognitive impairment. Neuroscience 276,             6736(85)92413-4
+206–215. doi: 10.1016/j.neuroscience.2014.02.017
+                                                                                                   Bi, Y., Abrol, A., Fu, Z., and Calhoun, V. D. (2024). A multimodal vision transformer
+  Antal, A., Luber, B., Brem, A. K., Bikson, M., Brunoni, A. R., Cohen Kadosh, R., et al.        for interpretable fusion of functional and structural neuroimaging data. Hum. Brain
+(2022). Non-Invasive brain stimulation and neuroenhancement. Clin. Neurophysiol.                 Mapp. 45:e26783. doi: 10.1002/Hbm.26783
+Pract. 7, 146–165. doi: 10.1016/J.Cnp.2022.05.002
+                                                                                                   Brunoni, A. R., Chaimani, A., Moa, A. H., Razza, L. B., Gattaz, W. F., Daskalakis,
+  Arkin, S. C., Ruiz-Betancourt, D., Jamerson, E. C., Smith, R. T., Strauss, N. E., Klim,        Z. J., et al. (2017). Repetitive transcranial magnetic stimulation for the acute treatment
+C. C., et al. (2020). Deficits and compensation: Attentional control cortical networks           of major depressive episodes: A systematic review with network meta-analysis. JAMA
+in schizophrenia. Neuroimage Clin. 27:102348. doi: 10.1016/J.Nicl.2020.102348                    Psychiatry. 74, 143–152. doi: 10.1001/Jamapsychiatry.2016.3644
+
+
+
+
+Frontiers in Human Neuroscience                                                             12                                                                           frontiersin.org
+Liu et al.                                                                                                                                                     10.3389/fnhum.2025.1682852
+
+
+
+
+  Cao, K. X., Ma, M. L., Wang, C. Z., Iqbal, J., Si, J. J., Xue, Y. X., et al. (2021). Tms-Eeg:        monitoring of ultrasound brain interventions. Adv. Drug Deliv. Rev. 205:115177. doi:
+An emerging tool to study the neurophysiologic biomarkers of psychiatric disorders.                    10.1016/J.Addr.2023.115177
+Neuropharmacology 197:108574. doi: 10.1016/J.Neuropharm.2021.108574
+                                                                                                         Esposito, R., Bortoletto, M., and Miniussi, C. (2020). Integrating TMS, EEG, and
+  Cao, Z., Xiao, X., Xie, C., Wei, L., Yang, Y., and Zhu, C. (2024). Personalized                      MRI as an approach for studying brain connectivity. Neuroscientist 26, 471–486.
+connectivity-based network targeting model of transcranial magnetic stimulation                        doi: 10.1177/1073858420916452
+for treatment of psychiatric disorders: Computational feasibility and reproducibility.
+                                                                                                          Figee, M., Riva-Posse, P., Choi, K. S., Bederson, L., Mayberg, H. S., and Kopell,
+Front. Psychiatry. 15:1341908. doi: 10.3389/Fpsyt.2024.1341908
+                                                                                                       B. H. (2022). Deep brain stimulation for depression. Neurotherapeutics 19, 1229–1245.
+  Cappon, D., Den Boer, T., Jordan, C., Yu, W., Metzger, E., and Pascual-Leone, A.                     doi: 10.1007/s13311-022-01270-3
+(2022). Transcranial Magnetic Stimulation (TMS) for geriatric depression. Ageing Res.
+                                                                                                         Fox, M. D., Buckner, R. L., White, M. P., Greicius, M. D., and Pascual-Leone, A.
+Rev. 74:101531. doi: 10.1016/J.Arr.2021.101531
+                                                                                                       (2012). Eÿcacy of transcranial magnetic stimulation targets for depression is related
+  Cash, R. F. H., Cocchi, L., Lv, J., Wu, Y., Fitzgerald, P. B., and Zalesky, A.                       to intrinsic functional connectivity with the subgenual cingulate. Biol. Psychiatry 72,
+(2021). Personalized connectivity-guided DLPFC-TMS for depression: Advancing                           595–603. doi: 10.1016/J.Biopsych.2012.04.028
+computational feasibility, precision and reproducibility. Hum. Brain Mapp. 42, 4155–
+                                                                                                         Fox, M. D., Liu, H., and Pascual-Leone, A. (2013). Identification of reproducible
+4172. doi: 10.1002/Hbm.25330
+                                                                                                       individualized targets for treatment of depression with TMS based on intrinsic
+  Chekroud, A. M., Zotti, R. J., Shehzad, Z., Gueorguieva, R., Johnson, M. K., Trivedi,                connectivity. Neuroimage 66, 151–160. doi: 10.1016/J.Neuroimage.2012.10.082
+M. H., et al. (2016). Cross-Trial prediction of treatment outcome in depression:
+                                                                                                          Fujimoto, S., Fujimoto, A., Elorette, C., Choi, K. S., Mayberg, H., Russ, B., et al.
+A machine learning approach. Lancet Psychiatry 3, 243–250. doi: 10.1016/S2215-
+                                                                                                       (2024). What can neuroimaging of neuromodulation reveal about the basis of
+0366(15)00471-X
+                                                                                                       circuit therapies for psychiatry? Neuropsychopharmacology 50, 184–195. doi: 10.1038/
+  Chen, Y. C., Ton That, V., Ugonna, C., Liu, Y., Nadel, L., and Chou, Y. H. (2022).                   S41386-024-01976-2
+Diusion MRI-Guided theta burst stimulation enhances memory and functional
+                                                                                                         Garnaat, S. L., Yuan, S., Wang, H., Philip, N. S., and Carpenter, L. L. (2018). Updates
+connectivity along the inferior longitudinal fasciculus in mild cognitive impairment.
+                                                                                                       on transcranial magnetic stimulation therapy for major depressive disorder. Psychiatr.
+Proc. Natl. Acad. Sci. U. S. A. 119:E2113778119. doi: 10.1073/Pnas.2113778119
+                                                                                                       Clin. North Am. 41, 419–431. doi: 10.1016/J.Psc.2018.04.006
+  Chung, C. L., Mak, M. K., and Hallett, M. (2020). Transcranial magnetic stimulation
+                                                                                                          Gebodh, N., Miskovic, V., Laszlo, S., Datta, A., and Bikson, M. (2023). A scalable
+promotes gait training in Parkinson disease. Ann. Neurol. 88, 933–945. doi: 10.1002/
+                                                                                                       framework for closed-loop neuromodulation with deep learning. Biorxiv [preprint]
+Ana.25881
+                                                                                                       doi: 10.1101/2023.01.18.524615
+  Clark, C. A., and Werring, D. J. (2002). Diusion tensor imaging in spinal cord:
+                                                                                                          Gerwig, M., Niehaus, L., Stude, P., Katsarava, Z., and Diener, H. C. (2012). Beta-
+Methods and applications - a review. NMR Biomed. 15, 578–586. doi: 10.1002/Nbm.
+                                                                                                       Blocker migraine prophylaxis aects the excitability of the visual cortex as revealed by
+788
+                                                                                                       transcranial magnetic stimulation. J. Headache Pain 13, 83–89. doi: 10.1007/S10194-
+   Cole, E. J., Stimpson, K. H., Bentzley, B. S., Gulser, M., Cherian, K., Tischler, C.,               011-0401-X
+et al. (2020). Stanford accelerated intelligent neuromodulation therapy for treatment-
+                                                                                                         Gottschalk, M. G., and Domschke, K. (2017). Genetics of generalized anxiety
+resistant depression. Am. J. Psychiatry 177, 716–726. doi: 10.1176/Appi.Ajp.2019.
+                                                                                                       disorder and related traits. Dial. Clin. Neurosci. 19, 159–168. doi: 10.31887/DCNS.
+19070720
+                                                                                                       2017.19.2/kdomschke
+  Coppola, G., Di Lorenzo, C., Parisi, V., Lisicki, M., Serrao, M., and Pierelli, F.
+                                                                                                         Gu, D., Shi, F., Hua, R., Wei, Y., Li, Y., Zhu, J., et al. (2023). An artificial-intelligence-
+(2019). Clinical neurophysiology of migraine with aura. J. Headache Pain 20:42. doi:
+                                                                                                       based age-specific template construction framework for brain structural analysis using
+10.1186/S10194-019-0997-9
+                                                                                                       magnetic resonance images. Hum. Brain Mapp. 44, 861–875. doi: 10.1002/Hbm.26126
+   Croarkin, P. E., Elmaadawi, A. Z., Aaronson, S. T., Schrodt, G. R., Holbert, R. C.,
+Verdoliva, S., et al. (2021). Left prefrontal transcranial magnetic stimulation for                      Hanoglu, L., Velioglu, H. A., Hanoglu, T., and Yulug, B. (2023). Neuroimaging-
+treatment-resistant depression in adolescents: A double-blind. randomized, sham-                       Guided transcranial magnetic and direct current stimulation in MCI: Toward an
+controlled trial. Neuropsychopharmacology 46, 462–469. doi: 10.1038/S41386-020-                        individual, eective and disease-modifying treatment. Clin. EEG Neurosci. 54, 82–90.
+00829-Y                                                                                                doi: 10.1177/15500594211052815
+
+  Dannhauer, M., Huang, Z., Beynel, L., Wood, E., Bukhari-Parlakturk, N., and                             Haxel, L., Ahola, O., Belardinelli, P., Ermolova, M., Humaidan, D., Macke, J. H.,
+Peterchev, A. V. (2022). Tap: Targeting and analysis pipeline for optimization and                     et al. (2024). Decoding motor excitability in tms using eeg-features: An exploratory
+verification of coil placement in transcranial magnetic stimulation. J. Neural Eng.                    machine learning approach. IEEE Trans. Neural Syst. Rehabil. Eng. 33, 103–112. doi:
+19:10.1088/1741-2552/Ac63a4. doi: 10.1088/1741-2552/Ac63a4.                                            10.1109/Tnsre.2024.3516393
+
+  De Filippis, R., El Hayek, S., and Shalbafan, M. (2024). Editorial: Biological and non-                 Herrmann, L. L., and Ebmeier, K. P. (2006). Factors modifying the eÿcacy of
+pharmacological treatments of obsessive-compulsive disorder and related disorders.                     transcranial magnetic stimulation in the treatment of depression: A review. J. Clin.
+Front. Psychiatry 15:1494444. doi: 10.3389/Fpsyt.2024.1494444                                          Psychiatry 67, 1870–1876. doi: 10.4088/Jcp.V67n1206
+   De Matola, M., and Miniussi, C. (2025). Brain state forecasting for precise brain                      Hollunder, B., Rajamani, N., Siddiqi, S. H., Finke, C., Kühn, A. A., Mayberg, H. S.,
+stimulation: Current approaches and future perspectives. Neuroimage 307:121050.                        et al. (2022). Toward personalized medicine in connectomic deep brain stimulation.
+doi: 10.1016/J.Neuroimage.2025.121050                                                                  Prog. Neurobiol. 210:102211. doi: 10.1016/J.Pneurobio.2021.102211
+  Denche-Zamorano, A., Mayordomo-Pinilla, N., Barrios-Fernandez, S., Luis-Del                            Hopman, H. J., Chan, S. M. S., Chu, W. C. W., Lu, H., Tse, C. Y., Chau, S. W. H., et al.
+Campo, V., Gómez-Paniagua, S., Rojo-Ramos, J., et al. (2023). A scientometrics                         (2021). Personalized prediction of transcranial magnetic stimulation clinical response
+analysis of physical activity and transcranial stimulation research. Medicine                          in patients with treatment-refractory depression using neuroimaging biomarkers
+102:E35834. doi: 10.1097/Md.0000000000035834                                                           and machine learning. J. Aect. Disord. 290, 261–271. doi: 10.1016/J.Jad.2021.
+                                                                                                       04.081
+   Dong, M. S., Rokicki, J., Dwyer, D., Papiol, S., Streit, F., Rietschel, M., et al. (2024).
+Multimodal workflows optimally predict response to repetitive transcranial magnetic                      Huang, Y. Z., Edwards, M. J., Rounis, E., Bhatia, K. P., and Rothwell, J. C. (2005).
+stimulation in patients with schizophrenia: A multisite machine learning analysis.                     Theta burst stimulation of the human motor cortex. Neuron 45, 201–206. doi: 10.1016/
+Transl. Psychiatry 14:196. doi: 10.1038/S41398-024-02903-1                                             J.Neuron.2004.12.033
+  Downar, J., Siddiqi, S. H., Mitra, A., Williams, N., and Liston, C. (2024). Mechanisms                 Humaidan, D., Xu, J., Kirchho, M., Romani, G. L., Ilmoniemi, R. J., and Ziemann,
+of action of TMS in the treatment of depression. Curr. Top. Behav. Neurosci. 66,                       U. (2024). Towards real-time eeg-tms modulation of brain state in a closed-loop
+233–277. doi: 10.1007/7854_2024_483                                                                    approach. Clin. Neurophysiol. 158, 212–217. doi: 10.1016/J.Clinph.2023.12.006
+  Drysdale, A. T., Grosenick, L., Downar, J., Dunlop, K., Mansouri, F., Meng, Y., et al.                 Ilhan, R., and Arikan, M. K. (2024). The eect of repetitive and deep transcranial
+(2017). Resting-State connectivity biomarkers define neurophysiological subtypes of                    magnetic stimulation on quantitative electroencephalography in major depressive
+depression. Nat. Med. 23, 28–38. doi: 10.1038/Nm.4246                                                  disorder. Front. Psychiatry 15:1473743. doi: 10.3389/Fpsyt.2024.1473743
+   Duprat, R. J., Linn, K. A., Satterthwaite, T. D., Sheline, Y. I., Liang, X., Bagdon, G.,               Jiang, Y., Chang, X., and Feng, J. (2024). Towards a unified theory of the aetiology
+et al. (2025). Resting FMRI-Guided TMS evokes subgenual anterior cingulate response                    of schizophrenia. Br. J. Psychiatry 225, 299–301. doi: 10.1192/Bjp.2024.65
+in depression. Neuroimage 305:120963. doi: 10.1016/J.Neuroimage.2024.120963                              Jin, F., Bruijn, S. M., and Daertshofer, A. (2024). Machine learning approaches
+  Ekhtiari, H., Tavakoli, H., Addolorato, G., Baeken, C., Bonci, A., Campanella, S.,                   to predict whether MEPS can be elicited via TMS. J. Neurosci. Methods 410:110242.
+et al. (2019). Transcranial electrical and magnetic stimulation (Tes And Tms) for                      doi: 10.1016/J.Jneumeth.2024.110242
+addiction medicine: A consensus paper on the present state of the science and the road                   Kale, M., Wankhede, N., Pawar, R., Ballal, S., Kumawat, R., Goswami, M., et al.
+ahead. Neurosci. Biobehav. Rev. 104, 118–140. doi: 10.1016/J.Neubiorev.2019.06.007                     (2024). Ai-Driven innovations in Alzheimer’s disease: Integrating early diagnosis,
+   Elbau, I. G., Lynch, C. J., Downar, J., Vila-Rodriguez, F., Power, J. D., Solomonov, N.,            personalized treatment, and prognostic modelling. Ageing Res. Rev. 101:102497. doi:
+et al. (2023). Functional connectivity mapping for rtms target selection in depression.                10.1016/J.Arr.2024.102497
+Am. J. Psychiatry 180, 230–240. doi: 10.1176/Appi.Ajp.20220306                                            Kannampallil, T., Dai, R., Lv, N., Xiao, L., Lu, C., Ajilore, O. A., et al. (2022). Cross-
+  Eleni Karakatsani, M., Estrada, H., Chen, Z., Shoham, S., Deán-Ben, X. L., and                       Trial prediction of depression remission using problem-solving therapy: A machine
+Razansky, D. (2024). Shedding light on ultrasound in action: Optical and optoacoustic                  learning approach. J. Aect. Disord. 308, 89–97. doi: 10.1016/J.Jad.2022.04.015
+
+
+
+
+Frontiers in Human Neuroscience                                                                   13                                                                                frontiersin.org
+Liu et al.                                                                                                                                                10.3389/fnhum.2025.1682852
+
+
+
+
+  Kim, H., Lee, G., Lee, J., and Kim, Y. H. (2023). Alterations in learning-related                  Mingyu, J., Jiawei, Z., and Ning, W. (2022). Afr-Bert: Attention-Based mechanism
+cortical activation and functional connectivity by high-definition transcranial direct             feature relevance fusion multimodal sentiment analysis model. PLoS One 17:E0273936.
+current stimulation after stroke: An FNIRS study. Front. Neurosci. 17:1189420. doi:                doi: 10.1371/Journal.Pone.0273936
+10.3389/Fnins.2023.1189420
+                                                                                                     Moon, S., Ahmadnezhad, P., Song, H. J., Thompson, J., Kipp, K., Akinwuntan,
+   Kleimaker, M., Kleimaker, A., Weissbach, A., Colzato, L. S., Beste, C., Bäumer, T.,             A. E., et al. (2020). Artificial neural networks in neurorehabilitation: A scoping review.
+et al. (2020). Non-Invasive brain stimulation for the treatment of gilles de la tourette           Neurorehabilitation 46, 259–269. doi: 10.3233/Nre-192996
+syndrome. Front. Neurol. 11:592258. doi: 10.3389/Fneur.2020.592258
+                                                                                                      Morriss, R., Briley, P. M., Webster, L., Abdelghani, M., Barber, S., Bates, P., et al.
+  Klooster, D. C. W., Ferguson, M. A., and Boon Pajm, B. C. (2022). Personalizing                  (2024). Connectivity-Guided intermittent theta burst versus repetitive transcranial
+repetitive transcranial magnetic stimulation parameters for depression treatment                   magnetic stimulation for treatment-resistant depression: A randomized controlled
+using multimodal neuroimaging. Biol. Psychiatry Cogn. Neurosci. Neuroimag. 7, 536–                 trial. Nat. Med. 30, 403–413. doi: 10.1038/S41591-023-02764-Z
+545. doi: 10.1016/J.Bpsc.2021.11.004
+                                                                                                      Moser, P., Reishofer, G., Prückl, R., Schaelhofer, S., Freigang, S., Thumfart, S., et al.
+  Kotoula, V., Evans, J. W., Punturieri, C., Johnson, S. C., and Zarate, C. A. (2023).             (2024). Real-Time estimation of the optimal coil placement in transcranial magnetic
+Functional MRI markers for treatment-resistant depression: Insights and challenges.                stimulation using multi-task deep learning. Sci. Rep. 14:19361. doi: 10.1038/S41598-
+Prog. Brain Res. 278, 117–148. doi: 10.1016/Bs.Pbr.2023.04.001                                     024-70367-W
+  Kraguljac, N. V., Mcdonald, W. M., Widge, A. S., Rodriguez, C. I., Tohen, M., and                  Muir, M., Prinsloo, S., Michener, H., Traylor, J. I., Patel, R., Gadot, R., et al. (2022).
+Nemero, C. B. (2021). Neuroimaging biomarkers in schizophrenia. Am. J. Psychiatry                 Tms seeded diusion tensor imaging tractography predicts permanent neurological
+178, 509–521. doi: 10.1176/Appi.Ajp.2020.20030340                                                  deficits. Cancers 14:340. doi: 10.3390/Cancers14020340
+  Kubicki, M., Mccarley, R., Westin, C. F., Park, H. J., Maier, S., Kikinis, R., et al.              Mutz, J., Vipulananthan, V., Carter, B., Hurlemann, R., Fu, C. H. Y., and Young,
+(2007). A review of diusion tensor imaging studies in schizophrenia. J. Psychiatry                A. H. (2019). Comparative eÿcacy and acceptability of non-surgical brain stimulation
+Res. 41, 15–30. doi: 10.1016/J.Jpsychires.2005.05.005                                              for the acute treatment of major depressive episodes in adults: Systematic review and
+                                                                                                   network meta-analysis. BMJ 364:L1079. doi: 10.1136/Bmj.L1079
+  Kuhn, T., Indahlastari, A., Vila-Rodriguez, F., Fonzo, G., Petersen, N., Rotstein,
+N., et al. (2025). The enigma-neuromodulation working group - a mission statement.                    Nobakhsh, B., Shalbaf, A., Rostami, R., Kazemi, R., Rezaei, E., and Shalbaf, R. (2023).
+Brain Stimul. 18, 142–144. doi: 10.1016/J.Brs.2024.12.1477                                         An eective brain connectivity technique to predict repetitive transcranial magnetic
+                                                                                                   stimulation outcome for major depressive disorder patients using EEG signals. Phys.
+  Kumari, V. (2024). Towards a unified theory of the aetiology of schizophrenia:
+                                                                                                   Eng. Sci. Med. 46, 67–81. doi: 10.1007/S13246-022-01198-0
+Commentary. Kumari. Br. J. Psychiatry 225, 341–342. doi: 10.1192/Bjp.2024.74
+                                                                                                      Nyeler, T., and Müri, R. (2010). Comment on: Safety, ethical considerations, and
+   Lefaucheur, J. P., Aleman, A., Baeken, C., Benninger, D. H., Brunelin, J., Di Lazzaro,
+                                                                                                   application guidelines for the use of transcranial magnetic stimulation in clinical
+V., et al. (2020). Evidence-Based guidelines on the therapeutic use of repetitive
+                                                                                                   practice and research, by Rossi et al. (2009). Clin. Neurophysiol. 121:980. doi: 10.1016/
+transcranial magnetic stimulation (Rtms): An update (2014-2018). Clin. Neurophysiol.
+                                                                                                   J.Clinph.2010.04.001
+131, 474–528. doi: 10.1016/J.Clinph.2019.11.002
+                                                                                                      Oliver, L. D., Jeyachandra, J., Dickie, E. W., Hawco, C., Mansour, S., Hare, S. M.,
+   Lefaucheur, J. P., André-Obadia, N., Antal, A., Ayache, S. S., Baeken, C., Benninger,
+                                                                                                   et al. (2024). Bayesian optimization of neurostimulation (Boonstim). Brain Stimul. 18,
+D. H., et al. (2014). Evidence-Based guidelines on the therapeutic use of repetitive
+                                                                                                   112–115. doi: 10.1016/J.Brs.2025.01.020
+transcranial magnetic stimulation (RTMS). Clin. Neurophysiol. 125, 2150–2206. doi:
+10.1016/J.Clinph.2014.05.021                                                                         O’reardon, J. P., Solvason, H. B., Janicak, P. G., Sampson, S., Isenberg, K. E.,
+                                                                                                   Nahas, Z., et al. (2007). Eÿcacy and safety of transcranial magnetic stimulation in
+  Lefaucheur, J. P., Nguyen, J. P., Knotkova, H., Rossi, S., and Nizard, J. (2024).
+                                                                                                   the acute treatment of major depression: A multisite randomized controlled trial. Biol.
+Editorial: Combining a non-invasive transcranial stimulation technique with another
+                                                                                                   Psychiatry 62, 1208–1216. doi: 10.1016/J.Biopsych.2007.01.018
+therapeutic approach: Mechanisms of action, therapeutic interest and tolerance. Front.
+Neurol. 15:1440696. doi: 10.3389/Fneur.2024.1440696                                                  Orrù, G., Pettersson-Yeo, W., Marquand, A. F., Sartori, G., and Mechelli, A. (2012).
+                                                                                                   Using support vector machine to identify imaging biomarkers of neurological and
+  Li, H., Deng, Z. D., Oathes, D., and Fan, Y. (2022). Computation of transcranial
+                                                                                                   psychiatric disease: A critical review. Neurosci. Biobehav. Rev. 36, 1140–1152. doi:
+magnetic stimulation electric fields using self-supervised deep learning. Neuroimage
+                                                                                                   10.1016/J.Neubiorev.2012.01.004
+264:119705. doi: 10.1016/J.Neuroimage.2022.119705
+                                                                                                     Padberg, F., Bulubas, L., Mizutani-Tiebel, Y., Burkhardt, G., Kranz, G. S.,
+  Lin, E., Lin, C. H., and Lane, H. Y. (2020). Precision psychiatry applications with
+                                                                                                   Koutsouleris, N., et al. (2021). The intervention, the patient and the illness -
+pharmacogenomics: Artificial intelligence and machine learning approaches. Int. J.
+                                                                                                   personalizing non-invasive brain stimulation in psychiatry. Exp. Neurol. 341:113713.
+Mol. Sci. 21:969. doi: 10.3390/Ijms21030969
+                                                                                                   doi: 10.1016/J.Expneurol.2021.113713
+  Liston, C., Chen, A. C., Zebley, B. D., Drysdale, A. T., Gordon, R., Leuchter, B., et al.
+                                                                                                      Peterchev, A. V. (2024). Direction and directionality: The neural eects of
+(2014). Default mode network mechanisms of transcranial magnetic stimulation in
+                                                                                                   transcranial magnetic stimulation coil orientation and pulse waveform. Biol. Psychiatry
+depression. Biol. Psychiatry 76, 517–526. doi: 10.1016/J.Biopsych.2014.01.023
+                                                                                                   Cogn. Neurosci. Neuroimag. 9, 739–741. doi: 10.1016/J.Bpsc.2024.06.010
+  Liu, S., Cai, W., Liu, S., Zhang, F., Fulham, M., Feng, D., et al. (2015). Multimodal
+                                                                                                     Pettorruso, M., Miuli, A., Di Natale, C., Montemitro, C., Zoratto, F., De Risio, L.,
+neuroimaging computing: A review of the applications in neuropsychiatric disorders.
+                                                                                                   et al. (2021). Non-Invasive brain stimulation targets and approaches to modulate
+Brain Inform. 2, 167–180. doi: 10.1007/S40708-015-0019-X
+                                                                                                   gambling-related decisions: A systematic review. Addict Behav. 112:106657. doi: 10.
+  Liu, X., Chen, K., Wu, T., Weidman, D., Lure, F., and Li, J. (2018). Use of                      1016/J.Addbeh.2020.106657
+multimodality imaging and artificial intelligence for diagnosis and prognosis of
+                                                                                                     Philip, N. S., Barredo, J., and Aiken, E. (2018). Carpenter Ll. neuroimaging
+early stages of Alzheimer’s disease. Transl. Res. 194, 56–67. doi: 10.1016/J.Trsl.2018.
+                                                                                                   mechanisms of therapeutic transcranial magnetic stimulation for major depressive
+01.001
+                                                                                                   disorder. Biol. Psychiatry Cogn. Neurosci. Neuroimag. 3, 211–222. doi: 10.1016/J.Bpsc.
+   Luber, B., Davis, S. W., Deng, Z. D., Murphy, D., Martella, A., Peterchev, A. V.,               2017.10.007
+et al. (2022). Using diusion tensor imaging to eectively target tms to deep brain
+                                                                                                      Pszczolkowski, S., Cottam, W. J., Briley, P. M., Iwabuchi, S. J., Kaylor-Hughes,
+structures. Neuroimage 249:118863. doi: 10.1016/J.Neuroimage.2021.118863
+                                                                                                   C., Shalabi, A., et al. (2022). Connectivity-Guided theta burst transcranial magnetic
+  Luigjes, J., Segrave, R., De Joode, N., Figee, M., and Denys, D. (2019).                         stimulation versus repetitive transcranial magnetic stimulation for treatment-resistant
+Eÿcacy of invasive and non-invasive brain modulation interventions for addiction.                  moderate to severe depression: Magnetic resonance imaging protocol and Sars-Cov-
+Neuropsychol. Rev. 29, 116–138. doi: 10.1007/S11065-018-9393-5                                     2-Induced changes for a randomized double-blind controlled trial. JMIR Res. Protoc.
+                                                                                                   11:E31925. doi: 10.2196/31925
+  Mandal, P. K., Jindal, K., Roy, S., Arora, Y., Sharma, S., Joon, S., et al. (2023).
+Swadesh: A multimodal multi-disease brain imaging and neuropsychological database                    Rahaman, M. A., Garg, Y., Iraji, A., Fu, Z., Kochunov, P., Hong, L. E., et al. (2024).
+and data analytics platform. Front. Neurol. 14:1258116. doi: 10.3389/Fneur.2023.                   Imaging-Genomic spatial-modality attentive fusion for studying neuropsychiatric
+1258116                                                                                            disorders. Hum. Brain Mapp. 45:E26799. doi: 10.1002/Hbm.26799
+  Marcu, S., Pegolo, E., Ívarsson, E., Jónasson, A. D., Jónasson, V. D., Aubonnet,                   Ran, X., Shi, J., Chen, Y., and Jiang, K. (2022). Multimodal neuroimage data fusion
+R., et al. (2020). Using high density eeg to assess TMS treatment in patients with                 based on multikernel learning in personalized medicine. Front. Pharmacol. 13:947657.
+schizophrenia. Eur. J. Transl. Myol. 30:8903. doi: 10.4081/Ejtm.2019.8903                          doi: 10.3389/Fphar.2022.947657
+  Marzouk, T., Winkelbeiner, S., Azizi, H., Malhotra, A. K., and Homan, P.                           Raymond, N., Reinhart, R. M. G., Keshavan, M., and Lizano, P. (2022). An
+(2020). Transcranial magnetic stimulation for positive symptoms in schizophrenia: A                integrated neuroimaging approach to inform transcranial electrical stimulation
+systematic review. Neuropsychobiology 79, 384–396. doi: 10.1159/000502148                          targeting in visual hallucinations. Harv. Rev. Psychiatry 30, 181–190. doi: 10.1097/Hrp.
+                                                                                                   0000000000000336
+  Mcinnes, A. N., Olsen, S. T., Sullivan, C. R. P., Cooper, D. C., Wilson, S., Sonmez,
+A. I., et al. (2024). Trajectory modeling and response prediction in transcranial                    Repple, J., Gruber, M., Mauritz, M., De Lange, S. C., Winter, N. R., Opel, N., et al.
+magnetic stimulation for depression. Pers. Med. Psychiatry 4:100135. doi: 10.1016/J.               (2023). Shared and specific patterns of structural brain connectivity across aective
+Pmip.2024.100135                                                                                   and psychotic disorders. Biol. Psychiatry 93, 178–186. doi: 10.1016/J.Biopsych.2022.05.
+                                                                                                   031
+  Mcnabb, C. B., Driver, I. D., Hyde, V., Hughes, G., Chandler, H. L., Thomas, H., et al.
+(2025). Wand: A multi-modal dataset integrating advanced MRI, MEG, and TMS for                       Rossi, S., Hallett, M., Rossini, P. M., and Pascual-Leone, A. (2009). Safety, ethical
+multi-scale brain analysis. Sci. Data 12:220. doi: 10.1038/S41597-024-04154-7                      considerations, and application guidelines for the use of transcranial magnetic
+
+
+
+
+Frontiers in Human Neuroscience                                                               14                                                                              frontiersin.org
+Liu et al.                                                                                                                                                 10.3389/fnhum.2025.1682852
+
+
+
+
+stimulation in clinical practice and research. Clin. Neurophysiol. 120, 2008–2039.                     Vasileiadi, M., Woletz, M., Linhardt, D., Grosshagauer, S., Tik, M., and
+doi: 10.1016/J.Clinph.2009.08.016                                                                    Windischberger, C. (2023). Improved brain stimulation targeting by optimising image
+                                                                                                     acquisition parameters. Neuroimage 276:120175. doi: 10.1016/J.Neuroimage.2023.
+  Sachdeva, A., Mehta, U. M., and Thirthalli, J. (2023). A pilot-study to examine
+                                                                                                     120175
+motor cortical plasticity as a neuro-marker of antipsychotic treatment response in
+schizophrenia. Asian J. Psychiatr. 82:103515. doi: 10.1016/J.Ajp.2023.103515                           Wang, J., Wei, Y., Hu, Q., Tang, Y., Zhu, H., and Wang, J. (2025). The eÿcacy and
+                                                                                                     safety of dual-target rtms over dorsolateral prefrontal cortex (DLPFC) and cerebellum
+   Seriramulu, V. P., Suppiah, S., Lee, H. H., Jang, J. H., Omar, N. F., Mohan, S. N., et al.
+                                                                                                     in the treatment of negative symptoms in first-episode schizophrenia: Protocol for a
+(2024). Review of mr spectroscopy analysis and artificial intelligence applications for
+                                                                                                     multicenter, randomized, double-blind, sham-controlled study. Schizophr. Res. Cogn.
+the detection of cerebral inflammation and neurotoxicity in Alzheimer’s disease. Med.
+                                                                                                     39:100339. doi: 10.1016/j.scog.2024.100339
+J. Malaysia 79, 102–110.
+  Siddiqi, S. H., Taylor, S. F., Cooke, D., Pascual-Leone, A., George, M. S., and                      Wang, L., Wang, M., Si, Q., Yuan, Y., Ma, K., Gan, C., et al. (2019). Altered
+Fox, M. D. (2020). Distinct symptom-specific treatment targets for circuit-based                     brain structural topological properties in Parkinson’s disease with levodopa-induced
+neuromodulation. Am. J. Psychiatry 177, 435–446. doi: 10.1176/Appi.Ajp.2019.                         dyskinesias. Parkinson. Relat. Disord. 67, 36–41. doi: 10.1016/J.Parkreldis.2019.
+19090915                                                                                             09.022
+
+  Sitaram, R., Veit, R., Stevens, B., Caria, A., Gerlo, C., Birbaumer, N., et al.                      Winchester, L. M., Harshfield, E. L., Shi, L., Badhwar, A., Khleifat, A. A., Clarke, N.,
+(2012). Acquired control of ventral premotor cortex activity by feedback training: An                et al. (2023). Artificial intelligence for biomarker discovery in Alzheimer’s disease and
+exploratory real-time FMRI and TMS study. Neurorehabil. Neural Repair. 26, 256–265.                  dementia. Alzheimers Dement. 19, 5860–5871. doi: 10.1002/Alz.13390
+doi: 10.1177/1545968311418345                                                                          Windho, M., Opitz, A., and Thielscher, A. (2013). Electric field calculations in
+  Stefanini, M., Cornia, M., Baraldi, L., Cascianelli, S., Fiameni, G., and Cucchiara, R.            brain stimulation based on finite elements: An optimized processing pipeline for the
+(2023). From show to tell: A survey on deep learning-based image captioning. IEEE                    generation and usage of accurate individual head models. Hum. Brain Mapp. 34,
+Trans. Pattern Anal. Mach. Intell. 45, 539–559. doi: 10.1109/Tpami.2022.3148210                      923–935. doi: 10.1002/Hbm.21479
+
+  Stoby, K. S., Rafique, S. A., Oeltzschner, G., and Steeves, J. K. E. (2022). Continuous              Xia, A. W. L., Jin, M., Qin, P. P. I., Kan, R. L. D., Zhang, B. B. B., Giron, C. G.,
+and intermittent theta burst stimulation to the visual cortex do not alter GABA and                  et al. (2024). Instantaneous eects of prefrontal transcranial magnetic stimulation
+glutamate concentrations measured by magnetic resonance spectroscopy. Brain Behav.                   on brain oxygenation: A systematic review. Neuroimage 293:120618. doi: 10.1016/J.
+12:E2478. doi: 10.1002/Brb3.2478                                                                     Neuroimage.2024.120618
+  Sui, J., Zhi, D., and Calhoun, V. D. (2023). Data-Driven multimodal fusion:                          Xu, Y., Cheng, X., Li, Y., Shen, H., Wan, Y., Ping, L., et al. (2024). Shared and distinct
+Approaches and applications in psychiatric research. Psychoradiology 3:Kkad026. doi:                 white matter alterations in major depression and bipolar disorder: A systematic review
+10.1093/Psyrad/Kkad026                                                                               and meta-analysis. J. Integr. Neurosci. 23:170. doi: 10.31083/J.Jin2309170
+  Sun, W., Wu, Q., Gao, L., Zheng, Z., Xiang, H., Yang, K., et al. (2023).                              Yang, J., Tang, T., Gui, Q., Zhang, K., Zhang, A., Wang, T., et al. (2024). Status and
+Advancements in transcranial magnetic stimulation research and the path to precision.                trends of tms research in depressive disorder: A bibliometric and visual analysis. Front.
+Neuropsychiatr. Dis. Treat. 19, 1841–1851. doi: 10.2147/Ndt.S414782                                  Psychiatry 15:1432792. doi: 10.3389/Fpsyt.2024.1432792
+  Tervo-Clemmens, B., Marek, S., and Barch, D. M. (2023). Tailoring psychiatric                        Yap, J. Y. Y., Keatch, C., Lambert, E., Woods, W., Stoddart, P. R., and Kameneva,
+neuroimaging to translational goals. JAMA Psychiatry 80, 765–766. doi: 10.1001/                      T. (2020). Critical review of transcutaneous vagus nerve stimulation: Challenges
+Jamapsychiatry.2023.1416                                                                             for translation to clinical practice. Front. Neurosci. 14:284. doi: 10.3389/Fnins.2020.
+                                                                                                     00284
+  Thut, G., Veniero, D., Romei, V., Miniussi, C., Schyns, P., and Gross, J. (2011).
+Rhythmic TMS causes local entrainment of natural oscillatory signatures. Curr. Biol.                   Zhang, Y., and Burock, M. A. (2020). Diusion tensor imaging in parkinson’s
+21, 1176–1185. doi: 10.1016/J.Cub.2011.05.049                                                        disease and parkinsonian syndrome: A systematic review. Front. Neurol. 11:531993.
+                                                                                                     doi: 10.3389/fneur.2020.531993
+   Tokatly Latzer, I., Hanson, E., Bertoldi, M., Dibacco, M. L., Aygun, D., Afacan, O.,
+et al. (2025). The neuropsychological profile of ssadh deficiency, a neurotransmitter                  Zhong, G., Jin, F., Ma, L., Yang, Y., Zhang, B., Cao, D., et al. (2025). Stimulation
+disorder of GABA metabolism. Mol. Genet. Metab. 144:109051. doi: 10.1016/J.Ymgme.                    eects mapping for optimizing coil placement for transcranial magnetic stimulation.
+2025.109051                                                                                          Neuroinformatics 23:1. doi: 10.1007/S12021-024-09714-1
+   Trajkovic, J., Sack, A. T., and Romei, V. (2024). EEG-Based biomarkers predict                      Zhu, L., Pei, Z., Dang, G., Shi, X., Su, X., Lan, X., et al. (2024). Predicting response
+individual dierences in TMS-Induced entrainment of intrinsic brain rhythms. Brain                   to repetitive transcranial magnetic stimulation in patients with chronic insomnia
+Stimul. 17, 224–232. doi: 10.1016/J.Brs.2024.02.016                                                  disorder using electroencephalography: A pilot study. Brain Res. Bull. 206:110851.
+                                                                                                     doi: 10.1016/J.Brainresbull.2023.110851
+  Tubbs, A., and Vazquez, E. A. (2024). Engineering and technological advancements
+in repetitive transcranial magnetic stimulation (RTMS): A five-year review. Brain Sci.                  Zrenner, B., Zrenner, C., Gordon, P. C., Belardinelli, P., Mcdermott, E. J., Soekadar,
+14:1092. doi: 10.3390/Brainsci14111092                                                               S. R., et al. (2020). Brain oscillation-synchronized stimulation of the left dorsolateral
+                                                                                                     prefrontal cortex in depression using real-time eeg-triggered TMS. Brain Stimul. 13,
+  Vaccarino, S. R., Wang, S., Rizvi, S. J., Lou, W., Hassel, S., Macqueen, G. M., et al.
+                                                                                                     197–205. doi: 10.1016/J.Brs.2019.10.007
+(2024). Functional neuroimaging biomarkers of anhedonia response to escitalopram
+plus adjunct aripiprazole treatment for major depressive disorder. BJPSYCH Open                        Zrenner, C., and Ziemann, U. (2024). Closed-Loop brain stimulation. Biol.
+10:E18. doi: 10.1192/Bjo.2023.588                                                                    Psychiatry 95, 545–552. doi: 10.1016/j.biopsych.2023.09.014
+
+
+
+
+Frontiers in Human Neuroscience                                                                 15                                                                             frontiersin.org
+

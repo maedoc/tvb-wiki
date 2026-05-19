@@ -1,0 +1,800 @@
+                                                          Single-Node Wilson–Cowan Model Accounts for
+                                                          Speech-Evoked γ-Band Deﬁcits in Schizophrenia
+
+                                                                         Zhengdi Zhang1, , Yan Xu1 , Wenjun Xia1,*
+                                                                   1
+                                                                       School of Mathematical Sciences, Jiangsu University.
+                                                                        *
+                                                                          Corresponding author: vvjqnwork@outlook.com.
+arXiv:2601.15032v1 [q-bio.NC] 21 Jan 2026
+
+
+
+
+                                                                                               Abstract
+                                                 Cortical gamma (γ)-band activity reﬂects local excitation–inhibition (E/I) balance. In schizophre-
+                                                 nia (SCZ), reduced task-evoked gamma suggests altered E/I dynamics, but it is unclear whether
+                                                 diﬀerences stem from input properties or systematic shifts in E/I operating point and gain. We
+                                                 coupled a cochlear-inspired speech front end to a Wilson–Cowan E/I model to simulate gamma
+                                                 responses across three conditions: Healthy, SCZ–speech, and SCZ–semantics. Metrics included event-
+                                                 related spectral perturbation (ERSPγ ) and threshold-time fraction (γ%). A stable hierarchy emerged:
+                                                 Healthy(speech/semantics) > SCZ(speech) > SCZ(semantics), robust under equal-energy control and
+                                                 gain perturbations. Network dynamics coincided with single-node solutions, supporting interpretabil-
+                                                 ity. Pharmacological analogs showed bidirectional eﬀects: reduced inhibition lowered γ, while reduced
+                                                 excitation increased γ, with no self-sustained oscillations. Findings indicate SCZ gamma deﬁcits align
+                                                 more with shifts in E/I operating point and gain than input diﬀerences. This pipeline provides a
+                                                 testable, reusable mechanistic framework for speech-evoked gamma and a baseline for cross-population
+                                                 studies.
+
+                                                 Keywords: gamma oscillations, excitation–inhibition balance, schizophrenia, Wilson–Cowan model, speech
+                                                 front end, robustness analysis
+
+
+
+
+                                            1 Introduction                                             2020). These observations motivate a model-
+                                                                                                       ing route that maps speech structure to low-
+                                            Cortical activity in the γ band (∼30–80 Hz) is             dimensional population dynamics and links the
+                                            a sensitive readout of local excitation–inhibition         operating point to γ -band metrics. Neural-mass
+                                            (E/I) function and gain control in health and              modeling oﬀers an analytically tractable win-
+                                            disease, and has been repeatedly used to inter-            dow into E/I circuit dynamics and network-level
+                                            pret circuit-level computations and abnormalities          eﬀects; recent work has clariﬁed global bifur-
+                                            (Uhlhaas 2020; Sohal and Rubenstein 2019).For              cation structure and stability properties that
+                                            speech,auditory cortex shows reliable entrainment          connect to macroscopic rhythms (Cooray et al.
+                                            to the temporal structure of natural stimuli across        2023; Klinshov and Kirillov 2022). Yet under
+                                            multiple scales and frequency bands,yielding               speech-driven conditions, it remains unresolved
+                                            robust and quantiﬁable MEG/EEG patterns                    whether between-group diﬀerences (e.g., Healthy-
+                                            (Brodbeck et al. 2023; Donhauser and Baillet               speech/semantics, SCZ-speech, SCZ-semantics)
+                                                                                                       primarily reﬂect input-type diﬀerences or system-
+                                                                                                       atic shifts of the E/I operating point and eﬀective
+
+
+                                                                                                   1
+gain. We develop an end-to-end workﬂow that               A global gain gout is then chosen so that the
+maps natural speech to a Wilson–Cowan pop-                dataset-level envelope power matches Ptarget :
+ulation model (excitatory and inhibitory units                                       s
+with ﬁxed topology and parameters). A uniﬁed                                              Ptarget
+speech front end produces a γ -modulated drive;                         gout =                       ,     (2)
+                                                                                         au (t)2 u,t
+two preregistered readouts are computed: event-
+related spectral power ERSPγ and the threshold-
+                                                          where h·iu,t averages over calibration utterances
+time fraction γ % (Pfurtscheller and Lopes da
+                                                          and time. The external drive for any utterance is
+Silva 1999). To probe robustness and inter-
+pretability, we add an equal-energy control and                              (u)
+a gain-jitter sensitivity scan, and we simulate                             Iext (t) = gout au (t),        (3)
+two pharmacology-inspired perturbations, consis-
+tent with PV-circuit control of γ rhythms (Sohal          which is subsequently downsampled from 16 kHz
+and Rubenstein 2019). Across 3000 utterances per          to 1 kHz using sinc interpolation (Oppenheim and
+condition (consisting of 500 Chinese, 500 English         Schafer 2010).
+sentences, 500 Japanese sentences, 500 German
+sentences, 500 Spanish sentences and 500 Arabic
+sentences), both metrics exhibit a stable hierarchy                          I H (t) = 1.00 Iext (t),     (4a)
+(Healthy-speech/semantics > SCZ-speech > SCZ-                                I S (t) = 0.75 Iext (t),     (4b)
+semantics) that survives energy control and gain                        I   SEM
+                                                                                   (t) = 0.55 Iext (t).   (4c)
+perturbation, while the perturbations produce
+bidirectional eﬀects aligned with E/I-framework           In the natural-speech simulations, we treated the
+predictions. Overall, the pipeline provides a com-        Healthy condition’s external drive Iext (t) as the
+pact, testable route that links speech-evoked γ %         reference and set its multiplicative gain to jH =
+to the E/I operating point and facilitates cross-         1.00. To reproduce the reduction of 40 Hz ASSR γ
+population comparisons.                                   amplitude reported for patients with schizophre-
+                                                          nia relative to healthy controls without changing
+2 Methods                                                 any network parameters, we assigned a smaller
+                                                          gain to the SCZ(speech) condition, jS = 0.75,
+2.1 Speech front end                                      and an even smaller gain to the SCZ(semantics)
+We adopt a standard cochlea-inspired front end            condition, jSEM = 0.55, to capture the addi-
+in one sentence: speech is resampled to 16 kHz; a         tional deﬁcit in semantic integration. Under this
+ﬁlterbank of C =64 fourth-order zero-phase But-           parametrization, the three conditions diﬀer only
+terworth band-pass ﬁlters with logarithmically            in the strength of the eﬀective external drive
+spaced center frequencies in [200, 7000] Hz pro-          I (t) = j Iext (t), whereas the network’s E–I con-
+duces subband signals; each channel envelope is           nectivity, time constants, and noise amplitude
+obtained via the Hilbert transform and min–               remain ﬁxed across conditions. Biophysically, the
+max normalized within channel; the multi-channel          gain j can be interpreted as an eﬀective “input
+envelopes are averaged and band-pass ﬁltered in           gain” weighting the same speech envelope as it
+the γ range (24–64 Hz) to form the basis of the           arrives in auditory cortex: larger j corresponds to
+external drive (Butterworth 1930; Oppenheim and           greater cortical sensitivity or salience attribution
+Schafer 2010; Boashash 1992; Buzsáki and Wang            to an identical physical input, whereas smaller j
+2012). Let au (t) denote the normalized γ -band           reﬂects a relatively down-weighted, less eﬀective
+envelope of the u-th calibration utterance, and           drive, in line with clinical reports of reduced γ -
+let h·it denote temporal averaging. We deﬁne the          band responses and impaired semantic processing
+target power as                                           in schizophrenia.
+
+                           U
+                        1 X                                                              RMStarget
+            Ptarget =         au (t)2 t .      (1)                             αu =                 ,     (5a)
+                        U u=1                                                                 (u) 
+                                                                                         RMS Iext
+
+
+                                                      2
+                (u)           (u)
+              I¯ext (t) = αu Iext (t).               (5b)       row-normalize, and scale to a prescribed row sum
+                                                                (target weight) ωXY :
+
+                                                                                                 (XY )
+                                                                                 (XY )      W̃ij
+                                 (u)
+                  I (t) = 1.00 I¯ext (t),
+                   H
+                                                     (6a)                      Wij       = P           ω ,
+                                                                                                  (XY ) XY
+                                 (u)                                                         j W̃ij               (10)
+                  I (t) = 0.75 I¯ext (t),
+                    S
+                                                     (6b)                 X      (XY )
+                                                                               Wij       = ωXY     (∀i).
+                                 (u)
+              I SEM (t) = 0.55 I¯ext (t).            (6c)                  j
+
+
+2.2 Wilson–Cowan E–I populations                                We ﬁxed the widths to σEE =σII =2.5 and
+                                                                                                (1)          (C) ⊤
+    and network equivalence                                     σEI =3.0. Let rE =             rE , . . . , rE      and
+                                                                        (1)        (C) ⊤
+                                                                rI = rI , . . . , rI      denote the excitatory and
+We adopt the classical Wilson–Cowan model to
+                                                                inhibitory population activities across C topo-
+describe the dynamics of coupled excitatory–
+                                                                graphic channels, and let 1 denote the all-ones
+inhibitory (E/I) populations (Wilson and Cowan
+                                                                vector of length C . We write synaptic coupling
+1972). For a single node, the model is
+                                                                matrices as W(XY ) ∈ RC×C for X, Y ∈ {E, I}.
+                                                                The network dynamics can then be written com-
+  τE ṙE (t) = −rE (t) + S wEE rE (t) − wEI rI (t)
+                                                               pactly as
+                   + I (t) + ηE (t) ,           (7a)
+   τI ṙI (t) = −rI (t) + S wIE rE (t) − wII rI (t)                  τE ṙE = − rE + S W(EE) rE − W(EI) rI
+                                                                                                       
+                                                                                    + I (t) 1 + η E (t) ,  (11)
+                             
+                     + ηI (t) .                   (7b)
+                                                                      τI ṙI = − rI + S W(IE) rE − W(II) rI
+with sigmoidal gain                                                                           
+                                                                                     + η I (t) .                  (12)
+                           1
+          S (u) =                    .               (8)
+                  1 + exp −(u − θ)/σ                            where η E,I (t) ∈ RC are zero-mean noise vec-
+                                                                tors (e.g., independent Gaussian entries), and
+We used τE =0.02 s, τI =0.01 s, θ=0.5, σ =0.1,                  S (·) is applied elementwise. We impose a row-
+and synaptic gains (wEE , wEI , wIE , wII ) =                   sum–constant (“row-stochastic up to a scale”)
+(10, 12, 10, 8). Independent Gaussian noises                    constraint on each coupling matrix:
+ηE , ηI ∼ N (0, 0.022 ). Numerical integration used
+explicit Euler with ∆t=1 ms (Ermentrout and                                         C
+                                                                                        (XY )
+                                                                                    X
+                                                                       W(XY ) 1 i =
+                                                                               
+Terman 2010; Strogatz 2015). To verify that a                                         Wij     = wXY ,
+                                                                                         j=1                      (13)
+multi-channel network is equivalent to a single
+node under synchrony, we replicated the E–I                                          ∀i, X, Y ∈ {E, I}.
+unit on C =64 topographic channels and coupled
+                                     (i) (i)
+them with Gaussian kernels. Let rE , rI be the                  so that every row sums to the prescribed scalar
+E/I activities in channel i. Deﬁne unnormalized                 weight wXY . Under (13), the synchronous mani-
+Gaussian weights                                                fold
+                                                                         n                                     o
+                      (i − j )2
+                                 
+    (XY )                                                        M = rE = sE 1, rI = sI 1 sE , sI ∈ [0, 1]
+ W̃ij     = exp     −     2           ,   X, Y ∈ {E, I},
+                       2 σXY                                                                                 (14)
+                                                      (9)       is invariant. Substituting rE = sE 1 and rI = sI 1
+                                                                into (11)–(12) and using (13) yields the scalar
+                                                                Wilson–Cowan system
+
+                                                                    τE ṡE = −sE + S wEE sE − wEI sI
+                                                                                                        
+                                                                                       + I (t) + η̃E (t) ,        (15)
+                                                                     τI ṡI = −sI + S wIE sE − wII sI
+
+
+                                                            3
+                                   
+                          + η̃I (t) .               (16)       For a total duration T , the percentage of time
+                                                               above threshold is
+where η̃E,I (t) denote appropriately averaged noise
+                            PC (i)                                               1
+terms, e.g., η̃E (t) = C1 i=1 ηE (t) and analo-                    γ % = 100 ×     meas{ t : h(t) > θγ }.          (21)
+                                                                                 T
+gously for η̃I (t). Thus, a Gaussian-coupled multi-
+channel network reduces exactly to the single-node             Conceptually, γ % quantiﬁes the proportion of
+Wilson–Cowan model on the synchronous mani-                    time that the population response resides in a
+fold M. Consequently, it suﬃces to simulate the                high-γ state: larger values correspond to greater
+single-node system for subsequent stability and                occupancy of sustained γ episodes for a ﬁxed stim-
+bifurcation analyses without loss of generality.               ulation period, rather than merely higher peak
+                                                               amplitude, in line with the interpretation of pro-
+2.3 Outcome metrics                                            longed γ activity as a marker of altered cortical
+                                                               dynamics in schizophrenia (Uhlhaas and Singer
+2.3.1 ERSPγ (Pfurtscheller and
+                                                               2010; Buzsáki and Wang 2012; Gonzalez-Burgos
+      Lopes da Silva 1999)                                     and Lewis 2012).
+Let xγ (t) be the band-passed signal in 24 Hz–
+64 Hz. Deﬁne the analytic-signal envelope                      2.4 Robustness analyses
+               h(t) = H{xγ (t)} ,                   (17)       To disentangle eﬀects of drive magnitude from net-
+                                                               work dynamics, all robustness tests keep the net-
+and instantaneous power p(t) = h(t)2 . Baseline                work and noise ﬁxed and vary only the amplitude
+and activation powers are                                      of the external input. We then compare ERSPγ
+                                                               and γ % with the two planned paired contrasts
+               R = p(t) t∈[0,50 ms] ,                          (Healthy > SCZ; SCZ-speech > SCZ-semantics).
+                                                    (18)       Let the baseline external drive for utterance u be
+                                                                (u)
+               A = p(t) t>50 ms .                              Iext (t). The nominal gains for the three conditions
+                                                               are
+We report two γ -band metrics:
+                                                                gH = 1.00,       gS = 0.75,           gSEM = 0.55.
+                                        A                                                                          (22)
+          ERSPγ (dB) = 10 log10                 ,
+                                        R
+                                                    (19)
+                       A−R                                     2.4.1 Sensitivity to multiplicative
+                ERS% =     × 100.
+                        R                                            input-gain perturbations
+2.3.2 γ%(Uhlhaas and Singer 2010)                              We examine multiplicative perturbations j ∈
+                                                               {0.8, 0.9, 1.0, 1.1, 1.2} under two schemes: (1)
+Motivated by clinical and computational work                   Common-scale perturbation, multiplying all three
+linking abnormal rates of γ -band “events”                     gains by j ; and (2) Relative-scale perturbation,
+to altered excitation–inhibition balance in                    keeping Healthy at 1.00 and multiplying only
+schizophrenia (Uhlhaas and Singer 2010; Buzsáki               the two SCZ gains by j . Both can be written
+and Wang 2012; Gonzalez-Burgos and Lewis                       compactly as
+2012), we summarize the sustained portion of the
+γ envelope with a simple time-above-threshold                                 (u)                   (u)
+                                                                            I˜ext,c (t) = g̃c (j ) Iext (t),       (23)
+measure.
+Using the same envelope h(t), we ﬁrst estimate                 with g̃c (j ) deﬁned by the corresponding rule.
+within the initial 50 ms the baseline mean µb and              Under identical network and noise settings, we
+standard deviation σb , and set the threshold                  integrate the model for each j and utterance u,
+                                                               compute ERSPγ and γ %, and perform the two
+                  θγ = µb + 2σb .                   (20)       planned paired t-tests.
+
+
+
+
+                                                           4
+2.4.2 Equal-energy control (RMS                                    network we constructed is strictly synchronized.
+      pre-normalization)                                           If each coupling matrix has rows that sum to the
+                                                                   prescribed target weight ωXY and every channel
+To remove confounds due to diﬀerences in total
+                                                                   receives the same input Iext (t), then each chan-
+energy across utterances, we ﬁrst normalize each
+                     (u)                                           nel’s states evolve according to equations that
+raw external drive Iext (t) to a common RMS                        are exactly equivalent to those of a single-node
+and only then apply the condition gains. The                       Wilson–Cowan system with the same eﬀective
+procedure has two steps:                                           row-sum weights. Consequently, the spatial mean
+1. Pre-normalize RMS. Deﬁne the dataset-level                      of the excitatory population, i.e., the local ﬁeld
+   target RMS:                                                     potential,
+
+                               U                                                               C
+                           1 X        (u) 
+                                                                                           1 X (i)
+          RMStarget =            RMS Iext .            (24)                     LFP(t) =        τ (t),            (27)
+                           U u=1                                                           C i=1 E
+
+   For each utterance u, set an amplitude factor                   is theoretically identical to the single-node tra-
+                                                                   jectory τE (t). We veriﬁed this claim numerically
+           RMStarget                  (u)           (u)            across all six languages. For every stimulus and
+   αu =        (u) 
+                       ,            I˜ext (t) = αu Iext (t),       condition in the Mandarin, English, Japanese,
+          RMS Iext + ε
+                                              (25)                 German, Spanish, and Arabic corpora, we simu-
+   where ε > 0 is a small positive constant for                    lated a 64-channel network model and its single-
+   numerical stability.                                            node equivalent under identical initial states and
+2. Apply condition gains and re-estimate statis-                   matched noise sequences. For each realization
+   tics. Apply the three baseline condition gains                  we computed the norms kLFP(t) − τE (t)k∞ and
+                                                                   kLFP(t) − τE (t)k2 . In all cases the time series
+    gH = 1.00,           gS = 0.75,         gSEM = 0.55,           from the two models were indistinguishable within
+                                                                   numerical precision, with maximal absolute errors
+                                      (u)                          below 10−12 (Fig. 1). The corresponding ERSPγ
+to the pre-normalized drive I˜ext (t), yielding the
+                                                                   and γ % metrics coincide at both per-utterance
+condition-speciﬁc inputs
+                                                                   and group levels; any residual diﬀerences arise
+                                 (u)                               only from ﬂoating-point round-oﬀ.
+                  I H (t) = gH I˜ext (t),
+                                                                   This validation justiﬁes implementing subsequent
+                                 (u)
+                  I S (t) = gS I˜ext (t),              (26)        stability analyses, parameter-sensitivity tests, and
+                                    (u)                            pharmacological perturbations using the single-
+             I   SEM
+                       (t) = gSEM I˜ext (t).                       node reduction in place of the full network.
+                                                                   The reduction substantially reduces computa-
+Under identical network and noise settings, inte-
+                                                                   tional cost while preserving the dynamical behav-
+grate the model for each condition and utter-
+                                                                   ior of interest across diverse linguistic prosodies
+ance u, compute the two primary metrics ERSPγ
+                                                                   and providing additional numerical support for
+and γ %, and run the two planned paired t-tests
+                                                                   the theoretical equivalence.
+(Healthy > SCZ; SCZ-speech > SCZ-semantics),
+reporting the corresponding paired-samples eﬀect
+size dz .
+                                                                   3.2 Comparison of primary metrics
+                                                                   We ﬁrst evaluated how well the model repro-
+3 Results                                                          duces the group ordering of γ -band activity
+                                                                   across experimental conditions using two com-
+3.1 Veriﬁcation of                                                 plementary outcome measures: ERSPγ in dB
+    Network–Single-Node                                            and the modulation depth measure γ %. Here we
+                                                                   used six matched text-to-speech (TTS) corpora,
+    Equivalence                                                    each containing 500 segments: Mandarin, English,
+Under ﬁxed parameters and an identical external                    Japanese, German, Spanish, and Arabic. For each
+drive across channels, the multi-channel coupled                   language, we considered three conditions: Healthy
+
+
+                                                               5
+             (a) Mandarin TTS corpus                                   (b) English TTS corpus
+
+
+
+
+             (c) Japanese TTS corpus                                   (d) German TTS corpus
+
+
+
+
+              (e) Spanish TTS corpus                                    (f) Arabic TTS corpus
+
+Fig. 1: Metric equivalence between the multi-channel network and its single-node reduction across six
+languages. Each panel shows scatter plots of γ % and ERSPγ from the multi-channel model versus its
+single-node equivalent. Each dot corresponds to one utterance/segment; the solid line is y = x. Points lie
+essentially on the identity line in all languages, conﬁrming numerical equivalence of the two formulations.
+
+
+(speech/semantics), SCZ (speech), and SCZ                 languages examples). These main eﬀects are con-
+(semantics) (abbrev., H, S, SEM). Across all six          sistent with mechanistic interpretations in which
+languages, the two metrics yield the same graded          speech-driven input places the Healthy E/I net-
+ordering (Fig. 2): Healthy(speech/semantics) >            work in a regime more prone to γ oscillations than
+SCZ(speech) > SCZ(semantics). Within each lan-            in the SCZ conditions.
+guage, subject-wise paired comparisons show that
+most utterances/segments increase jointly on both         3.3 Equal-energy control
+metrics when moving from SEM to S and from
+S to H. The planned contrasts H > S and S                 Diﬀerences in total input energy could in prin-
+> SEM are highly signiﬁcant for both ERSPγ                ciple confound the comparison across condi-
+and γ % across all tested languages (paired t-tests       tions. To rule out this possibility, we repeated
+with extremely small p-values; see Table 1 for six        the simulations after normalizing each stim-
+                                                          ulus to a common root-mean-square (RMS)
+                                                          amplitude before constructing the external drive
+
+
+                                                      6
+     (a) Mandarin TTS corpus (500 segments)                     (b) English TTS corpus (500 segments)
+
+
+
+
+      (c) Japanese TTS corpus (500 segments)                   (d) German TTS corpus (500 segments)
+
+
+
+
+      (e) Spanish TTS corpus (500 segments)                     (f) Arabic TTS corpus (500 segments)
+
+Fig. 2: Comparison of primary metrics across experimental conditions for six languages. Each panel
+shows ERSPγ in dB (left subplot) and γ % (right subplot) for Healthy (speech/semantics), SCZ (speech)
+and SCZ (semantics). Bars indicate means with s.e.m. and dots show individual utterances/segments.
+In all tested languages (Mandarin, English, Japanese, German, Spanish, and Arabic), the ordering
+Healthy(speech/semantics) > SCZ(speech) > SCZ(semantics) is strictly preserved.
+
+
+Iext (t). For all six languages (Mandarin, English,       network gain control engages E/I circuitry under
+Japanese, German, Spanish, and Arabic), the               the three conditions.
+equal-energy analysis preserves the main order-
+ing in both outcome measures (Fig. 3 and                  3.4 Sensitivity to perturbations of
+Table 2): Healthy(speech/semantics) remains                   input gain
+above SCZ(speech), and SCZ(speech) remains
+above SCZ(semantics) for both γ % and ERSPγ .             We next assessed the robustness of these conclu-
+The planned paired contrasts H > S and S >                sions to uncertainty in input amplitude. For each
+SEM remain highly signiﬁcant in each language,            language, we implemented the same two pertur-
+conﬁrming the robustness of the eﬀect across              bation schemes as in the preregistered analysis:
+diverse phonological structures. Thus, the main           a global (common-scale) perturbation in which
+eﬀect does not reﬂect trivial consequences of input       all conditions share a common multiplicative fac-
+energy but rather systematic diﬀerences in how            tor j , and a relative-scale perturbation in which
+
+
+                                                      7
+Table 1: Comparison of primary γ -band metrics across six TTS corpora (n = 500 segments per language;
+paired t-tests). Data representing mean ± SD, t-statistics, and p-values.
+ Language   Metric         Comparison    Cond. A (mean±SD)   Cond. B (mean±SD)      t              p
+            ERSPγ (dB)     H>S               11.57 ± 2.27       10.00 ± 2.39      53.34   2.76 × 10−208
+ Mandarin   ERSPγ (dB)     S > SEM           10.00 ± 2.39        7.95 ± 2.69      54.99   6.68 × 10−214
+            γ% (thr)       H>S               40.42 ± 9.11       31.24 ± 9.15      78.75   1.39 × 10−283
+            γ% (thr)       S > SEM           31.24 ± 9.15       21.51 ± 8.25      79.49   1.84 × 10−285
+            ERSPγ (dB)     H>S                10.13 ± 2.81       8.71 ± 2.84      30.79   1.98 × 10−117
+ English    ERSPγ (dB)     S > SEM            8.71 ± 2.84        6.67 ± 2.84      42.55   3.75 × 10−168
+            γ% (thr)       H>S               41.57 ± 11.01      31.36 ± 10.63     62.58   2.11 × 10−238
+            γ% (thr)       S > SEM           31.36 ± 10.63      20.46 ± 9.01      69.24   4.89 × 10−258
+            ERSPγ (dB)     H>S               11.45 ± 2.27        9.81 ± 2.40      81.08   1.91 × 10−289
+ Japanese   ERSPγ (dB)     S > SEM            9.81 ± 2.40        7.73 ± 2.59      73.87   8.13 × 10−271
+            γ% (thr)       H>S               36.29 ± 9.00       27.11 ± 8.48      95.16   4.94 × 10−322
+            γ% (thr)       S > SEM           27.11 ± 8.48       17.99 ± 7.05      81.17   1.10 × 10−289
+            ERSPγ (dB)     H>S               12.55 ± 2.37       10.69 ± 2.51      93.36   3.97 × 10−318
+ German     ERSPγ (dB)     S > SEM           10.69 ± 2.51        8.29 ± 2.77     81.49    1.77 × 10−290
+            γ% (thr)       H>S               41.79 ± 9.97       31.50 ± 9.96     104.16   < 1 × 10−323
+            γ% (thr)       S > SEM           31.50 ± 9.96       20.58 ± 8.66     91.19    2.63 × 10−313
+            ERSPγ (dB)     H>S               11.98 ± 2.31       10.33 ± 2.35      88.25   1.27 × 10−306
+ Spanish    ERSPγ (dB)     S > SEM           10.33 ± 2.35        8.22 ± 2.49      75.03   6.36 × 10−274
+            γ% (thr)       H>S               40.34 ± 9.37       30.84 ± 8.98      97.97   < 1 × 10−323
+            γ% (thr)       S > SEM           30.84 ± 8.98       20.78 ± 7.51      83.18   1.28 × 10−294
+            ERSPγ (dB)     H>S               12.30 ± 2.23       10.59 ± 2.27     106.50   < 1 × 10−323
+ Arabic     ERSPγ (dB)     S > SEM           10.59 ± 2.27        8.53 ± 2.45     74.93    1.14 × 10−273
+            γ% (thr)       H>S               40.84 ± 8.89       31.09 ± 8.42     108.72   < 1 × 10−323
+            γ% (thr)       S > SEM           31.09 ± 8.42       21.41 ± 7.14     91.08    4.63 × 10−313
+
+
+
+
+ (a) γ% (time-above-threshold) across all languages          (b) ERSPγ (dB) across all languages
+
+Fig. 3: Equal-energy control across conditions for six languages. For each stimulus, the external drive
+was RMS-normalized before simulation. Left subpanel: γ % (time-above-threshold) for each condition.
+Right subpanel: ERSPγ in dB for each condition. Planned contrasts Healthy > SCZ and SCZ(speech)
+> SCZ(semantics) remain highly signiﬁcant across all tested languages, indicating that the ordering is
+independent of raw input energy.
+
+
+
+                                                      8
+Table 2: Paired contrasts after equal-energy normalization across six TTS corpora (n = 500 segments
+per language). Each stimulus was RMS-normalized before simulation to ensure input energy consistency.
+ Language   Metric                     Contrast   Cond. A (mean±SD)   Cond. B (mean±SD)      t           p
+            γ% (equal-energy)          H>S           41.14 ± 7.21        31.95 ± 6.85      85.62   1.80 × 10−300
+ Mandarin   γ% (equal-energy)          S > SEM       31.95 ± 6.85        21.66 ± 5.58      79.35   4.01 × 10−285
+            ERSPγ (dB, equal-energy)   H>S           11.70 ± 2.08        10.18 ± 2.07      58.22   1.25 × 10−224
+            ERSPγ (dB, equal-energy)   S > SEM       10.18 ± 2.07         8.23 ± 2.14      61.90   2.69 × 10−236
+            γ% (equal-energy)          H>S           42.30 ± 8.61        32.20 ± 7.65      66.35   1.06 × 10−249
+ English    γ% (equal-energy)          S > SEM       32.20 ± 7.65        20.66 ± 5.79      75.61   1.89 × 10−275
+            ERSPγ (dB, equal-energy)   H>S           10.48 ± 2.64         9.16 ± 2.47      30.82   1.37 × 10−117
+            ERSPγ (dB, equal-energy)   S > SEM        9.16 ± 2.47         7.17 ± 2.37      50.81   2.18 × 10−199
+            γ% (equal-energy)          H>S           36.74 ± 7.04        27.36 ± 6.40      96.99   < 1 × 10−323
+ Japanese   γ% (equal-energy)          S > SEM       27.36 ± 6.40        17.94 ± 5.02      85.74   9.13 × 10−301
+            ERSPγ (dB, equal-energy)   H>S           11.55 ± 2.05         9.95 ± 2.09      84.31   2.44 × 10−297
+            ERSPγ (dB, equal-energy)   S > SEM        9.95 ± 2.09         7.91 ± 2.16      87.97   5.51 × 10−306
+            γ% (equal-energy)          H>S           42.64 ± 7.19        32.12 ± 6.72     111.61   < 1 × 10−323
+ German     γ% (equal-energy)          S > SEM       32.12 ± 6.72        20.64 ± 5.44     102.35   < 1 × 10−323
+            ERSPγ (dB, equal-energy)   H>S           12.72 ± 2.07        10.92 ± 2.08     117.64   < 1 × 10−323
+            ERSPγ (dB, equal-energy)   S > SEM       10.92 ± 2.08         8.58 ± 2.08     100.50   < 1 × 10−323
+            γ% (equal-energy)          H>S           40.85 ± 7.81        31.17 ± 7.15      99.77   < 1 × 10−323
+ Spanish    γ% (equal-energy)          S > SEM       31.17 ± 7.15        20.97 ± 5.50      87.96   5.94 × 10−306
+            ERSPγ (dB, equal-energy)   H>S           12.07 ± 2.14        10.44 ± 2.11      98.71   < 1 × 10−323
+            ERSPγ (dB, equal-energy)   S > SEM       10.44 ± 2.11         8.42 ± 2.09      82.39   1.08 × 10−292
+            γ% (equal-energy)          H>S           41.17 ± 7.10        31.36 ± 6.57     106.32   < 1 × 10−323
+ Arabic     γ% (equal-energy)          S > SEM       31.36 ± 6.57        21.54 ± 5.37      96.38   < 1 × 10−323
+            ERSPγ (dB, equal-energy)   H>S           12.37 ± 2.07        10.71 ± 2.06     109.34   < 1 × 10−323
+            ERSPγ (dB, equal-energy)   S > SEM       10.71 ± 2.06         8.72 ± 2.06      95.86   1.98 × 10−323
+
+
+Healthy is ﬁxed at j = 1 while the SCZ con-                utterance across all six languages by sweeping the
+ditions are scaled. In both schemes we scanned             externally constructed drive Iext (t) over its empir-
+gain factors j ∈ {0.8, 0.9, 1.0, 1.1, 1.2}. For all        ical amplitude range. At every time point, we
+six languages (Mandarin, English, Japanese, Ger-           computed the maximal real part of the Jacobian
+man, Spanish, and Arabic), the ordering H >                eigenvalues to quantify the fraction of time the
+S > SEM persisted across all gain factors and              system spent in the positive (unstable) regime,
+in both outcome measures (Fig. 4). Mean values             denoted as unstable frac.
+of γ % and ERSPγ vary approximately linearly               The stability analysis revealed a striking struc-
+with j , yet the gaps between conditions remain            tural consistency across all linguistic corpora.
+nearly constant. At every j , the planned contrasts        The Healthy condition consistently maintained
+(Table 3) H > S and S > SEM remain highly sig-             the neural dynamics in the unstable regime for
+niﬁcant in each language under both perturbation           a signiﬁcantly longer duration than the SCZ–
+schemes. These results indicate that the core con-         speech condition. Across the six languages, the
+clusion Healthy(speech/semantics) > SCZ(speech)            mean unstable frac values for the Healthy
+> SCZ(semantics) is structurally robust to rea-            group ranged from 0.493 (Japanese) to 0.611
+sonable variation in input gain and does not rely          (English), whereas the SCZ group ranged from
+on ﬁne-tuned parameter choices across diverse              0.395 (Japanese) to 0.495 (English). Pairwise con-
+linguistic contexts.                                       trasts conﬁrmed that these diﬀerences were highly
+                                                           signiﬁcant in every language (t > 104, p <
+3.5 Dynamical stability and                                10−300 , n = 500 per language), with the Man-
+    bifurcation under speech drive                         darin (t = 110.50), English (t = 104.52), Japanese
+                                                           (t = 108.16), German (t = 110.44), Spanish
+With all intrinsic model parameters held ﬁxed,             (t = 114.71), and Arabic (t = 109.83) corpora all
+we performed a quasi-static stability scan for each        exhibiting the same directional eﬀect.
+
+
+                                                       9
+             (a) Mandarin TTS corpus                                     (b) English TTS corpus
+
+
+
+
+             (c) Japanese TTS corpus                                     (d) German TTS corpus
+
+
+
+
+              (e) Spanish TTS corpus                                      (f) Arabic TTS corpus
+
+Fig. 4: Sensitivity of γ % and ERSPγ to multiplicative perturbations of input gain for six languages.
+Each panel shows mean ± s.e.m. across utterances/segments as a function of the gain factor j under
+both the common-scale and relative-scale schemes. Across all j and in all languages, the ordering
+Healthy(speech/semantics) > SCZ(speech) > SCZ(semantics) is preserved.
+
+
+Furthermore, we examined the proximity of tra-             This dynamical behavior serves as the phase-plane
+jectories to bifurcation boundaries. No Hopf bifur-        counterpart to the spectral results observed in the
+cations were detected in any segment across the            γ -band. Since the intrinsic bifurcation manifolds
+                                                                           SN
+entire dataset. The saddle-node (SN) thresholds            (deﬁned by Icrit   ) are indistinguishable between
+were tightly clustered and structurally invariant          groups, the robust reduction in γ -power and ERSP
+                                             SN
+between groups: the median critical drive Icrit was        seen in SCZ conditions is attributable to the
+approximately 0.11735 for all conditions across all        statistics of the external speech drive rather than a
+languages, with inter-quartile ranges ﬂuctuating           shift in the intrinsic instability of the E/I circuit.
+by less than 10−5 .
+These results indicate that, under identical macro-        3.6 Pharmacological perturbations
+parameters and coupling strengths, the Healthy
+traces—driven by signals with higher RMS energy            We examined how the model responds to per-
+and richer spectral content—enter the nonlinear            turbations along the excitatory–inhibitory (E/I)
+regime closer to the SN boundary more frequently.          axis across all six linguistic corpora. We ﬁxed
+
+
+
+                                                      10
+Table 3: Sensitivity scan: paired-contrast design for perturbations of input gain j across six TTS corpora
+(n = 500 per language). Entries indicate the range of t-statistics observed across the scan range j ∈
+{0.8, . . . , 1.2}.
+ Language       Scheme                          Contrast         γ% t-range       ERSPγ (dB) t-range
+                Global (common-scale)            H>S             73.93–78.75           37.29–57.57
+ Mandarin       Global (common-scale)           S > SEM          70.24–79.49           54.93–58.22
+                Relative-scale (SCZ only)        H>S             61.08–94.48           40.13–63.40
+                Relative-scale (SCZ only)       S > SEM          70.24–79.49           54.93–58.22
+                Global (common-scale)            H>S             37.60–71.48           18.24–46.26
+ English        Global (common-scale)           S > SEM          60.69–73.22           42.72–48.11
+                Relative-scale (SCZ only)        H>S             45.00–80.88           24.53–45.92
+                Relative-scale (SCZ only)       S > SEM          60.69–73.22           42.72–48.11
+                Global (common-scale)            H>S             86.36–95.16           75.68–89.52
+ Japanese       Global (common-scale)           S > SEM          67.16–95.08           65.56–78.69
+                Relative-scale (SCZ only)        H>S            72.43–110.13           68.53–92.15
+                Relative-scale (SCZ only)       S > SEM         67.16–95.08            65.56–78.69
+                Global (common-scale)            H>S            97.64–104.16          80.59–112.51
+ German         Global (common-scale)           S > SEM         70.94–104.04          75.77–85.24
+                Relative-scale (SCZ only)        H>S            80.33–120.68          85.61–95.17
+                Relative-scale (SCZ only)       S > SEM         70.94–104.04          75.77–85.24
+                Global (common-scale)            H>S             87.40–98.48           77.63–99.08
+ Spanish        Global (common-scale)           S > SEM          70.15–97.13           65.58–84.61
+                Relative-scale (SCZ only)        H>S            74.63–111.23           78.95–95.32
+                Relative-scale (SCZ only)       S > SEM         70.15–97.13            65.58–84.61
+                Global (common-scale)            H>S            93.61–108.72          79.11–126.47
+ Arabic         Global (common-scale)           S > SEM         80.53–104.59           72.58–95.64
+                Relative-scale (SCZ only)        H>S            84.33–123.66          91.93–108.89
+                Relative-scale (SCZ only)       S > SEM         80.53–104.59          72.58–95.64
+
+the network architecture and noise seed, imple-           and EXC DOWN vs. BASE) were highly signiﬁ-
+menting two system-level manipulations that act           cant for both outcome measures across every lan-
+in opposite directions on the eﬀective coupling           guage, with extremely large eﬀect sizes (Table 4).
+strengths: INH DOWN (reduced inhibition; mim-             For instance, the reduction in ERSPγ under dis-
+icking GABA receptor antagonism by downscaling            inhibition (INH DOWN ) yielded t-statistics rang-
+ωEI and ωII ) and EXC DOWN (reduced excita-               ing from −90 (English) to over −157 (Mandarin),
+tion; mimicking AMPA receptor antagonism by               eﬀectively reaching the limits of ﬂoating-point
+downscaling ωEE and ωIE ).                                precision (p < 10−300 ). These bidirectional pat-
+In all six languages (Mandarin, English, Japanese,        terns accord with the mechanistic view that
+German, Spanish, and Arabic), these manipu-               inhibitory circuits constrain and resonantly modu-
+lations produced clear, mutually corroborating            late γ rhythms, and demonstrate that the model’s
+directional eﬀects (Fig. 5). Relative to baseline         sensitivity to E/I balance is a robust, language-
+(BASE), the INH DOWN condition markedly                   invariant feature.
+reduced γ activity, signiﬁcantly lowering both γ %
+and ERSPγ . Conversely, EXC DOWN strongly
+ampliﬁed both metrics relative to BASE. All
+planned paired contrasts (INH DOWN vs. BASE
+
+
+
+
+                                                     11
+ (a) γ% (time-above-threshold) across all languages                    (b) ERSPγ (dB) across all languages
+
+Fig. 5: Pharmacological perturbations across six languages. Each ﬁgure shows the combined results of
+all languages. Left subpanel: γ % (time-above-threshold) for each condition. Right subpanel: ERSPγ in
+dB for each condition. Signiﬁcant contrasts between Healthy > SCZ and SCZ(speech) > SCZ(semantics)
+across all languages are observed, demonstrating robustness in these eﬀects across languages.
+
+
+
+Table 4: Pharmacological perturbations under equal-energy input for six TTS corpora (n = 500 segments
+per language). Paired contrasts vs. BASE. Entries report condition and baseline means; 95% CIs are for
+the paired mean diﬀerence ∆.
+ Language   Contrast           Metric       Mean(Cond)    Mean(Base)      ∆        95% CI(∆)           t      p (two-sided)
+ Mandarin   INH DOWN > BASE    γ% (%)         14.35           31.24     −16.89   [−17.31, −16.47]   −79.18    1.08 × 10−284
+            EXC DOWN > BASE    γ% (%)         58.83           31.24      27.59     [26.85, 28.33]    73.23    4.24 × 10−269
+            INH DOWN > BASE    ERSPγ (dB)      3.17           10.00     −6.83     [−6.92, −6.75]    −157.35     < 10−300
+            EXC DOWN > BASE    ERSPγ (dB)     19.45           10.00      9.45       [9.14, 9.76]     59.45    1.39 × 10−228
+ English    INH DOWN > BASE    γ% (%)         13.62           31.36     −17.74   [−18.27, −17.22]   −66.13    4.49 × 10−249
+            EXC DOWN > BASE    γ% (%)         54.33           31.36      22.97     [21.62, 24.32]    33.46    1.41 × 10−129
+            INH DOWN > BASE    ERSPγ (dB)      2.71           8.92      −6.21     [−6.33, −6.09]    −103.08     < 10−300
+            EXC DOWN > BASE    ERSPγ (dB)     15.77            8.92      6.85       [6.42, 7.27]     31.51    9.52 × 10−121
+ Japanese   INH DOWN > BASE    γ% (%)         15.08           33.41     −18.33   [−18.92, −17.74]   −60.81    6.90 × 10−233
+            EXC DOWN > BASE    γ% (%)         69.74           33.41      36.33     [35.31, 37.34]    70.53    1.16 × 10−261
+            INH DOWN > BASE    ERSPγ (dB)      3.39           10.16     −6.78     [−6.88, −6.68]    −134.53     < 10−300
+            EXC DOWN > BASE    ERSPγ (dB)     21.69           10.16      11.53     [11.20, 11.85]    68.82    7.48 × 10−257
+ German     INH DOWN > BASE    γ% (%)         20.31           41.93     −21.62   [−22.21, −21.03]   −71.97    1.16 × 10−265
+            EXC DOWN > BASE    γ% (%)         78.33           41.93      36.40     [35.35, 37.45]    68.20    4.45 × 10−255
+            INH DOWN > BASE    ERSPγ (dB)      4.69           11.36     −6.67     [−6.77, −6.57]    −125.82     < 10−300
+            EXC DOWN > BASE    ERSPγ (dB)     22.98           11.36      11.62     [11.27, 11.97]    65.74    6.48 × 10−248
+ Spanish    INH DOWN > BASE    γ% (%)         17.95           39.56     −21.62   [−22.23, −21.00]   −69.00    2.34 × 10−257
+            EXC DOWN > BASE    γ% (%)         75.91           39.56      36.34     [35.33, 37.36]    70.18    1.08 × 10−260
+            INH DOWN > BASE    ERSPγ (dB)      4.13           10.94     −6.82     [−6.92, −6.72]    −136.06     < 10−300
+            EXC DOWN > BASE    ERSPγ (dB)     21.89           10.94      10.95     [10.63, 11.27]    67.31    1.63 × 10−252
+ Arabic     INH DOWN > BASE    γ% (%)         17.47           37.27     −19.80   [−20.37, −19.22]   −67.78    7.07 × 10−254
+            EXC DOWN > BASE    γ% (%)         76.53           37.27      39.26     [38.22, 40.29]    74.34    4.42 × 10−272
+            INH DOWN > BASE    ERSPγ (dB)      3.98           10.48     −6.50     [−6.60, −6.40]    −126.38     < 10−300
+            EXC DOWN > BASE    ERSPγ (dB)     23.03           10.48      12.56     [12.20, 12.91]    69.85    9.33 × 10−260
+
+
+
+                                                              4 Discussion
+                                                              Using a uniﬁed speech front end coupled to a
+                                                              Wilson–Cowan model, we systematically com-
+                                                              pared γ -band metrics across three conditions in
+
+                                                         12
+matched multilingual TTS corpora spanning six                 gain together with the operating point governs
+languages (Mandarin, English, Japanese, German,               the response (Carandini and Heeger 2012). In
+Spanish, and Arabic) and arrive at three main                 gain-jitter experiments (j ≈ 0.8–1.2), between-
+conclusions. First, ERSPγ and γ % exhibited a                 group gaps scaled approximately linearly while the
+consistent hierarchy across all six languages (500            ranking remained unchanged, indicating that the
+TTS segments per language)—Healthy (speech)                   group diﬀerences are not driven by incidental noise
+> SCZ (speech) > SCZ (semantics)—with the                     or input-amplitude uncertainty but by structural
+two measures varying in the same direction and                shifts of the E/I operating point (Ermentrout and
+remaining stable across utterances. This pattern              Terman 2010). The replication of the same hier-
+suggests that speech-evoked γ diﬀerences primar-              archy in typologically and prosodically diverse
+ily reﬂect shifts in the circuit’s E/I operating point        languages further suggests that these eﬀects reﬂect
+rather than simple energy confounds (Buzsáki                 language-general properties of the speech–circuit
+and Wang 2012; Pfurtscheller and Lopes da Silva               interaction rather than idiosyncrasies of a partic-
+1999). Operationally, these group and condition               ular language.
+diﬀerences are implemented in the model by a                  Under the row-sum constant and synchronous
+simple hierarchy of input gains applied to the                assumption, the network’s multi-channel LFP
+same speech-derived drive, with jH = 1.00,                    closely overlapped in time with the dynamics of
+jS = 0.75, and jSEM = 0.55. All structural                    an equivalent single node, with maximal discrep-
+parameters of the Wilson–Cowan network (E–I                   ancies within numerical precision. This network–
+weights, time constants, and noise amplitude) are             single-node equivalence substantially simpliﬁed
+shared across conditions, so the only manipula-               subsequent stability and sensitivity analyses,
+tion is the strength of the eﬀective external drive           allowing speech-driven scans to be recast as low-
+I (t) = j Iext (t). We therefore interpret the gain           dimensional evaluations without loss of accuracy
+parameter j as a phenomenological measure of                  and lowering the technical barrier to linking γ
+input sensitivity: it quantiﬁes how strongly the              metrics directly to bifurcation structure (Ermen-
+same speech envelope is transmitted through tha-              trout and Terman 2010; Strogatz 2015). Stability
+lamo–cortical and cortico–cortical pathways into              and bifurcation analysis further showed that, at
+the local E/I circuit. Larger gains correspond                speech-drive intensities, trajectories are attracted
+to higher cortical sensitivity or salience attri-             to driven responses while operating more fre-
+bution to an identical physical input, whereas                quently in the nonlinear regime to the right of
+smaller gains correspond to a relatively down-                the saddle–node (SN) boundary, especially for the
+weighted, less eﬀective drive. The hierarchy jH >             healthy speech, with no Hopf bifurcation detected
+jS > jSEM encodes two assumptions that are                    across utterances. This interpretation is fully con-
+consistent with clinical ﬁndings: (i) relative to             sistent with the measured time-above-threshold
+healthy listeners, patients with schizophrenia have           of local linear instability being larger for Healthy
+a reduced eﬀective gain for speech, contribut-                than for SCZ-speech.
+ing to attenuated 40-Hz ASSR power and γ %                    Pharmacology-analog perturbations provided
+at the group level; and (ii) within the patient               directional, causal evidence. Holding inputs
+group, speech-like inputs still drive the circuit             and network topology ﬁxed, reducing inhibitory
+more strongly than semantically scrambled con-                weights (INH DOWN) signiﬁcantly decreased γ %
+trols, in line with observations that natural speech          and ERSPγ , whereas reducing excitatory weights
+remains perceptually salient even when higher-                (EXC DOWN) signiﬁcantly increased both met-
+level semantic integration is impaired. This view             rics. This bidirectional control is consistent with
+links the scalar gains in the model to theories of            the view that E/I balance determines whether γ
+abnormal auditory gain control and salience attri-            oscillations are generated or pushed away from
+bution in schizophrenia, rather than positing three           resonance, and it aligns with the positive con-
+qualitatively diﬀerent network architectures for              tribution of PV-mediated γ rhythms to cortical
+the three conditions. After equal-energy control              circuit performance (Sohal et al. 2009; Buzsáki
+(RMS pre-normalization), the ordering was fully               and Wang 2012; Gonzalez-Burgos and Lewis
+preserved, supporting an explanation in terms                 2012). Together with the stability and equiva-
+of “normalization–saturation,” whereby eﬀective               lence analyses, these results can be interpreted as
+
+
+                                                         13
+predictable shifts of the operating point along the        References
+SN boundary (with no evidence of Hopf bifurca-
+tion), producing coherent upward or downward               Brodbeck, C., Das, P., Gillis, M., Kulasing-
+changes in γ metrics (Ermentrout and Terman                  ham, J.P., Bhattasali, S., Gaston, P., Resnik,
+2010; Strogatz 2015). The fact that the same                 P., Simon, J.Z.: Eelbrain, a python toolkit
+directional eﬀects are obtained when applying                for time-continuous analysis with temporal
+the same perturbations to corpora in six diﬀer-              response functions. eLife 12, 85012 (2023)
+ent languages suggests that this operating-point             https://doi.org/10.7554/eLife.85012
+picture is robust to cross-linguistic variation in
+                                                           Boashash, B.: Estimating and interpreting the
+phonotactics and prosody.
+                                                             instantaneous frequency of a signal. Pro-
+Several limitations remain. The study relies on a
+                                                             ceedings of the IEEE 80, 520–538 (1992)
+mean-ﬁeld formulation with eﬀective weights and
+                                                             https://doi.org/10.1109/5.135376
+does not explicitly model layer–column geome-
+try, long-range interactions, or neurotransmitter          Butterworth, S.: On the theory of ﬁlter ampliﬁers.
+kinetics, limiting our ability to address ﬁner-              Wireless Engineer 7, 536–541 (1930)
+grained questions such as cross-frequency coupling
+(Wang 2010; Giraud and Poeppel 2012). In addi-             Buzsáki, G., Wang, X.: Mechanisms of
+tion, although we used six languages, only natu-             gamma       oscillations.  Annual     Review
+ralistic speech-like inputs were considered; future          of    Neuroscience     35,  203–225    (2012)
+work could incorporate speech-in-noise, stimuli              https://doi.org/10.1146/annurev-neuro-062111-150444
+with controlled rhythm and phase, and non-
+speech control signals to more cleanly dissociate
+contributions of energy, structure, and temporal           Carandini, M., Heeger, D.J.: Normalization
+phase (Ding and Simon 2014; Hyaﬁl et al. 2015).              as a canonical neural computation. Nature
+Finally, aligning this framework with subject-level          Reviews Neuroscience 13, 51–62 (2012)
+EEG/MEG—together with task manipulations or                  https://doi.org/10.1038/nrn3136
+pharmacological interventions—will be important
+to further test the portability of the claim that γ        Cooray, G.K., Rösch, R., Friston, K.J.: Global
+metrics primarily track the E/I operating point,             dynamics of neural mass models. PLOS Com-
+and to explore potential applications in compu-              putational Biology 19(2), 1010915 (2023)
+tational psychiatry (Uhlhaas and Singer 2010;                https://doi.org/10.1371/journal.pcbi.1010915
+Gonzalez-Burgos and Lewis 2012).
+                                                           Donhauser, L.L., Baillet, S.: Two distinct neu-
+Supplementary        information. Additional                ral timescales for predictive speech pro-
+ﬁgures and simulation details are provided in the           cessing. Neuron 105(2), 385–3939 (2020)
+supplementary material.                                     https://doi.org/10.1016/j.neuron.2019.10.019
+Acknowledgements.        This work was supported
+                                                           Ding, N., Simon, J.Z.: Cortical entrain-
+by ...
+                                                             ment to continuous speech: functional
+Statements and Declarations. Funding                         roles   and     interpretations.   Trends  in
+This work was supported by ...                               Cognitive Sciences 17, 113–121 (2014)
+Competing interests The authors declare that                 https://doi.org/10.1016/j.tics.2013.12.005
+they have no competing interests.
+Data and code availability Simulation code                 Ermentrout,        G.B.,     Terman,       D.H.:
+and processed data are available at ...                      Mathematical      Foundations     of   Neuro-
+Author contributions FA designed the study                   science.    Springer,   New    York    (2010).
+and implemented the model; SA performed the                  https://doi.org/10.1007/978-0-387-87708-2 .
+simulations and analyses; both authors inter-                https://doi.org/10.1007/978-0-387-87708-2
+preted the results and wrote the manuscript.
+                                                           Gonzalez-Burgos, G., Lewis, D.A.: Nmda receptor
+                                                            hypofunction, parvalbumin-positive neurons,
+
+
+
+                                                      14
+  and gamma oscillations in schizophrenia.                 of Clinical Psychology 16, 95–124 (2020)
+  Biological Psychiatry 71, 1025–1032 (2012)               https://doi.org/10.1146/annurev-clinpsy-102419-125021
+  https://doi.org/10.1016/j.biopsych.2012.02.021
+
+                                                         Uhlhaas, P.J., Singer, W.: Abnormal neural
+Giraud, A., Poeppel, D.: Cortical oscillations            oscillations and synchrony in schizophrenia.
+  and speech processing: emerging computational           Nature Reviews Neuroscience 11, 100–113
+  principles. Nature Neuroscience 15, 511–517             (2010) https://doi.org/10.1038/nrn2774
+  (2012) https://doi.org/10.1038/nn.3063
+                                                         Wang, X.: Neurophysiological and compu-
+Hyaﬁl, A., Fontolan, L., Kabdebon, C., Gutkin,            tational principles of cortical rhythms.
+  B., Giraud, A.: Speech encoding by coupled              Physiological Reviews 90, 1195–1268 (2010)
+  cortical oscillations. eLife 4, 06213 (2015)            https://doi.org/10.1152/physrev.00035.2008
+  https://doi.org/10.7554/eLife.06213
+                                                         Wilson,   H.R.,    Cowan, J.D.:        Excitatory
+Klinshov,    V.V.,     Kirillov, S.Y.:   Shot             and    inhibitory    interactions    in    local-
+  noise in next-generation neural mass                    ized    populations     of   model      neurons.
+  models for ﬁnite-size networks. Phys-                   Biophysical    Journal     12,    1–24    (1972)
+  ical Review E 106(6), 062302 (2022)                     https://doi.org/10.1016/S0006-3495(72)86068-5
+  https://doi.org/10.1103/PhysRevE.106.L062302
+
+
+Oppenheim, A.V., Schafer, R.W.: Discrete-Time
+ Signal Processing, 3rd edn. Prentice Hall, Upper
+ Saddle River, NJ (2010)
+
+Pfurtscheller, G., Silva, F.H.: Event-related
+  eeg/meg      synchronization    and   desyn-
+  chronization:    basic   principles. Clinical
+  Neurophysiology 110, 1842–1857 (1999)
+  https://doi.org/10.1016/S1388-2457(99)00141-8
+
+
+Sohal, V.S., Rubenstein, J.L.R.: Excitation–
+  inhibition    balance     as    a   framework
+  for investigating mechanisms in neu-
+  ropsychiatric    disease.    Nature    Reviews
+  Neuroscience       20,      685–701     (2019)
+  https://doi.org/10.1038/s41583-019-0191-7
+
+Strogatz, S.H.: Nonlinear Dynamics and Chaos,
+  2nd edn. Westview Press, Boulder, CO (2015)
+
+Sohal, V.S., Zhang, F., Yizhar, O., Deis-
+  seroth, K.: Parvalbumin neurons and
+  gamma rhythms enhance cortical circuit
+  performance. Nature 459, 698–702 (2009)
+  https://doi.org/10.1038/nature07991
+
+Uhlhaas, P.J.: Neural oscillations and syn-
+ chrony in schizophrenia: recent developments
+ and emerging questions. Annual Review
+
+
+                                                    15
+

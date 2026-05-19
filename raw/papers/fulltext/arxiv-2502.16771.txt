@@ -1,0 +1,196 @@
+                                                    DIFFKAN-INPAINTING: KAN-BASED DIFFUSION MODEL FOR BRAIN TUMOR
+                                                                              INPAINTING
+
+                                                       Tianli Tao1,3,†          Ziyang Wang2,†            Han Zhang1         Theodoros N. Arvanitis4             Le Zhang4,∗
+                                                              1
+                                                              School of Biomedical Engineering, ShanghaiTech University, Shanghai, China
+                                                                                 2
+                                                                                   The Alan Turing Institute, London, UK
+                                                                  3
+                                                                    School of Engineering, University of Birmingham, Birmingham, UK
+                                                           4
+                                                             Digital Healthcare and Medical Imaging Research Group, School of Engineering,
+arXiv:2502.16771v1 [eess.IV] 24 Feb 2025
+
+
+
+
+                                                      College of Engineering and Physical Sciences, University of Birmingham, Birmingham, UK
+
+
+                                                                       ABSTRACT
+                                                                                                                          Table 1. The parameters of different varients of U-Net.
+                                           Brain tumors delay the standard preprocessing workflow for
+                                                                                                                                Layer    U-Net    TransUNet[3]     U-KAN[4]
+                                           further examination. Brain inpainting offers a viable, al-
+                                                                                                                                Par106    1.08        87.19          0.33
+                                           though difficult, solution for tumor tissue processing, which
+                                           is necessary to improve the precision of the diagnosis and
+                                           treatment. Most conventional U-Net-based generative mod-
+                                           els, however, often face challenges in capturing the complex,               teristics and superior resolution for soft tissue visualization.
+                                           nonlinear latent representations inherent in brain imaging.                 Nonetheless, MRIs of tumor brain frequently encounter diffi-
+                                           In order to accomplish high-quality healthy brain tissue re-                culties in navigating conventional public preprocessing meth-
+                                           construction, this work proposes DiffKAN-Inpainting, an                     ods employed for the quantitative analysis of brain tissue [2].
+                                           innovative method that blends diffusion models with the                     Consequently, substituting the tumor with healthy tissue in
+                                           Kolmogorov-Arnold Networks architecture. During the de-                     a plausible manner is essential for subsequent research. In
+                                           noising process, we introduce the RePaint method and tumor                  the field of computer vision, this approach is known as in-
+                                           information to generate images with a higher fidelity and                   painting, which is why we refer to this task as brain inpaint-
+                                           smoother margin. Both qualitative and quantitative results                  ing. Furthermore, identifying the pre-lesion condition of the
+                                           demonstrate that as compared to the state-of-the-art methods,               tumor area may enhance comprehension of the patient’s tu-
+                                           our proposed DiffKAN-Inpainting inpaints more detailed and                  mor progression, facilitating more precise and individualized
+                                           realistic reconstructions on the BraTS dataset. The knowl-                  treatment approaches.
+                                           edge gained from ablation study provide insights for future                     Several studies have used generative adversarial network
+                                           research to balance performance with computing cost.                        (GAN) or denoising diffusion probabilistic model (DDPM)
+                                               Index Terms— Diffusion model, KAN, Brain tumor in-                      with U-Net as their generative backbone for brain inpaint-
+                                           painting, MRI                                                               ing [5, 6]. However, U-Net architectures with convolutional
+                                                                                                                       layers commonly encounter difficulties in properly capturing
+                                                                                                                       nonlinear features during the denoising process. Recently,
+                                                                  1. INTRODUCTION                                      Kolmogorov-Arnold Network (KAN) [7] has emerged as
+                                                                                                                       formidable computational units, demonstrating exceptional
+                                           Brain tumors, including gliomas, are characterized by their
+                                                                                                                       performance in nonlinear feature modeling challenges. Com-
+                                           rapid advancement and surgical intricacy, posing consider-
+                                                                                                                       pared to conventional U-Net and vision transformer (ViT),
+                                           able obstacles in treatment [1]. Magnetic resonance imaging
+                                                                                                                       U-KAN has advantages to extract the nonlinear features with
+                                           (MRI) is the predominant method for evaluating and diagnos-
+                                                                                                                       fewer parameters as shown in Table 1 and has proven its ef-
+                                           ing diverse brain tumors, owing to its non-invasive charac-
+                                                                                                                       fectiveness in several vision tasks, encompassing image and
+                                               † indicates co-first authors and * indicates corresponding author (e-   video categorization.
+                                           mail: l.zhang.16@bham.ac.uk). The work has been partially funded by HDR
+                                           UK and EU Horizon INSAFEDARE Project - Grant Agreement number:                  This work further explores the KAN in image inpainting
+                                           101095661. This work is also partially supported by the STI 2030-Major      task and proposed the DiffKAN-Inpainting, a U-KAN based
+                                           Projects (No. 2022ZD0209000), National Natural Science Foundation of        diffusion model specifically designed for brain inpainting ap-
+                                           China (No. 62203355), Shanghai Pilot Program for Basic Research - Chinese
+                                           Academy of Science, Shanghai Branch (No. JCYJ-SHFY-2022-014), Shen-
+                                                                                                                       plications. We introduce the RePaint mechanism in the brain
+                                           zhen Science and Technology Program (No. KCXFZ20211020163408012),           inpainting task, utilizing tumor position information as addi-
+                                           and Shanghai Pujiang Program (No. 21PJ1421400).                             tional guidance for the diffusion model. DiffKAN generates
+Fig. 1. a) The semantic pipeline of DiffKAN. b) The structure of image encoder c) The Kolmogorov-Arnold Networks (KAN)
+layer. d) The structure of KAN block.
+
+
+personalized and anatomically plausible brain tissue that ac-     obtained using U-KAN during denoising and then inpaint the
+commodates variances among participants. Additionally, we         masked brain together with the tumor information.
+conduct an ablation study to investigate the optimal settings
+of the U-KAN architecture, aiming to assess the balance be-       2.1. Overall Framework
+tween computational cost and performance. These promising
+findings facilitate additional applications of KAN structures     In this section, we will provide a complete overview of the
+in medical imaging, revealing new possibilities for sophisti-     framework. For the training stage, the DiffKAN is trained
+cated picture reconstruction and analysis.                        to predict the noise added to the input. This is obtained by
+                                                                  minimizing the following objective L:
+                       2. METHODS                                                    Xt − X0
+                                                                           L=E∥              − fθ (Xt , XT , t; θ) ∥,      (1)
+                                                                                        σt
+Diffusion models are generative models that learn to represnt
+the true distribution p(x) from observations x, yet U-Net or      where fθ is the DiffKAN parametrized by θ and t is the dif-
+Transformer based backbone remain limited by their reliance       fusion timestep sampled from U nif orm(1, ..., T ). We use
+on linear modeling patterns. KAN has demonstrated their           pairs of MRI scans denoted as Ihealthy and Imask , obtained
+superiority and interpretability through the use of nonlin-       from the same slice with mask and without mask. For the in-
+ear learnable activation functions. In this work, we propose      ference stage, the model takes a masked MRI Imask as input
+DiffKAN-Inpainting, a novel diffusion model built on the          and generate the inpainted image Ihealthy .
+U-KAN framework for brain inpainting. Our overall pipeline            We condition the diffusion model to generate images us-
+is shown in Figure 1. The latent representation of the brain is   ing the following information: (i) the image representation
+extracted by an image encoder; (ii) the tumor geometric in-                          3. EXPERIMENTS AND RESULTS
+formation. To obtain individualization at the subject level,
+we condition the model using a latent representation of the               Dataset and Preprocessing. We employed the public dataset
+baseline scan. The mathematical description of the diffusion              from the BraTS 2023 Local Synthesis Task [9]. This dataset
+model with condition is shown in formula 2.                               comprises T1-weighted structural MRI images, associated tu-
+                               T                                          mor masks, and healthy brain masks. Due to the absence
+                                                                          of corresponding healthy tissue references for tumor tissues,
+                               Y
+       pθ (x0:T |c) = p(xT )         pθ (xt−1 |xt , c),
+                               t=1
+                                                                    (2)   only data with healthy brain masks were utilized for training
+   pθ (xt−1 |xt , c) = N (xt−1 ; µθ (xt , t, c), Σθ (xt , t, c)),         and testing. The initial image resolution is 1mm × 1mm ×
+                                                                          1mm, with a data size of 240 × 240 × 155. To minimize
+where c = p(Xim ) + p(Xtumor ) is a set of paired images and              computing expenses, we partitioned each subject’s 3D vol-
+text as the dual guidance. For the image guidance, the latent             ume into a sequence of 2D slices and cropped to 192 × 192.
+representation is obtained leveraging an independent encoder              We exclusively utilized slices with non-zero masks for train-
+based on residual blocks. For the tumor information, we in-               ing. The training set consists of 1,257 participants, utilizing
+troduce a probability w to embed the size information using               1,241 subjects for training and 10 for validation.
+a linear layer. The embedded position information is then                     Implementation Details. All models were trained on an
+added to the time step embedding.                                         A100 GPU with 40GB memory. The input size was set to
+                                                                          192 × 192, with a batch size of 2. For the diffusion model, the
+2.2. DiffKAN                                                              number of time steps T is 1000. The learning rate was set to
+                                                                          1e-4 for the used Adam optimizer. For the evaluation of the
+Due to the improvement of KANs, U-KAN has been devel-                     validation set, we use the model saved with an exponential
+oped by integrating the KAN layers into the U-shape architec-             moving average over model parameters with a rate of 0.995.
+ture, which achieve superior performance in medical segmen-                   Results. To complement the qualitative evaluations, we
+tation and related tasks. In this work, we implemented the                conducted comprehensive quantitative analyses to objectively
+U-KAN, which is mainly composed of convolution block (C)                  assess the performance of DiffKAN-inpainting against the
+and KAN block (K). Each convolutional block is constructed                state-of-the-art baseline methods, such as, AutoEncoder [10],
+by a convolution layer, a batch normalization layer and a                 Pix2Pix GAN [11] and DDPM [12].
+ReLU activation layer. The convolution block is consisted of                  In Figure 2, we present a representative showcase in brain
+two convolutional layers and a max-pooling layer. The KAN                 inpainting from the BraTS dataset. The results clearly demon-
+block is consisted of a convolutional layer, a KAN layer,                 strate that our approach generates more realistic and intri-
+ReLU and self attention layer. The KAN block can be charac-               cate brain tissue structures compared to traditional U-Net-
+terized as KAN (x) = ReLU (Φk−1 ◦Φk−2 ◦...Φ0 Conv(x)),                    based models. The result generated by the Auto Encoder and
+where Φi is the i-th layer in KAN network[7]. We use the                  Pix2Pix2 GAN is blurry and failed to delineate the compli-
+skip connections to combine the encoder and decoder.                      cated brain gyrus. Specifically, our results exhibit fewer mi-
+                                                                          nor disparities in the brain cerebral gyrus compared to other
+2.3. RePaint Mechanism                                                    methods.
+To encourage the model to generate images that accurately
+reflect the expected age gap between the input and the pre-               Table 2. Our proposed method has the best quantitative result.
+diction, we implement a denoising method inspired by the                                           PSNR      SSIM       MSE
+RePaint[8] methodology to augment the model’s performance                        AutoEncoder      12.6916    0.6520    0.0934
+in DiffKAN. Traditionally, generating the whole image and                        Pix2Pix GAN      17.6706    0.7634    0.0288
+subsequently cropping it to the original dimensions would                           DDPM          17.3027    0.7416    0.0223
+yield unsmoothed margins. To resolve this, we manipulate                             Ours         20.0588    0.8037    0.0121
+solely the background image and employ it as noise-free di-
+rection, instead of utilizing the noisy masked image. During
+each phase of the denoising process, input from the original                  In Table 2, we evaluate the quantitative results obtained
+image is used in areas that do not necessitate inpainting. This           by our proposed method and other SOTA methods using
+targeted procedure guarantees that only the areas requiring               widely-adopted metrics, including peak signal-to-noise ratio
+inpainted are modified, while the rest of the image retains fi-           (PSNR), structural similarity index (SSIM), and mean abso-
+delity to the original input. This method enhances accuracy               lute error (MAE), to assess the fidelity and accuracy of the
+in reconstructions and elevates visual fidelity by retaining es-          reconstructed brain tissue images. The results demonstrate
+sential information. The integration of guided denoising with             that our proposed method outperforms DDPM in SSIM by
+the diffusion process enables DiffKAN to attain both specific             +0.06, PSNR by +3 and MSE -0.01, respectively.
+refinement and overall data coherence.                                        Ablation study. In this section, we investigate the perfor-
+                 Fig. 2. Showcase of the inpainted brain images by our proposed DiffKAN-Inapinting method.
+
+
+mance effects of different DiffKAN setups. Our objective is                                 5. REFERENCES
+to achieve an balance between training time and performance.
+In the actual training process, we find that the training time of    [1] Javaria Amin et al., “Brain tumor detection and classification
+                                                                         using machine learning: a comprehensive survey,” Complex &
+KAN is long, and the pure KAN network does not achieve the
+                                                                         intelligent systems, vol. 8, no. 4, pp. 3161–3183, 2022.
+best performance.
+                                                                     [2] Florian Kofler et al., “Brats toolkit: translating brats brain tu-
+                                                                         mor segmentation algorithms into clinical and scientific prac-
+  Table 3. Ablation study of different setups of DiffKAN                 tice,” Frontiers in neuroscience, vol. 14, pp. 125, 2020.
+
+            Setup        PSNR       SSIM       MSE                   [3] Jieneng Chen et al., “Transunet: Rethinking the u-net architec-
+                                                                         ture design for medical image segmentation through the lens of
+           CCCCK        19.8444     0.7938    0.0129
+                                                                         transformers,” Medical Image Analysis, vol. 97, pp. 103280,
+           CCCKK        17.7634     0.7833    0.0231                     2024.
+           CCKKK        20.0588     0.8037    0.0121
+                                                                     [4] Chenxin Li et al., “U-kan makes strong backbone for med-
+           CKKKK        18.2769     0.7926    0.0174
+                                                                         ical image segmentation and generation,” arXiv preprint
+                                                                         arXiv:2406.02918, 2024.
+    In the Table 3, we show the results of our method with dif-      [5] Ruizhi Zhu et al., “Advancing brain tumor inpainting with gen-
+ferent combinations of convolutional layer and KAN layer in              erative models,” arXiv preprint arXiv:2402.01509, 2024.
+the encoder. The results have shown that the CCKKK archi-            [6] Alicia Durrer et al., “Denoising diffusion models for 3d healthy
+tecture (2 Conv blocks and 3 KAN blocks in the encoder) is               brain tissue inpainting,” arXiv preprint arXiv:2403.14499,
+the optimal for the brain inapinting task. This outcome high-            2024.
+lights that the addition of KAN layer may cause a minimal            [7] Ziming Liu et al., “Kan: Kolmogorov-arnold networks,” arXiv
+reduction in performance, indicating that the too many KAN               preprint arXiv:2404.19756, 2024.
+layers contributes minimally to the performance.                     [8] Andreas Lugmayr et al., “Repaint: Inpainting using denoising
+                                                                         diffusion probabilistic models,” in CVPR, 2022, pp. 11461–
+                                                                         11471.
+                     4. CONCLUSION                                   [9] Florian Kofler et al., “The brain tumor segmentation (brats)
+                                                                         challenge 2023: Local synthesis of healthy brain tissue via in-
+In this work, we presented a novel KAN-based approach                    painting,” arXiv preprint arXiv:2305.08992, 2023.
+(DiffKAN-Inpainting) for brain tumor inpainting. RePaint            [10] Carl Doersch, “Tutorial on variational autoencoders,” arXiv
+mechanism and tumor information guidance were performed                  preprint arXiv:1606.05908, 2016.
+to simultaneously corrupt the subject-specific information to       [11] Phillip Isola et al., “Image-to-image translation with condi-
+the diffusion model. Our comprehensive evaluation against                tional adversarial networks,” in CVPR, 2017, pp. 1125–1134.
+state-of-the-art competing methods demonstrates DiffKAN’s           [12] Jonathan Ho et al., “Denoising diffusion probabilistic models,”
+superiority in terms of inpainting the brain MRI with high               NeurIPS, vol. 33, pp. 6840–6851, 2020.
+fidelity.
+

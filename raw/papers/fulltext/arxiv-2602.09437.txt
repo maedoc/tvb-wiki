@@ -1,0 +1,1095 @@
+                                                    Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+
+                                                                             Xinxu Wei 1 Rong Zhou 2 Lifang He 2 Yu Zhang 3
+
+
+                                                                   Abstract
+                                               With the growing interest in foundation mod-
+                                                                                                                                         Graph      Hypergraph
+                                               els for brain signals, graph-based pretraining
+                                               has emerged as a promising paradigm for learn-
+arXiv:2602.09437v3 [cs.LG] 7 Mar 2026
+
+
+
+
+                                               ing transferable representations from connec-
+                                               tome data. However, existing contrastive and
+                                               masked autoencoder methods typically rely on
+                                               naive random dropping or masking for augmenta-                  Graph    HyperG   Graph   HyperG             Graph   HyperG
+
+                                               tion, which is ill-suited for brain graphs and hy-
+                                               pergraphs as it disrupts semantically meaningful
+                                               connectivity patterns. Moreover, commonly used
+                                               graph-level readout and reconstruction schemes
+                                               fail to capture global structural information, limit-
+                                               ing the robustness of learned representations. In               Graph Embedding    Graph Embedding
+
+
+                                               this work, we propose a unified diffusion-based                HyperG Embedding   HyperG Embedding
+                                                                                                                                                            Graph   HyperG
+                                               pretraining framework that addresses both lim-
+                                               itations. First, diffusion is designed to guide
+                                                                                                            Figure 1. The proposed diffusion-enhanced framework includes
+                                               structure-aware dropping and masking strategies,             Contrastive Pretraining (left) and Masking Pretraining (right) for
+                                               preserving brain graph semantics while maintain-             Graph/Hypergraph. In both pipelines, graph diffusion is applied for
+                                               ing effective pretraining diversity. Second, dif-            topology-aware augmentation, masking, diffusion-based readout
+                                               fusion enables topology-aware graph-level read-              and reconstruction.
+                                               out and node-level global reconstruction by al-
+                                               lowing graph embeddings and masked nodes to
+                                               aggregate information from globally related re-              tiveness of foundation models (Liu et al., 2023) pretrained
+                                               gions. Extensive experiments across multiple neu-            on large-scale unlabeled data. Inspired by this success, the
+                                               roimaging datasets with over 25,000 subjects and             neuroscience community has increasingly explored founda-
+                                               60,000 scans involving various mental disorders              tion models for brain signals (Caro et al., 2023; Wei et al.,
+                                               and brain atlases demonstrate consistent perfor-             2025b; Yang et al., 2024; Dong et al., 2024), aiming to learn
+                                               mance improvements.                                          transferable representations that generalize across subjects,
+                                                                                                            brain atlases, and neurological conditions. Most existing
+                                                                                                            brain foundation models are pretrained directly on raw time
+                                                                                                            series (Caro et al., 2023) or connectome data (Yang et al.,
+                                        1. Introduction
+                                                                                                            2024), however, graph-based foundation models (Liu et al.,
+                                        Recent advances in large language models (Achiam et al.,            2023) offer a more effective and efficient alternative by ex-
+                                        2023; Touvron et al., 2023) have demonstrated the effec-            plicitly modeling brain topology while avoiding the heavy
+                                           1
+                                                                                                            computational cost of sequence-level pretraining. Brain
+                                            Department of Electrical and Computer Engineering, Lehigh       connectivity data (Bullmore & Bassett, 2011), derived from
+                                        University, Bethlehem, PA, USA 2 Department of Computer Sci-
+                                        ence and Engineering, Lehigh University, Bethlehem, PA, USA         neuroimaging modalities such as fMRI (Smith et al., 2013)
+                                        3
+                                          Department of Psychiatry and Behavioral Sciences, Stanford        and EEG (Wei et al., 2025a), are naturally represented as
+                                        University School of Medicine, Stanford, CA, USA. Correspon-        graphs (Kipf & Welling, 2016) or hypergraphs (Feng et al.,
+                                        dence to: Yu Zhang <yzhangsu@stanford.edu>, Lifang He               2019), where nodes correspond to brain regions and edges
+                                        <lih319@lehigh.edu>.                                                or hyperedges encode pairwise or higher-order interactions.
+                                        Proceedings of the 43 rd International Conference on Machine        Pretraining graph- and hypergraph-based models on connec-
+                                        Learning, Seoul, South Korea. PMLR 306, 2026. Copyright 2026        tome data therefore provides a promising pathway toward
+                                        by the author(s).                                                   scalable and reusable brain representation learning.
+
+                                                                                                        1
+                             Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+Despite recent progress, existing graph pretraining                 information from structurally related regions before pool-
+paradigms are not well aligned with the structural char-            ing, resulting in topology-aware and robust graph embed-
+acteristics of brain graphs and hypergraphs. Current graph          dings. For graph masked autoencoder pretraining, diffusion
+pretraining methods are mainly built upon two represen-             is used to guide masking and enable global reconstruction.
+tative paradigms: graph contrastive learning (GCL) (You             Diffusion-guided masking avoids excessive corruption of
+et al., 2020; Qiu et al., 2020) and graph masked autoencoder        critical components, while diffusion-based reconstruction
+(GMAE) (Hou et al., 2022; 2023). While these approaches             allows masked nodes or connections to leverage information
+have shown strong performance on generic graph bench-               from distant but structurally related regions, alleviating the
+marks, directly applying them to brain graphs and hyper-            locality bias of conventional masked autoencoder methods.
+graphs introduces several fundamental limitations. First,
+                                                                    Our main contributions are summarized as follows:
+both GCL and GMAE typically rely on naive random drop-
+ping or masking of nodes, edges, or hyperedges as their                • We propose a unified diffusion-based pretraining frame-
+core augmentation or corruption mechanisms. Such pertur-                 work that integrates graph diffusion into both graph
+bations are ill-suited for brain graphs, where global con-               contrastive learning and graph masked autoencoder
+nectivity patterns encode critical functional semantics. If              pretraining for brain graphs and hypergraphs.
+important nodes or edges are excessively dropped or masked,
+                                                                       • We leverage diffusion to design brain-aware graph aug-
+the semantic integrity of the brain graph may be severely
+                                                                         mentation strategies, enabling structure-guided drop-
+distorted; conversely, if perturbations predominantly affect
+                                                                         ping and masking that safely preserve semantic connec-
+less informative components, the resulting training signals
+                                                                         tivity patterns while maintaining sufficient diversity.
+become weak and uninformative. As a result, random aug-
+mentation and masking can easily produce unrealistic con-              • We exploit diffusion for topology-aware graph-level
+trastive views or unstable reconstruction targets, leading               readout and node-level global reconstruction, allowing
+to fragile representations (Ding et al., 2022; Zhao et al.,              graph representations and masked components to ag-
+2022). Second, existing pretraining frameworks largely                   gregate information from structurally related regions.
+overlook global structural aggregation. In GCL, graph-level
+representations are usually obtained via structure-agnostic
+readout functions that fail to integrate long-range dependen-
+                                                                    2. Related Works
+cies across the graph. Similarly, in GMAE, masked nodes             2.1. Brain Foundation Models
+are commonly reconstructed using only local neighborhood
+information, without leveraging global context from distant         Recent work has explored foundation models for brain sig-
+but structurally related regions. This locality bias further        nals, inspired by large-scale pretraining in language and
+limits the expressiveness and robustness of learned represen-       vision. Time-series-based approaches such as BrainLM
+tations for brain graphs and hypergraphs, where long-range          (Caro et al., 2023) and Brain-JEPA (Dong et al., 2024)
+interactions are essential. These limitations highlight the         pretrain neural representations directly from brain signals
+need for more principled graph pretraining strategies that          using masked modeling. Beyond the temporal domain,
+are better aligned with the structural and semantic proper-         connectome-based models such as BrainMass (Yang et al.,
+ties of brain graphs and hypergraphs, and are essential for         2024) leverage functional connectivity matrices for pretrain-
+building effective brain graph foundation models.                   ing, while BrainGFM (Wei et al., 2025b) further incorpo-
+                                                                    rates explicit graph structure to model relational interactions
+To address these challenges, as shown in Figure 1, we pro-          between brain regions. Moreover, foundation models built
+pose a unified diffusion-based pretraining framework for            on 3D MRI volumes have also been explored to learn trans-
+brain graphs and hypergraphs. Our core insight is that graph        ferable representations (Yang et al., 2025). Despite these
+diffusion provides a principled way to encode global struc-         advances, existing methods either overlook higher-order
+tural relationships (Gasteiger et al., 2019), which can be          graph structure or adopt generic graph pretraining strategies
+directly embedded into the key operations of graph con-             that may not fully respect the brain global organization.
+trastive learning and graph masked autoencoder pretrain-
+ing. For graph contrastive learning pretraining, diffusion          2.2. Graph Pretraining and Graph Foundation Models
+guides structure-aware graph augmentation, where nodes,
+edges, or hyperedges are dropped according to their global          Graph pretraining (Hu et al., 2019) is dominated by two
+structural influence rather than uniformly at random. This          paradigms: graph contrastive learning (GCL) (You et al.,
+preserves semantically important brain connectivity pat-            2020) and graph masked autoencoder (GMAE) (Hou et al.,
+terns while maintaining sufficient diversity for contrastive        2022). GCL learns representations by maximizing agree-
+learning. Diffusion is further incorporated into the graph-         ment between augmented graph views, whereas GMAE
+level readout, enabling node representations to aggregate           reconstructs masked nodes or edges from partial observa-
+                                                                    tions. Although effective on generic graphs, both paradigms
+
+                                                                2
+                               Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+rely on naive node- or edge-level perturbations that may dis-         across all hyperedges. The incidence relation between nodes
+tort global connectivity patterns, especially in brain graphs         and hyperedges is encoded by an incidence matrix
+and hypergraphs. In this work, we address these limitations                                               (
+by introducing a graph diffusion strategies that improves                              N ×M                 1, vi ∈ em ,
+                                                                            I ∈ {0, 1}       ,     Iim =                      (4)
+both contrastive and masking-based graph pretraining in a                                                   0, otherwise.
+structure-aware manner.
+                                                                      Thus, a graph can be regarded as a special case of a hyper-
+2.3. Graph Diffusion                                                  graph where each hyperedge connects exactly two nodes.
+
+Graph diffusion models (Gasteiger et al., 2019; Zhao et al.,          3.2. Graph Diffusion Mechanisms
+2021; Chamberlain et al., 2021) describe how information
+propagates over a graph through its topology and have been            Graph diffusion (Gasteiger et al., 2019) provides a princi-
+shown to improve graph representation learning. Common                pled mechanism for propagating information over relational
+diffusion kernels (Gasteiger et al., 2019), including the heat        structures by repeatedly mixing node features according to
+kernel, personalized PageRank (PPR) kernel, and random                the underlying topology. Given an undirected graph with
+walk–based kernels, have been widely used to enhance                  adjacency matrix A and degree matrix D, we define the
+graph convolutional networks. More recently, diffusion                normalized transition matrix as P = D−1 (A + I), where
+has also been integrated into transformer-based architec-             I denotes the identity matrix accounting for self-loops. We
+tures, such as Graph Diffusion Transformer (GDT) (Wu                  consider three representative diffusion kernels (Gasteiger
+et al., 2023; 2025), where diffusion kernels are used to in-          et al., 2019) commonly used in graph learning,
+ject multi-hop structural bias into self-attention. However,                         T                         T
+existing studies primarily apply graph diffusion to convolu-                KRW =
+                                                                                     X
+                                                                                       λk P k ,     KPPR = α
+                                                                                                               X
+                                                                                                                   (1 − α)k P k ,
+tional or transformer-based models in supervised learning                            k=0                       k=0
+settings. (Gasteiger et al., 2019; Zhao et al., 2021), leav-                                                                        (5)
+                                                                                                        T
+                                                                                              −tL
+                                                                                                        X (−t)k      k
+ing its potential in self-supervised graph and hypergraph                         KHeat = e         ≈              L ,
+                                                                                                              k!
+pretraining largely unexplored.                                                                         k=0
+
+
+                                                                      where λ, α ∈ (0, 1) control the decay of long-range prop-
+3. Preliminaries                                                      agation, t denotes the diffusion time scale, and L =
+                                                                              1               1
+3.1. Definition of Graph and Hypergraph                               I − D− 2 (A + I)D− 2 is the normalized graph Laplacian.
+
+A graph (Kipf & Welling, 2016) is formally defined as                 Despite their different formulations, all three kernels can be
+                                                                      interpreted as weighted combinations of multi-hop walks,
+                       G = (V, E, X)                        (1)       enabling structure-aware information propagation beyond
+                                                                      local neighborhoods. Random walk diffusion aggregates
+where V = {v1 , v2 , . . . , vN } denotes the set of N nodes,         fixed-length paths, PPR emphasizes locality through restart
+E ⊆ V × V denotes the set of pairwise edges, and X =                  probability, and the heat kernel models continuous-time dif-
+{x1 , x2 , . . . , xN }⊤ ∈ RN ×d represents the node feature          fusion with global coverage. Importantly, the same diffusion
+matrix, with xi ∈ Rd denoting the feature vector associated           framework naturally extends to hypergraphs by replacing
+with node vi . The structure of a graph can be equivalently           the graph adjacency matrix A (or Laplacian L) with their
+represented by an adjacency matrix                                    hypergraph counterparts induced by the incidence matrix.
+                                                                      This unified formulation allows diffusion kernels to operate
+                                   (
+                                       1, (vi , vj ) ∈ E,             consistently on both graphs and hypergraphs, serving as
+   A ∈ {0, 1}N ×N ,        Aij =                            (2)       a fundamental operator for diffusion-aware augmentation,
+                                       0, otherwise.
+                                                                      reconstruction, and readout in our pretraining framework.
+In contrast, a hypergraph (Feng et al., 2019) generalizes
+the concept of graph edges by allowing each hyperedge to              3.3. Graph Pretraining Paradigms
+connect more than two nodes simultaneously. Formally, a               Given a brain graph or hypergraph constructed as described
+hypergraph is defined as                                              above, self-supervised pretraining aims to learn transferable
+                                                                      representations without task-specific labels. We denote the
+                       H = (V, E, X)                        (3)       structural operator by S, where S = A for graphs and
+                                                                      S = H for hypergraphs. A shared encoder fθ (·) maps node
+where V = {v1 , v2 , . . . , vN } is the set of nodes, E =            features and structure into latent node embeddings,
+{e1 , e2 , . . . , eM } is the set of hyperedges with each em ⊆
+V , and X ∈ RN ×d denotes the node feature matrix shared                               Z = fθ (X, S) ∈ RN ×d .                      (6)
+
+                                                                  3
+                                                                                     Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+                                          0.7                                                                                                      0.7
+                              0.9                                                                                                         0.9
+                                        0.3         0.6                                                                                                        0.6
+                                                                                                                                                 0.3
+                                              0.4                                                                                                      0.4
+                        0.8
+                                                                                                                                         0.8             0.6
+                                  0.3     0.6
+                                                                                                                                           0.3
+                                                                                                                                                  0.5
+                                              0.5               -based                                                                                                      -based
+    Graph                                                                   Graph                               -based          Graph                                                 Graph           -based
+ Augmentation                                         Graph Augmentation Augmentation                 Graph Augmentation       Masking                               Graph Masking   Masking   Graph Masking
+
+
+                 0.7                                             0.7
+        0.9                                           0.9
+                0.3         0.6                                 0.3         0.6
+                      0.4                                             0.4
+  0.8                                         0.8
+          0.3     0.6                                     0.3     0.6
+
+                      0.5                                             0.5
+
+
+
+
+                                                      0.9
+                  0.4
+                                                0.8
+                                                                  0.6
+                      0.5
+
+
+
+
+Figure 2. Diffusion-based graph and hypergraph dropping and masking strategies for augmentation. The figure contrasts conventional
+random drop/mask strategies (✗) with the proposed diffusion-guided approaches (✓) for both graph and hypergraph pretraining. Stars
+indicate node importance, and edge numbers denote weights in [0, 1]. In GCL, nodes and edges are dropped to generate augmented
+views, while in GMAE, nodes and their features are masked and reconstructed. Random strategies in GCL/GMAE may cause over- or
+under-perturbation, harming semantics or contrastiveness (blank nodes and dashed edges). Diffusion adaptively balances perturbation
+strength. Moreover, unlike local-only reconstruction in GMAE/HGMAE with edges but no arrows, diffusion enables global information
+aggregation across long-range nodes (bidirectional arrows).
+
+
+Contrastive Learning Pretraining. Contrastive pretrain-                                                                        4. Methodology
+ing constructs two stochastic views of the same instance via
+structure-preserving transformations T (.),                                                                                    4.1. Diffusion-Guided Contrastive Pretraining
+
+   (X (1) , S (1) ) ∼ T1 (X, S),
+                            (X (2) , S (2) ) ∼ T2 (X, S).                                                                      Conventional graph and hypergraph contrastive pretraining
+                                                        (7)                                                                    paradigms often build contrastive views by randomly drop-
+Then the encoder produces view-specific embeddings g,                                                                          ping nodes/edges/hyperedges. However, brain networks
+which are summarized into instance-level representations                                                                       encode semantics in global connectivity patterns, so random
+by a readout function R(·),                                                                                                    perturbations can be either overly destructive or too weak.
+                                                                                                                               We propose diffusion-guided augmentations that (i) glob-
+ g (1) = R(fθ (X (1) , S (1) )),g (2) = R(fθ (X (2) , S (2) )).                                                                ally aggregate topology-aware context via diffusion and (ii)
+                                                             (8)                                                               stochastically drop less diffusion-supported components to
+We adopt the standard InfoNCE (You et al., 2020) loss func-                                                                    produce diffusion-consistent views (Alg. 1 in Appendix).
+tion to maximize agreement between positive pairs while
+contrasting in-batch negatives,
+                                                                                                                               Unified Diffusion over Graphs and Hypergraphs. We
+                                   exp(sim(g (1) , g (2) )/τ )                                                                 denote the structure operator by S (graph: S = A, hyper-
+                      LGCL = − log P                            ,                                                  (9)         graph: S = I) and construct a Markov transition P (S). For
+                                      exp(sim(g (1) , g ′ )/τ )
+                                                                            g ′ ∈B                                             graphs, we use the row-stochastic transition
+where sim(·, ·) denotes cosine similarity, τ is a temperature
+parameter, and B denotes the set of instance representations                                                                                                             P = D−1 (A + I),                (12)
+in the batch.
+                                                                                                                               where D is the degree matrix of (A + I). For hypergraphs,
+Masked Autoencoder Pretraining. Masked autoencoder                                                                             we induce a node-to-node transition via the incidence matrix
+randomly masks a subset of nodes M ⊆ V with ratio                                                                              I ∈ {0, 1}N ×M :
+ρ to form corrupted inputs X̃. The encoder fθ (·) and a
+                                                                                                                                                                      P = Dv−1 IW De−1 I ⊤ ,             (13)
+lightweight decoder gϕ (·) are used to reconstruct masked
+node features,                                                                                                                               M ×M
+                                                                                                                               where W ∈ PR        is a diagonal hyperedge
+                                                                                                                                                                        P weight matrix,
+                            Z = fθ (X̃, S),                                            X̂M = gϕ (ZM ),           (10)          (Dv )ii = m Iim wm , and (De )mm = i Iim . Given P ,
+and the reconstruction loss is computed over masked nodes,                                                                     we define a multi-hop diffusion kernel K(.) in Eq. (5) and
+                                                                                                                               obtain contextualized node features X diff by diffusion:
+                          1 X
+            LGMAE =               ∥Xi − X̂i ∥22 .     (11)
+                        |M|                                                                                                                                                  X diff = KX.                (14)
+                                                                                     i∈M
+
+
+                                                                                                                           4
+                                 Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+Diffusion-Guided Dropping Augmentation. Firstly, we                   of directly pooling raw node features, we first diffuse node
+score node importance using the diffusion energy (Wu et al.,          embeddings over the graph (or hypergraph) structure using
+2023) of diffused features:                                           a diffusion kernel K, which encodes multi-hop information
+                                                                      propagation (e.g., random walk (RW), personalized PageR-
+                      (v)
+                     si     = (X diff )i 2 .               (15)       ank (PPR), or heat kernel (Gasteiger et al., 2019). Given
+                                                                      node embeddings X ∈ RN ×d , diffusion is performed as
+                                          (v)
+Nodes with smaller diffusion energy si are less supported                                                      N
+by global diffusion and are safer to drop. We then map
+                                                                                                               X
+                                                                                    X̃ = KX,           x̃i =         Kij xj ,       (20)
+scores to moderate diffusion-aware drop probabilities via                                                      j=1
+                 
+pdrop =  Ψ   s
+              (v)
+                    , M(1) , M(2) ∼ Bernoulli(1−pdrop ),              so that each node integrates global structural context be-
+ i            i
+                                                                      fore aggregation. A permutation-invariant pooling is then
+                                                      (16)
+                                                                      applied to obtain the graph-level representation used in con-
+where Ψ(·) is a monotonic function that increases the drop
+                                                                      trastive learning:
+probability for less important components (Alg. 1 in Ap-
+pendix). M(1) and M(2) denote two independently sam-                                                           1 ⊤
+                                                                                     Rdiff = Pool(X̃) =          I KX,              (21)
+pled drop masks for constructing two contrastive views.                                                        N
+To make structural perturbations topology-aware, we first             where I ∈ RN denotes the all-ones vector. By perform-
+compute a diffusion-enhanced connectivity matrix                      ing topology-aware diffusion prior to pooling, the proposed
+                                                                      readout yields more robust and globally consistent embed-
+                          e = KAK ⊤ ,
+                          A                                (17)       dings for contrastive views, facilitating effective contrastive
+                                                                      pretraining on brain graphs and hypergraphs.
+which captures global, multi-hop interactions between
+nodes. Based on A,e we define diffusion-guided importance
+                                                                      Graph Contrastive Loss. Given two diffusion-consistent
+scores for both graph edges and hyperedges as                         augmented views {(X (v) , S (v) )}2v=1 , we obtain graph-
+                                                                      level embeddings via a shared encoder fθ (.) followed by
+          sgraph
+           ij    = Aij,
+                   e           shyperG
+                                m      = u⊤
+                                          m A, um ,
+                                            e
+                                                                      diffusion-based readout:
+                                                           (18)
+            S (v) = S ⊙ Ψ(s),        v ∈ 1, 2.
+                                                                                                                   
+                                                                                  g (v) = Rdiff Kfθ (X (v) , S (v) ) .     (22)
+where sij graph measures the importance of edge (i, j) in a           Finally, contrastive learning is performed by maximizing
+graph, and shyperG
+             m     quantifies the structural coherence of hy-         agreement between the two diffusion-consistent views using
+peredge em by aggregating diffusion-supported connectivity            the NT-Xent objective:
+among its incident nodes with indicator vector um . Here,                                                                   
+Ψ(·) denotes a monotonic mapping that converts importance                                      exp sim(g (1) , g (2) )/τ
+                                                                          LGCL = − log P                           (1) , g ′ )/τ
+                                                                                                                                  . (23)
+scores into stochastic structure masks, thereby controlling                                  g ′ ̸=g (2) exp sim(g
+which edges or hyperedges in S are retained or removed.
+Finally, we generate two augmented views by applying                  4.2. Diffusion-Guided Masked Autoencoder Pretraining
+diffusion-guided node and structure dropping on the dif-              Previous Graph Masked Autoencoders reconstruct masked
+fused features:                                                       nodes or edges mainly from local neighborhoods (Hou et al.,
+                                                                      2022), which can be fragile for brain graphs and hyper-
+  (X (v) , S (v) ) = Drop(X diff , S, M(v) ),    v ∈ 1, 2. (19)       graphs with long-range interactions (Yu et al., 2024) and
+                                                                      higher-order dependencies (Han et al., 2025). We therefore
+This procedure yields stochastic yet semantics-preserving
+                                                                      enhance masked autoencoder with diffusion to supply global
+views that avoid destructive random perturbations while
+                                                                      structural context for reconstruction.
+maintaining sufficient diversity for contrastive supervision
+on brain graphs and hypergraphs.
+                                                                      Diffusion-Guided Masking. Following the diffusion-
+                                                                      guided dropping strategy in contrastive pretraining, we
+Diffusion-Based Graph Readout. Conventional graph
+                                                                      guide node masking using diffusion-informed importance
+readout (Buterez et al., 2022), including mean pooling, max
+                                                                      scores (Alg. 3). Nodes that are weakly supported under
+pooling, and attention-based pooling (details can be founda
+                                                                      global diffusion are more likely to be masked, while glob-
+in Appendix E), aggregate node features in a structure-
+                                                                      ally important nodes are preserved with higher probability.
+agnostic manner, treating nodes as an unordered set.
+                                                                      Since masking is conceptually analogous to dropping but
+To obtain stable and semantically consistent contrastive view         without removing nodes from the graph, we omit repeated
+embeddings, we propose a diffusion-based readout. Instead             formulations for brevity.
+
+                                                                  5
+                                   Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+Diffusion-Propagated Feature Reconstruction. Let                      5. Experiments
+M ⊆ V denote the set of masked nodes with masking
+ratio ρ, and let X̃ be the masked input features. We first            5.1. Comparative Experiment Analysis
+diffuse the masked features to inject global context:                 Table 1 presents a comprehensive comparison across
+                       X̃   diff
+                                   = K X̃.                 (24)       six brain disorders on the Schaefer100 atlas (Schaefer
+                                                                      et al., 2018). Traditional deep learning approaches (e.g.,
+The diffusion-enhanced features are encoded as node-level             BrainGNN (Li et al., 2021) and BrainNetTF (Kan et al.,
+latent representations:                                               2022)) trained from scratch without pretraining. Classical
+                                                                      graph diffusion–based methods, including Graph Diffusion
+                     Z = fθ (X̃ diff , S),                 (25)
+                                                                      Convolution (GDC) (Gasteiger et al., 2019), Adaptive GDC
+where Z = {zi }i∈V and ZM = {zi }i∈M denotes the                      (Zhao et al., 2021) and Graph Diffusion Transformer (GDT)
+masked-node subset. We further diffuse the latent repre-              (Wu et al., 2025), improve robustness through predefined
+sentations:                                                           diffusion operators but remain constrained by fixed propa-
+                                                                      gation schemes and the absence of task-agnostic pretrain-
+              Ẑ = KZ,             X̂M = gϕ (ẐM ),        (26)       ing. Foundation models based on brain time-series data
+where Ẑ denotes the diffusion-propagated latent embed-               (BrainLM (Caro et al., 2023) and Brain-JEPA (Dong et al.,
+dings. The reconstruction loss is                                     2024)) benefit from large-scale temporal pretraining but do
+                                                                      not explicitly capture graph-structured connectome topol-
+                        1 X                                           ogy, while connectome-based foundation models (Brain-
+             Lnode =              ∥Xi − X̂i ∥22 .  (27)
+                      |M|                                             Mass (Yang et al., 2024)) further improve performance by
+                                   i∈M
+                                                                      leveraging connectivity patterns but are limited to static rep-
+Diffusion-Guided Global Structure Reconstruction.                     resentations. In contrast, BrainGFM (Wei et al., 2025b), as
+Beyond node features, we reconstruct masked graph and                 a graph-based foundation model, explicitly integrates graph
+hypergraph structures using diffusion-consistent targets.             topology with pretraining objectives and consistently outper-
+                                                                      forms time-series– and connectome-based counterparts. No-
+Let zi denote the embedding of node vi . We predict a soft            tably, Pretrained GDT constitutes a minor yet novel contribu-
+diffusion-consistent connectivity score between nodes via             tion of this work, as we are the first to introduce a pretraining
+                                ⊤                                     strategy for GDT. Among all variants, diffusion-based pre-
+                      A ij = σ(zi zj ),                    (28)
+                      be
+                                                                      training achieves the strongest overall performance, demon-
+where σ(·) is the sigmoid function. Instead of the original           strating that diffusion-aware objectives provide particularly
+adjacency, we use a diffusion-enhanced adjacency A     e ∈            informative supervision. However, applying diffusion-based
+[0, 1]N ×N
+           as the reconstruction target. The edge loss is             pretraining to GDT results in only marginal gains compared
+computed only on masked edges Emask :                                 to either pretrained GDT or diffusion-pretrained BrainGFM,
+                                                                    which is expected since both the architecture and the pre-
+                 1      X
+                                                                      training objective encode global diffusion priors, leading to
+     Ledge =                    BCE Aij , Aij ,        (29)
+                                       be e
+              |Emask |                                                overlapping inductive biases and diminishing returns.
+                      (i,j)∈Emask
+
+where BCE(·, ·) denotes binary cross-entropy. Diffusion tar-          5.2. Effectiveness of Diffusion-based Pretraining across
+gets provide smoother supervision with multi-hop evidence                  Graph and Hypergraph Paradigms
+and are less sensitive to local noise.
+                                                                      As shown in Figure 3, this ablation study evaluates whether
+For a hyperedge em with indicator vector um , we aggregate            the proposed diffusion-based pretraining paradigm gener-
+incident node embeddings by                                           alizes across different structural representations, including
+              sbm = σ(Pool({zi | um,i = 1})) ,             (30)       both graphs and hypergraphs, under homogeneous and het-
+                                                                      erogeneous atlas settings on the ABIDE dataset for ASD
+and minimize                                                          classification. We consider two representative pretrain-
+                                                                      ing paradigms: contrastive learning (GCL / HGCL) and
+                            X
+                Lhyper =            sm − s(h)
+                                   ∥b         2
+                                          m ∥2 ,           (31)
+                              m                                       masked autoencoder (GMAE / HGMAE), with and with-
+                                                                      out diffusion-based objectives. In the homogeneous atlas
+        (h)
+where sm is the diffusion-induced hyperedge target.                   setting (top row in Figure 3), all models are constructed
+The final diffusion-enhanced GMAE loss is                             using Schaefer (SC) atlases with different spatial resolu-
+                                                                      tions, where SC100, SC200, and SC300 denote Schaefer
+               Ldiff
+                GMAE = Lnode + η Lstruct ,                 (32)       parcellations with 100, 200, and 300 ROIs, respectively. As
+                                                                      the ROI resolution increases, diffusion-based pretraining
+Lstruct denotes Ledge for graphs or Lhyper for hypergraphs.
+
+                                                                  6
+                                                               Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+Table 1. Comparison among different methods on diagnoses of multiple brain disorders based on the Schaefer atlas of 100 ROIs. Methods
+are grouped into traditional deep learning models, traditional diffusion models, pretrained models, and diffusion-based pretrained models.
+                                                            ADHD200 (ADHD)                 OASIS3 (DM)                ADNI 2 (AD)                HBN (MDD)             SubMex CUD (CUD) UCLA CNP (BP)
+                              Method           Pretrained
+                                                             AUC ACC            F1      AUC ACC            F1     AUC ACC             F1     AUC ACC            F1      AUC ACC             F1     AUC ACC             F1
+
+                            BrainGNN              %         61.3±3.1 64.4±2.6 62.6±2.8 65.1±2.7 67.2±3.2 68.3±2.7 71.1±1.6 71.2±2.9 74.5±3.4 69.0±3.1 74.1±2.2 75.3±2.7 63.9±3.4 66.1±3.2 64.3±2.2 66.0±3.4 71.3±2.8 73.5±3.0
+                            BrainNetTF            %         64.7±2.3 66.0±3.2 65.8±2.2 68.3±2.5 70.7±2.7 71.5±2.2 75.9±2.6 77.6±2.0 80.3±3.1 74.2±2.4 76.3±2.1 78.5±3.1 68.3±2.9 69.1±3.4 66.7±2.6 68.1±3.1 73.2±3.4 75.4±2.5
+                               GDC                %         62.1±2.5 64.4±2.3 63.6±2.9 66.7±3.1 67.9±2.7 68.7±2.4 72.5±2.2 74.7±2.6 76.8±3.5 72.6±3.0 73.9±2.8 75.5±2.8 65.8±3.2 66.3±2.5 65.3±2.7 67.3±3.0 70.8±2.8 71.6±2.3
+                           Adaptive GDC           %         63.7±2.7 66.6±1.6 65.6±2.4 67.3±2.9 69.6±3.3 70.4±3.2 73.4±3.0 75.8±2.8 78.6±3.3 74.2±3.0 75.7±2.8 77.5±3.2 66.9±2.7 68.7±2.4 66.8±1.9 68.5±2.6 72.3±2.7 73.6±2.9
+                               GDT                %         65.0±2.0 66.8±2.2 66.9±2.3 68.1±2.3 70.2±2.5 70.7±2.8 76.5±1.8 77.7±2.6 79.5±3.2 75.6±1.9 77.2±2.3 79.3±2.6 67.6±2.3 70.4±2.1 67.5±3.1 69.4±1.7 73.2±2.3 75.3±3.1
+                             BrainLM              !         67.6±1.9 69.1±1.7 68.7±2.8 71.4±2.2 73.6±2.1 73.7±2.5 78.3±1.7 79.7±2.5 82.6±2.8 77.8±2.0 80.7±2.1 81.3±2.8 68.2±2.3 72.5±2.1 70.4±2.6 71.5±2.2 74.9±1.8 76.4±1.5
+                            BrainMass             !         67.0±2.3 67.5±2.0 68.6±2.3 70.3±2.2 72.5±2.5 73.6±2.9 77.8±2.3 80.6±2.7 82.7±2.7 76.9±2.4 81.5±2.8 81.9±2.5 68.0±2.0 70.9±2.3 69.6±2.0 70.8±2.2 73.6±2.3 76.0±1.9
+                            Brain-JEPA            !         69.8±1.9 71.6±2.0 70.2±2.1 72.4±2.2 74.5±2.6 75.5±2.4 79.1±2.2 81.6±1.8 84.2±2.4 79.3±1.7 82.8±1.3 82.4±2.8 70.1±2.0 74.9±2.3 71.5±2.2 73.7±2.2 75.2±2.1 77.3±2.7
+
+                             BrainGFM             !         70.3±1.6 70.5±1.5 70.1±1.9 72.9±2.7 75.4±3.2 76.2±2.7 80.3±2.6 81.9±2.2 84.7±2.4 79.9±1.6 82.0±1.7 84.8±2.9 71.1±1.6 74.6±1.8 72.2±1.9 73.5±1.8 76.3±1.9 78.6±2.4
+                           Pretrained GDT         !         71.4±1.7 72.1±2.0 71.7±2.1 73.7±2.3 76.8±2.4 76.5±2.2 82.1±1.9 83.9±1.7 85.6±2.2 81.3±2.1 83.6±2.0 85.8±2.3 72.6±1.6 75.9±1.8 74.4±2.1 74.1±2.0 77.9±1.4 79.3±1.7
+                          Brain-HyperGFM          !         71.8±1.5 71.9±2.0 72.3±1.6 74.3±1.9 76.9±1.7 77.3±2.3 82.9±1.5 82.4±1.3 85.2±1.7 81.4±1.8 83.7±1.4 85.2±1.8 72.8±1.4 75.6±1.8 73.2±2.2 74.3±1.8 78.4±1.4 79.4±1.8
+
+                           BrainGFM-Diff          !         72.6±1.8 73.1±1.4 73.6±1.8 75.4±2.3 77.6±1.6 78.7±2.2 83.0±1.5 82.6±1.3 85.4±2.4 83.1±1.6 84.5±1.9 86.3±2.1 73.7±1.6 76.8±1.9 75.4±3.2 75.2±1.3 78.8±1.5 80.5±2.4
+                        Brain-HyperGFM-Diff       !         72.8±1.4 73.4±1.8 73.7±2.3 74.8±1.9 77.8±1.7 78.9±2.1 84.0±1.5 83.5±1.7 86.6±2.5 82.9±1.6 85.2±1.3 86.7±2.0 74.0±1.5 77.1±1.9 75.2±1.5 76.6±1.4 78.9±1.7 81.5±2.4
+                         Pretrained GDT-Diff      !         73.2±1.3 73.9±1.8 73.5±2.1 75.9±1.6 78.4±1.4 78.3±2.5 83.7±1.8 83.2±1.1 85.9±2.0 83.8±1.2 85.1±1.3 86.9±1.7 74.3±1.8 77.0±1.5 75.9±2.5 76.2±1.9 79.4±2.3 81.0±1.6
+Homogeneous Atlases
+Heterogeneous Atlases
+
+
+
+
+Figure 3. We evaluate graph- and hypergraph-based pretraining (denoted by G and H, respectively) with and without diffusion on
+homogeneous and heterogeneous atlases, where SC100/200/300 denote Schaefer atlases with 100/200/300 ROIs. Diffusion-based
+pretraining consistently improves performance across atlas settings on ABIDE.
+
+
+consistently improves classification accuracy across both                                                                  influence downstream disease classification performance
+graph and hypergraph models, indicating that the proposed                                                                  as the amount of pretraining data increases. Specifically,
+paradigm effectively captures global structural dependen-                                                                  we compare two orthogonal ways of leveraging diffusion:
+cies beyond resolution-specific node representations. In                                                                   (i) embedding diffusion directly into the model architec-
+the heterogeneous atlas setting (bottom row), models are                                                                   ture (e.g., GDT), and (ii) incorporating diffusion as a task-
+evaluated across structurally diverse atlases, including AAL,                                                              agnostic pretraining paradigm, as proposed in our diffusion-
+Power, and Gordon, which differ substantially in parcella-                                                                 based graph and hypergraph foundation models.
+tion strategies and ROI definitions. Despite this heterogene-
+                                                                                                                           We observe that diffusion-enhanced GDT and our diffusion-
+ity, diffusion-enhanced pretraining yields stable and consis-
+                                                                                                                           based pretrained models achieve comparable performance
+tent performance gains, demonstrating strong atlas-agnostic
+                                                                                                                           when sufficient pretraining data is available, suggesting
+generalization. Notably, the observed improvements hold
+                                                                                                                           that both strategies are capable of capturing global struc-
+for both graph-based (GCL, GMAE) and hypergraph-based
+                                                                                                                           tural aggregation induced by diffusion processes. Notably,
+(HGCL, HGMAE) pretraining paradigms.
+                                                                                                                           GDTs exhibits stronger performance in the low-data regime,
+                                                                                                                           which we attribute to its architectural diffusion bias that
+5.3. Diffusion under Varying Pretraining Data Sizes                                                                        enables effective global information propagation even with
+As shown in Figure 4, the ablation study investigates how                                                                  limited pretraining. In contrast, our diffusion-based pretrain-
+different strategies for incorporating diffusion mechanisms                                                                ing paradigm shows superior scalability as the pretraining
+
+
+                                                                                                                      7
+                               Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+
+
+
+Figure 4. We compare diffusion-embedded architectures (GDT), diffusion-based pretraining (BrainGFM-Diff, Brain-HyperGFM),
+and their combination (GDT-Diff) on two datasets. Results highlight distinct behaviors of architectural diffusion and diffusion-based
+pretraining across data scales.
+
+data size increases. Importantly, this performance gain is           As shown in the table, BrainGFM reduces FLOPs by nearly
+achieved without modifying the model architecture, high-             48% and parameters by 25% compared to GDT, while also
+lighting that the improvement stems purely from a more               achieving faster inference time. The hypergraph extension
+effective pretraining rather than increased model capacity.          (Brain-HyperGFM) introduces only a marginal increase in
+This property is particularly desirable for foundation mod-          computational cost, indicating that hypergraph modeling
+els, as it enables performance gains through data scaling            can be incorporated with minimal efficiency loss. When
+while maintaining a fixed and reusable backbone. Further-            pretraining is applied, all models benefit from faster in-
+more, pretraining diffusion-aware architectures such as GDT          ference, but BrainGFM-PT consistently remains the most
+with our diffusion-based objective (GDT-Diff) yields only            efficient, achieving the lowest FLOPs, parameters, and infer-
+marginal improvements over their non-pretrained counter-             ence latency. These results demonstrate that diffusion-aware
+parts. This suggests that architectural diffusion mechanisms         pretraining provides a more computationally economical al-
+may already encode sufficient global aggregation priors,             ternative to embedding diffusion (GDT) directly into the
+leading to diminishing returns when diffusion is applied             model architecture, making BrainGFM particularly suitable
+again at the pretraining stage. These results indicate that,         for large-scale and resource-constrained applications.
+in practice, either architectural diffusion or diffusion-based
+pretraining is sufficient, and combining both does not neces-        6. Conclusion
+sarily lead to additive benefits.
+                                                                     We propose a diffusion-based pretraining paradigm for brain
+5.4. Efficiency and Computational Cost Analysis                      graphs and hypergraphs that better aligns graph contrastive
+                                                                     learning and graph masked autoencoder pretraining with the
+Table 2. Efficiency comparison between GDT and BrainGFM              structural properties of brain connectomes. By leveraging
+variants. “PT” denotes pretraining.                                  diffusion to guide graph and hypergraph dropping and mask-
+        Model         FLOPs (M) Params (K) Infer. Time (ms)          ing for the augmentation, the proposed approach alleviates
+        GDT             654.942     384.602    4.606 ± 1.004         the limitations of random perturbations that either overly dis-
+     BrainGFM           339.730     287.710    3.347 ± 0.703         rupt semantic connectivity patterns or provide insufficient
+  Brain-HyperGFM        342.456     291.763    3.624 ± 0.825
+                                                                     diversity for effective pretraining. In addition, diffusion is in-
+      GDT-PT      654.942           384.602    2.254 ± 0.673
+   BrainGFM-PT    339.730           287.710    1.847 ± 0.614         corporated into graph-level readout and node-level masked
+Brain-HyperGFM-PT 342.456           291.763    1.963 ± 0.633         reconstruction, enabling both contrastive views and recon-
+                                                                     structed graphs to capture global structural information.
+Table 4 reports the computational efficiency of different
+graph foundation models, including Graph Diffusion Trans-            Impact Statement
+former (GDT) and our proposed BrainGFM variants. GDT
+explicitly embeds graph diffusion operators into the Trans-          This work introduces a diffusion-based pretraining paradigm
+former architecture, leading to substantially higher computa-        for both graph-level contrastive learning and node-level
+tional overhead. In contrast, BrainGFM decouples diffusion           masked autoencoder pretraining on graphs and hypergraphs,
+from model inference by leveraging diffusion-aware pre-              providing a general framework for incorporating global
+training, enabling more efficient downstream execution.              structural information into graph representation learning.
+
+                                                                 8
+                               Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+The proposed paradigm is broadly applicable to other do-                Han, X., Xue, R., Feng, J., Feng, Y., Du, S., Shi, J., and
+mains where global dependencies play a critical role, such                Gao, Y. Hypergraph foundation model for brain disease
+as large-scale social networks, molecular graphs, and knowl-              diagnosis. IEEE Transactions on Neural Networks and
+edge graphs. The diffusion-guided augmentation strategy                   Learning Systems, 2025.
+offers a general and adaptive alternative to random graph
+perturbations and can be readily applied to a wide range of             Hou, Z., Liu, X., Cen, Y., Dong, Y., Yang, H., Wang, C.,
+graph augmentation scenarios. In addition, the proposed                   and Tang, J. Graphmae: Self-supervised masked graph
+diffusion-based readout can be seamlessly integrated into ex-             autoencoders. In Proceedings of the 28th ACM SIGKDD
+isting graph neural networks to generate high-quality graph               conference on knowledge discovery and data mining, pp.
+embeddings, and the diffusion-based reconstruction mecha-                 594–604, 2022.
+nism naturally extends to generative graph models. These
+components suggest a versatile and extensible paradigm                  Hou, Z., He, Y., Cen, Y., Liu, X., Dong, Y., Kharlamov, E.,
+with potential impact beyond neuroscience.                                and Tang, J. Graphmae2: A decoding-enhanced masked
+                                                                          self-supervised graph learner. In Proceedings of the ACM
+                                                                          web conference 2023, pp. 737–746, 2023.
+References
+Achiam, J., Adler, S., Agarwal, S., Ahmad, L., Akkaya, I.,              Hu, W., Liu, B., Gomes, J., Zitnik, M., Liang, P., Pande, V.,
+  Aleman, F. L., Almeida, D., Altenschmidt, J., Altman, S.,               and Leskovec, J. Strategies for pre-training graph neural
+  Anadkat, S., et al. Gpt-4 technical report. arXiv preprint              networks. arXiv preprint arXiv:1905.12265, 2019.
+  arXiv:2303.08774, 2023.
+                                                                        Kan, X., Dai, W., Cui, H., Zhang, Z., Guo, Y., and Yang, C.
+Bullmore, E. T. and Bassett, D. S. Brain graphs: graphical                Brain network transformer. Advances in Neural Informa-
+  models of the human brain connectome. Annual review                     tion Processing Systems, 35:25586–25599, 2022.
+  of clinical psychology, 7(1):113–140, 2011.
+                                                                        Kipf, T. N. and Welling, M. Semi-supervised classifica-
+Buterez, D., Janet, J. P., Kiddle, S. J., Oglic, D., and Liò, P.         tion with graph convolutional networks. arXiv preprint
+  Graph neural networks with adaptive readouts. Advances                  arXiv:1609.02907, 2016.
+  in Neural Information Processing Systems, 35:19746–
+  19758, 2022.                                                          Li, X., Zhou, Y., Dvornek, N., Zhang, M., Gao, S., Zhuang,
+                                                                          J., Scheinost, D., Staib, L. H., Ventola, P., and Duncan,
+Caro, J. O., Fonseca, A. H. d. O., Averill, C., Rizvi, S. A.,
+                                                                          J. S. Braingnn: Interpretable brain graph neural network
+  Rosati, M., Cross, J. L., Mittal, P., Zappala, E., Levine, D.,
+                                                                          for fmri analysis. Medical Image Analysis, 74:102233,
+  Dhodapkar, R. M., et al. Brainlm: A foundation model
+                                                                          2021.
+  for brain activity recordings. bioRxiv, pp. 2023–09, 2023.
+Chamberlain, B., Rowbottom, J., Gorinova, M. I., Bronstein,             Liu, J., Yang, C., Lu, Z., Chen, J., Li, Y., Zhang, M., Bai,
+  M., Webb, S., and Rossi, E. Grand: Graph neural diffu-                  T., Fang, Y., Sun, L., Yu, P. S., et al. Towards graph
+  sion. In International conference on machine learning,                  foundation models: A survey and beyond. arXiv preprint
+  pp. 1407–1418. PMLR, 2021.                                              arXiv:2310.11829, 2023.
+
+Ding, K., Xu, Z., Tong, H., and Liu, H. Data augmenta-                  Qiu, J., Chen, Q., Dong, Y., Zhang, J., Yang, H., Ding, M.,
+  tion for deep graph learning: A survey. ACM SIGKDD                      Wang, K., and Tang, J. Gcc: Graph contrastive coding for
+  Explorations Newsletter, 24(2):61–77, 2022.                             graph neural network pre-training. In Proceedings of the
+                                                                          26th ACM SIGKDD international conference on knowl-
+Dong, Z., Li, R., Wu, Y., Nguyen, T. T., Chong, J., Ji, F.,
+                                                                          edge discovery & data mining, pp. 1150–1160, 2020.
+ Tong, N., Chen, C., and Zhou, J. H. Brain-jepa: Brain
+  dynamics foundation model with gradient positioning and               Schaefer, A., Kong, R., Gordon, E. M., Laumann, T. O.,
+  spatiotemporal masking. Advances in Neural Information                  Zuo, X.-N., Holmes, A. J., Eickhoff, S. B., and Yeo, B. T.
+ Processing Systems, 37:86048–86073, 2024.                                Local-global parcellation of the human cerebral cortex
+Feng, Y., You, H., Zhang, Z., Ji, R., and Gao, Y. Hypergraph              from intrinsic functional connectivity mri. Cerebral cor-
+  neural networks. In Proceedings of the AAAI confer-                     tex, 28(9):3095–3114, 2018.
+  ence on artificial intelligence, volume 33, pp. 3558–3565,
+                                                                        Smith, S. M., Beckmann, C. F., Andersson, J., Auerbach,
+  2019.
+                                                                          E. J., Bijsterbosch, J., Douaud, G., Duff, E., Feinberg,
+Gasteiger, J., Weißenberger, S., and Günnemann, S. Diffu-                D. A., Griffanti, L., Harms, M. P., et al. Resting-state
+  sion improves graph learning. Advances in neural infor-                 fmri in the human connectome project. Neuroimage, 80:
+  mation processing systems, 32, 2019.                                   144–168, 2013.
+
+                                                                    9
+                             Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+Touvron, H., Lavril, T., Izacard, G., Martinet, X., Lachaux,
+  M.-A., Lacroix, T., Rozière, B., Goyal, N., Hambro, E.,
+  Azhar, F., et al. Llama: Open and efficient foundation lan-
+  guage models. arXiv preprint arXiv:2302.13971, 2023.
+Wei, X., Zhao, K., Jiao, Y., Carlisle, N. B., Xie, H., Fonzo,
+ G. A., and Zhang, Y. Multi-modal cross-domain self-
+ supervised pre-training for fmri and eeg fusion. Neural
+ Networks, 184:107066, 2025a.
+Wei, X., Zhao, K., Jiao, Y., He, L., and Zhang, Y. A
+ brain graph foundation model: Pre-training and prompt-
+ tuning for any atlas and disorder. arXiv preprint
+ arXiv:2506.02044, 2025b.
+
+Wu, Q., Yang, C., Zhao, W., He, Y., Wipf, D., and
+ Yan, J. Difformer: Scalable (graph) transformers in-
+ duced by energy constrained diffusion. arXiv preprint
+ arXiv:2301.09474, 2023.
+Wu, Q., Yang, C., Zeng, K., and Bronstein, M. M. Su-
+ percharging graph transformers with advective diffusion.
+ In Forty-second International Conference on Machine
+ Learning, 2025. URL https://openreview.net/
+ forum?id=MaOYl3P84E.
+Yang, G., Du, K., Yang, Z., Du, Y., Cheung, E. Y. W.,
+  Zheng, Y., Yang, M., Kourtzi, Z., Schonlieb, C.-B., and
+  Wang, S. Adfound: A foundation model for diagnosis
+  and prognosis of alzheimer’s disease. IEEE journal of
+  biomedical and health informatics, 2025.
+Yang, Y., Ye, C., Su, G., Zhang, Z., Chang, Z., Chen, H.,
+  Chan, P., Yu, Y., and Ma, T. Brainmass: Advancing
+  brain network analysis for diagnosis with large-scale self-
+  supervised learning. IEEE Transactions on Medical Imag-
+  ing, 2024.
+You, Y., Chen, T., Sui, Y., Chen, T., Wang, Z., and Shen, Y.
+  Graph contrastive learning with augmentations. Advances
+  in neural information processing systems, 33:5812–5823,
+  2020.
+Yu, S., Jin, S., Li, M., Sarwar, T., and Xia, F. Long-range
+  brain graph transformer. Advances in Neural Information
+  Processing Systems, 37:24472–24495, 2024.
+
+Zhao, J., Dong, Y., Ding, M., Kharlamov, E., and Tang, J.
+  Adaptive diffusion in graph neural networks. Advances in
+  neural information processing systems, 34:23321–23333,
+  2021.
+
+Zhao, T., Jin, W., Liu, Y., Wang, Y., Liu, G., Günnemann,
+  S., Shah, N., and Jiang, M. Graph data augmentation
+  for graph machine learning: A survey. arXiv preprint
+  arXiv:2202.08871, 2022.
+
+
+
+                                                                10
+                                 Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+A. Motivation
+The necessity of introducing graph diffusion into brain graph pretraining is motivated by the following key observations:
+
+       • Brain graphs are globally organized rather than locally defined. The functional role of a brain region is determined
+         by its participation in distributed networks spanning multiple regions, rather than by immediate neighbors alone. Purely
+         local message passing and neighborhood-based reconstruction fail to capture such long-range functional dependencies.
+       • Random augmentation and masking are semantically unsafe for brain graphs. Naive random dropping or masking,
+         commonly adopted in graph contrastive learning and masked autoencoders, can easily disrupt critical connectivity
+         patterns or produce unrealistic contrastive views, leading to unstable training signals and fragile representations.
+       • Existing graph-level readout schemes ignore global topology. Conventional pooling or attention-based readout
+         functions treat nodes as an unordered set and aggregate representations without explicitly considering structural
+         relationships, limiting their ability to encode brain-wide organization.
+       • Local reconstruction in masked autoencoders suffers from locality bias. Most graph masked autoencoder methods
+         reconstruct masked nodes or edges using only local neighborhood information, which is insufficient for brain graphs
+         where distant but structurally related regions provide essential contextual cues.
+       • Graph diffusion provides a principled inductive bias aligned with brain connectivity. By modeling multi-hop
+         propagation and global structural influence, diffusion enables structure-aware augmentation, topology-aware readout,
+         and global reconstruction, offering a unified solution to the above limitations.
+
+B. Comparison of different Graph Diffusion Kernels
+PPR Kernel
+Heat Kernel
+
+
+
+
+                w/o Graph Diffusion                 w/ Intra-Community Graph Diffusion        w/ Inter-Community Graph Diffusion
+
+Figure 5. Each heatmap shows diffusion strengths between node pairs, where brighter colors indicate stronger connections. The first
+column depicts original intra-community connectivity, the second column applies diffusion within each community, and the third column
+applies diffusion across communities, illustrating both intra- and inter-community propagation effects.
+
+As shown in Figure 5, we provide a qualitative analysis of the diffusion behaviors of the Personalized PageRank (PPR) and
+Heat kernels. We construct a toy graph consisting of two disjoint communities, each containing four nodes, where initial
+connections only exist between neighboring nodes within the same community. The diffusion strength between node pairs is
+visualized as heatmaps, with brighter colors indicating stronger propagated connectivity.
+
+                                                                 11
+                             Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+In the first column, without graph diffusion, node interactions remain strictly localized. Each node is only connected to its
+immediate neighbors within the same community, reflecting the limited receptive field of direct adjacency-based modeling
+and the absence of long-range information propagation.
+When diffusion is applied within individual communities (second column), both PPR and Heat kernels enable information to
+propagate beyond immediate neighbors. Nodes gradually establish connections with non-adjacent nodes inside the same
+community, demonstrating that diffusion effectively captures higher-order intra-community dependencies. Compared to
+direct adjacency, the resulting connectivity becomes smoother and more expressive, especially under the Heat kernel, which
+exhibits a more globally distributed propagation pattern.
+More importantly, when diffusion is further extended across communities (third column), non-zero connectivity emerges
+between nodes belonging to different communities. This is evidenced by the appearance of diffusion mass in the off-diagonal
+blocks of the heatmaps, indicating successful inter-community information propagation. While PPR preserves a certain
+degree of locality through its restart mechanism, the Heat kernel promotes more uniform global diffusion, leading to stronger
+cross-community interactions.
+Overall, although PPR and Heat kernels exhibit distinct propagation characteristics, both effectively expand the receptive
+field from local neighborhoods to global graph structures. This experiment confirms that graph diffusion enables global
+information aggregation beyond isolated subgraphs, providing a crucial foundation for the robustness and scalability of
+diffusion-based pretraining.
+
+                                    Table 3. Comparison of different graph diffusion kernels.
+
+            Property                                   RW                        PPR                       Heat
+                                                       Pk               α ∞              m m
+                                                                                                           e−tL
+                                                                         P
+            Formulation                                                      m=0 (1 − α) P
+            Diffusion type                        Discrete-step          Weighted multi-step        Continuous-time
+            Propagation range                     Fixed (k-hop)        Adaptive (local ↔ global)          Global
+            Path aggregation                   Single-length paths      All lengths with decay     All lengths (spectral)
+            Local structure preservation                ✓                         ✓✓                         ✓
+            Global information capture                  ✗                          ✓                        ✓✓
+            Robustness to node/edge drop                ✗                          ✓                        ✓✓
+            Sensitivity to hyperparameters          High (k)                 Moderate (α)                 Low (t)
+
+
+
+                       Table 4. Ablation study on different diffusion kernels on OASIS3 for DM Diagnosis.
+
+                                             Diffusion Kernels        PPR    Heat     RW
+                                           BrainGFM-Diff    77.6±1.6 77.3±1.8 76.9±2.0
+                                        Brain-HyperGFM-Diff 77.8±1.4 77.4±1.7 77.0±1.5
+
+
+
+C. Comparison among Graph, Hypergraph and Diffusion Hypergraph
+Tables 5 and 6 provide a unified view of graph modeling paradigms from the complementary perspectives of structural
+width and propagation depth. Hypergraph modeling emphasizes width by explicitly encoding high-order relations through
+hyperedges, enabling parallel aggregation over node groups and naturally alleviating over-smoothing. However, its
+information propagation is typically limited to single-hop group interactions and requires dedicated hypergraph operators
+with higher construction cost. In contrast, graph diffusion focuses on depth, propagating information across multiple hops
+via analytical diffusion kernels, which enables global context integration while remaining compatible with standard GNN
+architectures. Yet, diffusion alone operates on pairwise structures and does not explicitly model high-order relations.
+The second table further highlights that graph diffusion and hypergraph modeling address orthogonal limitations of conven-
+tional graphs: diffusion extends structural depth, while hypergraphs expand relational width. Their combination—diffusion
+hypergraphs—simultaneously supports high-order relations and global multi-hop propagation, yielding group-aware global
+representations with higher expressiveness. This width–depth unification is particularly appealing for brain network mod-
+eling, where functional organization involves both higher-order interactions among regions and long-range dependencies
+across the entire network.
+
+                                                                 12
+                                Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+          Table 5. Comparison between Hypergraph modeling and Graph Diffusion from the perspective of Width and Depth.
+
+          Aspect                                      Hypergraph (Width)                  Graph Diffusion (Depth)
+          Core Perspective                           Structural Width                        Propagation Depth
+          Basic Modeling Unit                Hyperedge (multi-node relation)             Edge-based message passing
+          Long-range Dependency              ✓ Single-hop group connectivity              ✓ Multi-hop propagation
+          Information Flow Pattern        Parallel aggregation across node groups    Sequential propagation across layers
+          High-order Relation Modeling             ✓ Explicitly supported                 ✗ Implicit / pairwise only
+          Structural Expressiveness           High (group-wise interactions)          Moderate (path-based interactions)
+          Risk of Over-smoothing                   ✓ Naturally alleviated                   ✗ Increases with depth
+          Compatibility with GNNs            ✗ Requires hypergraph operators         ✓ Plug-and-play with standard GNNs
+          Computational Cost                 Higher (hyperedge construction)          Lower (standard graph operations)
+
+
+                                    Table 6. Comparison of different graph modeling paradigms.
+
+ Aspect                               Graph                Hypergraph           Diffusion Graph          Diffusion Hypergraph
+ Relation order                      Pairwise               High-order          Global Multi-hop     High-order + Global Multi-hop
+ Structural extension                  None                   Width                   Depth                 Width × Depth
+ Explicit high-order modeling            ✗                      ✓                       ✗                          ✓
+ Multi-hop propagation                   ✗                      ✗                       ✓                          ✓
+ Topology redefinition                   ✗                      ✓                       ✗                          ✓
+ Core representation               Adjacency A             Incidence H         Diffusion kernel KG     Hypergraph diffusion KH
+ Modeling focus                  Local connectivity     Group-wise relations   Global propagation    Group-aware global propagation
+ Expressiveness                         Low                  Medium                  Medium                      High
+
+
+
+D. Graph Dropping vs. Graph Masking
+
+               Table 7. Comparison between graph augmentation via dropping and graph masking in graph pretraining.
+
+               Aspect                      Graph Augmentation (Drop)                 Graph Masking (Mask)
+               Granularity                    Graph-level perturbation                Node-level masking
+               Core operation             Remove nodes, edges, or features       Hide node or edge information
+               Information removal      Irreversible (permanently discarded)    Reversible (masked but retained)
+               Graph structure                Graph topology is altered           Graph topology is preserved
+               Learning objective      View-invariant representation learning Context-aware reconstruction learning
+               Training paradigm                 Contrastive learning                 Masked autoencoder
+               Supervision signal               Cross-view alignment                   Reconstruction loss
+               Requirement to recover                Not required                      Explicitly required
+               Representation property       Robustness and invariance          Expressiveness and completeness
+               Typical methods                        GraphCL                             GraphMAE
+               Role in pretraining        Encourage semantic consistency       Encourage structural understanding
+
+
+Table 7 highlights the fundamental differences between dropping-based graph augmentation and masking-based graph
+pretraining from the perspectives of granularity, supervision, and learning objectives. Dropping operates at the graph level,
+where stochastic perturbations are applied to construct multiple corrupted views of the same graph, and supervision is
+imposed by aligning their graph-level representations. Such a design encourages invariance to node or edge removal and
+improves robustness under structural perturbations, but does not require recovering the discarded information. In contrast,
+masking is typically formulated at the node level, where partial node or edge information is hidden while the overall topology
+is preserved, and the model is explicitly trained to reconstruct the masked components from contextual cues. Consequently,
+masking promotes fine-grained structural understanding and expressive representations through local reconstruction,
+whereas dropping emphasizes global semantic consistency across graph views. These two mechanisms therefore provide
+complementary and orthogonal supervisory signals—graph-level invariance versus node-level recoverability—making their
+combination particularly effective for learning generalizable graph representations.
+
+                                                                 13
+                                Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+        Table 8. Comparison between random and diffusion-based drop/mask strategies for graph and hypergraph pretraining.
+
+                       Property                               Random Strategies         Diffusion-based (Ours)
+                                                              Drop     Mask             Drop         Mask
+                       Structure-aware                         ✗             ✗           ✓              ✓
+                       Global information considered           ✗             ✗           ✓              ✓
+                       Perturbation strength control           ✗             ✗           ✓              ✓
+                       Moderate augmentation                   ✗             ✗           ✓              ✓
+                       Semantic safety                         ✗             ✗           ✓              ✓
+                       Preserve brain network backbone         ✗             ✗           ✓              ✓
+                       Contrastive view diversity              ✓             ✓           ✓              ✓
+                       Training stability                      ✗             ✗           ✓              ✓
+                       Suitability for brain graphs           Low           Low         High           High
+
+
+
+E. Comparison of Graph Readout
+Conventional graph readout functions summarize a graph by aggregating node representations while treating the node set as
+unordered and largely structure-agnostic (Buterez et al., 2022). Typical choices include mean pooling and max pooling,
+which compute graph-level representations by simple statistical aggregation of node features,
+
+                                            1 X
+                               Rmean =          i = 1N xi ,            Rmax = max i = 1, . . . , N xi ,                            (33)
+                                            N
+as well as attention-based pooling, which assigns adaptive importance weights to nodes via a learnable scoring function,
+
+                                           exp(w⊤ xi )                            X
+                                    αi = PN              ,              Ratt =        i = 1N αi xi ,                               (34)
+                                                   ⊤
+                                          j=1 exp(w xj )
+
+
+where w ∈ Rd is a trainable attention vector. While attention-based readout introduces node-wise adaptivity, all these
+operators perform aggregation without explicitly incorporating the underlying graph or hypergraph topology at the readout
+stage. As a result, the resulting graph-level representations may be sensitive to node or edge perturbations and exhibit
+instability across contrastive views, particularly in settings where global structural dependencies are critical.
+Conventional graphs model only pairwise relationships between nodes, limiting their ability to capture complex interactions
+in structured data. Hypergraphs extend this formulation by explicitly introducing hyperedges that connect multiple nodes,
+thereby enriching the relational representation along the width dimension and enabling the modeling of high-order group-wise
+interactions. In contrast, graph diffusion does not redefine the graph topology; instead, it enhances structural representations
+through multi-hop information propagation, enriching the modeling capacity along the depth dimension by capturing
+long-range dependencies and global structural consistency. Importantly, hypergraph modeling and diffusion-based modeling
+address two orthogonal aspects of graph representation learning: the former focuses on what constitutes a relation (relational
+width), while the latter focuses on how far information propagates (structural depth). Diffused hypergraphs naturally
+unify these two perspectives by enabling high-order group-aware relations to propagate over multiple hops, thereby jointly
+modeling collective interactions and long-range dependencies. This unified formulation provides a more expressive and
+principled framework for representing complex systems, such as brain networks, where both functional modules and their
+global interactions are critical.
+
+Table 9. Performance improvements of different graph readout strategies on the ADNI dataset. All reported gains are measured relative to
+the Traditional Readout baseline in terms of AUC, ACC, and F1.
+
+                                        Methods                AUC             ACC             F1
+                                  Traditional Readout        Baseline        Baseline       Baseline
+                                   Attention Readout          1.3%↑           1.5%↑          1.9%↑
+                                   Diffusion Readout          1.9%↑           2.5%↑          2.6%↑
+
+
+                                                                  14
+                        Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+
+
+
+     Table 10. Comparison between conventional graph readout and our proposed diffusion-based graph readout.
+
+   Dimension                                    Conventional Readout            Proposed Graph Diffusion Readout
+   Structural awareness                                  ✗ No                                ✓ Yes
+   Node-wise information propagation                   ✗ Absent                            ✓ Present
+   Robustness to node/edge dropping               ✗ Highly sensitive                       ✓ Robust
+   Representation semantics                    ✗ Local nodes aggregation            ✓ Global topological state
+   Stability in graph contrastive learning              ✗ Low                               ✓ High
+   Brain network interpretability                    ✗ ROI-level                   ✓ Network / subnetwork-level
+
+
+
+
+                              Table 11. Comparison of different graph readout strategies.
+
+Property                                     Traditional Readout         Attention Readout        Diffusion Readout
+Graph structure used in readout                       ✗                           ✗                        ✓
+Topology-aware aggregation                            ✗                           ✗                        ✓
+Multi-hop information integration                     ✗                           ✗                        ✓
+Global information propagation                        ✗                           ✗                        ✓
+Permutation invariance                               ✓                            ✓                        ✓
+Robustness to node/edge perturbations               Low                       Medium                     High
+Node adaptive weighting                           ✗ (None)               ✓ (Local Node-wise)     ✓ (Global Graph-wise)
+
+
+
+
+                Table 12. Comparison between architectural diffusion and diffusion-based pretraining.
+
+     Aspect                              Architectural Diffusion (GDT) Diffusion-based Pretraining (Ours)
+     Diffusion injection location              In-model (architecture)              Out-model (pretraining)
+     Diffusion integration stage                 Model architecture                  Pretraining paradigm
+     Introduces additional parameters                    ✓                                     ✗
+     Requires model modification                         ✓                                     ✗
+     Scales with pretraining data                    Limited                                   ✓
+     Low-data performance                             Strong                               Moderate
+     High-data performance                          Comparable                             Superior
+     Model reusability                             Task-specific                             High
+     Compatibility with hypergraphs                  Limited                                   ✓
+
+
+
+
+                                                           15
+                               Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+F. Latent Diffusion vs. Graph Diffusion
+Table 13 highlights the fundamental differences between latent diffusion on graphs and our proposed graph diffusion
+paradigm. Latent diffusion models operate in the learned embedding space and rely on iterative neural denoising to generate
+or refine node- or graph-level representations. As a result, their interaction with graph topology is indirect and mediated
+by the encoder, making the diffusion dynamics sensitive to latent noise schedules and training stability. In contrast, graph
+diffusion is performed directly on the graph or hypergraph structure using analytical kernels, enabling explicit multi-hop
+information propagation over nodes, edges, and hyperedges without introducing additional learnable parameters. This
+structural diffusion naturally preserves global connectivity patterns and remains robust under node or edge dropping
+and masking. Moreover, while latent diffusion is primarily designed for generative modeling, graph diffusion serves as
+a topology-aware representation propagation mechanism that is particularly well suited for self-supervised pretraining.
+These properties make graph diffusion better aligned with brain graphs, where functional semantics are encoded in global
+connectivity rather than latent generative trajectories.
+
+                    Table 13. Comparison between latent diffusion on graphs and our graph diffusion paradigm.
+
+          Dimension                       Latent Diffusion on Graphs                    Graph Diffusion (Ours)
+          Diffusion space                    Latent embedding space                   Graph / hypergraph structure
+          Diffusion object                Node or graph representations              Nodes, edges, and hyperedges
+          Core purpose                         Generative modeling             Representation propagation & pretraining
+          Relation to graph topology          Indirect (via encoder)                   Explicitly topology-aware
+          Diffusion operator                 Learned neural denoiser          Analytical diffusion kernel (RW / PPR / Heat)
+          Training requirement             Requires iterative denoising                  Parameter-free diffusion
+          Stability under perturbation   Sensitive to latent noise schedule       Robust to node/edge drop and mask
+          Global context modeling                     Implicit                       Explicit multi-hop propagation
+          Suitability for brain graphs                Limited                  Well-aligned with functional connectivity
+
+
+
+
+                                                                 16
+                           Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+G. Algorithm Pipelines
+
+Algorithm 1 Diffusion-Guided Graph / Hypergraph Contrastive Pretraining (GCL / HGCL)
+Input: Node features X, structure S (graph A or hypergraph I), batch B
+Parameter: Encoder fθ , diffusion depth T , coefficients {βk }, temperature τ
+Output: Contrastive loss LGCL
+ 1: Construct transition matrix P (S)
+ 2: Compute diffusion kernel K
+ 3: Perform feature diffusion to capture global context:
+ 4:    X diff = KX                                                                (global information propagation)
+ 5: Compute diffusion-based importance scores:
+                        (v)
+ 6:    Node score si = ∥(X diff )i ∥2
+ 7:    Structure score s(e) or s(h) from K
+ 8: Compute moderate diffusion-guided drop probabilities:
+ 9:    pdrop = Ψ(s)
+10: Sample diffusion-guided drop masks:
+11:    M(1) , M(2) ∼ Bernoulli(1 − pdrop )
+12: Generate two diffusion-consistent augmented views:
+13:    (X (1) , S (1) ) = Drop(X diff , S, M(1) )
+14:    (X (2) , S (2) ) = Drop(X diff , S, M(2) )
+15: Encode both views:
+16:    Z (1) = fθ (X (1) , S (1) )
+17:    Z (2) = fθ (X (2) , S (2) )
+18: Graph diffusion readout to obtain graph-level embeddings:
+19:    g (1) = Rdiff (Z (1) , K)
+20:    g (2) = Rdiff (Z (2) , K)
+21: Compute NT-Xent contrastive loss:
+22:    LGCL = NTXent(g (1) , g (2) , τ )
+23: return LGCL
+
+
+Algorithm 2 Graph / Hypergraph Diffusion Readout
+Input: Node embeddings Z ∈ RN ×d , structure S (graph A or hypergraph I)
+Parameter: Diffusion kernel K
+Output: Graph-level embedding g
+ 1: Construct diffusion kernel from structure:
+ 2:    K = K(S)                                                                       (graph or hypergraph diffusion)
+ 3: Diffuse node embeddings to aggregate global context:
+ 4:    Z̃ = KZ
+ 5: Aggregate diffused embeddings using permutation-invariant pooling:
+ 6:    g = Pool(Z̃)
+ 7: return g
+
+
+
+
+                                                        17
+                             Diffusion-Guided Pretraining for Brain Graph Foundation Models
+
+
+
+
+Algorithm 3 Diffusion-Enhanced Graph / Hypergraph Masked Autoencoder (GMAE / HGMAE)
+Input: Node features X, structure S (graph A or hypergraph I)
+Parameter: Encoder fθ , decoder gϕ , diffusion depth T , coefficients {βk }, mask ratio ρ
+Output: Reconstruction loss Ldiff
+                                GMAE
+ 1: Construct transition matrix P (S)
+ 2: Compute diffusion kernel K
+ 3: Perform feature diffusion:
+ 4:    X diff = KX                                                                        (global information propagation)
+ 5: Compute diffusion-based node importance scores:
+        (v)
+ 6:    si = ∥(X diff )i ∥2
+ 7: Compute moderate diffusion-guided mask probabilities:
+ 8:    pmask = Φ(s)
+ 9: Sample diffusion-guided masked node set M with ratio ρ
+10: Construct masked input X̃
+11: Encode diffusion-informed representations:
+12:    Z = fθ (X̃, S)
+13: Diffusion-supported reconstruction:
+14:    X̂ diff = KZ                                                                              (aggregate global context)
+15: Reconstruct masked node features:
+                     diff
+16:    X̂M = gϕ (X̂M      )
+17: Compute node reconstruction    loss:
+                  1                      2
+                      P
+18:    Lnode = |M|        i∈M ∥Xi − X̂i ∥2
+19:
+20: if structure reconstruction is enabled then
+21:    Compute diffusion-supported connectivity target:
+22:        Se = D(S, K)
+23:    Predict reconstructed structure Se
+                                      b
+24:    Compute structure reconstruction loss Lstruct
+25: end if
+26: Ldiff
+      GMAE = Lnode + η Lstruct
+27: return Ldiff
+             GMAE
+
+
+
+
+                                                            18
+

@@ -1,0 +1,750 @@
+Brain Topography (2025) 38:34
+https://doi.org/10.1007/s10548-025-01107-0
+
+    ORIGINAL PAPER
+
+
+
+Does the Cortical‑Depth Dependence of the Hemodynamic Response
+Function Differ Between Age Groups?
+Luisa Raimondo1,2,3 · Jurjen Heij1,2,3 · Tomas Knapen1,2,3 · Jeroen C. W. Siero1,5 · Wietske van der Zwaag1,2 ·
+Serge O. Dumoulin1,2,3,4
+
+Received: 3 July 2024 / Accepted: 3 February 2025 / Published online: 28 February 2025
+© The Author(s) 2025
+
+
+Abstract
+Functional magnetic resonance imaging (fMRI) is a widely used tool to investigate the functional brain responses in living
+humans. Valid comparisons of fMRI results depend on consistency of the blood-oxygen-level-dependent (BOLD) hemody-
+namic response function (HRF). Although common statistical approaches assume a single HRF across the entire brain, the
+HRF differs across individuals, regions of the brain, and cortical depth. Here, we measure HRF properties in primary visual
+cortex (V1) using 7 T fMRI with ultra-high spatiotemporal resolution line-scanning (250 μm in laminar direction, sampled
+every 105 ms). Line-scanning allowed us to investigate age-related HRF changes as a function of cortical depth. Eleven
+young and eleven middle-aged healthy participants participated in the experiments. We estimated the HRFs using a smooth
+basis function deconvolution approach. We also compared the results with conventional resolutions. From these HRFs, we
+extracted properties related to response magnitude and temporal dynamics. The cortical depth dependent HRFs were similar
+to the HRFs extracted using conventional resolutions validating the cortical depth dependent approach. We found that the
+properties of the HRF in the two age groups are similar across cortical depth. In other words, the variance between partici-
+pants is larger than the variance between age groups. This suggests that middle-aged individuals can participate in cortical
+depth dependent studies free of bias in HRF properties.
+
+Keywords Line-scanning · BOLD fMRI · 7 T · HRF · Aging · Deconvolution
+
+Abbreviations                                                                MRI	Magnetic resonance imaging
+CBF	Cerebral blood flow                                                     fMRI	Functional MRI
+CBR	Cerebral metabolic rate                                                 BOLD	Blood oxygenation level-dependent
+CMRO2	Cerebral metabolic rate of oxygen                                     HRF	Hemodynamic response function
+                                                                             TR	Repetition time
+Handling Editor: Micah Murray                                                ISI	Inter-stimulus interval
+                                                                             TE	Echo time
+Luisa Raimondo and Jurjen Heij shared first authorship.                      TI	Inversion time
+                                                                             MP2RAGE	Magnetization-prepared 2 rapid acquisition
+* Luisa Raimondo
+  luisa.raimondo94@gmail.com                                                          gradient echo
+                                                                             FLAIR	Fluid-attenuated inversion recovery
+1
+     Spinoza Centre for Neuroimaging, Meibergdreef 75,                       OVS	Outer volume suppression
+     1105 BK Amsterdam, The Netherlands                                      T1w	T1-weighted
+2
+     Computational Cognitive Neuroscience and Neuroimaging,                  SANLM	Spatial-adaptive non-local means
+     Netherlands Institute for Neuroscience, Amsterdam,                      CSF	Cerebrospinal fluid
+     The Netherlands
+                                                                             WM	White matter
+3
+     Experimental and Applied Psychology, VU University,                     GM	Gray matter
+     Amsterdam, The Netherlands
+                                                                             GLM	General linear model
+4
+     Experimental Psychology, Utrecht University, Utrecht,                   t-stats	T statistical values
+     The Netherlands
+                                                                             FWHM	Full width at half maximum
+5
+     Radiology, University Medical Centre Utrecht, Utrecht,                  FIR	Finite impulse response
+     The Netherlands
+
+
+                                                                                                                    Vol.:(0123456789)
+34 Page 2 of 15                                                                                      Brain Topography (2025) 38:34
+
+
+tSNR	Temporal signal-to-noise ratio                              resolutions (> 3 mm isotropic) and long repetition times
+SoS	Sum of squares                                               (TR) of 1–2 s were used, which were standard for fMRI at
+NORDIC	NOise reduction with DIstribution corrected               the time (Logothetis 2008; Turner 2016). These acquisitions
+        PCA                                                       are thus likely biased to sample BOLD signals from larger,
+SNR	Signal-to-noise ratio                                        draining veins (Turner 2002). In contrast, contemporary
+UHF	Ultrahigh field                                              hardware (e.g. UHF-MRI) and methodological (modeling
+                                                                  approaches) advances are likely to bring relevant insights
+                                                                  in HRF characterization (Chen et al. 2021), which can be
+Introduction                                                      relevant for the aging brain. Particularly, increased field
+                                                                  strengths can be employed to reach higher spatial and tem-
+Aging causes a broad set of anatomical changes in the brain,      poral resolution. This, in turn, would allow a more spatially
+such as thinning and atrophy of the cortex (Salat et al. 2004).   localized detection of changes in the HRF through reduction
+Aging also changes function, such as a reduction in cerebral      of partial volume effects (Dumoulin et al. 2018; Raimondo
+blood flow (CBF), alterations in cerebral metabolic rate of       et al. 2021b; Siero et al. 2011; van der Zwaag et al. 2016).
+oxygen ­(CMRO2) and blood supply (Chen et al. 2011; Lu            Using a higher sampling rate allows more frequent sampling
+et al. 2011). Magnetic resonance imaging (MRI) is a power-        along the HRF, which aids in estimation of shape and timing
+ful tool, since it allows for measurements of structure and       parameters.
+function in the living human brain. Particularly, functional         This study aims measure age-related changes in HRFs
+MRI (fMRI) is a non-invasive method that is sensitive to          across cortical depth using line-scanning fMRI. In contrast
+changes in the blood oxygenation level-dependent (BOLD)           to the conventional whole-brain acquisition, line-scanning
+signal as a consequence of tasks (Ogawa et al. 1990). With        is based on the acquisition of one dimensional data, to reach
+respect to aging, fMRI can detect changes in the hemody-          extremely high spatial (250 μm) and temporal (~ 100 ms)
+namic response function (HRF), which may reflect changes          resolution along the line direction (Choi et al. 2021; Rai-
+in the vasculature, particularly when sufficient high spati-      mondo et al. 2021a; Yu et al. 2014). This is done by exciting
+otemporal resolution is employed.                                 a slice and suppressing the signal outside the line of inter-
+   Several studies investigated the age-dependence of fMRI        est through outer volume suppression (OVS). The phase-
+responses, but there is no clear consensus on whether, and if     encoding gradient in the direction perpendicular to the line
+so how, the HRF changes in healthy aging. On the one hand,        is omitted, and the line signal is then acquired after every
+some studies reported a decrease in the amplitude of the          excitation pulse. This method is suitable to yield highly
+BOLD response following a visual stimulus in older individ-       detailed HRFs in humans across cortical depth by position-
+uals compared to a younger group (66–89 and 18–24 years           ing the line perpendicular to the cortex, thereby reducing
+old and 57–84 and 20–36 years old) (Buckner et al. 2000;          the mixing of signals from different cortical depths. We
+Ross et al. 1997). On the other hand, Huettel et al. (Huet-       also included a relatively high-resolution whole-brain fMRI
+tel et al. 2001) found similar BOLD response amplitudes.          acquisition (1.8 mm isotropic spatial resolution and repeti-
+West et al. (West et al. 2019) suggested the small sample         tion time of 1.32 s). The same visual task was performed
+sizes, analysis techniques, and physiological mechanisms          in both acquisition schemes. We selected two age groups
+could cause between-study discrepancies. Using large sam-         (19–25 years old, denoted ‘young’ and 57–69 years old,
+ple sizes and minimal analysis assumptions, they aimed to         denoted ‘middle aged’) and we extracted the HRF for a large
+disentangle age-related changes in HRF parameters from            ROI in the primary visual cortex (V1) from the whole brain
+other sources of variability and link them solely to altera-      data acquisition and HRFs obtained at different depths from
+tions in one or more components of the neural-vascular            line-scanning data.
+coupling system. This approach yielded a delayed response
+with decreased amplitude, reduced undershoot and longer
+return to baseline in elderly (54–74 years old) compared to       Materials and Methods
+younger (18–30 years old) participants in the occipital cortex
+in response to a visual-motor task. Moreover, the older group     Participants
+exhibited higher variability in response shape compared to
+the younger group. However, in an earlier study, a lower          11 young healthy participants (23 ± 2 years old, age range
+amplitude and SNR were not linked to shape and or variabil-       19–25, 6 males, 5 females) and 11 middle aged healthy
+ity differences between age groups (D’Esposito et al. 1999).      participants (63 ± 4 years old, age range 57–69, 9 males,
+   Despite the discrepancies reported above, some com-            2 females) were scanned with a 7 T MRI system (Philips,
+mon points of those studies can be highlighted: relatively        Netherlands) equipped with a 2-channel transmit and 32
+low magnetic fields (1.5 and 3 T), low spatial and temporal       channel receive head coil (Nova Medical, USA). Following
+Brain Topography (2025) 38:34                                                                                     Page 3 of 15 34
+
+the Helsinki Declaration, all participants provided writ-        randomly selected. This dense number of unique stimuli
+ten informed consent before participating. This study was        ensures an even activation across large portions of visual
+approved by the local ethical committee of the Vrije Uni-        cortex. The inter-stimulus intervals (ISIs) were jittered fol-
+versiteit Amsterdam. Participants were screened prior to         lowing a negative exponential decay to reduce collinearity
+the experiments to ensure MR compatibility. We carefully         between subsequent events (Chen et al. 2023; Friston et al.
+instructed participants to lay still in the scanner and motion   1999; Mumford et al. 2015). We optimized the ISI distribu-
+was limited by fixing the head using foam pads. We excluded      tion in two stages. First, we generated 1000 ISI distribu-
+data from 2 participants of the “middle aged” group from the     tions ­(ISImin/ISImax/ISImean = 3 s/18 s/6 s) and obtained the
+line-scanning dataset. One due to misplacement of the line       predicted time course using a canonical HRF and a stimulus
+(i.e. the line was positioned far from the probabilistic V1)     duration of 3 s. The ISI distribution that resulted in the pre-
+and another due to excessive motion.                             diction with the highest variance (­ ISIoptimized) was entered
+                                                                 in stage 2. Here, we optimized the order of ISIs by selecting
+Stimulus and Task                                                the predicted time course with the highest variance gener-
+                                                                 ated from all possible ISI orders in ­ISIoptimized. To ensure
+The visual stimulus was presented on a screen placed at the      participants’ engagement, we introduced contrast-inverted
+end of the scanner bore, visible through a mirror positioned     presentations of flickering images (target) lasting ~ 0.3 s in
+on the top of the coil. To independently localize responses      half of the trials and instructed participants to press a but-
+in the visual cortex that correspond to our stimulus extent      ton whenever they detected a target. The target could be
+(Maus et al. 2010), we presented a 12 s ON/OFF “localizer”       anywhere in the stream of images by randomly selecting an
+task of 2.5 min. During the ON-period, objects flickering        index between 0 and 45; the contrast of subsequent images
+at 8 Hz were presented on a scrambled gray background,           lasting the duration was inverted. Depending on the per-
+while during the OFF-period a gray screen was displayed.         formance outside the scanner, we adjusted the duration of
+For estimation of HRF shapes (Birn et al. 2002; Friston et al.   the target. A baseline consisting of 20 s of gray screen was
+1999; Liu et al. 2001), we employed an event-related visual      added in the beginning of the task.
+task (Fig. 1), consisting of flickering images at 15 Hz on          The full experiment code can be found at the following
+a scrambled gray background, in an event-related manner          link: https://​github.​com/​gjheij/​LineE​xps/​tree/​main/​scenes.
+[for stimulus details, see Benson et al. (2018)]. Whereas
+Benson, et al. used apertures to elicit retinotopic responses,   Data Acquisition
+we vignetted the images only with a circular aperture
+subtending 10 degrees of visual angle. Based on the fre-         We acquired anatomical scans with an MP2RAGE
+quency (15 Hz) and duration (3 s), 45 images per trial were      sequence (magnetization-prepared 2 rapid acquisition
+
+
+Fig. 1  Schematic representation
+of the event-related visual stim-
+ulus. Images selected from the
+HCP retinotopy dataset (Benson
+et al. 2018) were flickering
+at 15 Hz on a scrambled gray
+background, in an event-related
+manner: 3 s stimulus duration
+(i.e. 45 animation frames), 6 s
+mean inter-stimulus interval
+(ISI), 3 s minimum ISI, 18 s
+maximum ISI, following a nega-
+tive exponential ISI distribution.
+Images were vignetted with a
+circular aperture subtending
+10° of visual angle. In half
+of the trials negative images
+(target) were introduced to keep
+the participants focused. The
+participants were instructed to
+press a button whenever a target
+was displayed
+34 Page 4 of 15                                                                                          Brain Topography (2025) 38:34
+
+ gradient echo) (Marques et al. 2010; Oliveira et al. 2021):        Data Acquisition: Line‑Scanning Data
+ matrix size = 344 × 344, spatial resolution = 0.64 mm iso-
+ tropic, TR = 6.2 ms, TE = 2.3 ms, ­TI1/TI2 = 0.8/2.7 s, flip       The line-scanning acquisition was based on (Raimondo
+ angle = 8°/5°. A fluid-attenuated inversion recovery (FLAIR)       et al. 2023, 2021a). First, a single slice gradient-echo acqui-
+ sequence with the following parameters was acquired to aid         sition (matrix size = 720 × 180, in-plane spatial resolu-
+ in pial surface segmentation: matrix size = 220 × 220 spatial      tion = 0.25 × 1 ­mm2, slice thickness = 2.5 mm, TR = 106 ms,
+ resolution = 1 mm isotropic, TR/TI = 8/2.2 s, TE = 234 ms,         TE = 12 ms, flip angle = 22°) was done to identify the target
+ flip angle = 90°.                                                  area. Second, a line-signal distribution (LSD) image was
+     Whole brain functional data were acquired using a 3D           acquired which was identical to the slice acquisition, with
+ GE-EPI sequence with the following parameters: matrix              the addition of 2 saturation pulses (OVS bands, 7.76 ms
+ size = 112 × 112, spatial resolution = 1.8 mm isotropic,           pulse duration) to suppress the signal outside the line of
+ TR = 1.32 s, TE = 17 ms, flip angle = 13°, ­SENSEPE = 2.61,        interest. Finally, 3 runs of functional line-scanning data
+­SENSEslice = 3.27. Each run was followed by 4 volumes              were acquired using a modified 2D multi-echo gradient-
+ acquired in the opposite phase-encoding direction to correct       echo sequence (5 echoes), where the phase-encoding in the
+ for susceptibility distortions (Andersson et al. 2003). The        direction perpendicular to the line, needed for conventional
+ localizer run consisted of 124 volumes (2.5 min), while 230        2D imaging, was omitted. Specific parameters were as fol-
+ volumes per event-related run were acquired (5 min 11 s).          lows: line resolution = 250 μm, TR = 105 ms, ­TE1 = 6 ms,
+ Note that for the whole-brain acquisitions, the ISI distribu-      ΔTE = 8 ms, flip angle = 16°, array size = 720, line thick-
+ tion was different for every run. Right before the line-scan-      ness = 2.5 mm, in-plane line width = 4 mm, fat suppression
+ ning acquisitions, we acquired a fast 3D FFE T1-weighted           using SPIR. The 2 saturation pulses were identical to those
+ anatomical scan (matrix size = 124 × 124 with 87 slices, spa-      used in the LSD image. The left part of Fig. 3 shows a sche-
+ tial resolution = 2 mm isotropic, TR/TE = 3.7/1.7 ms, TFE          matic representation of the line-scanning data acquisition.
+ factor = 352, flip angle = 7°, acquisition time = 56 s) that was      Regarding the planning procedure, a single slice was
+ used as an intermediate image to register the 2D slice to the      positioned coronally, crossing the visual cortex (Fig. 3). By
+ MP2RAGE. A schematic representation of the overall whole           design, the line is located in the middle of the slice. Here, the
+ brain data acquisition can be seen in the top part of Fig. 2.      slice was placed so that the line crossed the occipital lobe in
+
+
+Fig. 2  Schematic representa-
+tion of the whole brain data
+acquisition and analysis. From
+the localizer with the block
+design task, a localizer ROI
+was created with voxels with
+t-stats > 2.3 following the GLM
+analysis. A binary V1 ROI
+(pV1 ROI) was derived from
+the Juelich Histological Atlas
+(Amunts et al. 2000) (thresh-
+old = 39%) as implemented in
+FSL (Smith 2004) and trans-
+formed to the functional space.
+The overlap of localizer ROI
+and pV1 ROI resulted in voxels
+eligible for the deconvolution
+approach from the functional
+runs with event-related task
+Brain Topography (2025) 38:34                                                                                                Page 5 of 15 34
+
+Fig. 3  Schematic representation
+of line-scanning data acquisition
+and analysis. a A gradient-echo
+slice with and without OVS
+bands was acquired, followed
+by the line-scanning runs with
+the event-related visual task. b
+The slice was coregistered to
+the whole brain anatomical scan
+(MP2RAGE) and a patch of
+cortex relatively perpendicular
+to the line was selected (line
+ROI). c The deconvolved HRF
+was extracted across cortical
+depth along the line ROI, as
+well as averaged across the line
+ROI
+
+
+
+
+the V1 area, approximately in a straight patch of cortex, at a              (amplitude), time-to-peak, full-width-at-half-maximum
+location corresponding to a pRF peripheral (~ 1 dva) in the                 (FWHM), rising slope (i.e. the angulation of the rising part
+visual field. The line was always positioned in the left–right              of the HRF; evaluated from the derivative), positive area
+direction. This places the line approximately perpendicular                 under the curve, and post-stimulus undershoot area.
+to the medial gray matter sheet of the occipital lobe, which
+helps to avoid partial volume effects. We tried to avoid vox-               Data Analysis: Whole Brain Data
+els which clearly included large veins, which are visible as
+black dots on the single slice gradient-echo acquisition.                   The ­T 1-weighted (T1w) anatomical image from the
+                                                                            MP2RAGE sequence was processed as follows: first, the
+Estimation of the HRF Shape Using Deconvolution                             image was denoised using a spatial-adaptive Non-Local Means
+                                                                            (SANLM-) (Manjón et al. 2010) and segmented into cerebro-
+Deconvolution was performed using Nideconv (https://​                       spinal fluid (CSF), white-matter (WM) and gray-matter (GM)
+github. ​ c om/ ​ V U- ​ C og- ​ S ci/ ​ n idec ​ o nv). A finite impulse   using CAT12 (https://​neuro-​jena.​github.​io/​cat/). The denoised
+response model with a regressor per TR (time period/TR)                     image was corrected for intensity non-uniformity with N4Bias-
+was applied to capture shapes without any assumptions                       FieldCorrection (Tustison et al. 2010), distributed with ANTs
+regarding HRF shape. The time period included 3 s before                    2.3.3 (https://​github.​com/​ANTsX/​ANTs). A mask represent-
+stimulus onset until 27 s after stimulus onset. The large                   ing the sagittal sinus was created by hand using ITK-Snap
+number of regressors used with FIR inflates variability, as                 (Yushkevich et al. 2016, 2006).The voxels in the mask were
+fewer samples contribute to each parameter estimate (Pol-                   set to zero in the denoised T1w image to limit the necessity
+drack et al. 2011). To deal with this, we complemented the                  for manual intervention after surface reconstruction. The final
+analysis with a deconvolution using a Fourier basis set. Such               masked image was then skull-stripped with a Nipype imple-
+an approach imposes some constraints on HRF shape (such                     mentation of the antsBrainExtraction.sh workflow (from
+as its intrinsic low-pass filtering of the resulting shape by               ANTs), using OASIS30ANTs as target template. Brain tissue
+excluding high frequencies from the response shape basis                    segmentation of CSF, WM and GM was performed on the
+set), but is still flexible because different linear combina-               brain-extracted T1w image using FSL’s FAST (Zhang et al.
+tions allow for larger variety of HRF shapes than a single                  2001). FreeSurfer 7.2 recon-all (Dale et al. 1999) was used to
+canonical basis function (Poldrack et al. 2011). We used a                  obtain native cortical surface reconstructions. The software
+cross-validation framework to derive the number of regres-                  makes use of the FLAIR image to refine the segmentation
+sors that maximized out-of-set variance explained, resulting                obtained by T1w image alone, particularly in the exclusion of
+in 10 regressors (Fig. S1). The following parameters were                   sinus and at the pial surface border. We defined a V1 region
+derived from the response estimations: response magnitude                   of interest (pV1 ROI) on the anatomical data, using FSL, by
+34 Page 6 of 15                                                                                               Brain Topography (2025) 38:34
+
+binarizing the probabilistic V1 ROI from the Juelich histologi-      Results
+cal atlas (Amunts et al. 2000), thresholded by 39%. The data
+from the block design localizer were analyzed with a general         Participants in Both Age Categories were Able
+linear model (GLM) analysis, assuming a Gaussian HRF shape           to Perform the Task
+and t statistical values (t-stats) were estimated. The voxels with
+t-stats ≥ 2.3 (p-value 0.001) were used to make a localizer ROI.     We evaluated the ability of the participants to perform the
+The time courses from overlapping voxels of the pV1 ROI and          task, i.e. press the button when the contrast-inverted images
+localizer ROI were converted in percentage signal change and         (target) were presented, by calculating the average discrimi-
+averaged, from the baseline at the beginning of the visual task.     nation index (d’) and their reaction time across runs (See
+                                                                     Fig. 4 for individual participant performance, apart from one
+Data Analysis: Line‑Scanning Data                                    participant of the middle-aged group, for which no response
+                                                                     was recorded due to technical problems). First, all partici-
+The reconstruction of line-scanning data was performed offline       pants had d’ values above 1 indicating that all participants
+using MatLab, Gyrotools. We combined the multi-channel coil          were able to discriminate the target image and performed the
+data with a temporal signal-to-noise ratio (tSNR) and coil           task according to the instructions. Second, we compared per-
+sensitivity-weighted sum of squares (SoS) weighted scheme            formance between age-groups. The participants performed
+per echo as in (Raimondo et al. 2023). Prior to channel com-         with d’ values of 3.4 ± 0.7 (mean ± standard deviation) for
+bination, we applied a NOise reduction with DIstribution cor-        the young group and 2.7 ± 0.8 (mean ± standard deviation)
+rected PCA (NORDIC) denoising step, while multi-echo data            for the middle-aged group, while the averaged reaction
+were combined with a sum of squares (Raimondo et al. 2023;           times were 0.41 ± 0.09 s (mean ± standard deviation) for the
+Vizioli et al. 2021). We averaged the 3 runs of line-scanning
+data to increase the signal-to-noise ratio (SNR), akin to (Cai
+et al. 2021).
+   Single slice images were registered to the MP2RAGE
+scan via the fast anatomical scan. To select the area of the
+line most perpendicular to the cortex, we projected the line
+image to the surface and identified the point with the smallest
+angle between the coronal vector (the line direction) and the
+normal vector to the cortex. The voxels surrounding the most
+perpendicular vertex were selected to cover the pial surface
+to the white matter boundary to form the line ROI. The Sup-
+plementary material (Fig. S2) shows each participant's line
+ROI after coregistration to the anatomical MP2RAGE. We also
+highlighted on the same slices the pV1 ROI and the localizer
+ROI to confirm that the line ROI ended up in an active region
+of V1 for each participant. Since the number of voxels that we
+selected for the line ROI differed across participants, we con-
+verted the number of voxels to percentage of distance from the
+cortex in order to pool the values of the HRF parameters across
+participants. We also averaged all the HRFs across cortical
+depth for a closer comparison with whole brain data in visual
+cortex. Note that the post stimulus undershoot was computed
+only for the averaged data across cortical depth, since the sin-
+gle HRF for each cortical depth was too noisy to perform this
+estimation.
+
+
+
+
+                                                                     Fig. 4  a d-prime values for all participants in the two age groups
+                                                                     (red for young and blue for middle-aged). b reaction times for all
+                                                                     participants in the 2 age groups (red for young and blue for middle-
+                                                                     aged). All d’ values were larger than 1 indicating that the participants
+                                                                     were able to do the task. Moreover, no significant differences were
+                                                                     observed between age-groups
+Brain Topography (2025) 38:34                                                                                                    Page 7 of 15 34
+
+young group and 0.47 ± 0.13 s (mean ± standard deviation)                     representative participant (for all individual participants
+for the middle-aged participants. Neither d-prime values,                     please see supplementary material Fig. S3), showing good
+nor reaction time were significantly different in the 2 age                   agreement between the Fourier basis sets and FIR model.
+groups when performing a Student’s t-test. Therefore, both                    The deconvolved HRFs are shown together for all partici-
+age-groups paid attention to the stimulus and were able to                    pants in Fig. 5b (light lines), along with the averages (darker
+perform the task. Differences in task performance are not                     lines) for the young (red) and middle-aged group (blue).
+likely to underlie potential differences in the HRFs.                              Group-average HRF shapes between age-groups
+                                                                              were remarkably similar, as confirmed by the analysis
+Similar HRF Shapes Between Age‑Groups Extracted                               of the main HRFs parameters (Fig. 5c). No significant
+from pV1                                                                      differences (Student’s t-test) were found for amplitude
+                                                                             ­( t 20 = − 0.287, p = 0.777), time to peak ­( t 20 = − 0.257,
+Figure 5 shows the deconvolved HRFs extracted from the                        p = 0.800), FWHM ­( t 20 = 0.339, p = 0.738), rising slope
+pV1 ROI. The deconvolved HRF using Fourier basis sets                        ­( t 20 = 0.199, p = 0.845), positive area under the curve
+is superimposed on the points from the FIR model for a                       ­(t20 = − 0.088, p = 0.931), and post stimulus undershoot
+
+
+
+
+Fig. 5  a Extracted HRF from pV1 (with FIR points and Fourier basis          period when the task was shown. c HRF parameters from whole brain
+set), for a representative participant. b HRFs for all participants in the   data for the 2 age groups (red young and blue middle aged). The error
+young (red) and middle-aged (blue) group (thin lines) and averaged           bar indicates the standard error of the mean. We found no significant
+HRF for both groups (thick lines). The light gray box indicates the          differences for the HRF parameters between age groups
+34 Page 8 of 15                                                                                                                   Brain Topography (2025) 38:34
+
+ area ­( t 20 = 0.611, p = 0.538). Furthermore, we com-                                      Line‑Scanning Versus 3D‑EPI Acquisition
+ pared the HRF parameters among the 2 age groups
+ using a Bayesian independent samples t-test to esti-                                         To estimate the translatability of line-scanning, we compared
+ mate evidence in favor of the alternative hypothesis (i.e.                                   the HRF profiles and parameters extracted from line-scan-
+ parameters being different). We found moderate-weak                                          ning and the 3D-EPI sequence (Fig. 7). It can be immediately
+ evidence that all the parameters are identical across                                        appreciated that the magnitude of the HRF obtained with
+ groups ­( BF 10,amplitude = 0.396, ­B F 10,time-to-peak = 0.394,                             line-scanning (M = 1.61, SD = 0.37) is much lower compared
+ BF10, FWHM = 0 . 4 0 1 ,         ­B F 1 0 , r i s i n g s l o p e = 0 . 3 9 ,               to those obtained with 3D-EPI (M = 2.79, SD = 0.57). A
+­BF10, positive area = 0.386, ­BF10, post stimulus undershoot area = 0.44).                  paired-samples t-test confirmed that these differences were
+                                                                                             significant ­(t19 = − 8.45, p < 0.001, CI95% = [0.92,1.52],
+                                                                                              Cohen’s D = 2.62) (Fig. 7a). The same effect was found for
+Average HRF Parameters Across Cortical Depth                                                  positive area ­(t19 = − 7.84, p < 0.001, CI95% = [5.35,9.24],
+from Line‑Scanning Data                                                                       Cohen’s D = 2.42), post-stimulus undershoot ­(t19 = − 9.60,
+                                                                                              p < 0.001, CI95% = [2.93,4.57], Cohen’s D = 2.43),
+  Before analyzing line-scanning data we checked the                                          rise slope ­(t 19 = − 8.51, p < 0.001, CI95% = [0.3,0.49],
+  results of the line planning procedure by plotting the pV1                                  Cohen’s D = 2.65), and FWHM ­(t19 = − 2.94, p = 0.008,
+  mask on the slice on which the line was acquired, together                                  CI95% = [0.08,0.46], Cohen’s D = 0.74); parameters that
+  with the localizer ROI from the whole brain functional                                      are highly correlated with amplitude (Fig. S5). For timing
+  localizer (Fig. S2 of the Supplementary material). We                                       parameters that depend less on magnitude, we found sig-
+  selected the voxels along the line crossing the cortex from                                 nificantly slower time to peaks with line-scanning (M = 5.3,
+  pial surface to WM boundary, as perpendicular as pos-                                      SD = 0.60) compared to 3D-EPI (M = 4.94, SD = 0.40),
+  sible (line ROI). The angle between line and surface was                                   ­t19 = 6.94, p < 0.001, CI95% = [− 0.89, − 0.48], Cohen’s
+  calculated a posteriori, and was on average (18 ± 12)° for                                  D = 1.35. When directly correlating parameters derived
+  the young group and (22 ± 6)° for the middle aged group).                                   from line-scanning and 3D-EPI sequences, we found a
+     Figure 6 follows a similar layout compared to Fig. 5,                                    strong correlation for the time to peak (r = 0.67, p = 0.001,
+  but results are derived from the line-scanning acquisition.                                 CI95% = [0.33,0.86]). Other parameters that depend on mag-
+  Figure 6a shows the deconvolved HRF for the same rep-                                       nitude, did not translate between sequences.
+  resentative participant as Fig. 5a, together with the FIR
+  points. Note the drastic increase in samples compared                                      Similar Cortical Depth Dependent HRFs in pV1
+  to the whole brain data in Fig. 5. This is because the TR
+  used for line-scanning is ~ 13 times shorter than the TR                                   Figure 8 shows the deconvolved HRF extracted for each
+  of whole brain data acquisition (0.105 s vs 1.32 s). In the                                cortical depth within the line ROI for a young representa-
+  Supplementary material (Fig. S4) the deconvolved HRF                                       tive participant (Fig. 8a) and a middle aged representative
+  with FIR points is reported for individual participants.                                   participant (Fig. 8c). The corresponding amplitude across
+  The deconvolved HRFs are also represented for all par-                                     cortical depth is reported in Fig. 8b, c, together with the line
+  ticipants in Fig. 6b, together with the averages for the age                               ROI from the gradient-echo slice acquisition.
+  groups (with the same color coding as in Fig. 5).                                             The HRF shape across cortical depths showed similar
+     The deconvolved HRFs follow similar trends, but they                                    behavior in the two age groups, with a consistent decrease in
+  present slightly more variability compared to whole brain                                  amplitude from the pial surface to the WM boundary. Note
+  data. Again, no differences between age groups were                                        that the post-stimulus undershoot looks relatively volatile,
+  found for amplitude (­t 18 = − 0.308, p = 0.762), time-                                    with multiple zero-crossings between 10 and 25 s post-stim-
+  to-peak ­( t 18 = − 0.345, p = 0.734), FWHM ­( t 18 = 0.429,                               ulus onset in Fig. 8. Such behavior might be expected from
+  p = 0.673), rising slope (­ t 18 = 0.085, p = 0.933), posi-                                the deconvolution step in the line-scanning data, which are
+  tive area (­ t 18 = − 0.070, p = 0.945), and post stimulus                                 generally noisier than medium-resolution imaging data as
+  undershoot area (­ t 18 = − 1.131, p = 0.273). When com-                                   acquired for the 3D-EPI runs. For this reason, we did not
+  paring the spatiotemporal HRF parameters among age                                         compute the post stimulus undershoot area for the HRFs
+  groups with a Bayesian independent samples t-test,                                         across cortical depths. All the other HRF parameters were
+  we found weak-moderate evidence that the parameters                                        estimated across cortical depths and reported in Fig. 9a for
+  are identical between groups ­(BF 10, amplitude = 0.412,                                   all the individual participants and averaged across groups
+­B F 1 0 , t i m e - t o - p e a k = 0 . 4 1 6 , ­B F 1 0 , F W H M = 0 . 4 2 6 ,            (Fig. 9b).
+­B F 1 0 , r i s i n g s l o p e = 0 . 4 , ­B F 1 0 , p o s i t i ve a r e a = 0 . 3 9 9 ,      For both young and middle aged groups, the BOLD signal
+ ­BF10, post stimulus undershoot area = 0.621).                                              showed the canonical pattern of signal evolution; BOLD
+                                                                                             signals increased towards the pial surface. To test differences
+Brain Topography (2025) 38:34                                                                                                 Page 9 of 15 34
+
+
+
+
+Fig. 6  a Extracted HRF from line-scanning data averaged across cor-       light gray box indicates the period when the task was shown. c HRF
+tical depths (with FIR points and Fourier basis set), for a representa-    parameters averaged across cortical depth line-scanning data for the
+tive participant. b HRFs averaged across cortical depth for all partici-   2 age groups (red young and blue middle aged). Note that the line-
+pants (red young group and blue middle aged group) and respective          scanning data for 2 participants were excluded from plot (b) and (c)
+averaged HRF across the 2 age groups (ticker red and blue lines). The      as well as from the analysis
+
+
+across depth formally, we assessed the different HRF param-                comparisons indeterminate. We found a trend for the slope
+eters as the intercept at 50% of cortical depth and slope of               of positive area (W = 79.00, p = 0.025), where young par-
+the linear regression fit averaged across the 2 age groups                 ticipants (M = − 0.030, SD = 0.020) had a steeper slope
+(Fig. 9b).                                                                 compared to middle aged participants (M = − 0.012,
+   For the slopes of amplitude, time-to-peak, and posi-                    SD = 0.006, effect size = 0.596). No significant effects
+tive area, the assumption of normality using Levene’s test                 were found for the slope of the amplitude and time-to-peak
+was violated (p < 0.001, p = 0.021, and p = 0.002, respec-                 (W = 75.00, p = 0.046 and W = 52.00, p = 0.882, respec-
+tively). A Mann–Whitney U-test for independent samples                     tively). The parameters that did not break the assumption
+was used to assess differences in these parameters across                  of normality were assessed using a Student’s t-test (FWHM
+age groups (two-tailed, alpha = 0.025.) No corrections for                 and rising slope). No significant effects were found for
+multiple comparisons were made because interdepend-                        these parameters ­(t18 = 1.877, p = 0.770 and ­t18 = 0.634,
+encies of parameters render the number of independent                      p = 0.534, respectively). Using Bayesian independent
+34 Page 10 of 15                                                                                                           Brain Topography (2025) 38:34
+
+
+
+
+Fig. 7  a Extracted HRF from line-scanning data averaged across cor-         the period when the task was shown. c Comparison between param-
+tical depth. b Extracted HRF from pV1. In both a and b, single sub-          eter estimates extracted from line-scanning (purple) and 3D-EPI
+ject HRF profiles are depicted with thin lines, and group averages are       (orange). d Correlation between parameters extracted from line-scan-
+shown with thick lines for both groups. The light gray box indicates         ning and 3D-EPI
+
+
+
+  samples t-test, we found weak evidence that the slopes of                    for rising slope and ­t18 = − 0.278, p = 0.784 for the posi-
+  positive area, amplitude and FWHM are different across                       tive area). From the Bayesian independent samples t-test,
+  age groups (­ BF10, positive area = 3.34, ­BF10, amplitude = 1.604,          we found weak-moderate evidence that the intercept at 50%
+­BF10, FWHM = 1.291 respectively), while for time-to-peak                      of cortical depth for all the parameters was identical across
+  and rising slope showed there was weak evidence for                          age groups ­(BF10, amplitude = 0.449, ­BF10, time-to-peak = 0.415,
+  the parameters to be identical across the two age groups                   ­B F 1 0 , F W H M = 0 . 3 9 9 , ­B F 1 0 , r i s i n g s l o p e = 0 . 3 9 9 ,
+  ­(BF10, time-to-peak = 0.399, ­BF10, rising-slope = 0.459 respectively).    ­BF10, positive area = 0.41).
+      The difference in values at 50% of the cortical depth
+   for all linear regressions to the shape parameters were
+   assessed with a Student’s t-test. None of the intercepts at               Discussion
+   50% depth of the parameters was significantly different in
+   the young and middle-aged group ­(t18 = − 0.579, p = 0.569                We did not find a significant difference in the HRF shape in
+   for amplitude, ­t18 = − 0.339, p = 0.739 for time to peak,                the visual cortex between the young and middle aged par-
+ ­t18 = − 0.030, p = 0.977 for FWHM, t­18 = 0.068, p = 0.947                 ticipants. HRF changes may reflect changes in vasculature.
+Brain Topography (2025) 38:34                                                                                           Page 11 of 15 34
+
+
+
+
+Fig. 8  a Extracted HRF from line-scanning data across cortical      data across cortical depths for a representative middle aged partici-
+depths for a representative young participant, and b corresponding   pant and d corresponding amplitude across cortical depth with line
+amplitude across cortical depth with line ROI location reported on   ROI location reported on top of the gradient-echo slice. The fit in
+top of the gradient-echo slice. c Extracted HRF from line-scanning   panels b and d is a regression fit with 95% of confidence intervals
+
+
+Laminar differences in the HRF relate to the properties of           acquisitions for more clinically-relevant research questions
+the vasculature. For this reason, we also introduced a novel         on cerebral perfusion (Van Den Brink 2024). The chal-
+acquisition, i.e., line-scanning, to investigate the HRF             lenges of line-scanning were not relevant for the whole
+response across cortical depth (0.25 mm spatial resolu-              brain data acquisition (head motion estimation, isotropic
+tion) at an extremely high temporal resolution (0.105 s).            resolution and SNR were not limiting). Moreover, we used
+This high sampling rate allows more detailed estimation              our previous experiences with line-scanning data acquisi-
+of the HRF shape and variations of the HRF across cor-               tion and analysis, to tackle the high noise levels (for exam-
+tical depth. Line-scanning comes at the cost of several              ple by using multi-echo acquisition to boost the SNR and
+compromises including: high spatial specificity solely in            NORDIC denoising to filter line-scanning data).
+a restricted region, high noise levels and difficulties in              Overall, we found that there were no differences either
+estimating head motion. We nevertheless decided to use               for the HRF computed across pV1 or across cortical depth.
+this technique to push the layer fMRI acquisition to its             We did find a correlation of HRF parameters for the two
+extreme, to reach the highest sampling rate and spatial              different sequences employed to measure the HRF across
+resolution, which would have not been possible with a full           pV1 and cortical depth, in particular we found a correlation
+slice acquisition and to explore future use of line-scanning         in time-to-peak of the HRF response. This suggests that the
+34 Page 12 of 15                                                                                              Brain Topography (2025) 38:34
+
+
+
+
+Fig. 9  a HRF parameters from line-scanning data across cortical       middle aged ones. For these plots, we calculated a linear regression
+depth for all the individual participants (apart from the 2 excluded   between the parameter of interest and depth with a 95% confidence
+ones) and b for the averaged parameters across young and mid-          interval
+dle aged groups. Red indicates the young participants and blue the
+
+
+variability between participants is larger than the variability        groups does conflict with reports that show a decrease in
+between age groups.                                                    HRF amplitude in older age groups (Buckner et al. 2000;
+   The HRF amplitudes derived from line-scanning data                  Ross et al. 1997; West et al. 2019). We speculate that the
+are consistent with existing literature, showing an increase           differences with some of the previous studies could be due to
+in the HRF amplitude from the WM boundary to the pial                  different field strengths, voxel sizes or ROI definition. First,
+surface (Siero et al. 2011). This increase is caused by the            there may be a field strength difference, as this is the first
+draining and pooling of blood by the upper layers and pial             study at 7 T comparing HRF shapes in V1 in different age
+veins, which cause an increase of the BOLD response to the             groups. It has been suggested that 7 T fMRI should be less
+cortical surface (Markuerkiaga et al. 2016). The increases             selective to larger vessels (Yacoub et al. 2001). This poten-
+in area under the peak and steepness of the rising slope most          tially suggests there is an HRF difference with aging, but it
+likely also reflect this effect. Two potential confounds would         could be driven by vascularization changes in larger vessels.
+be differences between the groups in the angle of the line             Nevertheless, BOLD-weighted 7 T MRI is also sensitive
+to the cortex and differences in cortical thickness. As out-           to responses in larger vessels (Huber et al. 2017; Ivanov
+lined above, the angle with the cortex was not significantly           et al. 2017; Priovoulos et al. 2023). Second, voxel sizes used
+different between age groups. To assess cortical thickness             here were smaller than in previous studies. Although the
+(Fig. S6), we projected the image representing the nominal             line-scanning data benefits from high spatial resolution and
+line to the surface. Cortical thickness values were extracted          reduced partial volume effects, the 3D-EPI derived ROI is of
+for each included intersection through the gray matter. This           comparable size to previous work, suggesting partial volume
+procedure showed that within the limited region of the line-           effects to be similar.
+ROI, we found no sign of cortical thinning with age (Salat                Finally, the used ROI selection procedure may be a domi-
+et al. 2004). Thus, HRF shapes across cortical depth are               nant source of variability as in most cases the ROI was based
+consistent with previous studies, even though we did not find          on anatomy (from standard templates) and/or function (only
+HRF differences with aging.                                            voxels which showed activation higher than a certain thresh-
+   Similar HRFs as a function of aging is in accordance with           old). An anatomical ROI has the disadvantage that voxels are
+previous findings that include larger sample sizes (Mayhew             included which do not show a task response, or, also highly
+et al. 2022). However, finding similar HRFs in different age           prevalent in the visual cortex, a negative response beyond
+Brain Topography (2025) 38:34                                                                                                   Page 13 of 15 34
+
+the stimulus edge. Both will decrease the HRF amplitude            movement may not affect the results. However, on average,
+and possibly distort the HRF shape (see also (Aizenstein           the middle aged group moved more than the young group
+et al. 2004) for a discussion on this regard). A functional        (Fig. S7a), which could contribute to partial volume effects
+ROI made from active voxels, i.e. based on GLM analy-              in the line-scanning acquisitions. Nevertheless, these differ-
+ses, means that the voxels which best follow the GML HRF           ences did not affect the cross-validated variance explained
+model are the same ones used to estimate the HRF shape. As        ­(cvR2) (Fig. S7b/c). We could not correct or estimate par-
+in any standard GLM approach, certain assumptions on the           ticipants’ motion with the current implementation of line-
+HRF shape are made; this makes the HRF estimate based on           scanning, but we believe that the amount of motion observed
+functional ROI potentially a circular problem (Kriegeskorte        in the whole brain acquisition should be similar to the one
+et al. 2009). In our study, we combined functional anatomy         in the line-scanning acquisition, so not leading to different
+and an independent functional localizer to select the voxels       results. A way to reduce motion artifacts is to introduce pro-
+on which the HRF estimate was performed. Specifically,             spective motion correction (Andersen et al. 2019; Raimondo
+we introduced a functional localizer using a block design,         et al. 2023). We decided not to include motion correction in
+which is insensitive to HRF shape and can safely be analyzed       this study because the interruptions in the time series neces-
+using a canonical HRF. The combination localizer scan with         sary to acquire motion navigators would have complicated
+the probabilistic V1 based on the MNI template avoids the          our deconvolution approach and the ­T1 decays after every
+circularity problem on the HRF estimation and minimizes            navigator acquisition would have introduced undesired sig-
+assumptions on the HRF shape.                                      nal fluctuations in the time courses, further complicating the
+    Here, we used a task including short ISIs. Using very          deconvolution. Since only one subject was excluded from the
+short ISIs can lead to an underestimation of the HRF shape         line-scanning dataset due to excessive motion, we confirmed
+if linearity is assumed. For example, Liu et al. (Liu et al.       that the addition of prospective motion correction was not
+2010), demonstrates that for ISIs shorter than 3 s, there is       necessary for this study. Therefore, we do not believe that
+a notable mismatch between estimated and predicted HRFs            participant movement affected our results.
+when assuming linearity. However, with ISIs longer than 3 s,          The performance of the perceptual tasks were similar. We
+as used here, this mismatch becomes minimal. Therefore,            used a detection task on the stimulus in order to maintain
+our results are not likely due to an underestimation of the        vigilance and ensure that participants’ attention was focused
+HRF shape due to very short ISIs.                                  on the visual stimuli, all while keeping the changes to the
+    Line-ROI targeting is crucial in the line-scanning experi-     visual stimulus minimal. From the analysis of sensitivity
+ment. Before analyzing the line-scanning results we checked        (d-prime) and reaction times, we concluded that there was
+the selection of a line-ROI from which to extract the HRF for      no significant difference in the task performance between
+the line-scanning dataset. For the line-ROI, we used multi-        the two groups. Thus, differences in task or attention does
+ple criteria for the voxel selection. First, we required a line    not confound the fMRI signals.
+perpendicular to the cortex to avoid partial volume effects
+across depths. We achieved an angle between the line ROI
+and the cortical sheet of (18 ± 12)° for the young group and      Conclusion
+(22 ± 6)° for the middle aged group. The second criterion
+was the proximity to pV1: we confirmed that the line-ROI          This work studied the hemodynamic response function
+was falling in the pV1 ROI or nearby for all included sub-        in the visual cortex in two age groups (young and middle
+jects (see Fig. S2). Finally, we avoided thin cortical patches    aged). We exploited the potential of ultra-high field MRI to
+and big veins, with the aim to exploit the high resolution        increase the spatial and temporal resolutions, specifically
+of the line-scanning fMRI to detect BOLD responses from           using the line-scanning method, which allowed estimation of
+microvessels. The planning procedure could have been              HRF properties also across cortical depth, in individual par-
+improved with the introduction of a separate scan session         ticipants. We showed that there are no significant differences
+and line planning a priori to minimize partial volume effects,    in any parameter of the HRF in the two age groups in visual
+as suggested by Heij et al. (Heij et al. 2023). However, logis-   cortex. This means that when non behaviorally challenging
+tical constraints on the participant group meant that a single    or cognitively demanding memory tasks are employed, there
+MRI session was preferable. Only one subject was excluded         are no expected differences in the average HRF of cohorts
+due to wrong planning, which was felt to be acceptable in         including young or middle aged individuals.
+this cohort (n = 22), hence we do not believe that the line-
+ROI targeting procedure is problematic.                           Supplementary Information The online version contains supplemen-
+                                                                  tary material available at https://d​ oi.o​ rg/1​ 0.1​ 007/s​ 10548-0​ 25-0​ 1107-0.
+    Differences in participant movement may affect the
+results. The motion observed during the 3D-EPI acquisitions       Author contributions L.R and J.H: Validation, formal analysis, inves-
+was well below the voxel size suggestion that participant         tigation, data curation, writing-original draft, writing—review and
+34 Page 14 of 15                                                                                                                Brain Topography (2025) 38:34
+
+editing, visualization. T.K: Conceptualization, methodology, formal                    older adults. J Cogn Neurosci 12:24–34. https://​doi.​org/​10.​1162/​
+analysis, writing—review and editing, supervision, funding acquisition.                08989​29005​64046
+J.C.W.S: Conceptualization, methodology, formal analysis, writing—                Cai Y, Hofstetter S, van Dijk J, Zuiderbaan W, van der Zwaag W, Har-
+review and editing, supervision, funding acquisition. W.vdZ: Conceptu-                 vey BM, Dumoulin SO (2021) Topographic numerosity maps
+alization, methodology, formal analysis, data curation, writing—review                 cover subitizing and estimation ranges. Nat Commun 12:3374.
+and editing, supervision, project administration, funding acquisition.                 https://​doi.​org/​10.​1038/​s41467-​021-​23785-7
+S.O.D: Conceptualization, writing—review and editing, supervision,                Chen JJ, Rosas HD, Salat DH (2011) Age-associated reductions in
+funding acquisition.                                                                   cerebral blood flow are independent from regional atrophy. Neu-
+                                                                                       roimage 55:468–478. https://​doi.​org/​10.​1016/j.​neuro​image.​2010.​
+Funding Funding was provided by (NWO) Vidi Grant (TTW                                  12.​032
+VI.Vidi.198.016) and NWO Vici (016.Vici.185.050).                                 Chen JE, Glover GH, Fultz NE, Rosen BR, Polimeni JR, Lewis LD
+                                                                                       (2021) Investigating mechanisms of fast BOLD responses: the
+Data availability The data and code that support the findings of this                  effects of stimulus intensity and of spatial heterogeneity of hemo-
+study are available from the corresponding author, upon reasonable                     dynamics. Neuroimage 245:118658. https://​doi.​org/​10.​1016/j.​
+request.                                                                               neuro​image.​2021.​118658
+                                                                                  Chen G, Taylor PA, Reynolds RC, Leibenluft E, Pine DS, Brotman
+Declarations                                                                           MA, Pagliaccio D, Haller SP (2023) BOLD response is more than
+                                                                                       just magnitude: improving detection sensitivity through capturing
+Conflict of interest The authors declare no competing interests.                       hemodynamic profiles. Neuroimage 277:120224. https://​doi.​org/​
+                                                                                       10.​1016/j.​neuro​image.​2023.​120224
+Open Access This article is licensed under a Creative Commons Attri-              Choi S, Zeng H, Chen Y, Sobczak F, Qian C, Yu X (2021) Laminar-
+bution 4.0 International License, which permits use, sharing, adapta-                  specific functional connectivity mapping with multi-slice line-
+tion, distribution and reproduction in any medium or format, as long                   scanning fMRI (preprint). Neuroscience. https://​doi.​org/​10.​1101/​
+as you give appropriate credit to the original author(s) and the source,               2021.​03.​03.​433376
+provide a link to the Creative Commons licence, and indicate if changes           Dale AM, Fischl B, Sereno MI (1999) Cortical surface-based analysis:
+were made. The images or other third party material in this article are                I segmentation and surface reconstruction. Neuroimage 9:179–
+included in the article’s Creative Commons licence, unless indicated                   194. https://​doi.​org/​10.​1006/​nimg.​1998.​0395
+otherwise in a credit line to the material. If material is not included in        D’Esposito M, Zarahn E, Aguirre GK, Rypma B (1999) The effect
+the article’s Creative Commons licence and your intended use is not                    of normal aging on the coupling of neural activity to the bold
+permitted by statutory regulation or exceeds the permitted use, you will               hemodynamic response. Neuroimage 10:6–14. https://​doi.​org/​10.​
+need to obtain permission directly from the copyright holder. To view a                1006/​nimg.​1999.​0444
+copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.          Dumoulin SO, Fracasso A, van der Zwaag W, Siero JCW, Petridou
+                                                                                       N (2018) Ultra-high field MRI: advancing systems neuroscience
+                                                                                       towards mesoscopic human brain function. Neuroimage 168:345–
+                                                                                       357. https://​doi.​org/​10.​1016/j.​neuro​image.​2017.​01.​028
+                                                                                  Friston KJ, Zarahn E, Josephs O, Henson RNA, Dale AM (1999) Sto-
+References                                                                             chastic designs in event-related fMRI. Neuroimage 10:607–619.
+                                                                                       https://​doi.​org/​10.​1006/​nimg.​1999.​0498
+                                                                                  Heij J, Raimondo L, Siero JCW, Dumoulin SO, van der Zwaag W,
+Aizenstein HJ, Clark KA, Butters MA, Cochran J, Stenger VA, Meltzer
+                                                                                       Knapen T (2023) A selection and targeting framework of cortical
+    CC, Reynolds CF, Carter CS (2004) The BOLD hemodynamic
+                                                                                       locations for line-scanning fMRI. Hum Brain Mapp 44:5471–
+    response in healthy aging. J Cogn Neurosci 16:786–793. https://​
+                                                                                       5484. https://​doi.​org/​10.​1002/​hbm.​26459
+    doi.​org/​10.​1162/​08989​29049​70681
+                                                                                  Huber L, Handwerker DA, Jangraw DC, Chen G, Hall A, Stüber C,
+Amunts K, Malikovic A, Mohlberg H, Schormann T, Zilles K (2000)
+                                                                                       Gonzalez-Castillo J, Ivanov D, Marrett S, Guidi M, Goense J,
+    Brodmann’s areas 17 and 18 brought into stereotaxic space—
+                                                                                       Poser BA, Bandettini PA (2017) High-resolution CBV-fMRI
+    where and how variable? Neuroimage 11:66–84. https://​doi.​org/​
+                                                                                       allows mapping of laminar activity and connectivity of cortical
+    10.​1006/​nimg.​1999.​0516
+                                                                                       input and output in human M1. Neuron 96:1253-1263.e7. https://​
+Andersen M, Björkman-Burtscher IM, Marsman A, Petersen ET, Boer
+                                                                                       doi.​org/​10.​1016/j.​neuron.​2017.​11.​005
+    VO (2019) Improvement in diagnostic quality of structural and
+                                                                                  Huettel SA, Singerman JD, McCarthy G (2001) The effects of aging
+    angiographic MRI of the brain using motion correction with inter-
+                                                                                       upon the hemodynamic response measured by functional MRI.
+    leaved, volumetric navigators. PLoS ONE 14:e0217145. https://​
+                                                                                       Neuroimage 13:161–175. https://d​ oi.o​ rg/1​ 0.1​ 006/n​ img.2​ 000.0​ 675
+    doi.​org/​10.​1371/​journ​al.​pone.​02171​45
+                                                                                  Ivanov D, Gardumi A, Haast RAM, Pfeuffer J, Poser BA, Uludağ K
+Andersson JLR, Skare S, Ashburner J (2003) How to correct suscep-
+                                                                                       (2017) Comparison of 3 T and 7 T ASL techniques for concurrent
+    tibility distortions in spin-echo echo-planar images: application
+                                                                                       functional perfusion and BOLD studies. Neuroimage 156:363–
+    to diffusion tensor imaging. Neuroimage 20:870–888. https://​doi.​
+                                                                                       376. https://​doi.​org/​10.​1016/j.​neuro​image.​2017.​05.​038
+    org/​10.​1016/​S1053-​8119(03)​00336-7
+                                                                                  Kriegeskorte N, Simmons WK, Bellgowan PSF, Baker CI (2009) Cir-
+Benson NC, Jamison KW, Arcaro MJ, Vu AT, Glasser MF, Coalson
+                                                                                       cular analysis in systems neuroscience: the dangers of double dip-
+    TS, Van Essen DC, Yacoub E, Ugurbil K, Winawer J, Kay K
+                                                                                       ping. Nat Neurosci 12:535–540. https://​doi.​org/​10.​1038/​nn.​2303
+    (2018) The human connectome project 7 Tesla retinotopy dataset:
+                                                                                  Liu TT, Frank LR, Wong EC, Buxton RB (2001) Detection power,
+    description and population receptive field analysis. J vis 18:23.
+                                                                                       estimation efficiency, and predictability in event-related fMRI.
+    https://​doi.​org/​10.​1167/​18.​13.​23
+                                                                                       Neuroimage 13:759–773. https://d​ oi.o​ rg/1​ 0.1​ 006/n​ img.2​ 000.0​ 728
+Birn RM, Cox RW, Bandettini PA (2002) Detection versus estima-
+                                                                                  Liu Z, Rios C, Zhang N, Yang L, Chen W, He B (2010) Linear and
+    tion in event-related fMRI: choosing the optimal stimulus timing.
+                                                                                       nonlinear relationships between visual stimuli, EEG and BOLD
+    Neuroimage 15:252–264. https://d​ oi.o​ rg/1​ 0.1​ 006/n​ img.2​ 001.0​ 964
+                                                                                       fMRI signals. Neuroimage 50:1054–1066. https://​doi.​org/​10.​
+Buckner RL, Snyder AZ, Sanders AL, Raichle ME, Morris JC (2000)
+                                                                                       1016/j.​neuro​image.​2010.​01.​017
+    Functional brain imaging of young, nondemented, and demented
+Brain Topography (2025) 38:34                                                                                                             Page 15 of 15 34
+
+Logothetis NK (2008) What we can do and what we cannot do with                    cortex in aging. Cereb Cortex 14:721–730. https://​doi.​org/​10.​
+     fMRI. Nature 453:869–878. https://​doi.​org/​10.​1038/​natur​e06976          1093/​cercor/​bhh032
+Lu H, Xu F, Rodrigue KM, Kennedy KM, Cheng Y, Flicker B, Hebrank             Siero JC, Petridou N, Hoogduin H, Luijten PR, Ramsey NF (2011) Cor-
+     AC, Uh J, Park DC (2011) Alterations in cerebral metabolic rate              tical depth-dependent temporal dynamics of the BOLD response
+     and blood supply across the adult lifespan. Cereb Cortex 21:1426–            in the human brain. J Cereb Blood Flow Metab 31:1999–2008.
+     1434. https://​doi.​org/​10.​1093/​cercor/​bhq224                            https://​doi.​org/​10.​1038/​jcbfm.​2011.​57
+Manjón JV, Coupé P, Martí-Bonmatí L, Collins DL, Robles M (2010)             Smith SM (2004) Overview of fMRI analysis. BJR 77:S167–S175.
+     Adaptive non-local means denoising of MR images with spatially               https://​doi.​org/​10.​1259/​bjr/​33553​595
+     varying noise levels. J Magn Reson Imaging 31:192–203. https://​        Turner R (2002) How much cortex can a vein drain? Downstream dilu-
+     doi.​org/​10.​1002/​jmri.​22003                                              tion of activation-related cerebral blood oxygenation changes.
+Markuerkiaga I, Barth M, Norris DG (2016) A cortical vascular model               Neuroimage 16:1062–1067. https://​doi.​org/​10.​1006/​nimg.​2002.​
+     for examining the specificity of the laminar BOLD signal. Neuro-             1082
+     image 132:491–498. https://​doi.​org/​10.​1016/j.​neuro​image.​2016.​   Turner R (2016) Uses, misuses, new uses and fundamental limitations
+     02.​073                                                                      of magnetic resonance imaging in cognitive science. Philos Trans
+Marques JP, Kober T, Krueger G, van der Zwaag W, Van de Moortele                  R Soc B 371:20150349. https://​doi.​org/​10.​1098/​rstb.​2015.​0349
+     P-F, Gruetter R (2010) MP2RAGE, a self bias-field corrected             Tustison NJ, Avants BB, Cook PA, Zheng Y, Egan A, Yushkevich PA,
+     sequence for improved segmentation and T1-mapping at high                    Gee JC (2010) N4ITK: improved N3 bias correction. IEEE Trans
+     field. Neuroimage 49:1271–1281. https://​doi.​org/​10.​1016/j.​neuro​        Med Imaging 29:1310–1320. https://​doi.​org/​10.​1109/​TMI.​2010.​
+     image.​2009.​10.​002                                                         20469​08
+Maus B, Van Breukelen GJP, Goebel R, Berger MPF (2010) Optimiza-             Van Den Brink H (2024) Assessment of small vessel function using
+     tion of blocked designs in fMRI studies. Psychometrika 75:373–               7T MRI in patients with sporadic cerebral small vessel disease.
+     390. https://​doi.​org/​10.​1007/​s11336-​010-​9159-3                        Neurology. https://​doi.​org/​10.​1212/​WNL.​00000​00000​209136
+Mayhew SD, Coleman SC, Mullinger KJ, Can C (2022) Across the                 van der Zwaag W, Schäfer A, Marques JP, Turner R, Trampel R (2016)
+     adult lifespan the ipsilateral sensorimotor cortex negative BOLD             Recent applications of UHF-MRI in the study of human brain
+     response exhibits decreases in magnitude and spatial extent sug-             function and structure: a review. NMR Biomed 29:1274–1288.
+     gesting declining inhibitory control. Neuroimage 253:119081.                 https://​doi.​org/​10.​1002/​nbm.​3275
+     https://​doi.​org/​10.​1016/j.​neuro​image.​2022.​119081                Vizioli L, Moeller S, Dowdle L, Akçakaya M, De Martino F, Yacoub E,
+Mumford JA, Poline J-B, Poldrack RA (2015) Orthogonalization of                   Uğurbil K (2021) Lowering the thermal noise barrier in functional
+     regressors in fMRI models. PLoS ONE 10:e0126255. https://​doi.​              brain mapping with magnetic resonance imaging. Nat Commun
+     org/​10.​1371/​journ​al.​pone.​01262​55                                      12:5181. https://​doi.​org/​10.​1038/​s41467-​021-​25431-8
+Ogawa S, Lee TM, Kay AR, Tank DW (1990) Brain magnetic reso-                 West KL, Zuppichini MD, Turner MP, Sivakolundu DK, Zhao Y,
+     nance imaging with contrast dependent on blood oxygenation.                  Abdelkarim D, Spence JS, Rypma B (2019) BOLD hemodynamic
+     Proc Natl Acad Sci 87:9868–9872. https://​doi.​org/​10.​1073/​pnas.​         response function changes significantly with healthy aging. Neu-
+     87.​24.​9868                                                                 roimage 188:198–207. https://d​ oi.o​ rg/1​ 0.1​ 016/j.n​ euroi​ mage.2​ 018.​
+Oliveira ÍAF, Roos T, Dumoulin SO, Siero JCW, van der Zwaag W                     12.​012
+     (2021) Can 7T MPRAGE match MP2RAGE for gray-white mat-                  Yacoub E, Shmuel A, Pfeuffer J, Van De Moortele P-F, Adriany G,
+     ter contrast? Neuroimage 240:118384. https://​doi.​org/​10.​1016/j.​         Andersen P, Vaughan JT, Merkle H, Ugurbil K, Hu X (2001)
+     neuro​image.​2021.​118384                                                    Imaging brain function in humans at 7 Tesla. Magn Reson Med
+Poldrack RA, Mumford JA, Nichols TE (2011) Handbook of functional                 45:588–594. https://​doi.​org/​10.​1002/​mrm.​1080
+     MRI data analysis. Cambridge University Press, Cambridge                Yu X, Qian C, Chen D, Dodd SJ, Koretsky AP (2014) Deciphering
+Priovoulos N, de Oliveira IAF, Poser BA, Norris DG, van der Zwaag                 laminar-specific neural inputs with line-scanning fMRI. Nat Meth-
+     W (2023) Combining arterial blood contrast with BOLD increases               ods 11:55–58. https://​doi.​org/​10.​1038/​nmeth.​2730
+     fMRI intracortical contrast. Hum Brain Mapp 44:2509–2522.               Yushkevich PA, Piven J, Hazlett HC, Smith RG, Ho S, Gee JC, Gerig
+     https://​doi.​org/​10.​1002/​hbm.​26227                                      G (2006) User-guided 3D active contour segmentation of anatomi-
+Raimondo L, Knapen T, Oliveira AF, Yu X, Dumoulin SO, van der                     cal structures: significantly improved efficiency and reliability.
+     Zwaag W, Siero JCW (2021a) A line through the brain: implemen-               Neuroimage 31:1116–1128. https://d​ oi.o​ rg/1​ 0.1​ 016/j.n​ euroi​ mage.​
+     tation of human line-scanning at 7T for ultra-high spatiotemporal            2006.​01.​015
+     resolution fMRI. J Cereb Blood Flow Metab. https://​doi.​org/​10.​      Yushkevich PA, Gao Y, Gerig G (2016) ITK-SNAP: an interactive
+     1177/​02716​78X21​10372​66                                                   tool for semi-automatic segmentation of multi-modality biomedi-
+Raimondo L, Oliveira AF, Heij J, Priovoulos N, Kundu P, Leoni RF,                 cal images. In: Presented of the 2016 38th annual international
+     van der Zwaag W L (2021b) Advances in resting state fMRI acqui-              conference of the IEEE Engineering in Medicine and Biology
+     sitions for functional connectomics. Neuroimage 243:118503.                  Society (EMBC), pp 3342–3345. https://​doi.​org/​10.​1109/​EMBC.​
+     https://​doi.​org/​10.​1016/j.​neuro​image.​2021.​118503                     2016.​75914​43
+Raimondo L, Priovoulos N, Passarinho C, Heij J, Knapen T, Dumoulin           Zhang Y, Brady M, Smith S (2001) Segmentation of brain MR images
+     SO, Siero JCW, van der Zwaag W (2023) Robust high spatio-                    through a hidden Markov random field model and the expectation-
+     temporal line-scanning fMRI in humans at 7T using multi-echo                 maximization algorithm. IEEE Trans Med Imaging 20:45–57.
+     readouts, denoising and prospective motion correction. J Neu-                https://​doi.​org/​10.​1109/​42.​906424
+     rosci Methods 384:109746. https://​doi.​org/​10.​1016/j.​jneum​eth.​
+     2022.​109746                                                            Publisher's Note Springer Nature remains neutral with regard to
+Ross MH, Yurgelun-Todd DA, Renshaw PF, Maas LC, Mendelson                    jurisdictional claims in published maps and institutional affiliations.
+     JH, Mello NK, Cohen BM, Levin JM (1997) Age-related reduc-
+     tion in functional MRI response to photic stimulation. Neurology
+     48:173–176. https://​doi.​org/​10.​1212/​WNL.​48.1.​173
+Salat DH, Buckner RL, Snyder AZ, Greve DN, Desikan RSR, Busa E,
+     Morris JC, Dale AM, Fischl B (2004) Thinning of the cerebral
+

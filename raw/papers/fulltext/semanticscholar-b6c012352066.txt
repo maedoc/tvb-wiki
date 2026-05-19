@@ -1,0 +1,560 @@
+IAES International Journal of Artificial Intelligence (IJ-AI)
+Vol. 14, No. 2, April 2025, pp. 1201~1210
+ISSN: 2252-8938, DOI: 10.11591/ijai.v14.i2.pp1201-1210                                                          1201
+
+Advanced methodologies resolving dimensionality complications
+ for autism neuroimaging dataset: a comprehensive guide for
+                         beginners
+
+                                Meenakshi Malviya, Chandra Jayaraman
+                          Department of Computer Science, Christ University, Bangalore, India
+
+
+
+
+ Article Info                           ABSTRACT
+ Article history:                       Autism spectrum disorder (ASD) is gender biased neurodevelopmental
+                                        condition consisting of a triad of physiological symptoms. Neural images
+ Received May 11, 2024                  and neurobiology of cognitive disorders are complex but provide significant
+ Revised Oct 18, 2024                   information and accurate visualization of developmental changes. The
+ Accepted Nov 14, 2024                  diagnosis is time-consuming and necessitates sufficient evidence to
+                                        distinguish the disorder from other concomitant diseases. The most recent
+                                        area of interest for cognitive research is neuroimaging, which is used to
+ Keywords:                              study the disorder's impact, affected region, and functional connectivity
+                                        between the regions of interest. The challenges in the domain are the
+ 2D-3D dimensional images               availability of data, the modalities of data, the selection of the correct
+ Autism spectrum disorder               processing strategies, and the result assessment complications. The study
+ Filters                                employed machine learning (ML) methods to process the autism data in both
+ Neuroimages                            structural and functional data formats collected from the autism brain
+ Peak signal-to-noise ratio             imaging data exchange (ABIDE) consortium. A comparative analysis among
+ Preprocessing                          image processing methodologies with both data formats was successfully
+ Signal-to-noise-ratio                  implemented. The variations in the processing pipeline and the outputs
+                                        strongly suggest an emerging need for 3D/4D images to visualize better,
+                                        accurate feature extraction and classification. The study aims to support the
+                                        researchers in identifying the correct image format for specific objectives
+                                        and the ML techniques, such as Gaussian median filters, segmentation
+                                        methodologies for 2D data, or a well-defined preprocessing pipeline for 3D
+                                        data, to achieve reliable and generalized results.
+                                                            This is an open access article under the CC BY-SA license.
+
+
+
+
+ Corresponding Author:
+ Meenakshi Malviya
+ Department of Computer Science, Christ University
+ Central Campus, Bangalore, Karnataka, India
+ Email: meenakshimalviya@res.christuniversity.in
+
+
+
+1.    INTRODUCTION
+          Automated real-time object identification is crucial for accurate decision-making in numerous
+domains using multimedia data. Image processing is the most preferred method for object identification in
+various application fields, including academics, product development, e-commerce, and healthcare [1]. The
+core applications of image analysis are feature extraction, security and surveillance, image recognition, and
+medical image analysis. Image analysis tends to image enhancement for standard images (images other than
+medical scans) [2], but for the medical image data, there is a predefined process including enhancements and
+segmentation for accurate classification [3]. Processing complexity with medical images for segmentation,
+classification, and localization of regions of interest associated with an anomaly can be resolved by
+implementing artificial intelligence (AI) strategies [4], [5]. Neuroimages in brain science are vital in the
+
+
+Journal homepage: http://ijai.iaescore.com
+1202                                                                                        ISSN: 2252-8938
+
+current scenario of a higher prevalence rate of cognitive disorders. Neuroimaging study provides insight into
+the brain in two main aspects: structural and functional. The discipline of neuroimaging has been enhanced by
+neuroimaging techniques such as structural magnetic resonance imaging (sMRI) and functional magnetic
+resonance imaging (fMRI), which provide information in multiple forms. The high-resolution images are
+visually scannable and interpretable by experts but have not yet been explored thoroughly. Extensive use of
+neuroimages in multiple formats such as structural scan slices-2D and the functional scans for temporal studies
+-3D- need specific strategies to process the individual format. Neural images and neurobiology of cognitive
+disorders like autism spectrum disorder (ASD) is complex to understand but provide significant information
+and visualization of developmental variations. ASD is gender biased neurodevelopmental condition consisting
+of a triad of physiological symptoms: repetitive behavior, communication impairment-verbal/nonverbal, and
+social interaction. The heterogeneous nature and symptom comorbidity are the prime challenges to diagnosing
+ASD. AI with neuroimaging produced great results in various classification research works.
+          The imaging dataset collected from distinct sites and in different forms needs to be standardized and
+cleaned for further analysis for accurate and reliable results. The preprocessing pipeline for 2D and 3D
+images contains multiple steps. Hence, it is important to explore the difference in the process and understand
+the output quality measurement units for both formats. The challenges are addressed and explained to
+improve the quality of the image analysis results.
+          Various imaging modalities and formats need to be in a standard format to be implemented with AI
+strategies. Medical image processing with multidimensional image formats is complicated due to the
+additional information added as the additional dimension. The primary obstacles with multidimensional
+images are large volumes, data complexity, and spatial and temporal information that need advanced methods
+over traditional image processing methods. Another complication is the interpretation and correct analysis of
+large-volume data. An experimental analysis was performed on the structural and functional data collected
+for autism disorder. The data slices extracted from the scans as 2D images and the magnetic resonance
+imaging (MRI) as 3D and 4D format (time is the fourth dimension) are processed using various AI methods.
+The preprocessing pipeline for 2D images consists of filters, resizing, and resampling, and the 3D MRI
+preprocessed using realignment, reslicing, segmentation, normalization, and smoothing. The combination of
+two complicated fields, which are autism classification and multidimensionality of medical images, makes it
+more significant. A comparative analysis is presented to help the neuroimaging research select the
+preprocessing pipeline based on the data format for effective and reliable analysis.
+
+
+2. DOMAIN STUDY
+2.1. Autism spectrum disorder
+          High heterogeneity in clinical implications and underlying neurobiology of ASD is the prime reason
+for not yet achieving consistent biomarkers [6]. Identifying consistent biomarkers or specific patterns for
+classification as whole or subcategories of ASD using neuroimaging techniques is the main objective of
+current studies worldwide. The challenges with autism neuroimaging analysis and studies are a lack of
+dataset availability, heterogeneous nature of data as collected from multiple sources and sites, data
+complexity, and dimensionality. Autism imaging data is complex due to the detailed anatomical structures it
+contains. To elaborate on the complications in ASD diagnosis with AI tools, the characteristics and features
+are discussed in this session. Autism is a neurodevelopmental impairment. The associated behavioral and
+brain changes are subject to vary across various stages of age. Autism is frequently associated with other
+diseases such as attention deficit hyperactivity disorder (ADHD), intellectual disability, or anxiety problems
+[7], [8]. Atomizing the complicated connections between the comorbidities and their impact on brain
+structure require a huge dataset and expert systems [9]. Autism brain imaging data repositories are available
+globally, but very few are available on open-source platforms. To generalize the findings, sufficient data
+must be available to establish robust and reliable neuroimaging markers and perform more statistical
+analysis. To ensure the standardization and reproducibility of neuroimaging analysis, feature fusion from
+multimodal datasets such as structural and functional images is applied in recent autism diagnosis research;
+the structural images for morphometric features and functional images for functional connectivity and region
+of interest (ROI) analysis. A new multimodality fusion classification approach to explore the uniqueness of
+schizophrenia and ASD [10]. Due to the methodological variations in the processing pipelines, interpretation
+and clinical implementation of findings are yet to be achieved.
+
+2.2. Neuroimaging
+         Medical images are essential for anatomical studies and helpful in disease diagnosis. The images
+collected from various source are sensitive to different types of quality attenuations known as noise. Some of
+the common noises are salt and pepper, Gaussian noise, speckle noise, poisson noise, and blurred noise removal
+
+Int J Artif Intell, Vol. 14, No. 2, April 2025: 1201-1210
+Int J Artif Intell                             ISSN: 2252-8938                                               1203
+
+and filtering techniques used in medical images [11]. Noise in the scans exists due to the mechanical issues,
+technical settings or patient related chages such as the subject’s position, physiological artifacts, image quality,
+and protocols applied at the time of scanning [12]. Dimensionality and data volume are two of the major criteria
+that need to be considered when selecting suitable strategies to process neuroimages. Removing noise artefacts
+is an essential process for imaging datasets. It can be performed using external recordings–electrode arrays,
+shielding and grounding, or data-driven methods such as statistical filtering–Gaussian, filter, median filter,
+wiener filter implemented with machine learning (ML) methods [13]. To apply the data for developing
+computer added solutions, require to be converted into standard format. A single 3D scan consisting of hundreds
+of slices which in turn stored in digital form. The volumes are likely to be increased with the increase of count
+of scans, which is difficult to store and handle. Such voluminous data need more computational resources,
+storage capacity, and time. Medical images typically available in three-dimensional and four-dimensional
+(neuroimaging informatics technology initiative (NifTI)) format, that is, 3D scans with a time parameter.
+Algorithms need to account for spatial relationships, anatomical structures across slices, and temporal changes.
+          The preprocessing of 2D neuroimaging contains the methodology to perform data cleansing,
+enhancement, and interpretation. Some of the most common types of noise present in the images are
+Gaussian noise [14], salt-and-pepper noise, speckle noise, beam hardening artifacts, motion artifacts, and
+geometric distortions, in addition with some compression artifacts like blurring, blockiness, intensity
+variations due to magnetic effects. The noise exists in 3D images is similar to the 2D images but contains
+some additional types of noise, such as spike noise, susceptibility artifacts, and ghosting artifacts. Specific to
+fMRI images, patient movment variation, head motion artifact, and hardware limitations also cause image
+quality degradation. The artifacts need to be addressed carefully and processed correctly for consistent and
+reliable results. Spatial and temporal are the two types of MRI need to be processed for artefact removal.
+Some of the most common artifacts present in the NIfTI format are:
+‒ Thermal noise (Gaussian noise) – random electric fluctuations within the scanner.
+‒ Motion artifacts – blurring, ghosting, or misalignment due to patien movement.
+‒ Physiological noise – periodic signal fluctuations due to cardiac pulsation and respiration.
+‒ Scanner drift – low-frequency intensity in image due to magnetic field or sensitive over a time span.
+‒ Susceptibility artifacts – geometric distortions and signal loss due to air tissue interfaces like sinuses.
+‒ Partial volume effects – averaging the signal, reduction in contrast, and spatial resolution.
+‒ Spike noise – sudden transient in the time series due to hardware issues.
+‒ RF interference, gibbs ringing, chemical shift, gradient nonlinearities, and eddy current artifacts.
+          The 2D image is a set of pixels, whereas the 3D and 4D images are known as a set of voxels.
+Significant variation was observed in the artifacts and noises present in both image formats. JPEG images
+contain compression noise, and the NIfTI images consist of motion, physiological, and scanner-related
+inconsistencies. Normalization processes the JPEG images for intensity correction and NIfTI images for
+spatial and temporal corrections. Based on the difference in both image formats, the study presented some
+highly recommended methods to enhance the image quality, with experimental analysis and results.
+
+2.3. Pre-processing
+          In medical imaging, 2D and 3D scans refer to different methods of capturing and visualizing
+medical images. The key differences between the scans are discussed in this section. First-image
+representation, where 2D images are flat images containing structural information in a single-plane form at
+the other hand a more comprehensive view of the anatomy or pathology scanned with the volume added as
+the third dimension, allowing visualization of structures in multiple planes, is known as a 3D image.
+          Pre-processing extracts detailed information to provide a better vision and interpretation of the
+imaging datasets [15]. The pre-processing pipeline for medical images contains predefined steps, including
+noise removal, artifact removal, contrast enhancement, registration, and spatial normalization. As discussed
+above, 3D images have additional and intense information in the voxel form, a pixel with volume. The
+significance of these images is in the higher resolution, detailed information, and more clarity and
+consistency. 3D images are expensive and complex due to mechanical requirements, machine size, expert
+supervision, and larger volumes. Data alignment to a single slice is easy, but a set of multiple slices scanned
+at different time intervals is complicated and needs to be monitored carefully. Data segmentation in JPEG
+images defines the ROI and helps in masking, but in NIfTI images, it is a tedious task because the images are
+segmented into five fundamental segments known as grey matter (GM), white matter (WM), cerebrospinal
+fluid (CSF), bone, and soft tissues. Segmentation is crucial to accurately achieving the ROI analysis.
+Normalization involves transforming the data images to template coordinates to compare the brain activities
+within a subject or a group of subjects in a common standard anatomical space. Smoothing is a blurring
+effect performed by applying a three-dimensional Gaussian kernel to the normalized images to increase the
+signal-to-noise-ratio (SNR) and adjust the spatial variability. The study performed all the preprocessing steps
+
+          Advanced methodologies resolving dimensionality complications for autism … (Meenakshi Malviya)
+1204                                                                                         ISSN: 2252-8938
+
+with the resting state functional magnetic resonance imaging (rs-fMRI) images to achieve noise free
+standanrdized form of data.
+
+
+3.   METHOD
+         This section consists of dataset description, the ML algorithms applied with 2D and 3D datasets for
+data cleaning, and quality measurements for quality analysis, and results after performing denoising. The
+two-dimensional data applied to the convolutional neural network (CNN) model before and after denoinsing,
+for classification and achieved higher accuracy with the denoised data. The preprocessing pipeline
+implemented with fMRI, achieved high contrast images and images segments for volumetric, surface based,
+and functional connectivity findings.
+
+3.1. Dataset description
+          The dataset applied for the analysis is taken from autism brain imaging data exchange (ABIDE II), an
+open-source repository of neuroimaging scans in various modalities, and clinical findings and demographic
+facts collected from multi-site global collaboration to support the researchers [16]. Structural, functional, and
+diffusion are various modalities of MRI, where sMRI is used for T1-weighted (T1-W) and T2-weighted
+(T2-W) high-resolution spatial and static information. Diffusion tensor imaging (DTI) illustrates the WM fiber
+tract using two parameters: functional anisotropy and mean diffusivity. The data consists of 23 sMRI and
+rs-fMRI scans with a segregation of 13 (autism) and 10 (normal control); all the images are in NIfTI (4D)
+format. The jpg (2D) slices are extracted using Python (nibabel package) and stored as a 2D dataset.
+
+3.2. Denoising
+          Two datasets were created using the jpg slices and blood oxygen level dependent (BOLD) data for
+analysis. The jpg provides the structural information, and the fMRI data provides physiological information
+and functional network attenuation-related features, which are useful for classification [17]. NIfTI is a
+preferred file format that consists of MRI scans with a header file and BOLD signals. The BOLD signals are
+extracted from the raw images and processed using the preprocessing pipeline, where each step refines the
+signals for denoising [18]. The process begins with slice-time correction, followed by realignment,
+registration, and segmentation into grey, WM, CSF, and normalization as the final step. High-quality brain
+images are essential to achieve high contrast and lower noise rates [19]. AI algorithms are equipped with the
+capacity to analyze the quality of an image, enhance the quality, and produce mathematical evidence for the
+classification of the given image.
+          An experimental analysis compared the image quality generated post-application of various filters and
+the related peak signal-to-noise ratio (PSNR) metric values [20]. The 2D images are processed with Python
+image processing packages such as OpenCV, scikit-image, NumPy, SciPy, Pillow, and TensorFlow. Two
+fundamental metrics, PSNR and SNR are applied for quality measurement in various image-based studies. SNR
+is calculated by dividing the signal’s power by the noise’s power, but it does not consider the human visual
+system. The image quality for this analysis is calculated PSNR. PSNR is a logarithmic measure calculated by
+taking the square root of the mean squared error between the original and reconstructed images; the metric is
+more accurate as it considers the human visual system. The mathematical expression for PSNR as in (1).
+                                   2
+                                𝑀𝐴𝑋𝑉𝐴𝐿𝑈𝐸
+         𝑃𝑆𝑁𝑅 = 10 × 𝑙𝑜𝑔10 (               )                                                              (1)
+                                   𝑀𝑆𝐸
+
+
+Where, MAXVALUE is the maximum possible value for a pixel (255 for an 8-bit image); MSE is mean squared
+error between the original image and the reconstructed image. A PSNR of 30 dB or higher is considered good
+quality, and a PSNR of 40 dB or higher is considered excellent quality.
+          The NIfTI scans are processed with the CONN toolbox [21]. The process was assessed using statistical
+parametric mapping (SPM), check registration module, visual analysis using the overlay functions on the
+segmented images, and the denoising results were examined using the histogram quality control–functional
+connectivity (QC-FC) charts. The aim of study is to present a result-oriented denoising strategies to prepare the
+data for reliable and accurate classification of images.
+
+3.3. Experimental analysis
+          Filters can be defined on the neighboring elements and used to observe the prominent features to
+discriminate the structure of the brain [22]. Table 1 is an empirical analysis of image quality measures for
+autistic brains when applied 2D images with specific filters. Each slice was deflated at an average rate of 5%
+
+
+
+Int J Artif Intell, Vol. 14, No. 2, April 2025: 1201-1210
+Int J Artif Intell                                    ISSN: 2252-8938                                           1205
+
+during the image conversion, and the header information could not be interpreted for the data. Figure 1 shows
+the output slices acquired after adding Gaussian noise to the images.
+
+
+                                      Table 1. An empirical analysis of various filters
+                        Filters          Image before adding noise   Image after adding noise   .gif image
+                     Gausian filter               20.00                              22.0         33.58
+                     Median filter                19.93                            22.34          38.13
+
+
+
+
+                                  Figure 1. The sliced image scans of autistic brain MRI
+
+
+          The Gaussian and median filters are the most recommended for medical images applied for
+denoising [23]. Gaussian filter with different sizes of kernels, such as 3×3, 5×5, and 7×7, was applied as trial
+and test. The smaller kernel size produced maximum accuracy with higher processing time. The PSNR was
+calculated for the filtered images using a 5×5 kernel size. Figure 2, row 2, shows the filtered images without
+adding the noise, and row 3, after adding the noise. The images display the implemented filter and PSNR.
+
+
+
+
+                                      Figure 2. Denoised image slices of the brain MRI
+
+
+          Second, the image snapshots, taken from the dataset, were in .gif format. The visuals of the image
+are more evident than the sliced images. The median filter removes noise from the scans and preserves the
+WM-GM contrast at a larger scale for further analysis [24]. Several segmentation algorithms are available for
+segmentation and edge detection to divide the image into meaningful regions for further processing.
+The current work aims to denoise the images and, hence, the band-pass filters applied. Figure 3(a) displayed
+visual differences between original and filtered images and PSNR measures. The band-pass filter helps
+emphasize the edges and texture considered features, which are achieved by isolating the frequency range.
+Band-pass filters yielded better-quality images, where brain regions were segmented as edges and texture
+[25], as shown in Figure 3(b). However, it is seen that images are still noisy and may cause biased decisions.
+The denoising was performed successfully, and based on the SNR scale, results can be recommended for
+further analysis, such as segmentation, feature extraction, or classification.
+          The denoising performed on the other 3D format, recommending the 3D images for further analysis,
+depends on multiple preprocessing stages with specific parameters, such as realignment for motion
+correction, registration of all the slices belonging to the image to the origin (0 0 0), registration of the images
+to the standard Montreal Neurological Institute template (MNI) space, brain extraction by removing the
+nonbrain regions, segmentation, and smoothing [26]. The realignment results are stored as the regressors for
+
+          Advanced methodologies resolving dimensionality complications for autism … (Meenakshi Malviya)
+1206                                                                                        ISSN: 2252-8938
+
+quality analysis to accept and reject the images. The translation range for accepted scans was set to (<2 mm),
+and the rotation at (<0.5 degrees) and framewise displacement to choose the image with a significant rate of
+motion. Gaussian kernel with 8 mm full width at half maximum (FWHM) applied for smoothing; the kernel
+size varies–4 mm, 8 mm, and 12 mm for the hypothesis set. Figure 4(a) depicts the original image with the
+MNI template overlay, clearly showing that the image is noisy. Figure 4(b) is the resulting image
+preprocessed with the skull stripping, registration, and normalization.
+
+
+
+
+                          (a)                                                      (b)
+
+       Figure 3. Filtered images using (a) Gaussian and median filters and (b) low-pass, high-pass filter
+
+
+
+
+                                 (a)                                        (b)
+
+                Figure 4. The NIfTI images (a) raw brain scan and (b) preprocessed brain scan
+
+
+         The resulting images in Figure 5 are the segmented images that help to explore each individual brain
+region to extract the values, coordinates, and volume of a voxel belonging to the particular region.
+In cognitive disorder research using neuroimaging, grey and whiter matter segments are considered
+significant regions of volumetric and surface-based analysis. The segmentation quality differs with the
+implementation of filters, Gaussian kernel provides better result for sMRI segmentations and volumetric
+analysis [27].
+
+
+
+
+                     Figure 5. The segmented images into 5 basic tissue classes of brain
+
+
+          The physiological and motion signals in the scans need to be corrected for each voxel in time series
+extracted from the temporal data. Component correction (CompCor), and image transformation using rigid
+body transformation with 6-parameters (translation and rotation for x,y,z dimensions), 12-parameters
+(translation, rotation, scaling and shearing for x,y,z) applied for observing the impact of denoising [28].
+After completion of the process, temporal artifacts are refined using bandpass filters. The time series
+extraction for temporal data is crucial. The data denoising was implemented using the Bandpass filters, with
+the range starting with 0.001 Hz and ending with 0.09 Hz using trial and error methods. The best results were
+achieved between 0.008 Hz for the high pass and 0.09 Hz for the low pass filter.
+          The denoising produces the results concerning functional connectivity analysis and needs to be
+assessed for noise effects on functional connectivity. The quality analysis scatter plot after denoising,
+
+Int J Artif Intell, Vol. 14, No. 2, April 2025: 1201-1210
+Int J Artif Intell                             ISSN: 2252-8938                                           1207
+
+in Figure 6, presents a relationship between the valid scans and the mean motion. The dots in the graph are
+the data points, the horizontal axis scale is valid scans, and the vertical axis scale is the MeanMotion
+measures. The quartiles depict the invalid scan. The plot is a quality analysis after denoising performed to
+check the effect of noise on the functional connectivity; the correlation between QC-FC is an artifact impact
+that should be flattened or minimized by denoising the current result, S1 depicts the outlier scan.
+
+
+
+
+                     Figure 6. Quality analysis denoinsing: distribution of QC-FC association
+
+
+         The graph in Figure 7 shows the distribution of functional connectivity values before (the gray
+shaded area) and after denoising the yellow shaded area). Where all the twenty-three images are seen
+smoother after denoising, and the accuracy is observed as 88.4%. The next quality analysis performed on
+single images in the form of scatter plot, displayed in Figure 8 depicts the pre (the gray shaded area) and
+post-denoising (the yellow shaded area) effects on the connectivity measures, the deviations suggest the
+correction of noise.
+
+
+
+
+        Figure 7. Quality analysis after denoising for the functional connectivity distribution (FC-QC)
+          Advanced methodologies resolving dimensionality complications for autism … (Meenakshi Malviya)
+1208                                                                                          ISSN: 2252-8938
+
+
+
+
+            Figure 8. Voxel-wise distribution-scatter plot and histogram before and after denoising
+
+
+        The preprocessing results shown in the Figures 7 and 8, are the quality analysis results for jpg, gif,
+anatomic, and functional images. The results helps to eliminate the volumes that can effect the classification
+accuracy. Multiple tools are suggested for MRI processing in various neuroimaging research works, such as
+FMRIB Software Library (FSL), analysis of functional neuroimages (AFNI) [29], SPM [30], advanced
+normalization tools (ANTs), FreeSurfer [31], 3D slicer, neuroimaging in Python (NiPy), neuroimaging in
+Python-pipelines and interfaces (Nipype), and CONN for resting state and task-based connectivity analysis.
+
+
+4.    RESULTS AND DISCUSSION
+          Advancements in the automated classification model using medical images also require an update in
+the preprocessing pipeline. Although neuroimaging research in ASD produces a huge amount of information,
+it is challenging to achieve high-quality MRI images. The selection of the image processing pipeline is
+equally important as the selection of the correct imaging modality for accurate classification. The study
+presented modality-based denoising approaches to increase image quality. The denoising results proved that
+the jpg images are lossy and contain static information but are helpful for structure-based classification. The
+high-resolution 3D images are a source of temporal information, but the denoising is comparatively
+time-consuming and complicated, useful for event-based, resting state connectivity analysis such as cognitive
+disorders. Visual check and quality assurance parameters were observed successfully for both modalities.
+The MRI modalities are preferred for multiple cognitive disorder diagnosis using structural information,
+functional connectivity analysis, and the fusion of the features. Measurement consistency is crucial for
+parcellation and brain segmentation quality. Quality control ensures the detection of inaccuracies and
+correcting or excluding if required. The image quality for JPEG images was assessed using the CNN model
+with the raw images and filtered images; the classification rate was found to be higher after denoising.
+The functional images were applied for ROI analysis, and a significant difference in the connectivity
+measures before and after preprocessing was found. The study highlighted the neuroimaging modality
+variations and the appropriate denoising strategies to achieve reliable, generalized, and accurate
+classification. The study also emphasized the ROI analysis using the segmented images, which is crucial for
+future analysis. The work was implemented with a limited number of images and can be performed with a
+larger dataset. The study is not applied to medical images of injury or tumor, and we believe structural
+modalities are useful for such classification. The challenge for researchers currently consists of critical issues
+such as multisite and multimodal datasets, multiple tools and techniques, and the selection of preprocessing
+steps. The current study offers extensive comparative results, aiming to guide neuroimaging researchers in
+choosing suitable modalities and preprocessing for a particular problem.
+
+Int J Artif Intell, Vol. 14, No. 2, April 2025: 1201-1210
+Int J Artif Intell                                      ISSN: 2252-8938                                                          1209
+
+5.   CONCLUSION
+         Due to the complex interactions and comorbidities with other impairments, the information
+observed using imaging data needs to be standardized and generalized globally. Dealing with the complexity
+effectively and extracting significant information from these images requires advanced techniques and
+algorithms. The results observed using 2D image denoising motivated using 3D images in further research to
+improve the process and achieve more discriminative results. Clear and intense information is crucial to
+achieving higher accuracy, which is only possible with 3D images. The future work is to implement more
+images with AI methods to prove the importance of MRI images for cognitive research. The methodological
+improvement also depends on the quality and dimensionality of the dataset. We tried some autistic MRI
+images in the single-layer format and found that the images were not as visually clear as in the 3D format and
+did not execute well with the applied filters. The need for present AI methodologies is a huge, intense, and
+more informative dataset to produce computer-added solutions for disorders like autism. There exists a
+magnificent diversity in the functional connectivity in the brain, which directly correlates with the
+heterogeneous nature of autism. The study suggests MRI images produce extensive information for
+underlying disorders. To address the challenges of autism, collective efforts in data repository initiatives,
+quality control, and standard tools and methodology for analysis are required.
+
+
+ACKNOWLEDGEMENTS
+     The author thanks the data repository ABIDE II for permitting access to the dataset.
+
+
+REFERENCES
+[1]    S. Ramesh, “Image processing and intelligent remote sensing in e-commerce: revolutionizing visual shopping experiences,”
+       Journal of Image Processing and Intelligent Remote Sensing, no. 35, pp. 20–23, 2023, doi: 10.55529/jipirs.35.20.23.
+[2]    Z. I. Azhari, S. Setumin, A. D. Rosli, and S. J. A. Bakar, “A systematic literature review on hardware implementation of image
+       processing,” International Journal of Reconfigurable and Embedded Systems, vol. 12, no. 1, pp. 19–28, 2023, doi:
+       10.11591/ijres.v12.i1.pp19-28.
+[3]    I. A. Hassan, S. A. Ali, and H. K. Obayes, “Enhance iris segmentation method for person recognition based on image processing
+       techniques,” Telkomnika (Telecommunication Computing Electronics and Control), vol. 21, no. 2, pp. 364–373, 2023, doi:
+       10.12928/TELKOMNIKA.v21i2.23567.
+[4]    E. Elyan et al., “Computer vision and machine learning for medical image analysis: recent advances, challenges, and way
+       forward,” Artificial Intelligence Surgery, vol. 2, pp. 24–45, 2022, doi: 10.20517/ais.2021.15.
+[5]    I. Castiglioni et al., “AI applications to medical images: From machine learning to deep learning,” Physica Medica, vol. 83,
+       pp. 9–24, 2021, doi: 10.1016/j.ejmp.2021.02.006.
+[6]    Z. Sherkatghanad et al., “Automated detection of autism spectrum disorder using a convolutional neural network,” Frontiers in
+       Neuroscience, vol. 13, 2020, doi: 10.3389/fnins.2019.01325.
+[7]    Y. Leitner, “The co-occurrence of autism and attention deficit hyperactivity disorder in children - What do we know?,” Frontiers
+       in Human Neuroscience, vol. 8, no. 1, 2014, doi: 10.3389/fnhum.2014.00268.
+[8]    F. Roudbarani, P. T. Modica, B. B. Maddox, Y. Bohr, and J. A. Weiss, “Clinician factors related to the delivery of psychotherapy
+       for autistic youth and youth with attention-deficit hyperactivity disorder,” Autism, vol. 27, no. 2, pp. 415–427, 2023, doi:
+       10.1177/13623613221106400.
+[9]    S. G. Jacob, M. M. B. A. Sulaiman, and B. Bennet, “Algorithmic approaches to classify autism spectrum disorders: a research
+       perspective,” Procedia Computer Science, vol. 201, pp. 470–477, 2022, doi: 10.1016/j.procs.2022.03.061.
+[10]   Y. Du et al., “A new multimodality fusion classification approach to explore the uniqueness of schizophrenia and autism spectrum
+       disorder,” Human Brain Mapping, vol. 43, no. 12, pp. 3887–3903, 2022, doi: 10.1002/hbm.25890.
+[11]   N. Kumar and M. Nachamai, “Noise removal and filtering techniques used in medical images,” Oriental Journal of Computer
+       Science and Technology, vol. 10, no. 1, pp. 103–113, 2017, doi: 10.13005/ojcst/10.01.14.
+[12]   I. Oksuz, “Brain MRI artefact detection and correction using convolutional neural networks,” Computer Methods and Programs
+       in Biomedicine, vol. 199, 2021, doi: 10.1016/j.cmpb.2020.105909.
+[13]   L. Griffanti et al., “ICA-based artefact removal and accelerated fMRI acquisition for improved resting state network imaging,”
+       NeuroImage, vol. 95, pp. 232–247, 2014, doi: 10.1016/j.neuroimage.2014.03.034.
+[14]   G. Elaiyaraja, N. Kumaratharan, and T. C. S. Rao, “Fast and efficient filter using wavelet threshold for removal of gaussian noise
+       from MRI/CT scanned medical images/color video sequence,” IETE Journal of Research, vol. 68, no. 1, pp. 10–22, 2022, doi:
+       10.1080/03772063.2019.1579679.
+[15]   A. A. A. Al-Ameer, G. A. Hussien, and H. A. Al Ameri, “Lung cancer detection using image processing and deep learning,” Indonesian
+       Journal of Electrical Engineering and Computer Science, vol. 28, no. 2, pp. 987–993, 2022, doi: 10.11591/ijeecs.v28.i2.pp987-993.
+[16]   S. Lylath and L. B. Rananavare, “Autism spectrum disorder identification with multi-site functional magnetic resonance
+       imaging,” IAES International Journal of Artificial Intelligence, vol. 13, no. 2, pp. 2141–2152, 2024, doi:
+       10.11591/ijai.v13.i2.pp2141-2152.
+[17]   M. Xu, V. Calhoun, R. Jiang, W. Yan, and J. Sui, “Brain imaging-based machine learning in autism spectrum disorder: methods
+       and applications,” Journal of Neuroscience Methods, vol. 361, 2021, doi: 10.1016/j.jneumeth.2021.109271.
+[18]   X. Song, N. -K. Chen, and P. Gaur, “Identification and attenuation of physiological noise in fMRI using kernel techniques,” in
+       2011 Annual International Conference of the IEEE Engineering in Medicine and Biology Society, 2011, pp. 4852–4855, doi:
+       10.1109/IEMBS.2011.6091202.
+[19]   P. Gao et al., “Development and validation of a deep learning model for brain tumor diagnosis and classification using magnetic
+       resonance imaging,” JAMA Network Open, vol. 5, no. 8, 2022, doi: 10.1001/jamanetworkopen.2022.25608.
+[20]   H. M. Ali, “MRI medical image denoising by fundamental filters,” in High-Resolution Neuroimaging - Basic Physical Principles
+       and Clinical Applications, 2018, doi: 10.5772/intechopen.72427.
+
+           Advanced methodologies resolving dimensionality complications for autism … (Meenakshi Malviya)
+1210                                                                                                          ISSN: 2252-8938
+
+[21] S. Whitfield-Gabrieli and A. Nieto-Castanon, “Conn: A functional connectivity toolbox for correlated and anticorrelated brain
+     networks,” Brain Connectivity, vol. 2, no. 3, pp. 125–141, 2012, doi: 10.1089/brain.2012.0073.
+[22] B. Sen, N. C. Borle, R. Greiner, and M. R. G. Brown, “A general prediction model for the detection of ADHD and autism using
+     structural and functional MRI,” PLoS ONE, vol. 13, no. 4, 2018, doi: 10.1371/journal.pone.0194856.
+[23] W. S. Ahmed and A. A. A. Karim, “The impact of filter size and number of filters on classification accuracy in CNN,” 2020
+     International Conference on Computer Science and Software Engineering (CSASE), Duhok, Iraq, 2020, pp. 88-93, doi:
+     10.1109/CSASE48920.2020.9142089.
+[24] N. Kanemaru, H. Takao, S. Amemiya, and O. Abe, “The effect of a post-scan processing denoising system on image quality and
+     morphometric analysis,” Journal of Neuroradiology, vol. 49, no. 2, pp. 205–212, 2022, doi: 10.1016/j.neurad.2021.11.007.
+[25] S. Shrivastava, U. Mishra, N. Singh, A. Chandra, and S. Verma, “Control or autism - classification using convolutional neural
+     networks on functional MRI,” in 2020 11th International Conference on Computing, Communication and Networking
+     Technologies (ICCCNT), 2020, pp. 1–6, doi: 10.1109/ICCCNT49239.2020.9225506.
+[26] H. Wang et al., “Identifying autism spectrum disorder from multi-modal data with privacy-preserving,” NPJ Mental Health
+     Research, vol. 3, no. 1, 2024, doi: 10.1038/s44184-023-00050-x.
+[27] O. L. Usman, R. C. Muniyandi, K. Omar, and M. Mohamad, “Gaussian smoothing and modified histogram normalization
+     methods to improve neural-biomarker interpretations for dyslexia classification mechanism,” PLoS ONE, vol. 16, no. 2, 2021, doi:
+     10.1371/journal.pone.0245579.
+[28] Y. Behzadi, K. Restom, J. Liau, and T. T. Liu, “A component based noise correction method (CompCor) for BOLD and perfusion
+     based fMRI,” NeuroImage, vol. 37, no. 1, pp. 90–101, 2007, doi: 10.1016/j.neuroimage.2007.04.042.
+[29] R. W. Cox, “AFNI: What a long strange trip it’s been,” NeuroImage, vol. 62, no. 2, pp. 743–747, 2012, doi:
+     10.1016/j.neuroimage.2011.08.056.
+[30] D. G. Wakeman and R. N. Henson, “A multi-subject, multi-modal human neuroimaging dataset,” Scientific Data, vol. 2, no. 1,
+     2015, doi: 10.1038/SDATA.2015.1.
+[31] R. Pauli, A. Bowring, R. Reynolds, G. Chen, T. E. Nichols, and C. Maumet., “Exploring fMRI results space: 31 variants of an
+     fMRI analysis in AFNI, FSL, and SPM,” Frontiers in neuroinformatics, vol. 10, no. 24, 2016.
+
+
+
+BIOGRAPHIES OF AUTHORS
+
+                             Meenakshi Malviya                     is a research scholar in the Department of Computer
+                             Science, Christ, which is deemed to be a University in Bangalore, India. She is an M.Phil. in
+                             the domain of “Down syndrome classification using machine learning”. Her M.CA. from
+                             Osmania University, Hyderabad, India in 2012, and B.CA. from Indira Gandhi National Open
+                             University (IGNOU), India in 2006. She is a diploma holder in Computers Post Graduate
+                             Diploma in Computer Application (PGDCA) in 2002. She has been awarded the best student
+                             innovation award 2024 by IIHM, India, for her current Ph.D. proposal. She has ten years of
+                             academic experience. She has 6 publications–3 international conferences (Scopus indexed),
+                             2 book chapters, and 1 patent. She has attended four international conferences, 3 webinars, and
+                             4 workshops. She can be contacted at email: meenakshimalviya@res.christuniversity.in.
+
+
+                             Dr. Chandra Jayaraman                    is presently working as a Professor in the Department
+                             of Computer Science at Christ Deemed to be University. She is also a founder and
+                             membership chair for the Christ University ACM Student Chapter and a conference chair for
+                             ICSST and ICSAC. Her areas of interest are medical image processing, neuro imaging, EEG
+                             classification, multi-model development, and predictive model building in various fields like
+                             business intelligence and business analytics. Social media mining and text analysis. She is the
+                             owner of 5 Indian patents and one copyright. She has authored and co-authored over 165
+                             research papers in international journals (SCI/SCIE/ESCI/Scopus) and conferences, including
+                             IEEE, Springer, Elsevier conference proceedings, book chapters and articles. She is a member
+                             in various professional bodies like IEEE, ACM, IETE, Biomedical Engineering, and Soft
+                             Computing Society ISTM. She has given many guest lectures and keynote speakers and is a
+                             resource person for QIP/FDP. She is also a reviewer and technical committee member in
+                             various international conferences. She is an external committee member in BOS/Staff
+                             selection/BOE in various institutes and universities. She guided more than 6 scholars,
+                             including Ph.D. and M.Phil. She is currently guiding 6 Ph.D. scholars in computer science and
+                             data science and is also in editorial member in Frontiers Medical Journal for international
+                             publications. She can be contacted at email: chandra.j@christuniversity.in.
+
+
+
+
+Int J Artif Intell, Vol. 14, No. 2, April 2025: 1201-1210
+

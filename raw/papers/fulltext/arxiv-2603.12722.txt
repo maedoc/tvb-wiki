@@ -1,0 +1,995 @@
+                                                                                                                                                                                                   1
+
+
+
+
+                                             CognitionCapturerPro: Towards High-Fidelity
+                                           Visual Decoding from EEG/MEG via Multi-modal
+                                                Information and Asymmetric Alignment
+                                             Kaifan Zhang, Lihuo He, Member, IEEE, Junjie Ke, Yuqi Ji, Lukun Wu, Lizi Wang, Member, IEEE, Xinbo
+                                                                                     Gao, Fellow, IEEE
+
+
+
+                                            Abstract—Brain decoding has attracted growing attention in
+arXiv:2603.12722v1 [cs.CV] 13 Mar 2026
+
+
+
+
+                                         recent years, with most existing studies foucsing on reconstructing
+                                         visual stimuli with high fidelity. However, achieving accurate
+                                         reconstruction of original visual stimuli from neural signals
+                                         remains a substantial challenge. Neuroscience research identifies
+                                         two key bottlenecks in visual decoding. First, when visual stimuli
+                                         are transformed into neural signals by the visual system, partial
+                                         information is inevitably lost, a phenomenon referred to as
+                                                                                                                                                                                   Attention
+                                         fidelity loss. Second, the brain’s dynamic perceptual, cognitive,
+                                                                                                                                                                                 Focus on wheel
+                                         and associative processes introduce subjective biases, leading to
+                                         representation shift. Under conditions of limited neural data, the
+                                         resulting misalignment between neural representations and image
+                                                                                                                                                   Emotional
+                                         features becomes a major obstacle, causing models to overfit and              Contextual                 Experience
+                                         generalize poor.                                                               Memory
+                                            To address these challenges, this paper proposes Cognition-                                      Personal
+                                         CapturerPro, a framework that integrates EEG signals with                                           Nostalgia
+                                         multi-modal data including images, text, depth maps, and
+                                         edge information through collaborative training. An uncertainty-
+                                         weighted similarity scoring mechanism is first introduced to
+                                         dynamically quantify the fidelity relationships between brain
+                                         signals and other modalities. A fusion encoder is then designed to                 Representational Shift                       Fidelity Loss
+                                         effectively integrate modality-specific and shared information. In
+                                         the alignment phase, a simplified alignment module is employed                Fig. 1. Core challenges in EEG-based visual decoding. We categorize the
+                                         to enhance reconstruction quality while accelerating training. For            misalignment between brain signals and visual stimuli into two aspects: (Left)
+                                         the reconstruction stage, a pre-trained diffusion model is incor-             Representational Shift, where the brain’s associative mechanisms introduce
+                                         porated to generate visual stimuli with coherent semantic and                 non-visual semantics that deviate from the pixel-level content; and (Right)
+                                         structural properties. Experiments conducted on the THINGS-                   Fidelity Loss, where selective attention and perceptual uncertainty result in
+                                         EEG dataset demonstrates that compared to CognitionCapturer,                  incomplete or localized neural capture of the original image.
+                                         our method improves Top-1 and Top-5 retrieval accuracy by
+                                         25.9% and 10.6%, respectively. The results provide a robust
+                                         technical pathway for advancing neural decoding and brain-                    from neural signals? In recent years, researchers have at-
+                                         computer interfaces (BCIs) toword real-world applications such                tempted to decode visual information from functional mag-
+                                         as medical rehabilitation and assistive technologies. The code will           netic resonance imaging (fMRI), magnetoencephalography
+                                         be made publicly available upon publication.
+                                                                                                                       (MEG), and electroencephalography (EEG), opening new av-
+                                            Index Terms—Brain-computer interface (BCI), contrastive                    enues for brain-computer interfaces and the study of human
+                                         learning, electroencephalography (EEG), magnetoencephalogra-                  visual mechanisms [2]–[6]. However, while fMRI and MEG
+                                         phy (MEG), image recognition.
+                                                                                                                       are constrained by low temporal resolution or high costs
+                                                                                                                       [7], [8], EEG’s portability, affordability, and millisecond-level
+                                                                                                                       resolution make it ideal for real-world settings [9], [10].
+                                                                  I. I NTRODUCTION
+                                                                                                                          Early studies have achieved impressive classification results
+                                                                                                                       and successfully generated saliency maps using EEG sig-
+                                         H     Umans can recognize objects in complex scenes within
+                                               milliseconds [1]. This astonishing ability of “what you
+                                         see is what you know” has inspired researchers to propose
+                                                                                                                       nals [11]. However, the block-wise experimental design they
+                                                                                                                       employed, which grouped images of the same category into
+                                         the inverse problem: can visual experiences be directly “read”                the same block, led to classification results relying more on
+                                                                                                                       temporal correlations at the block level rather than stimulus-
+                                            Kaifan Zhang, Lihuo He, Junjie Ke, Yuqi Ji, Lukun Wu and Xinbo Gao         related activity [12]. It was not until recent years that a study
+                                         are with the Visual Information Processing Laboratory, School of Electronic   significantly expanded this landscape by compiling a large
+                                         Engineering, Xidian University, Xi’an 710071, China. (Corresponding author:   and diverse EEG dataset [13]. this dataset contains 16,740
+                                         Lihuo He, e-mail: lhhe@mail.xidian.edu.cn.)
+                                            Lizhi Wang is with the School of Artificial Intelligence, Beijing Normal   image stimuli, covering 1,854 concepts, and employs Rapid
+                                         University, Beijing 100875, China                                             Serial Visual Presentation (RSVP) paradigm [14], avoiding
+                                                                                                                                   2
+
+
+
+the inflated accuracy caused by block designs. Based on this         •  Fusion Encoder: which integrates modality-private and
+dataset, researchers have proposed various brain decoding               shared information using cross-modal attention and ran-
+methods aimed at aligning the representations of EEG signals            dom modality dropout.
+with visual stimuli to achieve retrieval and reconstruction of        • Shared-Trunk & Heads Alignment (STH-Align):
+the original visual stimuli [4], [6], [15]–[20]. However, key           which obviates the need for a complex diffusion prior
+challenges remain in accounting for the systematic differences          by incorporating a simplified MLP-based shared trunk,
+between brain signals and visual stimuli.                               simultaneously receiving embeddings from all modalities
+   Neural signals are not simple mirrors of visual stimuli.             and outputting aligned features, simplifying the architec-
+During the transformation from visual stimuli to neural rep-            ture while improving alignment accuracy.
+resentation, information undergoes complex filtering and re-          Our experimental results show that CognitionCapturerPro
+organization, which may lead to a significant misalignment         achieves state-of-the-art performance in zero-shot EEG-driven
+between brain signals and the original images. As illustrated in   image retrieval and reconstruction. Representational similarity
+Figure 1, we propose that this misalignment could be attributed    analysis shows clear clustering of object categories in the
+to two major challenges:                                           embedding space. Comprehensive neural analysis further vali-
+   First, what we term representational shift: the human           dates the consistency of this framework with classic findings in
+brain’s natural associative mechanisms activate semantic net-      cognitive neuroscience. Compared to the conference version,
+works beyond the visual content itself when processing visual      this paper adds experiments with MEG data, ablation studies
+stimuli (e.g., seeing a penguin may associate with ice, Antarc-    for each module, and neuroscience-oriented experiments, fur-
+tica, or childhood zoo visits). The introduction of such non-      ther confirming the biological plausibility and generalizability
+visual semantic information causes the information contained       of the framework.
+in the brain signal to deviate from the visual features of
+the image. Second, what we term fidelity loss: limited by
+                                                                                        II. R ELATED W ORK
+the observer’s attentional mechanisms, human perception of
+images is often local and selective (e.g., focusing only on        A. Brain Decoding
+bicycle’s wheel rather than the entire frame), or attention           Brain decoding refers to the process of interpreting brain
+may shift, resulting in the visual information captured by         signals to infer human perceptual and cognitive states. In
+the brain itself being incomplete and uncertain. These two         recent years, this field has witnessed significant progress,
+challenges together constitute the core obstacles in decoding      particularly in applications such as motor imagery decoding
+visual stimuli from EEG.                                           [22], visual decoding [2], [4], [6], [15]–[20], [23], [24], text
+   While progress has been made, existing methods have             decoding [25], emotion decoding [26], and the diagnosis of
+not fully overcome these two challenges simultaneously. One        neurological disorders [27].
+group of methods focuses on semantic alignment but assumes            Visual decoding primarily involves two tasks: brain-to-
+the neural signal is a complete representation of the stimulus.    image retrieval and reconstruction. A common foundational
+Consequently, these approaches neglect fidelity loss and re-       paradigm aligns the encoded representations of EEG/MEG sig-
+main limited in recovering fine visual details [16]–[18], [21].    nals with the embedding space of contrastive vision-language
+Another group, designed to handle fidelity loss by simulating      pre-trained models like CLIP [28]. However, directly aligning
+perceptual uncertainty, typically operates within a narrowly       these representations fails to account for the inherent modality
+visual framework and misses the broader semantic associations      gap between brain signals and visual stimuli, which often leads
+of representational shift [6], [19], [20]. Consequently, an        to overfitting on training data and poor generalization to new
+integrated approach effectively combining both perspectives        samples. Consequently, researchers have been refining this
+has yet to be realized.                                            paradigm by incorporating insights from neuroscience, brain
+   In our conference work CognitionCapturer [18], we ad-           data structure, and deep learning to address these limitations.
+dressed the representational shift problem—where the brain’s       In terms of task specialization, some methods focus solely on
+associative mechanisms introduce non-visual semantics—by           the retrieval task [4], [6], [15]–[17], [19], while others handle
+proposing a modal expansion strategy. This strategy extended       both reconstruction and retrieval [2], [15], [18].
+original image-EEG pairs into multimodal sets (including
+image, text, and depth) to capture neural semantics beyond the
+visual stimulus. However, this framework did not explicitly        B. Cross-modal Contrastive Learning
+account for fidelity loss, the inherent loss of information           Recently, contrastive learning has achieved remarkable suc-
+during neural processing, and its architecture left room for       cess across several domains [29]–[31]. Building on this trend,
+streamlining. To this end, we present CognitionCapturerPro,        multi-modal contrastive learning has emerged to map diverse
+which incorporates several improvements to resolve these           modalities into a shared semantic space. A landmark advance-
+issues:                                                            ment is the development of vision-language models, which ex-
+   • Uncertainty-Weighted Masking (UM): which addresses            hibit exceptional zero-shot capabilities and generalization [32],
+      fidelity loss by dynamically quantifies the brain-image      [33]. Inspired by this, researchers have extended the paradigm
+      fidelity relationship by combining human visual system-      to various modality combinations [34], [35].
+      inspired spatially variable blurring with uncertainty-          In visual neural decoding, however, a notable “dense-to-
+      weighted similarity scoring.                                 sparse” mismatch exists between dense visual features and
+                                                                                                                                                                                                                                            3
+
+
+
+                                                                                                                              (a)   Original Loss                                               SCM-Loss(Ours)                            (b)
+
+                                                                                                                                                                            Images may repeat within a batch
+                                                                                      Modality Expert
+                                                                                        Encoder
+
+
+
+
+                                                       CLIP Encoder
+                                                                                                              Fusion
+
+
+
+
+                                                                      Projection
+  An aircraft carrier                                                                  ModalProjections
+                                                                                      Modal   Projections     Module
+                                                                                      Modal
+                                                                                      ProjectProjections
+                                                                                              Layer*4
+        at sea
+                                                                                           Stack                                                                      Same Class                                  Same Class
+
+
+
+
+                                                                                                                Positional
+                                                                                                                Encoding
+                                                                                                                                                                      Push Away                                  Pull Together
+
+
+                                                                                   Transformer Encoder*2
+                                                       CLIP Encoder
+
+                                                                      Projection
+                        Uncertainty-Weighted Masking
+
+
+
+
+                                                                                       Feed Forward                                                                                                                                       (c)
+                                                                                                                                                                                       Image Modality Head
+                                                                                           GELU
+
+
+
+
+                                                                                                                Projection
+                                                                                                                 Fusion
+
+
+
+
+                                                                                                                                    Embeddings
+
+
+
+
+                                                                                                                                                                                                                             Embeddings
+                                                                                                                                                                                        Text Modality Head
+
+
+
+
+                                                                                                                                     EEG/MEG
+
+
+
+
+                                                                                                                                                                                                                              Modality
+                                                       CLIP Encoder
+
+
+
+
+                                                                                                                                                              Trunk
+
+
+
+                                                                                                                                                                           Trunk
+                                                                                       Feed Forward
+                                                                      Projection
+
+
+
+
+                                                                                                                                                                                       Depth Modality Head
+                                                                                        Add & Norm
+
+                                                                                           GELU
+                                                                                                                                                                                        Edge Modality Head
+
+                                                                                        EEG/MEG                                                                                                                                           (d)
+                                                       CLIP Encoder
+
+
+
+
+                                                                                       Embeddings                                                               IP-Adapters Style
+                                                                      Projection
+
+
+
+
+                                                                                                                                                                                                                  Reconstructed
+                                                                                                                                                              IP-Adapters Layout                                     Image
+
+
+
+
+                                                                                                                                         Aligned Embeddings
+                                                                                         SCM loss
+                                                                                                            Suitable For
+                                                                                        Modality             Retrieval
+                                                                                       Embeddings
+
+
+                                                                                     Fusion Module                                                                                 SDXL-Turbo
+
+
+
+Fig. 2. Overview of CognitionCapturerPro: Figure (a) depicts the encoder training process, where multimodal data such as EEG and images are processed
+by independent encoders, integrated through a fusion encoder, and constrained by an improved contrastive loss. (b) depicts the SCM-Loss, which filters
+positive pairs using semantic labels and similarity to address one-to-many mappings. (c) depicts the STH-Align structure, which maps embeddings from
+various modalities into a unified image space via a shared backbone and multimodal projection heads. (d) depicts how the aligned multimodal embeddings
+are conditionally injected through the SDXL-Turbo model with a multi-branch IP-Adapter to reconstruct semantically consistent and high-fidelity images.
+
+
+
+sparse, noise-embedded brain representations. This discrep-                                                                  induces mode collapse and confines outputs to the training
+ancy, compounded by inherent cognitive noise, hinders tra-                                                                   distribution. Conversely, mapping the EEG space to CLIP
+ditional alignment from capturing deep semantic correlations.                                                                preserves generative diversity and fidelity by leveraging frozen
+To enhance decoding robustness, recent works have integrated                                                                 foundation models. Additionally, recent research has begun
+uncertainty modeling into cross-modal contrastive learning                                                                   to standardize evaluation metrics, providing more consistent
+frameworks to quantify data noise and dynamically adjust the                                                                 benchmarks for assessing generative visual decoding [39].
+learning focus [6], [19], [20]. However, purely visual uncer-
+tainty modeling neglects the broader semantic associations in                                                                                                                      III. M ETHOD
+the brain-to-visual transition.
+                                                                                                                             A. Overview
+C. Generative Visual Decoding                                                                                                   We formulate brain decoding as a dual task comprising
+   In visual neural decoding, fMRI-based studies have evolved                                                                Retrieval and Reconstruction. Let E = {E(i) ∈ RC×T }N          i=1
+from early structural and texture modeling to high-fidelity                                                                  denote an EEG corpus with C channels and T time steps, and
+                                                                                                                                        (i)
+reconstruction leveraging advanced generative models [5],                                                                    M = {Mm }m∈{img, text, depth, edge} for i = 1, . . . , N represent
+[36], [37]. In contrast, while EEG-based research has sought to                                                              the four synchronously captured modalities (image, text, depth
+emulate the success of fMRI, it remains fundamentally con-                                                                   map, and edge map), forming one-to-many pairs with each
+strained by low signal-to-noise ratios. Consequently, current                                                                EEG segment.
+EEG methodologies have moved toward complex, multi-stage                                                                        Retrieval Objective: Given an EEG sample E, retrieve
+“retrieval-then-reconstruction” strategies rather than a unified                                                             the most probable image Mimg by maximizing the posterior
+generative pipeline [15], [18], [24], [38].                                                                                  probability P (Mimg | E). Reconstruction Objective: Given
+   These approaches generally follow two technical routes:                                                                   E, synthesize a high-fidelity image M̂img that minimizes the
+fine-tuning generative models to enhance reconstruction qual-                                                                perceptual distance to the ground-truth image Mimg .
+ity [38], or aligning retrieval-optimized EEG embeddings with                                                                   Our proposed framework consists of five core components:
+the CLIP latent space to facilitate high-fidelity synthesis [15],                                                              1) Uncertainty-Weighted Masking: Inspired by human
+[18], [24]. While fine-tuning improves alignment, it often                                                                        foveated vision, this module applies spatially-varying blur
+                                                                                                                                        4
+
+
+
+     based on model confidence, thereby adaptively suppress-          we employ a memory bank S to store historical scores, updated
+     ing noisy alignments during training.                            via an exponential moving average (EMA):
+  2) Modality Expert Encoders: Four dedicated encoders
+     transform raw EEG signals into modality-specific embed-                    ŝi = γ · si + (1 − γ) · Sold [i],   S[i] ← ŝi      (3)
+     dings zm , where m ∈ {eeg, txt, depth, edge}, to preserve
+     the distinctive characteristics of each modality.                where γ is the smoothing coefficient. Assuming the scores in S
+  3) Fusion Encoder: A cross-modal Transformer model in-              follow a Gaussian distribution, we calculate the mean µ̂ and
+     tegrates all modality embeddings with learnable modality         standard deviation σ̂ to establish a confidence interval [µ̂ −
+     tokens, ultimately producing a unified representation zf         zσ̂, µ̂ + zσ̂], where z controls the sensitivity of the uncertainty
+     that captures complementary information.                         threshold.
+  4) Shared Backbone and Head Alignment: A lightweight                   The blur intensity σ for each sample is then adaptively
+     shared network, followed by modality-specific projection         selected based on its smoothed score ŝi :
+     heads, maps both the individual embeddings and the                          
+     fused embedding into a common image embedding space,                        σ0 − c, if ŝi < µ̂ − z · σ̂ (Hard samples)
+                                                                                 
+     enabling robust cross-modal alignment.                                σ = σ0 + c, if ŝi > µ̂ + z · σ̂ (Easy samples)            (4)
+                                                                                 
+                                                                                   σ0 ,      otherwise (Baseline)
+                                                                                 
+  5) SDXL-Turbo + IP-Adapter Generation: The aligned
+     embeddings condition a fast diffusion model via multiple
+     IP-Adapters (corresponding to image, depth, edge, etc.) to       where σ0 denotes the baseline blur radius, and c is a con-
+     generate high-fidelity visual stimuli that are semantically      trollable step size that modulates the adjustment margin. This
+     consistent with the brain signals.                               uncertainty-driven mechanism ensures consistent generaliza-
+                                                                      tion across diverse neural-visual pairs.
+   This architecture mitigates the modality gap through aligned
+representations while safeguarding intra-modal details. It en-
+sures consistent retrieval and reconstruction performance with        C. Modality Expert Encoder
+limited brain data. Figure 2 illustrates the detailed architecture.
+                                                                         The Modality Expert Encoder maps raw EEG segments
+                                                                      into high-level semantic embeddings. Four parameter-isolated
+B. Uncertainty-Weighted Masking (UM)
+                                                                      parallel branches are dedicated to image, text, depth, and edge
+   Inspired by [20], this method builds upon the human foveal         modalities, guaranteeing that modality-private information is
+vision mechanism. The core intuition is to dynamically adjust         not diluted. The entire flow is written as
+the learning difficulty: increasing peripheral blur for “easy”
+samples to prevent overfitting, while reducing it for “hard”                e = Proj ◦ TS-Conv ◦ Attn(E),             E ∈ RC×T .     (5)
+samples to encourage focus on essential central features.
+   1) Fovea-Inspired Spatially-Variant Blurring: Given an in-         ◦ denotes function composition, indicating a right-to-left ex-
+put image I, we first generate a weight mask Mfovea that              ecution order. The Attn module identifies salient spatio-
+gradually varies from the center to the edges. This mask has          temporal regions by applying self-attention sequentially across
+a value of 1 at the image center and decays exponentially to          channel and temporal axes. TS-Conv utilizes a depthwise
+0 towards the edges:                                                  separable structure, where 1D causal convolutions capture
+                                                                    temporal dynamics and channel-wise convolutions aggregate
+                                                       dij
+  Mfovea (i, j) = redge + (rcentre − redge ) · exp −λ        (1)      spatial cross-lead dependencies. A two-layer MLP (Proj) then
+                                                      dmax            maps these features into a unified hidden dimension to yield
+where (i, j) are pixel coordinates, dij denotes the distance          the modality-specific embedding e.
+from the pixel to the image center, dmax is the maximum                  Notably, the one-to-many mapping inherent in EEG-image
+distance from the center to a corner, rcentre is the center weight    datasets creates a training paradox for INFO-NCE loss: it
+(typically set to 1 − c), redge is the edge weight (typically set     simultaneously pulls and pushes samples of the same semantic
+to 0), and λ is a parameter controlling the decay rate.               category. To resolve this conflicting supervision, we introduce
+   The final foveated image is then obtained by blending the          Similarity-Category Masked Loss (SCM-Loss). Its core idea
+clear original image with a blurred image using the weight            is to involve only semantically identical and most similar
+mask:                                                                 sample pairs in the positive probability computation, while
+              eI = Mfovea ⊙ I + (1 − Mfovea ) ⊙ I              (2)    masking out all others.
+                                                                         Given EEG embeddings E ∈ RB×d and labels y ∈ NB ,
+where ⊙ denotes element-wise multiplication. This operation
+                                                                      we first compute the temperature-scaled similarity matrix S =
+keeps the central region of the image clear while applying blur
+                                                                      EE⊤ /τ . To resolve semantic conflicts, we define a masked
+effects to the peripheral regions.
+   2) Uncertainty-Driven Dynamic Selection: We dynamically            probability matrix M as:
+modulate the blur intensity σ based on the model’s current                             exp(Sij · mij )
+alignment performance to adaptively adjust task difficulty. For                Mij = PB                    ,
+                                                                                       l=1 exp(Sil · mil )
+a mini-batch of B samples, we first compute the similarity                           (                                               (6)
+score si between each image and its corresponding EEG                                 1, if yi = yj and j ∈ top-k(Si,· )
+                                                                               mij =
+embedding. To maintain a stable estimation of performance,                            0, otherwise
+                                                                                                                                       5
+
+
+
+where mij denotes the similarity-category mask. The final            E. Shared-Trunk & Heads Alignment (STH-Align)
+SCM-Loss is formulated as the negative log-likelihood of the            A prevalent approach to aligning EEG embeddings with
+self-alignment:                                                      image embeddings is to employ a diffusion prior. However,
+                                     B
+                                                                     diffusion-based models typically require large-scale datasets;
+                                  1 X                                when only tens of thousands of EEG–image pairs are available,
+                   LSCM = −             log Mii               (7)
+                                  B i=1                              they tend to over-fit and incur heavy inference costs. We there-
+                                                                     fore propose Shared-Trunk & Heads Alignment (STH-Align),
+  This approach ensures that only samples sharing the same           a lightweight module that simultaneously refines embeddings
+semantic category and exhibiting top-k similarity are treated as     from four modalities by integrating multi-modal information
+positive pairs, while same-class but dissimilar samples are sup-     to produce a single, refined output.
+pressed as negatives, and cross-class samples are completely            1) Architecture: STH-Align consists of two primary com-
+excluded from positive consideration. Consequently, the EEG          ponents: a Shared-Trunk and Modality-Specific Heads.
+embedding space evolves to maximize both intra-class com-                Shared-Trunk. For a mini-batch we concatenate the four
+pactness and inter-class separability, benefiting downstream         EEG embeddings xcat = [e img ; e txt ; e depth ; e edge ] ∈ R4d and
+cross-modal alignment and reconstruction tasks.                      feed it into a 4-block MLP
+                                                                                                                  
+                                                                       hℓ = SiLU LayerNorm(Wℓ hℓ−1 + bℓ ) , ℓ = 1, . . . , 4,
+                                                                                                                                    (10)
+D. Fusion Encoder
+                                                                     yielding a common representation f ∈ Rd . This forces differ-
+   The Fusion Encoder FFE integrates four modality-specific          ent modalities to share high-level statistics while suppressing
+EEG embeddings {zm } into a unified representation zfus ∈            modality-specific noise.
+R1024 . To effectively capture both private and synergistic              Modality-Specific Heads. Each modality owns a 2-layer
+information, the fusion process is conducted in three stages:        MLP projection head
+   1) Input Projection and Tokenization: To align the diverse             ê m = Projm (f ),   m ∈ {img, txt, depth, edge},        (11)
+modalities into a shared hidden space (d = 1024), each
+embedding zm is first mapped via a linear projection with            whose output is L2-normalised so that subsequent cosine
+LayerNorm and GELU activation: z̃m = LN(Wm zm + bm ).                similarities are numerically stable.
+These projected features are then stacked into a sequence              2) Objective: Given target image embeddings vm produced
+  (0)
+Hraw = [z̃i mg; . . . ; z̃e dge] ∈ R4×d . To preserve the identity   by a frozen image encoder, STH-Align minimizes the total loss
+of each source, the sequence is augmented with a learnable           LSTH , defined as:
+                                                                                         Xh
+modality positional encoding P ∈ R4×d to form the initialized                    LSTH =      λmse ∥ê m − vm ∥22
+input for the transformer blocks:                                                        m
+                                                                                                   |     {z   }
+                                                                                                       MSE Loss
+
+                       H   (0)
+                                 = H(0)                                                        + λcos (1 − cos(ê m , vm ))
+                                    raw + P                   (8)                                     |        {z         }        (12)
+                                                                                                           Cosine Loss
+                                                                                                                 i
+   2) Cross-modal Interaction: We employ a two-layer Trans-                                    + λreg ∥ê m ∥22 .
+former encoder to model the complex dependencies between                                                | {z }
+                                                                                                      Regularization
+modalities. Each layer updates the sequence through multi-
+head self-attention and feed-forward networks:                       The three terms balance Euclidean fidelity, angular alignment,
+                                                                     and representation stability.
+            H(l) = LN(H(l−1) + MSA(H(l−1) )),                           3) Training & Inference: STH-Align is trained separately
+                                                              (9)
+            H(l) = LN(H(l) + FFN(H(l) )),                            with the EEG and Fusion encoders. modality dropout is
+                                                                     applied so that one modality is randomly discarded per batch,
+where l ∈ {1, 2}. This self-attention mechanism allows each          encouraging the shared trunk to produce robust representa-
+modality token to adaptively aggregate semantic cues from            tions. At test time only the query modality’s EEG embedding
+others, facilitating a comprehensive cross-modal alignment.          is processed; the refined embedding is used for retrieval
+   3) Aggregation and Robust Training: The refined sequence          or fed to the generative model. The shared-private design
+H(2) is compressed into a single vector through global average       yields superior alignment quality while remaining lightweight,
+                                                   P4        (2)     providing a compact and consistent cross-modal representation
+pooling across the modality dimension: hagg = 14 i=1 Hi .
+A residual MLP then projects this aggregate into the final fused     for the subsequent generation stage.
+embedding zfus .
+   To enhance the model’s robustness against missing data, we        F. SDXL Turbo + IP Adapter Generation
+implement a Modality Masking strategy during training, where            Using the multimodal representations aligned by STH-
+one modality token in each batch is randomly zeroed out. This        Align, we adopt a parallel injection approach with SDXL-
+forces the encoder to maintain high-fidelity fusion even under       Turbo [40] as the backbone diffusion model. To minimize
+incomplete observations. The entire module is optimized using        potential uncertainty, the text modality is excluded, and we
+the Similarity-Category Masked (SCM) loss, ensuring intra-           instead utilize three IP-Adapter [41] branches to simultane-
+class compactness in the fused semantic space.                       ously integrate EEG-derived image, depth, and edge cues.
+                                                                                                                                                 6
+
+
+
+                                                                    TABLE I
+   Z ERO - SHOT RETRIEVAL PERFORMANCE ON THE T HINGS -EEG DATASET. T HE TABLE REPORTS THE T OP -1 AND T OP -5 ACCURACIES (%) FOR TEN
+      SUBJECTS AND THEIR AVERAGE . C OG C AP P RO (I), (T), (D), (E), AND (F) DENOTE THE RESULTS USING I MAGE , T EXT, D EPTH , E DGE , AND
+                            MULTI - MODAL F USION , RESPECTIVELY. B OLD VALUES INDICATE THE BEST PERFORMANCE .
+
+
+               Subject 1 Subject 2 Subject 3 Subject 4 Subject 5 Subject 6 Subject 7 Subject 8 Subject 9 Subject 10                       Avg
+Method
+               top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5
+BraVL [4]       6.1 17.9 4.9 14.9 5.6 17.4 5.0 15.1 4.0 13.4 6.0 18.2 6.5 20.4 8.8 23.7 4.3 14.0 7.0 19.7 5.8 17.5
+NICE [16]      13.2 39.5 12.5 40.3 14.5 42.7 15.3 39.6 10.1 31.5 16.5 44.0 17.0 42.1 12.9 56.1 15.4 41.6 17.4 45.8 14.1 43.6
+NICE-S [16]    13.3 40.2 13.1 36.1 15.3 42.6 20.9 52.0 9.8 34.4 14.2 42.4 17.9 43.6 28.2 50.2 14.4 38.7 16.0 42.8 16.7 41.7
+NICE-G [16]    15.2 40.1 13.9 40.1 15.7 42.7 17.6 48.9 9.0 29.7 16.3 44.4 14.9 43.1 20.3 52.1 14.1 39.7 19.6 46.7 15.6 42.8
+MB2C [21]      23.6 56.3 22.6 50.5 26.3 60.1 34.8 67.0 21.3 53.0 31.0 62.3 35.0 64.8 39.0 69.3 27.5 59.3 33.1 70.8 28.4 60.3
+ATM-S [15]     23.6 50.4 22.0 54.5 24.0 62.4 31.4 60.9 12.9 43.0 21.4 51.1 20.5 51.5 38.8 72.0 34.4 51.5 29.1 63.5 25.5 60.4
+CogCap [18]    31.4 79.6 31.4 77.8 38.1 85.6 40.3 85.8 24.4 66.3 34.8 78.7 34.6 80.9 48.1 88.6 37.4 79.3 35.5 79.2 35.6 80.2
+VE-SDN [3]     32.6 63.7 34.4 69.9 38.7 73.5 39.8 72.0 29.4 58.6 34.5 68.8 34.5 68.3 49.3 79.8 39.0 69.6 39.8 75.3 37.2 69.9
+UBP [20]       41.2 70.5 51.2 80.9 51.2 82.0 51.1 76.9 42.2 72.8 57.5 83.5 49.0 79.9 58.6 85.8 45.1 76.2 61.5 88.2 50.9 79.7
+ATS [19]       53.0 79.0 62.0 87.5 61.5 89.0 57.0 86.5 55.0 84.0 68.0 90.5 53.0 84.0 66.5 91.0 58.5 86.0 67.5 89.0 60.2 86.7
+CogCapPro(I) 54.2 83.2 50.5 82.9 49.5 85.6 56.5 85.4 40.9 74.0 52.3 86.2 50.8 79.5 63.1 90.0 49.5 81.7 59.3 86.5 52.7 83.5
+CogCapPro(T) 10.9 31.9 13.0 34.6 12.3 36.2 17.4 43.6 11.4 30.5 15.0 40.3 15.4 40.8 17.3 44.9 13.3 38.0 16.0 44.8 14.2 38.6
+CogCapPro(D) 17.8 47.0 15.0 40.8 19.7 47.3 19.7 51.2 12.1 34.8 15.8 42.2 18.8 44.5 20.2 47.9 17.5 43.4 18.5 43.9 17.5 44.3
+CogCapPro(E) 29.2 62.9 27.3 64.0 32.8 65.6 36.8 68.8 24.3 56.1 34.8 68.1 25.5 61.1 35.3 71.7 24.1 59.1 29.1 66.4 29.9 64.4
+CogCapPro(F) 61.9 91.5 59.4 90.9 62.2 91.9 67.0 94.6 45.2 78.8 64.3 91.8 58.0 90.4 73.2 95.7 55.0 88.6 65.8 93.6 61.2 90.8
+
+
+
+                             TABLE II                                       ings from 10 subjects under a rapid serial visual presentation
+Z ERO - SHOT RETRIEVAL PERFORMANCE ON THE T HINGS -MEG DATASET.             paradigm [14]. The training set comprises 1,654 conceptual
+                                                                            categories with 10 images per category, each image repeated
+               Subject 1 Subject 2 Subject 3 Subject 4           Avg
+Method                                                                      4 times per subject. The test set includes 200 conceptual
+              top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5 top-1 top-5   categories with 1 image per category, each image repeated 80
+NICE [16]    9.6 27.8 18.5 47.8 14.2 41.6 9.0 26.6 12.8 36.0                times per subject.The THINGS-MEG dataset involves MEG
+NICE-S [16] 9.8 27.8 18.6 46.4 10.5 38.4 11.7 27.2 12.7 35.0                recordings from 4 participants with 271 channels. The training
+NICE-G [16] 8.7 30.5 21.8 56.6 16.5 49.7 10.3 32.3 14.3 42.3
+UBP [20]    15.0 38.0 46.0 80.5 27.3 59.0 18.5 43.5 26.7 55.2               set consists of 1,854 conceptual categories × 12 images × 1
+ATS [19]    15.5 42.0 61.5 88.0 33.0 69.5 19.0 43.5 32.3 62.4               repetition, while the test set contains 200 conceptual categories
+CogCapPro(I) 17.2 43.0 49.5 83.0 34.5 68.5 20.0 47.0 30.3 60.4              × 1 image × 12 repetitions. All experimental procedures
+CogCapPro(T) 7.5 23.7 10.5 36.5 12.3 31.2 8.5 21.7 9.7 28.3                 were approved by the relevant institutional review boards, and
+CogCapPro(D) 7.0 19.7 13.0 35.5 12.5 31.8 6.2 18.2 9.7 26.3                 informed consent was obtained from all participants prior to
+CogCapPro(E) 9.0 25.5 27.0 54.0 16.3 45.7 11.0 29.5 15.8 38.7
+CogCapPro(F) 15.0 45.0 54.5 89.5 36.3 72.2 21.5 51.7 31.8 64.6
+                                                                            their involvement in the study.
+                                                                               2) Data Preprocessing and Multi-modal Expansion: For
+                                                                            both EEG and MEG signals, we follow the preprocessing
+     a) Condition Branches: Each modality is processed by                   process described in [20] to ensure experimental fairness. To
+an independent IP-Adapter-Layout variant to ensure consis-                  provide richer supervision signals, we expand the original
+tent spatial-layout modeling. Specifically, the image branch                visual stimuli into four modalities. All images are resized to
+captures global semantics and the overall layout, while the                 224 × 224 pixels. We convert the original images into edge
+depth branch reinforces 3-D structural consistency, and the                 maps with salient contour features by applying the Canny
+edge branch provides precise contour and shape details. These               edge detection algorithm to Gaussian-smoothed grayscale
+features are inserted in parallel into the Cross-Attention layers           images. Additionally, depth maps are estimated using the
+of the U-Net and aggregated using modality-specific weights.                DepthAnything model, and textual descriptions are generated
+     b) Joint Denoising and Reconstruction: During SDXL-                    via BLIP-2. This multi-modal expansion enables the model
+Turbo denoising, key-value pairs from all adapters undergo                  to address modality and fidelity misalignment by leveraging
+simultaneous attention-based fusion. This multi-view integra-               complementary information from the visual stimuli.
+tion directly guides noise prediction, ensuring the output is                  3) Implementation Details: We employ two OpenCLIP [43]
+semantically and structurally consistent with the EEG-derived               variants, ResNet-50 and ViT-H-14, as the base visual en-
+spatial and visual stimulus.                                                coders. To evaluate performance, we compare them against
+                                                                            four representative EEG encoders: Shallownet, Deepnet [44],
+                                                                            EEGNet [45], and TSConv [16].
+                       IV. E XPERIMENTS
+                                                                               All experiments were conducted on 8 NVIDIA RTX 3090
+A. Datasets and Preprocessing                                               GPUs. We trained the models for 80 epochs using a batch
+  1) Datasets: We evaluated CogCapPro on two large-scale                    size of 1024. To prevent overfitting, text modality training
+brain signal datasets: THINGS-EEG [13] and THINGS-                          is capped at 30 epochs. Each experiment repeated 5 times
+MEG [42]. The THINGS-EEG dataset contains EEG record-                       to ensure statistical significance. For the retrieval alignment
+                                                                                                                                                          7
+
+
+
+
+   Visual
+  Stimulus
+
+
+
+
+Reconstructed
+   Image
+(CogCapPro)
+
+
+
+
+Reconstructed
+   Image
+ (CogCap)
+
+
+
+
+Reconstructed
+   Image
+   (ATM)
+
+
+
+Fig. 3. Qualitative comparison of image reconstruction results on the Things-EEG dataset. The first row displays the ground-truth visual stimuli. Subsequent
+rows show reconstructions generated by CogCapPro, CogCap, and ATM, respectively.
+
+                             TABLE III                                         improvements over existing leading methods. Specifically, it
+ I MAGE RECONSTRUCTION PERFORMANCE . M ETRICS ARE DIVIDED INTO                 reaches a Top-1 accuracy of 61.2% and a Top-5 accuracy of
+LOW- LEVEL AND HIGH - LEVEL FEATURES , WHERE ARROWS INDICATE THE
+               DIRECTION OF BETTER PERFORMANCE .                               90.8%, surpassing the comparative method ATS [19] by 1.0%
+                                                                               and 4.1%, respectively.
+ Method
+                              Low-level              High-level                   The results on the Things-MEG dataset follow a similar
+                          PixCorr↑ SSIM↑ Inception↑ CLIP↑ SwAV↓                trend. In the 200-class zero-shot retrieval task—where the ran-
+                                                                               dom guess accuracy is only 0.5%—CogCapPro yields highly
+ MindEye (fMRI) [37] 0.322           0.431      0.954     0.930 0.344
+                                                                               competitive outcomes. Its Top-1 accuracy reaches 31.8% and
+ META (MEG) [2]             0.090    0.341      0.703     0.811 0.567          its Top-5 accuracy is 64.6%, maintaining a 2.2% lead over
+ ATM (MEG) [15]             0.104    0.340      0.619     0.603 0.651
+                                                                               ATS [19] in the more representative Top-5 metric.
+ CogCap (EEG) [18]          0.150    0.347      0.669     0.715 0.590             To further investigate the contribution of individual modal-
+ ATM (EEG) [15]             0.160    0.345      0.734     0.786 0.582          ities, Table I and Table II provide a detailed breakdown of
+ CogCapPro (EEG)            0.163    0.398      0.779     0.830 0.553
+                                                                               CogCapPro’s performance across different inputs. The data
+                                                                               confirms that the multi-modal fusion strategy achieves the
+                                                                               highest retrieval accuracy, validating the effectiveness of our
+task, we used the AdamW optimizer with a learning rate of
+                                                                               joint representation approach. Among the single modalities,
+1 × 10−4 . Each modal expert encoder is assigned an inde-
+                                                                               the image modality contributes most significantly, with perfor-
+pendent optimizer to prevent inter-modal information leakage.
+                                                                               mance second only to the fusion result, followed by the edge,
+Regarding the STH-Align objective, the loss weights are set
+                                                                               depth, and text modalities. This ranking clearly illustrates
+as λmse = 1.0, λcos = 0.5, and λreg = 1 × 10−4 .
+                                                                               the relative importance of each modality in the cross-modal
+   For the UM module, the memory bank update coefficient γ
+                                                                               retrieval task.
+and blur radius adjustment c are set to 0.3 and 6, respectively.
+The top-k parameter in the SCM-Loss is 10. To ensure com-
+parability and reproducibility in EEG-to-image reconstruction,                 C. Reconstruction Performance
+we follow the evaluation protocols established in [2], [15].
+                                                                                  On the Things-EEG dataset, we evaluated image reconstruc-
+                                                                               tion using five metrics—PixCorr, SSIM, Inception, CLIP, and
+B. Retrieval Performance                                                       SwAV—to comprehensively assess the reconstruction quality
+   This section evaluates the retrieval performance of the                     from both low-level visual features and high-level semantic
+CognitionCapturerPro (hereafter abbreviated as CogCap-                         features. As shown in Table III, CogCapPro significantly
+Pro) model. We conducted extensive experiments on both                         outperforms existing methods in reconstructing both low-level
+the Things-EEG and Things-MEG datasets, comparing our                          and high-level features. Specifically, at the semantic level,
+approach with state-of-the-art methods. The comprehensive                      CogCapPro achieves a 4.4% improvement on the CLIP metric
+results are summarized in Table I and Table II.                                and reduces the SwAV metric (where a lower value indi-
+   Regarding the within-subject experiments on the Things-                     cates better performance) by 2.9%, demonstrating its superior
+EEG dataset, CogCapPro achieves significant performance                        capability in capturing complex neural-to-visual mappings
+                                                                                                                                       8
+
+
+
+                           TABLE IV                                                           TABLE VI
+ A BLATION STUDY OF DIFFERENT MODULES ON THE BASELINE MODEL .          A BLATION STUDY OF MODALITY COMBINATIONS AND ALIGNMENT
+                                                                                              MODULES .
+                                          Avg (Fusion)
+      Baseline UM Loss Mask                                                                  Low-level            High-level
+                                      top-1 (std) top-5 (std)         Method
+                                                                                          PixCorr↑ SSIM↑ Inception↑ CLIP↑ SwAV↓
+         ✓       ✗     ✗       ✗      51.8 (5.7)     84.8 (4.8)
+         ✓       ✓     ✗       ✗      54.7 (6.4)     87.1 (3.9)       Baseline Align       0.097    0.192    0.481    0.505 0.760
+         ✓       ✓     ✓       ✗      60.7 (6.2)     90.4 (3.2)       w/o Align Module     0.103    0.215    0.516    0.483 0.751
+         ✓       ✓     ✓       ✓      61.2 (7.2)     90.8 (4.4)       CogCapPro (Image)    0.141    0.317    0.773    0.833    0.558
+                                                                      CogCapPro (Depth)    0.122    0.407    0.636    0.643    0.663
+                          TABLE V
+                                                                      CogCapPro (Edge)     0.029    0.130    0.645    0.658    0.735
+   P ERFORMANCE COMPARISON ACROSS DIFFERENT EEG AND IMAGE             CogCapPro (All)      0.163    0.398    0.779    0.830    0.553
+                         ENCODERS .
+
+
+                                            Avg (Fusion)
+     EEG Encoder      Image Encoder                                 yielding 61.2% Top-1 and 90.8% Top-5 accuracy. This marks
+                                        top-1 (std) top-5 (std)     a notable improvement over TSConv (44.7% Top-1) and more
+     CogCap Encoder        Vit-H-14     56.0 (6.7)    87.6 (5.3)    than doubles the performance of DeepNet (24.4%), validating
+     CogCap Encoder         RN50        61.2 (7.2)    90.8 (4.4)    our encoder’s efficiency in extracting high-level semantic
+     ShallowNet             RN50        37.0 (7.3)    72.6 (8.2)    information from complex EEG signals.
+     DeepNet                RN50        24.4 (4.6)    56.8 (7.7)
+     TSConv                 RN50        44.7 (7.5)    79.9 (6.5)       Image Encoder Comparison: With the CogCap Encoder
+     EEGNet                 RN50        31.0 (6.6)    65.2 (8.6)    as the fixed EEG backbone, RN50 significantly outperformed
+                                                                    ViT-H-14 as the image encoder, achieving Top-1/Top-5 accu-
+                                                                    racies of 61.2%/90.8% compared to 56.0%/87.6%. We posit
+and achieving highly competitive performance in EEG-based           that this performance gap stems from the relative sparsity of
+image reconstruction.                                               visual information within EEG signals; specifically, the feature
+   Figure 3 visualizes representative reconstruction examples.      distribution of RN50 may align more effectively with the
+For the “cheetah” stimulus, ATM [15] only captures the coarse       information density of EEG representations than ViT-H-14.
+“animal” category (reconstructing a bear), while CogCap [18]           3) Impact of Different Modalities on Reconstruction: To
+improves granularity to a “spotted hyena.” In contrast, Cog-        isolate the contribution of each modality, we independently
+CapPro accurately recovers the “cheetah” and its distinctive        evaluated the image, depth, and edge features, while specifi-
+spot patterns, demonstrating superior fine-grained semantic         cally sidelining the text modality due to its limited discrimina-
+alignment. Similarly, for the “coffee cup,” ATM fails to resolve    tive power observed in prior retrieval phases. As evidenced by
+the “handle” and “saucer” structures, and CogCap yields an          the quantitative data in Table VI and Figure 4, while specific
+incorrect “spoon.” CogCapPro, however, successfully restores        single-modality models exhibit performance comparable to
+the complete object geometry, highlighting its precision in         the full-modality set in isolated metrics like SSIM (with
+mapping neural signals to complex structural details.               marginal fluctuations below 0.0X%), the complete CogCapPro
+                                                                    architecture maintains a distinct advantage in overall stability
+                                                                    and cross-modal synergy, effectively mitigating the limitations
+D. Ablation Studies                                                 inherent in any single information source.
+   We evaluate CogCapPro’s robustness through systematic               Qualitatively, while the image modality captures holistic
+ablations of its architectural modules, target brain regions, and   content, depth and edge modalities prioritize structural con-
+EEG frequency bands. The specific details are as follows:           tours and textures at the expense of color fidelity. As illustrated
+   1) Module Ablation Analysis: We sequentially introduced          in Figure 4, the full-modality reconstruction yields more
+the UM, the SCM-Loss, and the Modality Mask mechanism               accurate scale for the “bug” stimulus. Notably, in the “bowl of
+on top of the baseline model to progressively investigate the       butter” case, the image-only variant introduces semantic hal-
+impact of each module on retrieval performance. As shown in         lucinations (e.g., “noodles”), which are effectively suppressed
+Table IV, both Top-1 and Top-5 accuracy showed continuous           by the multi-modal fusion to restore a realistic structure. These
+improvement with the incremental addition of each module,           findings demonstrate that our fusion strategy leverages cross-
+indicating that all three components effectively enhance model      modal complementarity to enhance reconstruction stability and
+performance. Among them, the SCM-Loss module contributed            suppress noise.
+the most to performance gain, increasing the Top-1 accuracy            4) Role of the Alignment Module: As shown in Table VI
+by 6.0%, establishing it as a key optimization component in         and Figure 4, excluding the alignment module or employing
+the architecture.                                                   only the baseline alignment method resulted in reconstructed
+   2) Impact of Encoder Selection: We further compared the          images with noticeable semantic noise and structural incon-
+impact of different EEG encoders and image encoders on              sistencies. This led to a measurable performance degradation
+model performance. The results are shown in Table V.                compared to our proposed method. These results highlight the
+   EEG Encoder Comparison: Evaluation of EEG backbones              effectiveness of the STH-Align module in facilitating precise
+(Table V) reveals that CogCap Encoder leads the performance,        feature semantic alignment.
+                                                                                                                                                           9
+
+
+
+
+      Visual
+     Stimulus
+
+
+
+       All
+     Modality
+
+
+
+      Image
+     Modality
+
+
+
+      Depth
+     Modality
+
+
+
+      Edge
+     Modality
+
+
+
+      All
+    Modality
+ (Without Align)
+
+
+       All
+    Modality
+(Original Modal)
+
+
+Fig. 4. Qualitative comparison of reconstruction results across different modality configurations and alignment strategies. From top to bottom: the original
+visual stimulus, results from all modalities, single modalities, and variants without our alignment module. Our full-modality approach effectively integrates
+complementary features to produce the most consistent reconstructions.
+
+
+
+   5) Impact of Brain Regions and Frequency Bands: To                           Integrating all frequency bands (All Channels) achieved the
+explore the impact of brain regions and frequency bands on                      optimal performance, indicating that the synergistic integra-
+visual recognition tasks, we conducted a systematic analysis                    tion of multiple frequency bands helps enhance the model’s
+based on EEG and MEG data from both spatial (brain regions)                     recognition capability.
+and spectral (frequency bands) dimensions. The results are                         Cross-Dimension Analysis: The overall recognition ac-
+illustrated in Figure 5, which presents four sets of box plots                  curacy of EEG across dimensions was higher than that of
+illustrating the Top-1 accuracy distributions (EEG/MEG ×                        MEG, possibly because EEG is more suitable for capturing
+Spatial/Spectral).                                                              cortical surface activities related to visual tasks. Furthermore,
+   Spatial Dimension: The Occipital lobe showed the highest                     weaker-performing brain regions or frequency bands (e.g.,
+recognition accuracy in both EEG and MEG, consistent with                       Frontal lobe, Gamma band) exhibited greater dispersion in
+the neuroscientific conclusion that the “occipital lobe serves                  accuracy distribution, reflecting the variability of individual
+as the primary visual cortex.” In contrast, the Frontal lobe                    neural activity; whereas the results for the Occipital lobe
+performed poorly in this task, as it is primarily involved                      and All Channels were more concentrated, indicating the
+in higher cognitive functions and is less associated with                       consistency of key neural circuits across the population.
+perceptual-level tasks. The advantage of EEG in the occipital
+region was more pronounced than that of MEG, potentially                                        V. I NTERPRETABILITY A NALYSIS
+stemming from EEG’s higher sensitivity to potentials on the                        To assess the interpretability of CogCapPro, this section
+cortical surface.                                                               investigates its internal mechanisms through semantic analysis,
+   Spectral Dimension: Low-frequency bands (Delta: 0–4 Hz,                      retrieval visualization, and Grad-CAM-based brain topogra-
+Theta: 4–8 Hz) performed better in the recognition task than                    phy. These visualizations demonstrate the efficacy of our
+the high-frequency Gamma band (50–100 Hz), aligning with                        multi-modal fusion in semantic representation while validating
+the neural mechanism that low-frequency activity participates                   the model’s biological plausibility by reflecting a decoding
+in perceptual encoding. The Gamma band is susceptible to                        process consistent with known cortical activity and visual
+noise interference, resulting in lower information validity.                    attention.
+                                                                                                                                                              10
+
+
+
+
+Fig. 5. Top-1 accuracy distribution across spatial and spectral dimensions. The top row illustrates the classification performance across different brain regions
+(Frontal, Temporal, Central, Parietal, and Occipital), while the bottom row shows the performance across five frequency bands (Delta, Theta, Alpha, Beta,
+and Gamma). Left and right columns represent results for the Things-EEG and Things-MEG datasets, respectively. “All Channels” denotes the integration of
+all spatial or spectral information.
+
+
+
+A. Semantic Analysis and Retrieval Visualization                                  capture of intricate visual features (see Figure 6). The text
+   First, we conduct similarity analysis at the semantic level.                   modality’s heatmap shows no discernible trends, while the
+Specifically, we divide the dataset into seven semantic cate-                     depth and edge modalities exhibit global similarity consis-
+gories (animals, food, vehicles, tools and equipment, plants,                     tency, which we attribute to the relatively uniform distribution
+clothing, others) and compute similarity heatmaps for embed-                      of contour and edge information across most images.
+dings from different modalities. For simplicity, we refer to                         In terms of retrieval result visualization, we display the Top-
+the fused embedding as the fusion modality. As illustrated in                     5 classification results randomly selected from one participant
+Figure 6, the similarity heatmaps for depth and edge modalities                   in Figure 6. The predicted results are highly consistent with
+exhibit indistinct patterns, indicating that these modalities                     the ground-truth labels at the semantic level; for example,
+are relatively insensitive to high-level semantic information.                    “cat” is retrieved as various animal species, “aircraft car-
+This is consistent with intuitive knowledge—depth and edges                       rier” is retrieved as different types of maritime vessels, and
+primarily capture structural topology rather than abstract se-                    “chopsticks” is retrieved as “elongated objects.” This further
+mantics. In contrast, the image, text, and fusion modalities                      confirms the model’s effective recognition of image content
+demonstrate clear discriminability for different semantic cate-                   from EEG signals, providing both strong biological plausibility
+gories, with the fusion modality performing the best, thereby                     and empirical support for the feasibility of EEG-based image
+validating the effectiveness of our proposed fusion strategy in                   recognition tasks.
+integrating multi-modal semantic information.
+   Additionally, we perform similarity analysis by arranging                      B. Multi-Modal Interaction and Grad-CAM Exploration
+images in order of structural complexity from low to high. In                        To enhance the model’s interpretability, this section inves-
+the image and fusion modalities, low-complexity images show                       tigates the internal mechanisms of the CogCapPro framework
+high similarity, while high-complexity images demonstrate                         by exploring the interactions among EEG signals, original
+high inter-sample variance, reflecting the model’s sensitive                      stimuli, and reconstructed images. By employing Grad-CAM
+                                                                                                                                                       11
+
+
+
+
+Fig. 6. Semantic Analysis and Retrieval Visualization. (a) Similarity heatmaps of the fusion modality embeddings, sorted by semantic categories (left) and
+structural complexity from low to high (right). (b) Top-5 retrieval results for representative stimulus images.
+
+
+
+technology [46] to generate brain topography maps and image                   but provide no specific semantic information. CogCapPro re-
+heatmaps, we analyze the model’s attention mechanisms from                    solves these individual limitations through multi-modal fusion,
+both neural and visual perspectives, thereby validating its                   ensuring both structural and semantic consistency.
+biological plausibility.
+   1) Brain Topography Exploration: We first examine how                                     VI. D ISCUSSION AND C ONCLUSION
+the model identifies and utilizes brain regional activities rel-                 CogCapPro addresses fidelity loss and representation shift in
+evant to image recognition. As illustrated in Figure 7, the                   neural decoding by employing specialized alignment modules.
+original EEG topography exhibits prominent activity in the                    These modules facilitate the integration of multimodal data,
+frontal region, which is often associated with high-level cogni-              effectively synchronizing internal neural signals with external
+tive noise or non-visual tasks [47]. However, after processing                visual stimuli. Evaluations on the THINGS-EEG [13] and
+through the convolution and attention modules, the model’s                    THINGS-MEG [42] datasets show that CogCapPro signifi-
+focus shifts significantly toward the occipital and temporal                  cantly outperforms the original CognitionCapturer [18] and
+regions. These areas are recognized in neuroscience as core                   baseline methods in retrieval accuracy. By capturing both
+centers for visual object recognition, such as the V1 area                    global semantics and local geometric features, this approach
+for primary visual processing and the Inferior Temporal (IT)                  provides a refined technical foundation for BCI applications
+cortex for category-level representation [1], [48]. The results               in medical rehabilitation and assistive technologies.
+demonstrate that CogCapPro effectively incorporates frontal                      However, achieving real-time and efficient visual decoding
+lobe activity while selectively prioritizing specialized vision-              still faces challenges. The first is the issue of response stability.
+related cortical information. The activation matches where                    Currently, models must follow experimental paradigms by
+visual processing occurs in the brain, confirming that the                    averaging across multiple repeated stimuli to improve the
+model relies on meaningful biological signals.                                signal-to-noise ratio, which limits the application scenarios
+   2) Image Heatmap Analysis: Furthermore, we utilize Grad-                   of real-time visual neural decoding. Therefore, how to extract
+CAM to visualize the attention areas of different modality                    efficient features under single-trial conditions is a key research
+encoders on the stimulus images, comparing them with the                      direction for the future.
+CLIP baseline. Using the “warship” image as an example,                          Secondly, the depth of utilization of brain regions needs
+Figure 7, we observe distinct and complementary attention pat-                to be strengthened. Spatial analysis shows that decoding
+terns across modalities: the image modality primarily focuses                 contributions primarily come from the occipital lobe as the
+on salient semantic features (e.g., the bow), while the depth                 primary visual cortex [1], [8], [49], while the frontal lobe,
+and edge modalities emphasize structural topology (e.g., the                  associated with high-order cognition and semantic association,
+lower hull). This observation is consistent with the hierarchical             has limited direct contribution [1], [47]. Effectively integrating
+processing of the human visual system, where edge detection                   high-level cognitive signals from the frontal lobe to assist
+occurs in early visual pathways (V1/V2) and comprehensive                     reconstruction holds significant research value. Furthermore,
+semantic integration involves higher layers (V4/IT) [1], [49].                existing metrics remain limited in providing a comprehensive
+   3) Synthesis of Modalities: The “warship” example illus-                   assessment of the gap between reconstructed image and visual
+trates how these modalities complement each other during                      stimuli; generative models may synthesize images that are
+reconstruction (Figure 7). The image modality identifies key                  logically self-consistent but deviate from real perception. Thus,
+semantic features but struggles with spatial orientation, leading             establishing a set of credibility evaluation systems combined
+to distorted shapes. In contrast, depth and edge modalities                   with neuroscience standards is crucial for objectively evaluat-
+maintain the correct structural layout and vessel orientation                 ing brain decoding results.
+                                                                                                                                                            12
+
+
+
+
+                     Raw
+                     Data
+                                                                                Visual
+                                                                               Stimulus
+
+
+
+                                                                                 All
+                     Image               Depth                 Edge            Modality
+                    Modality            Modality              Modality
+
+
+
+   Attention                                                                    Image
+    Layer                                                                      Modality
+
+
+
+
+    Conv                                                                        Depth
+    Layer                                                                      Modality
+
+
+
+
+                                                                                Edge
+ CLIP-based                                                                    Modality
+  Attention
+
+
+                                                                               Fig. 8. Visualization of reconstruction limitations. Rows from top to bottom
+                                                                               display the original stimulus images and corresponding reconstructions gener-
+                                                                               ated using all modalities, image modality, depth modality, and edge modality,
+  EEG-based
+                                                                               respectively.
+   Attention
+
+                                                                                                              R EFERENCES
+                                                                                [1] J. J. DiCarlo and D. D. Cox, “Untangling invariant object recognition,”
+                                                                                    Trends in cognitive sciences, vol. 11, no. 8, pp. 333–341, 2007.
+                                                                                [2] Y. Benchetrit, H. Banville, and J.-R. King, “Brain decoding: toward real-
+Reconstructed                                                                       time reconstruction of visual perception,” in The Twelfth International
+   Image                                                                            Conference on Learning Representations, 2024.
+                                                                                [3] H. Chen, L. He, Y. Liu, and L. Yang, “Visual neural decod-
+                                                                                    ing via improved visual-eeg semantic consistency,” arXiv preprint
+                                                                                    arXiv:2408.06788, 2024.
+Fig. 7. Visualization of model interpretability. (Top) Topographical maps of    [4] C. Du, K. Fu, J. Li, and H. He, “Decoding visual neural representations
+raw data and internal model layers (Attention/Convolution). (Middle) Grad-          by multimodal learning of brain-visual-linguistic features,” IEEE Trans-
+CAM heatmaps comparing CLIP and EEG-based attention across Image,                   actions on Pattern Analysis and Machine Intelligence, vol. 45, no. 9,
+Depth, and Edge modalities. (Bottom) Samples of reconstructed images.               pp. 10 760–10 777, 2023.
+                                                                                [5] Y. Takagi and S. Nishimoto, “High-resolution image reconstruction with
+                                                                                    latent diffusion models from human brain activity,” in Proceedings of
+                                                                                    the IEEE/CVF conference on computer vision and pattern recognition,
+                                                                                    2023, pp. 14 453–14 463.
+                                                                                [6] W. Zhang, S. Wang, Y. Su, X. Li, C. Zhang, and S. Zhong, “Neurobridge:
+   To further explore the scope of application and limitations of                   Bio-inspired self-supervised eeg-to-image decoding via cognitive priors
+the model, we selected several cases with poor reconstruction                       and bidirectional semantic alignment,” arXiv preprint arXiv:2511.06836,
+results for display, as shown in Fig. 8. When the original image                    2025.
+                                                                                [7] E. J. Allen, G. St-Yves, Y. Wu, J. L. Breedlove, J. S. Prince, L. T.
+is a “bicycle,” the reconstruction result only presents “circular”                  Dowdle, M. Nau, B. Caron, F. Pestilli, I. Charest et al., “A massive 7t
+outlines; when processing “vertically arranged tools,” the                          fmri dataset to bridge cognitive neuroscience and artificial intelligence,”
+model simplifies and restores them into “vertically oriented                        Nature neuroscience, vol. 25, no. 1, pp. 116–126, 2022.
+                                                                                [8] R. M. Cichy, D. Pantazis, and A. Oliva, “Resolving human object
+stick-like objects” of similar configuration. This suggests that                    recognition in space and time,” Nature neuroscience, vol. 17, no. 3,
+cross-modal alignment could be further refined to better man-                       pp. 455–462, 2014.
+age subtle feature nuances and visual representation ambiguity.                 [9] C. Spampinato, S. Palazzo, I. Kavasidis, D. Giordano, N. Souly, and
+                                                                                    M. Shah, “Deep learning human mind for automated visual classifica-
+   Finally, given the spatial resolution limits of non-invasive                     tion,” in Proceedings of the IEEE conference on computer vision and
+technology, invasive BCIs (iBCI) remain essential for high-                         pattern recognition, 2017, pp. 6809–6817.
+                                                                               [10] B. J. Edelman, S. Zhang, G. Schalk, P. Brunner, G. Müller-Putz,
+precision visual recovery through direct cortical recording                         C. Guan, and B. He, “Non-invasive brain-computer interfaces: state of
+[50]. In summary, CognitionCapturerPro enhances EEG-based                           the art and trends,” IEEE reviews in biomedical engineering, 2024.
+visual decoding by optimizing alignment and fidelity, con-                     [11] S. Palazzo, C. Spampinato, I. Kavasidis, D. Giordano, J. Schmidt,
+                                                                                    and M. Shah, “Decoding brain representations by multimodal learning
+tributing to the development of more precise brain-computer                         of neural activity and visual features,” IEEE Transactions on Pattern
+interfaces.                                                                         Analysis and Machine Intelligence, vol. 43, no. 11, pp. 3833–3849, 2020.
+                                                                                                                                                               13
+
+
+
+[12] R. Li, J. S. Johansen, H. Ahmed, T. V. Ilyevsky, R. B. Wilbur, H. M.              Conference on Empirical Methods in Natural Language Processing, vol.
+     Bharadwaj, and J. M. Siskind, “The perils and pitfalls of block design for        2022, 2022, p. 3876.
+     eeg classification experiments,” IEEE Transactions on Pattern Analysis       [34] L. Xue, M. Gao, C. Xing, R. Martı́n-Martı́n, J. Wu, C. Xiong, R. Xu,
+     and Machine Intelligence, vol. 43, no. 1, pp. 316–333, 2020.                      J. C. Niebles, and S. Savarese, “Ulip: Learning a unified representation
+[13] A. T. Gifford, K. Dwivedi, G. Roig, and R. M. Cichy, “A large and rich            of language, images, and point clouds for 3d understanding,” in Pro-
+     eeg dataset for modeling human visual object recognition,” NeuroImage,            ceedings of the IEEE/CVF conference on computer vision and pattern
+     vol. 264, p. 119754, 2022.                                                        recognition, 2023, pp. 1179–1189.
+[14] C. Keysers, D.-K. Xiao, P. Földiák, and D. I. Perrett, “The speed of       [35] A. Guzhov, F. Raue, J. Hees, and A. Dengel, “Audioclip: Extending clip
+     sight,” Journal of cognitive neuroscience, vol. 13, no. 1, pp. 90–101,            to image, text and audio,” in ICASSP 2022-2022 IEEE International
+     2001.                                                                             Conference on Acoustics, Speech and Signal Processing (ICASSP).
+[15] D. Li, C. Wei, S. Li, J. Zou, and Q. Liu, “Visual decoding and re-                IEEE, 2022, pp. 976–980.
+     construction via eeg embeddings with guided diffusion,” in Proceedings       [36] K. N. Kay, T. Naselaris, R. J. Prenger, and J. L. Gallant, “Identifying
+     of the 38th International Conference on Neural Information Processing             natural images from human brain activity,” Nature, vol. 452, no. 7185,
+     Systems, 2024, pp. 102 822–102 864.                                               pp. 352–355, 2008.
+[16] Y. Song, B. Liu, X. Li, N. Shi, Y. Wang, and X. Gao, “Decoding Natural       [37] P. S. Scotti, M. Tripathy, C. K. T. Villanueva, R. Kneeland, T. Chen,
+     Images from EEG for Object Recognition,” in International Conference              A. Narang, C. Santhirasegaran, J. Xu, T. Naselaris, K. A. Norman et al.,
+     on Learning Representations, 2024.                                                “Mindeye2: Shared-subject models enable fmri-to-image with 1 hour of
+[17] Y. Song, Y. Wang, H. He, and X. Gao, “Recognizing natural images from             data,” Proceedings of Machine Learning Research, vol. 235, pp. 44 038–
+     eeg with language-guided contrastive learning,” IEEE Transactions on              44 059, 2024.
+     Neural Networks and Learning Systems, 2025.                                  [38] Y. Bai, X. Wang, Y.-P. Cao, Y. Ge, C. Yuan, and Y. Shan, “Dreamdiffu-
+[18] K. Zhang, L. He, X. Jiang, W. Lu, D. Wang, and X. Gao, “Cog-                      sion: High-quality eeg-to-image generation with temporal masked signal
+     nitioncapturer: Decoding visual stimuli from human eeg signal with                modeling and clip alignment,” in European Conference on Computer
+     multimodal information,” in Proceedings of the AAAI Conference on                 Vision. Springer, 2024, pp. 472–488.
+     Artificial Intelligence, vol. 39, no. 13, 2025, pp. 14 486–14 493.           [39] W. Xia and C. Oztireli, “Multigranular evaluation for brain visual
+[19] L. Wu, J. Li, Z. Ren, K. Zhang, and X. Gao, “Shrinking the teacher:               decoding,” arXiv preprint arXiv:2507.07993, 2025.
+     An adaptive teaching paradigm for asymmetric eeg-vision alignment,”          [40] A. Sauer, D. Lorenz, A. Blattmann, and R. Rombach, “Adversarial
+     arXiv preprint arXiv:2511.11422, 2025.                                            diffusion distillation,” in European Conference on Computer Vision.
+[20] H. Wu, Q. Li, C. Zhang, Z. He, and X. Ying, “Bridging the vision-                 Springer, 2024, pp. 87–103.
+     brain gap with an uncertainty-aware blur prior,” in Proceedings of the       [41] H. Ye, J. Zhang, S. Liu, X. Han, and W. Yang, “Ip-adapter: Text
+     Computer Vision and Pattern Recognition Conference, 2025, pp. 2246–               compatible image prompt adapter for text-to-image diffusion models,”
+     2257.                                                                             arXiv preprint arXiv:2308.06721, 2023.
+[21] Y. Wei, L. Cao, H. Li, and Y. Dong, “Mb2c: Multimodal bidirectional          [42] M. N. Hebart, O. Contier, L. Teichmann, A. H. Rockter, C. Y. Zheng,
+     cycle consistency for learning robust visual neural representations,” in          A. Kidder, A. Corriveau, M. Vaziri-Pashkam, and C. I. Baker, “Things-
+     Proceedings of the 32nd ACM International Conference on Multimedia,               data, a multimodal collection of large-scale datasets for investigating
+     2024, pp. 8992–9000.                                                              object representations in human brain and behavior,” Elife, vol. 12, p.
+                                                                                       e82580, 2023.
+[22] T. Aflalo, S. Kellis, C. Klaes, B. Lee, Y. Shi, K. Pejsa, K. Shanfield,
+                                                                                  [43] G. Ilharco, M. Wortsman, R. Wightman, C. Gordon, N. Carlini,
+     S. Hayes-Jackson, M. Aisen, C. Heck et al., “Decoding motor imagery
+                                                                                       R. Taori, A. Dave, V. Shankar, H. Namkoong, J. Miller, H. Hajishirzi,
+     from the posterior parietal cortex of a tetraplegic human,” Science, vol.
+                                                                                       A. Farhadi, and L. Schmidt, “Openclip,” Jul. 2021, if you
+     348, no. 6237, pp. 906–910, 2015.
+                                                                                       use this software, please cite it as below. [Online]. Available:
+[23] Z. Ren, J. Li, X. Xue, X. Li, F. Yang, Z. Jiao, and X. Gao, “Reconstruct-
+                                                                                       https://doi.org/10.5281/zenodo.5143773
+     ing seen image from brain activity by visually-guided cognitive repre-
+                                                                                  [44] R. T. Schirrmeister, J. T. Springenberg, L. D. J. Fiederer, M. Glasstetter,
+     sentation and adversarial learning,” NeuroImage, vol. 228, p. 117602,
+                                                                                       K. Eggensperger, M. Tangermann, F. Hutter, W. Burgard, and T. Ball,
+     2021.
+                                                                                       “Deep learning with convolutional neural networks for eeg decoding and
+[24] W. Xia, R. De Charette, C. Oztireli, and J.-H. Xue, “Dream: Visual                visualization,” Human brain mapping, vol. 38, no. 11, pp. 5391–5420,
+     decoding from reversing human visual system,” in Proceedings of the               2017.
+     IEEE/CVF Winter Conference on Applications of Computer Vision,               [45] Y. Song, Q. Zheng, B. Liu, and X. Gao, “Eeg conformer: Convolutional
+     2024, pp. 8226–8235.                                                              transformer for eeg decoding and visualization,” IEEE Transactions on
+[25] Y. Duan, J. Zhou, Z. Wang, Y.-K. Wang, and C.-t. Lin, “Dewave:                    Neural Systems and Rehabilitation Engineering, vol. 31, pp. 710–719,
+     Discrete encoding of eeg waves for eeg to text translation,” Advances in          2022.
+     Neural Information Processing Systems, vol. 36, pp. 9907–9918, 2023.         [46] R. R. Selvaraju, M. Cogswell, A. Das, R. Vedantam, D. Parikh, and
+[26] X. Li, Y. Zhang, P. Tiwari, D. Song, B. Hu, M. Yang, Z. Zhao,                     D. Batra, “Grad-cam: Visual explanations from deep networks via
+     N. Kumar, and P. Marttinen, “Eeg based emotion recognition: A tutorial            gradient-based localization,” in Proceedings of the IEEE international
+     and review,” ACM Computing Surveys, vol. 55, no. 4, pp. 1–57, 2022.               conference on computer vision, 2017, pp. 618–626.
+[27] M. L. Vicchietti, F. M. Ramos, L. E. Betting, and A. S. Campanharo,          [47] M. Fatourechi, A. Bashashati, R. K. Ward, and G. E. Birch, “Emg and
+     “Computational methods of eeg signals analysis for alzheimer’s disease            eog artifacts in brain computer interface systems: A survey,” Clinical
+     classification,” Scientific Reports, vol. 13, no. 1, p. 8184, 2023.               neurophysiology, vol. 118, no. 3, pp. 480–494, 2007.
+[28] A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal,            [48] J. Dapello, K. Kar, M. Schrimpf, R. B. Geary, M. Ferguson, D. D.
+     G. Sastry, A. Askell, P. Mishkin, J. Clark et al., “Learning transferable         Cox, and J. J. DiCarlo, “Aligning model and macaque inferior
+     visual models from natural language supervision,” in International                temporal cortex representations improves model-to-human behavioral
+     conference on machine learning. PmLR, 2021, pp. 8748–8763.                        alignment and adversarial robustness,” in The Eleventh International
+[29] T. Chen, S. Kornblith, M. Norouzi, and G. Hinton, “A simple framework             Conference on Learning Representations, 2023. [Online]. Available:
+     for contrastive learning of visual representations,” in International             https://openreview.net/forum?id=SMYdcXjJh1q
+     conference on machine learning. PmLR, 2020, pp. 1597–1607.                   [49] C. P. Hung, G. Kreiman, T. Poggio, and J. J. DiCarlo, “Fast readout
+[30] T. Gao, X. Yao, and D. Chen, “Simcse: Simple contrastive learning of              of object identity from macaque inferior temporal cortex,” Science, vol.
+     sentence embeddings,” arXiv preprint arXiv:2104.08821, 2021.                      310, no. 5749, pp. 863–866, 2005.
+[31] Y. You, T. Chen, Y. Sui, T. Chen, Z. Wang, and Y. Shen, “Graph con-          [50] Z.-P. Zhao, C. Nie, C.-T. Jiang, S.-H. Cao, K.-X. Tian, S. Yu, and J.-W.
+     trastive learning with augmentations,” Advances in neural information             Gu, “Modulating brain activity with invasive brain–computer interface:
+     processing systems, vol. 33, pp. 5812–5823, 2020.                                 a narrative review,” Brain sciences, vol. 13, no. 1, p. 134, 2023.
+[32] S. Stevens, J. Wu, M. J. Thompson, E. G. Campolongo, C. H. Song,
+     D. E. Carlyn, L. Dong, W. M. Dahdul, C. Stewart, T. Berger-Wolf et al.,
+     “Bioclip: A vision foundation model for the tree of life,” in Proceedings
+     of the IEEE/CVF conference on computer vision and pattern recognition,
+     2024, pp. 19 412–19 424.
+[33] Z. Wang, Z. Wu, D. Agarwal, and J. Sun, “Medclip: Contrastive
+     learning from unpaired medical images and text,” in Proceedings of
+     the Conference on Empirical Methods in Natural Language Processing.
+

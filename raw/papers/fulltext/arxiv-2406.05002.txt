@@ -1,0 +1,453 @@
+                                                          7th International Conference on Advances in Signal Processing and Artificial Intelligence
+                                                                             (ASPAI’ 2025), 8-10 April 2025, Innsbruck, Austria
+
+                                                Deep Jansen-Rit Parameter Inference for Model-Driven Analysis of Brain
+                                                                               Activity
+                                                                                    D. Tilwani1-4 and C. O’Reilly1-4
+                                                   1 Department of Computer Science and Engineering, University of South Carolina, Columbia, SC, USA
+
+                                                             2 Artificial Intelligence Institute, University of South Carolina, Columbia, SC, USA
+arXiv:2406.05002v2 [q-bio.NC] 18 Mar 2025
+
+
+
+
+                                                3 Carolina Autism and Neurodevelopment Research Center, University of South Carolina, Columbia, SC, USA
+
+                                                              4 Institute for Mind and Brain, University of South Carolina, Columbia, SC, USA
+
+                                                                         E-mail: dtilwani@mailbox.sc.edu, christian.oreilly@sc.edu
+
+
+                                            Summary: Accurately modeling effective connectivity (EC) is critical for understanding how the brain processes and
+                                            integrates sensory information. Yet, it remains a formidable challenge due to complex neural dynamics and noisy
+                                            measurements such as those obtained from the electroencephalogram (EEG). Model-driven EC infers local (within a
+                                            brain region) and global (between brain regions) EC parameters by fitting a generative model of neural activity onto
+                                            experimental data. This approach offers a promising route for various applications, including investigating neurodevel-
+                                            opmental disorders. However, current approaches fail to scale to whole-brain analyses and are highly noise-sensitive.
+                                            In this work, we employ three deep-learning architectures—a transformer, a long short-term memory (LSTM) net-
+                                            work, and a convolutional neural network and bidirectional LSTM (CNN-BiLSTM) network—for inverse modeling
+                                            and compare their performance with simulation-based inference in estimating the Jansen-Rit neural mass model (JR-
+                                            NMM) parameters from simulated EEG data under various noise conditions. We demonstrate a reliable estimation
+                                            of key local parameters, such as synaptic gains and time constants. However, other parameters like local JR-NMM
+                                            connectivity cannot be evaluated reliably from evoked-related potentials (ERP). We also conduct a sensitivity analysis
+                                            to characterize the influence of JR-NMM parameters on ERP and evaluate their learnability. Our results show the
+                                            feasibility of deep-learning approaches to estimate the subset of learnable JR-NMM parameters.
+                                            Keywords: EEG, Neural Mass Model, LSTM, Transformers, Simulation-based Inference, Model-Driven Analysis
+
+
+                                            1   Introduction                                                  effective for modeling epileptiform activity [25], oscilla-
+                                                                                                              tory disturbances [11], and state transitions in disorders
+                                            Neural mass models (NMMs) have emerged as power-                  like Alzheimer’s disease [21].
+                                            ful computational tools for simulating collective neuronal           Effective connectivity (EC) captures the causal influ-
+                                            behavior at a mesoscopic scale, offering a mathemati-             ence that neural systems exert on one another. Unlike
+                                            cally tractable approach to modeling brain dynamics for           functional connectivity, which merely describes statisti-
+                                            the past five decades [12; 26]. These models provide a            cal dependencies, EC captures the directional influence
+                                            crucial bridge between microscopic neural activity and            of one neural population on another. Dynamic causal
+                                            macroscopic neuroimaging signals, enabling quantitative           modeling (DCM) [4] represents a principled algorithmic
+                                            analysis of normal brain functions and pathophysiological         approach to estimating these causal relationships from
+                                            conditions [5]. NMMs create computationally efficient             neural signals. This approach frames the problem as
+                                            abstractions that can be simulated at scale across brain          a Bayesian model inversion and explains observed data
+                                            regions by capturing the dynamics of the average activ-           through a generative model of coupled neural masses.
+                                            ity of neuronal populations as systems of coupled differ-         Bayesian techniques and, hence, DCM [7; 3; 6]) are com-
+                                            ential equations. Integrating NMMs with computational             putationally demanding and, therefore, are generally in-
+                                            data analysis pipelines has enabled significant advances in       adequate for handling large datasets or real-time analysis.
+                                            neuroimaging [19; 4]. Modern implementations of these                Simulation-based inference (SBI) has recently emerged
+                                            models allow researchers to simulate the transition be-           as a computationally efficient approach for parameter es-
+                                            tween stable and pathological brain states, providing a           timation in complex dynamical systems [22]. SBI algo-
+                                            basis for biomarker development and quantitative analy-           rithms, including Sequential Neural Posterior Estimation
+                                            sis of neurological disorders. NMMs can be particularly           (SNPE) [15], leverage advances in amortized inference
+
+
+                                                                                                          1
+to approximate posterior distributions without requiring          as a system of coupled differential equations representing
+explicit likelihood calculations. These methods can han-          interacting populations of pyramidal cells, excitatory in-
+dle complex forward models but face diminishing perfor-           terneurons, and inhibitory interneurons. This architecture
+mance as the parameter spaces increase, creating compu-           enables the simulation of various EEG rhythms and event-
+tational bottlenecks for whole-brain analyses.                    related potentials (ERPs) through appropriate parameter
+   Deep learning architectures present a promising                configurations. The computational efficiency and biologi-
+paradigm for parameter recovery in complex dynamical              cal plausibility of models like JR-NMM made them foun-
+systems. Recent advances in neural network architectures          dational components in whole-brain simulation platforms,
+— particularly sequence models like Transformers [1] and          including frameworks like The Virtual Brain (TVB) [18],
+Long Short-Term Memory (LSTM) [27] networks — can                 neurolib [2], and FastDMF [9].
+efficiently learn the mapping between model parameters               The JR-NMM is formulated as a system of three
+and observable outputs. These networks compress the               second-order ordinary differential equations (ODEs) and
+high-dimensional functional relationship between param-           generally transformed into six first-order ODEs. This
+eters and outputs, enabling rapid inference once trained.         formulation enables efficient numerical integration using
+Recent research has successfully applied these techniques         standard ODE solvers such as Euler or Runge-Kutta meth-
+to connectome-based NMMs for functional magnetic res-             ods. The model parameters — which include synap-
+onance imaging (fMRI) [8], suggesting broader applica-            tic gains (Ae , Ai ), time constants (be , bi ), connectivity
+bility to neuroimaging data analysis.                             strengths (a1 -a4 ), and an overall scaling factor (C) — de-
+   In this paper, we systematically evaluate four ap-             termine the dynamics of the system. Variations in these
+proaches for parameter inference in the Jansen-Rit Neural         parameters can produce diverse computational behaviors,
+Mass Model (JR-NMM): (1) an EEGTransformer archi-                 including fixed points, limit cycles, and chaotic attractors,
+tecture using multi-head attention mechanisms and Trans-          corresponding to different patterns observed in the elec-
+former Encoder components only, (2) an LSTM network               troencephalogram (EEG) [20].
+specialized for sequential data processing, (3) a convo-             Challenges in parameter estimation in NMMs stem
+lutional neural network and bidirectional LSTM (CNN-              from several algorithmic and mathematical factors. First,
+BiLSTM), and (4) the SBI approach using SNPE. We                  the nonlinear nature of these models creates a com-
+benchmark these algorithms’ performance in estimating             plex relationship between parameters and observable out-
+nine JR-NMM parameters (as defined later, in Table 1)             puts. Second, the models exhibit partial identifiabil-
+from EEG data under varying noise conditions. Through             ity, where multiple parameter combinations can produce
+comprehensive computational experiments and sensitivity           nearly identical outputs, making their fitting a mathe-
+analyses, we establish the relative strengths of each ap-         matically ill-posed inverse problem. Third, the high-
+proach and identify which parameters can be recovered             dimensional parameter space creates a computationally
+from EEG signals reliably. This computational bench-              intensive search problem that scales poorly with tradi-
+marking study lays essential groundwork for developing            tional optimization methods. Finally, the stochastic na-
+robust algorithms that infer local and global parameters          ture of neural recordings due to measurement noise and
+from empirical EEG recordings.                                    unmeasured inputs introduces additional complexity.
+                                                                     Conventional approaches to NMM parameter estima-
+2   Background                                                    tion have primarily relied on Bayesian inference. DCM
+                                                                  [4] implements a variational Bayesian algorithm to ap-
+Brain dynamics span multiple spatial and temporal scales.         proximate posterior distributions over model parameters.
+Accordingly, its computational modeling ranges from de-           While mathematically elegant, this implementation relies
+tailed biophysical simulations of individual neurons to ab-       on gradient-based optimization under a linear approxima-
+stract population-level models of regional activity [4; 16;       tion of model dynamics, limiting its applicability to large-
+17]. NMMs occupy a crucial middle ground in this land-            scale models or highly nonlinear systems [17]. The com-
+scape, providing computationally tractable abstractions of        putational complexity of this algorithm increases expo-
+neural population dynamics anchored in neurophysiolog-            nentially with the number of brain regions, making whole-
+ical mechanisms. These models distill the essential prop-         brain analyses computationally prohibitive without sub-
+erties of neural circuits while remaining amenable to ef-         stantial high-performance computing resources.
+ficient numerical simulation, making them valuable tools             Recent advances in SBI [22] have introduced new
+for neuroinformatics and computational neuroscience.              paradigms for parameter estimation in complex dynam-
+   When formalized in 1995 [10], JR-NMM represented a             ical systems. Unlike traditional Bayesian methods that
+significant advance in mesoscopic brain modeling. This            require explicit likelihood functions, SBI algorithms
+model extended earlier mathematical formulations by               like SNPE approximate posterior distributions directly
+Lopes da Silva [12] by implementing a cortical column             through repeated simulations [15]. These methods lever-
+
+
+                                                              2
+age neural density estimators to learn the conditional dis-        because EEG is thought to reflect mainly the postsynaptic
+tribution of parameters given observed data. While SBI             potentials in the apical dendrites of pyramidal cells [14].
+provides greater flexibility for complex forward models,           Table 1 shows the default parameter values and ranges
+the rigid requirements for the experimental data to closely        used in our simulations based on physiologically plausible
+match the generated simulation data in all aspects (i.e.,          values from previous studies [10; 4].
+noise characteristics, free parameters, exact priors, and
+other underlying properties) limits this approach [24].                   ẏ0 = y1 , ẏ2 = y3 ,     ẏ4 = y5 ,
+   Deep learning architectures offer alternative strategies               ẏ1 = Ae be S(I p + a2 y2 − a4 y4 ) − 2be y1 − b2e y0 ,
+for parameter recovery in NMMs. Transformer models                        ẏ3 = Ae be S(a1 y0 ) − 2be y3 − b2e y2 ,                 (1)
+built on self-attention mechanisms can capture long-range
+dependencies in time series without the sequential con-                   ẏ5 = Ai bi S(Ii + a3 y0 ) − 2bi y5 − b2i y4 .
+straints of recurrent networks. Meanwhile, LSTM pro-
+vides specialized computational structures for processing          Table 1: Standard parameter settings for Jansen-Rit model. Only the
+sequential information through gated memory cells that             value from parameters with a range is estimated in this study.
+                                                                      Parameter        Description         Default           Range
+can retain information over an extended period. Both ar-
+                                                                      Ae             Excitatory gain      3.25 mV        2.6–9.75 mV
+chitectures can effectively learn complex mappings be-                Ai              Inhibitory gain       22 mV      17.6–110.0 mV
+tween model parameters and observable outputs when                    be            Excit. time const.     100 s−1        5–150 s−1
+trained on sufficiently large simulation datasets.                    bi            Inhib. time const.      50 s−1        25–75 s−1
+                                                                      C              Connect. const.          135          65–1350
+   The study of effective connectivity (EC) extends be-               a1             Connect. param.          1.0           0.5–1.5
+yond methodological considerations, addressing funda-                 a2             Connect. param.          0.8           0.4–1.2
+mental questions about information processing in neu-                 a3             Connect. param.         0.25        0.125–0.375
+ral systems. EC quantifies the causal influence neural                a4             Connect. param.         0.25        0.125–0.375
+                                                                      vmax           Max firing rate         5 s−1             –
+populations exert on each other, providing insights into              v0             Firing threshold        6 mV              –
+functional integration and segregation within the brain.              r            Sigmoid steepness          0.56             –
+Through analyses of neuroimaging data, disruptions in
+EC have been implicated in various neurological and psy-              Simulation Protocol: The simulations were performed
+chiatric conditions. Developing computationally efficient          with a temporal resolution of 1 ms. Each simulation con-
+and robust methods for EC inference could enhance both             sisted of 1) an 800 ms transient period to allow the sys-
+the theoretical understanding of brain organization and            tem to reach a steady state, 2) a 200 ms baseline pe-
+practical applications in clinical neuroscience. Our work          riod before stimulus onset, and 3) stimulus events with
+extends the computational neuroscience literature by sys-          an inter-stimulus interval of 1 second, presented 60 times.
+tematically benchmarking four distinct algorithmic ap-             We modeled the stimulus with a 50 ms wide rectangular
+proaches to parameter inference in the JR-NMM. We es-              pulse with a 60 mV ampltiude for pyramidal cells and a
+tablish each method’s relative computational efficiency            30 mV amplitude for inhibitory interneurons. Moran et al.
+and accuracy by comparing EEGTransformer, LSTM, and                (2013)[13], we incorporated voltage-dependent synaptic
+CNN-BiLSTM architectures, and an SNPE-based simu-                  mechanisms in inhibitory interneurons to better capture
+lation approach across different noise conditions. This            feedforward inhibition dynamics. The primary differen-
+comparative analysis provides crucial insights into which          tial equations were solved using a forward Euler integra-
+parameters are most reliably recoverable from EEG data.            tion method.
+The resulting benchmark offers a foundation for develop-              From Neural Activity to EEG: We implemented an
+ing more sophisticated algorithms to infer local (within a         EEG forward model to transform NMM output into real-
+brain region) and global (between brain regions) parame-           istic EEG signals. The output signal from the JR-NMM
+ters in whole-brain simulations based on NMMs.                     (difference between pyramidal and inhibitory potentials)
+                                                                   was scaled by a gain factor of 10−6 to account for the scale
+3   Methods                                                        simulated signals to physiologically realistic EEG ampli-
+                                                                   tudes (10-100µV). This signal was then used as a source
+Neural Mass Model: We implemented the JR-NMM [10]                  located to a specific cortical region ("caudalmiddlefrontal-
+to simulate cortical activity. It is governed by the sys-          lh") using the FreeSurfer average (fsaverage) brain tem-
+tem of coupled differential equations (1). In this sys-            plate, as defined in MNE-Python. A forward solution was
+tem, indices 0, 2, and 4 represent the pyramidal, excita-          computed using the Boundary Element Method (BEM) to
+tory, and inhibitory neuron populations, respectively. The         model volume conduction. Sensor projections were cre-
+output signal y(t) = a2 y2 − a4 y4 represents the difference       ated for a standard 64-channel BioSemi EEG montage. To
+between the pyramidal’s excitatory and inhibitory postsy-          test the robustness of our inference algorithms under dif-
+naptic potentials. This value is a proxy for EEG sources           ferent signal-to-noise ratio (SNR) conditions, we added
+
+
+                                                               3
+noise to the simulated EEG signals using a scaling ap-                             epochs with batch size 32. The SBI approach uses a Box-
+proach. We scaled the ad hoc noise covariance matrix,                              Uniform prior and sequential neural posterior estimation.
+generated using MNE’s make_ad_hoc_cov function, with                               To train, we generated a dataset of 1000 simulations per
+a factor varying from 0 to 1 in steps of 0.1 to simulate dif-                      noise level. All four methods were used to estimate the
+ferent noise levels added to the synthetic EEG signals. A                          same 9 Jansen-Rit neural mass model parameters (Ae , Ai ,
+noise factor of 0 represented noise-free simulations, while                        be , bi , a1 -a4 , C).
+a factor of 1.0 applied the full noise covariance, resulting                          Data Processing Pipeline: We adopted a supervised
+in realistic noise levels comparable to empirical record-                          regression approach for parameter inference, following
+ings. ERPs were extracted by creating epochs around each                           standard deep learning practices [3]. Table 2 outlines our
+stimulus event (from -200 ms to 1000 ms), applying base-                           processing pipeline, designed to optimize neural network
+line correction using the pre-stimulus interval (-200 to 0                         training for high-dimensional EEG data.
+ms), and averaging all 60 trials.
+                                                                                                      Table 2: Data processing steps
+                                                                                         Stage            Details
+                                                                                         Database         1000 simulations, 64-channel EEG,
+                                                                                         Creation         60 trials per simulation
+                                                                                         Normalization    JR-NMM parameters normalized to
+                                                                                                          [0,1]
+                                                                                         Data Split       80% training, 10% validation,
+                                                                                                          10% testing (random state=68)
+                                                                                         Evaluation       Pearson correlation
+
+                                                                                      Implementation Details: Models were implemented
+                                                                                   in Python 3.12 with PyTorch 1.9. Jansen-Rit neural sim-
+                                                                                   ulations were mapped to scalp EEG through an EEG
+                                                                                   forward model implemented using MNE-Python 1.9.0.
+                                                                                   Additional libraries included xarray for data storage,
+                                                                                   tqdm for progress tracking, seaborn for visualization, and
+                                                                                   scikit-learn for preprocessing and evaluation.
+                                                                                      Sensitivity Analysis: We conducted a sensitivity anal-
+                                                                                   ysis to quantify how variations in Jansen-Rit parameters
+                                                                                   affect simulated EEG. For each parameter (Ae , Ai , be , bi ,
+Figure 1: Flow diagram for the inference of Ae , Ai , be , bi , a1 -a4 , and       a1 -a4 , C), we performed 200 simulations while varying
+C using the EEGTransformer, LSTM, CNN-BiLSTM, and SBI methods.                     the target parameter from the range mentioned in Table 1,
+The JR model generates simulated EEG for training and testing.                     keeping all other parameters fixed. We generated ERPs
+   Parameter Inference Models: We implemented four                                 for each parameter configuration without noise. This ap-
+distinct approaches for inferring the JR-NMM parameters                            proach allowed us to isolate each parameter’s unique in-
+from EEG data, as summarized in Figure 1. We devel-                                fluence on EEG output. For quantitative assessment, we
+oped the EEGTransformer model based on Transformer                                 quantified parameter sensitivity through three metrics:
+Encoder components only, which processes EEG signals                                   • Raw evoked potentials: ERP(pi ,t), where pi is the
+through an attention-based architecture with eight atten-                                parameter, t is time.
+tion heads, an embedding dimension of 256, and a multi-
+layer feed-forward network (1024→256) with a dropout                                   • Deviations from mean: ∆ERP(pi ,t) = ERP(pi ,t) −
+                                                                                         1 N
+regularization (0.2). The Vanilla LSTM model treats EEG                                  N ∑ j=1 ERP(p j ,t), with N = 200 parameter values.
+data as sequential information using a 2-layer network                                 • Gradient with respect to parameter: ∇ p ERP(pi ,t) =
+with 64 hidden units and dropout regularization (0.2). The                                ∂ ERP(p,t)
+CNN-BiLSTM integrates a CNN for feature extraction                                            ∂p         .
+                                                                                                     p=pi
+with bidirectional LSTMs for temporal dependency anal-                             These metrics were visualized as heatmaps showing their
+ysis. It employs a hierarchical 1D CNN structure (filters:                         variation depending on parameter values and time.
+32→64→128, kernels: 7→5→3) with max pooling, fol-
+lowed by bidirectional and unidirectional LSTM layers
+(128 units each), multiple dropout layers (0.3), and dense                         4     Results
+layers (128→64) culminating in a linear output layer. This
+                                                                                   4.1    Results of Sensitivity Analysis
+architecture was designed to capture both spatial patterns
+across channels and complex temporal dynamics in ERP                               Sensitivity analysis revealed marked differences in param-
+signals. All neural network models were trained for 50                             eter influence on simulated ERPs ( Figure 2 and Figure 3).
+
+
+                                                                               4
+These sensitivity heatmaps highlight how each parame-
+ter shapes the temporal profile of the ERP. The raw ERP
+demonstrated that excitatory parameters (Ae , a1 , a2 ) pri-
+marily increased the peak amplitude around 250ms, while
+inhibitory parameters (Ai , a3 , a4 ) have an opposite effect.
+The error (deviation from the mean response) exhibited
+clear parameter-specific temporal windows of influence:
+Ae and Ai showed unimodal patterns whereas be and bi
+showed an alternance of positive and negative peaks. The
+gradient further quantified sensitivity magnitude, reveal-
+ing that Ai had a more significant influence (about an or-
+der of magnitude) than Ae on ERP morphology, despite
+both being gain parameters. Key takeaways include: (1)
+connectivity parameters exhibit functional differentiation,
+with {a1 , a2 } and {a3 , a4 } showing opposite gradient po-
+larities; (2) the global coupling parameter C affects mul-
+tiple aspects of ERP morphology with complex biphasic
+patterns; and (3) excitatory time constant be demonstrated
+distributed temporal effects (i.e., longer tail), indicating its
+crucial role in overall signal timing. These findings pro-
+vide essential insights for parameter estimation and model Figure 3: Sensitivity analysis for local connectivity (a1 -a4 ) and C show-
+                                                                            ing the ERP amplitude (left), error (middle), and gradient (right).
+interpretation in neurophysiological studies.
+                                                                            strong performance. In contrast, the Vanilla LSTM per-
+                                                                            formed poorly on this parameter, with correlations fluctu-
+                                                                            ating around 0.1-0.2, suggesting fundamental limitations
+                                                                            in capturing temporal dependencies (i.e., adding a 1D
+                                                                            CNN to meaningful temporal features allowed the CNN-
+                                                                            BiLSTM to perform much better than the vanilla LSTM).
+                                                                            The excitatory parameter be showed moderate recover-
+                                                                            ability, with the EEGTransformer achieving consistent
+                                                                            correlations of approximately 0.5 across all noise condi-
+                                                                            tions. The CNN-BiLSTM and SBI showed more variable
+                                                                            performance for this parameter, with correlations typi-
+                                                                            cally in the 0.1-0.3 range, while Vanilla LSTM exhibited
+                                                                            inconsistent correlations between 0.1-0.5. The connectiv-
+                                                                            ity parameters (a1 -a4 ) exhibited poor recoverability across
+                                                                            all models, with correlations rarely exceeding 0.2 and of-
+                                                                            ten oscillating around zero. Parameter C showed better re-
+                                                                            coverability with the EEGTransformer than other models,
+Figure 2: Sensitivity analysis for synaptic parameters (Ae , Ai , be , bi ) maintaining positive correlations around 0.2 across noise
+showing the ERP amplitude (left), error (middle), and gradient (right).     levels.
+                                                                               The EEGTransformer and CNN-BiLSTM demon-
+                                                                            strated superior robustness to noise compared to both the
+4.2 Parameter Inference Performance                                         Vanilla LSTM and SBI approaches.
+The parameter inference capabilities of our four mod-
+els—EEGTransformer, CNN-BiLSTM, Vanilla LSTM, 5 Discussion
+and SBI—were evaluated across varying noise conditions
+(Figure 4). Results show distinct patterns of parame- Our comprehensive benchmarking study offers several
+ter recoverability across the different architectures. The key insights into the challenging problem of NMMs pa-
+inhibitory parameter bi demonstrated the strongest re- rameter inference from EEG data. NMM parameter es-
+covery performance across multiple models. The EEG- timation allows us to study the underlying neurophysio-
+Transformer and CNN-BiLSTM maintained exception- logical mechanisms generating EEG. By estimating JR-
+ally high correlation coefficients (>0.9) for this parame- NMM parameters from EEG, we directly map measur-
+ter even at high noise levels, with SBI showing similarly able brain signals and the biophysical properties of neu-
+
+
+                                                                      5
+                EEGTransformer         CNN-BiLSTM         Vanilla LSTM      SBI       Transformer’s self-attention mechanism, which can cap-
+                           Ae                 Ai                 be                   ture non-sequential dependencies across the entire ERP
+              0.9                                                                     signal, unlike the strictly sequential processing of LSTMs.
+Correlation
+
+
+              0.6                                                                     The consistent performance of the EEGTransformer, par-
+                                                                                      ticularly for Ai and bi parameters, suggests that attention-
+              0.3
+                                                                                      based architectures may be better suited for extracting rel-
+              0.0                                                                     evant features from complex temporal signals like EEG.
+                            bi                a1                 a2                      The parameter recovery performance broadly corre-
+              0.9                                                                     sponds with our sensitivity analysis findings, with param-
+Correlation
+
+
+
+
+              0.6                                                                     eters showing minimal impact on ERP morphology (a1 -
+              0.3                                                                     a4 ) being poorly recovered by all models, regardless of
+                                                                                      noise level. This observation confirms the fundamental
+              0.0
+                                                                                      challenge of parameter identifiability in complex dynami-
+                           a3                 a4                 C                    cal systems. If parameters do not create distinct signatures
+              0.9                                                                     in the observable output, no inference method can reliably
+Correlation
+
+
+
+
+              0.6                                                                     recover them without additional constraints or informa-
+              0.3                                                                     tion. The SBI approach performed well for some param-
+                                                                                      eters but is highly sensitive to noise for others, suggest-
+              0.0
+                                                                                      ing that SBI may be valuable in low-noise conditions or
+                    0.0   0.4    0.8   0.0   0.4   0.8   0.0   0.4    0.8             combined with other ensemble-method approaches. The
+                     Noise Factor       Noise Factor       Noise Factor               LSTM model’s inconsistent performance across noise lev-
+ Figure 4: Comparison of deep learning models estimating JR-NMM
+                                                                                      els indicates potential limitations in applying recurrent ar-
+ parameters across noise levels. EEGTransformer and CNN-BiLSTM                        chitectures to this problem without additional regulariza-
+ maintaining high correlations for bi . The vanilla LSTM consistently                 tion or architectural modifications.
+ underperforms with lower correlations, while SBI exhibits parameter-
+ dependent variability.
+                                                                                         We must acknowledge several limitations to this study.
+                                                                                      First, it used simulated data that incorporated realistic
+ ral populations, enabling a mechanistic understanding of                             noise but could not capture the full complexity of real
+ cortical dynamics and the potential identification of aber-                          EEG recordings. Furthermore, we simulated neural ac-
+ rant parameter configurations in pathological conditions.                            tivity using a JR-NMM in a single cortical region, while
+ The sensitivity analysis revealed a clear hierarchy of pa-                           brain activity typically involves distributed networks of
+ rameter identifiability within the JR-NMM, with synaptic                             interacting regions. The parameter identifiability patterns
+ gains and time constants exhibiting stronger ERP signa-                              observed may differ in multi-region models or when using
+ tures than connectivity parameters. This finding aligns                              alternative neural mass formulations with different state
+ with the fundamental architecture of the JR-NMM, where                               variables and connectivity architectures.
+ synaptic parameters directly modulate signal amplifica-
+ tion and decay, creating more distinctive output patterns.                           6   Conclusion
+ The sensitivity analysis also clarifies why some param-
+ eters show poor identifiably. For example, Ai and Ae                                 This study demonstrates that Transformer-based and
+ have almost identical patterns, only with inverse ampli-                             CNN-BiLSTM architectures outperform LSTM and SBI
+ tude. Therefore, it is difficult to determine whether a re-                          approaches for JR-NMM parameter inference, with
+ duction in ERP amplitude is caused by a decrease in Ae                               synaptic parameters showing higher recoverability than
+ or an increase in Ai . Consequently, in terms of identifi-                           connectivity parameters. Our sensitivity analysis estab-
+ ability, the JR model may provide better results for in-                             lishes a clear relationship between parameter influence
+ verse modeling if we reparameterize it as a function of the                          on ERP morphology and inference reliability, providing
+ excitatory-inhibitory ratio rei = Ae /Ai and a global offset                         a foundation for more robust approaches for NMMs pa-
+ parameter α = (Ae + Ai )/2 such that Ae = 2αrei /(1 + rei )                          rameter estimation. These insights have important impli-
+ and Ai = 2α/(1 + rei ). Moreover, such a parameterization                            cations for computational neuroscience and clinical ap-
+ would map well with the report of an imbalance in the ex-                            plications. Future work should extend this analysis to
+ citatory/inhibitory ratio in various conditions, including                           empirical EEG data, explore transfer learning approaches
+ autism spectrum disorder [23].                                                       to bridge synthetic and real data domains, and investi-
+ The comparative analysis of inference approaches demon-                              gate the potential of hybrid architectures that combine the
+ strated that Transformer-based architectures achieve supe-                           strengths of different inference approaches. Expanding
+ rior robustness to noise compared to both the LSTM and                               this benchmarking to other neural mass models and ex-
+ SBI approaches. This advantage likely stems from the                                 ploring multi-modal data integration could enhance pa-
+
+
+                                                                                  6
+rameter identifiability. Further, reparameterizing existing      of primate brain network dynamics. Frontiers in neuroinformatics,
+NMM may offer equivalent but more identifiable mod-              7:10, 2013.
+                                                            [19] R.C. Sotero, N.J. Trujillo-Barreto, Y. Iturria-Medina, F. Carbonell,
+els. Robust parameter inference methods will ultimately          and J.C. Jimenez. Realistically coupled neural mass models can
+enable more reliable neural dynamics characterization in         generate eeg rhythms. Neural computation, 19(2):478–512, 2007.
+healthy and pathological states, advancing our under- [20] A. Spiegler, T.R. Knösche, K. Schwab, J. Haueisen, and F.M. Atay.
+standing of brain function and dysfunction.                      Modeling brain resonance phenomena using a neural mass model.
+                                                                                   PLoS computational biology, 7(12):e1002298, 2011.
+                                                                              [21] L. Stefanovski, J.M. Meier, R.K. Pai, P. Triebkorn, T. Lett, L. Mar-
+References                                                                         tin, K. Bülau, M. Hofmann-Apitius, A. Solodkin, A.R. McIntosh,
+                                                                                   et al. Bridging scales in alzheimer’s disease: Biological framework
+ [1] A. Anwar, Y. Khalifa, J.L. Coyle, and E. Sejdic. Transformers in              for brain simulation with the virtual brain. Frontiers in Neuroin-
+     biosignal analysis: A review. Information Fusion, page 102697,                formatics, 15:630172, 2021.
+     2024.                                                                    [22] A. Tejero-Cantero, J. Boelts, M. Deistler, J.-M. Lueckmann,
+ [2] C. Cakan, N. Jajcay, and K. Obermayer. neurolib: A simulation                 C. Durkan, P.J. Gonçalves, D.S. Greenberg, and J.H. Macke. sbi:
+     framework for whole-brain neural mass modeling. Cognitive Com-                A toolkit for simulation-based inference. Journal of Open Source
+     putation, Oct 2021. ISSN 1866-9964.                                           Software, 5(52):2505, 2020.
+ [3] K. Cranmer, J. Brehmer, and G. Louppe. The frontier of                   [23] G. Uzunova, S. Pallanti, and E. Hollander. Excitatory/inhibitory
+     simulation-based inference. Proceedings of the National Academy               imbalance in autism spectrum disorders: Implications for inter-
+     of Sciences, 117(48):30055–30062, 2020.                                       ventions and therapeutics. The World Journal of Biological Psy-
+ [4] O. David and K. Friston. A neural mass model for MEG/EEG:                     chiatry, 17(3):174–186, 2016.
+     coupling and neuronal dynamics. NeuroImage, 20:1743–55, 12               [24] B. Wang, J. Leja, V.A Villar, and J.S. Speagle. Sbi++: Flexi-
+     2003.                                                                         ble, ultra-fast likelihood-free inference customized for astronom-
+                                                                                   ical applications. The Astrophysical Journal Letters, 952(1):L10,
+ [5] G. Deco, V.K. Jirsa, P.A. Robinson, M. Breakspear, and K. Friston.
+                                                                                   2023.
+     The dynamic brain: from spiking neurons to neural masses and
+                                                                              [25] F. Wendling, P. Benquet, F. Bartolomei, and V. Jirsa. Computa-
+     cortical fields. PLoS computational biology, 4(8):e1000092, 2008.
+                                                                                   tional models of epileptiform activity. Journal of neuroscience
+ [6] A. Gelman and J. Hill. Data analysis using regression and multi-
+                                                                                   methods, 260:233–251, 2016.
+     level/hierarchical models. Cambridge University Press, 2006.
+                                                                              [26] H.R. Wilson and J.D. Cowan. Excitatory and inhibitory interac-
+ [7] D. Greenberg, M. Nonnenmacher, and J. Macke. Automatic                        tions in localized populations of model neurons. Biophysical jour-
+     posterior transformation for likelihood-free inference. In Inter-             nal, 12 1:1–24, 1972.
+     national Conference on Machine Learning, pages 2404–2414.                [27] Y. Yu, X. Si, C. Hu, and J. Zhang. A review of recurrent neural net-
+     PMLR, 2019.                                                                   works: Lstm cells and network architectures. Neural computation,
+ [8] J.D. Griffiths, Z. Wang, S.H. Ather, D. Momi, S. Rich, A. Dia-                31(7):1235–1270, 2019.
+     conescu, A.R. McIntosh, and K. Shen. Deep learning-based pa-
+     rameter estimation for neurophysiological models of neuroimag-
+     ing data. bioRxiv, pages 2022–05, 2022.
+ [9] R. Herzog, P.A.M. Mediano, F.E. Rosas, A.I. Luppi, Y. Sanz-Perl,
+     E. Tagliazucchi, M. L. Kringelbach, R. Cofré, and G. Deco. Neural
+     mass modeling for the masses: Democratizing access to whole-
+     brain biophysical modeling with fastdmf. Network Neuroscience,
+     8(4):1590–1612, 2024.
+[10] B.H. Jansen and V.G. Rit. Electroencephalogram and visual
+     evoked potential generation in a mathematical model of coupled
+     cortical columns. Biological Cybernetics, 1995.
+[11] L. Kuhlmann, D.R. Freestone, J.H. Manton, B. Heyse, H.E.M.
+     Vereecke, T. Lipping, M.M.R.F. Struys, and D.T.J. Liley. Neural
+     mass model-based tracking of anesthetic brain states. NeuroImage,
+     133:438–456, 2016.
+[12] F.H. Lopes da Silva, A. Hoeks, H. Smits, and L.H. Zetterberg.
+     Model of brain rhythmic activity: the alpha-rhythm of the thala-
+     mus. Kybernetik, 15:27–37, 1974.
+[13] Rosalyn Moran, Dimitris A Pinotsis, and Karl Friston. Neural
+     masses and fields in dynamic causal modeling. Frontiers in com-
+     putational neuroscience, 7:57, 2013.
+[14] P.L. Nunez and R. Srinivasan. Electric fields of the brain: the
+     neurophysics of EEG. Oxford University Press, 2006.
+[15] G. Papamakarios and I. Murray. Fast ε-free inference of simulation
+     models with bayesian conditional density estimation. Advances in
+     neural information processing systems, 29, 2016.
+[16] D. Pinotsis, P. Robinson, Peter Beim G., and K. Friston. Neural
+     masses and fields: Modelling the dynamics of brain activity. Fron-
+     tiers in Computational Neuroscience, 8, 10 2014.
+[17] S. Sadeghi, D. Mier, M.F. Gerchen, S.N.L. Schmidt, and J. Hass.
+     Dynamic Causal Modeling for fMRI with Wilson-Cowan-based
+     neuronal equations. Frontiers in Neuroscience, 14:593867, 2020.
+[18] P. Sanz Leon, S.A. Knock, M.M. Woodman, L. Domide, J. Mers-
+     mann, A.R. McIntosh, and V. Jirsa. The virtual brain: a simulator
+
+
+                                                                          7
+

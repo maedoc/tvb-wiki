@@ -1,0 +1,2147 @@
+                                            Differential Dynamic Causal Nets: Model Construction,
+                                            Identification and Group Comparisons
+                                            Kang You1 , Gary Green2,3 , Jian Zhang1,*
+
+                                            1 School of Engineering, Mathematics and Physics, University of Kent,
+                                            Canterbury, Kent CT2 7NF, UK.
+                                            2 York Neuroimaging Centre, The Biocentre, York Science Park, University
+                                            of York, Heslington, York YO10 5NY, UK.
+arXiv:2601.21478v1 [q-bio.NC] 29 Jan 2026
+
+
+
+
+                                            3 Innovision IP Ltd, Culham Innovation Centre, D5 Culham Science Centre,
+                                            Abingdon, Oxfordshire, OX14 3DB, UK.
+
+                                            * Correponding author: Jian Zhang (J.Zhang-79@kent.ac.uk)
+
+
+                                            Abstract
+                                            Pathophysiolpgical modelling of brain systems from microscale to macroscale remains
+                                            difficult in group comparisons partly because of the infeasibility of modelling the
+                                            interactions of thousands of neurons at the scales involved. Here, to address the
+                                            challenge, we present a novel approach to construct differential causal networks directly
+                                            from electroencephalogram (EEG) data. The proposed network is based on
+                                            conditionally coupled neuronal circuits which describe the average behaviour of
+                                            interacting neuron populations that contribute to observed EEG data. In the network,
+                                            each node represents a parameterised local neural system while directed edges stand for
+                                            node-wise connections with transmission parameters. The network is hierarchically
+                                            structured in the sense that node and edge parameters are varying in subjects but
+                                            follow a mixed-effects model. A novel evolutionary optimisation algorithm for
+                                            parameter inference in the proposed method is developed using a loss function derived
+                                            from Chen-Fliess expansions of stochastic differential equations. The method is
+                                            demonstrated by application to the fitting of coupled Jansen-Rit local models. The
+                                            performance of the proposed method is evaluated on both synthetic and real EEG data.
+                                            In the real EEG data analysis, we track changes in the parameters that characterise
+                                            dynamic causality within brains that demonstrate epileptic activity. We show evidence
+                                            of network functional disruptions, due to imbalance of excitatory-inhibitory
+                                            interneurons and altered epileptic brain connectivity, before and during seizure periods.
+
+                                            Key words: Differential network of dynamic causal models, M/EEG scans, epileptic
+                                            brain network, dynamic causal nets, and mixed-effects models.
+
+
+                                            1    Introduction
+                                            Non-invasive imaging techniques electro- and magneto-encephalography (EEG and
+                                            MEG) are often used for dynamic causal discovery and causality quantification in group
+                                            comparison with neurological disorders such as stroke, motor neuron disease,
+                                            Alzheimer’s disease, Parkinson’s disease, and epilepsy (Choi et al., 2023; Aljalal et al.,
+                                            2022; Ghassemkhani et al., 2025; Pyrzowski et al., 2015; Ogrim et al., 2012; Rosch et al.,
+                                            2018) among others. M/EEG are promising tools for studying brain dynamics and
+
+
+
+
+                                                                                                                                1/40
+enable researchers and clinicians to measure and characterise brain activity in fine
+temporal detail thus improving the understanding of the etiology of neurological
+conditions as well as allowing the development brain-based technologies.
+    M/EEG imaging revealed a rich catalogue of behaviour in both resting and active
+brains.. For example, Papadopoulou et al. (2015) used spectral EEG data to profile
+epileptic seizure activity in the brain. Özbek et al. (2015) demonstrated that the frontal
+alpha/theta power ratio derived from the resting-state EEG data is a promising
+biomarker for distinguishing early-onset Alzheimer’s disease from health controls. Duffy
+and Als (2012) found that EEG spectral coherence discriminates children with autism
+from healthy controls.
+    Using MEG spectral data, van Es et al. (2025) showed that, although brain network
+dynamics are stochastic, their activities have a robust cyclical pattern. Zhang and Green
+(2025) proposed a novel method for detecting mild traumatic brain injury by using
+spectral likelihood ratio statistics of MEG scan data when controls are not homogenous.
+    Complementary to the aforementioned spectral analysis, dynamic causal modelling
+(DCM) of E/MEG data offers a powerful way to infer effective connectivity within the
+brain through coupled neuronal circuits with certain biophysics-informed parameters
+that are responsible for what are observed in the brain (Friston et al., 2003; Kiebel
+et al., 2008; Grefkes et al., 2008, 2010; Herz et al., 2014; Rehme et al., 2011; Rosch
+et al., 2018; Forrester et al., 2020; Singh et al., 2025). Effective connectivity, referring to
+the causal influences that different parts of the brain exert over each other, provides a
+direct understanding of the neural mechanisms underlying various cognitive processes in
+the brain. Instead of modelling individual neurons, DCM describes the average
+behaviour of neural populations. In particular, allowing for dynamic causal interactions
+between distinct brain regions, DCM can reveal biophysics-informed links between
+microscopic neural activity and macroscopic brain phenomena. By adjusting model
+parameters, researchers can simulate the transition from normal brain rhythms to
+pathological states, providing valuable insights into disease mechanisms and potential
+treatment strategies (Wendling et al., 2024; Friston et al., 2019). Sotero et al. (2007)
+used neural circuits to simulate EEG signals, helping to elucidate how the macroscopic
+electrical activity recorded from the scalp emerges from underlying neural dynamics.
+Using the DCM approach, Papadopoulou et al. (2015) tracked slow modulations in
+synaptic gain for a cohort of epileptic patients. Chen et al. (2009) employed spectral
+DCM on MEG scans to infer functional asymmetries in inter- and
+cross-frequency-coupling between brain regions during the period that subjects visually
+processes faces. This approach can be used to model brain activity on a whole brain
+scale. With the Human Connectome Project dataset, Singh et al. (2025) developed a
+large scale, data-driven mean field cortical model for activities in the brain, involving
+hundreds of interacting neural populations.
+    Following Friston et al. (2019), a multiple cortical column DCM can be described by
+the following set of neural mass stochastic differential equations:
+     dx(t)   =   f (x(t), u(t); θ, K)dt + Γ(θ)dw(t),      x(0) = x0 ;    y(t) = h(x(t)), (1)
+where w(t) is a multivariate Gaussian white noise process, x(t) is a vector of p hidden
+states, x0 contains initial values of states, y(t) is the partial observation of hidden
+states, u(t) is an external input, f is a nonlinear vector field, h is a function from
+Rp → R with θ being a vector of local node parameters, K a matrix of connection
+parameters between nodes, Γ(θ) is a degenerate diffusion coefficient matrix. In the past
+two decades, considerable progress has been made in the development of dynamic causal
+modelling (Friston et al., 2019; Park et al., 2021; Forrester et al., 2020; Singh et al.,
+2025), and references therein. Despite this, a brain-wide search for dynamic causal
+abnormalities across spatial scales remains difficult, partly because of the challenges in
+modelling neural connectivities at large scale.
+
+
+
+
+                                                                                         2/40
+    The first challenge is about how to solve and sample from nonlinear neural mass
+differential equations when the parameters involved are only partially identifiable. The
+following bilinear approximation of the equations is often used in the literature e.g.,
+(Friston et al., 2003; Forrester et al., 2020) :
+
+       dx(t) ≈ f (x0 , 0; θ, K) + A + uT (t)B x(t) + Cu(t) dt + Γ(θ)dw(t),
+                                                              
+
+       x(0)   =   x0 ,   y(t) = h(x(t)),
+                                  2
+             ∂f                   ∂ f                      ∂f
+where A = ∂x    |u=0,x=x0 , B = ∂x∂u   |u=0,x=x0 and C = ∂u   |u=0,x=x0 . This
+approximation is followed by a variational Bayesian analysis in order to select an
+optimal dynamic causal model from a list of pre-specified candidates.
+    Although the bilinear approximation can capture some parts of input-state
+interactions in the model (1), its accuracy deteriorates when strongly nonlinear regimes
+are introduced by spiking, bifurcations and saturation.
+    Instead, Kulik et al. (2023) used a fourth order stochastic Runge-Kutta method to
+numerically solve the coupled differential equations involved in the Jansen-Rit model.
+In these situations, recomputing the Jacobian-updating integrator continuously is
+required to solve the equations, making the computation infeasible when fitting many
+pairwise coupled DCMs to the data. On the other hand, a Chen-Fliess expansion (Chen,
+1954; Fliess, 1981) can solve the above differential equations without using any
+approximation of the nonlinear vector fields. However, it still remains difficult to
+perform a Bayesian data analysis when the vector fields are highly nonlinear.
+    The second challenge is that some states x(t) are only partially observed at discrete
+time points. Then the exact likelihoods for the transition densities are difficult to trace.
+To estimate these likelihoods, Pokern et al. (2009) proposed a data-augmentation
+algorithm to impute the hidden states. The computation was intensive and it did not
+always converge to the true values when many local hypoelliptic diffusions were
+included.
+    The third challenge is about how to implement large scale dynamic causal models,
+subject to a limited resource of computation (e.g., Honey et al., 2007; Li et al., 2020;
+Rosch et al., 2018; Singh et al., 2025). To reduce the model dimension, Forrester et al.
+(2020) made a very restrictive assumption that the cortical columns are homogeneous in
+the sense that the column parameters are kept the same across the columns.
+    The fourth challenge is about heterogeneity of human brains even when case and
+control subjects are matched by ages and genders (Zhang and Green, 2025; Li et al.,
+2025). It is unclear how to take individual brain differences into account in a dynamic
+causal model with M/EEG data. Finally, although the excitation-inhibition imbalance
+across columns has been shown to underlie an epileptic form of brain activity ( e.g.,
+Friston et al., 2016), it is unclear how such a spatial distribution pattern is associated
+with epilepsy.
+    Here, to address these challenges, we first develop an EEG data-driven network of
+conditionally coupled dynamic causal models (NccDCM) across multiple cortical regions
+for cases and controls respectively, where each node corresponds to a functional unit
+that can be represented by a neural mass model, and with edges informed by effective
+connectivity. For simplicity, neural mass activities are described by stochastic
+Jansen-Rit models (Jansen and Rit, 1995; Ableidinger et al., 2017; Forrester et al.,
+2020).
+    We then calculate differential causal nets between cases and controls to quantify
+abnormal causality in patients. By these nets, we are able to identify intrinsic and
+extrinsic dynamic connectivity patterns that are associated with brain diseases. In the
+proposed network, each node describes a channel of neuron populations which may
+receive input signals from other channels. The strengths of directed connectivity
+between nodes are regularised by biophysics-informed parameters.
+
+
+
+
+                                                                                      3/40
+    The above network structure allows for the nesting of sub-networks within a
+composite network, where the followed differential analysis of brain systems at different
+levels of detail can be based. The following assumptions are made in the NccDCM:
+Within each channel/node, the neurons can be modelled by three populations, namely,
+pyramidal cells (PCs), excitatory interneurons (EINs) and inhibitory interneurons
+(IINs), forming two feedback loops- a fast excitatory feedback loop with external input
+from paired opposite regions as well as an input of rough path noise from background; a
+slow inhibitory feedback loop. The output represents the membrane potential of
+pyramidal neurons, which are signals measured by the EEG device. The coupling within
+a node and between nodes are regularised by structural parameters. However, it should
+be noted that the precise nature of the within channel model is not restrictive and more
+complex models can be incorporated.
+    A conditional inference of the proposed model is implemented as follows: We first
+estimate NccDCMs by ccDCM screening, followed by inferring disease-associated causal
+nets from estimated contrasts between case and control subjects. The conditional
+estimation is carried out through minimising a profiled loss function based on what is
+called Chen-Fliess expansions of stochastic differential equations (Ableidinger et al.,
+2017; Chen, 1954; Fliess, 1981; Lyons, 1998). In the Chen-Fliess expansions, we solve
+the stochastic differential equations by linear combinations of iterative integrals of the
+vector of field functions. These estimated ccDCMs are then assembled via a post
+analysis of variance (Anderson, 2017). Unlike the existing approaches, which assume
+parameters to be known from diffusion-imaging data and previous literature (e.g.,
+Forrester et al., 2020), we directly estimate local parameters in each node conditionally
+on inputs from other nodes by using subject’s EEG data. This enables the inference of
+the large number of node parameters feasible even when nodes are heterogeneous. The
+estimated NccDCM allows us to investigate how neural activities in these
+channels/nodes influence each other, particularly, when defected channels/nodes exhibit
+pathological dynamics compared to healthy controls. Changes in these parameters
+reflect alterations in the balance between excitation and inhibition, compensatory
+adaption to abnormal inputs. We evaluate the proposed methodology on both simulated
+data and a recently published benchmark dataset of scalp EEG recordings for a group
+of pediatric epilepsy patients and their controls (OK et al., 2021). See Figure 9(a) for
+an example of interictal epileptiform discharges (IEDs) in the data and the bifurcation
+behaviour of the fitted ccDCM. In the real data analysis, we treat IEDs as
+electroencephalographic markers for epilepsy. IEDs reflect transient cortical
+hyperexcitability in neuron populations and are useful biomarkers in diagnosis and
+treatment of epilepsy. We are in particular interested in characterising the IED
+associated epileptic networks via differential dynamic causal nets, which shed light on
+the mechanisms of seizure propagation in brain regions.
+    The contributions of this paper are two-fold. First, we develop a novel network
+architecture that leverage the channel-wise coupling across a whole brain via hierarchical
+mixed-effects modelling. We provide a conditional inference scheme to estimate
+NccDCM. By the post analysis of variance, we demonstrate that the proposed modelling
+is promising in discovering novel differential dynamic causal nets and in providing a
+deep insight into abnormal connectivity in case subjects compared to healthy controls.
+Secondly, fitting the proposed NccDCM to an epileptic case-control dataset, we identify
+comprehensive neuronal circuits for a whole brain and reveal biophysics-informed
+dynamic causal nets that underlie defected brain connectivity in epileptic patients.
+    The remaining paper is organised as follows. The details of the proposed
+methodology and optimisation algorithm are provided in Section 2. The applications of
+the proposed methods to the IED dataset and synthetic data are presented in Section 3.
+Discussion and conclusions are made in Section 4.
+
+
+
+
+                                                                                    4/40
+2       Methodology
+In this section, we consider a network of conditionally coupled dynamic causal models
+(ccDCMs) for cases and controls respectively. By conditionally coupling, we treat the
+output of each channel as a response in turn, neural populations within the channel as
+internal regressors and neural populations in outside channels as external regressors. We
+also assume that the model parameters for subjects in case/control group follow a
+mixed-effects model, accounting for group and subject-specific variations. The ccDCM
+of each node is then estimated by minimising an estimated loss function (i.e., minus
+twice estimated log-predictive-likelihood) based on an evolutionary optimisation
+algorithm. The loss function is constructed by use of the Chen-Fliess expansion.
+    We identify differential causal nets that differ cases from controls through post
+multivariate analysis of variance based on a package of permutational multivariate
+analysis of variance (Anderson, 2017).
+
+2.1     Model and estimation
+2.1.1    NccDCM
+Suppose that there are Nk subjects in groups k, k = 0, 1. Each subject is scanned by an
+EEG device of J channels over time interval [0, T ]. For each subject, outputs from
+channels are divided into segments over Q disconnected time periods. In the epilepsy
+study, these time-periods are referred to as seizure periods or pre-seizure periods. Let
+ (i)k   (i)k      (i)k
+x0nq , x1nq and x2nq denote the states of the three neuronal populations, namely,
+pyramidal cells, excitatory interneurons and inhibitory interneurons in channel i for
+subject n in group k. These statse can be described by three second-order ordinary
+differential equations that model modulations in the mean membrane potential due to
+the mean incoming firing rate from the same population and from other populations in
+the neural mass. The incoming mean firing rates are activated through a sigmoid
+transformation. These three equations are often re-expressed as six first order
+                             (i)k      (i)k       (i)k
+differential equations. Let ynq (t) = x1nq (t) − x2nq (t) denote the output of channel i in
+period q for subject n in group k.
+    To account for multiple nested sources of variability in the grouping subject data,
+the NccDCM, taking channels as nodes, is structured in a hierarchical regression
+manner: The node and edge parameters, differing between subjects, follow a
+mixed-effects model. Under the assumption of node homogeneity, Forrester et al. (2020)
+described the evolution of these state variables by J sets of six-dimensional stochastic
+differential equations:
+          (i)k           (i)k                (i)k   (i)k           (i)k       (i)k
+        dx0nq (t)   =
+                    x3nq (t) dt, dx1nq (t) = x4nq (t) dt, dx2nq (t) = x5nq (t) dt,
+                    h                                                     i
+          (i)k                                          (i)k         (i)k
+        dx3nq (t) = Aknq a Sknq ynq  (i)k
+                                          (t) − 2a x3nq (t) − a2 x0nq (t) dt,
+                    n        h                                                     i
+          (i)k                                                                 (i)k
+        dx4nq (t) =   Aknq a Knq (i|j)k k
+                                        Snq ynq  (j)k        k
+                                                      (t) + C2nq Sknq C1nqk
+                                                                              x0nq (t)
+                                                     o
+                            (i)k             (i)k
+                    −2a x4nq (t) − a2 x1nq (t) dt + Aknq adw̃(i)k    nq (t),
+                    h                                                                i
+          (i)k         k       k                   (i)k          (i)k           (i)k
+        dx5nq (t) = Bnq   b C4nq   Sknq C3nq k
+                                                 x0nq (t) − 2b x5nq (t) − b2 x2nq (t) dt.
+                        i = 1, 2, ...., J.
+In node i, period q for subject n in group k, the error term is of form
+                                                              
+                               X                            
+         dw̃(i)k
+            nq (t) = P
+                       (i) +         (i|j1 )k k
+                                    Knq            (j1 )k
+                                              Snq ynq     (t)  dt + dw(i)k
+                                                                       nq (t),
+                                  j1 ̸=i,j
+
+
+
+
+                                                                                            5/40
+            (i)k
+where wnq (t) is a Gaussian noise process, P (i) is a basal extracortical input, Sknq (·) is a
+sigmoid function, the parameters Aknq and Bnq   k
+                                                   stand for the excitatory and inhibitory
+                                              k
+synaptic gains, the coupling parameters Cmnq , m = 1, 2, 3, 4 represent the average
+numbers of synaptic connections between populations in each channel, and a−1 and b−1
+are time constants. For 1 ≤ i ≤ J in turn, fixing the parameters in nodes except the
+i-th, we solve the i-th set of stochastic differential equations.
+    In the following, we further remove the node-homogeneity assumption, allowing the
+node parameters to vary across nodes. For nodes 1 ≤ i ̸= j ≤ J and for subject n in
+group k, we define sigmoid function
+                                                         νmax
+                       S(i|j)k
+                        nq     (x(t)) =                    (i|j)k
+                                                                                 , t ∈ [0, T ],
+                                             1 + exp(r(ν0nq           − x(t)))
+
+which activates input x(t). Here, νmax stands for the maximum firing rate of the neuron
+             (i|j)k
+population, ν0nq is the value for which a 50% of the maximum firing rate is attained
+                                                                                                     (i|j)k
+by neurons in channel i, and r > 0 is the slope of the above function at ν0nq . At
+dendritic spines, incoming spikes are converted into postsynaptic potentials (PSPs)
+through convolution with an alpha-type response function (Bastiaens et al., 2024).
+PSPs are then converted into an average firing rate at the axon hillock using the above
+sigmoid function. Following Ableidinger et al. (2017), we model the three neuron
+populations in the channel i, when there is a signal transmission from the channel j to
+                      (i|j)k
+channel i with rate Knq , by the following stochastic Jansen-Rit differential equations:
+     (i)k                 (i)k                 (i)k        (i)k                   (i)k        (i)k
+  dx0nq (t)        =    x3nq (t) dt, dx1nq (t) = x4nq (t) dt, dx2nq (t) = x5nq (t) dt,
+                        h                                                                     i
+     (i)k                                                             (i)k          2 (i)k
+  dx3nq (t)        =     A(i|j)k
+                           nq     a S (i|j)k
+                                      nq        y (i)k
+                                                  nq   (t)    −  2a  x3nq  (t) −  a   x 0nq (t)   dt,               (2)
+                        n            h                                                                        i
+     (i)k                                                                      (i|j)k              (i|j)k (i)k
+  dx4nq (t)        =      A(i|j)k
+                           nq      a Knq  (i|j)k (i|j)k
+                                                 Snq           (j)k
+                                                             ynq    (t) + C2nq S(i|j)k  nq       C1nq x0nq (t)
+                                                            o
+                                (i)k               (i)k
+                        −2a x4nq (t) − a2 x1nq (t) dt + A(i|j)k         nq    adw̃(i|j)k
+                                                                                    nq     (t),
+                        h                                                                                    i
+     (i)k                  (i|j)k      (i|j)k                (i|j)k (i)k                 (i)k            (i)k
+  dx5nq (t)        =     Bnq      b C4nq S(i|j)knq        C3nq x0nq (t) − 2b x5nq (t) − b2 x2nq (t) dt,
+
+where
+                                                                                  
+                                     X                                          
+              dw̃(i|j)k
+                 nq     (t) =                (i|j1 )k (i|j1 )k
+                                             Knq      Snq              (j1 )k
+                                                                      ynq     (t)  dt + dw(i)k
+                                                                                           nq (t),
+                                  j1 ̸=i,j
+
+given the external input from channel j and merging the inputs from other channels
+                                               (i|j)k       (i|j)k
+j1 ̸= i with the noise, the parameters Anq and Bnq                 stand for the excitatory and
+inhibitory synaptic gains in channel i and period q for subject n in group k respectively,
+                            (i|j)k          (i|j)k
+the coupling parameters Cnq        and Cmnq , m = 1, 2, 3, 4 represent the average numbers
+of synaptic connections between populations, and a−1 and b−1 are time constants. In
+light of Grimbert and Faugeras (2006), we set the ranges for these parameters in Table 1.
+    To summarise, in each ccDCM, three neural populations are described by
+six-dimensional stochastic differential equations. The three neural populations are
+interconnected through the coupling parameters in the equations, which determine the
+                                                                                            (i|j)k
+average evolution rates of the postsynaptic potential. The extrinsic parameter Knq
+regulates the influence of neural populations in channel j on the excitation of neural
+populations in channel i and thus determine the edge between nodes i and j in period q
+                                         (i|j)k
+for subject n in group k. A large Knq            increases the strength of neural
+synchronization, changing oscillatory activity or pathological dynamics such as epileptic
+                                  (i|j)k
+discharges, while decreasing Knq         reduces inter-regional coupling, giving rise to more
+
+
+
+
+                                                                                                                6/40
+Table 1. Values of biophysical parameters in ccDCM.
+ Parameter           Description                                                                         Value
+    (i|j)k
+ Anq                 Average excitatory synaptic gain                                                    [2.6, 6] mV
+   (ilj)k
+ θnq2                Ratio of average excitatory-inhibitory synaptic gains                               [0.05, 1]
+    (i|j)k                                                                                                 (i|j)k    (ilj)k
+ Bnq                 Average inhibitory synaptic gains                                                   Anq /θnq2
+ a−1                 Time constant of excitatory postsynaptic potential                                  10 ms
+ b−1                 Time constant of inhibitory postsynaptic potential                                  20 ms
+           (i|j)k
+ A(|j)k Cnq          Scaled avg. number of synapses between the populations                              [0, 1000]
+    (i|j)k                                                                                                 (i|j)k
+ C1nq                Avg. no. of syn. established by principal neurons on excitatory interneurons        Cnq
+    (i|j)k                                                                                                      (i|j)k
+ C2nq                Avg. no. of syn. established by excitatory interneurons on principal neurons        0.8 Cnq
+    (i|j)k                                                                                                        (i|j)k
+ C3nq                Avg. no. of syn. established by principal neurons on inhibitory interneurons        0.25 Cnq
+    (i|j)k                                                                                                        (i|j)k
+ C4nq                Avg. no. of syn. established by inhibitory interneurons on principal neurons        0.25 Cnq
+    (i|j)k (i|j)k
+ Anq Knq             Scaled edge from node j to node i                                                   [0, 700] mV
+ vmax                Maximum firing rate of the neural populations                                       5 Hz
+   (i|j)k
+ v0nq                Value for which 50% of the maximum firing rate is attained                          [0, 10] mV
+                                                    (i|j)k
+ r                   Slope of the act. function at v0nq                                                  0.56 mV−1
+
+
+
+localised dynamics. The above model supports oscillations that relate to input neural
+rhythms, such as the well-known, alpha, beta, and gamma brain rhythms, and also
+irregular, epileptic-like activity. It allows us to investigate how neural populations
+interact under both deterministic and stochastic settings, and how coupling between
+nodes modulates large-scale brain rhythms observed in E/MEG recordings (Forrester
+                                                      (i|j)k
+et al., 2020). As the nonlinear sigmoid function Snq is globally Lipschitz continuous,
+it follows from Theorem 6.2.2 of Arnold (1974) that the Eq. (2) has a path-wise unique
+and Ft -adapted solution. We fix a, b, vmax and r at their typical values as not all these
+parameters in the ccDCM are estimable. The architecture of NccDCM can be described
+by the following schematic diagram for five channels.
+                                       [Put Fig. 1 here.]
+
+   To facilitate the description of the nested links between subjects in different groups,
+                                                 (i|j)k   (i|j)k
+we introduce more notations. Let A(i|j)k
+                                      n    = (An1 , ..., AnQ )T ,
+                    (i|j)k         (i|j)k                   (i|j)k         (i|j)k
+B (i|j)k
+  n      = (Bn1              , ..., BnQ )T , C (i|j)k
+                                               n      = (Cn1         , ..., CnQ )T ,
+                    (i|j)k           (i|j)k        (i|j)k       (i|j)k         (i|j)k
+K (i|j)k
+   n      = (Kn1 , ..., KnQ )T and ν 0n = (ν0n1 , ..., ν0nQ )T for subject n in group
+k = 0, 1, where 1 ≤ i ̸= j ≤ J , and 1 ≤ n ≤ N0 for k = 0 and 1 ≤ n ≤ N1 for k = 1.
+Estimating these parameters depends on the external inputs as well as the internal
+self-inputs of each target-channel when we fit a ccDCM to the data. Note that the
+ccDCM is an ill-posed model and our simulations (see Section 3 ) show that the
+parameters A(i|j)kn    and B (i|j)k
+                              n     are not identifiable simultaneously. However, the ratio
+  (i|j)k   (i|j)k
+An       /Bn       can be estimated reasonably well. This motivates us to re-parameterise
+                                            (i|j)k      (i|j)k
+ccDCM by new parameters θ (i|j)k  nq    = (θnq1 , ..., θnq5 )T
+       (i|j)k       (i|j)k      (i|j)k   (i|j)k   (i|j)k    (i|j)k        (i|j)k     (i|j)k
+= (Anq , Anq /Bnq , Anq × Cnq , Anq × Knq , ν0nq )T . Putting these
+parameters together forms a vector, namely θ (i|j)k
+                                             nq     = (θ (i|j)k
+                                                         nqc ). We assume that the
+above parameters follow the mixed-effects model
+
+ θ (i|j)k        (k)    (i|j)     (k)    (i|j)  (i|j)k
+   nqc = δ qc + αqc + β qc + c01 αqc ⊙ β qc + r nqc ,                               k = 0, 1;   q = 1, ..., Q,      (3)
+
+                                                        (1)    (2)
+where ⊙ denotes the component-wise multiplication, αqc + αqc = 0, i̸=j β (i|j)
+                                                                      P
+                                                                            qc   = 0,
+                                        P    (i|j)                 P  (i|j)
+and c01 is the coefficient satifying c01 q |βqc + 1| ̸= 0 and c01 q |αqc + 1| ̸= 0.
+
+
+
+
+                                                                                                                 7/40
+Figure 1. A schematic diagram of NccDCM of five channels. The bigger circles stand
+for channels, each described by a Jansen-Rit neural mass equation with the hidden states
+                               (i|·)
+x0 , x1 , and x2 . Parameters C· , A(i|·) , and B (i|·) denote the within-channel parameters
+in channel i, taking into account the regressive effects of signal transmission from other
+channels. Parameter K (i|j) defines a regressive coupling from a designated input channel
+j to output channel i.
+
+
+
+
+                                                                                       8/40
+2.1.2     Estimation
+The estimation is implemented in three steps: First solve the Jansen-Rit neural mass
+differential equations, then construct the forward pairwise loss functions and finally
+minimising the loss functions by some evolutionary optimisation algorithms.
+
+ Solving the Jansen-Rit neural mass differential equations. To construct a loss
+function for estimation, we need to compute the forward solutions of the Jansen-Rit
+differential equations to predict the data points iteratively over a sequence of
+time-instances. We adopt the Chen-Fliess expansion, a linear combination of iterative
+Stratonovich integrals (Fliess, 1981), to solve the above Jansen-Rit input-output
+differential system.
+    For subject n in the group k, the EEG recordings in channel i over the q-th period
+are partitioned into D epochs, each contains bq time-instants td0:bq −1 = (td0 , ..., tdbq −1 ), in
+                                                                     
+                               (i)k d     (i) d           (i) d
+the form Y (i)k   d
+             nq (t0:bq −1 ) = ynq (t0 ), ynq (t1 ), ..., ynq (tbq −1 ) , d = 1, 2, ..., D. Let
+ (i)k
+xsnq (t), s = 0, 1, 2 denote the corresponding three hidden neural states. Let
+                                                    (i)k        (i)k
+−{3} = {0, 1, 2, 4, 5}, −{1, 4} = {0, 2, 3, 5} and xInq (t) = (xsnq (t))s∈I . Denote the
+                                                                                        (i)k            (i)k
+truncated Chen-Fliess expansions of the conditional expectations of ynq (t) and xsnq (t),
+s = 0, 2, 3, 5, given by the forms
+                                                                                                   
+                                   (i)k
+           (i)k d
+         ynq   (tm ) ≈ g tdm |x−{3}nq (td0 ), ynq  (i)k d        (i)k d
+                                                        (t0 ), ẏnq   (t0 ), ynq    (t0 ), θ (i|j)k
+                                                                                (j)k d
+                                                                                             nq       ,
+                                                                                                     
+            (i)k                        (i)k
+          x0nq (td0 ) ≈ g0 td−1bq −1 |x{0,3}nq (t0
+                                                  d−1       (i)k d−1
+                                                       ), ynq    (t0 ), ẏnq       (t0 ), θ (i|j)k
+                                                                               (i)k d−1
+                                                                                               nq       ,
+                                                                     
+            (i)k                        (i)k
+          x2nq (td0 ) ≈ g2 td−1bq −1 |x−{1,4}nq (t0
+                                                    d−1
+                                                         ), θ (i|j)k
+                                                              nq        ,
+                                                                                                     
+            (i)k                        (i)k                                                   (i|j)k
+          x3nq (td0 ) ≈ g3 td−1      |x
+                               bq −1 {0,3}nq 0 (t d−1
+                                                       ), y (i)k d−1
+                                                           nq    (t 0    ), ẏ (i)k d−1
+                                                                              nq   (t 0  ), θ  nq       ,
+                                                                     
+            (i)k                        (i)k
+          x5nq (td0 ) ≈ g5 td−1bq −1 |x−{1,4}nq (t0
+                                                    d−1
+                                                         ), θ (i|j)k
+                                                              nq        ,                                 (4)
+
+where g(t|·), g0 (t|·), g2 (t|·), g3 (t|·) and g5 (t|·) are defined in the Appendix A. Then the
+truncated Chen-Fliess expansions of the above Jansen-Rit differential system can be
+written as a conditionally deterministic function, say g or gm , plus a stochastic error
+                                                 (i)k   (i)k
+term. Moreover, in the expansions of x0nq , x2nq (t), the stochastic error terms, only
+appearing in the terms of orders larger than 3, are bounded by |op ((t − t0 )4 )|, while in
+                      (i)k
+the expansion of ynq (t), the stochastic terms, not appearing in the term of order 1, is
+               (i|j)k R t
+of the form Anq a t0 (t − s)dw̃(i)k                             3
+                                          nq (s) + op ((t − t0 ) ). Therefore, these approximate
+functions of the conditional expectations in (4) provide the best one-step predictions of
+ (i)k          (i)k
+ynq (t) and xsnq (t).
+
+Constructing forward pairwise loss functions.                        Let td0 = td−1
+                                                                                bq −1 and initiate
+ (i)k
+x−{1,4}nq (t10 ) = (0, ..., 0). Given the observed D epoch data, we can iteratively make
+one-step forward predictions of the hidden states and the channel outputs over
+time-grids by using the truncated Chen-Fliess expansions and the difference operator as
+follows: For the first epoch,
+             (i)k 1            (i)k 1       (i)k 1
+           ẏnq  (t0 )   ≈   (ynq  (t1 ) − ynq  (t0 ))/(t11 − t10 ),
+                                                                                                 
+                                     (i)k
+            (i)k 1
+          ybnq  (tm )    ≈   g t1m |x−{3}nq (t10 ), ynq
+                                                     (i)k 1       (i)k 1
+                                                         (t0 ), ẏnq  (t0 ), ynq  (t0 ), θ (i|j)k
+                                                                              (j)k 1
+                                                                                           nq       ,
+
+
+
+
+                                                                                                         9/40
+         (i)k                   (i)k              (i)k
+where x{0:5}nq (t10 ) = (0, ynq (t10 ), 0, 0, ẏnq (t10 ), 0)T . In general, for m = 1, ..., bq − 1 and
+d = 2, ..., D,
+            (i)k d          (i)k d          (i)k d
+          ẏnq  (t0 )   ≈ (ynq   (t1 ) − ynq    (t0 ))/(td1 − td0 ),
+                                                                                                   
+                                    (i)k
+            (i)k d
+          ybnq  (tm ) ≈ g tdm |x−{3}nq (td0 ), ynq   (i)k d        (i)k d
+                                                          (t0 ), ẏnq               (t0 ), θ (i|j)k
+                                                                               (j)k d
+                                                                       (t0 ), ynq            nq       ,
+                                                                                                   
+             (i)k                        (i)k
+           xb0nq (td0 ) ≈ g0 td−1
+                                bq −1 |x{0,3}nq (t0
+                                                    d−1      (i)k d−1
+                                                         ), ynq    (t0 ), ẏnq   (t0 ), θ (i|j)k
+                                                                              (i) d−1
+                                                                                             nq       ,
+                                                                      
+             (i)k                        (i)k
+           xb2nq (td0 ) ≈ g2 td−1
+                                bq −1 |x−{1,4}nq (t0
+                                                      d−1
+                                                           ), θ (i|j)k
+                                                                nq       ,
+            (i)k                              (i)k
+          b1nq (td0 )
+          x             =(i)k d
+                        ynq  (t0 ) + xb2nq (td0 ),
+                                                                                               
+           (i)k                       (i)k                                               (i|j)k
+          b3nq (td0 ) ≈ g3 td−1
+          x                        |x
+                             bq −1 {0,3}nq 0  (t d−1
+                                                     ), y (i)k d−1
+                                                         nq   (t 0    ), ẏ (i) d−1
+                                                                           nq 0(t   ), θ nq       ,
+                                                                  
+           (i)k                       (i)k
+          b5nq (td0 ) ≈ g5 td−1
+          x                  bq −1 |x−{1,4}nq (t0
+                                                   d−1
+                                                       ), θ (i|j)k
+                                                            nq       ,
+            (i)k                              (i)k
+          b4nq (td0 )
+          x                 (i)k d
+                        = ẏnq          b5nq (td0 ).
+                                (t0 ) + x
+
+   We construct a forward pairwise loss function by the summation of the squared
+prediction errors over the set of increasing time-instances
+Tq = {t10 , ..., t1bq −1 ; ...; tD         D
+                                 1 , ..., tbq −1 }. These time-instances are generated by
+concatenating time-instances in epochs. For the subject n in group k, the resulting loss
+function in the channel i, with a regressive input from the channel j, can be written as
+                                                X                            2
+                         L(i|j)k
+                          nq     (θ (i|j)k
+                                    nq     )=             (i)
+                                                         ynq          (i)k
+                                                              (t) − ybnq   (t) .
+                                                t∈Tq
+
+
+Minimising the above loss function with respect to parameters θ (i|j)k
+                                                                nq     , we obtain the
+           (i|j)k
+estimate θ
+         b
+            nq    .
+
+Solving the optimisation problem. Note that the above non-convex loss function
+contains multiple local minima as only partial observations on hidden states are
+available in dynamic causal modelling. We employ a genetic evolutionary algorithm of
+Zhang and Sanderson (2009), called adaptive differential evolution with optional
+external archive (JADE), to search for global minima. JADE evolves a population of
+candidate solutions through mutation, crossover, and selection, aiming to explore the
+landscape of the loss function around a global minimum. See the Appendix Sa, the
+Supplementary Meterial for the further details of the JADE.
+
+2.2     Identify differential causal nets via mixed-effects modelling
+Having obtained estimated networks of ccDCMs for cases and controls respectively, we
+want to find differential causal nets by contrasting cases and controls in terms of the
+estimated within-channel parameters and the between-channel parameters respectively.
+In the differential causal net for the c-th component of the parameter, we assign a link
+that is directed from node j to node i if the estimated values (θb(i|j)1 )1≤q≤Q , 1 ≤ n ≤ N1
+                                                                  nqc
+in cases are significantly different from their counterparts in controls.
+    In order to test for the significant differences between cases and controls, we treat
+the case-control memberships and channel memberships as factors in the following
+two-factor mixed-effects model
+
+  b(i|j)k = δ q + α(k) + β (i|j) + c01 α(k) ⊙ β (i|j) + r (i|j)k ,
+  θ                                                                         k = 0, 1;     q = 1, ..., Q,     (5)
+    nq             q       q            q       q         nq
+
+
+
+
+                                                                                                           10/40
+where ⊙ denotes the component-wise multiplication and we write each estimated
+parameter as the summation of a baseline, fixed-factors related to case-control
+memberships and channels, and subject-specific random factors. Here, the significance
+of the case-control factor implies that case-control memberships make a contribution to
+the group differences while the significance of the channel-factor show that the group
+difference should be accounted for by multiple channels. The significance of
+random-effects (e.g., the difference of the variations across groups) implies that
+subject-specific variations play a role in differencing the groups from each other.
+                                                                     (1)     (2)
+     To make the above model identifiable, we assume that αq + αq = 0,
+P         (i|j)                                                P       (i|j)
+   i̸=j β q      = 0, and c01 is the coefficient satisfying c01 q |βqc + 1| ̸= 0 and
+     P       (i|j)
+c01 q |αqc + 1| =      ̸ 0 . Under the assumption that the parameters for different subjects
+are independent of each other, the expected Manhattan distances between the groups
+and within the groups admit
+                                                        (i|j)0  (i|j)1
+                     X                          X
+                           (i|j)1    (i|j)0
+                   E     |θnqc    − θmqc    | =     E|r1qc − r1qc |,
+                     q                                   q
+                     X                                 X
+                           (i|j)k    (i|j)k                      (i|j)k    (i|j)k
+                 E       |θnqc    − θmqc    |     =           E|θnqc    − θmqc    |,    k = 0, 1.           (6)
+                     q                                   q
+
+Approximating the expectations in equation (6) by the U-statistics Lee (1990), we have
+the following statistics: For 1 ≤ c ≤ 5, k = 0, 1, and 1 ≤ i ̸= j ≤ J,
+
+         (i|j)                   2                X           X
+                                                                       (i|j)k    (i|j)k
+        σckk     =                                                   |θmqc    − θnqc    |,
+                         Nk (Nk − 1)Q
+                                            1≤m<n≤Nk 1≤q≤Q
+
+         (i|j)              1               X                 X
+                                                                      (i|j)0    (i|j)1
+        σc01     =                                                  |θmqc    − θnqc    |,    1 ≤ q ≤ Q,
+                         N0 N1 Q
+                                     1≤m≤N0 ,1≤n≤N1 1≤q≤Q
+
+which are the empirical versions of the within-group and between group average
+distances. For 2 ≤ c ≤ 5 (estimable parameters), to test the above null hypothesis H0 ,
+                                            (i|j)     (i|j)
+we consider the test statistics F (i|j) = (F1 , ..., F5 )T with
+                                                                   (i|j)
+                                                  (N0 + N1 )σc01
+                                     Fc(i|j) =        (i|j)          (i|j)
+                                                                             .
+                                                 N0 σc00 + N1 σc11
+
+We permuted the case-control memberships M times with default value M = 4999. For
+                                                   (i|j)
+each permutation, we recomputed the value of Fc , obtaining M permuted F -values.
+The permuted p-values pc is then defined by counting the proportion of the permuted
+                                                      (i|j)
+F-values that are less than the observed value of Fc . We also run a permuted F -test
+for differences in the variances of the random factors of patients and controls. Similarly,
+                                     (i|j)
+we test the null hypothesis that βqc = 0 for all (i, j).
+
+2.3    Identifying differential causal nets between preictal and
+       ictal periods
+Understanding differences of epileptic patients between the preictal period and ictal
+period is crucial for gaining deeper insights into the mechanisms underlying epileptic
+seizures. While most studies focus on the ictal states, examining the transition from the
+preictal phase to the ictal phase can reveal early neural signatures that precede seizure
+onset. Identifying such signatures are important not only for elucidating
+pathophysiological dynamics of epilepsy but also for improving seizure prediction and
+thus developing early intervention strategies.
+
+
+
+
+                                                                                                          11/40
+                                 (i|j)k     (ilj)k     (i|j)k       (i|j)k     (i|j)k      (i|j)k     (i|j)k
+    For each of parameters in (Anq        /Bnq       , Anq      ∗ Cnq        , Anq      ∗ Knq       , v0nq )
+                                (·)           (·)
+and for each channel pair, let Πpre and Πon denote the matrices of estimates derived
+                                                                               (·)
+from the NccDCM in the preictal and ictal periods respectively. Column of Πpre and
+  (·)
+Πon stand for the estimators of different case-subjects indexed by 1 ≤ n ≤ N1 while rows
+correspond to different time segments indexed by 1 ≤ q ≤ 6. We performed multiple
+permutation-based Wilcoxon signed-rank tests for significant NccDCM changes from the
+preictal period to the ictal period They are implemented in four steps as follows:
+
+    • Compute the test statistics W = (W1 , W2 , . . . , WN1 )⊤ . For subject n, denote
+                              (·)        (·)   (·,j)      (·,j)
+      the n-th columns of Πpre and Πon as πpre and πon , respectively. Compute the
+                          (·,n)    (·,n)
+      paired differences πon − πpre . After removing zero differences, rank the
+      absolute values of the remaining differences in ascending order, assigning average
+      ranks in the case of ties. The statistic Wn is then obtained by summing the ranks
+                                                                          (·,n)  (·,n)
+      corresponding to positive differences, i.e., those instances where πon > πpre .
+                                                                                           (·)
+    • Pair-matched permutation procedure. For each column in Πpre , find the
+                                (·)
+      corresponding column in Πon . We randomly swap the corresponding entries in the
+                             6
+      two columns, yielding 2 distinct permutations. For each permutation α, we
+                                                 (·),α     (·),α
+      denote the resulted permuted matrices by Πpre and Πon . W α is reduced to the
+      observed statistic W when α is an identity permutation. The procedure is
+      implemented as follows.
+    • Compute the empirical p-values. For the n-th subject, the empirical p-value
+      is computed as
+
+                                              #{Wnα ≥ Wn }
+                           p(n) =                                  ,
+                                      Total number of permutations
+      where the numerator counts the number of permuted statistics at least as extreme
+      as the observed Wn . This yields the individual p-value for each subject.
+    • Combine the p-values using Fisher’s method. Combining these individual
+      p-values using Fisher’s method, we have the combined test statistic
+                                                        N1
+                                                        X
+                                      χ2Fisher = −2           ln p(n) .
+                                                        n=1
+
+      The above statistic follows a chi-square distribution with 2 × N1 degrees of
+      freedom under the null hypothesis that there are no changes in the parameters
+      from the preictal period to the ictal period. The overall significance can derived
+      from the above chi-square distribution.
+
+
+3     Results
+We investigate the behavior of the proposed mode and evaluate the performance of the
+proposed estimating method using simulated and real EEG data.
+
+3.1    Differential causal nets between cases and controls
+A healthy, balanced brain connectivity is critical for maintaining brain functions. In
+contrast, an abnormal brain connectivity can change subject’s behavior by affecting
+certain areas involved in seizure propagation. Epilepsy is a group of neurological
+
+
+
+
+                                                                                                         12/40
+disorders characterized by abnormal spontaneous brain activity, involving multiscale
+changes in brain functional organizations. The system epilepsy hypothesis posits that
+the enduring susceptibility to generate seizures in epilepsy is due to the specific
+vulnerability of the brain system (Fisher and et al., 2005). Abnormal firing of neurons
+causes defected local circuit function, leading to alterations of macroscale functional
+activities during seizure propagation (Burman and Parrish, 2018). The virtual brain
+model has demonstrated that a combination of a global shift in the brain’s dynamic
+equilibrium and locally hyperexcitable network nodes provides a mechanistic
+explanation for the epileptic brain during interictal resting state (Courtiol et al., 2020;
+Yang et al., 2024). Interictal Epileptiform Discharges (IEDs) in routine EEG recordings
+is crucial evidence of epilepsy in patients. OK et al. (2021) published a benchmark
+dataset for detecting IED. However, it is not clear to what extent the IEDs affect
+macroscale intrinsic dynamics and microcircuit organizations, that supports their
+pathological relevance. Here, we fit the NccDCM to this dataset to identify defected
+dynamic causal nets associated with the IED.
+
+3.1.1   Description of case-control data
+The above dataset contains EEG recordings in 18 EEG channels for 21 subjects who
+underwent EEG tests for epilepsy. Figure 2 in the Appendix Sc, the Supplementary
+Material shows a standard international 10 ∼ 20 system for the electrode placement on
+the human scalp, used primarily in EEG. This system ensures standardized and
+reproducible positioning of electrodes across subjects and recording sessions based on
+precise anatomical landmarks. Longitudinal bipolar montage is used for channel
+configuration for the EEG recording, and the considered channels are FP2F4, F4C4,
+C4P4, P4O2, FP1F3, F3C3, C3P3, P3O1, FP2F8, F8T4, T4T6, T6O2, FP1F7, F7T3,
+T3T5, T5O1, FZCZ, CZPZ, and BP3REF (18 EEG channels and 1 ECG channel). See
+Table 1 in the Appendix Sc, the Supplementary Mateial for the brain regions which the
+electrode-pairs cover. Among these 21 subjects, IED time series were identified in the
+recordings of 11 subjects as confirmed by neurologists while the remaining 10 subjects
+were free from IEDs. Furthermore, for each of 8 patients, we were able to define 6
+segments of IED time series, each of length 20 seconds, which were respectively matched
+by the segments of time series of 10 controls at the same time-periods. In the following
+analysis, we focus on these 8 patients against 10 controls. An example of the IED time
+series from the channel F4C4 of the control-subject H9 is displayed in Figure 12(a).
+
+3.1.2   Subject-heterogeneity analysis
+We began with a heterogeneity analysis for control-case groups using hierarchical
+clustering. We took the C3P3 channel as an example. The subject’s EEG time series in
+the C3P3 and other channels were extracted from the same time period across all
+subjects. We calculated the feature vector of marginal mean, variance and the
+autocorrelations at the first 50 lags for each subject’s EEG time series.
+Subject-heterogeneity in the C3P3 and other channels was assessed through hierarchical
+clustering of these feature vectors, where the Euclidean distance based average linkage
+method was adopted to generate dendrograms. The results for the C3P3 and other
+channels, displayed in Figure 3 and the Appendix Se, showed evidence of
+subject-heterogeneity in the case and control groups. These findings gave us a rational
+to fit the NccDCM individually for each subject to capture subject-specific dynamics.
+This approach allowed us to make group-level inferences while accounting for individual
+variability through a mixed-effects model.
+
+
+
+
+                                                                                     13/40
+                                                               Start with groups of
+                                                                     subjects
+
+                                                       Fitting NccDCMs to EEG data for case
+                                                                and control subjects
+                                                                                                 Embedding
+                                                       Fitting estimated NccDCM parameters
+                                                                   to mixed-effects
+
+                                                       Parameter post-ANOVA in means and
+                                                                    variance
+
+                                                                                            No
+                                                                   Significant?
+
+                                                                             Yes
+
+                                                           Add an edge to causal nets
+
+
+                                              Causal       Calculate total uncertainty
+                                               nets         explained by the models
+
+                                                        Adjust multiple channel inputs to
+                                                                   NccDCMs
+
+                                                              Drop the non-significant
+                                                                       edges
+
+
+
+
+Figure 2. An example of the IED time series from the C3P3 channel of the patient P3
+and the flowchart of the NccDCM analysis.
+
+
+
+
+       Controls                            Cases
+Figure 3. Dendrograms for clustering subjects based on the time series data derived
+from the channel C3P3 for the control and case groups.
+
+
+
+
+                                                                                                             14/40
+3.1.3    Differential dynamic causal nets in means
+For each pair of channels, we first fit ccDCMs to recorded patients’ IED time series and
+their counterparts in controls respectively, obtaining the estimated values of parameters
+in the ccDCMs. We then perform a post-analysis of variance on these estimated
+parameters to reveal the IED-associated causal patterns in terms of channel
+excitation-inhibition ratio of synaptic gain, the strength of within-channel connectivity,
+the strength of between-channel connectivity and the contrasts of synaptic transmission
+between cases and controls during seizure periods.
+                               (i|j)k  (ilj)k (i|j)k   (i|j)k  (i|j)k  (i|j)k (i|j)k
+    For each of parameters Anq /Bnq , Anq ∗ Cnq , Anq ∗ Knq , v0nq and
+each pair of channels (i, j), we used the R software developed by Anderson (2017) to
+perform post analysis of variance to test whether there is a significant difference
+between case and control groups. The manhattan distance was used in these tests. To
+control the False Discovery Rate (FDR), the resulting p-values were further adjusted via
+the Benjamini-Hochberg method (Benjamini and Hochberg, 1995). Based on the
+adjusted (1 − p)-values, we constructed the adjacency matrix to reflect the degree of
+difference between the case and control groups. To facilitate the presentation, we
+retained only the values of (1 − p) that are larger than 95%. The resulting differential
+dynamic causal nets are displayed in Figure 4. In the nets, the directionality was
+indicated by arrows from an input channel to an output channel. The value of (1 − p)
+increased from 0.95 to 0.99 as colors are ranging from dark purple to yellow. From
+Figure 4, we revealed the following causal nets:
+        (i|j)k   (ilj)k
+   • Anq /Bnq : In Figure 4(a), there were 6 channel pairs to be claimed to differ
+     cases from controls significantly: P4O2→FP1F7, T6O2→FP1F7, T5O1→FP1F7,
+     C3P3→F7T3, C4P4→T6O2, and T5O1→T6O2.
+        (i|j)k    (i|j)k
+   • Anq ∗ Cnq : In Figure 4 (b), there were 98 channel pairs to be found to have
+     significant differences between cases and controls. Notably, these differences were
+     most pronounced in channel pairs where prefrontal regions served as output
+     channels, including FP1F7, FP1F3, FP2F8, FZCZ and FP2F4, corresponding to
+     the left and right dorsolateral and ventrolateral prefrontal cortices. This finding
+     highlighted the prominent role of these prefrontal areas in driving network-level
+     alterations.
+        (i|j)k    (i|j)k
+   • Anq ∗ Knq : In Figure 4(c), 51 channel pairs of channels exhibited significant
+     differences between cases and controls. These differences were predominantly
+     observed in the frontal regions.
+        (i|j)k
+   • v0nq : In Figure 4(d), there were 121 channel pairs which showed significant
+     differences between cases and controls. The most pronounced differences were in
+     the prefrontal and central-temporal-parietal region, where FP1F7, FP1F3, C3P3,
+     T3T5, P4O2 and T4T6 served as output channels.
+                                    (i|j)k (ilj)k (i|j)k   (i|j)k (i|j)k   (i|j)k
+    In summary, for the parameters Anq /Bnq , Anq ∗ Cnq , Anq ∗ Knq               and
+ (i|j)k
+v0nq , the most pronounced differences between the case and control groups were in
+channel pairs with the output channels in the frontal regions. In particular, for
+  (i|j)k  (i|j)k
+Anq ∗ Knq , the majority of significant channel pairs in frontal channels. For the
+            (i|j)k
+parameter v0nq , significant differences between cases and controls were observed in
+nearly whole brain. An altered excitation/inhibition (E/I) balance, often involving
+decreased inhibition, has been identified as a robust biomarker in various
+neurodegenerative diseases such as Alzheimer’s disease (AD) and frontotemporal
+dementia (FTD). Our analysis showed a mechanism that epilepsy shared with other
+
+
+
+
+                                                                                   15/40
+neurological diseases that changes in the inhibitory connections in the frontal cortex
+disrupted normal circuit operations and brain network dynamics.
+
+
+
+
+                      (i|j)k   (ilj)k                                           (i|j)k    (i|j)k
+                 (a) Anq     /Bnq                                          (b) Anq     ∗ Cnq
+
+
+
+
+                      (i|j)k    (i|j)k                                                (i|j)k
+                 (d) Anq     ∗ Knq                                               (e) v0nq
+
+Figure 4. Networks for significant parameters changes after the corrections for multiple
+testing in the function of inhibitory connections (e.g., in the frontal cortex in psy-
+                                                                   (i|j)k  (ilj)k (i|j)k
+chosis) disrupt normal circuit operations and network dynamics. Anq /Bnq , Anq ∗
+  (i|j)k  (i|j)k   (i|j)k      (i|j)k
+Cnq , Anq ∗ Knq           and v0nq . Dashed lines stand for edges where the case mean is
+smaller than the control mean, while solid lines represent edges where the case mean is
+larger than the control mean.
+
+
+3.1.4   Differential causal nets in variation
+                                    (i|j)k   (ilj)k   (i|j)k   (i|j)k   (i|j)k     (i|j)k          (i|j)k
+For each of parameters Anq /Bnq , Anq ∗ Cnq , Anq ∗ Knq , and v0nq , we
+employed the betadisper and permutest functions in the R to conduct a test of
+multivariate homogeneity of group dispersions, thereby assessing whether the groups
+exhibited different variations across channels. As before, the distance matrix required in
+the software was derived from the manhattan method and the resulting p-values were
+adjusted for multiple testing. Based on the adjusted (1 − p)-values, we constructed the
+adjacency matrix to reflect the degree of difference between the case and control groups.
+We retained only the (1 − p) values exceeding 95% and otherwise set them to zeros. The
+results were displayed in Figure 4. In the differential causal nets, the directionality from
+an input channel to an output channel was indicated by arrows. As before, the value of
+(1 − p) increased from 0.95 to 0.99 as colors were changed from dark purple to yellow.
+The findings are summarized as follows:
+        (i|j)k       (ilj)k
+   • Anq         /Bnq         : From Figure 5(a), 14 channel pairs were identified as significantly
+
+
+
+
+                                                                                                        16/40
+        different between cases and controls. These differences were most pronounced in
+        channel pairs with output channels in the prefrontal regions, including FP1F7,
+        FP2F8 and FP1F3 in the left and right dorsolateral and ventrolateral prefrontal
+        cortices.
+         (i|j)k   (i|j)k
+   • Anq ∗ Cnq : From Figure 5(b), 9 channel pairs were found significantly
+     different between cases and controls. These differences were predominantly
+     observed in the frontal regions.
+         (i|j)k   (i|j)k
+   • Anq ∗ Knq : From Figure 5(c), 54 channel pairs exhibited significant
+     differences between cases and controls. These differences were most located in
+     channel pairs with output channels in the prefrontal regions. They included
+     FP1F7, FP2F8, F4C4, F7T3, FZCZ, FP2F4 and FP1F3 in the left and right
+     dorsolateral and ventrolateral prefrontal cortices.
+         (i|j)k
+   • v0nq : No significant differences were found between cases and controls for any
+     channel pair of channels.
+                                      (i|j)k   (ilj)k   (i|j)k   (i|j)k    (i|j)k   (i|j)k
+   In summary, for the parameters Anq /Bnq , Anq ∗ Cnq          , and Anq ∗ Knq ,
+the differences between cases and controls were most pronounced in channel pairs with
+the output channels in the frontal cortices.
+
+3.1.5     Post ANOVA tables for the NccDCM
+We treated the fitting of the NccDCM to each subject as a transformation of its EEG
+measurements into the values of the estimated network parameters, which inherited the
+uncertainty in the original data. We used the adonis2 function in the R software to
+perform post multivariate ANOVA on these values and to test the significance of
+case-control and channels as two factors. The numerical results are displayed in Figure
+6 and in Tables 2-5, the Appendix Sd, the Supplementary Material. The results
+indicated that the identified dynamic causal nets were highly significant for each
+parameter. The percentages of variations in the EEG data explained by the estimated
+                                    (i|j)k (ilj)k   (i|j)k   (i|j)k    (i|j)k (i|j)k
+dynamic causal nets, in terms of Anq /Bnq , Anq ∗ Cnq               , Anq ∗ Knq      and
+ (i|j)k
+v0nq were 12%, 22%, 38% and 28% respectively. Here, the factor case-control occupied
+1.7% (p-value 0.0002), 11.4% (p-value 0.0002), 7.4% (p-value 0.0002) and 18.4%
+(p-value 0.0002) respectively. The percentages of variations in the estimated parameters,
+R2 values confirmed the significant heterogeneity of the network parameters across the
+channels. For example, around 6% (p-value 0.035) of the variations in the estimated
+excitation/inhibition ratios was due to the channel difference.
+
+3.1.6     Lagged correlation analysis
+To compare with lagged correlation analysis, we calculated lagged correlation
+coefficients using the method in the Appendix Sb, the Supplementary Material. The
+analysis revealed 31 channel pairs with p-values less than 0.05 in testing the difference
+of lagged correlations between the control and case groups. See Figure 5(d) for the
+display. The channel pairs (FP2F4, P4O2), (FP2F4, F3C3), (F4C4, FP1F7), (FP1F3,
+F8T4), (F3C3, FP1F7), (F3C3, FZCZ), and (FP1F7, FZCZ) with p-values were smaller
+than 0.005. Among them, channel pairs (FP2F4, F3C3), (F4C4, FP1F7), (FP1F3,
+                                                          (i|j)k   (i|j)k
+F8T4), and (F3C3, FP1F7) were also identified in the Anq ∗ Knq            based NccDCM
+analysis. However, unlike the previous NccDCM analysis, there were no significant pairs
+left at 5% after the Benjmini-Hockberg correction for multiple testing. This showed the
+advantages of the NccDCM analysis over the conventional correlation analysis.
+
+
+
+
+                                                                                    17/40
+                  (i|j)k   (ilj)k                                  (i|j)k    (i|j)k
+             (a) Anq     /Bnq                                 (b) Anq     ∗ Cnq
+
+
+
+
+                 (i|j)k    (i|j)k
+            (c) Anq     ∗ Knq                                (d) Lagged-correlations
+
+
+
+Figure 5. Differential causal nets in variation for parameters after the adjustments
+                             (i|j)k (ilj)k      (i|j)k    (i|j)k          (i|j)k  (i|j)k
+for multiple testing: (a) Anq /Bnq , (b) Anq ∗ Cnq               and (c) Anq ∗ Knq        in
+                                                                                      (i|j)k
+case-control groups. No significant differential causal nets in variation found in v0nq .
+By dashed (solid) lines, we meant the case mean of variation was smaller (larger) than
+the control mean of variation. For a comaprison, the maximum lagged correlations-
+based functional connectivity was also plotted in (d). There were no significant lagged
+correlations left after the adjustments for multiple testing.
+
+
+
+
+                                                                                       18/40
+Figure 6. The percentages of uncertainty in the data which was explained by the
+NccDCM-based mixed-effects models, R2 . See Anderson (2017) for the definition of R2 .
+
+
+3.2     Differential causal nets between preictal and ictal periods
+Description of pair-matched data According to the annotations provided by OK
+et al. (2021), in the preictal periods, the epileptic subjects P1, P3 and P5∼P9 were
+selected with six 20 seconds long preictal segments of time series identified. P2, P4 and
+P10 were excluded from further analysis as there were no six 20 seconds long preictal
+segments identified. Note that the preictal-ictal period dataset was period-matched for
+each subject while the case-control dataset was not pair-matched.
+
+Identified differential causal nets . We fitted a NccDCM to the EEG recordings
+for each subject in the preictal period and the ictal period respectively, followed by the
+pair-matched post Wilcoxon signed rank test for the period differences. The results
+illustrated in Figure 7 suggest that, in patients with epilepsy, the NccDCM parameters
+exhibited noticeable increases from the preictal period to the ictal period. These
+changes were associated with seizure onset. However, there were no significant changes
+in these parameters to be found from the ictal period to the preictal period.
+
+3.3     Simulation studies
+3.3.1   Properties of ccDCMs
+As ccDCMs play a key role in shaping and influencing the structure and behavior of the
+NccDCM, in the following we exam the behavior of ccDCM and evaluate the accuracy
+of the proposed parameter estimation. For this purpose, suppressing channel and group
+subscripts in the model (2), consider the following ccDCM with states
+x(t) = (x0 (t), x1 (t), x2 (t), x3 (t), x4 (t), x5 (t)):
+
+  dx0 (t)   =
+            x3 (t)dt, dx1 (t) = x4 (t)dt, dx2 (t) = x5 (t)dt,
+             AaS (x1 (t) − x2 (t)) − 2ax3 (t) − a2 x0 (t) dt,
+                                                        
+  dx3 (t)   =                                                                       (7)
+                                                              2
+                                                                    
+  dx4 (t) = Aa {C2 S (C1 x0 (t)) + KS (y2 (t))} − 2ax4 (t) − a x1 (t) dt + Aadw(t),
+  dx5 (t) = BbC4 S (C3 x0 (t)) − 2bx5 (t) − b2 x2 (t) dt,
+                                                    
+
+
+
+
+                                                                                    19/40
+                 (i|j)k   (ilj)k                             (i|j)k    (i|j)k
+            (a) Anq     /Bnq                            (b) Anq     ∗ Cnq
+
+
+
+
+                 (i|j)k    (i|j)k                                  (i|j)k
+            (d) Anq     ∗ Knq                                 (e) v0nq
+                                     (i|j)k (ilj)k (i|j)k (i|j)k (i|j)k (i|j)k
+Figure 7.   Networks for parameters Anq /Bnq , Anq ∗ Cnq , Anq ∗ Knq           and
+ (i|j)k
+v0nq
+
+
+
+
+                                                                                20/40
+with initial value x0 = (x0 (0), ..., x5 (0))T ∈ R6 and the input y2 (t) from the external
+channel. We use the following Strang splitting method to generate the samples of x(t)
+from the above model. See (Milstein and Tretyakov, 2003; Leimkuhler et al., 2016) for
+more details. To this end, we first divide the system (7) into two subsystems below:
+              [1]            [1]                 [1]          [1]           [1]      [1]
+            dx0 (t)    =    x3 (t)dt,          dx1 (t) = x4 (t)dt,        dx2 (t) = x5 (t)dt,
+              [1]                  [1]                 [1]
+            dx3 (t)    = [−2ax3 (t) − a2 x0 (t)]dt,                                               (8)
+                         h                      i
+              [1]             [1]         [1]
+            dx4 (t)    = −2ax4 (t) − a2 x1 (t) dt,
+              [1]                  [1]                 [1]
+            dx5 (t)    =    [−2bx5 (t) − b2 x2 (t)]dt,
+
+and
+                [2]                      [2]                  [2]
+             dx0 (t)    =    0,
+                           dx1 (t) = 0, dx2 (t) = 0,
+                                              
+               [2]           [2]         [2]
+             dx3 (t) = AaS x1 (t) − x2 (t) dt,                                                    (9)
+                         h                          i
+               [2]                   [2]
+             dx4 (t) = Aa C2 S C1 x0 (t) + KS (y2 (t)) dt + Aadw(t),
+                                          
+               [2]                 [2]
+             dx5 (t) = BbC4 S C3 x0 (t) dt.
+
+      [1]      [2]
+Let φt and φt denote the exact flows of subsystems (8) and (9). Then, for x ∈ R6 ,
+the so-called Strang splitting for system (7) can be written as
+                                                 [1]         [2]    [1]
+                             ψ∆t (x) = (φ∆t/2 ◦ φ∆t ◦ φ∆t/2 )(x).                                (10)
+
+We independently generate the initial values for the states from the standard normal
+distribution. We choose the input signal y2 (t) from the channel F4C4 of the healthy
+subject H9 in the above EEG dataset which contains EEG measurements in the EEG
+channels for 18 pediatric subjects. Using the discretisation step size of hsim = 1/256, we
+obtain the approximate solution paths for subsystems (8) and (9) over time-length
+T = 20 seconds. We then calculate the output signal y1 (t) = x1 (t) − x2 (t).
+
+Parameter sensitivity analysis. In the following, taking the patient subject P3 as
+an example, given an time series from the channel C3P3, fitting ccDCM to the output
+time series from the chanel C4P4, we demonstrated that the excitation/inhibition ratio
+A/B was identifiable while the individual A and B were not.
+    To fit the NccDCM to the EEG data of subject P3, we calculated the loss functions
+and optimised them to find the estimates (A,    [ A
+                                              b A/B, \ ∗ C, A\ ∗ K, vb0 ). We plotted the
+loss functions in (log A, A/B), fixing A ∗ C = A ∗ C, A ∗ K = A
+                                                \                \ ∗ K and v0 = vb0 .. The
+same procedure was also applied to the other pairs (log A, A ∗ C) and (log A, A ∗ K) .
+The results displayed in Fig. 8 indicated that all these loss functions were flat with
+respect to log A, implying that A was not identifiable. Our finding was consistent with
+what was derived from the excitation/inhibition balance analysis for a canonical
+microcircuit model (Hauke et al., 2025). This also gave rise to a rationale for the
+reparameterisation of (A, B, C, K, v0 ) by θ = (A, A/B, A ∗ C, A ∗ K, v0 ) in the Section 2.
+
+Bifurcation behavior of ccDCM. Under the above simulation setting, we first
+demonstrate that the ccDCM does have bifurcation behavior when A/B, C, K, and v0
+take values in some ranges. In the analysis, we change the value of one parameter with
+the fixed other parameters to their typical values as specified in Table 1. Figures 12(a)
+and 9 respectively display the input time series from the channel F4C4 of the healthy
+
+
+
+
+                                                                                                21/40
+          A/B                            A*C                            A*K
+Figure 8. Surface plots of the loss function in (log(A), A/B), (log(A), A ∗ C) and
+(log(A), A ∗ K): The loss function is flat in log(A).
+
+
+subject H9 and the corresponding output time series under varying values of A/B, C,
+K, and v0 .
+   As shown in Figure 9(a), the output signal remains stable for A/B = 2/25 and
+3.25/22. However, when A/B increases to 4/14, the output exhibits unstable oscillatory
+behavior after approximately 15 seconds. Note that, as depicted in Figure 12(a), the
+input signal reaches its maximum around this time. In the remaining panels of Figure 9,
+no similar phenomenon has been observed for the other parameters. Furthermore, the
+higher values of A/B, K, 1/C and v0 , the higher output signals will result.
+
+3.3.2   Absolute relative error of loss-based estimation
+Estimation of local nodes. In the following, we assessed the absolute relative error
+of the proposed estimation for local nodes using a wide range of simulation studies.
+    In the simulations, EEG signals from the FP2F4, F4C4, C4P4, P4O2, FP1F3, F3C3,
+C3P3 and P3O1 channels were used as the input signal y2 (t), obtained from one
+epileptic patient (P3) and healthy subject (H5). We repeatedly simulated y1 (t) from
+equations (7) M = 48 times, giving 48 EEG segments of time series, each of a duration
+of 20 seconds. We set the simulation step size hsim = 1/256 and the epoch length of 2 to
+ensure that each epoch was short enough so that the Chen–Fliess series approximation
+was valid. We evaluate the proposed method with respect to the absolute relative error
+                     [ A
+(ARE) for θb2:5 = (A/B,     \  ∗ C, A \∗ K, vb0 ) for each of M EEG segments, where
+                        (0)     (0)         (0)
+ARE(θb2:5 ) = |θb2:5 − θ2:5 |/|θ2:5 | with θ2:5 as the ground truth.
+    The parameters in the Equation (7)) were set in the following three scenarios:
+    Scenario I. A = 3.25, B = 22, C = 135, and K = 50 andv0 = 6.
+    Scenario II. A = 4, B = 14, and the remaining parameters are kept the same as in
+the Case I.
+    Scenario III. A ∼ U (3, 6), B ∼ U (17.6, 30), C ∼ U (108, 160), K ∼ U (0, 50) and
+v0 ∼ U (3.12, 9), where U (a, b) is a unifirm distribution over the interval [a, b].
+    The simulation results, reported in Figures 10 and Table 2, showed that our
+proposed estimation is promising in terms of ARE.
+
+Joint estimation of nodes. In the following, we assessed the absolute relative error
+of the proposed estimation for multiple nodes, where each node stands for a Jansen-Rit
+
+
+
+
+                                                                                 22/40
+(a) A/B                                                     (b) C
+
+
+
+
+(c) K                                                        (d) v0
+
+
+
+
+Figure 9. Given the input time series in Figure Output time-series for varying values
+of (A, B) ∈ {(2, 15), (3.25, 22), (4, 14)}, C ∈ {68, 135, 675}, K ∈ {10, 50, 100} and v0 ∈
+{2, 6, 12}. Output time-series exhibit bifurcation behavior only when A/B increases to
+0.2857. The magnitude of output signal increases quickly in A/B, v0 and 1/C but slowly
+in K.
+
+
+
+
+Table 2. The median of ARE for estimating ccDCM in (7). The left block for taking
+the EEG time series of the patient P3 as an input while the right block for taking the
+time series of healthy subject H5 as an input.
+                           P3                                                      H5
+  Parameter   Scenario I    Scenario II   Scenario III   Parameter    Scenario I   Scenario II   Scenario III
+     A/B         0.09          0.10           0.09          A/B          0.10         0.09           0.09
+    A∗C          0.05          0.02           0.05         A∗C           0.05         0.03           0.05
+      v0         0.06          0.08           0.06           v0          0.06         0.07           0.07
+    A∗K          0.08          0.10           0.10         A∗K           0.11         0.14           0.10
+      A          0.25          0.25           0.25           A           0.44         0.25           0.29
+
+
+
+
+                                                                                                         23/40
+  (a) Scenario I: P3                     (b) Scenario I: H5
+
+
+
+
+  (c) Scenario II: P3                    (d) Scenario II: H5
+
+
+
+
+  (e) Scenario III: P3                   (f) Scenario III: H5
+
+
+
+
+Figure 10. Box-plots of ARE values of the estimated A, A/B, A ∗ C, v0 and A ∗ K
+compared to the ground truths for scenarios I to III.
+
+
+
+
+                                                                         24/40
+neural mass model. The multiple nodes were coupled in a unidirectional ring structure,
+allowing one node to influence another node. For each node, the corresponding
+parameters were estimated independently using the proposed estimation method. The
+simulation was repeated M = 100 times. The morel details of the setting for the case of
+three nodes system can be found in the Appendix Sf, the Supplementary Material. The
+corresponding ARE values, summarized in Figure 4 and Table 6 in the Appendix Sf, the
+Supplementary Material, showed a good accuracy of the estimation. However, our
+simulation experience (not shown here) indicated that the performance would be
+deteriorated when there were multiple external inputs of similar magnitudes to a node.
+
+
+4     Discussion and conclusions
+Enabling data-driven composite network modelling at whole brain scales.
+The question as to how large-scale dynamic causal patterns emerge from underlying
+neuronal interactions is one that has attracted much interest in neurological disease
+studies (Friston et al., 2019; Forrester et al., 2020; Pereira et al., 2021; Forrester et al.,
+2024; Singh et al., 2025) and in statistics (Pokern et al., 2009; Ditlevsen et al., 2025).
+The existing imaging studies often focused on a single subject study, either with models
+for a small number of cortical columns or with models in a large scale but involving only
+excitatory/inhibitory neuron populations or with models in a large scale but for
+homogeneous brain regions, where all nodes in the network models are identical. In this
+paper, to relax the above limitations, we have proposed a heterogeneous composite
+network model, NccDCM, for groups of EEG scans respectively. In the NccDCM, each
+node represents a local Jansen-Rit neural mass model for describing synaptic
+interactions in excitatory/inhibitory and pyramidal neuron populations, which consists
+of six-dimensional stochastic differential equations, while directed edges stand for
+coupling/transmissions between these local neuron populations across different channels.
+To account for individual subject-variability, we have introduced a mixed-effects model
+for network parameters. We have developed the Chen-Fliess expansion-based
+evolutionary optimisation algorithm for estimating NccDCMs. For easy of exposition,
+we have adopted a pairwise screening strategy to estimate edges in the proposed
+composite network. To identify dynamic causal nets that differs cases from controls, we
+have carried out a post-analysis of variance for estimated parameters in cases and
+controls. The work-flow is displayed in Figure 12. In the simulation study presented
+here, we have revealed that the excitation and inhibition parameters are not
+well-identifiable although their ratio is idetifiable. A similar phenomenon has been
+found in conductance-based DCM by Hauke et al. (2025). This has given rise to the
+approach of re-parametrisation of the original parameters that the new parameters,
+including the excitation/inhibition balance ratio, are identifiable except the excitation
+parameter. We have assessed the absolute relative errors of the model estimation,
+demonstrating that the performance of the proposed estimates for the node and edge
+parameters is relatively accurate.
+
+Detecting and qualifying differential epileptic network. Epilepsy is considered
+a network disease that affects the brain across multiple levels of spatial and temporal
+scales. The epileptic network, however, is not static but evolves in time which requires
+novel approaches for an in-depth characterization (Bröhl et al., 2024). The proposed
+biophysics-informed network of neural mass models aims to detect and quantify such a
+network. In particular, we have pursued a computational approach to elucidating the
+difference of brain dynamic connectivity patterns called dynamic causal nets between
+cases and controls or between the preictal period and the ictal period. We first fitted a
+NccDCM to the EEG scan for each subject in the case and control groups respectively.
+
+
+
+
+                                                                                       25/40
+Following that, a mixed-effects model-based post-analysis of variance has been
+conducted to contrast estimated case-control parameters. This has given rise to various
+differential causal nets that differ the case-networks from the control-networks. The
+same analysis has also been performed on the segments of time series in preictal and
+ictal periods. We have found similar differential causal nets that differ the preictal
+period from the ictal period. These nets are associated with epileptic seizures even after
+the Benjamini-Hochberg correction for multiple testing.
+    It is widely recognised that EEG scans are inherently noisy with weak signals due to
+the minuscule amplitude of brain-generated electrical activity recorded at the scalp and
+the susceptibility to various sources of contamination. Only the synchronous firing of
+millions of neurons produces a measurable signal at the scalp. Despite this, we have
+demonstrated the advantage of the NccDCM analysis over the conventional temporal
+correlation-based analysis in detecting links between regions. We have identified a list of
+dynamic causal nets to characterise the spatial-temporal varying epileptic network.
+These differential dynamic causal nets partially covered default mode network (DMN), a
+collection of distributed and interconnected brain regions. DMN is typically suppressed
+when the brain receives external stimuli; however, in the absence of attention to
+external stimuli, the DMN switches to internally focused thought processes. Therefore,
+the DMN activity can be obeserved in subject’s resting states. It follows from Menon
+(2023) that the DMN nodes include posterior cingulate cortex (PCC) and retrosplenial
+cortex (RSC) in posterior medial parietal cortex; medial prefrontal cortex PFC (mPFC)
+with its dorsomedial (dmPFC) and ventromedial (dmPFC) subdivisions; anterior
+temporal cortex (ATC); middle temporal gyrus (MTG) in lateral temporal cortex;
+medial temporal lobe (MTL); and angular gyrus (AG) in lateral parietal cortex;
+thalamus (THAL) and caudate nucleus (CAU). Activities in PCC and RSC are
+captured by electrodes FP2, P3, P4 and O2; AG is captured by P3, P4, T5 and T6;
+PFC is captured by FP1. FP2, Fz, F3 and F4; ATC is captured by T3 and T4; MTG is
+captured by T5 and T6; MTL is captured by F3, T4, T5, and T6. EEG channels do not
+directly cover subcortical structures like the thalamus (THAL) and caudate nucleus
+(CAU) because these deep brain regions do not produce sufficient electrical signals that
+reach the scalp surface to be localised to a single channel. In Figures 4 and 5, the
+identified dynamic causal nets differ cases from controls in the means and variations of
+the estimated NccDCM parameters. These nets imply epilepsy-predisposed changes in
+the DMNs and the THAL: (a) Edge changes in the excitatory/inhibitory synaptic ratio:
+AG/PCC points to PFC, THAL points to AG/PCC. (b) Many edge changes in the local
+structure parameters A ∗ C. (c) Changes in the transmission parameter A ∗ K: ATC
+points to PFC; AG points to PFC. (d) Edge changes in v0 : AG points to PFC; ATC
+points to PFC. Figures 7, compared the ictal period to the preictal period, yields many
+dynamic causal nets that have been related to the estimated region-tramsmission
+parameters. This finding implies that the changes in the region-transmission parameters
+can be used for predicting onset of seizures.
+    Our findings have provided a few epileptic network configurations than the DMN,
+highlighting the contribution of dysfunctions in the DMN to epileptic activities and
+cognitive behaviors in patients e.g., ( e.g., Jiang et al., 2022). As seizures are caused by
+abnormal over-firing of the brain, it is expected that the excitation/inhibition
+ratio/local connectivity/region connectivity-driven hyperactivity in the patients’ DMN
+and thalamus/caudate nucleus should be associated with epilepsy.
+
+Limitations. We view our present model as having the following limitations: 1)
+algorithms for estimating the NccDCM and 2) the omission of subjects’ demographic
+information. We have developed a marginal screening approach to estimating the
+channel-wise connection parameters. Marginal screening is a method used to estimate
+
+
+
+
+                                                                                     26/40
+the coefficients of multiple external channel inputs by identifying the most significant
+coefficients for each channel. This approach is particularly useful when a large number
+of nodes involved. The method involves constructing a model that includes all external
+channels and then selecting the most significant channels to include in the final model.
+This method helps to avoid overfitting and ensures that the model is generalisable to
+new data. However, the method is at the cost of estimation efficiency. The penalisation
+regression or forward/backward variable selection can be explored in the future. The
+second limitation potentially arise from the neglect of subjects’ demographic
+information such as age and gender. A further work is needed to take age and gender as
+additional predictors in each ccDCM.
+
+Conclusions and future work. In summary, the proposed NccDCM is a novel and
+useful tool for detecting disease-predisposed effective connectivity in case-control study
+using EEG data. We have shown that the NccDCM can be used to characterise
+epileptic brain network at the whole brain scale. This work can be extended to the
+source-level, in particular, those sources in the deep brain, and to other neural mass
+models in Friston et al. (2019).
+
+
+Appendix A
+Consider the following set of differential system of the form
+                                          m
+                                          X
+            ż(t)     =    g0 (z(t)) +          gi (z(t))ui (t), z(0) = z0 ;   y(t) = h(z(t)),       (11)
+                                          i=1
+
+where each gi is an analytic vector field expressed in some neighborhood of z0 , and the
+h is an analytic output function. Assume that (11) has a well defined solution z(t),
+t ∈ [t0 , T + t0 ] for any given input ui (t), and y(t) = h(z(t)), t ∈ [t0 , T + t0 ] .
+
+Lemma . The solution to equation (11) can be expressed as a Chen-Fliess series of
+the form
+                X        Z t Z τk     Z τ2                                              
+     y(t) =                        ···      uik (τk ) · · · ui1 (τ1 )dτ1 · · · dτk−1 dτk
+                    1≤i1 ,...,ik ≤m,k≥0    0      0       0
+                                                     
+                    × Lgi1 ◦ · · · ◦ Lgik h(z0 ) ,                                                   (12)
+
+where Lgi1 ◦ · · · ◦ Lgik h(z0 ) is a Lie-derivative in the direction of the vector field. See
+Lyons (1998).
+
+ Chen-Fliess expansion of states in model (7)). For a small increment h and
+t ∈ [t0 , t0 + h], truncating the Chen-Fliess expansion of x0 (t) and x2 (t) at the 3rd order,
+we have
+                                                                                              (t − t0 )2
+                                                                                           
+                                              νmax Aa            2
+x0 (t) = x0 (t0 ) + x3 (t0 )(t − t0 ) +                      − a   x0 (t 0 ) − 2ax 3 (t 0 )
+                                          1 + er(v0 −y(t0 ))                                      2
+                 rνmax Aaer(v0 −y(t0 )) ẏ(t0 )
+              +                          2        − a2 x3 (t0 )
+                      1 + er(v0 −y(t0 ))
+                                                                            (t − t0 )3
+                                                                        
+                        νmax Aa               2
+              −2a                       −   a   x 0 (t 0 ) − 2ax 3 (t 0 )              + Op ((t − t0 )4(13)
+                                                                                                        ),
+                    1 + er(v0 −y(t0 )))                                         3!
+
+
+
+
+                                                                                                   27/40
+                                                                                                                 (t − t0 )2
+                                                                                                              
+                                                           νmax BbC4                               2
+x2 (t)     =    x2 (t0 ) + x5 (t0 )(t − t0 ) +                                  − 2bx 5 (t 0 ) − b   x 2 (t 0 )
+                                                       1 + er(v0 −C31 x0 (t0 ))                                      2
+                    rνmax BbC3 C4 x3 (t0 )er(v0 −C31 x0 (t0 ))
+                    
+                +                                                  − b2 x5 (t0 )
+                           (1 + er(v0 −C31 x0 (t0 )) )2
+                                                                                  (t − t0 )3
+                                                                              
+                           νmax BbC4                               2
+                 −2b                           − 2bx  5 (t 0 ) − b   x 2 (t 0 )              + Op ((t − t0 )4 ).(14)
+                       1 + er(v0 −C3 x0 (t0 ))                                        3!
+Similarly, given the input y (j) (t) from channel j, truncating the Chen-Fliess expansion
+of x( t) at the 2nd order, we have
+x1 (t)     =    x1 (t0 ) + x4 (t0 )(t − t0 )
+                                                                                                     (t − t0 )2
+                                                                                                  
+                          νmax AaC2               νmax AaK             2
+                +                            +                     − a   x 1 (t 0 ) − 2ax 4 (t 0 )
+                     1 + er(v0 −C1 x0 (t0 ))               (j)
+                                               1 + er(v0 −y (t0 ))                                       2
+                       Z t
+                +Aa        (t − s)dw̃s + op ((t − t0 )3 ),                                                 (15)
+                          t0
+
+It follows from equations (14) and (15) that the truncated Chen-Fliess expansion of y(t)
+at the 2nd order can be written as
+                                                                         Z t
+            y(t) ≈ g(t|x−{3} (t0 ), y(t0 ), ẏ(t0 ), y (j) (t0 ), θ + Aa     (t − s)dw̃s , (16)
+                                                                                        t0
+
+where
+         g(t|x−{3} (t0 ), y(t0 ), ẏ(t0 ), y (j) (t0 ), θ
+            = y(t0 ) + ẏ(t0 )(t − t0 )
+                                                                                                         (t − t0 )2
+                                                                                                      
+                       νmax AaC2                  νmax AaK                2
+              +                              +                       −  a   x 1 (t 0 ) −   2ax 4 (t 0 )
+                   1 + er(v0 −C1 x0 (t0 ))                  (j)
+                                               1 + er(v0 −y (t0 ))                                           2
+                                                                                       2
+                                                                      
+                       νmax BbC4                                         (t − t0 )
+              −          r(v   −C  x  (t  ))
+                                             − 2bx5 (t0 ) − b2 x2 (t0 )                  .
+                   1+e       0   3  0   0                                       2
+It is clear that g function depends on the initial values of states x−{3} (t0 ).
+    Let
+                                    νmax Aa
+                  LA (t0 ) = (                      − a2 x0 (t0 ) − 2ax3 (t0 )
+                                1 + er(v0 −y(t0 ))
+                                   νmax BbC4
+                  LB (t0 ) =                           − 2bx5 (t0 ) − b2 x2 (t0 ).
+                               1 + er(v0 −C3 x0 (t0 ))
+The 3rd-order Chen-Fliess series of x0 and x2 are
+                        g0 (t|x0,3 (t0 ), y(t0 ), ẏ(t0 ))
+                                                                   (t − t0 )2
+                 =      x0 (t0 ) + x3 (t0 )(t − t0 ) + LA (t0 )
+                                                                       2          !
+                          rνmax Aaer(v0 −y(t0 )) ẏ(t0 )    2                       (t − t0 )3
+                 +                               2      − a x3 (t0 ) − 2aLA (t0 )             ,                  (17)
+                              1 + er(v0 −y(t0 ))                                        3!
+and
+                                                                            (t − t0 )2
+ g2 (t|x−{1,4} (t0 ))          =   x2 (t0 ) + x5 (t0 )(t − t0 ) + LB (t0 )
+                                                                                2
+                                        rνmax BbC3 C4 x3 (t0 )er(v0 −C3 x0 (t0 ))
+                                                                                                              
+                                                                                        2
+                                   +                                                 − b x5 (t0 ) − 2bLB (t0 )
+                                                (1 + er(v0 −C3 x0 (t0 )) )2
+                                     (t − t0 )3
+                                   ×            ,
+                                          3!
+                                                                                                             (18)
+
+
+
+
+                                                                                                                28/40
+respectively.
+   The 2nd-order Chen-Fliess series of x3 and x5 are
+
+g3 (t|x{0,3} (t0 ), y(t0 ), ẏ(t0 ))   =   x3 (t0 ) + LA (t0 )(t − t0 )
+                                                                                                             !
+                                                 rνmax Aaer(v0 −y(t0 )) ẏ(t0 )
+                                           +                            2      − a2 x3 (t0 ) − 2aLA (t0 )
+                                                     1 + er(v0 −y(t0 ))
+                                               (t − t0 )2
+                                           ×              ,                                             (19)
+                                                   2
+and
+
+g5 (t|x−{1,4} (t0 ))      =    x5 (t0 ) + LB (t0 )(t − t0 )
+                                    rνmax BbC3 C4 x3 (t0 )er(v0 −C3 x0 (t0 ))
+                                                                                                       
+                                                                                  2
+                               +                                              − b   x  (t
+                                                                                      5 0 ) − 2bL  (t
+                                                                                                  B 0 )
+                                            (1 + er(v0 −C3 x0 (t0 )) )2
+                                 (t − t0 )2
+                               ×            ,
+                                       2
+                                                                                                      (20)
+
+respectively.
+
+
+Author Contributions
+K.Y. conceptualisation, methodology, coding, data analysis, writing & editing of
+original draf; G.G. conceptualisation, methodology, review & editing of original draft;
+J.Z. conceptualisation, methodology, coding, data analysis, writing and editing of
+original draft, supervision, funding acquisition and project administration.
+
+
+Data and Code Availability
+Codes to reproduce simulation results are in https://github.com/zhangjsib/NccDCM.
+The EEG data on epilepsy is publicly available in OK et al. (2021).
+
+
+Funding
+The research of K.Y. and J.Z. is supported by the Engineering and Physical Sciences
+Research Council (EPSRC) grant (EP/X038297/1)..
+
+
+Declaration of Competing Interests
+K.Y. and J.Z. have no competing interests. G.G. is an employee of Innovision IP Ltd
+which provides commercial reports on individuals who may have had a head injury.
+
+
+Acknowledgments
+We are grateful to the University of Kent for letting us use the University HPC service.
+
+
+
+
+                                                                                                     29/40
+Supplementary material
+Supplementary material in a pdf file includes additional information as follows.
+   Appendix Sa: An introduction on the optimisation algorithm JADE.
+   Appendix Sb: Lagged temporal correlation-based functional connectivity.
+   Appendix Sc: EEG electrode allocation on the scalp.
+   Appendix Sd: Post-ANOVA tables.
+   Appendix Se: More results on subject-heterogeneity analysis.
+   Appendix Sf: A simulation study on the estimation of three-nodes NccDCMs.
+   The pdf file of the Supplementary Material is available in
+https://github.com/zhangjsib/NccDCM.
+
+
+Differential Dynamic Causal Nets: Model Construction,
+Identification and Group Comparisons
+  —Supplementary Material
+
+Supporting information
+In this supplementary material, we will present (a) the optimisation algorithm JADE;
+(b) the lagged correlation-based functional connectivity;(c) the standard allocation of
+the electrodes on the scalp; (d) post-ANOVA tables; (e) more results on
+subject-heterogeneity analysis; (f) simulation study on the three-nodes system.
+
+
+
+
+                                                                                 30/40
+Appendix Sa: The optimisation algorithm JADE
+To minimize the forward loss function, we employed a novel adaptive differential
+evolution with optional external archive (JADE), a population-based global
+optimization method proposed by Zhang and Sanderson (2009) and implemented in the
+mealpy library. JADE is well suited for non-convex, multi-modal, and non-differentiable
+optimization problems, as it does not rely on gradient information. Instead, it evolves a
+population of candidate solutions through mutation, crossover, and selection, with the
+aim of converging to the global minimum. The method is particularly advantageous in
+our context because the objective function may be non-smooth or contain multiple local
+minima due to the models nonlinear structure.
+    As a metaheuristic optimization algorithm, the performance of JADE is sensitive to
+the choice of hyperparameters, the initial population size and epoch size. These two
+hyperparameters substantially affect both the convergence speed and the quality of the
+final solution.
+    Figure 11 illustrates how the value of the loss function evolves under different
+settings of population size and iteration number in simulation studies, emphasizing the
+role of these hyperparameters in shaping optimisation performance. It is evident that
+almost algorithm JADE eventually converges to the same optimal value when the
+number of iterations exceeds 150 for almost all population sizes. Intuitively, smaller
+populations may force the algorithm to converge to a local minimum, limiting the
+coverage of its search space. In contrast, larger populations generally facilitate faster
+convergence owing to enhanced diversity, though further increases in population size
+yield diminishing returns in performance while incurring substantially higher
+computational costs. To strike a balance between convergence accuracy and
+computational efficiency, we set the population size and the maximum number of
+iterations to 15 and 250, respectively.
+
+
+
+
+                   P3                                              H5
+Figure 11. Trace plots of the objective function/loss function as the number of iterations
+is increasing: L-SHAPE under different population sizes.
+
+
+
+Appendix Sb: Lagged correlation-based functional
+connectivity
+We calculate the functional connectivity based on the lagged correlation coefficient. The
+EEG signals used are extracted from the same time block across all subjects and from
+
+
+
+
+                                                                                    31/40
+all channels. For each subject, we compute pairwise cross-correlations between all
+channel pairs across time lags ranging from −50 to +50. For each channel pair, the
+maximum absolute correlation across these time lags is calculated, which allows us to
+construct correlation matrices for all subjects.
+    To normalise the correlation values, we apply Fisher’s z-transform, yielding the
+matrices FPi (1 ≤ i ≤ n0 ) and FHj (1 ≤ j ≤ n1 ). For the control and case groups, the
+                                                     Pn0                 Pn1
+mean matrices are then computed as F P = n10 i=1          FPi , F H = n11 j=1  FHj . Then,
+                                                                 1
+                                                                   Pn0            2
+the corresponding variance matrices are defined as V P = n0 i=1 FPi − F P and
+           Pn1                   2      (0)   (1)  (0)      (1)
+V H = n11 i=1
+                               
+                    FHi − F H . Let ρij , ρij , ϱij , and ϱij denote the (i, j)-th elements
+of F P , F H , V P , and V H , respectively. For each channel pair, we compute the z-score as
+                                             (0)    (1)
+                                            ρij − ρij
+                          fij = s                                    .
+                                              (0)              (1)
+                                    (n0 − 1) ϱij + (n1 − 1) ϱij
+                                            n0 + n 1 − 2
+
+Finally, only the values of |fij | greater than 0.5 are retained, and the results are based
+on the absolute z-scores.
+   In addition, we apply the following permutation test procedure to compute the
+p-values.
+
+  1. Permutation procedure. Let D = (H1 , . . . , H10 , P1 , P3 , P5 , . . . , P10 ) denote the
+     combined dataset. To assess the statistical significance of the observed F = (fij ),
+     we apply a permutation test: the labels “case” and “control” are randomly
+     reassigned by permuting D. In each permutation, the first 10 subjects in the
+     permuted dataset Dπ are designated as the control group and the remaining
+                                                                                π
+     subjects as the case group. Then, we recompute the test statistic fij        .
+  2. Significance assessment. This permutation procedure is repeated 999 times.
+                                                                                      π
+     The observed statistic fij is included as part of the permutation distribution {fij }.
+     The empirical p-value is then given by
+                                              π
+                                          #{|fij | ≥ |fij |}
+                              p=                                ,
+                                   Total number of permutations
+      where the numerator counts the number of permuted statistics at least as extreme
+      as the observed fij .
+
+
+Appendix Sc: EEG electrode allocation on the scalp
+Figures 12 and 3 show the positions of the electrodes and the brain regions that the
+channels belong to.
+
+
+
+
+                                                                                        32/40
+Figure 12. The International 10-20 System for EEG Electrode Placement which was
+adopted from https://en.wikipedia.org/wiki.
+
+
+
+Table 3. EEG electrode pairs and their brain regions
+ Electrode pair    Position                              Brain Region
+ FP2F4            Right frontopolar                      Right prefrontal cortex
+ P4O2             Right parieto-occipital                Visual association
+ F4C4             Right fronto-central                   Right frontal → motor cortex
+ F3C3             Left fronto-central                    Left frontal → motor cortex
+ C4P4             Right centro-parietal                  Right sensorimotor → parietal
+ C3P3             Left centro-parietal                   Left sensorimotor → parietal
+ FP1F3            Left frontopolar                       Left prefrontal cortex
+ P3O1             Left parieto to occipital              Visual cortex
+ FP2F8            Right frontopolar                      Anterior inferior frontal
+ F8T4             Right inferior frontal                 Broca homolog
+ T4T6             Right mid to posterior temporal        Auditory association
+ T6O2             Right posterior temporal               Visual association
+ FP1F7            Left frontopolar                       Anterior inferior frontal cortex
+ F7T3             Left inferior frontal                  Broca area vicinity
+ T3T5             Left mid to posterior temporal lobe    Auditory and language
+ T5O1             Left posterior temporal to occipital   Visual association
+ FZCZ             Medial frontal cortex                  Supplementary motor
+ CZPZ             Central midline to parietal midline    Primary motor
+ BP3REF           A reference electrode                  Not a cortical region
+
+
+
+
+                                                                                33/40
+Appendix Sd: Post-ANOVA tables
+The results of the post ANOVA are summarised in Tables 4-7. The results indicated
+that the identified dynamic causal nets were highly significant for each parameter.
+                          (i|j)k     (ilj)k
+Table 4. Post ANOVA: Anq           /Bnq       .
+     Factor                          Df           Sum of Sq.             R2         F    p-value
+     Case-control                     1               113.082         0.0167    93.150    0.0002
+     Channels                       305               404.262         0.0596     1.092    0.0350
+     Case-control × Channels        305               324.793         0.0479     0.877    0.9950
+     Residual                      4896              5943.652         0.8759        —         —
+     Total                         5507              6785.790         1.0000        —         —
+
+
+                                      (i|j)k         (i|j)k
+Table 5. Post ANOVA table for Anq                 ∗ Cnq       .
+     Factor                          Df           Sum of Sq.            R2          F    p-value
+     Case-control                     1            1.478 × 109        0.114    715.823    0.0002
+     Channels                       305            6.871 × 108        0.053      1.091    0.0916
+     Case-control × Channels        305            6.539 × 108        0.051      1.038    0.2796
+     Residual                      4896           1.011 × 1010        0.782         —         —
+     Total                         5507           1.293 × 1010        1.000         —         —
+
+
+                                      (i|j)k          (i|j)k
+Table 6. Post ANOVA table for Anq                 ∗ Knq
+     Factor                          Df           Sum of Sq.            R2          F    p-value
+                                                                  8
+     Case-control                     1           3.161 × 10          0.074    580.963    0.0002
+     Channels                       305           9.121 × 108         0.213      5.496    0.0002
+     Case-control × Channels        305           3.957 × 108         0.092      2.384    0.0002
+     Residual                      4896           2.664 × 109         0.621         —         —
+     Total                         5507           4.288 × 109         1.000         —         —
+
+
+
+Appendix Se: More results on subject-heterogeneity
+analysis
+We present results of subject-heterogeneity analysis for FP1F7, C4P4, T6O2, T5O1 and
+P4O2.
+
+
+Appendix Sf: A simulation study on the estimation of
+three-nodes NccDCMs
+In this appendix, we conducted a simulation study based on the NccDCM of three
+nodes, where each node was represented by a Jansen–Rit neural mass model. The three
+nodes were coupled in a unidirectional ring structure. The resulting three-node
+
+
+
+
+                                                                                               34/40
+                                                 (i|j)k
+Table 7. Post multivariate ANOVA table for v0nq
+    Factor                        Df    Sum of Sq.          R2          F    p-value
+    Case-control                    1     3.639 × 105     0.184   1255.748    0.0002
+    Channels                      305     1.226 × 105     0.062      1.387    0.0002
+    Case-control × Channels       305     6.896 × 104     0.035      0.780    0.9998
+    Residual                     4896     1.419 × 106     0.719         —         —
+    Total                        5507     1.974 × 106     1.000         —         —
+
+
+
+
+        Controls                               Cases
+Figure 13. Dendrograms for the channels FP1F7, C4P4, T6O2, T5O1 and P4O2. The
+left panel is for the control group (the left panel) while the right panel is for the case
+group.
+
+
+
+
+                                                                                    35/40
+dynamical system was described by the following 18 stochastic differential equations:
+             dx0 (t)   = x3 (t)dt, dx1 (t) = x4 (t)dt, dx2 (t) = x5 (t)dt,
+                       = A1 aS1 (x1 (t) − x2 (t)) − 2ax3 (t) − a2 x0 (t) dt,
+                                                                       
+             dx3 (t)
+             dx4 (t)   = [A1 a {C21 S1 (C11 x0 (t)) + K1 S1 (x13 (t) − x14 (t))}
+                         −2ax4 (t) − a2 x1 (t) dt + A1 adw(t),
+                                               
+
+                       = B1 bC41 S1 (C31 x0 (t)) − 2bx5 (t) − b2 x2 (t) dt,
+                                                                      
+             dx5 (t)
+             dx6 (t)   = x9 (t)dt, dx7 (t) = x10 (t)dt, dx8 (t) = x11 (t)dt,
+                       = A2 aS2 (x7 (t) − x8 (t)) − 2ax9 (t) − a2 x6 (t) dt,
+                                                                       
+             dx9 (t)
+            dx10 (t)   = [A2 a {C22 S2 (C12 x6 (t)) + K2 S2 (x1 (t) − x2 (t))}
+                         −2ax10 (t) − a2 x7 (t) dt + A2 adw(t),
+                                                
+
+                       = B2 bC42 S2 (C32 x6 (t)) − 2bx11 (t) − b2 x8 (t) dt,
+                                                                       
+            dx11 (t)                                                                     (21)
+            dx12 (t)   = x15 (t)dt, dx13 (t) = x16 (t)dt, dx14 (t) = x17 (t)dt,
+                       = A3 aS3 (x13 (t) − x14 (t)) − 2ax15 (t) − a2 x12 (t) dt,
+                                                                           
+            dx15 (t)
+            dx16 (t)   = [A3 a {C23 S3 (C13 x12 (t)) + K3 S3 (x7 (t) − x8 (t))}
+                         −2ax16 (t) − a2 x13 (t) dt + A3 adw(t),
+                                                 
+
+                       = B3 bC43 S3 (C33 x12 (t)) − 2bx17 (t) − b2 x14 (t) dt,
+                                                                          
+            dx17 (t)
+with the initial condition x0 = (x0 (0), . . . , x17 (0))⊤ ∈ R18 and
+                                νmax
+            Si (x(t)) =                            , t ∈ [0, T ], i = 1, 2, 3.
+                        1 + exp(r(ν0i − x(t)))
+The first three, the second three and the last three equations were corresponding to
+nodes I, II and III respectively. For nodes I, II and III, we defined the observed outputs
+as y1 (t) = x1 (t) − x2 (t), y2 (t) = x7 (t) − x8 (t), and y3 (t) = x13 (t) − x14 (t). Let
+                              ⊤
+Y (t) = y1 (t), y2 (t), y3 (t) denote the multi-node output process.
+    The inter-channel coupling structure was specified as follows: the input to node I is
+y3 (t), the input to node II is y1 (t), and the input to node III is y2 (t). Consequently, the
+three-node system formed a directed cyclic network y3 (t) → y1 (t) → y2 (t) → y3 (t).
+    As before, we employed the Strang splitting method to generate sample paths of
+Y (t) from the coupled system (21). We independently generated the initial values of
+the states from the standard normal distribution.
+    The underlying values parameters in equation (21) were set as follows: A1 = 3.25,
+B1 = 22, C1 = 135, K1 = 50, v01 = 6; A2 = 4, B2 = 14, C2 = 135, K2 = 70, v02 = 4;
+A3 = 3, B3 = 15, C3 = 135, K3 = 50, and v03 = 5.
+    For each channel, the corresponding parameters were estimated independently using
+the proposed estimation method. The simulation was repeated M = 100 times. The
+resulting corresp ARE values were summarized in Figure 14 and Table 8.
+    As shown in Figure 14 and Table 8, the proposed method demonstrated a good
+performance in the case where nodes are dynamically coupled each other.
+
+
+References
+Ableidinger, M., E. Buckwar, and H. Hinterleitner (2017). A stochastic version of the
+ Jansen and Rit neural mass model: analysis and numerics. The Journal of
+ Mathematical Neuroscience 7 (1), 1–35.
+Aljalal, M., S. A. Aldosari, M. Molinas, and et al. (2022). Detection of Parkinson’s
+  disease from EEG signals using discrete wavelet transform, different entropy
+  measures, and machine learning techniques. Sci Rep 12, 22547.
+
+
+
+
+                                                                                       36/40
+Channel 1                    Channel 2                     Channel 3
+Figure 14. Boxplots of ARE values for the estimated parameters Ai , (A/B)i , (A ∗ C)i ,
+v0i , and (A ∗ K)i compared to the ground truth values for nodes I–III respectively.
+
+Table 8. Median ARE values for parameter estimation in the three-channel system (21)
+                  Parameter       Node I     Node II      Node III
+                  A                   0.35        0.28          0.37
+                  A/B                 0.14        0.05          0.10
+                  A∗C                 0.05        0.05          0.17
+                  A∗K                 0.14        0.18          0.09
+                  v0                  0.07        0.09          0.05
+
+
+Anderson, M. J. (2017). Permutational Multivariate Analysis of Variance
+ (PERMANOVA), Chapter 1, pp. 1–15. John Wiley and Sons Ltd.
+Arnold, L. (1974). Stochastic Differential Equations, Chapter 1-2, pp. 20.
+  Wiley–Blackwell.
+Benjamini, Y. and Y. Hochberg (1995). Controlling the false discovery rate: a practical
+  and powerful approach to multiple testing. Journal of the Royal Statistical Society
+  Series B 57, 289–300.
+Bröhl, T., T. Rings, J. Pukropski, R. von Wrede, and K. Lehnertz (2024). The
+  time-evolving epileptic brain network: concepts, definitions, accomplishments,
+  perspectives. Frontiers in Network Physiology 3, 1338864.
+Burman, R. J. and R. R. Parrish (2018). The widespread network effects of focal
+  epilepsy. J. Neurosci. 38, 8107–8109.
+Chen, C., R. N. Henson, K. E. Stephan, J. M. Kilner, and K. J. Friston (2009). Forward
+  and backward connections in the brain: a DCM study of functional asymmetries.
+ NeuroImage 45, 453–462.
+Chen, K.-T. (1954). Iterated integrals and exponential homomorphisms. Proc. Lond.
+ Math. Soc. 4, 502–512.
+Choi, G. Y., W. K. Chang, M. Shim, N. Kim, J. H. Jang, W. S. Kim, H. J. Hwang, and
+  N. J. Paik (2023). Electroencephalography network indices as biomarkers of upper
+  limb impairment in chronic stroke. JoVE 197, 10.3791/64753.
+Courtiol, J., M. Guye, F. Bartolomei, S. Petkoski, and V. K. Jirsa (2020). Dynamical
+  mechanisms of interictal resting-state functional connectivity in epilepsy. J.
+ Neurosci. 40, 5572–5588.
+Ditlevsen, S., M. Tamborrino, and I. Tubikanec (2025). Network inference via
+  approximate bayesian computation: Illustration on a stochastic multipopulation
+  neural mass model. The Annals of Applied Statistics 19 (4), 3304 – 3329.
+
+
+
+
+                                                                                   37/40
+Duffy, F. H. and H. Als (2012). A stable pattern of EEG spectral coherence
+ distinguishes children with autism from neuro-typical controls - a large case control
+ study. BMC Medicine 10, 64.
+Fisher, R. S. and et al. (2005). Epileptic seizures and epilepsy: definitions proposed by
+  the International League Against Epilepsy (ILAE) and the International Bureau for
+  Epilepsy (IBE). Epilepsia 46, 470–472.
+Fliess, M. (1981). Fonctionnelles causales non linéaires et indéterminées non
+  commutatives. Bull. Soc. Math. France 109, 3–40.
+Forrester, M., J. J. Crofts, S. Sotiropoulos, S. Coombes, and R. O’Dea (2020). The role
+  of node dynamics in shaping emergent functional connectivity patterns in the brain.
+  Netw Neurosci. 4, 467–483.
+Forrester, M., S. Petros, O. Cattell, Y. Lai, R. D. O’Dea, S. Sotiropoulos, and et al.
+  (2024). Whole brain functional connectivity: Insights from next generation neural
+  mass modelling incorporating electrical synapses. PLoS Comput Biol 20, e1012647.
+Friston, K., H. Brown, J. Siemerkus, and K. Stephan (2016). The dysconnection
+  hypothesis. Schizophrenia Research 176 (2-3), 83–94.
+Friston, K. J., L. Harrison, and W. Penny (2003). Dynamic causal modelling.
+  NeuroImage 19, 1273–1302.
+Friston, K. J., K. H. Preller, C. Mathys, H. Cagnan, J. Heinzle, A. Razi, and
+  P. Zeidman (2019). Dynamic causal modelling revisited. NeuroImage 199, 730–744.
+Ghassemkhani, K., K. S. Saroka, and B. T. Dotta (2025). Evaluating EEG complexity
+ and spectral signatures in Alzheimer’s disease and frontotemporal dementia: evidence
+ for rostrocaudal asymmetry. npj Aging 11, 50.
+Grefkes, C., D. A. Nowak, S. B. Eickhoff, M. Dafotakis, J. Küst, H. Karbe, and G. R.
+  Fink (2008). Cortical connectivity after subcortical stroke assessed with functional
+  magnetic resonance imaging. Annals of Neurology 63, 236–246.
+Grefkes, C., D. A. Nowak, L. E. Wang, M. Dafotakis, S. B. Eickhoff, and G. R. Fink
+ (2010). Modulating cortical connectivity in stroke patients by rTMS assessed with
+  fMRI and dynamic causal modeling. NeuroImage 50, 233–242.
+Grimbert, F. and O. Faugeras (2006). Bifurcation analysis of jansen’s neural mass
+  model. Neural Computation 18, 3052–3068.
+Hauke, D. J., J. Rodriguez-Sanchez, H. Oloye, L. C. S. Berndt, D. Pinotsis, K. J.
+  Friston, D. H. Mathalon, and R. A. Adams (2025). A canonical microcircuit for
+  estimating excitation/inhibition (E/I) balance. bioRxiv .
+Herz, D. M., S. B. Eickhoff, A. Løkkegaard, and H. Siebner (2014). Functional
+  neuroimaging of motor control in Parkinson’s disease: a meta-analysis. Human Brain
+ Mapping 35, 3227–3237.
+Honey, C. J., R. Kötter, M. Breakspear, and O. Sporns (2007). Network structure of
+  cerebral cortex shapes functional connectivity on multiple time scales. Proceedings of
+ the National Academy of Sciences of the United States of America 104 (24),
+ 10240–10245.
+Jansen, B. H. and V. Rit (1995). Electroencephalogram and visual evoked potential
+  generation in a mathematical model of coupled cortical columns. Biological
+  Cybernetics 73 (4), 357–366.
+
+
+
+
+                                                                                   38/40
+Jiang, S., H. Li, L. Liu, D. Yao, and C. Luo (2022). Voxel-wise functional connectivity
+  of the default mode network in epilepsies: A systematic review and meta-analysis.
+  Curr Neuropharmacol. 20 (1), 254–266.
+Kiebel, S. J., J. Daunizeau, and K. J. Friston (2008). A hierarchy of time-scales and the
+  brain. PLoS Computational Biology 4, e1000209.
+Kulik, S. D., L. Douw, E. van Dellen, M. Steenwijk, J. Guerts, C. Stam, A. Hillebrand,
+ M. Schoonheim, and P.Tewarie (2023). Comparing individual and group-level
+ simulated neurophysiological brain connectivity using the Jansen and Rit neural mass
+ model. Network Neuroscience 7, 950–965.
+Lee, A. J. (1990). U-Statistics, Chapter 1-2, pp. 320. CRC Press.
+Leimkuhler, B., C. Matthews, and G. Stoltz (2016). The computation of averages from
+  equilibrium and nonequilibrium Langevin molecular dynamics. IMA Journal of
+  Numerical Analysis 36, 13–79.
+Li, G., Y. Liu, Y. Zheng, D. Li, X. Liang, Y. Chen, Y. Cui, P. Yap, S. Qiu, H. Zhang,
+  and D. Shen (2020). Large-scale dynamic causal modeling of major depressive
+  disorder based on resting-state functional magnetic resonance imaging. Human Brain
+  Mapping 41 (4), 865–881.
+Li, J., G. Green, S. J. Carr, P. Liu, and J. Zhang (2025). Bayesian inference general
+  procedures for a single-subject test study. Neuroscience Informatics 5 (2), 100195.
+Lyons, T. J. (1998). Differential equations driven by rough signals. Revista Matemática
+  Iberoamericana 14 (2), 215–310.
+Menon, V. (2023). 20 years of the default mode network: A review and synthesis.
+ Neuron 111 (16), 2469–2487.
+Milstein, G. N. and M. V. Tretyakov (2003). Quasi-symplectic methods for
+ Langevin-type equations. IMA Journal of Numerical Analysis 23, 593–626.
+Ogrim, G., J. Kropotov, and K. Hestad (2012). The quantitative EEG theta/beta ratio
+ in attention deficit/hyperactivity disorder and normal controls: sensitivity, specificity,
+ and behavioral correlates. Psychiatry Research 198, 482–488.
+OK, F., R. R, and R. K. Ravindren (2021). Scalp EEG recordings of pediatric epilepsy
+ patients: A dataset for automatic detection of interictal epileptiform discharges from
+ routine EEG. Data in Brief 39, 107680.
+Papadopoulou, M., M. Leite, P. van Mierlo, K. Vonck, L. Lemieux, K. Friston, and
+  D. Marinazzo (2015). Tracking slow modulations in synaptic gain using dynamic
+  causal modelling: Validation in epilepsy. NeuroImage 107, 117–126.
+Park, B., S. Hong, S. Valk, and et al. (2021). Differences in subcortico-cortical
+  interactions identified from connectome and microcircuit models in autism. Nat
+ Commun 12, 2225.
+Pereira, I., S. Frässle, J. Heinzle, D. Schöbi, C. T. Do, M. Gruber, and K. E. Stephan
+  (2021). Conductance-based dynamic causal modeling: A mathematical review of its
+  application to cross-power spectral densities. NeuroImage 245, 118662.
+Pokern, Y., A. M. Stuart, and P. Wiberg (2009). Parameter estimation for partially
+  observed hypoelliptic diffusions. Journal of the Royal Statistical Society Series B:
+  Statistical Methodology 71 (1), 49–73.
+
+
+
+
+                                                                                    39/40
+Pyrzowski, J., M. Siemiński, A. Sarnowska, J. Jedrzejczak, and W. M. Nyka (2015).
+  Interval analysis of interictal EEG: pathology of the alpha rhythm in focal epilepsy.
+  Scientific Reports 5, 16230.
+
+Rehme, A. K., G. R. Fink, D. Y. von Cramon, and C. Grefkes (2011). The role of the
+  contralesional motor cortex for motor recovery in the early days after stroke assessed
+  with longitudinal fMRI. Cereb Cortex 21, 756–768.
+Rosch, R. E., P. R. Hunter, T. Baldeweg, K. J. Friston, and M. P. Meyer (2018).
+  Calcium imaging and dynamic causal modelling reveal brain-wide changes in effective
+  connectivity and synaptic dynamics during epileptic seizures. PLoS Comput Biol 14,
+  e1006375.
+Singh, M., T. Braver, M. Cole, and S. Ching (2025). Precision data-driven modeling of
+  cortical dynamics reveals person-specific mechanisms underpinning brain
+  electrophysiology. Proc Natl Acad Sci U S A. 122, e2409577121.
+
+Sotero, R. C., N. J. Trujillo-Barreto, Y. Iturria-Medina, F. Carbonell, and J. C. Jimenez
+  (2007). Realistically coupled neural mass models can generate EEG rhythms. Neural
+  Computation 19, 478–512.
+van Es, M. W. J., C. Higgins, C. Gohil, A. J. Quinn, D. Vidaurre, and M. W. Woolrich
+  (2025). Large-scale cortical functional networks are organized in structured cycles.
+  Nat Neurosci. 28, 2118–2128.
+Wendling, F., E. Koksal-Ersoz, M. Al-Harrach, M. Yochum, I. Merlet, G. Ruffini,
+ F. Bartolomei, and P. Benquet (2024). Multiscale neuro-inspired models for
+ interpretation of EEG signals in patients with epilepsy. Clinical Neurophysiology 161,
+ 198–210.
+
+Yang, S., Y. Zhou, C. Peng, and et al. (2024). Macroscale intrinsic dynamics are
+  associated with microcircuit function in focal and generalized epilepsies. Commun
+  Biol 7, 145.
+Zhang, J. and G. Green (2025). Detecting mild traumatic brain injury with MEG scan
+  data: One-vs-K-sample tests. Imaging Neuroscience 3, IMAG.a.137.
+Zhang, J. and A. Sanderson (2009). JADE: Adaptive Differential Evolution with
+  Optional External Archive. IEEE Transactions on Evolutionary Computation 13,
+  945–958.
+Özbek, Y., E. Fide, and G. G. Yener (2015). Resting-state EEG alpha/theta power
+   ratio discriminates early-onset Alzheimer’s disease from healthy controls. clinical
+   neurophysiology : official journal of the international federation of clinical
+   neurophysiology. Clinical Neurophysiology : Official Journal of the International
+  Federation of Clinical Neurophysiology 132, 2019–2031.
+
+
+
+
+                                                                                   40/40
+

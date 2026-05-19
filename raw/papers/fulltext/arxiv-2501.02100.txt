@@ -1,0 +1,1442 @@
+                                                    Decoding Gray Matter: large-scale analysis of
+arXiv:2501.02100v4 [physics.bio-ph] 25 Aug 2025
+
+
+
+
+                                                  brain cell morphometry to inform microstructural
+                                                           modeling of diffusion MR signals
+                                                     Charlie Aird-Rossiter1,2,* , Hui Zhang3 , Daniel C. Alexander3 ,
+                                                              Derek K. Jones1 , and Marco Palombo1,2,*
+                                                       1
+                                                         Cardiff University Brain Research Imaging Centre (CUBRIC), School of
+                                                                 Psychology, Cardiff University, Cardiff, United Kingdom
+                                                   2
+                                                     School of Computer Science and Informatics, Cardiff University, Cardiff, United
+                                                                                        Kingdom
+                                                   3
+                                                     UCL Hawkes Institute and Department of Computer Science, University College
+                                                                            London, London, United Kingdom
+                                                     *
+                                                       Corresponding authors: Charlie Aird-Rossiter, aird-rossiterc@cardiff.ac.uk and
+                                                                        Marco Palombo, palombom@cardiff.ac.uk
+
+
+
+
+                                                  Abstract
+                                                  Grey matter structure is a key focus in neuroscience, as cell morphology varies
+                                                  by type and can be affected by neurological conditions. Understanding these
+                                                  variations is essential for studying brain function and disease.
+                                                      Diffusion-weighted MRI (dMRI) is a powerful tool for examining cellular mi-
+                                                  crostructure in vivo, but its accuracy depends on identifying which morphologi-
+                                                  cal features influence its measurements. Despite growing interest, no systematic
+                                                  report has defined key neural cell traits.
+                                                      We analysed more than 11,800 3D cellular reconstructions across three species
+                                                  and nine cell types, establishing reference values for critical traits. These fall
+                                                  into three categories: structural, shape, and topological features.
+                                                      Beyond defining these traits, we assess their relevance for dMRI, identifying
+                                                  which neural features it can be sensitive to. This work provides essential bench-
+                                                  marks for gray matter research, aiding in the interpretation of neuroimaging
+                                                  data and improving brain tissue models.
+                                                      To complement the statistical analysis, we also provide high resolution 3D
+                                                  surface meshes representative of each cell type and species. These meshes are
+                                                  fully compatible with Monte Carlo simulators, offering a valuable resource for
+                                                  the modelling community.
+
+
+
+
+                                                                                           1
+1     Introduction
+Despite the widespread use of biophysical models in diffusion-weighted Mag-
+netic Resonance Imaging (dMRI) to infer cellular-scale structure, gray matter
+(GM) remains poorly understood due to a lack of ground-truth morphological
+data. Unlike white matter (WM), where axonal morphology is well charac-
+terized, GM cellular features—critical for accurate dMRI modeling—are rarely
+quantitatively analysed. This knowledge gap leads to overly simplistic or un-
+founded model assumptions, potentially reducing the reliability of microstruc-
+tural imaging in GM. Here, we address this challenge directly by systematically
+characterizing the statistical distribution of key morphological features across
+different species, providing a much-needed empirical foundation for improving
+GM dMRI models.
+    Grey matter is composed of a range of cells, mainly differentiated into neu-
+ronal and glial cells, featuring a plethora of morphological characteristics. Neu-
+rons are fundamental functional units of the nervous system, specialized in the
+transmission and integration of electrical and chemical signals within the brain.
+Supporting the neurons are the glial cells (e.g. astrocytes, microglia and oligo-
+dendrocytes) that are crucial in maintaining health and functionality.
+    First studied in depth by Ramon y Cajal [1], neuronal morphology offers
+insights into the complex structure and function of the brain.
+    Neural cells exhibit a remarkable diversity in shape and size, each adapted to
+its specific function [2]. They can be classified based on morphological, molec-
+ular, and physiological characteristics [3]. Both neurons and glial cells share
+a common structural organization, consisting of a central soma and branching
+projections, yet they vary significantly across brain regions [4, 5]. For instance,
+Purkinje cells in the cerebellum display intricate dendritic arborization, whereas
+granule cells in the cerebral cortex exhibit a much simpler morphology. Further-
+more, neurons of the same cell type can exhibit significant morphological differ-
+ences across brain regions [6], and even display substantial variability between
+cortical layers within the same region [7].
+    The brain contains approximately 86 billion of these neural1 cells [8]. Cor-
+tical GM is composed of 10–40% cell bodies (soma) of neural cells; 40–75%
+neurites: neuronal dendrites, short-range intra-cortical axons, the stems of long-
+range axons extending into the WM and glial cell projections which intermingle
+with each other to form a dense and complex network; 15–30% highly tortuous
+extra-cellular space (ECS); and 1–5% vasculature [9, 10, 11]. In adults, the
+glia to neuron ratio is 1.32/1.40 for males/females respectively. The proportion
+of glial cells (by cell count) was estimated to be 77% oligodendrocytes, 17%
+astrocytes and 6% microglia [12, 13].
+    The ECS occupies a volume fraction of 15-30% in normal adult brain tis-
+sue, with a typical value of 20%, that falls to 5% during global ischemia
+(the expected state during classical fixation) [14]. The ECS has an average
+   1 neural should not be confused with neuronal. Neural means relating to the nervous system
+
+(hence referring to any cell type in the brain: from neurons to glia), while neuronal means
+relating to neurons.
+
+
+                                             2
+tortuosity (defined as the ratio between the true diffusion coefficient and the ef-
+fective diffusivity of small molecules such as inulin and sucrose) of 2-3 [14], due
+to its labyrinthine porous matrix, the presence of long-chain macromolecules,
+transient trapping in dead-space microdomains, and transient physical-chemical
+interaction with the cellular membranes. The average neuron-microvessel dis-
+tance in brain GM is 20 µm [15].
+    The morphology of neurons and glia is revealed through staining techniques
+such as confocal or electron microscopy [16, 17, 18], which can image cellular
+structures with very high resolution (down to a few nanometers) [19].
+    Currently, there are no methods to directly observe cellular microstructure
+in vivo, as its scale (measured in micrometers) exceeds the resolution of clinical
+MRI, which typically operates at the millimeter scale [20]. While non-invasive
+imaging techniques like MRI can provide insights, they cannot directly capture
+cellular-level details. With many neurological conditions, such as dementia [21],
+as well as aging [22], altering the brain structure on this cellular scale, there is
+a strong incentive to develop means of revealing the morphology of neural cells,
+in-vivo.
+    Although dMRI has still millimeter-scale resolution, it is sensitive to micrometer-
+scale structures by measuring the diffusion of endogenous molecules (e.g., water).
+This makes it a promising technique for overcoming MRI’s resolution limits and
+characterizing the brain’s microstructure (i.e. its cellular-scale organization) in
+vivo. However, dMRI’s sensitivity to microstructure is indirect, and biophysical
+modelling of the brain tissue and the subsequent interpretation of the dMRI
+signal is essential to quantify histologically meaningful features of the cellular
+structure, and gain specificity to their changes. To this end, the microstructure
+imaging paradigm has been introduced over a decade ago [23]: the approach
+fits a biophysical model voxel-wise to the set of signals obtained from images
+acquired with different sensitisations to tissue microstructure, yielding maps of
+model parameters that it is hoped are proxies of the corresponding underlying
+microstructural features.
+    Successful examples of the microstructure imaging paradigm include Neurite
+Orientation Dispersion and Density Imaging (NODDI) [24] and the White Mat-
+ter Tract Integrity (WMTI) [25] to characterise the diffusion of water within
+WM, revealing insight into the structure of axonal bundle tracks and other
+anatomical features, such as axon diameter [26, 27].
+    Building on the success of dMRI in WM, there has been growing interest
+in applying it to GM to characterize cellular morphology in vivo[28, 29, 30,
+31, 32, 33, 34]. dMRI has already been used to distinguish different cortical
+regions and reveal laminar structures within GM [35]. Significant effort has been
+made to develop also models to better describe the diffusion signal within GM
+and reveal anatomical information about the microstructure, such as the Soma
+And Neurite Density Imaging (SANDI) [32] to characterize soma and neurite
+density, the Neurite EXchange Imaging (NEXI) [33] and the Standard Model
+with EXchange (SMEX) [34] to characterize the water permeative exchange
+between neurites and extracellular space, and combinations of these, such as
+SANDI with exchange (SANDIx) [34].
+
+
+                                         3
+    While substantial effort has been made to design, validate, and translate to
+clinics biophysical models for WM [23, 36, 37], the GM counterpart is lagging.
+This disparity stems from the greater complexity of the tissue, which renders the
+design of biophysical models for GM microstructure imaging more challenging
+[38].
+    Building accurate dMRI models for GM requires a fundamental understand-
+ing of its microstructural features. Key questions remain: what morphological
+properties influence the dMRI signal? How can they be measured reliably? How
+should these properties guide model development? With cellular morphology
+varying by cell type as well as brain region, there is a necessity for a thorough
+analysis of characteristics based on these criteria.
+    Here, we aim to correct this imbalance with a comprehensive analysis of
+GM cellular morphology, looking at structural and topological morphology, and
+shape descriptors of 11,850 real three-dimensional (3D) reconstructions from
+mouse, rat, monkey, and human brain cortex. To complement the statistical
+analysis, we provide 50 high resolution 3D surface meshes for each cell type
+and species; fully compatible with Monte Carlo simulators, offering a valuable
+resource for the modelling community.
+    The paper is organized as follows. We first provide quantitative information
+on the anatomy of brain GM tissue at the cellular scale. We characterize the
+morphology of neural cells using structural, topological and shape descriptors.
+We then review the range of dMRI measurements and biophysical models avail-
+able to probe this anatomy and highlight limitations and caveats, ultimately
+providing guidelines on how to model GM microstructure from dMRI signals.
+
+
+2     Materials and Methods
+2.1     Microscopy Dataset
+In order to measure characteristic features for specific cell types, the open ac-
+cess repository Neuromorpho.org [39] which has a comprehensive range of cel-
+lular reconstructions available was used. We downloaded and analysed three
+dimensional reconstructions of 11,850 brain cells, from mouse, rat, monkey, and
+human, in the form of SWC files 2 . The SWC file defines a set of labelled nodes
+connected by edges characterizing the three-dimensional structure of each cell
+Fig.1.
+    Nine representative cell-types were acquired: microglia, astrocyte, oligo-
+dendrocyte, pyramidal, granule, purkinje, glutamatergic, gabaergic, and bas-
+ket cells, from mouse/rat (N=9,001), monkey (N=525), and human (N=2,324).
+Although the NeuroMorpho database contains over 270,000 cellular reconstruc-
+tions, only 11,850 satisfied our inclusion criteria: healthy controls; having com-
+plete reconstruction of soma and all the dendrites; containing information about
+   2 The ”SWC” encodes for the last names of its initial designers Ed Stockley, Howard Wheal,
+
+and Robert Cannon and is an ASCII text-based file that describes three-dimensional neuronal
+or glial morphology.
+
+
+
+                                             4
+Figure 1: An example of SWC file and how it relates to the cellular
+geometry. We highlight the structural elements used to estimate the morpho-
+logical features. Note that the first node in the SWC file is the so called ‘root’.
+It often coincides with the soma’s centre and it is used to compute metrics.
+
+
+diameters and angles; and being 3D reconstructions (see Supplementary Fig.1).
+Our quality assessment criteria include: consistent estimates of dendritic diam-
+eters (e.g., most of the rejected reconstructions had a fixed nominal diameter
+for all the branches instead of the real one); continuity of the cellular processes.
+    Despite their essential role in synaptic formation and the brains micro con-
+nectivity, dendritic spines (small protrusions on neuronal dendrites that form
+synaptic connections) were largely absent from the reconstructions. Further-
+more, their inclusion biases the statistical analysis of overall cellular morphol-
+ogy, such as artificially reducing branch length and inflating branch order. As
+a result, for all reconstructions spines were identified (if present) and removed.
+Additionally, due to the inconsistency in axonal reconstructions (axons largely
+being absent or heavily truncated) in the reconstructions, they were not con-
+sidered in the analysis (if axonal components were present, they were identified
+from the swc format and removed from the reconstruction). As a result, the
+statistics of the projections are for dendritic projections only.
+    The cellular reconstructions were analysed in Matlab using custom scripts,
+exploiting functions from validated suites (TREES [40], Blender [41], Toolbox-
+Graph [42]). All the codes and SWC files used in this work will be made
+publicly available on GitHub https://github.com/Charlie-Aird/Decoding-Grey-
+Matter upon publication.
+
+2.2    Structural descriptors
+The structural analysis describes the constituent parts of the cell, including
+the soma and cellular projections, offering vital information about the cell’s
+fundamental structure, such as the effective soma radius and the branch angle
+
+
+                                         5
+between daughter branches.
+    For the structural analysis, such features or descriptors, determined to be
+crucial to microstructure modelling based on current literature [43, 32, 44, 45, 46,
+47, 48, 49, 50, 51, 52], were estimated from the acquired cellular reconstructions.
+This set of features allows for a deeper understanding of how each fundamental
+aspect of brain cell morphology influences the diffusion of molecules within the
+intracellular space. For instance, the size of the soma and cellular projections
+can provide insights into the characteristic length scales of intracellular restric-
+tions, while the branching, tortuosity, undulation, and calibre variation of the
+projections can inform on time-dependent diffusion processes. Additionally, the
+surface-to-volume ratios of the soma and projections offer valuable information
+on exchange dynamics.
+    The features of the soma and cellular projections differ significantly, and our
+analysis accounts for this by organizing the structural descriptors into relevant
+categories. These categories are: (1)soma (the characteristics defining the cell
+body); (2)projections (the set of characteristics defining the cellular projections’
+structure as interconnected branches) and (3)general (describing the general
+cellular characteristics).
+General
+   • Rdomain : the extent of the cellular domain
+   • Nprojection : the number of primary projections radiating from the soma
+
+   • BO: the degree of branching of the cellular projections
+   • S/Vdomain : the surface-to-volume ratio of the complete cellular structure
+     (soma and branches)
+   Soma
+
+   • Rsoma : the effective radius of the soma (the radius of a sphere of equivalent
+     volume as the soma)
+   • RM Rsoma : the effective MR radius of the soma radii distribution
+   • ηsoma : the proportion of the surface area covered by projection interfaces
+
+   • S/Vsoma : the soma surface-to-volume ratio
+   Projections
+   • < Rbranch >s : the mean effective radius of segments along branch s
+   • < RM Rbranch >s : the effective MR radius of the branch radii distribution
+
+   • CVbranch : a measure of branch beading
+   • Lbranch : the branch length
+   • S/Vbranch : the branch surface-to-volume ratio
+
+
+                                         6
+   • < µODbranch >s : a measure of mean branch undulation
+   • < Rc >s : a measure mean branch curvature
+   • τbranch : a measure of branch tortuosity
+   • θbranch : the angle formed by two bifurcating branches
+
+    Fig.2 illustrates these descriptors, and a summary of their definitions is re-
+ported in Tab.1.
+    From the information in the cellular reconstruction SWC file, the nodes/edges
+defining the projections from those belonging to the soma were separated: all
+the nodes and corresponding edges within the nominal soma radius (radius of
+the first node in the SWC file) from the first node, namely the ’root’, were
+assigned to the soma; the remaining ones to the projections.
+    Using this soma threshold the cell was resampled, preserving the nodes that
+lie within the soma threshold. From this resampled soma the 3D surface mesh
+was constructed using Blender and the volume, Vsoma , and surface, Ssoma , of
+the soma calculated. The soma volume can be expressed in terms of the effective
+soma radius Rsoma .
+    From the distribution of soma radii the effective MR soma radius was cal-
+culated using the following equation [34],
+                                 7           3
+                  RM Rsoma = (< Rsoma > / < Rsoma >)(1/4)
+
+Additionally, we calculated also the soma surface-to-volume ratio ratio as Ssoma /Vsoma ;
+and the fraction of the soma surface covered by the cellular projections as sum
+of the projection connection area divided by the soma surface area (ηsoma ).
+    From the nodes/edges defining the projections, the individual branches com-
+posing the cellular projections were identified, delimited by either branching or
+termination nodes. The individual branches are comprised of cylindrical sub-
+segments, defined by the edges and their associated radius. The central line
+defined by these sub-segments defines a curvilinear path, s. From this path,
+s, metrics for the projections features were computed. Branch beading is re-
+ported as the coefficient of variation of the branch radius along the branch length
+(CVbranch ). The branch surface-to-volume ratio (S/Vbranch ) was determined as
+the sum of the sub-segments area divided by the sum of the sub-segments vol-
+ume. Branch undulation (< µODbranch >s ) is calculated as the mean angle
+subtended by the vector of the individual sub-segments and the vector made by
+the branch start and end points.
+    Branch radius, Rbranch , is reported as the average branch radius along path
+s. From the distribution of branch radii the effective MR branch radius was
+calculated using equation [27],
+                                 6             2
+                RM Rbranch = (< Rbranch > / < Rbranch >)(1/4)
+
+   Finally, the general metrics were computed. The number of projections
+Nprojection was found by identifying the number of branches that cross the soma
+
+
+                                        7
+ Morphological feature             Definition
+ Rdomain                           Distance of the furthest node from the soma
+ Nproj                             The number of primary projections radiating from the soma
+ BO                                The number of consecutive bifurcations of the cellular projections
+ S/Vdomain                         Ratio between the complete (soma and branches) cellular surface and cellular volume
+ Rsoma                             Radius of sphere of volume equivalent to the soma volume
+ RM Rsoma                          Effective MR soma radius [34]
+ ηs oma                            Ratio between the total cross-sectional area of the Nproj primary projections and the total surface area
+ S/Vsoma                           Ratio between the soma mesh surface and soma mesh volume
+ S/Vbranch                         Ratio between the sum of the surfaces of all the subsegments in s and the sum of their volume
+ < Lbranch >                       Mean of the Sum of subsegments’ length in s
+                  2
+ < Rbranch >s (< Rbranch >s )1/2   Mean (standard deviation) of subsegments’ radius along s
+                                                                      6            2
+ RM Rbranch                        Effective MR branch radius (< Rsoma     > / < Rsoma )(1/4) > [34]
+ CVbranch                          Coefficient of variation of branch radius
+ < µODbranch >s                    Mean microscopic orientation dispersion of subsegments along s
+ < Rc >s                           Mean radius of curvature of s
+                                                                                                                −1
+ τbranch                           Ratio between distance between ends of s and Lbranch , branch tortuosity is τbranch
+
+
+      Table 1: Definition of the structural descriptors investigated.
+
+
+threshold. And the branch order BO is defined as the number of consecutive
+bifurcations of the cellular projections.
+    We provide the first, second, and third quartiles for each structural descrip-
+tor for each cell type for each species analysed. Moreover, we provide value
+distributions for features of relevance to biophysical modeling of diffusion in
+GM, such as Rsoma ,Lbranch , S/Vbranch and S/Vdomain .
+    We also estimated intracellular residence times, τic , based on the surface-to-
+volume ratio of the whole cell (S/Vdomain ) and the individual branches (S/Vbranch )
+using the following equation [53]:
+                                                                 1
+                                                      τi =
+                                                               S/V κ
+
+where κ is the membrane permeability, and corresponding exchange times [54]:
+
+                                                      τex = τi fec
+
+where fec is the extracellular volume fraction, assumed to be 30%.
+    Additionally, the relationship between structural features was analysed by
+calculating the Spearman’s rank correlation coefficient.
+
+2.3       Shape descriptors
+Many diffusion MRI models represent cellular structure as a collection of ran-
+domly oriented cylinders [24, 58]. Initially applied to the signal from white
+matter where axons can be simplified to a collection of sticks this model has
+been shown to apply to the dendrites of neurons [32, 33] and has been incorpo-
+rated into current grey matter diffusion MRI-based models.
+    To compute the fractional anisotropy (FA) for the cellular structure, the
+cellular structure was modeled as a collection of cylinders, following the method
+described in [45]. First, the cells were decomposed into primary projections and
+further segmented into cylinders of length 10µm (Fig.3). FA is calculated by
+first computing the scatter matrix of the weighted line segments orientations
+
+
+                                                               8
+Figure 2: Illustration of the structural descriptors investigated for an
+exemplar cell. We estimated general features of the whole structure and
+separated soma from projections, processing them individually to estimate a set
+of other relevant features. Additionally, we display the Gaussian curvature of
+the soma surface to show that it is a non-spherical geometry (always positive
+but not constant). A limitation of the current approach (and the majority
+of existing tools [55, 56, 57]) is the slightly inaccurate definition of the soma
+surface, as shown in the top right corner (arrows).
+
+
+(weighted by volume), from which the eigenvalues (τi ) are derived. FA is then
+calculated as:
+                        s
+                          3 (τ1 − τ )2 + (τ2 − τ )2 + (τ3 − τ )2
+                 FA =
+                          2            τ12 + τ22 + τ32
+
+    In some cellular reconstructions, limitations in depth of field resulting from
+the imaging technique lead to anisotropic inaccuracies (see Supplementary Fig.2),
+with cells appearing compressed along the axis perpendicular to the acquisition
+plane (Z-axis). This artifact can result in overestimated fractional anisotropy
+in said reconstructions. For this reason, alongside the FA, we also report the
+estimated eigenvalues in ascending order (τ1 ≤ τ2 ≤ τ3 ) and an adjusted FA
+(Adj.FA) were we assumed τ1 = τ2 .
+    The mean and standard deviation are reported for all cell types.
+    In addition to the FA of the line segments, their orientation dispersion (OD)
+was also computed. OD provides additional insight into the degree of anisotropy
+in cellular structures, complementing FA by describing the variability in the ori-
+entations of the neuronal projections. The variability is typically characterised
+through a Watson distribution, which is a probability distribution of orientations
+around the primary axis on the unit sphere [59]. With the degree of clustering
+
+
+                                        9
+Figure 3: A demonstration of procedure used to decompose the cel-
+lular structure into a set of average lines segments. A. the complete
+cell. B. cell decomposed into topological persistence components. C. cell fur-
+ther decomposed into 10 µm segments. D. average line segments fitted to cell
+segments.
+
+
+defined by the concentration parameter, κ. This concentration parameter can
+be used to calculate the OD through the following equation [24].
+                                     2
+                              OD =     arctan(1/κ)
+                                     π
+    For cases where the data is not axially symmetric, such as cellular recon-
+structions with limited depth, the Watson distribution is insufficient. Instead,
+we applied the more general Bingham distribution, using MATLAB toolbox
+libDirectional [60] (Fig.4), which accounts for orientation variability along mul-
+tiple axes. The Bingham distribution models anisotropic orientation data and
+provides two concentration parameters ( κ1 and κ2 ), corresponding to the clus-
+tering along two orthogonal directions.
+    From the resulting concentration parameters, if the first concentration pa-
+rameter was significantly larger than the second κ1 >> κ2 , indicating the orien-
+tation data was highly planar, κ2 was used as the Watson distribution parameter
+κ. Otherwise, the average of κ1 and κ2 was used as the Watson distribution
+parameter κ.
+    This approach provides a robust calculation of the Watson distribution across
+isotropically and anisotropically orientated data sets
+
+2.4    Topological descriptors
+Another way to characterize cells is by analysing their topology, which cap-
+tures the complexity of their branching structures. One approach to this is the
+
+
+                                       10
+Figure 4: A comparison between two cell types, mouse/rat pyramidal
+and granule cells. Showing exemplar cells overlaid with decomposed line
+segments, the line segments centered at the origin, and orientation distribution
+about the z axis of the line segments and the analytical distribution given the
+calculated Watson concentration parameter
+
+
+Topological Morphology Descriptor (TMD) [61], which computes a topological
+persistence barcode for a given structure. This barcode provides a compact
+representation of the cell’s branching architecture and has proven effective in
+classifying neurons [61]. In this study, we use the TMD to quantify cellular
+projections and compare topological structures across different cell types and
+species.
+    Topological persistence quantifies how long specific structural features, such
+as branch paths, remain across different scales. The TMD captures this by
+measuring the path lengths of connected branches, tracking both their initiation
+and termination points relative to the soma [61]. This process preserves longer
+
+
+
+                                       11
+Figure 5: A representation of the process of decomposing a cellular
+structure (here a mouse/rat pyramidal cell) into its corresponding topologi-
+cal persistence bar code for an apical and basal projection. A. The complete
+cellular structure of an exemplar cell, apical projection in blue, and exemplar
+basal projection in red. B. and C. Detail of apical and basal projections being
+assessed. D. Corresponding barcodes for apical (in blue) and exemplar basal
+(in red/orange) components. E. persistence diagram of the complete cell, (blue
+points corresponding to apical and red points to the exemplar basal projection,
+black points for the remaining projections). F. The resulting persistence image
+for all mouse/rat pyramidal cells.
+
+
+(more persistent) structural components while filtering out shorter ones.
+    To compute a neuron’s topological descriptor, terminal points are evaluated
+by their path length from the soma. At each branching point, the shorter of the
+two sibling branches is removed, and its initiation and termination distances
+from the soma are recorded in the topological barcode. The longer branch
+is retained, and this process is repeated until all terminal points have been
+assessed. The resulting barcode is a multiset of value pairs, each representing
+the initiation and termination lengths of a branch segment relative to the soma.
+The longer branch is retained, and this process is repeated until all terminal
+points have been assessed. The resulting barcode is a multiset of value pairs,
+each representing the initiation and termination points with respect to the soma.
+    These barcodes retain rich structural information and can be used to catego-
+rize and identify cell types [62]. In our work, each cell was first decomposed into
+its principal projections by identifying dendritic projections emanating from
+the soma. Persistence barcodes were then computed for each projection and
+used to generate persistence images (Fig. 5), which visualize the distribution
+of persistent features by their initiation and termination lengths. To improve
+visual smoothness, kernel density estimation was applied, and each image was
+
+
+                                        12
+normalized so that the sum of its pixel values equaled one.
+   Comparisons were made between persistence images by computing the global
+topological distance [61], D, between images,
+                                         n
+                                         X
+                Dcelltype1,celltype2 =         |celltype1i − celltype2i |
+                                         i=1
+
+    where celltype1 and celltype2 are the two persistence images being com-
+pared. With D ranging from zero, the persistent images are identical and over
+lab completely, to two, the persistent images share no overlab or similarity.
+This topological distance was calculated for cell types within species and also
+cell types between species.
+
+
+3     Results
+3.1    Morphological features’ reference values
+A summary of the typical values of structure features is given in Tab.2. Some
+features show little variation between cell type and species (< Rbranch >s ,
+CVbranch , < µODbranch >s , and τbranch ). The remaining features displayed a
+wide range of values, suggesting higher inter-cellular and intra-species variabil-
+ity.
+
+3.2    Comparing neuronal and glial cells
+Given the growing interest in differentiating neurons and glial cells, the mean
+values of the structural features were computed across only neuronal and glial
+cells and reported in Tab.3. The findings show, compared to glial cells, neurons
+have larger soma and cell domain and longer branches; and reduced branch-
+ing, branch curvedness, number of primary projections, and proportion of soma
+surface covered by projections; the remaining features displayed similar values.
+
+3.3    Correlations between Morphological features
+The correlations between structural features are illustrated in Supplementary
+Fig.4. Some consistent and expected patterns are observed, particularly involv-
+ing surface-to-volume ratio measures: the soma surface-to-volume ratio is obvi-
+ously negatively correlated with soma radius, and the branch surface-to-volume
+ratio is obviously negatively correlated with branch radius. Furthermore, the
+surface-to-volume ratio of both the soma and branches are obviously positively
+correlated with the surface-to-volume ratio of the domain. Additional, micro-
+orientation dispersion shows a positive correlation with branch tortuosity, τ ,
+across majority of cell types. No further consistent correlations between fea-
+tures were observed across cell types.
+
+
+
+
+                                           13
+3.4    Cellular shape reference values
+A summary of the shape descriptors typical values for each cell type and species
+is reported in Tab.4. Cells with highly oriented and polarized projections, such
+as Purkinje cells, granule cells and pyramidal neurons have high FA and adjFA
+and low orientation dispersion; while most of the glial cells projections are highly
+dispersed and with low FA and adjFA.
+
+
+
+
+                                        14
+                                      N               Rdomain               Nproj                 BO              S/Vdomain (µm−1 )       S/Vsoma (µm−1 )          Rsoma (µm)       RM Rsoma (µm)          ηsoma (%)           S/Vbranch (µm−1 )         Lbranch (µm)              Rbranch (µm)        CVbranch   RM Rbranch (µm)          µODbranch              Rc (µm)                τbranch
+         celltype       animal                  Q1    median    Q3    Q1    median   Q3    Q1    median   Q3    Q1 median Q3           Q1 median Q3          Q1     median Q3                       Q1      median     Q3     Q1 median Q3         Q1      median Q3        Q1       median Q3                                      Q1      median Q3       Q1    median    Q3    Q1     median    Q3
+                       MouseRat   4100 (4072)    33      41      49    3      5       6    5.6    7.8     9.7   2.6     3.3     3.6    0.10     1.3    2.0   1.6      2.5     3.1        3.5          4        48       99    2.3     3.4    6.2   6.4       7.4      9.8   0.67        1.0      1.6     0.58           1.0         0.19      0.2    0.25   3.4     3.9     7.5   0.77    0.81     0.82
+        Microglia       Monkey      60 (60)      37      42      47    7      8       9    8.4    9.2     10     2.9     3.9     4.9     1      1.2    1.3   2.3      2.6     3.0         3          0.7       1.1     1.6    15      17     18    8.9       9.4      9.9   0.18        0.2     0.36     0.63           0.2         0.25     0.27    0.29   13       16     18    0.73    0.74     0.75
+                        Human         n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                       MouseRat    310 (307)     32      39      45    5      7      12    6.9     8      14    0.37    4.1      5.5    0.8     0.9    1.2   2.5      3.5     4.0        4.3          3        27       70    4.2     6.7    8.8   6.5       7.8      9.3   0.46       0.78      1.6     0.93          0.54         0.21     0.27     0.3   5.1     9.6     14    0.66    0.69     0.72
+        Astrocyte       Monkey        n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                        Human         n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                       MouseRat     58 (58)      85     100     130    5      7       9     7     7.9      9     2.8      3      3.1   0.61    0.74   0.90   3.4      4.1     5.0         5           4         7       13    3.9     4.8    5.5    22        28       32   0.57       0.82      1.3     1.20          0.64         0.15     0.16    0.21   21       27     34    0.77    0.81     0.83
+     Oligodendrocyte    Monkey        n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                        Human         n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                       MouseRat   3005 (3000)   170     290     490    4      6       7    6.4    7.9     10    0.34    0.34    0.86   0.35    0.45    0.7   4.4      6.7     8.8        11           1         3       10    3.2     4.6    7.4    37        52       72   0.48       0.84      1.3     0.63          0.99         0.17     0.23    0.29   14       26     41    0.76     0.8     0.84
+       Pyramidal        Monkey     510 (508)    250     370     630    6      7       9    7.2    8.2     9.6   2.5     2.9     3.3    0.37    0.43    0.5   6.1      7.2     8.3        8.5         0.2       3.2      8.1   4.5     6.3    9.9    53        62       72   0.44       0.69      1.2     0.74          0.79         0.18     0.22    0.29   22       39     54    0.75     0.8     0.83
+                        Human     2403 (2400)   230     270     310    5      6       7    6.2    6.7     7.4     3     3.3      3.5   0.32    0.37   0.42   7.2      8.3     9.4        9.7         4.6      6.9       9.6   4.1     5.2    6.6    64        74       86   0.61       0.69      1.2     0.58          0.88         0.24     0.27     0.3   49       63     79    0.72    0.75     0.78
+                       MouseRat    930 (928)    100     160     230    1      1       1     3     3.8     4.5    1.6      2      2.7   0.64    0.73   0.85   3.6      4.2     4.8        5.1         1.0       1.8      3.8   3.2     4.1    5.7    27        45       78   0.63       0.93      1.3     0.45          0.78         0.12     0.16    0.21   23       35     56     0.8    0.84     0.87
+        Granule         Monkey        n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                        Human       82 (82)     460     530     580    2      3       4     4       5      6     2.1    2.6     3.3    0.41    0.77    1.0   3.1      4.0     7.4        7.9          4         8       15    3.6     4.2    4.5   110       130      150   0.53       0.64     0.75     0.49          0.76         0.18     0.20    0.24   15       18     23    0.83    0.85     0.87
+                       MouseRat    140 (140)    130     160     190    1      2       2    9.3     10     12     2.2    2.5      2.7   0.36    0.41   0.46   6.6      7.4     8.3        8.3          2        26       33    3.4     4.3    5.3   8.9       9.9       11   0.76       0.99      1.4     0.22           0.7         0.25     0.28    0.31   17       25     32    0.73    0.78     0.81
+        Purkinje        Monkey        n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                        Human         n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                       MouseRat    441 (440)    190     240     300    4      5       7     5       6      7     1.5    2.0      2.7   0.39    0.51   0.66   4.6      5.9     7.8        9.1          1         3       38    2.7     4.0    5.6    50        64       81   0.49       0.61    0.94      0.77          0.93         0.22     0.27    0.33   11       23     45    0.73    0.77     0.81
+         Basket         Monkey        n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                        Human       11 (11)     220     270     380    4      5       6    4.5     6      6.9     3       3      3.2   0.56    0.58   0.67   4.6      5.2     5.4        5.6          7         8       45    3.4      4     4.6    51        62      110   0.92       0.95      1.5     0.49          0.67         0.21     0.23    0.27   14       16     22    0.77    0.79     0.82
+
+
+
+
+15
+                       MouseRat    180 (179)    180     250     440    4      6       8    6.1    7.3     8.5   1.8     2.4       3    0.38    0.47   0.53   5.7      6.5     8.1        8.3          1        1.5      4.8   4.3     6.1    13    35         46       65   0.34       0.67      1.2     0.80          0.67         0.22     0.29    0.33   9.8      15     50    0.73    0.78     0.81
+       Gabaergic        Monkey       4 (4)      120     250     370    6     7.5     10    5.5    6.5     7.1    2.6    3.2      3.6   0.55    0.62   0.68   4.7      5.1     5.8        5.5        0.27      0.27     0.27   4.9     5.5    6.7   35         67      120   0.72       0.76     0.93     0.51          0.44         0.3      0.34    0.37   2.1     2.3     2.5    0.7    0.72     0.76
+                        Human        6 (6)      140     190     220    2      3       5    5.2    5.4     5.6     4      4.1     4.5   0.67    0.69   0.72   4.2      4.5     4.6        4.5        0.38      0.75      0.9   7.5     7.8     8     63        65      83    0.48        0.5     0.67     0.57          0.38         0.28     0.30    0.33   13       17     27    0.73    0.74     0.74
+                       MouseRat    106 (106)    150     250     360    3      5       7     5       7      8     1.2    2.7      2.3   0.34    0.42   0.50   6.1      7.3     9.0        9.7          1        1.8      7.2   3.9     5.1    20     42        54       72   0.21       0.63     0.80     0.73          0.98         0.21     0.27    0.34   20       27     56    0.71    0.81     0.84
+      Glutamatergic     Monkey        n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+                        Human         n.a       n.a     n.a     n.a   n.a    n.a     n.a   n.a    n.a     n.a   n.a     n.a     n.a    n.a      n.a    n.a   n.a      n.a     n.a        n.a        n.a       n.a      n.a    n.a    n.a     n.a   n.a       n.a      n.a   n.a        n.a      n.a      n.a           n.a          n.a      n.a     n.a    n.a     n.a     n.a   n.a      n.a     n.a
+
+
+
+
+     Table 2: Summary of the morphological features computed for each species and cell type. N is the number of
+     cellular structures investigated with complete information about the neurite structure; same information for soma in brackets.
+     The reported values are mean ± s.d. over the corresponding sample. The ’≥’ and ’≤’ are used when the estimated value of the
+     corresponding feature may be slightly (on average < 20%) under- or over-estimated, respectively, given the known limitations
+     of the approach used. n.a. = not available.
+       Morphological Feature    Value Range                     Value Mean
+                                               All Cell Types    Only Glia   Only Neuron
+             Rdomain            ≥ 8 − 750           240              60          300
+               Nproj            ≥ 1 − 13              7               7            7
+                BO                1 − 17              7               9            7
+            S/Vdomain            0.2 − 18             3               3            3
+              Rsoma              0.5 − 16             5               3            6
+            RM Rsoma              3 − 11              7               4            8
+              ηs oma            0.5 − 100            17              25           13
+             S/Vsoma            0.05 − 30           0.7               1           0.6
+            S/Vbranch             4 − 19              7               8            6
+
+
+
+
+16
+             Lbranch             3 − 190             54              13           68
+             Rbranch           ≤ 0.04 − 1.6         0.6              0.5          0.6
+            RM Rbranch         0.20 − 1.05          0.7              0.6          0.7
+             CVbranch           0.05 − 4.6          0.6              0.8          0.6
+            µODbranch          0.05 − 0.60          0.25            0.23         0.26
+                Rc              ≥ 1 − 640            29              16           32
+              τbranch          0.43 − 0.95          0.77            0.75         0.78
+
+     Table 3: Reference values for all the morphological features of neuronal and glial cells. The ranges and mean
+     values obtained from the whole dataset investigated are reported, together with mean values for only neurons and glia. The
+     ’≥’ and ’≤’ are used when the estimated value of the corresponding feature may be slightly (on average < 20%) under- or
+     over-estimated, respectively, given the known limitations of the approach used.
+        Cell Type       Species        κ            OD           (τ1 , τ2 , τ3 )       FA           adjFA
+                       Mouse/Rat   1.4 ± 2.2    0.51 ± 0.22   (0.13,0.31,0.56)     0.55 ± 0.22   0.33 ± 0.23
+        Microglia       Monkey     1.1 ± 0.6    0.50 ± 0.19   (0.01,0.35,0.64)     0.76 ± 0.05   0.36 ± 0.17
+                        Human         n.a.          n.a.             n.a.              n.a.          n.a.
+                       Mouse/Rat   1.6 ± 1.3    0.43 ± 0.22   (0.01,0.29,0.61)     0.63 ± 0.20   0.41 ± 0.22
+        Astrocyte       Monkey        n.a.          n.a.             n.a.              n.a.          n.a.
+                        Human         n.a.          n.a.             n.a.              n.a.          n.a.
+                       Mouse/Rat   6.0 ± 4.6    0.19 ± 0.19   (0.03,0.15,0.82)     0.87 ± 0.15   0.76 ± 0.23
+     Oligodendrocyte    Monkey        n.a.          n.a.             n.a.              n.a.          n.a.
+                        Human         n.a.          n.a.             n.a.              n.a.          n.a.
+                       Mouse/Rat   1.6 ± 0.12   0.44 ± 0.20   (0.09,0.25,0.66)     0.70 ± 0.16   0.52 ± 0.23
+       Pyramidal        Monkey     0.9 ± 0.6    0.57 ± 0.19   (0.06,0.29,0.65)     0.72 ± 0.10   0.45 ± 0.23
+                        Human      1.1 ± 0.8    0.54 ± 0.20   (0.14,0.27,0.59)     0.60 ± 0.14   0.43 ± 0.21
+                       Mouse/Rat   4.4 ± 2.8    0.18 ± 0.11   (0.04,0.15,0.81)     0.87 ± 0.09   0.77 ± 0.16
+
+
+
+
+17
+        Granule         Monkey        n.a.          n.a.             n.a.              n.a.          n.a.
+                        Human      3.7 ± 1.5    0.19 ± 0.08   (0.05,0.16,0.78)     0.85 ± 0.07   0.75 ± 0.13
+                       Mouse/Rat   1.5 ± 0.7    0.42 ± 0.17   (0.01,0.28,0.71)     0.80 ± 0.08   0.52 ± 0.19
+        Purkinje        Monkey        n.a.          n.a.             n.a.              n.a.          n.a.
+                        Human         n.a.          n.a.             n.a.              n.a.          n.a.
+                       Mouse/Rat   1.3 ± 0.8    0.49 ± 0.19   (0.11,0.29,0.60)     0.62 ± 0.16   0.40 ± 0.20
+         Basket         Monkey        n.a.          n.a.             n.a.              n.a.          n.a.
+                        Human      1.2 ± 0.7    0.49 ± 0.20   (0.12,0.34,0.54)     0.56 ± 0.13   0.28 ± 0.14
+                       Mouse/Rat   1.3 ± 0.9    0.49 ± 0.20   (0.07,0.30,0.63)     0.69 ± 0.13   0.43 ± 0.21
+       Gabaergic        Monkey     3.2 ± 1.6    0.24 ± 0.15   (0.07,0,20,0.73)     0.78 ± 0.13   0.64 ± 0.24
+                        Human      2.5 ± 1.4    0.29 ± 0.14    (0.3,0.25,0.62)     0.64 ± 0.15   0.50 ± 0.15
+                       Mouse/Rat   1.1 ± 0.9    0.55 ± 0.21   (0.08,0.33,0.59)     0.65 ± 0.12   0.33 ± 0.21
+     Glutamatergic      Monkey        n.a.          n.a.             n.a.              n.a.          n.a.
+                        Human         n.a.          n.a.             n.a.              n.a.          n.a.
+
+         Table 4: Summary statistics of shape descriptors for each cell type and species. n.a. = not available.
+Figure 6: Distributions of soma radius, branch length, branch surface-
+to-volume ratio, and cellular surface-to-volume ratio (grouped by gen-
+eral cell types). Dashed lines in soma radius distribution plot indicate the
+effective MR radius for each general cell type (Glia RM Rsoma = 3.7µm, Cortex
+neurons RM Rsoma = 10.4µm, and Cerebellum neuron RM Rsoma = 7.1µm
+
+
+3.5    Distribution of some structural features of interest for
+       dMRI modelling
+The full distributions of values for some structural features of interest, obtained
+by merging together all the estimated values from all the species for each cell
+type, are shown in Fig.6. Given the increasing interest of the diffusion-based
+microstructural imaging community in estimating glia microstructure and the
+striking difference between the neuronal components of cerebral and cerebellar
+cortices (e.g., Purkinje cells only in cerebellum), we decided to group them
+into three classes: glia, cortical neurons and cerebellar neurons, and use three
+different colors to simplify the visualization of the results. The distributions for
+all the morphological features are reported in Supplementary Fig.3.
+    Fig.7 shows the distributions of intra-cellular and intra-branch residence
+times (grouped by general cell types) for two representative membrane perme-
+abilities (low and high), as well as mean residence and exchange times as a
+function of different values of cell membrane permeability.
+
+
+                                        18
+Figure 7: (A) Distributions of intra-cellular and intra-branch residence
+times (grouped by general cell types) for two membrane permeabili-
+ties (low and high). Residence time distributions were derived from surface-
+to-volume ratio distributions using permeability values of 2 and 20 µm/s to
+represent low and high permeability, respectively. (B) Mean residence and
+exchange times as a function of membrane permeability. The mean
+values were calculated from the distributions of exchange times obtained for
+different surface-to-volume ratios and membrane permeabilities. See Section
+2.2 for details.
+
+
+3.6    Topological distance between cell types
+The persistence maps of all the cell types for all species together are shown in
+Fig.8. These persistence maps are used for each species and each cell type to
+estimate cell-type specific topological distances, shown in Fig.9. Under boot-
+strapping of n=1000 iterations, it was found all distances were statistically sig-
+nificant between cell types, except basket and glutamatergic rodent cells with a
+p = 0.16.
+    In rodent cells, there is a notably high global topological distance between
+glial cells and neurons, indicating a fundamentally different topological organ-
+isation between them. This difference in topology becomes even more evident
+when considering the comparison along the same length scale. Since glial cells
+are significantly smaller in size, they inherently display a much smaller topolog-
+ical persistence. This size-related constraint underscores their distinct spatial
+and structural properties relative to neurons.
+    Within rodent neurons, granule cells stand out by exhibiting a higher topo-
+logical distance compared to other neuronal types. This disparity is likely re-
+lated to their characteristically low branch number, which reflects their simpler
+dendritic structures and reduced connectivity compared to more complex neu-
+rons.
+
+
+                                       19
+    In human cells, however, no significant or consistent trends in topological dis-
+tance are observed, suggesting greater variability or less pronounced differences
+in cellular topology among the various neuronal cell types.
+    When examining hominid cells, which include both monkey and human sam-
+ples, microglia demonstrate a higher topological distance compared to neurons.
+This observation reinforces the trend seen in rodent cells, further supporting
+the notion that glial cells maintain a distinct and conserved topological profile
+across different species.
+    In the cross-species comparison between rodent and hominid cells, microglia
+consistently show a high topological distance relative to neurons, mirroring the
+trend observed within each species. Additionally, the comparatively low topo-
+logical distance for microglia across species suggest that their topological prop-
+erties are consistent, pointing to a shared structural and functional organization
+in microglia across species.
+
+
+4     Discussion
+4.1    A Quantitative View of Gray Matter Microstructure
+GM Intra-Cellular Space. There is currently a lack of in-depth morphological
+analysis of brain-cell structures of relevance for modelling water diffusion in the
+GM intra-cellular space. In this work we propose a first analysis with the aim to
+fill this gap. We estimated a comprehensive set of morphological features useful
+to GM microstructure modelling from reconstructions of microscopy data from
+three species. We estimated that neural soma size ranges from 2 to 30 µm
+in radius with an average of 5 µm and surface-to-volume ratio S/V 0.7 µm−1 .
+Neurons have on average soma twice as big as glial cells, similar number of
+projections radiating from the soma but less projection coverage of soma surface
+(suggesting slower exchange of diffusing molecules between soma and dendrites).
+The radius of cellular projections ranges from 0.05 to 1.5 µm with average value
+0.6 µm and S/V 7 µm−1 , similar between neurons and glia. Cellular projections’
+microscopic orientation dispersion, as defined in [48], is 0.05-0.60, with average
+value 0.25, similar between neurons and glia; curvature radius is 1-640 µm,
+with average value of 29 µm. On average, neuronal projections have a curvature
+radius 2 times larger than glial projections. The branching order of neural cell
+is 1-17, with average value of 7. Glial cells have branching order 1.3 times
+larger than neurons. The tortuosity of the branch of neural cell projections is
+0.43-0.85, with average value of 0.77, similar between neurons and glial cells.
+The projections of neural cells extend to distances of 8-750 µm, with neurons
+on average 300 µm and glial cells on average 60 µm. For completeness, we also
+report on the relevant features of neural cell membrane permeability to water
+from the literature.
+     Neural Cell Membrane Permeability to Water. Several works suggest water
+exchange between unmyelinated neurites and ECS and/or soma occurring on
+time scales comparable to typical dMRI clinical acquisitions, i.e. 10-100 ms.
+
+
+                                        20
+Figure 8: Persistence maps for each cell types and all species together.
+The persistence map shows at what length scales a given topological feature,
+here the path length of connected branches, persists. It is computed by tracking
+the initiation points and termination points, with respect to path length from
+the soma, of the connected branches at different length scales.
+
+
+Although there is not a consensus yet, some works report exchange times tex for
+ex vivo mouse brain 5-10 ms [63, 64, 34], suggesting membrane permeability
+125 µm/s (like red blood cells), others report tex for in vivo mouse brain of 20-
+40 ms [65, 33, 66], suggesting membrane permeability 2-35 µm/s. The broad
+range of permeability values present in the literature result in a large range
+of residence and exchange times. Consequently, to accurately quantify the im-
+pact of permeability on the dMRI signal, an accurate measure of the membrane
+permeability of the tissue being investigated is needed. Here, we provide ref-
+erence values of intra-branch, intra-cellular residence times and corresponding
+exchange times for any possible permeability value within the range 2-35 µm/s,
+observed in vivo (Fig.7). Using a representative value of low (2 µm/s) and high
+(20 µm/s) permeability, we also estimated the distribution of intra-cellular and
+
+
+                                       21
+Figure 9: Local topological distance between images (top right of ma-
+trices) and global distance between images (bottom let) for rodent,
+human, hominid inter species comparison, and a comparison between
+rodent and hominid cell types
+
+
+intra-branch residence times, which span from a few milliseconds to hundreds
+of milliseconds (Fig.7).
+    One limitation of our analysis is that we did not include spines, boutons and
+glial leaflets, that can occupy up to 20% of the GM volume [67]. Dendritic spines
+influence intracellular diffusion by increasing the surface-to-volume ratio and
+introducing structural complexity and compartmentalisation within dendrites
+[68, 69, 70]. Using simple modeling (see Supplementary Fig.5), we estimate
+that a spine density of 1 spine/µm increases the branch surface-to-volume ratio
+by ≈ 20–30% in rodent neurons, leading to a ≈ 15–20% reduction in residence
+time. At a density of 2 spines/µm, the surface-to-volume ratio increases by
+≈ 50%, with a corresponding ≈ 35% reduction in residence time.
+
+
+                                       22
+    Beyond these surface effects, spines act as distinct compartments: their
+narrow necks serve as diffusion barriers, restricting molecular exchange between
+the spine head and dendritic shaft and thereby altering diffusive dynamics ([69,
+70]). Consequently, spine morphology represent an important morphological
+feature to be considered in models of molecular diffusion to accurately reflect in
+vivo conditions, but its in depth investigation is beyond the scope of this work.
+    In general, exchange cannot be completely ignored, nor does exchange fully
+average out the restriction effects of cell membranes, supporting including both
+neurite exchange and a soma compartment in a parsimonious biophysical model
+of diffusion in GM, as proposed by Olesen et al. [34] with the SANDIX model.
+There are however some caveats to bear in mind when interpreting the model
+estimates: (a) the soma apparent MR radius is unavoidably an overestimation
+of the true soma radius (Tab.2); (b) the compartmental signal fractions reflect,
+apart from volume, also unknown T2 and T1 weighting, which might differ
+among the compartments; (c) fast exchange across the neurite membrane’s could
+be problematic for models based on the Kärger’s model because it could violate
+the model’s assumptions (i.e. barrier-limited diffusion: tex ≫ d2 /D, where d is
+the neurite diameter and D the molecular diffusivity; and δ ≪ tex , where δ is the
+gradient pulse duration of a single diffusion encoding dMRI measurement) and
+lead to biased estimates; (d) molecular diffusion in structural features such as
+dendritic spines and glial leaflets can lead to diffusion-mediated exchange mech-
+anisms that occur on the same time scales of permeative exchange, making the
+interpretation of exchange measurements through MRI solely due to permeative
+exchange fundamentally wrong [68, 69, 70]; (e) using single diffusion encoding
+acquisitions it is impossible to disentangle restriction and exchange; more re-
+fined acquisitions could allow the separation and more accurate quantification of
+these two effects [64, 71, 69, 70]. The estimates of the model parameters should
+therefore only be taken as an indication of the true tissue features and validation
+against realistic numerical simulations (e.g., using the high resolution 3D exem-
+plar meshes we provide for each cell type) and/or alternative measurements
+in controlled phantoms (e.g. biomimetic tissues and brain organoids) and/or
+post-mortem samples (e.g., optical, confocal or electron microscopy) remains
+essential.
+
+4.2    General Implications for Biophysical Modelling
+Here we provide a few illustrative examples demonstrating how our results can
+inform biophysical modelling. We discuss both general considerations and a rep-
+resentative in vivo acquisition case using parameters typical for clinical scanners.
+    Assuming an intra-cellular diffusivity D=2 µm2 /ms representative of water
+and 0.40 µm2 /ms representative of intracellular brain metabolites, and consid-
+ering a typical single diffusion encoding acquisition with gradient pulse duration
+δ < 30 ms, gradient pulse separation ∆ < 70 ms and diffusion time td < 60 ms,
+we can infer from from our results:
+
+   • Impact of soma restriction. The impact of soma restriction is measur-
+
+
+                                        23
+                                   2
+  able when (from [72]) 5Dtd ≥ Rsoma    , that is for td ≥ 2.5 ms for water
+  and td ≥ 12.5 ms for metabolites, given a soma radius Rsoma ≈ 5 µm.
+  These reference values become slightly longer if we consider the effective
+  MR radius RM Rsoma ≈ 7 µm: td ≥ 5 ms for water and td ≥ 24.5 ms for
+  metaboilites. Given the exemplar case of the in vivo acquisition, this sug-
+  gests that soma restriction can have a measurable impact for both water
+  and metabolites. This is supported by previous findings which demon-
+  strate the impact of soma contribution on the measured dMRI signal in
+  GM [32, 46]
+• Impact of diffusion-mediated exchange between soma and pro-
+  jections. Considering the total area of the soma surface covered by
+                                                            2
+  the openings towards cellular projections Aproj ≈ Nproj πRbranch and the
+                         4    3
+  soma volume Vsoma ≈ 3 πRsoma , the expected residence time within the
+                                                                 3
+                                                               πRsoma
+  soma is in first approximation τisoma ≈ pVsoma
+                                               A
+                                                      =           √      .
+                                              4    proj
+                                                        D       3Rbranch   Nproj D
+                                                    π
+  Assuming that the soma to projection volume ratio is approximately 1:4
+  (from our data we estimated 1:4.1 for glia, 1:4.7 for cortical neurons and
+  1:4.4 for cerebellar neurons), the impact of diffusion-mediated exchange
+                                                          1
+  between soma and projection is measurable if td ≥ ( τ soma        1
+                                                              + τ branch )−1 =
+                                                            i        i
+       1
+  ( τ soma + 13 τ soma
+                   1
+                       )−1 , hence for td ≥ 31 ms for water and td ≥ 155 ms for
+     i           i
+  metabolites. These estimates become longer if we consider the effective
+  MR radii RM Rsoma and RM Rbranch : td ≥ 73 ms for water and td ≥ 364 ms
+  for metabolites. Given the exemplar case of the in vivo acquisition, this
+  suggests that the impact of diffusion-mediated exchange between soma and
+  projections is likely negligible or minimal for both water and metabolites.
+• Impact of cellular domain restriction: given the size of the cellu-
+  lar domain, it will only significantly restrict molecular diffusion when
+             2
+  5Dtd ≥ Rdomain    , that is for td ≥ 360 ms for water and td ≥ 1800 ms
+  for metabolites, given Rdomain ≥ 60 µm, which is far longer than typ-
+  ically used diffusion times td . Given the exemplar case of the in vivo
+  acquisition, this suggests that the impact of cellular domain restriction is
+  generally negligible for both water and metabolites.
+• Impact of projections curvedness. The impact of curvedness can
+  only be significant when (from [73], 2D∆, 2Dδ ≥ (< Rc >s )2 , that is
+  for ∆, δ ≥ 225 ms for water and ∆, δ ≥ 1125 ms for metabolites, given
+  < Rc >s ≈ 30 µm, which is far longer than the values typically used.
+  Given the exemplar case of the in vivo acquisition, this suggests that the
+  impact of projections curvedness is generally negligible for both water and
+  metabolites. This is further supported by [46].
+• Impact of projection undulation: the values of < µODbranch >s
+  estimated from the real cellular data match those simulated in [48], from
+  which it can be concluded that undulation can have a measurable impact
+  for both water and metabolites and can bias the estimation of projection
+
+
+                                    24
+  radius in GM. However, the average branch radius < Rbranch >s ≈ 0.6 µm
+  is far below the resolution limit of conventional water dMRI techniques
+  [74].
+• Impact of branching. Given the branch length Lbranch ≈ 54 µm, the
+  exchange between branches is negligible for td << L2branch /(2D) ≈ 750 ms
+  for water and td << 3750 ms for metabolites, significantly longer than
+  typical td used. Given the exemplar case of the in vivo acquisition, this
+  suggests that the impact of branching is generally negligible for both water
+  and metabolites.Further supported by [44, 46].
+• Impact of water permeative exchange between cellular projec-
+  tions and extra-cellular space. The average intra-branch residence
+  times given the estimated S/Vbranch range from ≈ 10 ms to ≈ 98 ms for
+  neurons and from ≈ 9 ms to ≈ 95 ms for glial cells (these are purely
+  based on projections morphology and exemplar membrane permeability
+  2-20 µm/s; we do not account for active transport nor water channels).
+  The corresponding exchange times (considering 30% in volume occupied
+  by extra-cellular space) range from ≈ 3 ms to ≈ 30 ms for neurons and
+  from ≈ 3 ms to ≈ 29 ms for glial cells. The permeative exchange is thus
+  negligible only for td < 30 ms for both neuronal and glial projections;
+  which is not satisfied in conventional water dMRI applications. Given the
+  exemplar case of the in vivo acquisition, this suggests that the impact of
+  water permeative exchange between cellular projections and extra-cellular
+  space is measurable. Further supported by [33, 46, 66].
+• Impact of projections orientation dispersion. Cells with highly ori-
+  ented and polarized projections, such as Purkinje and granule cells have
+  high FA (> 0.50) and low orientation dispersion (< 0.25); while the pro-
+  jections of most of the glial cells and other neuronal cells have FA (< 0.50)
+  and high orientation dispersion (> 0.25). Given the exemplar case of the
+  in vivo acquisition, this suggests that the impact of projections orientation
+  dispersion is measurable. This supports growing evidence that FA, e.g.,
+  from DTI, and orientation dispersion estimates, e.g. from NODDI, can
+  discriminate different cytoarchitectural domains (or layers) in hippocam-
+  pus, cortex and cerebellum [75, 76, 77, 78, 79].
+• Glia topology is significantly different from neurons topology in
+  rodents. The overall cellular topology can be conceptualized as a net-
+  work of interconnected compartments, comprising the soma and its cellu-
+  lar projections. This large-scale organization is as critical for intracellular
+  diffusion as the finer structural details. In neural cells, projections form a
+  branched tree-like architecture, where each branching point functions as
+  a diffusion junction. As a result, molecular diffusion - and consequently
+  the dMRI signa - is strongly constrained by this branching topology. Bio-
+  physical models of the intracellular dMRI signal must therefore explicitly
+  account for these topological features. Results in Fig.9 show that glial cells
+
+
+                                     25
+      in rodents have a very different topology from neuronal cells, suggesting
+      that it may be possible (with appropriate modelling) to disentangle glial
+      and neuronal contributions to the measured dMRI signal. This is further
+      supported by[80].
+   • Microglia topology is similar across different species. Results in
+     Fig.9 suggest that a single biophysical model of diffusion in microglia
+     would likely hold across species. In contrast, all the other cell-types likely
+     need a dedicated model that accounts for the species-specific topological
+     differences.
+
+4.3    Limitations
+Whilst neural reconstructions, like the ones analysed here, offer the closest
+ground truth for cellular morphology they are not without their limitations.
+During the process of acquiring and preparing tissue samples, distortions of the
+cellular structure can occur, such as tissue shrinkage, or the truncation of neural
+projections, implicating the accuracy of the morphological measures. Further-
+more, the method used to trace and reconstruct the cellular structure from mi-
+croscopy images, whether done manually or automated, can impact the accuracy
+and detail of morphological characteristics present in the final reconstruction.
+As such, it is important to acknowledge that the characteristics reported here
+may deviate from actual in vivo measurements.
+    Our investigation, while thorough, is not exhaustive (nor could it be). Other
+features could certainly be measured and tabulated, such as spine density. How-
+ever, we focus here on those deemed relevant for biophysical modeling in the
+current literature on microstructure imaging via dMRI. We will release our code
+openly and freely to allow future work to complement this study with additional
+features and information as needed. Our focus is on a selected set of real three-
+dimensional reconstructions, as we aim to characterize cellular morphology in
+the healthy brain. Future studies can use this code to incorporate more and
+improved reconstructions of healthy brain tissue as they become available (e.g.,
+through updates to NeuroMorpho or large electron microscopy studies [81, 82]).
+We provide a few illustrative examples to demonstrate how this study can inform
+biophysical modeling of dMR signals. However, the information obtained from
+our investigation has broader applications, and we hope the scientific community
+will find it valuable for advancing our understanding of gray matter microstruc-
+ture as a whole. Throughout the manuscript, we discussed the limitations of
+the morphometric approach used (e.g., an expected underestimation of < 20%
+for soma volume and branch radius). Within the constraints of currently avail-
+able tools, we provide reference values that were previously unavailable. We
+have taken great care to report error estimates and uncertainties for all mea-
+surements to account for these limitations. Future work is needed to improve
+morphometric algorithms, but this is beyond the scope of the current study.
+
+
+
+
+                                        26
+5    Conclusion
+This work provides quantitative information on brain cell structures essential
+to design sensible biophysical models of the dMRI signal in gray matter. Re-
+porting typical values of relevant features of brain cell morphologies, this study
+represents a valuable guidebook for the microstructure imaging community and
+provides illustrative examples demonstrating how to inform biophysical mod-
+elling.
+
+
+Acknowledgments
+We would like to thank Dr Kanari for informative discussion regarding the
+topological analysis. This work, CAR and MP are supported by the UKRI
+Future Leaders Fellowship MR/T020296/2. DKJ was supported by a Well-
+come Trust Strategic Award (104943/Z/14/Z) and Wellcome Discovery Award
+(227882/Z/23/Z).
+
+
+
+
+                                       27
+Supplementary Material of: ”Decoding Gray Mat-
+ter: large-scale analysis of brain cell morphome-
+try to inform microstructural modeling of diffu-
+sion MR signals”
+
+
+
+
+                       28
+Supplementary Figure 1: Table displaying the search criteria and result-
+ing number of accepted reconstructions and corresponding rejection
+rate
+                                   29
+Supplementary Figure 2: Figure demonstrating the limit depth of cellular
+reconstructions as a result of imaging method (some reconstructions
+appeared even more ‘flattened’), and the resulting FA tensors for
+unadjusted eigenvalues and adjusted eigenvalues. The corresponding
+FA for unadjusted eigenvalues = 0.67, and for adjusted eigenvalues =
+0.30, so reduced dimensional representation results in increased FA.
+
+
+
+
+                                  30
+31
+     Supplementary Figure 3: Structural feature distribution for all species
+32
+     Supplementary Figure 4: Spearman’s rank correlation between structural features for all species and cell types
+     Cell colour indicates the strength of the correlation and black cells indicate correlations that were found not to be significant
+     (p-value adjusted according to Bonferroni correction)
+Supplementary Figure 5: Estimated impact of dendritic spines on
+surface-to-volume ratios for rodent cell types, for densities of one and two
+spines/µm.
+
+
+Spine modeling
+To estimate the impact of dendritic spines on the surface-to-volume ratio, and
+the resulting effects on molecular residence and exchange times, the total den-
+dritic length for each individual cell was calculated. Based on the measured
+dendritic length and the prescribed spine density (1 and 2 spineµm−1 ), the
+number of spines, n, per cell was determined. Given the surface area, Sspine ,
+and volume, Vspine , for a single dendritic spine for each species (as reported in
+the literature, [83]), we added the corresponding total spine surface (nSspine )
+and volume (nVspine ) to the cellular surface and volume, respectively. Finally,
+we recalculated the surface-to-volume ratios, including the contribution of den-
+dritic spines, and the corresponding change in surface-to-volume ratio (Fig.5).
+
+
+
+
+                                       33
+References
+ [1] Constantino Sotelo. Viewing the brain through the master hand of ramón
+     y cajal. Nature Reviews Neuroscience, 4(1):71–77, 2003.
+ [2] Hongkui Zeng and Joshua R Sanes. Neuronal cell-type classification: chal-
+     lenges, opportunities and the path forward. Nature Reviews Neuroscience,
+     18(9):530–546, 2017.
+
+ [3] Nathan W Gouwens, Staci A Sorensen, Jim Berg, Changkyu Lee, Tim
+     Jarsky, Jonathan Ting, Susan M Sunkin, David Feng, Costas Anastassiou,
+     Eliza Barkan, et al. Classification of electrophysiological and morphological
+     types in mouse visual cortex. BioRxiv, page 368456, 2018.
+ [4] Linda J Lawson, Victor Hugh Perry, Pietro Dri, and Siamon Gordon. Het-
+     erogeneity in the distribution and morphology of microglia in the normal
+     adult mouse brain. Neuroscience, 39(1):151–170, 1990.
+ [5] Yun-Long Tan, Yi Yuan, and Li Tian. Microglial regional heterogeneity
+     and its role in the brain. Molecular psychiatry, 25(2):351–367, 2020.
+
+ [6] Hanchuan Peng, Peng Xie, Lijuan Liu, Xiuli Kuang, Yimin Wang, Lei Qu,
+     Hui Gong, Shengdian Jiang, Anan Li, Zongcai Ruan, et al. Morpholog-
+     ical diversity of single neurons in molecularly defined cell types. Nature,
+     598(7879):174–181, 2021.
+ [7] Karlijn I Van Aerde and Dirk Feldmeyer. Morphological and physiologi-
+     cal characterization of pyramidal neuron subtypes in rat medial prefrontal
+     cortex. Cerebral cortex, 25(3):788–805, 2015.
+ [8] Christopher S. Von Bartheld, Jami Bahney, and Suzana Herculano-Houzel.
+     The search for true numbers of neurons and glial cells in the human brain:
+     A review of 150 years of cell counting. Journal of Comparative Neurology,
+     524:3865–3895, December 2016.
+ [9] William Bondareff and Joseph J. Pysh. Distribution of the extracellular
+     space during postnatal maturation of rat cerebral cortex. The Anatomical
+     Record, 160:773–780, April 1968.
+[10] Muhammad A. Spocter, William D. Hopkins, Sarah K. Barks, Serena
+     Bianchi, Abigail E. Hehmeyer, Sarah M. Anderson, Cheryl D. Stimpson,
+     Archibald J. Fobbs, Patrick R. Hof, and Chet C. Sherwood. Neuropil dis-
+     tribution in the cerebral cortex differs between humans and chimpanzees.
+     Journal of Comparative Neurology, 520:2917–2929, September 2012.
+[11] Alessandro Motta, Manuel Berning, Kevin M. Boergens, Benedikt Staffler,
+     Marcel Beining, Sahil Loomba, Philipp Hennig, Heiko Wissler, and Moritz
+     Helmstaedter. Dense connectomic reconstruction in layer 4 of the so-
+     matosensory cortex. Science, 366:eaay3134, November 2019.
+
+
+                                       34
+[12] D.P. Pelvig, H. Pakkenberg, A.K. Stark, and B. Pakkenberg. Neocortical
+     glial cell numbers in human brains. Neurobiology of Aging, 29:1754–1762,
+     November 2008.
+[13] Lisette Salvesen, Kristian Winge, Tomasz Brudek, Tina Klitmøller Agan-
+     der, Annemette Løkkegaard, and Bente Pakkenberg. Neocortical Neuronal
+     Loss in Patients with Multiple System Atrophy: A Stereological Study.
+     Cerebral Cortex, page bhv228, October 2015.
+[14] Eva Syková and Charles Nicholson. Diffusion in Brain Extracellular Space.
+     Physiological Reviews, 88:1277–1340, October 2008.
+[15] Takuma Mabuchi, Jacinta Lucero, Anne Feng, James A Koziol, and Gre-
+     gory J Del Zoppo. Focal Cerebral Ischemia Preferentially Affects Neurons
+     Distant from Their Neighboring Microvessels. Journal of Cerebral Blood
+     Flow & Metabolism, 25:257–266, February 2005.
+[16] Marijke AM Lemmens, Harry WM Steinbusch, Bart PF Rutten, and
+     Christoph Schmitz. Advanced microscopy techniques for quantitative anal-
+     ysis in neuromorphology and neuropathology research: current status and
+     requirements for the future. Journal of Chemical Neuroanatomy, 40(3):199–
+     209, 2010.
+[17] Kevin L Briggman and Davi D Bock. Volume electron microscopy for neu-
+     ronal circuit reconstruction. Current opinion in neurobiology, 22(1):154–
+     161, 2012.
+[18] Jack Reddaway, Peter Eulalio Richardson, Ryan J Bevan, Jessica Stone-
+     man, and Marco Palombo. Microglial morphometric analysis: so many
+     options, so little consistency. Frontiers in neuroinformatics, 17:1211188,
+     2023.
+[19] Ruchi Parekh and Giorgio A Ascoli. Neuronal morphology goes digital:
+     a research hub for cellular and system neuroscience. Neuron, 77(6):1017–
+     1038, 2013.
+[20] Eugene Lin and Adam Alessio. What are the basic concepts of temporal,
+     contrast, and spatial resolution in cardiac ct? Journal of cardiovascular
+     computed tomography, 3(6):403–408, 2009.
+[21] JJ Rodriguez, M Olabarria, A Chvatal, and A Verkhratsky. Astroglia in
+     dementia and alzheimer’s disease. Cell Death & Differentiation, 16(3):378–
+     385, 2009.
+[22] Ennio Pannese. Morphological changes in nerve cells during normal aging.
+     Brain Structure and Function, 216(2):85–89, 2011.
+[23] Daniel C Alexander, Tim B Dyrby, Markus Nilsson, and Hui Zhang. Imag-
+     ing brain microstructure with diffusion mri: practicality and applications.
+     NMR in Biomedicine, 32(4):e3841, 2019.
+
+
+                                      35
+[24] Hui Zhang, Torben Schneider, Claudia A Wheeler-Kingshott, and Daniel C
+     Alexander. Noddi: practical in vivo neurite orientation dispersion and
+     density imaging of the human brain. Neuroimage, 61(4):1000–1016, 2012.
+[25] Els Fieremans, Jens H Jensen, and Joseph A Helpern. White matter char-
+     acterization with diffusional kurtosis imaging. Neuroimage, 58(1):177–188,
+     2011.
+[26] Daniel C Alexander, Penny L Hubbard, Matt G Hall, Elizabeth A Moore,
+     Maurice Ptito, Geoff JM Parker, and Tim B Dyrby. Orientationally invari-
+     ant indices of axon diameter and density from diffusion mri. Neuroimage,
+     52(4):1374–1389, 2010.
+
+[27] Jelle Veraart, Daniel Nunes, Umesh Rudrapatna, Els Fieremans, Derek K
+     Jones, Dmitry S Novikov, and Noam Shemesh. Noninvasive quantification
+     of axon radii using diffusion mri. elife, 9:e49855, 2020.
+[28] Sune N Jespersen, Christopher D Kroenke, Leif Østergaard, Joseph JH
+     Ackerman, and Dmitriy A Yablonskiy. Modeling dendrite density from
+     magnetic resonance diffusion measurements. Neuroimage, 34(4):1473–1486,
+     2007.
+[29] M.E. Komlosh, F. Horkay, R.Z. Freidlin, U. Nevo, Y. Assaf, and P.J. Basser.
+     Detection of microscopic anisotropy in gray matter and in a novel tissue
+     phantom using double Pulsed Gradient Spin Echo MR. Journal of Magnetic
+     Resonance, 189:38–45, November 2007.
+[30] Noam Shemesh, Evren Özarslan, Peter J. Basser, and Yoram Cohen.
+     Accurate noninvasive measurement of cell size and compartment shape
+     anisotropy in yeast cells using double-pulsed field gradient MR. NMR in
+     Biomedicine, 25:236–246, February 2012.
+
+[31] Trong-Kha Truong, Arnaud Guidon, and Allen W. Song. Cortical Depth
+     Dependence of the Diffusion Anisotropy in the Human Cortical Gray Mat-
+     ter In Vivo. PLoS ONE, 9:e91424, March 2014.
+[32] Marco Palombo, Andrada Ianus, Michele Guerreri, Daniel Nunes, Daniel C
+     Alexander, Noam Shemesh, and Hui Zhang. Sandi: a compartment-based
+     model for non-invasive apparent soma and neurite imaging by diffusion mri.
+     Neuroimage, 215:116835, 2020.
+[33] Ileana O Jelescu, Alexandre de Skowronski, Françoise Geffroy, Marco
+     Palombo, and Dmitry S Novikov. Neurite exchange imaging (nexi): A
+     minimal model of diffusion in gray matter with inter-compartment water
+     exchange. NeuroImage, 256:119277, 2022.
+[34] Jonas L Olesen, Leif Østergaard, Noam Shemesh, and Sune N Jespersen.
+     Diffusion time dependence, power-law scaling, and exchange in gray matter.
+     NeuroImage, 251:118976, 2022.
+
+
+                                      36
+[35] Yaniv Assaf. Imaging laminar structures in the gray matter with diffusion
+     mri. Neuroimage, 197:677–688, 2019.
+[36] Ileana O Jelescu and Matthew D Budde. Design and validation of diffusion
+     mri models of white matter. Frontiers in physics, 5:61, 2017.
+
+[37] Dmitry S Novikov, Els Fieremans, Sune N Jespersen, and Valerij G Kiselev.
+     Quantifying brain microstructure with diffusion mri: Theory and parame-
+     ter estimation. NMR in Biomedicine, 32(4):e3998, 2019.
+[38] Ileana O Jelescu, Marco Palombo, Francesca Bagnato, and Kurt G
+     Schilling. Challenges for biophysical modeling of microstructure. Journal
+     of Neuroscience Methods, 344:108861, 2020.
+[39] Giorgio A Ascoli, Duncan E Donohue, and Maryam Halavi. Neuromorpho.
+     org: a central resource for neuronal morphologies. Journal of Neuroscience,
+     27(35):9247–9251, 2007.
+[40] Hermann Cuntz, Friedrich Forstner, Alexander Borst, and Michael Häusser.
+     The trees toolbox—probing the basis of axonal and dendritic branching,
+     2011.
+[41] Blender Online Community. Blender - a 3D modelling and rendering pack-
+     age. Blender Foundation, Stichting Blender Foundation, Amsterdam, 2018.
+
+[42] (https://www.mathworks.com/matlabcentral/fileexchange/5355-toolbox-
+     graph), MATLAB Central File Exchange. Retrieved July 15, 2024.
+[43] Marco Palombo, Clémence Ligneul, Chloé Najac, Juliette Le Douce, Julien
+     Flament, Carole Escartin, Philippe Hantraye, Emmanuel Brouillet, Gilles
+     Bonvento, and Julien Valette. New paradigm to assess brain cell mor-
+     phology by diffusion-weighted mr spectroscopy in vivo. Proceedings of the
+     National Academy of Sciences, 113(24):6671–6676, 2016.
+[44] Andrada Ianus, Daniel C Alexander, Hui Zhang, and Marco Palombo. Map-
+     ping complex cell morphology in the grey matter with double diffusion
+     encoding mr: A simulation study. Neuroimage, 241:118424, 2021.
+
+[45] Mikkel B Hansen, Sune N Jespersen, Lindsey A Leigland, and Christo-
+     pher D Kroenke. Using diffusion anisotropy to characterize neuronal mor-
+     phology in gray matter: the orientation distribution of axons and dendrites
+     in the neuromorpho. org database. Frontiers in integrative neuroscience,
+     7:31, 2013.
+
+[46] Jonas Lynge Olesen and Sune Nørhøj Jespersen. Stick power law scaling
+     in neurons withstands realistic curvature and branching. In International
+     Society for Magnetic Resonance in Medicine Annual Meeting, 2020.
+
+
+
+
+                                      37
+[47] Markus Nilsson, Jimmy Lätt, Freddy Ståhlberg, Danielle van Westen, and
+     Håkan Hagslätt. The importance of axonal undulation in diffusion mr
+     measurements: a monte carlo simulation study. NMR in Biomedicine,
+     25(5):795–805, 2012.
+[48] Jan Brabec, Samo Lasič, and Markus Nilsson. Time-dependent diffusion
+     in undulating thin fibers: Impact on axon diameter estimation. NMR in
+     Biomedicine, 33(3):e4187, 2020.
+[49] Dmitry S Novikov and Valerij G Kiselev. Surface-to-volume ratio with
+     oscillating gradients. Journal of magnetic resonance, 210(1):141–145, 2011.
+
+[50] Hong-Hsi Lee, Antonios Papaioannou, Sung-Lyoung Kim, Dmitry S
+     Novikov, and Els Fieremans. A time-dependent diffusion mri signature
+     of axon caliber variations and beading. Communications biology, 3(1):354,
+     2020.
+[51] Dmitry S Novikov, Jens H Jensen, Joseph A Helpern, and Els Fieremans.
+     Revealing mesoscopic structural universality with diffusion. Proceedings of
+     the National Academy of Sciences, 111(14):5088–5093, 2014.
+[52] Marco Palombo, Daniel C Alexander, and Hui Zhang. A generative model
+     of realistic brain cells with application to numerical simulation of the
+     diffusion-weighted mr signal. NeuroImage, 188:391–402, 2019.
+
+[53] Gemma L Nedjati-Gilani, Torben Schneider, Matt G Hall, Niamh Cawley,
+     Ioana Hill, Olga Ciccarelli, Ivana Drobnjak, Claudia AM Gandini Wheeler-
+     Kingshott, and Daniel C Alexander. Machine learning based compartment
+     models with permeability for white matter microstructure imaging. Neu-
+     roImage, 150:119–135, 2017.
+
+[54] Els Fieremans, Dmitry S Novikov, Jens H Jensen, and Joseph A Helpern.
+     Monte carlo study of a two-compartment exchange model of diffusion. NMR
+     in Biomedicine, 23(7):711–724, 2010.
+[55] Sergio Luengo-Sanchez, Concha Bielza, Ruth Benavides-Piccione, Isabel
+     Fernaud-Espinosa, Javier DeFelipe, and Pedro Larrañaga. A univocal def-
+     inition of the neuronal soma morphology using gaussian mixture models.
+     Frontiers in neuroanatomy, 9:137, 2015.
+[56] Marwan Abdellah, Juan Hernando, Stefan Eilemann, Samuel Lapere, Nico-
+     las Antille, Henry Markram, and Felix Schürmann. Neuromorphovis: a
+     collaborative framework for analysis and visualization of neuronal mor-
+     phology skeletons reconstructed from microscopy stacks. Bioinformatics,
+     34(13):i574–i582, 2018.
+[57] Marwan Abdellah, Juan José Garcı́a Cantero, Nadir Román Guerrero,
+     Alessandro Foni, Jay S Coggan, Corrado Calı̀, Marco Agus, Eleftherios
+     Zisis, Daniel Keller, Markus Hadwiger, et al. Ultraliser: a framework for
+
+
+                                      38
+     creating multiscale, high-fidelity and geometrically realistic 3d models for
+     in silico neuroscience. Briefings in bioinformatics, 24(1):bbac491, 2023.
+[58] Dmitry S Novikov, Jelle Veraart, Ileana O Jelescu, and Els Fieremans.
+     Rotationally-invariant mapping of scalar and orientational metrics of neu-
+     ronal microstructure with diffusion mri. NeuroImage, 174:518–538, 2018.
+
+[59] Kanti V Mardia and Peter E Jupp. Directional statistics. John Wiley &
+     Sons, 2009.
+[60] Gerhard Kurz, Igor Gilitschenski, Florian Pfaff, Lukas Drude, Uwe D.
+     Hanebeck, Reinhold Haeb-Umbach, and Roland Y. Siegwart. Directional
+     statistics and filtering using libDirectional. Journal of Statistical Software,
+     89(4):1–31, 2019.
+[61] Lida Kanari, Pawel Dlotko, Martina Scolamiero, Ran Levi, Julian Shill-
+     cock, Kathryn Hess, and Henry Markram. A topological representation of
+     branching neuronal morphologies. Neuroinformatics, 16:3–13, 2018.
+
+[62] Lida Kanari, Srikanth Ramaswamy, Ying Shi, Sebastien Morand, Julie
+     Meystre, Rodrigo Perin, Marwan Abdellah, Yun Wang, Kathryn Hess, and
+     Henry Markram. Objective morphological classification of neocortical pyra-
+     midal cells. Cerebral Cortex, 29(4):1719–1735, 2019.
+[63] Nathan H Williamson, Rea Ravin, Dan Benjamini, Hellmut Merkle,
+     Melanie Falgairolle, Michael James O’Donovan, Dvir Blivis, Dave Ide,
+     Teddy X Cai, Nima S Ghorashi, Ruiliang Bai, and Peter J Basser. Magnetic
+     resonance measurements of cellular and sub-cellular membrane structures
+     in live and fixed neural tissue. eLife, 8:e51101, December 2019.
+[64] Teddy X. Cai, Nathan H. Williamson, Rea Ravin, and Peter J. Basser.
+     Disentangling the Effects of Restriction and Exchange With Diffusion Ex-
+     change Spectroscopy. Frontiers in Physics, 10:805793, March 2022.
+[65] Donghan M. Yang, James E. Huettner, G. Larry Bretthorst, Jeffrey J.
+     Neil, Joel R. Garbow, and Joseph J.H. Ackerman. Intracellular water
+     preexchange lifetime in neurons and astrocytes. Magnetic Resonance in
+     Medicine, 79:1616–1627, March 2018.
+[66] Eloı̈se Mougel, Julien Valette, and Marco Palombo. Investigating exchange,
+     structural disorder, and restriction in gray matter via water and metabolites
+     diffusivity and kurtosis time-dependence. Imaging Neuroscience, 2:1–14, 04
+     2024.
+
+[67] Narayanan Kasthuri, Kenneth Jeffrey Hayworth, Daniel Raimund Berger,
+     Richard Lee Schalek, José Angel Conchello, Seymour Knowles-Barley,
+     Dongil Lee, Amelio Vázquez-Reina, Verena Kaynig, Thouis Raymond
+     Jones, Mike Roberts, Josh Lyskowski Morgan, Juan Carlos Tapia, H. Se-
+     bastian Seung, William Gray Roncal, Joshua Tzvi Vogelstein, Randal
+
+
+                                        39
+    Burns, Daniel Lewis Sussman, Carey Eldin Priebe, Hanspeter Pfister, and
+    Jeff William Lichtman. Saturated reconstruction of a volume of neocortex.
+    Cell, 162(3):648–661, 2015.
+[68] Marco Palombo, Clemence Ligneul, and Julien Valette. Modeling dif-
+     fusion of intracellular metabolites in the mouse brain up to very high
+     diffusion-weighting: diffusion in long fibers (almost) accounts for non-
+     monoexponential attenuation. Magnetic resonance in medicine, 77(1):343–
+     350, 2017.
+[69] Arthur Chakwizira, Kadir Şimşek, Filip Szczepankiewicz, Marco Palombo,
+     and Markus Nilsson. The role of dendritic spines in water exchange mea-
+     surements with diffusion mri: Double diffusion encoding and free-waveform
+     mri. arXiv preprint arXiv:2504.21537, 2025.
+[70] Kadir Şimşek, Arthur Chakwizira, Markus Nilsson, and Marco Palombo.
+     The role of dendritic spines in water exchange measurements with diffu-
+     sion mri: Time-dependent single diffusion encoding mri. arXiv preprint
+     arXiv:2506.18229, 2025.
+[71] Arthur Chakwizira, Carl-Fredrik Westin, Jan Brabec, Samo Lasič, Linda
+     Knutsson, Filip Szczepankiewicz, and Markus Nilsson. Diffusion MRI with
+     pulsed and free gradient waveforms: Effects of restricted diffusion and ex-
+     change. NMR in Biomedicine, 36:e4827, January 2023.
+[72] Paul T Callaghan. Principles of nuclear magnetic resonance microscopy.
+     Clarendon press, 1993.
+[73] Evren Özarslan, Cem Yolcu, Magnus Herberthson, Hans Knutsson, and
+     Carl-Fredrik Westin. Influence of the size and curvedness of neural pro-
+     jections on the orientationally averaged diffusion mr signal. Frontiers in
+     physics, 6:17, 2018.
+[74] Markus Nilsson, Samo Lasič, Ivana Drobnjak, Daniel Topgaard, and Carl-
+     Fredrik Westin. Resolution limit of cylinder diameter estimation by dif-
+     fusion mri: The impact of gradient waveform and orientation dispersion.
+     NMR in Biomedicine, 30(7):e3711, 2017.
+[75] Nian Wang, Jieying Zhang, Gary Cofer, Yi Qi, Robert J. Anderson,
+     Leonard E. White, and G. Allan Johnson. Neurite orientation dispersion
+     and density imaging of mouse brain microstructure. Brain Structure and
+     Function, 224:1797–1813, 2019.
+[76] Nian Wang, Leonard E. White, Yi Qi, Gary Cofer, and G. Allan Johnson.
+     Cytoarchitecture of the mouse brain by high resolution diffusion magnetic
+     resonance imaging. NeuroImage, 216:116876, 2020.
+[77] G. Allan Johnson, Yuqi Tian, David G. Ashbrook, Gary P. Cofer, James J.
+     Cook, James C. Gee, Adam Hall, Kathryn Hornburg, Catherine C. Kac-
+     zorowski, Yi Qi, Fang-Cheng Yeh, Nian Wang, Leonard E. White, and
+
+
+                                      40
+    Robert W. Williams. Merged magnetic resonance and light sheet mi-
+    croscopy of the whole mouse brain. Proceedings of the National Academy
+    of Sciences, 120(17):e2218617120, 2023.
+[78] Nian Wang, Surendra Maharjan, Andy P. Tsai, Peter B. Lin, Yi Qi, Abigail
+     Wallace, Megan Jewett, Fang Liu, Gary E. Landreth, and Adrian L. Oblak.
+     Integrating multimodality magnetic resonance imaging to the allen mouse
+     brain common coordinate framework. NMR in Biomedicine, 36(5):e4887,
+     2023.
+[79] Xinyue Han, Surendra Maharjan, Jie Chen, Yi Zhao, Yi Qi, Leonard E.
+     White, G. Allan Johnson, and Nian Wang. High-resolution diffusion mag-
+     netic resonance imaging and spatial-transcriptomic in developing mouse
+     brain. NeuroImage, 297:120734, 2024.
+[80] Raquel Garcia-Hernandez,          Antonio Cerdan Cerda,         Alejandro
+     Trouve Carpena, Mark Drakesmith, Kristin Koller, Derek K Jones,
+     Santiago Canals, and Silvia De Santis. Mapping microglia and astrocyte
+     activation in vivo using diffusion mri. Science Advances, 8(21):eabq2923,
+     2022.
+[81] Nicholas L. Turner, Thomas Macrina, J. Alexander Bae, Runzhe Yang,
+     Alyssa M. Wilson, Casey Schneider-Mizell, Kisuk Lee, Ran Lu, Jingpeng
+     Wu, Agnes L. Bodor, Adam A. Bleckert, Derrick Brittain, Emmanouil
+     Froudarakis, Sven Dorkenwald, Forrest Collman, Nico Kemnitz, Dodam
+     Ih, William M. Silversmith, Jonathan Zung, Aleksandar Zlateski, Igna-
+     cio Tartavull, Szi-chieh Yu, Sergiy Popovych, Shang Mu, William Wong,
+     Chris S. Jordan, Manuel Castro, JoAnn Buchanan, Daniel J. Bumbarger,
+     Marc Takeno, Russel Torres, Gayathri Mahalingam, Leila Elabbady, Yang
+     Li, Erick Cobos, Pengcheng Zhou, Shelby Suckow, Lynne Becker, Liam
+     Paninski, Franck Polleux, Jacob Reimer, Andreas S. Tolias, R. Clay Reid,
+     Nuno Maçarico da Costa, and H. Sebastian Seung. Reconstruction of
+     neocortex: Organelles, compartments, cells, circuits, and activity. Cell,
+     185(6):1082–1100.e24, Mar 2022.
+[82] Alexander Shapson-Coe, Michal Januszewski, Daniel R. Berger, Art Pope,
+     Yuelong Wu, Tim Blakely, Richard L. Schalek, Peter H. Li, Shuohong
+     Wang, Jeremy Maitin-Shepard, Neha Karlupia, Sven Dorkenwald, Evelina
+     Sjostedt, Laramie Leavitt, Dongil Lee, Jakob Troidl, Forrest Collman,
+     Luke Bailey, Angerica Fitzmaurice, Rohin Kar, Benjamin Field, Hank
+     Wu, Julian Wagner-Carena, David Aley, Joanna Lau, Zudi Lin, Donglai
+     Wei, Hanspeter Pfister, Adi Peleg, Viren Jain, and Jeff W. Lichtman. A
+     petavoxel fragment of human cerebral cortex reconstructed at nanoscale
+     resolution. Science, 384(6696):eadk4858, 2024.
+[83] Jan Karbowski and Paulina Urban. Information encoded in volumes and
+     areas of dendritic spines is nearly maximal across mammalian brains. Sci-
+     entific Reports, 13(1):22207, 2023.
+
+
+                                     41
+

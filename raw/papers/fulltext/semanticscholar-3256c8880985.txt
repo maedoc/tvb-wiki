@@ -1,0 +1,1570 @@
+A spatially discretized convolutional neural mass
+model for studying meso-scale spatio-temporal
+transformations in the rat hippocampus
+Duy-Tan J. Pham
+
+
+
+ University of Southern California
+Gene J. Yu
+ Duke University
+Gianluca Lazzi
+ University of Southern California
+Jean-Marie C. Bouteiller
+ University of Southern California
+
+
+
+Research Article
+
+Keywords: Neural Mass Models, multi-scale modeling, large-scale models, input-output modeling,
+forward modeling, Volterra series, meso-scale, hippocampus
+
+Posted Date: April 13th, 2026
+
+DOI: https://doi.org/10.21203/rs.3.rs-9306977/v1
+
+License:   This work is licensed under a Creative Commons Attribution 4.0 International License.
+Read Full License
+
+Additional Declarations: No competing interests reported.
+ A spatially discretized convolutional neural mass
+  model for studying meso-scale spatio-temporal
+     transformations in the rat hippocampus
+
+      Duy-Tan J. Pham1,2,4*† , Gene J. Yu3† , Gianluca Lazzi4,5,6 ,
+                   Jean-Marie C. Bouteiller1,2,4,5*
+1*
+   Neural Systems Computational Modeling Lab (NESCOM), University
+                of Southern California, Los Angeles, CA, USA.
+       2*
+          Center for Neural Engineering (CNE), University of Southern
+                       California, Los Angeles, CA, USA.
+    3
+      Brain Stimulation Engineering Lab, Department of Psychiatry and
+           Behavioral Sciences, Duke University, Durham, NC, USA.
+4
+  Alfred E. Mann Department of Biomedical Engineering, Viterbi School
+    of Engineering, University of Southern California, Los Angeles, CA,
+                                      USA.
+ 5
+   Institute for Technology and Medical Systems (ITEMS), Keck School
+ of Medicine, University of Southern California, Los Angeles, CA, USA.
+  6
+    Department of Electrical Engineering, Viterbi School of Engineering,
+           University of Southern California, Los Angeles, CA, USA.
+
+
+          *Corresponding author(s). E-mail(s): duytanph@usc.edu;
+                             jbouteil@usc.edu;
+             †
+               These authors contributed equally to this work.
+
+
+                                       Abstract
+     The brain operates across multiple spatial and temporal scales, necessitating
+     computationally efficient models that link micro-scale mechanisms to meso- and
+     macro-scale dynamics. Here, we introduce a novel convolutional neural mass
+     model (CNMM) that computes the meso-scale activity of spatially discretized
+     neural populations (“neural masses”) in the rat hippocampal CA3 subregion.
+     The CNMM employs a kernel-based architecture, leveraging first-order Volterra
+     expansions with Laguerre (temporal) and Chebyshev (spatial) basis functions to
+     transform input spike densities from entorhinal cortex (EC), dentate gyrus (DG),
+
+
+
+                                            1
+     and neighboring CA3 masses into output CA3 spike density. The model was
+     trained and validated using data from a biophysically detailed large-scale mecha-
+     nistic model (LSM) simulating exploratory behavior. The CNMM achieved high
+     predictive accuracy for spike density across 32 neural masses spanning the entire
+     extent of CA3 (mean correlation coefficient R = 0.951) and replicated theta and
+     beta oscillations consistent with experimental findings. When extended for for-
+     ward modeling, the CNMM accurately predicted local field potentials (LFPs) at
+     a single neural mass (R = 0.952). Kernel analysis revealed topographic gradi-
+     ents in afferent integration, with DG inputs dominating proximally (CA3c) and
+     associational connections distally (CA3a), aligning with anatomical gradients.
+     Compared to the LSM, the CNMM provided a 658-fold speedup in simulation
+     time, 322-fold reduction in memory usage, and 183-fold less disk space for LFP
+     predictions. This framework offers a scalable, efficient approach for meso-scale
+     modeling of neural tissue, bridging detailed simulations with empirical data for
+     insights into normal and pathological function.
+
+     Keywords: Neural Mass Models, multi-scale modeling, large-scale models,
+     input-output modeling, forward modeling, Volterra series, meso-scale, hippocampus
+
+
+
+
+1 Introduction
+The brain is inherently a multi-scale system, operating across many spatial and tem-
+poral scales that interact to produce cognition and behavior. Spatially, it spans from
+the molecular interactions within ion channels (nanometers), cellular dynamics of
+individual neurons (micrometers), to large-scale networks of entire brain regions (mil-
+limeters/centimeters). Temporally, brain dynamics unfold over multiple timescales,
+ranging from vesicular release of neurotransmitter (microseconds), to firing of action
+potentials (milliseconds), to synaptic plasticity and learning (seconds to hours), to
+neurodegenerative processes (years). Drug-based medical treatments constitute a clear
+illustration of these multi-scale interactions, where molecular-level changes lead to
+alterations in behavior. Computational neuroscience has been strongly driven by
+efforts to understand how drugs work and the mechanisms behind neural disorders,
+leading to the creation of a wealth of sophisticated, biophysically realistic models
+often siloed in their respective scale(s). Linking these models would enable a multi-
+scale approach to accurately propagate the functional outcomes from lower levels to
+higher levels, forming a comprehensive and holistic representation of the multi-scale
+mechanisms that underlie a therapeutic or degenerative condition. However, simply
+combining these detailed models at different scales requires a prohibitive amount of
+computational resources when modeling at the large-scale.
+    Large-scale models of neural systems involve simulating the activity of neuronal
+networks containing thousands to millions of neurons to capture the interactions and
+dynamics of neural populations of entire brain regions or subregions. These models rep-
+resent the activity taking place at the meso-scale and are important for understanding
+differences in processing or topographic variations in processing that occur within a
+region. Accurately representing the dynamics at the meso-scale is crucial as it bridges
+
+
+                                              2
+the micro-scale (subcellular and neuron levels) to the macro-scale (inter-regional and
+brain levels). Izhikevich and Edelman developed a large-scale thalamocortical model
+containing 1 million neurons capable of reproducing neuronal responses found in vitro
+in rats by using a simplified neuron model that is represented by coupled differential
+equations (Izhikevich and Edelman 2008). In 2015, colleagues from the Blue Brain
+Project developed a comprehensive large-scale model of the microcircuitry within the
+neocortex which was able to reproduce in vitro and in vivo experiments as well as
+emergent properties found in the brain (Markram et al. 2015). Biologically informed
+large-scale mechanistic models have also been developed to study the spatio-temporal
+encodings within the rat hippocampus which incorporate anatomically-constrained
+connectivity, conductance based synaptic dynamics, realistic neuron morphologies,
+multi-compartment circuits for representing neurons, topography, subcellular mecha-
+nisms (e.g., multiple ion channels), over a million neurons, and more. (Hendrickson
+et al. 2016; Yu et al. 2013, 2018). Such detailed and high-dimensional models come
+with a heavy computational burden that require simulations to take place on either
+supercomputers or high-performance computer clusters thus motivating the necessity
+for more efficient methodologies that reduce computational demand.
+    Significant reduction of dimensionality at the meso-scale is achieved with neural
+mass models (NMMs) in which the dynamics of neuronal populations is quantified by
+their mean activity (Breakspear 2017). Some of the earliest examples of NMMs were
+from (Wilson and Cowan 1972; Jansen and Rit 1995) in which the firing rates of neu-
+ral populations—excitatory and inhibitory—were modeled using coupled differential
+equations which continued to become key components in the Virtual Brain modeling
+platform(Sanzleon et al. 2013). This framework was extended in (Gerstner 1995) and
+(Brunel 2000) in which mean-field models were used to derive population dynamics
+from biophysical principles of spiking neurons, enabling analysis of network stability
+and irregular firing regimes. However, these models often abstract away input-specific
+transformations, focusing instead on averaged excitatory-inhibitory interactions with-
+out explicit handling of topographic or afferent-specific variations. Because NMMs
+represent aggregate activity of entire populations, they are natural contenders for
+addressing the forward problem, which entails predicting observable signals (e.g., elec-
+tromagnetic fields or hemodynamic responses) generated by underlying neural sources.
+Consequently, NMMs are widely employed in forward modeling to simulate macro-
+scopic signals such as local field potentials (LFPs), electroencephalography (EEG),
+magnetoencephalography (MEG), and functional magnetic resonance imaging/blood
+oxygenation level dependent (fMRI/BOLD) signals (Telenczuk et al. 2020; Tesler et al.
+2022; Bojak et al. 2010, 2011). This has led to clinical applications involving simu-
+lation of brain oscillations, giving insight into the mechanisms underlying different
+brain states and neuropathologies. For example, a neural mass modeling approach was
+employed to simulate movement-related beta decrease (MRBD) and post-movement
+beta rebound (PMBR) in motor cortex, elucidating the reduced PMBR observed in
+schizophrenia patients (Byrne et al. 2017). In (Song et al. 2020), a NMM methodology
+was used for early epileptic seizure detection through analysis of EEG data. In contrast
+to the forward problem, the inverse problem involves inferring the neural sources that
+give rise to observed signals. In (Li et al. 2021), a neural mass modeling framework
+
+
+
+                                           3
+coupled with a hemodynamic model was utilized to infer mesoscopic parameters and
+effective connectivities from empirical macroscopic fMRI BOLD signals. This inversion
+technique led to the identification of the neural circuits most likely involved in major
+depressive disorder. Furthermore, a multi-scale mean-field model of the CA1 region of
+the hippocampus was developed in (Tesler et al. 2024) in which meso-scale dynamics
+were replicated such as the theta and gamma rhythms. Building on this methodology,
+a very similar approach was applied to evaluating the impact of molecular mecha-
+nisms, such as the anesthetic effects on synaptic receptors, on whole-brain dynamics
+(Sacha et al. 2025). Although granularity at the individual neuron level is lost by
+aggregating activity across populations, NMMs enable the capture of population-level
+dynamics that encode complementary information not fully represented in single-unit
+spiking. For example, multi-scale decoding frameworks have demonstrated that local
+field potentials (LFPs)—reflecting synchronized population activity—provide syner-
+gistic improvements in behavioral decoding when combined with spike data, suggesting
+that information is encoded at multiple spatio-temporal scales (Hsieh et al. 2019).
+    Input-output modeling refers to a class of data-driven and statistical approaches
+that aim to directly map inputs to outputs mathematically in contrast to mechanistic
+approaches that aim to model the underlying biology of a system. Because input-
+output models circumvent the complexity of mechanistic approaches, they achieve
+computational efficiency and require no prior knowledge of the system. However, they
+are limited in that they provide less mechanistic insight into the system. Some exam-
+ples of input-output modeling techniques include generalized linear models (GLMs),
+deep neural networks, and the Volterra functional power series. For instance, Pillow
+et al. (Pillow et al. 2008) employed a GLM to predict spike responses of a population
+of retinal ganglion cells by applying spatio-temporal filters on visual stimuli and cou-
+pling filters between neurons. Modeling via the Volterra series involves convolutions
+between inputs and higher order kernels within a memory window to predict the tar-
+get output and can represent nonlinear dynamics. In (Friston et al. 2000), the Volterra
+framework was used to validate the Balloon-Windkessel model, demonstrating that it
+could capture the nonlinearity associated with the BOLD signal and neuronal activ-
+ity. Expansion of Volterra kernels using Laguerre basis functions were shown to be
+an effective, yet computationally light methodology in simulating physiological signals
+and gave rise to a rich family of Laguerre-Volterra models spanning the many differ-
+ent scales of the brain (Marmarelis 1993). For example, dynamics of the membrane
+potential of in vitro CA3 pyramidal cells were captured using the Laguerre-Volterra
+framework, enabling identification of kernel differences between control and epilepto-
+genic conditions (Kang et al. 2010). Furthermore, the Laguerre-Volterra approach was
+expanded and formed the computational basis for modeling CA1 pyramidal cell spik-
+ing, and ultimately, a hippocampal prosthetic for restoring memory function (Song
+et al. 2009; Berger et al. 2011; Song et al. 2018). In (Kostoglou et al. 2012, 2024),
+the Laguerre-Volterra methodology was used to predict spike times in the subthala-
+mic nucleus from input LFP signals and provided a data-driven protocol for optimal
+electrode placement in treating Parkinson’s disease using deep brain stimulation.
+Additionally, nonlinear synaptic dynamics were accurately represented using Laguerre-
+Volterra expansion, resulting in computationally efficient modeling of glutamatergic
+
+
+
+                                           4
+receptors and enabling large-scale multi-scale models of neural systems (Hu et al. 2015,
+2018).
+    In this paper, we propose a novel kernel-based, convolutional neural mass model
+(CNMM) to represent the mean activity of spatially discretized bins (“neural masses”)
+of the CA3 subregion within the rat hippocampus. The model is trained and validated
+using meso-scale data generated from an anatomically detailed large-scale mechanistic
+model of the rat hippocampus. The architecture of the CNMM is composed of Volterra
+kernels, expanded using Laguerre and Chebyshev basis functions. We demonstrate
+that our model can successfully capture the meso-scale dynamics across the CA3
+topography and illustrate its utility in forward modeling by accurately predicting
+local field potential signals. We also show the significant reduction in computational
+demands compared to that of the large-scale mechanistic model. Finally, we discuss
+the implications of this work and how it serves as a foundational proof-of-concept for
+future applications in computational neuroscience.
+
+2 Methods
+2.1 Spatially discretized neural masses across CA3 extent
+For this study, a “neural mass” was defined to be a population of neurons that are
+contained within a spatial bin. A two-dimensional bin was used based on a flattened
+representation of the hippocampal map in which the two main axes are the trans-
+verse/proximodistal axis (x-axis) and the longitudinal/septotemporal axis (y-axis).
+The CA3 subregion of the rat hippocampus was divided into multiple neural masses
+of the same bin size, 0.2 mm (proximodistal) by 0.5 mm (septotemporal), resulting
+in a total of 304 neural masses. On average, a neural mass contained approximately
+82 CA3 pyramidal cells and 33 CA3 basket cells in a network representing 1/10th
+the number of neurons in a true rat hippocampus. For simplicity, optimization was
+completed on a subset of 32 neural masses that span the majority of the CA3 extent,
+including the three subfields: CA3a, CA3b, CA3c. Fig. 1 provides visualization of the
+two-dimensional CA3 neural masses.
+
+2.2 Data from a large-scale mechanistic model
+The CNMM is a mesoscopic input-output analog to our previously developed large-
+scale mechanistic model, described extensively in (Yu et al. 2018, 2019, 2020), of the
+rat entorhinal-dentate-CA3 system within the hippocampus. Briefly, this large-scale
+model (hereby, abbreviated as LSM) features neuronal connectivity based on anatom-
+ical topography, realistic cell morphologies, conductance-based synaptic dynamics,
+multi-compartment circuits, topographical gradients within hippocampal subregions,
+subcellular mechanisms, a large-scale number of neurons, and more. The LSM was
+implemented using the NEURON simulation environment (Hines and Carnevale 1997).
+For this study, the number of neurons contained in the DG and CA3 were reduced to
+1/10th of the full-scale number of neurons for simplicity. The neurons involved in this
+model include:
+• 25,000 CA3 pyramidal cells
+
+
+                                           5
+Fig. 1 Discrete CA3 neural masses. (A) The hippocampus was flattened to create a standard
+coordinate system. The CA3 subregion was divided into discrete spatial bins, or neural masses.
+(B) The precise map of CA3 neural masses used in this study are shown. The major axes include
+the proximodistal axis and the septotemporal axis (units of mm). A proximodistal position of zero
+represents the interface between CA3 and CA1. Neural masses were 500 µm by 200 µm. Thick black
+rectangles indicate neural masses that were optimized in this study. The three subfields (CA3a, CA3b,
+and CA3c) are shown and color coded.
+
+
+• 10,000 CA3 basket cells
+• 120,000 dentate gyrus granule cells
+• 8,086 dentate gyrus basket cells
+• 46,000 lateral entorhinal cortex cells
+• 66,000 medial entorhinal cortex cells
+    One of the major inputs to the hippocampus is the entorhinal cortex (layer II),
+which projects to both the dentate gyrus and CA3 via the perforant path. Grid cells,
+located in the medial entorhinal cortex (MEC), encode spatial information through
+receptive fields that are organized in a hexagonal grid-like pattern (known as the grid
+field) and span the spatial environment of an animal (Hafting et al. 2005; Blair et al.
+2007). Grid field properties vary over the dorsoventral axis of the MEC (Stensola
+et al. 2012). To capture these physiological details, grid cell firing activity—along with
+their property gradients—was simulated to provide biologically realistic MEC input
+
+
+
+                                                 6
+to the LSM during an exploration task in an 80 cm by 80 cm square environment for
+40 seconds. The trajectory was generated by sampling uniformly distributed random
+variables including: the speed of the rat (0-30 cm/s), the direction of movement (0◦ -
+360◦ ), and time duration that the rat would move with the sampled velocity (0-
+500 ms). Movement that would cause the trajectory to exit the square boundaries
+was reflected so that the path remained inside the boundaries. Every grid cell in the
+network was uniquely assigned a grid map based on its spatial location within the
+MEC (Yu et al. 2019). Grid maps were simulated as a summation of three cosine
+functions, rotated in increments of 60◦ from each other, to form a hexagonal lattice
+that projects onto the square environment (Blair et al. 2007).
+                                    3                             !
+                                   X         4π
+                 G(r, λ, θ, c) = g     cos √ z (θk + θ) · (r − c)                 (1)
+                                   k=1
+                                              3λ
+
+                         z (θk + θ) = (cos(θk + θ), sin(θk + θ))                        (2)
+
+                                        g (x) = ea(x−b) − 1                              (3)
+    where the vector r corresponds to the position of the virtual rat at (xrat , yrat ) and
+the vector c = (xof f set , yof f set ) determines the spatial offset of the grid map. The
+variable λ determines the distance between grid fields. The parameter a determines
+the width of the grid fields while b = −3/2 sets the minimum value of the function to
+zero. Grid maps were normalized such that the maximum firing rate of the grid cell was
+50 Hz. The grid maps define the firing rate of the grid cells as a function of the rat’s
+position within the square environment. As the rat moves within the environment, the
+firing rates of the grid cells will change accordingly. An inhomogeneous Poisson renewal
+process (with firing rates that change as the rat moves through its grid maps) is used to
+generate spike times for these grid cells. Additional details for implementing grid cell
+activity are extensively discussed in (Yu et al. 2019). Lateral entorhinal cortical (LEC)
+neurons provide non-spatial information related to objects and sensation. However,
+our goal in this study was to only simulate spatial navigation. Therefore LEC neurons
+were simplified and fired randomly as Poisson point processes with a mean firing rate
+of 5.50 Hz, contributing noise to the system.
+    The resulting spiking data generated from the LSM simulation represents behav-
+iorally relevant activity (i.e., exploration) in the rat hippocampus and was used to
+generate ground truth data which was utilized for training the CNMM. As with tradi-
+tional neural mass models, the CNMM used a population mean firing rate to describe
+the dynamics of each neural mass. To estimate the mean firing rate, a spike density
+function was utilized which converts spike trains into a smooth, continuous, and differ-
+entiable signal (Szucs 1998). To convert the LSM spiking data into ground truth spike
+density data, the temporal conduction delays were computed for each input cell to a
+target neural mass by dividing the length of the signal’s path by a propagation velocity
+(0.27, 0.32 mm/ms for EC, DG, respectively), which represents the latency between
+the generation of the action potential in the presynaptic neuron and the arrival of
+the resulting postsynaptic potential at the soma of the target neuron. Using the con-
+duction delays, the input spike time histograms (also referred to as peristimulus time
+
+
+                                             7
+histogram, or PSTH) for all neural masses were calculated. The spike time histogram
+is a discrete-valued time-varying signal which represents the sum of the binary spiking
+activity of multiple neurons. At each time bin (width of 2 ms), the number of excita-
+tory input neurons firing (with delay considered) in the LSM that project to a given
+CA3 neural mass was summed to obtain the input spike time histogram. Similarly, the
+output spike time histogram was computed by summing the number of CA3 pyrami-
+dal cells firing within the neural mass at each time bin. All spike time histograms were
+standardized by subtracting the signal’s mean and dividing by the signal’s standard
+deviation to prevent bias in the model stemming from differences in magnitude across
+inputs. Finally, the standardized spike time histograms were convolved with a Gaus-
+sian kernel to produce a smooth spike density function (or simply, ”spike density”).
+This process yielded input spike density traces coming from EC and DG and an out-
+put CA3 spike density trace for each CA3 neural mass. The Gaussian kernel is one of
+the most frequently used kernels for the spike density function and is given by Eq. (4).
+                                                      2
+                                              1       −t
+                                k w ( t) = √     exp                                  (4)
+                                             2πw      2w2
+where w is an open parameter that defines the bandwidth of the kernel. To pick the
+optimal value of w, the algorithm provided in (Shimazaki and Shinomoto 2010) was
+used, which is spike train dependent. A bandwidth value of 10 ms was chosen for DG
+and CA3 spike densities while a value of 100 ms was chosen for EC spike densities.
+Fig. A1 visualizes the effect of changing the Gaussian kernel’s bandwidth w. In general,
+increasing the value of w will cause the signal to filter out high frequency content and
+approach a flat, constant signal. For clarity, the Gaussian kernels were only used in
+the data conversion stage to obtain spike densities and is not to be confused with the
+kernels that compose the structure of the CNMM.
+    To summarize, the inputs to the CNMM were the spike densities projected from
+EC (perforant path), DG granule cells (mossy fiber pathway), and CA3 pyramidal
+cells (PCs) from neighboring neural masses (associational connections) while the out-
+put was the spike density response from CA3 pyramidal cells contained in the target
+neural mass. The outputs of the CNMM were comprised only of the principal neurons
+of the subregion, i.e., the pyramidal cells of the CA3. Inhibitory basket cells (BCs)
+exist in the large-scale mechanistic model within the DG and CA3 subregions, but
+their contributions to the dynamics in the CNMM were only implicitly represented by
+the kernels extracted from the methodology. In addition to spike density, the trans-
+membrane currents of each cell in CA3 were recorded. These currents were used to
+estimate the LFP response, as measured in CA3, and also served as ground-truth data
+for the CNMM when predicting LFP. More details on LFP estimation are discussed
+in Section 2.4.
+    Finally, the high-level workflow from the large-scale mechanistic model of the rat
+hippocampus to the proposed convolutional neural mass model is illustrated in Fig. 2.
+
+
+
+
+                                           8
+Fig. 2 LSM to CNMM workflow. A large-scale mechanistic model of the rat hippocampus was
+simulated, representing rat exploration in an 80 cm by 80 cm square space. The resulting spike times
+were then converted into input and output spike density traces for every neural mass, providing
+training data for the convolutional neural mass model. Optimization was performed, resulting in the
+estimated Volterra kernels that comprised the CNMM.
+
+
+2.3 Architecture of the CNMM
+The CNMM adopts a filter or kernel-based architecture that uses Volterra expansions
+to represent the impulse response of the system as a linear weighted sum of nonlin-
+ear basis functions (Marmarelis 1993). The structure of the model, shown in Fig. 3,
+was strongly influenced by the true anatomical circuits in the EC-DG-CA3 system
+which are the perforant path, the mossy fibers, and the CA3 associational connec-
+tions. Each input population’s spike density was transformed via convolution with its
+corresponding feedforward kernel (EC, DG, and adjacent CA3 populations). Addition-
+ally, a temporal feedback kernel was used to capture the dynamics of the associational
+connections of the neural mass’s own CA3 PCs as well as the recurrent connections
+within CA3 from its basket cells (i.e., the CA3PC→CA3BC→CA3PC loop). Collec-
+tively, these convolutions produced four different time series (3 from the inputs, 1 from
+the feedback) which were weighted and summed to generate the model’s output pre-
+diction. For using the CNMM to predict CA3 spike density, we specify the model as
+SD-CNMM (to differentiate it from its use in LFP prediction).
+    The EC, DG, and feedback kernels are temporal kernels that only operate in the
+time domain, representing the impulse response of the system due to a single unit of
+spike density. The CA3 associational kernel (hereby referred to as the coupling kernel),
+is three-dimensional and operates in both the spatial and temporal domains. The three
+dimensions come from two dimensions of space (corresponding to the proximodistal
+and septotemporal axes) and one dimension of time. The spatial components of the
+kernel represent how the magnitude of neighboring neural mass activity is integrated
+as a function of distance (i.e., spatial lag) from the target neural mass. Spatio-temporal
+kernels (i.e., the coupling kernels) were constructed by taking the outer products
+of two spatial components and one temporal component. The feedforward kernels
+(EC, DG, and coupling) were composed of a linear weighted sum of basis functions
+and are equivalent to first-order Volterra kernels. In the temporal domain, Laguerre
+basis functions were used. The Laguerre polynomials have been demonstrated to be
+excellent candidate basis functions in representing physiological and neural dynamics
+(Marmarelis 1993; Song et al. 2009; Hu et al. 2015). They exhibit orthogonality, good
+
+
+                                                 9
+Fig. 3 CNMM structure for spike density prediction. The architecture of the SD-CNMM
+is illustrated. A single CA3 neural mass was represented as a collection of kernels. Inputs to the
+model include spike densities coming from EC (perforant path), DG (mossy fibers), and neighboring
+CA3 neural masses (associational connections). Transformation of inputs was performed via con-
+volution with corresponding feedforward kernels. Feedforward kernels were composed of first-order
+Volterra expansions using a linear combination of basis functions. For EC and DG, the kernels were
+temporal and were expanded using Laguerre basis functions. The coupling kernel, KC , was a three-
+dimensional spatio-temporal filter representing the transformation of CA3 associational connections.
+It was expanded using both Laguerre (temporal) and Chebyshev (spatial) basis functions. A tem-
+poral feedback, i.e., auto-regressive, kernel was also used, which was not represented as a Volterra
+expansion, but instead, a simple vector of learned weights and delay. The output predicted by the
+model was the spike density of the CA3 PCs belonging to the neural mass.
+
+
+convergence, and significantly reduce the number of terms in Volterra models. The
+nth order discrete-time orthonormal Laguerre function is given by Eq. (5).
+
+              (                               Pτ
+                  (−1)τ α(n−τ )/2 (1 − α)1/2 × k=0 (−1)k τk nk ατ −k (1 − α)k ,
+                                                            
+                                                                                       0≤τ <n
+Ln,α (τ ) =                                   Pn
+                  (−1)n α(τ −n)/2 (1 − α)1/2 × k=0 (−1)k τk nk αn−k (1 − α)k ,
+                                                            
+                                                                                       n≤τ ≤M
+                                                                                            (5)
+
+
+
+                                                10
+    The discrete-time Laguerre parameter α determines the rate of exponential   decay
+and is defined on the interval 0 < α < 1. Note, the notation nk represents the
+                                                                     
+
+combination function which computes the number of ways to choose k elements from
+a set of n elements without regard to order.
+    In the spatial domain, Chebyshev basis functions were used which exhibit orthog-
+onality, symmetry, computational efficiency, fast convergence, and numerical stability.
+Past works have demonstrated the efficacy of Chebyshev polynomials in modeling dis-
+crete, spatially varying random fields and ophthalmic surfaces (Liu and Zhang 2017;
+Rodrigues et al. 2019). The nth order Chebyshev polynomial is given by Eq. (6).
+                              ⌊n/2⌋       
+                              X         n
+                  Tn ( x) =                  xn−2k (x2 − 1)k ,   x ∈ [−1, 1]        (6)
+                                        2k
+                              k=0
+The above equation defines the Chebyshev polynomials on the interval x ∈ [−1, 1].
+The equation was modified to be scaled to an open parameter r as shown in Eq. (7).
+                              ⌊n/2⌋ 
+                                        n xn−2k (x2 − r2 )k
+                              X            
+                 Tn,r (x) =                                 ,     x ∈ [−r, r]       (7)
+                                        2k       rn
+                              k=0
+For purposes of this study, the parameter r represents the maximal spatial lag (i.e.,
+within the CA3) that the Chebyshev basis functions can span. Laguerre and Chebyshev
+basis functions, and their outer products, are visualized in Fig. 4.
+    As shown above, the basis functions give rise to the open and learnable metapa-
+rameters r and α. In the CNMM, each kernel has independent metaparameters that
+must be optimized to minimize prediction error. The EC and DG kernels have an α
+value, which dictates the decay rate of the Laguerre basis functions and determines
+the temporal dynamics of the kernel. The coupling kernel has an α value and two r
+values: rx (spatial extent in the proximodistal direction) and ry (spatial extent in the
+septotemporal direction). Both rx and ry dictate the spatial extent of the Chebyshev
+basis functions, determining how far in space (from the neural mass being modeled)
+the kernel recruits neighboring CA3 neural mass inputs from. The feedback kernel
+has a single metaparameter, Ndelays , which determines the amount of initial zero-
+padding applied to the temporal filter. Collectively, these four kernels are governed
+by a total of 6 free metaparameters which must be optimized for output prediction
+of a single CNMM. Additional metaparameters to the model exist, but are set to a
+constant value and are not optimized during training. They are referred to as static
+metaparameters. The memory window M defines the kernel time length, determin-
+ing the temporal extent to which past dynamics influence the present. The value of
+M is set to 1000 ms to ensure a sufficient duration is provided to capture all dynam-
+ics and transients without capturing false dynamics from events too far in the past.
+The static metaparameters Nt , Nx , and Ny are the basis orders, which determine the
+maximum order of the basis functions in the temporal domain (Laguerre bases) and
+two spatial domains (Chebyshev bases), respectively. For example, if Nt = 3, then the
+corresponding kernel contains Laguerre basis functions up to third order. There also
+exist static metaparameters Pt , Px , and Py which determine the power of each kernel
+in their respective domains. For example, Pt = 3 indicates that the temporal kernel
+
+
+                                                11
+Fig. 4 Laguerre and Chebyshev basis functions. The Laguerre (top-left) and Chebyshev (top-
+right) polynomials are shown. The outer products between these two families of polynomials (bottom
+panel) represent the bases for a hypothetical two-dimensional spatio-temporal kernel.
+
+
+will include basis function terms of up to the third power. Static metaparameter values
+for the CNMM are summarized in Table 1. As the value of the static metaparameters
+increase, so do the total number of weights in the model. Therefore, static metapa-
+rameters were tuned manually to provide a sufficiently rich basis set that could fit
+complex waveforms and produce an accurate model while also maintaining a feasible
+number of weights to keep computational demand low.
+    The following equations show how the CNMM computes the output, v̂ (x0 ,y0 ) (t), at
+a neural mass with center located at (x0 , y0 ):
+
+
+
+
+                                               12
+                       Table 1 Static metaparameters of the CNMM
+
+                                                                        Kernel
+                        Static Metaparameter          EC         DG     Coupling      Feedback
+                        Nt                             8         8          3              –
+                        Nx                             –         –          4              –
+                        Ny                             –         –          4              –
+                        Pt                             5         5          3              –
+                        Px                             –         –          3              –
+                        Py                             –         –          3              –
+                        M                                               1000 ms
+
+
+
+
+                      {EC,DG} M                                          M
+                       X       X                                         X
+ v̂ (x0 ,y0 ) (t) =                             (x0 ,y0 )
+                                      Kreg (τ )ureg       (t − τ ) +            KB (τ )v̂ (x0 ,y0 ) (t − ∆t − τ )
+                        reg    τ =0                                      τ =0
+                                                       ry
+                                                                                                                     (8)
+                                              rx
+                                              X       X      M
+                                                             X
+                                         +                           KC (i, j, τ )uC (x0 − i, y0 − j, t − τ )
+                                             i=−rx j=−ry τ =0
+
+
+                              Nt X
+                              X  Pt
+              Kreg (τ ) =                   wreg (nt , pt )(Lnt ,α (τ ))pt ,       reg ∈ {EC, DG}                    (9)
+                              nt =1 pt =1
+
+
+                                                                          Ny
+                                                                       Nx X        Py
+                                                                                Px X
+                                                                             Nt X     Pt
+                                                                       X     X        X
+                                                 KC (i, j, τ ) =
+                                                                      nx =1 ny =1 nt =1 px =1 py =1 pt =1
+                                                                                                                    (10)
+            wC (nt , pt , nx , px , ny , py )(Tnx ,rx (i))px ⊗ (Tny ,ry (j ))py ⊗ (Lnt ,α (τ ))pt
+
+    where v̂ (x0 ,y0 ) (t) represents the model output which is either the CA3 spike density
+for SD-CNMM or the transmembrane current for LFP-CNMM (see Section 2.4 for
+details). The superscript (x0 , y0 ) denotes the location of the neural mass of interest.
+Eq. (8) is the main equation that relates the output v̂ (x0 ,y0 ) (t) from the inputs u(t).
+The equation can be interpreted as the sum of all four kernel contributions. The first
+summation in Eq. (8) represents the contributions from the EC and DG kernels by
+computing the time-domain convolutions of the kernels KEC (τ ) and KDG (τ ) with
+                                       (x ,y )         (x0 ,y0 )
+their respective input signals uEC0 0 (t) and uDG                (t). The second summation in
+Eq. (8) represents the contribution from the feedback kernel KB (τ ) and its convolution
+with the auto-regressive signal v̂ (x0 ,y0 ) (t − ∆t) with ∆t = 2ms (the sampling period).
+The feedback kernel KB (τ ) is a vector of freely learnable coefficients and governed
+by the learnable metaparameter Ndelays which determines the amount of initial zero-
+padding of the kernel. The third summation in Eq. (8) represents the contribution
+from the coupling kernel KC (i, j, τ ) which performs a three-dimensional convolution
+that results in a time-domain signal (with space held at a constant value). The signal
+
+
+                                                            13
+uC (x, y, t) represents the CA3 spike density time series at neural masses located at
+(x, y ). Eq. (9) represents the general form of the temporal EC and DG kernels as a
+linear combination of different orders (up to Nt ) and powers (up to Pt ) of the Laguerre
+basis functions with weight coefficients wEC and wDG that were estimated during
+model optimization. Similarly, Eq. (10) represents the general form of the spatio-
+temporal coupling kernel as a linear combination of different orders and powers of
+the Chebyshev and Laguerre basis functions with weight coefficients wC . Note, the
+⊗ symbol represents the outer product which expands the individual one-dimensional
+basis functions resulting in a three-dimensional kernel. Additionally, the learnable
+metaparameter α will have different values across the different kernels.
+
+2.4 CNMM as a forward model
+The CNMM methodology was extended as a forward model to predict CA3 LFP signals
+(referred to as LFP-CNMM). Kernel-based methods for calculating LFPs have been
+explored by multiple previous studies. In (Telenczuk et al. 2020), LFPs originating
+from hippocampal pyramidal cells were estimated via summation of unitary LFPs
+(uLFP) which were modeled by convolution of spike times and uLFP kernels. This
+work was expanded in (Tesler et al. 2022) in which both LFP and MEG signals were
+computed via convolution of kernels with the mean firing rates of neuronal populations
+in a mean-field model (functionally equivalent to a NMM). In (Ness et al. 2025),
+the authors performed analysis on the validity of LFP and EEG estimation from
+population firing rates and concluded that kernel-based methods were best suited for
+scenarios involving asymmetric neurons that receive spatially clustered and highly
+correlated synaptic inputs, such as in pyramidal cells. The authors also noted the
+importance of validating kernel-based methods against ground truth data coming from
+biophysical models since past works were often derived from networks of point-neurons,
+making it unclear how accurate their predictions were. This limitation was addressed
+in (Hagen et al. 2022) in which spatiotemporal kernels were convolved with population
+spike rates to predict extracellular potentials and could accurately replicate ground
+truth signals derived from a biophysical model. We propose a similar kernel-based
+approach which was also validated using a biophysically detailed model of CA3.
+    It has been well established that the major origin of extracellular fields and
+LFPs are transmembrane currents, especially those originating from synaptic activ-
+ity (Buzsáki et al. 2012). Therefore, the CNMM structure was extended to predict
+the total transmembrane current of a neural mass at different strata (layers) of CA3.
+The layers of CA3 were vertically stacked along the radial axis. We defined the total
+transmembrane current of a layer as the sum of all transmembrane currents from all
+compartments of pyramidal and basket cells contained within the neural mass and
+layer. For this study, the layers included in the model were: str. lacunosum molecu-
+lare (distal), str. lacunosum moleculare (proximal), str. radiatum, str. lucidum, str.
+pyramidale, str. oriens (proximal), and str. oriens (distal). Anatomically, the input pro-
+jections to CA3 are organized in a layer-specific fashion. LEC and MEC inputs target
+the lacunosum moleculare layers, CA3 associational connections target the radiatum
+and oriens layers, and DG mossy fibers target the lucidum and proximal oriens layers
+as depicted in Fig. 5A. Fig. 5B illustrates the adapted CNMM architecture for LFP
+
+
+                                           14
+prediction, called current layer models. Seven current layer models were generated,
+each representing a different stratum within the CA3 neural mass. A single current
+layer model had an identical kernel-based architecture to the CNMM for spike den-
+sity prediction with the exception that total transmembrane current was predicted
+rather than spike density. Total transmembrane currents predicted from the current
+layer models were assumed to be point sources and were converted into LFPs via the
+point-source approximation equation given by Eq. (11).
+                                          N
+                                          X       Ik
+                                     ϕ=                                               (11)
+                                                4πσrk
+                                          k=1
+    where ϕ represents the LFP, Ik represents the current from the k th point source
+at a distance of rk from the recording site. N denotes the number of current sources
+(i.e., the number of layers: seven). Conductivity of the medium (i.e., extracellular
+space) is denoted by σ and was set to a constant value of 0.3 S/m. Because the total
+transmembrane current from a single layer was simplified to a single point, the value
+of rk was defined as the distance between the recording electrode and the center of
+the k th layer.
+    As with spike density prediction, the ground truth training data for LFPs came
+from the LSM simulation. The neuron models in the LSM spanned the seven layers
+of CA3. The layer-specific transmembrane currents of every cell were recorded. At
+each layer, the transmembrane currents of each cell were summed, resulting in the
+total transmembrane current of that layer. These total transmembrane currents served
+as the ground truth data that the current layer models (of the LFP-CNMM) aimed
+to predict. Additionally, ground truth LFP data was generated by using the point-
+source approximation in which every cell’s compartment was considered a current
+point source.
+
+2.5 Model optimization
+As discussed earlier, the CNMM paradigm gives rise to six open metaparameters that
+must be optimized. Due to the 6-dimensional parameter space that must be searched,
+the particle swarm optimization (PSO) algorithm was chosen (Kennedy and Eberhart
+1995). Briefly, PSO is a population-based evolutionary algorithm in which multiple
+candidate solutions, or “particles”, are randomly initialized across the parameter space
+and iteratively updated to minimize the loss function. The algorithm takes advantage
+of exploration (sampling of diverse parameter combinations) and exploitation (con-
+vergence toward the best solution). With each iteration, every particle moves to a
+different position in the parameter space based on a stochastically weighted sum of
+the current global best solution, the particle’s personal best solution, and the parti-
+cle’s previous velocity. The collective behavior of the particles leads to an efficient and
+effective optimization algorithm capable of navigating a complex parameter landscape.
+PSO contains three weights which define the contributions of the particle’s velocity
+(called inertia), the population’s global best solution (called the social weight), and
+the particle’s personal best solution (called the cognitive weight) in determining the
+particle’s next position. In this study, the PSO algorithm was implemented using
+
+
+                                            15
+Fig. 5 LFP-CNMM architecture. (A) A CA3 neural mass was divided into seven layers, each
+receiving synaptic inputs from specific subregions. The current layer model predicted total trans-
+membrane currents at each layer and was used to calculate the local field potential (LFP). (B) The
+CNMM architecture was extended to predict LFP signals (LFP-CNMM). The depicted architecture
+is for a single CA3 neural mass. The model was composed of seven current layer models (in yellow),
+each used for prediction of the total transmembrane current of a specific layer in CA3. The total
+transmembrane currents were converted into an LFP prediction via the point-source approximation
+equation (depicted as blue box).
+
+
+the Inspyred library (Garrett 2023) (in Python 3.8), which provides a framework for
+solving optimization problems using genetic and evolutionary algorithms. The LSM
+was used to simulate 40,000 ms of simulated data: 32,000 ms for training and 8,000
+
+
+
+                                               16
+ms for validating the CNMM (i.e., an 80/20 train-test split). 32 neural masses, that
+spanned the CA3, were optimized for spike density prediction. The number of parti-
+cles was set to 200. Optimization was run for 2 hours per neural mass, which resulted
+in approximately 140 generations and allowed convergence to be reached. The iner-
+tia, social weight, and cognitive weight were set to: 0.25, 1.0, and 2.0, respectively.
+Mean-squared error between CNMM prediction and LSM-derived ground-truth data
+was used as the main loss function. Additionally, estimation of all kernel weights was
+accomplished using ridge regression (Hoerl and Kennard 1970) which provides regu-
+larization by penalizing large-magnitude coefficients and preventing overfitting while
+maintaining model stability. Ridge regression has an open regularization parameter
+λridge that determines the strength of penalizing coefficients and was set to a value
+of 10. For LFP prediction, optimization was performed on a single CA3 neural mass
+that was closest to the center of the CA3 region. This representative location was cho-
+sen to demonstrate the CNMM’s capability as a forward model for LFP signals while
+maintaining computational tractability across the full population of neural masses.
+The seven current layer models of the LFP-CNMM were each optimized individu-
+ally using the previously described process. Additionally, the ground truth data were
+LSM-derived transmembrane currents rather than spike density. Optimization was
+performed on the University of Southern California’s Center for Advanced Research
+Computing (CARC) nodes using AMD EPYC 7513 CPUs.
+
+3 Results
+3.1 Accuracy in spike density prediction
+The CNMM’s accuracy was evaluated by measuring the correlation coefficient R
+between 8,000 ms of the reference CA3 spike density signal (i.e., the validation set
+from the simulated rat exploration task) and the CNMM’s estimated spike density
+signal. Accuracy was evaluated across the 32 optimized neural masses that spanned
+the extent of the CA3. The dimensions of the neural mass spatial bins were 0.2 mm
+(proximodistal) by 0.5 mm (septotemporal). All signals had a sampling period of 2
+ms. Fig. 6 shows the achieved R values across the neural masses. The results show
+the strong predictive power of the CNMM with minimum, maximum, and mean R-
+values of 0.887, 0.986, and 0.951, respectively. Fig. 7 visually compares the CNMM
+spike density estimates to the reference signals. In order to visualize the frequen-
+cies captured by the CNMM, the power spectral density (PSD) was computed (via
+Welch’s method) on the CNMM spike density estimates and reference signals shown
+in Fig. 8. The power spectra show that the CNMM is able to replicate oscillations in
+the frequencies exhibited by the LSM. Additionally, they show that CA3 mesoscopic
+dynamics from the CNMM and LSM exhibit oscillations predominantly in the theta
+band (4-8 Hz), and with increasing power in the high beta band (20-30 Hz) when
+approaching the distal end of CA3. The theta rhythm is known to be a hallmark of
+hippocampal activity (Nuñez and Buño 2021) while the beta rhythm has been exper-
+imentally shown to be expressed by mice exploring novel environments (Berke et al.
+2008). The increased power in the high beta band toward the distal end of CA3 is a
+consequence of the higher proportion of bursting-type CA3 pyramidal cells found in
+
+
+                                          17
+CA3a (Masukawa et al. 1982) and the increased recurrence of the associational con-
+nections in CA3a (Le Duigou et al. 2014) which elevate firing rates. Both of these
+gradients are expressed in the LSM. Collectively, these results demonstrate that the
+CNMM methodology is able to accurately replicate the mesoscale dynamics of the
+biophysically detailed mechanistic LSM across a range of frequencies. Moreover, the
+frequency content of the signals agree with experimental findings with regard to the
+behavior being modeled (exploration of a rat) as both models express oscillations in
+the theta and beta bands which are involved in exploration and locomotion.
+
+
+
+
+Fig. 6 CNMM spike density prediction accuracy. A two-dimensional heatmap of R-values
+across 32 CA3 neural masses are shown over the septotemporal-proximodistal plane. Border colors of
+blue, green, and orange represent neural masses belonging to the CA3a, CA3b, and CA3c subfields,
+respectively.
+
+
+    To evaluate the CNMM’s ability to generalize over different inputs (i.e., tasks
+beyond rat exploration), a separate LSM simulation was executed such that all input
+MEC spiking activity was changed to a random homogeneous Poisson process with
+mean firing rate of 5.50 Hz. All other parameters of the LSM remained the same
+as described previously. Then, new ground truth spike density data was generated
+from this LSM simulation. The previously trained CNMM (i.e., metaparameters and
+weights optimized to the original rat exploration data) was used to estimate output
+spike density when given random MEC spiking input over the 32 neural masses shown
+in Fig. A2. Visually, sparse and lower frequency output activity was more difficult for
+the model to capture. Accuracy of these estimates were quantified by measuring the
+R values of the CNMM’s output to the ground truth at each neural mass shown in
+Fig. A3. In general, accuracy was still high, but with slight decreases in R value when
+compared to Fig. 6. Collectively, these results show that the CNMM methodology has
+
+
+                                               18
+Fig. 7 CNMM spike density estimates. Excerpts of 1,000 ms of CNMM spike density signal
+estimates (red traces) are superimposed onto the reference CA3 spike density signals (black traces).
+Traces are normalized and are therefore shown in arbitrary units. Each box represents a different
+neural mass. Border colors of blue, green, and orange represent neural masses belonging to the CA3a,
+CA3b, and CA3c subfields, respectively. The x and y values that span the top row and left column
+denote the centers of the neural masses within the CA3 topography along the proximodistal and
+septotemporal axes, respectively.
+
+
+the capability to generalize across inputs such that training the model within a specific
+task can also transfer to more general input patterns.
+    The values of the optimized metaparameters over the 32 neural masses are reported
+in Fig. A4. An example of the evolution of the metaparameter space during PSO is
+shown in Fig. A5 which visually demonstrates the convergence of each of the meta-
+parameters. Additionally, the sensitivity of the CNMM can be inspected in Fig. A5
+by looking at the mean squared error (i.e., the color of each dot) associated with each
+metaparameter value. Upon inspection, the accuracy of the CNMM was most sensitive
+to the α value for the DG kernel, the r values for the coupling kernel, and the Ndelays
+value of the feedback kernel as those metaparameters converged to a tight region, and
+values outside that region tended to produce higher prediction error.
+
+3.2 Kernel contributions in spike density estimation
+One feature of the CNMM structure is the ability to quantify the relative contribu-
+tions of different afferents to a population of neurons (i.e., neural mass). One way to
+
+
+
+                                                19
+Fig. 8 CNMM power spectra. Power spectra of the CNMM spike density signal estimates (red
+traces) are superimposed onto the power spectra of the reference signals (black traces). The vertical
+axis is shown in arbitrary units. The theta band (4-8 Hz) is represented by the light blue regions
+while the beta band (13-30 Hz) is shown in light purple.
+
+
+accomplish this is by computing the strength of the optimized kernels using the root
+mean square (RMS) of the coefficients of the kernels shown in Eq. (12).
+                                  v
+                                  u
+                                  u 1        NX
+                                              terms
+
+                              ρ=t                   k2                          (12)
+                                     Nterms i=1 i
+    where ρ represents the kernel strength, ki represents the ith term (or coefficient) in
+the kernel, and Nterms represents the number of terms in the kernel. This metric pro-
+vides a method of quantifying the impact that each input (EC, DG, or associational
+connections) has on the target population (CA3). Moreover, kernel strengths can be
+compared across neural masses to characterize the differences in afferent integration as
+a function of space (i.e., position in the CA3 topography). Therefore, kernel strengths
+were computed for each kernel across all 32 CA3 neural masses, which were optimized
+for predicting spike density, and are shown in Fig. 9. Strength of the DG kernel pre-
+dominates in the proximal side of CA3 and is significantly decreased at the distal side
+of CA3. On the other hand, coupling kernels predominate in the distal side and have
+low kernel strength in the proximal side. This suggests that the afferents from DG
+contribute most to the CA3 PC spiking in CA3c while associational connections con-
+tribute most in CA3a. The gradient of DG kernel strengths across the proximodistal
+
+
+                                                 20
+axis can be explained by the fact that density of mossy fiber synapses are greatest in
+CA3c and lowest in CA3a which has been reflected in the LSM (Acsády et al. 1998;
+Yu et al. 2020). Additionally, CA3 associational connections have been shown to be
+less dense in CA3c and most dense in CA3a, which was expressed in the LSM and
+explains the kernel strength gradient for the coupling kernels (Ishizuka et al. 1990; Yu
+et al. 2020).
+
+
+
+
+Fig. 9 CNMM kernel strengths. Kernel strengths of the four kernels are shown across 32 CA3
+neural masses. The vertical axis is in arbitrary units, but constant across all plots, allowing for direct
+comparison of kernel strengths between neural masses. Kernel strength of DG predominates on the
+proximal side of CA3 (CA3c) and decreases toward the distal side (CA3a). Meanwhile, coupling
+kernels have low strength on the proximal side and predominate on the distal side.
+
+
+    Sample representative kernels from a single neural mass, with center located at
+a proximodistal location of -0.98 mm and a septotemporal location of 6.75 mm, are
+shown in Fig. 10 (temporal kernels) and Fig. 11 (coupling kernel). The EC kernel is
+characterized by an initial inhibitory (negative) component followed by a relatively
+slow and low magnitude excitatory (positive) component. The relatively low strength
+of the EC kernel may be physiologically explained by the fact that EC afferents to
+CA3 PCs terminate in the most distal locations of the dendrites in stratum lacunosum
+moleculare, leading to significant attenuation in the resulting EPSP at the soma.
+Both DG and feedback kernels exhibit dampened oscillations, alternating between
+excitatory and inhibitory components which reflect that these afferents excite both
+CA3 PCs and CA3 basket cells which provide excitation and inhibition to CA3 PCs.
+
+
+                                                   21
+The feedback kernel was optimized to have an initial delay (zero-padding) of 18 ms.
+The coupling kernel exhibits different temporal profiles at different spatial lags that
+are mostly biphasic and are either initially inhibitory or excitatory.
+
+
+
+
+Fig. 10 Temporal kernels from a single neural mass. The EC, DG, and feedback tempo-
+ral kernels from a sample neural mass are shown. EC and DG kernels were derived from first-order
+Laguerre-Volterra expanded kernels while the feedback kernel was a simple vector of learnable coef-
+ficients with a learned amount of initial delay (i.e., zero-padding).
+
+
+
+
+3.3 Accuracy in LFP prediction
+The accuracy of the extended CNMM for LFP prediction was assessed by computing
+the correlation coefficient between 8,000 ms of the CNMM predicted LFP and LSM
+derived LFP (i.e., the validation set from the simulated rat exploration task). A single
+CA3 neural mass, closest to the center of the CA3, was evaluated. In both models, a
+single virtual recording electrode was placed at a radial level matching the center of the
+stratum pyramidale layer and 500 µm away from the center of the neural mass in the
+septal and distal (45◦ between septal and distal axes) directions as shown in the left
+portion of Fig. 12. Raster plots of CA3 PCs spiking within the neural mass from the
+LSM simulation are shown with superimposed reference and CNMM estimate spike
+density traces in the top plot of Fig. 12. The bottom plot shows the corresponding
+LFP signals from both LSM reference and CNMM estimate, computed using the
+point-source approximation with respect to the position of the virtual electrode. The
+CNMM achieved an R-value of 0.952 in LFP prediction, demonstrating its capability
+in accurate forward modeling.
+
+
+
+                                                22
+Fig. 11 Coupling kernel from a single neural mass. A portion of the spatiotemporal coupling
+kernel is visualized as a 2D matrix of temporal kernels where each plot represents a different spatial
+lag with respect to the modeled neural mass. The coupling kernel exhibits various temporal profiles
+at different spatial lags that are mostly biphasic. Filters closer to the center and in the distal region
+have larger magnitudes. Proximodistal lags are printed in the top row while septotemporal lags are
+printed along the left column. The y-axis scaling is the same for all plots and is unitless.
+
+
+3.4 Computational efficiency
+Computational efficiency of the CNMM was compared against the LSM by mea-
+suring compute time and memory usage for 40,000 ms of simulated time, shown in
+Fig. 13. Simulations were performed on the University of Southern California’s Cen-
+ter for Advanced Research Computing (CARC) nodes using AMD EPYC 7513 CPUs.
+LSM simulations used 100 cores in parallel. Four trials of LSM simulations were run.
+Compute times for LSM were calculated by multiplying the average wall-time (27.75
+hours) and multiplying it by 100 resulting in 2,775 compute hours. Compute times for
+CNMM were estimated by recording the run time for spike density prediction for 32
+neural masses and multiplying the average run time by 304 (the number of total neural
+masses in the network) resulting in 4.22 hours of compute time. The average memory
+usage in LSM simulations (4 trials) was 660.14 GB. The average memory usage for
+CNMM was calculated by multiplying the average memory usage of a single neural
+
+
+
+
+                                                   23
+Fig. 12 CNMM LFP prediction. (Left) A neural mass is viewed from a top-down perspective in
+the septotemporal-proximodistal plane with a single virtual electrode placed 500 µm away from the
+center of the neural mass for LFP estimation. LFPs were computed using the point-source approxi-
+mation for both the CNMM and LSM with respect to the position of the electrode. (Right) The top
+panel shows the raster plot of CA3 PCs (from LSM simulation) with corresponding reference (black)
+and CNMM estimate (red) spike density traces superimposed. The bottom panel shows the resulting
+LFPs from both reference and CNMM estimate superimposed. An R-value of 0.952 was achieved by
+the CNMM estimate.
+
+
+mass prediction by 304 resulting in a total of 2.05 GB. The CNMM achieves signif-
+icant reduction in computational demand with a 658-fold simulation speedup and a
+322-fold reduction in memory usage, allowing large-scale mesoscopic dynamics to be
+simulated on a single machine.
+    The CNMM methodology offers even further reduction in computational demand
+in LFP prediction when compared to the LSM. In order to calculate LFP using the
+LSM, the transmembrane currents of every neuron must be recorded. This means that
+both the number of calculations (i.e., point-source approximations) and the number
+of recorded signals (i.e., disk space usage) will be proportional to the number of cells
+contained in a network. In this study, 1/10th the number of neurons of a true rat
+hippocampus were simulated and recorded, leading to a file size of 55 GB of recorded
+transmembrane currents. A simulation at full-scale would require approximately 550
+GB of disk space for recorded transmembrane currents and 10 times more point-
+source approximations to obtain an LFP signal. On the other hand, the file size and
+number of calculations for the CNMM to predict LFP are independent of the number
+of neurons in the network because the model only requires input spike density signals
+for predictions. The disk space for storing spike density signals does not change with
+
+
+                                               24
+Fig. 13 Computational efficiency comparison. Compute time and memory usage are compared
+between LSM and CNMM in simulations of 40,000 ms in duration. Y-axis is in log-scale. CNMM
+metrics were corrected by multiplying by the number of CA3 neural masses (304) contained in the
+model. CNMM achieves a 658-fold simulation speedup and a 322-fold reduction in memory usage.
+
+
+number of neurons in the network. In this study, the file containing all spike density
+signals consumed 0.30 GB of disk space resulting in a 183-fold reduction or 1833-fold
+reduction in disk space requirements when compared to LSM at 1/10th scale or at
+full-scale, respectively. Disk space requirements for LFP estimation are compared in
+Fig. 14.
+
+
+
+
+Fig. 14 Disk space requirements for LFP prediction. Disk space requirements for LFP predic-
+tions are compared between LSM (full-scale and 1/10th scale) and CNMM. For LSM, disk space was
+found by measuring the size of the file containing all recorded transmembrane currents. For CNMM,
+disk space was found by measuring the file containing all spike densities. The disk space requirement
+for full-scale LSM LFP prediction was inferred because the file size increases proportionally to the
+number of neurons in the network. The file size requirement for CNMM is independent of the number
+of neurons in the network.
+
+
+
+
+                                                 25
+4 Discussion
+Computational models have emerged as indispensable tools for understanding the
+complex interactions of the brain at various scales, offering valuable insights into its
+intricate mechanisms and functions. Detailed mechanistic multi-scale models enable
+the simulation of micro-scale interactions and their emergence as macro-scale activity,
+but simulation feasibility diminishes as the number of neurons modeled approaches
+that of a real brain and computational demands rise. For analysis at the meso-
+scale, this computational burden is largely alleviated using the neural mass modeling
+approach which significantly reduces the dimensionality of the model. Computational
+demand can be further reduced using input-output modeling techniques such as the
+Laguerre-Volterra framework. In this report, a novel spatially discretized convolutional
+neural mass model was proposed, taking aspects from both Laguerre-Volterra and
+neural mass models, offering a computationally efficient methodology for studying the
+rat hippocampus at the meso-scale.
+    The CNMM deviates from the traditional neural mass modeling framework in that
+population activity is modeled using a kernel-based input-output architecture rather
+than a system of coupled differential equations of inhibitory and excitatory popu-
+lations. The CNMM approach mostly resembles that of a generalized linear model
+(GLM), such as the one from (Pillow et al. 2008), in which spiking is estimated for
+individual retinal ganglion cells using a series of spatio-temporal and temporal ker-
+nels. However, unlike such GLMs, the CNMM utilizes the known organization of the
+hippocampus by creating input-specific kernels (e.g., for perforant path, mossy fibers,
+and associational connections), thereby increasing the mechanistic insight it provides
+into topographic transformations. One limitation of traditional NMMs is that they
+are often validated on highly simplified networks of identical leaky-integrate-and-fire
+(LIF) neurons with random connectivity and no regard for topographical or spatial
+aspects. This weakness is addressed in this study as the CNMM is trained and vali-
+dated against an anatomically constrained, biophysically detailed mechanistic multi-
+and large-scale model (LSM) of the rat EC-DG-CA3 system under the behaviorally
+relevant conditions of random exploration. Moreover, the entire subregion being mod-
+eled (i.e., CA3) is discretized over its anatomical extent, adding a spatial component
+that traditional NMMs do not consider and enabling analysis of the system within the
+spatial domain.
+    We have demonstrated that the CNMM can accurately predict CA3 PC spike den-
+sity functions (SD-CNMM) across multiple neural masses that span the CA3 (Fig. 7)
+as well as LFP (LFP-CNMM) at a single neural mass (Fig. 12). Furthermore, the
+CNMM was able to capture the frequency ranges expressed in spike density signals
+(Fig. 8) which included oscillations in the theta band and increased power in the high
+beta band in neural masses located toward the distal end of CA3, consistent with
+experimental results and known topographical CA3 gradients. The CNMM’s ability
+to generalize over inputs was also demonstrated (Fig. A2 and Fig. A3) such that the
+model with parameters obtained from optimizing to rat exploration inputs via grid
+cell spiking activity also produced accurate estimations when inputs were changed to
+random spiking activity. In addition to accurate predictions, the CNMM achieved a
+significant reduction in computational demand over the LSM (simulating 1/10th the
+
+
+                                          26
+number of neurons of a full-scale hippocampus) with a 658-fold reduction in compute
+time, a 322-fold reduction in memory usage, and a 183-fold reduction in disk space
+usage for LFP predictions. Even larger reduction factors are expected when the LSM
+is simulated at full-scale since LSM runtimes and memory consumption scale with
+number of neurons modeled while CNMM computational demands remain relatively
+constant. This reduced computational burden allows for simulation of meso-scale neu-
+ronal dynamics to be performed with higher accessibility and without the need for
+high performance computing clusters. Due to its increased efficiency, simulations of
+much longer timescales (minutes to hours) are made possible.
+    The CNMM’s computationally light and accurate predictions of LFPs also make
+it a powerful candidate in forward modeling within broader multi-scale models. For
+example in (Tesler et al. 2022), a mean-field model was developed for LFP and MEG
+prediction within the Virtual Brain (Sanzleon et al. 2013), resulting in a computa-
+tionally efficient forward model. In the same spirit, the CNMM can also be applied
+as an efficient forward modeling tool in large-scale network simulations, bridging the
+gap between the micro- and macro-scales. This study demonstrated forward modeling
+through one of many observable modalities—the local field potential. The LFP is one
+of the most important signals because of its high temporal resolution and its integra-
+tion of local networks. This combination allows for LFPs to detect brain oscillations
+(or “rhythms”) which play a major role in determining brain states and identifying
+neuropathologies. This is especially true in the hippocampus, where brain rhythms are
+known to be altered under pathological conditions such as depression, schizophrenia,
+epilepsy, and Alzheimer’s disease (Fernández-Ruiz 2016). There is also evidence to sug-
+gest that LFP recordings in the hippocampus exhibit a degree of spatial discreteness,
+with characteristic lengths comparable to the dimensions of the neural masses defined
+in this study, indicating that the spatial resolution of LFPs aligns with our model
+(Benito et al. 2014). However, the CNMM approach can potentially apply to other
+neuroimaging signals such as functional ultrasound (fUS) which is often assumed to
+be linearly related to neuronal activity via the hemodynamic response function (Mon-
+taldo et al. 2022). The fUS paradigm entails three-dimensional voxels with spatial
+resolutions of about 100 µm, which are highly comparable to the neural mass spatial
+bins defined in our study, making fUS a strong alternative neuroimaging signal for
+CNMM forward modeling. The prediction of multiple observable signals from a sin-
+gle framework enables a multi-modal analysis of co-registered signals that originate
+from the same neural activity. Integration of these modalities leverages the comple-
+mentary strengths of each signal. For example, EEG offers high temporal resolution
+but poor spatial resolution, while fMRI provides the opposite. Fusion of these modal-
+ities can compensate for individual limitations, thus revealing dynamic brain activity
+not visible in isolation and allowing for a more holistic view on neural function (Sui
+et al. 2012). Lastly, multi-modal forward modeling also provides multiple points of
+validation to experimental results, ultimately leading to model improvements.
+    The kernels that compose the CNMM provide another feature in enabling direct
+quantification of how a neural population differentially integrates its afferents across
+topographical locations. In CA3, it was shown that the distribution of kernel strengths
+significantly varied depending on the proximodistal location of the neural mass: at
+
+
+
+                                          27
+the proximal end (toward CA3c), afferents from DG predominated over other synap-
+tic inputs while at the distal end (toward CA3a), afferents from associational CA3
+connections predominated (Fig. 9). This analysis of how CA3 PC populations weigh
+their afferents is not directly quantifiable in the LSM. In this study, physiological cor-
+relates were identified, providing a biological explanation to the differences in kernel
+strengths across the CA3 topography. These include topographical gradients in the
+density of mossy fiber inputs and size of associational connection fields within CA3
+(Acsády et al. 1998; Ishizuka et al. 1990). Although the CNMM, due to its input-
+output nature, provides less mechanistic insight than the LSM, it still offers more
+biological interpretability than other abstract methodologies (such as artificial neural
+networks) as its architecture was influenced by the true anatomical connections in the
+EC-DG-CA3 system and transforms spike density signals originating from the actual
+afferents of CA3. The abstract kernels that compose the CNMM allow for the analysis
+and characterization of the complex input-output transformations that CA3 performs
+on its inputs. This study did not include an in-depth analysis on the extracted kernels
+of the CNMM. However, a potential study may reveal specific “kernel signatures” that
+may provide clinical insight. For example, perturbations to the hippocampal LSM may
+involve altering properties such as neuron excitability, synaptic weights, synaptic time
+constants, connectivity, biophysics, etc., to mimic a potential drug effect or pathology.
+Analysis of the kernels extracted from a perturbed neural system may reveal changes
+to the temporal or spatial profile of the kernels (i.e., the kernel signatures) when com-
+pared to the kernels extracted from the baseline simulation. To put it concisely, kernel
+signatures are the observable manifestation of mechanism(s) reflected at the meso-
+scale and captured by the profile of the kernels. These kernel signatures may serve
+as markers for certain neurological conditions and, when extracted from experimental
+or patient data, can aid in diagnosing such conditions. This concept has been hinted
+at in the Laguerre-Volterra literature. In (Kang et al. 2010), kernels were extracted
+from in vitro CA3 PCs in both control and epileptogenic conditions. They found
+that first order kernels derived from epileptogenic neurons expressed a wider peak fol-
+lowed by multiple ripples in comparison to control neurons. Another study developed
+a Laguerre-Volterra network model for predicting spike times from LFPs in the sub-
+thalamic nucleus (STN) of patients with Parkinson’s Disease (PD) (Kostoglou et al.
+2024). The authors identified three functional clusters of data recordings, each with
+their own distinct kernel signatures, and found that areas exhibiting characteristics of
+one cluster were associated with the greatest improvement in alleviating PD symptoms
+following deep brain stimulation. Therefore, kernel signatures may provide insight in
+identifying the optimal target for deep brain stimulation in patients with PD. These
+examples highlight a crucial application for the CNMM approach: extracting kernels
+and identification of kernel signatures may reveal mechanistic insight into the state of
+the brain using only observable input-output data (i.e., neuroimaging signals).
+    Although the CNMM succeeds in producing accurate meso-scale dynamics while
+minimizing computational load, there are important tradeoffs and limitations in the
+methodology that should be noted. First, the CNMM loses direct mechanistic control
+and insight into the system that the LSM provides. As an input-output model, the
+CNMM does not simulate the underlying biology, but instead, aims to make direct
+
+
+
+                                           28
+mathematical mappings from inputs to outputs. However, as discussed earlier, not all
+mechanistic insight is lost in the CNMM; the architecture of the model allows for the
+analysis of how a neural population integrates its different inputs while the extraction
+of kernels and kernel signatures may provide mechanistic insight through analysis of
+observable signals. Another limitation is the loss of granularity at the individual neuron
+level. As a neural mass model, the CNMM intrinsically represents the meso-scale and
+trades information encoded at the neuron level for the population level. However,
+evidence supports that information encoded at the population level is synergistic with
+information encoded at the cellular level (Hsieh et al. 2019). In its current form, the
+CNMM relies heavily on the LSM for generating input-output data for training and
+validation. This means that for every perturbation or condition that the CNMM aims
+to represent, an accompanying LSM simulation must be run. This reliance on the
+LSM also highlights another limitation of the CNMM in that the extracted input-
+output relationships reflect that of the LSM rather than the true biological system (the
+hippocampus). Furthermore, the main signal used in this study was the spike density
+function, which is a signal that estimates the firing rate of neurons over time and
+was derived by post-processing all spike trains in the LSM. Moreover, the workflow
+presented here assumed knowledge of the exact connectivity map of input neurons
+to output CA3 pyramidal cells leading to the generation of the exact input spike
+densities that a neural mass receives. In reality, this exact connectivity map cannot
+be known. At the same time, the spike density signal is not directly observable in
+experimental settings. Instead, this signal is inferred using analytical methods such as
+kernel smoothing of peristimulus time histograms (PSTH) in protocols that use multi-
+electrode arrays or high-density probes (Cunningham et al. 2010). As capabilities of
+brain-machine interfaces continue to advance rapidly, determination of spike density
+is likely to become increasingly common in experimental research and applications—
+making this approach even more directly relevant. To further extend the utility of
+the CNMM to clinical applications, its paradigm may be extended to input-output
+data that are experimentally observable. For CA3, this may be done by subdividing
+the input subregions (EC and DG) into input neural masses in the same way that
+CA3 was. In this extended paradigm, input signals would be recorded from their
+subregion of origin. This extension would require both EC and DG kernels to include
+spatial components because afferents of CA3 would originate from multiple input
+neural masses. As discussed earlier, LFP and fUS constitute excellent candidates as
+macroscopic neural signals for the CNMM because of their spatio-temporal resolutions.
+Future efforts to extend the CNMM paradigm for analyzing experimental data will
+substantially enhance its utility, enabling iterative comparisons of empirically derived
+and simulation-based kernels through the “virtuous loop”—ultimately refining the
+model and augmenting its predictive power. Additionally, this extension would enable
+the input-output characterization of the true biological system rather than a model of
+it (i.e., LSM).
+     This pilot study has laid the foundation for a novel computational methodology
+that utilizes aspects of input-output modeling, neural mass modeling, and forward
+modeling. We have demonstrated that the CNMM framework is successful at accu-
+rately predicting meso-scale dynamics across the CA3. It constitutes a powerful tool
+
+
+
+                                           29
+for forward modeling that enables meso-scale analysis of neural systems across their
+spatial extent, while greatly reducing the computational demands typically associ-
+ated with detailed large-scale mechanistic models. Notably, while the CNMM can
+replicate the population dynamics observed in the LSM using a fraction of the com-
+putational resources, the objective of this work is not to replace the LSM with the
+CNMM. Instead, both models play essential, complementary and synergistic roles,
+working together to strengthen each other’s relevance and capabilities. The biologi-
+cal detail that the LSM provides enables scientists to tune virtually any mechanism
+and observe its effect at multiple scales. The CNMM can then be used to extract
+kernels from these LSM simulations and identify kernel signatures that are tied to
+that mechanism. Kernel extraction from empirical data can then be used to either
+predict the underlying neural condition of the subject based on its similarity to iden-
+tified kernel signatures or to validate that the simulation-derived kernel signatures
+match empirically-derived ones, therefore improving model validity. Such applications
+underscore the potential for kernel-based analyses to bridge computational predictions
+with real-world observations, paving the way for more precise diagnostics and tar-
+geted research strategies. Ultimately, by integrating detailed mechanistic simulations
+with efficient meso-scale modeling, the CNMM paradigm offers a scalable framework
+for advancing our understanding of hippocampal function and dysfunctions in both
+research and clinical settings.
+Acknowledgements. The authors would like to thank the University of South-
+ern California’s Center for Advanced Research Computing (CARC) for providing the
+computing resources that were used in this study.
+
+5 Declarations
+• Funding: The authors declare that financial support was received for the research
+  and/or publication of this article. This work was supported by National Institutes
+  of Health under Grant U01EB025830 (D.-T.J.P., G.J.Y., G.L., J-M.C.B.), Army
+  Research Office Grant W911NF2110091 and W911NF2110092 (DURIP) (D.-T.J.P.,
+  J-M.C.B.), the National Science Foundation GCR 2121164 (G.L., J-M.C.B.), and an
+  unrestricted grant to the Department of Ophthalmology from Research to Prevent
+  Blindness, New York, NY (G.L., J-M.C.B.). The funders had no role in study design,
+  data collection and analysis, decision to publish, or preparation of the manuscript.
+• Conflict of interest/Competing interests: The authors declare no competing inter-
+  ests.
+• Code availability: Example Python code is provided, which includes the class
+  implementation of the CNMM, optimization data of a sample neural mass, and
+  a script that plots the results of a single optimized neural mass with its pre-
+  diction of spike density. Code is available in our public Github repository at:
+  https://github.com/NESCOM-Lab/CNMM.
+
+
+
+
+                                          30
+References
+Acsády L, Kamondi A, Sı́k A, et al (1998) GABAergic cells are the major postsynaptic
+  targets of mossy fibers in the rat hippocampus. Journal of Neuroscience 18(9):3386–
+  3403. https://doi.org/10.1523/jneurosci.18-09-03386.1998
+
+Benito N, Fernández-Ruiz A, Makarov VA, et al (2014) Spatial modules of coherent
+  activity in pathway-specific lfps in the hippocampus reflect topology and different
+  modes of presynaptic synchronization. Cerebral Cortex 24(7):1738–1752. https://
+  doi.org/10.1093/cercor/bht022
+
+Berger TW, Hampson RE, Song D, et al (2011) A cortical neural prosthesis for restor-
+  ing and enhancing memory. Journal of Neural Engineering 8(4). https://doi.org/10.
+  1088/1741-2560/8/4/046017
+
+Berke JD, Hetrick V, Breck J, et al (2008) Transient 23-30 Hz oscillations in mouse
+  hippocampus during exploration of novel environments. Hippocampus 18(5):519–
+  529. https://doi.org/10.1002/hipo.20435
+
+Blair HT, Welday AC, Zhang K (2007) Scale-invariant memory representations emerge
+  from moiré interference between grid fields that produce theta oscillations: A com-
+  putational model. Journal of Neuroscience 27(12):3211–3229. https://doi.org/10.
+  1523/JNEUROSCI.4724-06.2007
+
+Bojak I, Oostendorp TF, Reid AT, et al (2010) Connecting mean field models of
+  neural activity to EEG and fMRI data. Brain Topography 23(2):139–149. https:
+  //doi.org/10.1007/s10548-010-0140-3
+
+Bojak I, Oostendorp TF, Reid AT, et al (2011) Towards a model-based integration of
+  co-registered electroencephalography/ functional magnetic resonance imaging data
+  with realistic neural population meshes. Philosophical Transactions of the Royal
+  Society A: Mathematical, Physical and Engineering Sciences 369(1952):3785–3801.
+  https://doi.org/10.1098/rsta.2011.0080
+
+Breakspear M (2017) Dynamic models of large-scale brain activity. https://doi.org/
+  10.1038/nn.4497
+
+Brunel N (2000) Dynamics of Sparsely Connected Networks of Excitatory and
+  Inhibitory Spiking Neurons. Journal of Computational Neuroscience 8:183–208.
+  https://doi.org/10.1023/A:1008925309027
+
+Buzsáki G, Anastassiou CA, Koch C (2012) The origin of extracellular fields and
+  currents-EEG, ECoG, LFP and spikes. Nature Reviews Neuroscience 13(6):407–420.
+  https://doi.org/10.1038/nrn3241
+
+Byrne Á, Brookes MJ, Coombes S (2017) A mean field model for movement induced
+  changes in the beta rhythm. Journal of Computational Neuroscience 43(2):143–158.
+
+
+
+                                         31
+  https://doi.org/10.1007/s10827-017-0655-7
+
+Cunningham JP, Gilja V, Ryu SI, et al (2010) Methods for estimating neural fir-
+ ing rates, and their application to brain-machine interfaces. Neural Networks
+ 22(9):1235–1246. https://doi.org/10.1016/j.neunet.2009.02.004
+
+Fernández-Ruiz A (2016) Extracellular Potentials in the Hippocampus. May
+
+Friston KJ, Mechelli A, Turner R, et al (2000) Nonlinear responses in fMRI: The
+  balloon model, Volterra kernels, and other hemodynamics. NeuroImage 12(4):466–
+  477. https://doi.org/10.1006/nimg.2000.0630
+
+Garrett A (2023) inspyred: Bio-inspired Algorithms in Python. URL http://
+ aarongarrett.github.io/inspyred/
+
+Gerstner W (1995) Time structure of the activity in neural network models. Physical
+ Review E 51(1611):738–758. https://doi.org/10.1103/PhysRevE.51.738
+
+Hafting T, Fyhn M, Molden S, et al (2005) Microstructure of a spatial map in the
+ entorhinal cortex. Nature 436(7052):801–806. https://doi.org/10.1038/nature03721
+
+Hagen E, Magnusson SH, Ness TV, et al (2022) Brain signal predictions from
+ multi-scale networks using a linearized framework, vol 18. https://doi.org/10.1371/
+ journal.pcbi.1010353
+
+Hendrickson PJ, Yu GJ, Song D, et al (2016) A million-plus neuron model of the hip-
+  pocampal dentate gyrus: Critical role for topography in determining spatiotemporal
+  network dynamics. IEEE Transactions on Biomedical Engineering 63(1):199–209.
+  https://doi.org/10.1109/TBME.2015.2445771
+
+Hines ML, Carnevale NT (1997) The NEURON Simulation Environment. Neural
+  Computation 9(6):1179–1209. https://doi.org/10.1162/neco.1997.9.6.1179
+
+Hoerl AE, Kennard RW (1970) Ridge Regression: Biased Estimation for Nonorthog-
+ onal Problems. Technometrics 12(1):55–67
+
+Hsieh HL, Wong YT, Pesaran B, et al (2019) Multiscale modeling and decoding
+  algorithms for spike-field activity. Journal of Neural Engineering 16(1). https:
+  //doi.org/10.1088/1741-2552/aaeb1a
+
+Hu EY, Bouteiller JMC, Song D, et al (2015) Volterra representation enables model-
+ ing of complex synaptic nonlinear dynamics in large-scale simulations. Frontiers in
+ Computational Neuroscience 9(SEP). https://doi.org/10.3389/fncom.2015.00112
+
+Hu EY, Yu G, Song D, et al (2018) Modeling Nonlinear Synaptic Dynamics: A
+ Laguerre-Volterra Network Framework for Improved Computational Efficiency in
+ Large Scale Simulations. Conference proceedings : Annual International Conference
+ of the IEEE Engineering in Medicine and Biology Society IEEE Engineering in
+
+
+                                        32
+  Medicine and Biology Society Annual Conference 2018:6129–6132. https://doi.org/
+  10.1109/EMBC.2018.8513616
+
+Ishizuka N, Weber J, Amaral DG (1990) Organization of intrahippocampal projections
+  originating from CA3 pyramidal cells in the rat. Journal of Comparative Neurology
+  295(4):580–623. https://doi.org/10.1002/cne.902950407
+
+Izhikevich EM, Edelman GM (2008) Large-scale model of mammalian thalamocortical
+  systems. Proceedings of the National Academy of Sciences of the United States of
+  America https://doi.org/10.1073/pnas.0712231105
+
+Jansen BH, Rit VG (1995) Electroencephalogram and visual evoked potential gener-
+  ation in a mathematical model of coupled cortical columns. Biological Cybernetics
+  73(4):357–366. https://doi.org/10.1007/BF00199471
+
+Kang EE, Zalay OC, Cotic M, et al (2010) Transformation of neuronal modes associ-
+ ated with low-Mg2+ /high-K+ conditions in an in vitro model of epilepsy. Journal
+ of Biological Physics 36(1):95–107. https://doi.org/10.1007/s10867-009-9144-1
+
+Kennedy J, Eberhart R (1995) Particle Swarm Optimization. Proceedings of
+  ICNN’95 - International Conference on Neural Networks https://doi.org/10.1007/
+  978-3-031-17922-8{ }4
+
+Kostoglou K, Michmizos KP, Stathis P, et al (2012) Prediction of the Parkinsonian sub-
+ thalamic nucleus spike activity from local field potentials using nonlinear dynamic
+ models. IEEE 12th International Conference on BioInformatics and BioEngineering,
+ BIBE 2012 (November):298–302. https://doi.org/10.1109/BIBE.2012.6399692
+
+Kostoglou K, Michmizos KP, Stathis P, et al (2024) Spiking Laguerre Volterra net-
+ works—predicting neuronal activity from local field potentials. Journal of Neural
+ Engineering 21(4). https://doi.org/10.1088/1741-2552/ad6594
+
+Le Duigou C, Simonnet J, Teleñczuk MT, et al (2014) Recurrent synapses and circuits
+  in the CA3 region of the hippocampus: An associative network. Frontiers in Cellular
+  Neuroscience 7(JAN):1–13. https://doi.org/10.3389/fncel.2013.00262
+
+Li G, Liu Y, Zheng Y, et al (2021) Multiscale neural modeling of resting-state
+  fMRI reveals executive-limbic malfunction as a core mechanism in major depressive
+  disorder. NeuroImage: Clinical 31. https://doi.org/10.1016/j.nicl.2021.102758
+
+Liu Q, Zhang X (2017) A Chebyshev polynomial-based Galerkin method for the
+  discretization of spatially varying random properties. Acta Mechanica 228(6):2063–
+  2081. https://doi.org/10.1007/s00707-017-1819-2
+
+Markram H, Muller E, Ramaswamy S, et al (2015) Reconstruction and Simulation
+ of Neocortical Microcircuitry. Cell 163(2):456–492. https://doi.org/10.1016/j.cell.
+ 2015.09.029
+
+
+                                         33
+Marmarelis VZ (1993) Identification of nonlinear biological systems using laguerre
+ expansions of kernels. Annals of Biomedical Engineering 21(6):573–589. https://doi.
+ org/10.1007/BF02368639
+
+Masukawa LM, Benardo LS, Prince DA (1982) Variations in electrophysiological prop-
+ erties of hippocampal neurons in different subfields. Brain Research 242(2):341–344.
+ https://doi.org/10.1016/0006-8993(82)90320-1
+
+Montaldo G, Urban A, Macé E (2022) Functional Ultrasound Neuroimag-
+ ing. Annual Review of Neuroscience 45:491–513. https://doi.org/10.1146/
+ annurev-neuro-111020-100706
+
+Ness TV, Tetzlaff T, Einevoll GT, et al (2025) On the validity of electric brain signal
+  predictions based on population firing rates. PLoS Computational Biology 21(4):1–
+  29. https://doi.org/10.1371/journal.pcbi.1012303
+
+Nuñez A, Buño W (2021) The Theta Rhythm of the Hippocampus: From Neuronal and
+ Circuit Mechanisms to Behavior. Frontiers in Cellular Neuroscience 15(March):1–16.
+ https://doi.org/10.3389/fncel.2021.649262
+
+Pillow JW, Shlens J, Paninski L, et al (2008) Spatio-temporal correlations and visual
+  signalling in a complete neuronal population. Nature 454(7207):995–999. https://
+  doi.org/10.1038/nature07140
+
+Rodrigues MM, Rosa A, Vieira N, et al (2019) Modeling ophthalmic surfaces using
+ Zernike, Bessel and Chebyshev type functions. Journal of Physics: Conference Series
+ 1194(1). https://doi.org/10.1088/1742-6596/1194/1/012093
+
+Sacha M, Tesler F, Cofre R, et al (2025) A computational approach to evaluate how
+  molecular mechanisms impact large-scale brain activity. Nature Computational Sci-
+  ence 5(May). https://doi.org/10.1038/s43588-025-00796-8, URL http://dx.doi.org/
+  10.1038/s43588-025-00796-8
+
+Sanzleon P, Knock SA, Woodman MM, et al (2013) The virtual brain: A simulator
+  of primate brain network dynamics. Frontiers in Neuroinformatics 7(MAY). https:
+  //doi.org/10.3389/fninf.2013.00010
+
+Shimazaki H, Shinomoto S (2010) Kernel bandwidth optimization in spike rate esti-
+  mation. Journal of Computational Neuroscience 29(1-2):171–182. https://doi.org/
+  10.1007/s10827-009-0180-4
+
+Song D, Chan RH, Marmarelis VZ, et al (2009) Nonlinear modeling of neural popula-
+  tion dynamics for hippocampal prostheses. Neural Networks 22(9):1340–1351. https:
+  //doi.org/10.1016/j.neunet.2009.05.004, URL http://dx.doi.org/10.1016/j.neunet.
+  2009.05.004
+
+
+
+
+                                          34
+Song D, Robinson BS, Hampson RE, et al (2018) Sparse large-scale nonlinear dynam-
+  ical modeling of human hippocampus for memory prostheses. IEEE Transactions
+  on Neural Systems and Rehabilitation Engineering 26:272–280. https://doi.org/10.
+  1109/TNSRE.2016.2604423
+
+Song JL, Li Q, Zhang B, et al (2020) A New Neural Mass Model Driven Method and Its
+  Application in Early Epileptic Seizure Detection. IEEE Transactions on Biomedical
+  Engineering 67(8):2194–2205. https://doi.org/10.1109/TBME.2019.2957392
+
+Stensola H, Stensola T, Solstad T, et al (2012) The entorhinal grid map is discretized.
+  Nature 492(7427):72–78. https://doi.org/10.1038/nature11649, URL http://dx.doi.
+  org/10.1038/nature11649
+
+Sui J, Adali T, Yu Q, et al (2012) A review of multivariate methods for multi-
+  modal fusion of brain imaging data. Journal of Neuroscience Methods 204(1):68–81.
+  https://doi.org/10.1016/j.jneumeth.2011.10.031, URL http://dx.doi.org/10.1016/j.
+  jneumeth.2011.10.031
+
+Szucs A (1998) Applications of the spike density function in analysis of neuronal
+  firing patterns. Journal of Neuroscience Methods 81(1-2):159–167. https://doi.org/
+  10.1016/S0165-0270(98)00033-8
+
+Telenczuk B, Telenczuk M, Destexhe A (2020) A kernel-based method to calculate
+  local field potentials from networks of spiking neurons. Journal of Neuroscience
+  Methods 344(July):108871. https://doi.org/10.1016/j.jneumeth.2020.108871, URL
+  https://doi.org/10.1016/j.jneumeth.2020.108871
+
+Tesler F, Tort-Colet N, Depannemaecker D, et al (2022) Mean-field based frame-
+  work for forward modeling of LFP and MEG signals. Frontiers in Computational
+  Neuroscience 16. https://doi.org/10.3389/fncom.2022.968278
+
+Tesler F, Lorenzi RM, Ponzi A, et al (2024) Multiscale modeling of neuronal dynamics
+  in hippocampus CA1. Frontiers in Computational Neuroscience 18. https://doi.org/
+  10.3389/fncom.2024.1432593
+
+Wilson HR, Cowan JD (1972) Excitatory and Inhibitory Interactions in Localized
+ Populations of Model Neurons. Biophysical Journal 12(1):1–24. https://doi.org/10.
+ 1016/S0006-3495(72)86068-5
+
+Yu GJ, Hendrickson PJ, Robinson BS, et al (2013) The role of topography in the
+  transformation of spatiotemporal patterns by a large-scale, biologically realistic
+  model of the rat dentate gyrus. Proceedings of the Annual International Conference
+  of the IEEE Engineering in Medicine and Biology Society, EMBS pp 5950–5953.
+  https://doi.org/10.1109/EMBC.2013.6610907
+
+Yu GJ, Bouteiller JMC, Song D, et al (2018) Decoding Position to Analyze Spatial
+  Information Encoding in a Large-Scale Neuronal Network Model of Rat Dentate
+
+
+                                          35
+  Gyrus. Conference proceedings : Annual International Conference of the IEEE Engi-
+  neering in Medicine and Biology Society IEEE Engineering in Medicine and Biology
+  Society Annual Conference 2018(July 2018):6137–6140. https://doi.org/10.1109/
+  EMBC.2018.8513576
+
+Yu GJ, Bouteiller JMC, Song D, et al (2019) Axonal Anatomy Optimizes Spa-
+  tial Encoding in the Rat Entorhinal-Dentate System: A Computational Study.
+  IEEE Transactions on Biomedical Engineering 66(10):2728–2739. https://doi.org/
+  10.1109/TBME.2019.2894410
+
+Yu GJ, Bouteiller JMC, Berger TW (2020) Topographic Organization of Correlation
+  Along the Longitudinal and Transverse Axes in Rat Hippocampal CA3 Due to
+  Excitatory Afferents. Frontiers in Computational Neuroscience 14(November):1–19.
+  https://doi.org/10.3389/fncom.2020.588881
+
+
+
+
+                                        36
+Appendix A                 Supplementary Figures
+
+
+
+
+Fig. A1 Effect of kernel bandwidth. (Left) The top plot shows an example of the raw spike
+time histogram of input DG spiking activity (from the CA3 neural mass closest to the center) while
+the plots below illustrate the effect of convolving the spike time histogram with Gaussian kernels of
+varying bandwidths (w). The vertical axis is normalized for all plots and given in arbitrary units.
+Note, the larger the kernel bandwidth, the more the signal approaches a constant flat line. (Right)
+The mean squared error of the CNMM’s estimate is shown as a function of kernel bandwidth. In
+general, the larger the kernel bandwidth, the more accurate the model is. However, increasing kernel
+bandwidth indefinitely removes meaningful features of the original signal.
+
+
+
+
+                                                 37
+Fig. A2 CNMM spike density estimates due to random MEC activity. Same as Fig. 7 but
+input-output data were recorded from a LSM simulation involving random input MEC spiking activity
+rather than the original rat exploration task (driven by grid cells) to evaluate the generalization
+capability of the CNMM. The CNMM metaparameters and weights were from the previous training
+that originally optimized to rat exploration data. Traces are normalized and are therefore shown in
+arbitrary units.
+
+
+
+
+                                                38
+Fig. A3 CNMM spike density prediction accuracy due to random MEC activity. The
+R values for each of the 32 neural masses in Fig. A2 are shown.
+
+
+
+
+                                     39
+Fig. A4 CNMM optimized metaparameters for spike density estimation. The values of
+the optimized metaparameters for spike density estimation are shown across a two-dimensional map
+of CA3 for the 32 chosen neural masses.
+
+
+
+
+                                              40
+Fig. A5 Exploration of metaparameter space during PSO. An example of the evolution of
+the metaparameters during Particle Swarm Optimization (PSO) is shown. The x-axis represents the
+iteration number. Each dot represents the value of a metaparameter for an individual particle out of
+a population of 200. The color of each dot represents the loss (mean squared error) associated with
+the particle. Horizontal black lines represent the boundaries of the metaparameter values. Alpha and
+fb num delays are unitless while the ry and rx have units of mm. From visual inspection, the CNMM
+is most sensitive to the alpha value of the DG kernel, the r values of the coupling kernel, and the
+fb num delays value as demonstrated by the tight region of dense purple (i.e., low error) expressed
+by those metaparameters toward the later iterations.
+
+
+
+
+                                                41
+

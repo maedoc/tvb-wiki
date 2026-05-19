@@ -1,0 +1,1108 @@
+                                                                           Harikumar A, Misiura M, Amen D, Keator D, Calhoun V. Fully automated estimation of
+                                                                           fMRI-guided SPECT brain networks and their functional network connectivity in
+                                                                           schizophrenia patients versus controls: A NeuroMark ICA approach. Aperture Neuro.
+                                                                           2025;5. doi:10.52294/001c.138726
+
+
+Original Research Articles
+
+Fully automated estimation of fMRI-guided SPECT brain networks
+and their functional network connectivity in schizophrenia patients
+versus controls: A NeuroMark ICA approach
+                                    a
+Amritha Harikumar, MA1                  , Maria Misiura, PhD1,2, Daniel Amen, MD3,4, David Keator, PhD3,4,5, Vince Calhoun, PhD1
+1 Tri-Institutional Center for Translational Research in Neuroimaging and Data Science (TReNDS), Georgia State University, 2 Georgia State University,
+3 Change Your Brain Change Your Life Foundation, 4 Amen Clinics Inc., 5 Department of Psychiatry and Human Behavior, University of California,
+
+Irvine
+Keywords: functional network connectivity, schizophrenia, psychosis, networks, SPECT
+https://doi.org/10.52294/001c.138726
+
+
+
+Aperture Neuro
+Vol. 5, 2025
+
+
+                     Single photon emission computerized tomography (SPECT) has emerged as a useful
+                     imaging modality that has been explored in the literature for the last 40 years. To date,
+                     little work has focused on studying functional network connectivity utilizing SPECT data.
+                     In this study, we present a fully automated, spatially constrained ICA (sc-ICA) approach
+                     to evaluate functional network connectivity profiles in SPECT data using the NeuroMark
+                     pipeline. We evaluate both the expression of brain networks along with the whole brain
+                     SPECT connectome to evaluate neuroimaging links to schizophrenia. SPECT images from
+                     76 healthy controls and 137 schizophrenia patients were acquired from Amen Clinic sites
+                     along with diagnostic information. Each patient participated in two SPECT brain scans,
+                     acquired during rest and while performing a sustained attention task across twelve clinical
+                     imaging sites. Preprocessed SPECT data were analyzed via sc-ICA using 53 spatial priors
+                     derived from functional MRI data. 15 total components were found to show differences
+                     in various brain regions after correcting for multiple comparisons. FDR corrected resting
+                     SPECT results showed stronger covariation with CC-SC, CC-AUD, and DM-AUD networks.
+                     Many components showed reduced connectivity in patients. Additionally, relationships
+                     were associated with regressing loading parameters against age, sex, hearing voices and
+                     having disjointed thoughts. For the task data, connectivity between the cognitive control
+                     – default mode network was found in rest-task data after FDR correction. Task data
+                     covariation patterns largely remained the same as the rest data. In summary, we find large
+                     scale network disruptions consistent with prior schizophrenia fMRI studies.
+
+
+INTRODUCTION                                                                 activation at rest across brain regions (i.e., resting state
+                                                                             fMRI functional connectivity3) has identified a number of
+OVERVIEW                                                                     replicable, canonical functional connectivity patterns/net-
+                                                                             works that correspond to various functional domains.4‑6
+Various neuroimaging methodologies, such as single pho-                      Blood flow is related to the BOLD fMRI signal, and has also
+ton emission computerized tomography (SPECT) and func-                       been measured in SPECT studies7 to provide insight into
+tional magnetic resonance imaging (fMRI), have been used                     brain perfusion (i.e., blood flow8,9). Using technitium-99,
+to capture clinically meaningful differences in psychiatric                  a nuclear medicine-based radioactive isotope, blood flow
+populations. Measuring blood oxygenation level-dependent                     throughout the body is visualized in SPECT imaging. Im-
+(BOLD) fMRI signals have resulted in many important find-                    portantly, cerebral blood flow (CBF) is a measure of phys-
+ings, such as classifying depressive symptoms1 and insights                  iological activity. Consequently, the relationship between
+into the brain’s functional architecture.2 Correlating BOLD                  blood flow and behavior have been considered in relation to
+
+
+
+
+   a Corresponding Author
+
+         Amritha Harikumar
+         The Center for Translational Research in Neuroimaging and Data Science (TReNDS) | Georgia State University
+         55 Park Place NE
+         Atlanta, GA, USA, 30303
+         aharikumar1@student.gsu.edu
+                   Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+psychiatric symptoms across disorders. To this end, SPECT               biomarkers of interest.25 The term biological marker or
+has been used to broadly study neuropsychiatric disor-                  “biomarker” is defined as “quantitative measurements that
+ders10 and to identify regions linked to disorders such as              provide information about biological processes, a disease
+neurodegenerative parkinsonism.11 While resting state                   state, or about response to treatment, providing much-
+fMRI studies have extensively focused on brain networks,                needed insight into preclinical and clinical data” 81. In the
+SPECT studies have typically utilized voxel-wise correla-               context of schizophrenia, a biomarker can be identified as
+tions in clinical research - for example, in cardiac studies12          a broad set of methods for clinical diagnosis, with various
+and in Parkinson’s disease - by incorporating machine                   genetic and neuroimaging methods being used to under-
+learning techniques.13,14 These studies investigate macro-              stand the etiology of schizophrenia.31‑35 More specifically,
+scale brain networks across disorders, providing insights               gene abnormalities to dysconnectivity in brain networks
+into covariation among brain regions and allowing identifi-             have been theorized as possible reasons for the develop-
+cation of network-specific disruptions linked to brain disor-           ment of schizophrenia.32 Although extensive discussions
+ders.                                                                   from genes to neurodevelopmental disruptions to neuro-
+    Brain network connectivity is an important considera-               transmitter imbalances have been noted in the literature,34,
+tion in neuropsychiatric disorders. fMRI studies have no-               36 there has not been a consensus to date on a method,
+
+tably focused on intrinsic brain networks, which have been              marker, or test that uniquely identifies schizophrenia. To
+particularly helpful in identifying widespread patterns of              aid in precision psychiatry and improving clinical diagnos-
+dysconnectivity, especially in disorders such as schizophre-            tic measures, various machine learning and classification
+nia.15 Schizophrenia is a multifaceted, complex disease                 techniques have been utilized as potential biomarkers.35,36
+with no known specific cause for its onset. A complex psy-                 While fMRI and SPECT are useful methodologies for
+chiatric disorder with no diagnostic biomarker identified,              identifying aberrant connectivity in schizophrenia, multi-
+schizophrenia is characterized by the presence of positive              variate techniques such as independent component analy-
+and negative symptoms such as hallucinations, delusions,                sis (ICA), which assess covarying components/networks in
+grandiose thoughts, and social withdrawal along with cog-               the brain have been widely utilized to identify possible
+nitive impairments.16‑18 Studies have shown robust find-                biomarkers pertaining to various psychiatric disorders, in-
+ings linking auditory hallucinations to brain regions related           cluding schizophrenia.15,36,37 ICA allows the extraction of
+to visual, memory, and language areas. These areas include              components from functional brain networks to understand
+Broca’s area, superior temporal gyrus (STG), putamen, and               which parts of the brain are most active both at rest and
+hippocampus, all which demonstrate dysconnectivity                      while performing a task.38 A type of blind source separa-
+broadly related to hallucination symptoms in patients.19‑23             tion, ICA was originally used to solve the “cocktail party
+    The relationship between brain connectivity and halluci-            phenomenon” where signals from a source (e.g., speech
+nations have also been studied with other imaging modal-                signals) could be separated and unmixed to understand
+ities. Recent positron emission tomography (PET) and                    each individual source of noise .39,40
+SPECT studies have noted other widespread brain regions                    Since its inception, ICA has been adapted to understand
+associated with hallucinations, including the inferior                  individual sources of signal in brain imaging data.41‑43 Us-
+frontal gyrus, cerebellum, parahippocampus and thalamus                 ing ICA allows for more precise estimation of functional
+showing increased perfusion activity when patients experi-              brain networks, as well as differentiation of brain networks
+enced hallucinations.24 Although hallucinations have been               related to function (e.g., differentiating bipolar, schizo-
+extensively studied using various imaging approaches, few               phrenia, and healthy controls from each other based on
+studies exist which explicitly compare fMRI- and SPECT-                 task-based fMRI data).44 ICA has also been used to extract
+based approaches to identify whether similar perfusion ac-              covarying networks in various modalities including struc-
+tivity is noted while patients experience hallucinations. To            tural MRI,45 subject-level fMRI activation, or amplitude of
+understand specific network-related dysfunctions in this                low frequency fluctuation maps,38 PET data,46,47 and in
+disease, various studies have investigated functional net-              one case, SPECT data.11 Additionally, it has been widely
+work covariation (FNC) between different networks that are              used to identify brain regions that exhibit coherent fluctu-
+disrupted in schizophrenia. More specifically, in SPECT lit-            ations, i.e., functional connectivity, captured in the spatial
+erature, perfusion has been linked with positive and neg-               maps of each component in resting state fMRI data. Using
+ative symptoms in schizophrenia.25‑27 Studies have shown                ICA to study dysfunction in schizophrenia has yielded use-
+relationships between CBF and antipsychotic medication in               ful results, including identifying functional dysconnectiv-
+first episode psychotic patients (FEP27,28) and broadly in              ity between subgroups.48 Additionally, it has proven to be
+schizophrenia (see comprehensive review and meta-analy-                 a powerful tool for identifying differences in connectivity
+sis),29 as well as key differences between reward processing,           patterns with high specificity that would otherwise be un-
+default mode, and language processing in patient groups                 detected using other methods.49
+such as schizophrenia versus depressed subjects.30 Given                   More recently, the use of spatially constrained ICA
+these findings, perfusion can be considered a robust mea-               (scICA) with a template-based approach has enabled a fully
+sure in identifying brain-behavior relationships in schizo-             automated method for analyzing FNC across various dis-
+phrenia.                                                                orders. This approach enhances comparability across stud-
+    Additionally, the quest for biomarkers of schizophrenia             ies while also capturing individual subject heterogeneity.50
+is ongoing, with perfusion differences considered possible              Spatially constrained ICA has yielded meaningful and ex-
+
+
+
+                                                               Aperture Neuro                                                       2
+                   Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+citing results, specifically understanding improved feature             ing     (https://www.cdc.gov/nchs/hus/sources-definitions/
+classification across disorders. The scICA NeuroMark                    race.html).
+pipeline has successfully identified unique brain impair-                   Healthy participants were recruited under a prior study
+ments in schizophrenia and autism, with high classification             of SPECT in healthy participants and approved by Western
+accuracy that distinguishes clinical disorders such as bipo-            IRB (WIRB # 20021714), with all participants consented
+lar disorder and major depressive disorder, and has also                (Integ Review Board #004-Amen Clinics Inc). Participants
+shown changes in the brains of individuals with                         were excluded from the original study if they, or their first-
+Alzheimer’s disease.51 Accurately capturing unique fea-                 degree relatives, had suicidal behavior, unstable medical
+tures across diagnostic profiles could assist in more precise           conditions, epilepsy, any history of mental illness, head
+clinical diagnoses for clinicians, such as distinguishing               injury or other neurological disorders, dementia, intellec-
+schizophrenia from schizophreniform or bipolar disorders.               tual disability, or substance abuse/dependence disorders.
+Few studies, to date, have focused on evaluating brain net-             All twelve sites utilized either the double- or triple-headed
+works estimated from SPECT imaging and understanding                    gamma camera for scans with the same data acquisition pa-
+their relationship to clinical and cognitive variables related          rameters in line with Amen Clinic regulatory procedures as
+to schizophrenia. A notable gap in the literature is the lack           listed below. Adult participants were scanned with the fol-
+of approaches for providing useful and detailed information             lowing dosage amounts calibrated by weight (Table 2):
+about how mental illness impacts covarying brain networks                   Each patient participated in two SPECT brain scans, ac-
+in SPECT data.                                                          quired during rest and while performing a Conners Contin-
+   Additional gaps in the literature include comparisons                uous Performance Test (Conners Continuous Performance
+between SPECT with fMRI findings, particularly in relation              Test, CCPT-II, Multi-Health Systems, Toronto, Ontario55)
+to clinical symptoms such as auditory hallucinations. More              across twelve clinical imaging sites. Scans were performed
+specifically, little research has examined whether a compar-            between 2004 – 2022. SPECT scans were acquired using
+ative approach between fMRI and SPECT can identify in-                  a Picker (Philips) Prism XP 3000 double-headed gamma
+trinsic connectivity networks (ICNs) and independent com-               camera (Picker Int. Inc., Ohio Nuclear Medicine Division,
+ponents (ICs) in brain regions and networks associated with             Bedford Hills, OH, USA) as well as the PRISM3000 triple-
+auditory hallucinations.                                                headed gamma camera (Picker Int. Inc., Ohio Nuclear Med-
+   Thus, the purpose of this current study was to study                 icine Division, Bedford Hills, OH, USA) with low energy
+group differences in patients with schizophrenia and                    high resolution fan beam collimators. Scanning was com-
+healthy controls using fully automated, whole brain fMRI-               pleted prior to any diagnoses or treatment. Patients that
+guided scICA applied for the first time on SPECT data. We               visit the Amen Clinic have visited a high number of
+evaluated both the individual subject expression of spatial             providers prior to their intake into the clinic and have tried
+brain networks as well as the whole brain SPECT connec-                 various medications with little success. More specifically,
+tome (assessed as covariation among subjects) to under-                 the average failure rate is 3.3 providers and 5 medications
+stand neuroimaging links to schizophrenia. Additionally,                prior to intake into the Amen Clinic (https://www.amen-
+we examined the relationships between loading parameters                clinics.com/faq/), which accounts for why patients were
+in patients compared to clinical symptoms, as well as de-               scanned prior to diagnoses or treatment. For each proce-
+mographic covariates such as age and sex. By utilizing in-              dure, an age- and weight-appropriate dose of 99mTc–hexa-
+sights from previous fMRI studies and the NeuroMark tem-                methylpropyleneamine oxime (HMPAO) was administered
+plate, our goal was to analyze SPECT data to investigate                intravenously at rest. For the rest scans, patients were in-
+differences in network covariation between a large clinical             jected while they sat in a dimly lit room with their eyes
+sample of schizophrenia patients versus controls. We ex-                open. Patients were scanned for approximately 30 minutes
+pect that based on previous fMRI studies utilizing Neu-                 after injection. Data acquisition yielded 120 images per
+roMark, aberrant/disrupted connectivity will be identified              scan with each image separated by three degrees, spanning
+in auditory, subcortical, and thalamocortical networks.52,53            360 degrees. A low pass filter was applied with a high cutoff
+We also expect to see disrupted connectivity in other large-            and Chang attenuation correction performed.56,57 The re-
+scale brain networks, such as the default mode network ,54              sulting reconstructed image matrices were 128x128x78
+with associations between positive symptoms (i.e., halluci-             with voxel sizes of 2.5mm3.
+nations) and widespread dysconnectivity.                                    Additionally, the SPECT scanner system resolution had
+                                                                        the following specs: 3.5 mm at the detector surface, and
+METHODS                                                                 8 mm at 10 cm. The ACR resolution phantom resulted in
+                                                                        a resolution of 6.4 mm. The dual-headed cameras had the
+                                                                        same spatial resolution as the triple-headed cameras, but
+SPECT IMAGING PROCEDURE AND PREPROCESSING
+                                                                        lower sensitivity. The detector panels were the same for
+76 healthy controls and 137 schizophrenia patient SPECT                 both camera types, however the newer camera has three
+images     were     acquired     from     Amen       Clinics            heads instead, and utilized the same older collimators. This
+(https://www.amenclinics.com/). We provide demographic                  impacted the signal to noise ratio (SNR) of the images, but
+information of subjects in both healthy control and patient             not the resolution. For both scanners, the algorithms re-
+groups (Table 1). Race classification was done based on                 mained the same, with a filtered back projection and the
+the Center for Disease Control’s guidelines for race report-
+
+
+
+                                                               Aperture Neuro                                                       3
+                          Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+Table 1A. Clinical Information of Patients and Racial Breakdowns.
+
+    Amen                Age               Subject               Gender                                                      Categorization
+    Clinics           (Mean |           Breakdown
+    Site #              SD)
+       1                25 |                  2M                        N/A                                  1 Hispanic/Latino, 1 African/American
+                      8.48 | 2
+                      subject
+       2              31.77 |             17F/18M                   48%/51%                   1 Arab, 3 Asian, 19 Caucasian, 5 Hispanic/Latino, 1 Multiethnic,
+                      11.08 |                                                                                       1 Other, 5 Unknown
+                        35
+                     subjects
+       3              38.5 |               2F/10M                 16.6%/83.3%                                        11 Caucasian, 1 Unknown
+                      12.58 |
+                        12
+                     subjects
+       4              33.14 |              3F/24M                11.1%/88.88%                      2 African/American, 23 Caucasian, 1 Hispanic/Latino, 1
+                      13.67 |                                                                                           Unknown
+                        27
+                     subjects
+       5              37.66 |               6F/6M                   50%/50%                            2 Asian, 8 Caucasian, 1 Native American, 1 Other
+                      16.46 |
+                        12
+                     subjects
+       6              25.77 |               6F/3M                 66.6%/33.3%                        6 Caucasian, 1 Hispanic/Latino, 1 Other, 1 Unknown
+                     2.90 | 9
+                     subjects
+       7              34.10 |              4F/15M               21.05%/78.94%                             1 African, 1 Asian, 15 Caucasian, 2 Unknown
+                      15.32 |
+                        19
+                     subjects
+       8              32.54 |               6F/5M               54.54%/45.45%                  2 Asian, 6 Caucasian, 1 Hispanic/Latino, 1 Other, 1 Unknown
+                      11.08 |
+                        11
+                     subjects
+       10             30.16 |               2F/4M               33.33%/66.66%                                4 Caucasian, 1 Multiethnic, 1 Unknown
+                      10.22 |
+                        6
+                     subjects
+       11            69 | N/A                 1F                        N/A                                                   1 Caucasian
+                      (just 1
+                     subject)
+       12            33 | N/A                 1F                        N/A                                                   1 Caucasian
+                      (just 1
+                     subject)
+       13              43 |                 1F/1M                   50%/50%                                                   2 Caucasian
+                      22.62 |
+                        2
+                     subjects
+    Totals             137                 35% F/                 39% F/ 60.1%                 0.73% Arab / 5.8% Asian / 70.07% Caucasian / 6.6% Hispanic/
+                     patients              64% M                       M                        Latino / 1.46% Multiethnic/ 2.92% Other / 8.7% Unknown /
+                                                                                                 2.19% African American / 0.73% Native American / 0.73%
+                                                                                                                          African
+
+Demographic information for patients with schizophrenia from the Amen Clinic dataset, with the site breakdown, average age and standard deviation, along with race classification
+information across sites. 12 sites were included in this study.
+
+
+
+use of a low-pass Butterworth filter (order=5.0, cut                                       maximum voxel and noise outside of the brain was removed
+off=0.25).                                                                                 using a 50% of maximum threshold prior to registration.
+   For voxel-based analyses, images were aligned to the                                    After the thresholded images were aligned to MNI space
+Montreal Neurological Institute (MNI) space with the ad-                                   and the transformation applied to the un-thresholded im-
+vanced normalization tools (ANTs version 2.2.057,                                          ages, a brain mask derived from the MNI 15258,59 template
+RRID:SCR_004757) using a SPECT template, resulting in                                      was used to remove noise outside the brain from the un-
+an image matrix size of 799668 with isotropic voxel sizes                                  thresholded images for use in the statistical models. Regis-
+of 2.0mm3. SPECT images were scaled to the within-scan                                     tered SPECT scans were visually checked for the absence of
+
+
+
+                                                                                 Aperture Neuro                                                                                     4
+                          Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+Table 1B. Clinical Information of Controls and Racial Breakdowns.
+
+      Amen                Age (Mean |                 Subject                    Gender                                           Categorization
+      Clinics                 SD)                   Breakdown
+      Site #
+
+         2                 36 | N/A | 1                  1M                         N/A                                          African American
+                            subject
+         2                48.71 | 6.92 |               3F/4M                42.85%/57.14%/                                     Arab/Middle Eastern
+                           7 subjects
+         2                29.28 | 6.92 |               4F/3M                57.14%/42.85%/                                               Asian
+                           7 subjects
+         2                43.74 | 17.94              32F/23M                58.18%/41.81%                                             Caucasian
+                          | 55 subjects
+         2                35.33 | 9.266                3F/3M                    50%/50%                                           Hispanic/Latino
+                           | 6 subjects
+      Totals               76 controls                 55% F/                52% F/ 47% M                  1.32% African American/ 9.21% Arab / 9.21% Asian /
+                                                       44% M                                                      72.37% Caucasian / 7.89% Hispanic
+
+Demographic information for healthy controls from the Amen Clinic dataset, with the site breakdown, average age and standard deviation, along with race classification information
+across sites. 12 sites were included in this study. Healthy controls were all from Site 2.
+
+
+
+Table 2. Dosage information and calibration according to adult participants’ weight in kilograms (kgs); dosage
+amounts are in millicuries (mCi).
+
+                       Weight Range                                                                    Dosage Information of TC-99
+                         <68-79 kgs                                                                                 20.0 mCi
+                          79-90 kgs                                                                                 22.5 mCi
+                            >90 kgs                                                                                 25.0 mCi
+
+
+
+severe functional abnormalities or artifacts and proper reg-                               in the SPECT data. Group differences were calculated by
+istration to the MNI space.                                                                performing two-sample t-tests on each of the respective 53
+                                                                                           control/patient pairs. In addition, pairwise correlations be-
+ICA PROCESSING                                                                             tween the loading parameters for the SPECT components
+                                                                                           were analyzed for within and between group differences.
+Preprocessed SPECT data were analyzed via spatially con-                                      Finally, regression models were calculated to examine
+strained ICA using the NeuroMark ICA template through                                      relationships between clinical variables and FNC values for
+the Group ICA of fMRI Toolbox (GIFT; http://trendscen-                                     patients. For the regression model of interest, demographic
+ter.org/software/gift; RRID:SCR_001953) run with MATLAB                                    variables such as age and sex coupled with hallucination-
+R2020b60 (Version 9.9.0.2037887). SPECT scans from 213                                     related questions (e.g., Item 98: Hearing voices or sounds
+subjects total (healthy controls and patients combined)                                    that are not real, Item 99: Experiencing Disjointed
+were analyzed via the MOO-ICAR algorithm using the Neu-                                    Thoughts or Speech) were examined specifically using the
+roMark fMRI 1.0 template (Table 3) which consisted of 53                                   Amen General Symptom Checklist (GSC; https://ancron-
+ICs that replicated across two large-scale human fMRI                                      medical.com/wp-content/uploads/2015/04/Amen-Adult-
+datasets (see Du et al., 2020 for a full breakdown of how                                  General-Symptom-Checklist.pdf), and correlated against
+the template was created, as well as more explanation re-                                  average loading parameter values for patients. Regression
+garding the MOO-ICAR approach).60 This resulted in 53                                      models were calculated for examining these relationships
+SPECT ICs as well as subject specific loading parameters.                                  between demographic and clinical variables regressed
+The 53 SPECT ICs included 7 ICN domains including the                                      against the loading parameter matrices.
+subcortical (SC), auditory (AUD), visual (VIS), sensorimotor                                  All tests were also corrected for multiple comparisons
+(SM), cognitive control (CC), default mode network (DM),                                   using the false discovery rate (FDR) approach,61 and t-test
+and cerebellar (CB) component regions for healthy controls                                 significant results were displayed in connectograms to visu-
+and patients (Figure 1).                                                                   alize the NeuroMark ICs for all 53 ICs pairings that demon-
+                                                                                           strated group differences. Analysis was performed using
+STATISTICAL ANALYSIS                                                                       MATLAB as well as R Studio with the base package of R
+                                                                                           (‘Pile of Leaves’), version 4.4.2 (2024-10-31).62 ChatGPT
+Following the analysis, loading parameter values for
+                                                                                           4-o (version 4.5) was utilized to clean, create, and stream-
+healthy controls, patients, and control – patient differences
+                                                                                           line MATLAB code.63
+were tested to identify strong/weak patterns of connectivity
+
+
+
+                                                                                 Aperture Neuro                                                                                  5
+                          Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+
+Figure 1*. Adapted from Du et al., 2020 noting the 7 main ICNs used for the NeuroMark spatially constrained ICA
+analysis.
+* Adapted with permission from: Du, Y. et al., “NeuroMark: An automated and adaptive ICA based pipeline to identify reproducible fMRI markers of brain disorders,” NeuroImage:
+Clinical, vol 28: 102375, 2020. © Elsevier. Licensed for reuse under CCC License ID 1611970-1.
+
+
+
+   A main regression model was run to understand rela-                                    RESULTS
+tionships between the demographic variables and clinical
+items correlated with the loading parameters. Model 1 had                                 PART 1: RESTING STATE SPECT ANALYSES
+age, sex, the clinical variables measured from items 98 and
+99 regressed against the loading parameters. Sex was coded                                LOADING PARAMETER EXPRESSION
+as a categorical variable, with 1 = male, 2 = female.
+   Model 1:                                                                               We first evaluated group differences in loading parameter
+                                                                                          expression between the 53 NeuroMark ICs. Loading pa-
+                                                                                          rameter expression denoted how strongly an IC was ex-
+                                                                                          pressed in each of the 53 components, with lower loading
+Additional confirmatory GLMs were run with age, sex, item                                 parameter values indicating less expression, and high load-
+98, item 99, site, and medication status of patients on an-                               ing parameter values indicating more expression. A high
+tipsychotics versus patients not on antipsychotics. Because                               Cohen’s d value (d = 0.92) was calculated to compare effect
+of the small number of patients at certain sites and the fact                             sizes of mean loading parameter values between patients
+that controls were scanned at only one site, we were unable                               and healthy controls, suggesting strong group differences
+to control for site and medication in the full analysis, how-                             (see Supplementary Table 1 for more Cohen’s d exploratory
+ever we performed targeted analyses to evaluate the im-                                   analyses for pairwise group effects). After FDR correction,
+pact of site and medication. For medication, given several                                15 components (HC > SZ) survived with domains from every
+patients were on multiple antipsychotic and non-antipsy-                                  network represented. Results from the group t-test compar-
+chotic medications, a subsample of 23 patients with no an-                                ing healthy controls > patients using mean loading para-
+tipsychotic medication history were matched with 23 that                                  meter values revealed connectivity in the frontal and me-
+were on antipsychotic medication. For site, we tested for                                 dial temporal regions (HC > SZ). No SZ > HC differences
+site differences between sites 2 and 4, the only sites with                               survived FDR correction. To visually represent the FDR cor-
+more than 20 subjects.                                                                    rected group differences, a spatial map demonstrating the
+                                                                                          15 loading parameters for HC > SZ was displayed below
+                                                                                          (Figure 2) and as a bar plot demonstrating the distribution
+                                                                                          of the loading parameter values across group differences
+                                                                                          (Figure 3). Overall, loading parameter values showed inter-
+                                                                                          subject functional covariance primarily in the frontal and
+                                                                                          medial regions of the brain. For clarity, the term functional
+
+
+
+
+                                                                                Aperture Neuro                                                                                   6
+                             Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+Table 3*. Adapted from Du et al., 2020 with the breakdown of coordinates, and 53 NeuroMark ICA brain regions
+used for the spatially constrained ICA analysis.
+
+  Selected Components as Regions of Interest                                                     X                   Y                 Z
+  Subcortical network (SC)
+  Caudate (1)                                                                                    6.5                 10.5              5.5
+  Subthalamus/hypothalamus (2)                                                                   -2.5                -13.5             -1.5
+  Putamen (3)                                                                                    -26.5               1.5               -0.5
+  Caudate (4)                                                                                    21.5                10.5              -3.5
+  Thalamus (5)                                                                                   -12.5               -18.5             11.5
+  Auditory network (AUD)
+  Superior temporal gyrus ([STG], 6)                                                             62.5                -22.5             7.5
+  Middle temporal gyrus ([MTG], 7)                                                               -42.5               -6.5              10.5
+  Sensorimotor network (SM)
+  Postcentral gyrus ([PoCG], 8)                                                                  56.5                -4.5              28.5
+  Left postcentral gyrus ([L PoCG], 9)                                                           -38.5               -22.5             56.5
+  Paracentral lobule ([ParaCL], 10)                                                              0.5                 -22.5             65.5
+  Right postcentral gyrus ([R PoCG], 11)                                                         38.5                -19.5             55.5
+  Superior parietal lobule ([SPL], 12)                                                           -18.5               -43.5             65.5
+  Paracentral lobule ([ParaCL], 13)                                                              -18.5               -9.5              56.5
+  Precentral gyrus ([PreCG], 14)                                                                 -42.5               -7.5              46.5
+  Superior parietal lobule ([SPL], 15)                                                           20.5                -63.5             58.5
+  Postcentral gyrus ([PoCG], 16)                                                                 -47.5               -27.5             43.5
+  Visual network (VIS)
+  Calcarine gyrus ([CalcarineG], 17)                                                             -12.5               -66.5             8.5
+  Middle occipital gyrus ([MOG], 18)                                                             -23.5               -93.5             -0.5
+  Middle temporal gyrus ([MTG], 19)                                                              48.5                -60.5             10.5
+  Cuneus (20)                                                                                    15.5                -91.5             22.5
+  Right middle occipital gyrus ([R MOG], 21)                                                     38.5                -73.5             6.5
+  Fusiform gyrus (22)                                                                            29.5                -42.5             -12.5
+  Inferior occipital gyrus ([IOG], 23)                                                           -36.5               -76.5             -4.5
+  Lingual gyrus ([LingualG], 24)                                                                 -8.5                -81.5             -4.5
+  Middle temporal gyrus ([MTG], 25)                                                              -44.5               -57.5             -7.5
+  Cognitive-control network (CC)
+  Inferior parietal lobule ([IPL], 26)                                                           45.5                -61.5             43.5
+  Insula (27)                                                                                    -30.5               22.5              -3.5
+  Superior medial frontal gyrus ([SMFG], 28)                                                     -0.5                50.5              29.5
+  Inferior frontal gyrus ([IFG], 29)                                                             -48.5               34.5              -0.5
+  Right inferior frontal gyrus ([R IFG], 30)                                                     53.5                22.5              13.5
+  Middle frontal gyrus ([MiFG], 31)                                                              -41.5               19.5              26.5
+  Inferior parietal lobule ([IPL], 32)                                                           -53.5               -49.5             43.5
+  Right inferior parietal lobule ([R IPL], 33)                                                   44.5                -34.5             46.5
+  Supplementary motor area ([SMA], 34)                                                           -6.5                13.5              64.5
+  Superior frontal gyrus ([SFG], 35)                                                             -24.5               26.5              49.5
+  Middle frontal gyrus ([MiFG], 36)                                                              30.5                41.5              28.5
+  Hippocampus ([HiPP], 37)                                                                       23.5                -9.5              -16.5
+  Left inferior parietal lobule ([L IPL], 38)                                                    -47.5               5.5               22.5
+  Middle cingulate cortex ([MCC], 39)                                                            -15.5               20.5              37.5
+  Inferior frontal gyrus ([IFG], 40)                                                             39.5                44.5              -0.5
+  Middle frontal gyrus ([MiFG], 41)                                                              -26.5               47.5              5.5
+  Hippocampus ([HiPP], 42)                                                                       -24.5               -36.5             1.5
+  Default-mode network (DM)
+  Precuneus (43)                                                                                 -8.5                -66.5             35.5
+  Precuneus (44)                                                                                 -12.5               -54.5             14.5
+  Anterior cingulate cortex ([ACC], 45)                                                          -2.5                35.5              2.5
+  Posterior cingulate cortex ([PCC], 46)                                                         -5.5                -28.5             26.5
+  Anterior cingulate cortex ([ACC], 47)                                                          -9.5                46.5              -10.5
+  Precuneus (48)                                                                                 -0.5                -48.5             49.5
+  Posterior cingulate cortex ([PCC], 49)                                                         -2.5                54.5              31.5
+  Cerebellar network (CB)
+  Cerebellum ([CB], 50)                                                                          -30.5               -54.5             -42.5
+  Cerebellum ([CB], 51)                                                                          -32.5               -79.5             -37.5
+  Cerebellum ([CB], 52)                                                                          20.5                -48.5             -40.5
+  Cerebellum ([CB], 53)                                                                          30.5                -63.5             -40.5
+
+
+Independent Components as Regions of Interest (Peak Coordinates and Spatial Maps)
+Table S1. Peak Coordinates of Components of Interest
+
+
+
+
+                                                                              Aperture Neuro                                                   7
+                          Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+* Adapted with permission from: Du, Y. et al., “NeuroMark: An automated and adaptive ICA based pipeline to identify reproducible fMRI markers of brain disorders,” NeuroImage:
+Clinical, vol 28: 102375, 2020. © Elsevier. Licensed for reuse under CCC License ID 1611970-1.
+
+
+
+
+Figure 2. A spatial map (anterior to posterior view with left and right hemispheres of the brain depicted,
+respectively) of corrected results (q< 0.05) with 15 loading parameter components showing components for
+healthy controls > patients, with increased loading parameter functional covariance in the frontal and medial
+regions of the brain.
+
+
+covariance will be used throughout to describe areas of per-                                 Regarding broad FNC patterns (see Figures 4a and 4b),
+fusion.                                                                                   we noted that for patients (Figure 4a), higher correlations
+                                                                                          were noted for CC-DM, VIS-CB, and SM-CC networks. Weak
+FNC RESULTS                                                                               covariation was noted for CC-CB, DM-CB, and VIS-CC net-
+                                                                                          works. Strong connectivity in controls (Figure 4b) was
+After analyzing IC differences between groups, the next                                   noted between the VIS-CB, VIS-DM, SM-CC, and CC-DM
+goal was to analyze interactions among networks, denoted                                  regions. Finally, for healthy control-patient differences,
+as FNC, and computed as the cross-correlation among com-                                  FNC was weaker between the CC-CB, SM-CB, and SM-VIS
+ponent loading parameters. We looked at group differences                                 domains (Figure 5a-5b). Regions that survived FDR correc-
+between controls versus patients and patients versus con-                                 tion showed weaker covariation between CC-VS, DM-CC,
+trols. The 7 ICNs mentioned above were investigated for                                   and DM-SM areas, and stronger covariation between the
+broad network covariation patterns having first identified                                DM-SM, CC-AUD, and DM-SC areas.
+IC differences between groups in the earlier results. Weak
+covariation was indicated by the lighter blue colors, and                                 CLINICAL REGRESSION RESULTS
+strong covariation between ICNs was indicated by the or-
+ange/red colors.                                                                          After identifying relevant components, relationships be-
+                                                                                          tween loading parameters and clinical variables were exam-
+
+
+
+                                                                                Aperture Neuro                                                                                   8
+                           Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+
+Figure 3. A bar plot showing group differences with the corrected results (q< 0.05) with 15 loading parameter
+components showing components for healthy controls > patients.
+Increased loading parameter functional covariance was noted primarily in the frontal and medial regions of the brain.
+
+
+
+ined. To do this, regressions of clinical and demographic                                   PART 2: TASK-BASED ANALYSES
+variables against the loading parameters for patients were
+run. We first tested for collinearity between several clinical                              LOADING PARAMETER RESULTS
+variables including GSC total scores (i.e., sum across all
+symptom severity scores in the GSC checklist), and other                                    In addition to the resting state SPECT data, we compared
+clinical variables related to positive and negative schizo-                                 task-based results with the CPT and the loading parame-
+phrenia symptoms. GSC variables did not demonstrate high                                    ters, as well as FNC comparisons between healthy controls
+correlations with each other, with correlations less than                                   and patients. Bar plots were calculated to compare mean
+0.33.                                                                                       loading parameter values for healthy controls, patients, and
+   A multiple regression was run to examine the relation-                                   the healthy control-patient differences, with the FDR cor-
+ship between loading parameters and clinical/demographic                                    rected results displayed. The same 15 loading parameter
+variables including age, sex, and hallucination symptoms                                    components for resting state were significant for the task-
+(measured by Items 98 and 99 of the Amen General Symp-                                      based results. Furthermore, patients who did the CPT task
+tom checklist). Overall, results (Table 4; clinical variables                               showed more negative loading parameter values (i.e., re-
+regressed against the loading parameter values) showed                                      duced expression) across ICNs compared to healthy con-
+relevant components (i.e., Components 27 and 28; CC Net-                                    trols, who had positive loading parameter values across
+work) were strongly related to hearing voices, as well as                                   ICNs (i.e., increased expression; Figure 6). A spatial map
+disjointed thoughts. The other components, marginally sig-                                  displaying the relevant components (Figure 7) with group
+nificant at FDR corrected q<0.1, showed a relationship be-                                  differences are shown below.
+tween the AUD, SM, CC, and DM networks and hallucina-                                          To summarize overall patterns, group differences in rest-
+tion symptoms. Regarding the analyses run to check for                                      ing state data found 15 networks that were significant and
+medication and site effects, there were no significant ef-                                  replicated across the same components in the task data. To-
+fects of either site, medication, or scanner type, suggesting                               gether, rest and task data show similar group effects with 7
+these aspects are not of major relevance to the results.                                    common networks in the following regions: Component 4:
+
+
+
+                                                                                  Aperture Neuro                                                      9
+                           Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+
+Figures 4A-4B. FNC maps of schizophrenia patients (Figure 4A, left) and controls (Figure 4B, right) with the
+NeuroMark components correlated against each other.
+Patient FNC maps showed strong covariation for CC-DM, VIS-CB, and SM-CC networks, and weak covariation for CC-CB, DM-CB, and VIS-CC networks. Conversely, controls showed
+strong connectivity between visual and CC, DM, and CB areas, but weaker connectivity in CC-CB areas.
+
+
+
+
+Figures 5A-5B. NeuroMark FNC map of healthy control-patient differences (Figure 5A; left) with unthresholded
+(lower part of the FNC triangle) and FDR corrected results (upper part of the FNC triangle) showed stronger
+covariation with CC-SC, CC-AUD, and DM-AUD networks.
+Figure 5B, right shows a corrected connectogram replotting the results from Figure 5A, but here allow us to see graphically which ICs are connected as well as the node strengths.
+
+
+
+Caudate, Component 6: Superior Temporal Gyrus; Compo-                                        tal Gyrus, Component 19: Middle Temporal Gyrus, Compo-
+nent 16: Postcentral Gyrus; Component 18: Middle Occipi-                                     nent 23: Inferior Occipital Gyrus, Component 29: Inferior
+
+
+
+                                                                                  Aperture Neuro                                                                                     10
+                           Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+Table 4. FDR Clinical Regression Results.
+
+    Component                          Brain Region                                                                                      Q values (* q < 0.1)
+    GSC 98 Results
+    7                                  Medial temporal lobe | AUD Network                                                                0.0868
+    14                                 Precentral gyrus | SM Network                                                                     0.0865
+    27                                 Insula | CC Network                                                                               0.0100*
+    28                                 Superior medial frontal network | CC Network                                                      0.0182*
+    45                                 Anterior cingulate cortex | DM Network                                                            0.0647
+    49                                 Posterior cingulate cortex | DM Network                                                           0.0957
+    GSC 99 Results
+    3                                  Putamen | SC Network                                                                              0.0925
+    14                                 Precentral gyrus | SM Network                                                                     0.0980
+
+GSC98 and GSC99 FDR corrected q <0.1 results; overall results demonstrate significance in Components 27 and 28, which are related to the CC network when correlated with halluci-
+nation symptoms. Other components, while marginally significant, demonstrate the concert of networks involved that relate to hallucination symptoms, including the CC, DM, SC,
+and AUD networks.
+
+
+
+
+Figure 6 shows the control-patient differences in mean loading parameters for task data.
+Overall, patients showed reduced expression across all ICNs compared to healthy controls, which mirrored similar patterns to the resting state SPECT data.
+
+
+
+Frontal Gyrus, Component 30: Right Inferior Frontal Gyrus;                                  Frontal Gyrus, and Component 47: Anterior Cingulate Cor-
+Component 31: Middle Frontal Gyrus; Component 32: Infe-                                     tex.
+rior Parietal Lobule; Component 34: Supplementary Motor
+Area; Component 38: Left Inferior Parietal Lobule; Com-
+ponent 40: Inferior Frontal Gyrus; Component 41: Middle
+
+
+
+                                                                                 Aperture Neuro                                                                              11
+                           Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+
+Figure 7 shows spatial maps (anterior to posterior view with left and right hemispheres of the brain depicted,
+respectively) of the 15 components that showed FDR corrected (q<0.05) significant group differences between
+patients and healthy controls.
+The results replicated across the same components identified in the resting state data. Overall, perfusion in the frontal and medial regions of the brain was present, along with broad
+perfusion across the 7 ICNs.
+
+
+
+FNC TASK VS REST DIFFERENCES                                                                  tionally show that patients had generally reduced perfusion
+                                                                                              covariation across networks compared to healthy controls.
+Finally, FNC results were plotted for controls and patients                                   More importantly, patients showed reduced covariation in
+to see differences between groups for rest-task FNC differ-                                   AUD-DM, AUD-CC, VS-DM, and SC-CC networks. This sug-
+ences (Figures 8a and b, 9a and b). Patients overall showed                                   gests that as patients completed the CPT, engagement of
+decreased FNC as demonstrated by reduced loading para-                                        the auditory, attention, visual, and cognitive control net-
+meter expression across ICNs including the CC-DM, VIS-                                        works was quite reduced compared to healthy controls.
+DM, SC-CB and AUD-CB for example. By contrast, controls
+showed increased FNC across the 7 ICNs, namely in the
+                                                                                              DISCUSSION AND CONCLUSIONS
+VS-CB, DM-CB, and VS-CC regions. Overall, resting state
+data and task data complement each other and confirm
+                                                                                              Here, we present the first study to utilize a NeuroMark
+perfusion activity broadly across the 7 ICNs in the Neuro-
+                                                                                              sc-ICA approach to perform an fMRI-guided analysis of
+Mark networks, and demonstrate differences in ICN load-
+                                                                                              SPECT data. These results show the benefits of using a
+ing parameter expression between patients and controls.
+                                                                                              fully automated yet flexible approach to estimate brain net-
+When comparing rest-task data, one association survived
+                                                                                              works and their covariation. The significant group differ-
+FDR correction, namely the CC-DM association. This sug-
+                                                                                              ences in loading parameters between healthy controls and
+gests that despite performing an attention-based task, the
+                                                                                              patients are consistent with and extend prior reports,15,
+CC and DM areas continue to be active and engaged in                                          21,64 which indicate that variability in loading parameters
+both patients and healthy controls. Task-based data addi-
+                                                                                              is possibly linked to alterations in functional connectivity
+
+
+
+                                                                                   Aperture Neuro                                                                                  12
+                          Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+
+Figures 8A-8B showing FNC between SPECT patients (left) and healthy controls (right), specifically showing the
+resting state – task data differences.
+Patients showed decreased FNC compared to controls in certain networks (shown in blue hues), where controls showed increased FNC in other networks (shown in red hues).
+
+
+
+
+Figures 9A-9B. 9A shows control-patient differences with rest-task FNC matrices subtracted from each other.
+Overall, increased FNC was found in networks such as the AUD-DM, VS-DM, and CC-DM areas; weaker FNC was found in regions such as the CC-CB, SM-CB, and SM-CC areas. Figure
+9B highlights the corrected FDR results of the control-patient differences in rest-task data. Only one ICN association survived FDR correction, namely between the CC-DM.
+
+
+
+and structural disruptions. Indeed, our study noted FNC al-                               connectivity gone awry.20 Interhemispheric miscommuni-
+terations across a variety of networks, including all seven                               cation has been a theory in schizophrenia, and another pos-
+of the NeuroMark domains, but particularly in the AUD,                                    sibility for the onset of auditory verbal hallucinations in
+SM, and CC domains related to clinical variables measuring                                patients. Indeed, interhemispheric miscommunication has
+age, sex, and hallucination symptoms (e.g., hearing voices).                              been attributed to several causes, including possibilities of
+Phenomena such as “disrupted cross talk” in patients with                                 increased levels of glutamate in prefrontal and auditory re-
+auditory hallucinations have been well documented22 as                                    gions, as well as N-methyl-D-aspartate (NMDAR) receptor
+disruptions in connectivity pertaining to hippocampal and                                 dysfunctions.65
+auditory regions. These miscommunications could also be                                      Studies have also shown evidence of disrupted inter-
+due to chemical imbalances, namely glutamate and GABA                                     hemispheric connectivity, particularly in auditory- and
+
+
+                                                                               Aperture Neuro                                                                             13
+                  Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+memory-related networks, specifically decreased inter-                 CC, and DM networks in patients compared to healthy con-
+hemispheric connectivity measured through voxel-mir-                   trols. This is suggestive of patients experiencing challenges
+rored homotopic connectivity (VMHC) in the STG, insula,                with attention and focus due to the possible presence of au-
+Rolandic operculum, fusiform gyrus, and parahippocam-                  ditory hallucinations interfering with sustained attention
+pus.23 Taken together, these neurotransmitter dysfunc-                 efforts. Previous fMRI studies using ICA have also noted re-
+tions, coupled with widespread disruptions in connectivity             lationships between hallucination symptoms and networks
+across multiple brain regions, may explain our findings of             in the fronto-temporal-parietal regions,21 which broadly
+altered network connectivity across several large-scale net-           point to widespread disruptions of functional networks.
+works. Disruptions in large-scale functional networks have             Studies also discussed regions such as the insula, ventral
+been widely observed with DM hypoconnectivity and re-                  striatum, hippocampus, and superior/middle temporal gyri
+lationships with DM functional connectivity and clinical               being implicated in processes related to source monitoring
+symptoms a common feature .66 We noted disruptions                     and aberrant salience in schizophrenia.67 These processes
+specifically in areas such as the parietal lobule, hippocam-           are related to aberrant cognitive perceptions that patients
+pus, and frontal gyri which tie well with previous studies             have about themselves and the world. The findings from
+noting similar abnormalities in patients, and linking dis-             our study related to decreased FNC in many of these related
+ruptions in the sensorimotor and auditory cortices .40,62,63,          regions suggest that patients experience challenges with
+67                                                                     attention and general cognitive processing that need to be
+   Other things to consider include the limitations of using           further explored. Given that controls had stronger FNC with
+HMPAO SPECT in general. It is well known that SPECT                    the same networks, it could be that they were able to fo-
+imaging has poor spatial resolution compared to other                  cus more extensively on the task without the interference
+techniques, along with costly/inefficient approvals and                of hallucinations affecting these cognitive states. However,
+prior authorizations for its use in medical imaging.68 Due             since it is unclear how frequently hallucinations occurred
+to poor spatial resolution of SPECT imaging, other methods             or whether they were present in patients during the atten-
+such as fMRI and PET are preferred in translational clinical           tion task, further research is needed to fully understand
+work,69,70 and provide much higher spatial and temporal                these patterns.
+resolution. However, it can be argued that SPECT imaging                  Some limitations of this study included not having other
+boasts high clinical accuracy10,70,71 with machine learning            SPECT covariation studies in schizophrenia to which to
+techniques assisting with improvements in accuracy.72                  compare results. While a novel study such as this one is
+Thus, the use of SPECT in clinical settings should not be              promising, more translational and clinical research in
+completely eliminated; rather, it could be used as a compli-           schizophrenia using SPECT imaging is needed to extend
+mentary tool to fMRI, PET or other measures used in neu-               these findings to other datasets or populations including,
+roimaging studies.                                                     but not limited to, comorbid populations. Future directions
+   We also noted some similarities between our results and             should utilize large-scale datasets and perform comparative
+prior fMRI work. Previous fMRI studies have found in-                  ICA processes similar to this study to see if results replicate.
+creased functional covariance in regions such as the ante-                Another limitation was the challenge of controlling for
+rior cingulate cortex and left inferior parietal lobe in PET           differences across sites and scanner types, as participants
+studies.73 Previous studies have also noted differences in             were scanned using both types of scanners at various loca-
+connectivity between affective versus non-affective early              tions. Additional challenges included accounting for vary-
+phase psychosis using the NeuroMark template,53 with an-               ing subject totals across sites and for the use of antipsy-
+other PET study utilizing the NeuroMark template to pro-               chotic medications across sites. Table 1 clearly shows the
+vide fMRI-guided analysis of Pittsburgh Compound-B (PiB)               breakdown of subjects across sites, particularly their lim-
+PET data, revealing distinct patterns of covariation in mild           ited samples. Because controls were all collected at one
+cognitive impairment versus control subjects.73 In studies             site, and small numbers of patients were collected at the
+looking at patients with FEP and early psychosis using Neu-            other clinic sites, we observed that it was a challenge to
+roMark, differences in FNC were found in several regions,              control for site as a covariate. However, we tested for group
+including the inferior frontal gyrus and superior medial               differences between patients collected at the two largest
+frontal gyrus, indicating disruptions in the cortical-subcor-          sites and found no differences, which suggests that site is
+tical-cerebellar circuits.52 Previous ICA studies investigat-          not a major factor in driving the results. The other chal-
+ing disruptions in the DM, specifically abnormal dynamic               lenge was controlling for medication status. Some patients
+functional connectivity in the precuneus and posterior cin-            had multiple medication statuses (e.g., being on antipsy-
+gulate cortex seem to suggest possible similarities between            chotics and non-antipsychotics) which left a small sample
+SPECT and fMRI methods capturing similar disruptions in                size to further analyze this covariate. To account for this,
+connectivity.54 Together, these results support multiple               we compared patients on multiple medications versus those
+networks of dysconnectivity, particularly in the cortical,             that were not on any medications. Despite adjusting for
+cerebellar, and default mode network regions that require              this, no results survived. Therefore, a larger sample size of
+further exploration.                                                   medicated patients solely on antipsychotics is needed to
+   Finally, we note relationships between the CC-DM pair               further analyze the effects of antipsychotics on perfusion
+remain significant in a sustained attention task for healthy-          data.
+patients, as well as reduced FNC patterns across the AUD,
+
+
+
+                                                              Aperture Neuro                                                       14
+                  Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+   The potential of ICA as a biomarker, especially in the                in schizophrenia. Taken together with clinical data, we
+context of SPECT data, warrants discussion. Numerous                     hope to further analyze the SPECT data to see how group
+fMRI studies utilizing ICA in schizophrenia have noted the               differences emerge across a variety of neuropsychiatric dis-
+robustness of ICA identifying brain networks, despite the                orders. In conclusion, utilizing SPECT imaging could be
+type of ICA used. For example, coefficient constrained                   a useful complement to existing fMRI research in finding
+ICA,35 group information-guided ICA (GIG-ICA74), and                     novel biomarkers of schizophrenia.
+spatially constrained ICA50 all demonstrate ways in which
+ICA can be used as a potential biomarker despite the type
+of algorithm used. In the case of translating ICA usage to
+SPECT data, this study aims to be the first of hopefully                 DATA AND CODE AVAILABILITY STATEMENT
+many to utilize fMRI spatial priors to relate aberrant pat-
+terns of blood flow to hyper/hypoconnectivity patterns in                Due to the sensitive nature of this clinical data, the SPECT
+schizophrenia. We note that the SPECT resolution is around               data has not been posted publicly but the anonymized de-
+6.5 mm, with the NeuroMark spatial resolution for each                   mographic and other clinical data used in this study is
+voxel being 3 x 3 x 3 mm3. Given these dimensions, the spa-              freely available for research by request to Dr. Keator. The
+tial resolution should not be too affected. Since fMRI is a              code in MATLAB and R, and other associated files are avail-
+measure of resting cerebral blood flow (rCBF) from which                 able on Github: (https://github.com/trendscenter/gift-bids/
+large-scale human brain networks have been mapped,30,60,                 tree/main/misc/spect/proj/march2024).
+62,75 this could explain comparable network patterns across
+                                                                         FUNDING SOURCES
+prior fMRI studies and this current one. This study was
+able to find patterns similar to those in prior fMRI studies,
+                                                                         This work was funded by the National Institute of Mental
+including aberrant patterns in cerebello-thalamocortical
+                                                                         Health grant R01MH123610, awarded to Vince Calhoun.
+(CTC) areas64 and the default mode network,54 which could
+in the future be mapped or overlayed onto fMRI regions.
+                                                                         CONFLICT OF INTEREST DISCLOSURES
+Given that we did not have concurrent fMRI data to which
+to compare the SPECT data, this would be a promising av-                 The imaging data was collected by the Amen Clinics as part
+enue of research for future studies, and to examine sources              of their routine patient intake for clinical treatment. Upon
+of potential bias when working cross-modally between                     consent (Integ Review Board (004-Amen Clinics Inc.)), pa-
+fMRI and SPECT. Additionally, although we do not have                    tients provide their de-identified data for research use,
+specific genetic, blood, or brain markers that pinpoint to               made available by the non-profit Change Your Brain Foun-
+causes of schizophrenia, we hope that more translational                 dation to academic and research institutions.
+studies will compare SPECT and fMRI datasets in tandem                      TReNDS used the retrospective imaging data from
+for further insights that will help with quicker diagnosis               Change Your Brain Foundation to study functional connec-
+and treatment.                                                           tivity in schizophrenia across imaging modalities.
+   In conclusion, analyzing SPECT data using ICA revealed                   Dr. Keator is currently a research scientist at the Amen
+multiple significant group differences in healthy controls               Clinic and receives a salary from the clinic to perform neu-
+versus schizophrenia patients. This poses interesting clini-             roimaging research. Dr. Amen is the founder and CEO of
+cal questions related to possible disruptions in schizophre-             Amen Clinics, receives salary, and owns private stock of the
+nia, particularly in the superior temporal gyrus, default                company.
+mode network, and subcortical networks. Given that this                     Amritha Harikumar will be funded full-time as a grad-
+is the first fMRI-guided network-based analysis of SPECT                 uate research assistant by the Amen Clinic beginning July
+data, these results shed further light on patterns of func-              2025.
+tional dysconnectivity identified in various studies relating
+disruption in these networks correlated with positive and                Submitted: March 03, 2025 CDT. Accepted: May 07, 2025 CDT.
+negative symptoms in schizophrenia. Thus, findings from
+                                                                         Published: June 11, 2025 CDT.
+this study can be taken as a first step to conduct future
+SPECT and other modality-related studies to compare FNC
+
+
+
+
+            This is an open-access article distributed under the terms of the Creative Commons Attribution 4.0 International License
+            (CCBY-4.0). View this license’s legal deed at http://creativecommons.org/licenses/by/4.0 and legal code at http://creativecom-
+            mons.org/licenses/by/4.0/legalcode for more information.
+
+
+
+                                                                Aperture Neuro                                                               15
+                Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+
+                                                        REFERENCES
+
+
+1. Bondi E, Maggioni E, Brambilla P, Delvecchio G. A                    11. Premi E, Calhoun VD, Garibotto V, et al. Source-
+systematic review on the potential use of machine                       Based Morphometry Multivariate Approach to
+learning to classify major depressive disorder from                     Analyze [123I]FP-CIT SPECT Imaging. Mol Imaging
+healthy controls using resting state fMRI measures.                     Biol. 2017;19(5):772-778. doi:10.1007/
+Neurosci Biobehav Rev. 2023;144:104972. doi:10.1016/                    s11307-017-1052-3
+j.neubiorev.2022.104972
+                                                                        12. Chen X, Zhou B, Xie H, et al. Deep Learning-
+2. Lee MH, Smyser CD, Shimony JS. Resting state                         Based Attenuation Map Generation for Low-Dose and
+fMRI: A review of methods and clinical applications.                    Few-Angle Dedicated Cardiac SPECT. J Nucl Med.
+AJNR Am J Neuroradiol. 2014;34(10):1866-1872.                           2023;64(supplement 1):P802.
+doi:10.3174/ajnr.A3263.Resting
+                                                                        13. Khachnaoui H, Mabrouk R, Khlifa N. Machine
+3. Biswal B, Yetkin FZ, Haughton VM, Hyde JS.                           learning and deep learning for clinical data and PET/
+Functional connectivity in the motor cortex of resting                  SPECT imaging in Parkinson’s disease: a review. IET
+human brain using echo-planar MRI. Magn Reson                           Image Process. 2020;14(16):4013-4026. doi:10.1049/
+Med Off J Soc Magn Reson Med Soc Magn Reson Med.                        iet-ipr.2020.1048
+1995;34(4):537-541. doi:10.1002/mrm.1910340409
+                                                                        14. Scherfler C, Seppi K, Donnemiller E, et al. Voxel-
+4. van den Heuvel MP, Hulshoff Pol HE. Exploring the                    wise analysis of [123I]β-CIT SPECT differentiates the
+brain network: A review on resting-state fMRI                           Parkinson variant of multiple system atrophy from
+functional connectivity. Eur Neuropsychopharmacol.                      idiopathic Parkinson’s disease. Brain.
+2010;20(8):519-534. doi:10.1016/                                        2005;128(7):1605-1612. doi:10.1093/brain/awh485
+j.euroneuro.2010.03.008
+                                                                        15. Calhoun VD. Functional brain networks in
+5. Dennis EL, Thompson PM. Mapping connectivity                         schizophrenia: a review. Front Hum Neurosci. 2009;3.
+in the developing brain. Int J Dev Neurosci.                            doi:10.3389/neuro.09.017.2009
+2013;31(7):525-542. doi:10.1016/
+j.ijdevneu.2013.05.007                                                  16. Tandon R, Nasrallah H, Akbarian S, et al. The
+                                                                        schizophrenia syndrome, circa 2024: What we know
+6. Fox MD, Greicius M. Clinical applications of                         and how that informs its nature. Schizophr Res.
+resting state functional connectivity. Front Syst                       2024;264:1-28. doi:10.1016/j.schres.2023.11.015
+Neurosci. 2010;4(June):19. doi:10.3389/
+fnsys.2010.00019                                                        17. Gebreegziabhere Y, Habatmu K, Mihretu A, Cella
+                                                                        M, Alem A. Cognitive impairment in people with
+7. Koyama M, Kawashima R, Ito H, et al. SPECT                           schizophrenia: an umbrella review. Eur Arch
+Imaging of Normal Subjects with Technetium-99m-                         Psychiatry Clin Neurosci. 2022;272(7):1139-1155.
+HMPAO and Technetium-99m-ECD.                                           doi:10.1007/s00406-022-01416-6
+
+8. Galiana Á, Paredes I, Ruiz S, et al. Effects of                      18. McCutcheon RA, Keefe RSE, McGuire PK.
+Cranioplasty in Cerebral Blood Perfusion Using                          Cognitive impairment in schizophrenia: aetiology,
+Quantification with 99mTc-HMPAO SPECT-CT.                               pathophysiology, and treatment. Mol Psychiatry.
+Published online 2021. doi:10.21203/rs.3.rs-539070/                     2023;28(5):1902-1918. doi:10.1038/
+v1                                                                      s41380-023-01949-9
+
+9. Sabouri M, Hajianfar G, Hosseini Z, et al.                           19. Gao J, Zhang D, Wang L, et al. Altered Effective
+Myocardial Perfusion SPECT Imaging Radiomic                             Connectivity in Schizophrenic Patients With
+Features and Machine Learning Algorithms for                            Auditory Verbal Hallucinations: A Resting-State fMRI
+Cardiac Contractile Pattern Recognition. J Digit                        Study With Granger Causality Analysis. Front
+Imaging. 2022;36(2):497-509. doi:10.1007/                               Psychiatry. 2020;11:575. doi:10.3389/
+s10278-022-00705-9                                                      fpsyt.2020.00575
+
+10. Amen DG, Trujillo M, Newberg A, et al. Brain                        20. Weber S, Hjelmervik H, Craven AR, et al.
+SPECT Imaging in Complex Psychiatric Cases: An                          Glutamate- and GABA-Modulated Connectivity in
+Evidence-Based, Underutilized Tool. Open                                Auditory Hallucinations—A Combined Resting State
+Neuroimaging J. 2011;5:40-48. doi:10.2174/                              fMRI and MR Spectroscopy Study. Front Psychiatry.
+1874440001105010040                                                     2021;12:643564. doi:10.3389/fpsyt.2021.643564
+
+
+
+
+                                                            Aperture Neuro                                                       16
+                Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+21. Kubera KM, Rashidi M, Schmitgen MM, et al.                          31. Weng J, Zhu X, Ouyang Y, et al. Identification of
+Structure/function interrelationships in patients with                  Immune-Related Biomarkers of Schizophrenia in the
+schizophrenia who have persistent auditory verbal                       Central Nervous System Using Bioinformatic Methods
+hallucinations: A multimodal MRI study using                            and Machine Learning Algorithms. Mol Neurobiol.
+parallel ICA. Prog Neuropsychopharmacol Biol                            2025;62(3):3226-3243. doi:10.1007/
+Psychiatry. 2019;93:114-121. doi:10.1016/                               s12035-024-04461-5
+j.pnpbp.2019.03.007
+                                                                        32. Kraguljac NV, McDonald WM, Widge AS,
+22. Hare SM, Law AS, Ford JM, et al. Disrupted                          Rodriguez CI, Tohen M, Nemeroff CB. Neuroimaging
+network cross talk, hippocampal dysfunction and                         Biomarkers in Schizophrenia. Am J Psychiatry.
+hallucinations in schizophrenia. Schizophr Res.                         2021;178(6):509-521. doi:10.1176/
+2018;199:226-234. doi:10.1016/j.schres.2018.03.004                      appi.ajp.2020.20030340
+
+23. Chen C, Huang H, Qin X, et al. Reduced inter-                       33. Yassin W, Loedige KM, Wannan CMJ, et al.
+hemispheric auditory and memory-related network                         Biomarker discovery using machine learning in the
+interactions in patients with schizophrenia                             psychosis spectrum. Biomark Neuropsychiatry.
+experiencing auditory verbal hallucinations. Front                      2024;11:100107. doi:10.1016/j.bionps.2024.100107
+Psychiatry. 2022;13:956895. doi:10.3389/
+fpsyt.2022.956895                                                       34. Fišar Z. Biological hypotheses, risk factors, and
+                                                                        biomarkers of schizophrenia. Prog
+24. Dierckx RAJO, Otte A, De Vries EFJ, Van Waarde                      Neuropsychopharmacol Biol Psychiatry.
+A, Sommer IE, eds. PET and SPECT in Psychiatry.                         2023;120:110626. doi:10.1016/j.pnpbp.2022.110626
+Springer International Publishing; 2021. doi:10.1007/
+978-3-030-57231-0                                                       35. Kim DI, Sui J, Rachakonda S, et al. Identification
+                                                                        of Imaging Biomarkers in Schizophrenia: A
+25. Percie Du Sert O, Unrau J, Gauthier CJ, et al.                      Coefficient-constrained Independent Component
+Cerebral blood flow in schizophrenia: A systematic                      Analysis of the Mind Multi-site Schizophrenia Study.
+review and meta-analysis of MRI-based studies. Prog                     Neuroinformatics. 2010;8(4):213-229. doi:10.1007/
+Neuropsychopharmacol Biol Psychiatry.                                   s12021-010-9077-7
+2023;121:110669. doi:10.1016/j.pnpbp.2022.110669
+                                                                        36. Harikumar A, Solovyeva KP, Misiura M, et al.
+26. Zhu J, Zhuo C, Qin W, et al. Altered resting-state                  Revisiting Functional Dysconnectivity: a Review of
+cerebral blood flow and its connectivity in                             Three Model Frameworks in Schizophrenia. Curr
+schizophrenia. J Psychiatr Res. 2015;63:28-35.                          Neurol Neurosci Rep. 2023;23(12):937-946.
+doi:10.1016/j.jpsychires.2015.03.002                                    doi:10.1007/s11910-023-01325-8
+
+27. Selvaggi P, Jauhar S, Kotoula V, et al. Reduced                     37. Du Y, Pearlson GD, Liu J, et al. A group ICA based
+cortical cerebral blood flow in antipsychotic-free                      framework for evaluating resting fMRI markers when
+first-episode psychosis and relationship to treatment                   disease categories are unclear: application to
+response. Psychol Med. 2023;53(11):5235-5245.                           schizophrenia, bipolar, and schizoaffective disorders.
+doi:10.1017/S0033291722002288                                           NeuroImage. 2015;122:272-280. doi:10.1016/
+                                                                        j.neuroimage.2015.07.054
+28. Selvaggi P, Jauhar S, Kotoula V, et al. Reduced
+cortical cerebral blood flow in antipsychotic-free                      38. Calhoun VD, Allen E. Extracting Intrinsic
+first-episode psychosis and relationship to treatment                   Functional Networks with Feature-Based Group
+response. Psychol Med. 2023;53(11):5235-5245.                           Independent Component Analysis. Psychometrika.
+doi:10.1017/S0033291722002288                                           2013;78(2):243-259. doi:10.1007/s11336-012-9291-3
+
+29. Goozée R, Handley R, Kempton MJ, Dazzan P. A                        39. Bell AJ, Sejnowski TJ. An information-
+systematic review and meta-analysis of the effects of                   maximisation approach to blind separation and blind
+antipsychotic medications on regional cerebral blood                    deconvolution.
+flow (rCBF) in schizophrenia: Association with
+response to treatment. Neurosci Biobehav Rev.                           40. Clark SV, Tannahill A, Calhoun VD, Bernard JA,
+2014;43:118-136. doi:10.1016/                                           Bustillo J, Turner JA. Weaker Cerebellocortical
+j.neubiorev.2014.03.014                                                 Connectivity Within Sensorimotor and Executive
+                                                                        Networks in Schizophrenia Compared to Healthy
+30. Boisvert M, Lungu O, Pilon F, Dumais A, Potvin S.                   Controls: Relationships with Processing Speed. Brain
+Regional cerebral blood flow at rest in schizophrenia                   Connect. 2020;10(9):490-503. doi:10.1089/
+and major depressive disorder: A functional                             brain.2020.0792
+neuroimaging meta-analysis. Psychiatry Res
+Neuroimaging. 2023;335:111720. doi:10.1016/
+j.pscychresns.2023.111720
+
+
+                                                            Aperture Neuro                                                       17
+                Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+41. Mckeown MJ, Makeig S, Brown GG, et al. Analysis                     51. Du Y, Fu Z, Sui J, et al. NeuroMark: An automated
+of fMRI data by blind separation into independent                       and adaptive ICA based pipeline to identify
+spatial components. Hum Brain Mapp.                                     reproducible fMRI markers of brain disorders.
+1998;6(3):160-188. https://doi.org/10.1002/                             NeuroImage Clin. 2020;28:102375. doi:10.1016/
+%28SICI%291097-0193%281998%296%3A3%3C160%                               j.nicl.2020.102375
+3A%3AAID-HBM5%3E3.0.CO%3B2-1
+                                                                        52. Jensen KM, Calhoun VD, Fu Z, et al. A whole-
+42. Calhoun VD, Adali T, Pearlson GD, Pekar JJ. A                       brain neuromark resting-state fMRI analysis of first-
+method for making group inferences from functional                      episode and early psychosis: Evidence of aberrant
+MRI data using independent component analysis.                          cortical-subcortical-cerebellar functional circuitry.
+Hum Brain Mapp. 2001;14(3):140-151. doi:10.1002/                        NeuroImage Clin. 2024;41:103584. doi:10.1016/
+hbm.1048                                                                j.nicl.2024.103584
+
+43. Segall JM, Allen EA, Jung RE, et al.                                53. Fu Z, Iraji A, Sui J, Calhoun VD. Whole-brain
+Correspondence between structure and function in                        functional network connectivity abnormalities in
+the human brain at rest. Front Neuroinformatics.                        affective and non-affective early phase psychosis.
+2012;6. doi:10.3389/fninf.2012.00010                                    Front Neurosci. 2021;15:682110. doi:10.3389/
+                                                                        fnins.2021.682110. PMID:34220438
+44. Calhoun VD. Functional brain networks in
+schizophrenia: a review. Front Hum Neurosci. 2009;3.                    54. Sendi MSE, Zendehrouh E, Ellis CA, et al.
+doi:10.3389/neuro.09.017.2009                                           Aberrant Dynamic Functional Connectivity of Default
+                                                                        Mode Network in Schizophrenia and Links to
+45. for the Alzheimer’s Disease Neuroimaging                            Symptom Severity. Front Neural Circuits.
+Initiative (ADNI), Luo X, Jiaerken Y, et al. Affect of                  2021;15:649417. doi:10.3389/fncir.2021.649417
+APOE on information processing speed in non-
+demented elderly population: a preliminary                              55. Conners CK. Conners’ Continuous Performance
+structural MRI study. Brain Imaging Behav.                              Test. Multi-health systems; 2000.
+2017;11(4):977-985. doi:10.1007/s11682-016-9571-0
+                                                                        56. Chang LT. A Method for Attenuation Correction in
+46. Maddahi J, Agostini D, Bateman TM, et al.                           Radionuclide Computed Tomography. IEEE Trans
+Flurpiridaz F-18 PET Myocardial Perfusion Imaging                       Nucl Sci. 1978;25(1):638-643. doi:10.1109/
+in Patients With Suspected Coronary Artery Disease.                     TNS.1978.4329385
+J Am Coll Cardiol. 2023;82(16):1598-1610.
+doi:10.1016/j.jacc.2023.08.016                                          57. Chang W, Henkin RE, Buddemeyer E. The Source
+                                                                        of Overestimation in the Quantification by SPECT of
+47. Fang XT, Toyonaga T, Hillmer AT, et al.                             Uptakes in. J Nucl Med. 1984;25:788-791.
+Identifying brain networks in synaptic density PET
+(11C-UCB-J) with independent component analysis.                        58. Fonov VS, Evans AC, McKinstry RC, Almli CR,
+NeuroImage. 2021;237:118167. doi:10.1016/                               Collins DL. Unbiased nonlinear average age-
+j.neuroimage.2021.118167                                                appropriate brain templates from birth to adulthood.
+                                                                        NeuroImage. 2009;47:S102. doi:10.1016/
+48. Du Y, Fryer SL, Lin D, et al. Identifying functional                S1053-8119(09)70884-5
+network changing patterns in individuals at clinical
+high-risk for psychosis and patients with early illness                 59. Fonov V, Evans AC, Botteron K, et al. Unbiased
+schizophrenia: A group ICA study. NeuroImage Clin.                      average age-appropriate atlases for pediatric studies.
+2018;17:335-346. doi:10.1016/j.nicl.2017.10.018                         Neuroimage. 2011;54(1):313-327. doi:10.1016/
+                                                                        j.neuroimage.2010.07.033. PMID:20656036
+49. Salman MS, Du Y, Lin D, et al. Group ICA for
+identifying biomarkers in schizophrenia: ‘Adaptive’                     60. Du Y, Fu Z, Sui J, et al. NeuroMark: An automated
+networks via spatially constrained ICA show more                        and adaptive ICA based pipeline to identify
+sensitivity to group differences than spatio-temporal                   reproducible fMRI markers of brain disorders.
+regression. NeuroImage Clin. 2019;22:101747.                            NeuroImage Clin. 2020;28:102375. doi:10.1016/
+doi:10.1016/j.nicl.2019.101747                                          j.nicl.2020.102375
+
+50. Duda M, Iraji A, Ford JM, et al. Spatially                          61. Benjamini Y, Hochberg Y. Controlling the False
+Constrained ICA Enables Robust Detection of                             Discovery Rate: A Practical and Powerful Approach to
+Schizophrenia from Very Short Resting-State fMRI                        Multiple Testing. J R Stat Soc Ser B Stat Methodol.
+Data. Psychiatry and Clinical Psychology. Published                     1995;57(1):289-300. doi:10.1111/
+online 2022. doi:10.1101/2022.03.17.22271783                            j.2517-6161.1995.tb02031.x
+
+
+
+
+                                                            Aperture Neuro                                                       18
+               Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+62. Dabiri M, Dehghani Firouzabadi F, Yang K, Barker                   69. Ingram M, Colloby SJ, Firbank MJ, Lloyd JJ,
+PB, Lee RR, Yousem DM. Neuroimaging in                                 O’Brien JT, Taylor JP. Spatial covariance analysis of
+schizophrenia: A review article. Front Neurosci.                       FDG-PET and HMPAO-SPECT for the differential
+2022;16:1042814. doi:10.3389/fnins.2022.1042814                        diagnosis of dementia with Lewy bodies and
+                                                                       Alzheimer’s disease. Psychiatry Res Neuroimaging.
+63. Das TK, Kumar J, Francis S, Liddle PF,                             2022;322:111460. doi:10.1016/
+Palaniyappan L. Parietal lobe and disorganisation                      j.pscychresns.2022.111460
+syndrome in schizophrenia and psychotic bipolar
+disorder: A bimodal connectivity study. Psychiatry Res                 70. Henderson TA, Cohen P, Van Lierop M, et al. A
+Neuroimaging. 2020;303:111139. doi:10.1016/                            Reckoning to Keep Doing What We Are Already Doing
+j.pscychresns.2020.111139                                              With PET and SPECT Functional Neuroimaging. Am J
+                                                                       Psychiatry. 2020;177(7):637-638. doi:10.1176/
+64. Jensen DM, Zendrehrouh E, Calhoun V, Turner JA.                    appi.ajp.2020.19080801
+Cognitive Implications of Correlated Structural
+Network Changes in Schizophrenia. Front Integr                         71. Amen DG, Easton M. A New Way Forward: How
+Neurosci. 2022;15:755069. doi:10.3389/                                 Brain SPECT Imaging Can Improve Outcomes and
+fnint.2021.755069                                                      Transform Mental Health Care Into Brain Health
+                                                                       Care. Front Psychiatry. 2021;12:715315. doi:10.3389/
+65. Steinmann S, Leicht G, Mulert C. The                               fpsyt.2021.715315
+interhemispheric miscommunication theory of
+auditory verbal hallucinations in schizophrenia. Int J                 72. Fard AS, Reutens DC, Ramsay SC, Goodman SJ,
+Psychophysiol. 2019;145:83-90. doi:10.1016/                            Ghosh S, Vegh V. Image synthesis of interictal SPECT
+j.ijpsycho.2019.02.002                                                 from MRI and PET using machine learning. Front
+                                                                       Neurol. 2024;15:1383773. doi:10.3389/
+66. O’Neill A, Mechelli A, Bhattacharyya S.                            fneur.2024.1383773
+Dysconnectivity of Large-Scale Functional Networks
+in Early Psychosis: A Meta-analysis. Schizophr Bull.                   73. Saha DK, Bohsali A, Saha R, Hajjar I, Calhoun VD.
+2019;45(3):579-590. doi:10.1093/schbul/sby094                          Neuromark PET: A Multivariate Method for
+                                                                       Estimating and Comparing Whole Brain Functional
+67. Kowalski J, Aleksandrowicz A, Dąbkowska M,                         Networks and Connectomes from fMRI and PET Data.
+Gawęda Ł. Neural Correlates of Aberrant Salience and                   Neuroscience. Published online 2024. doi:10.1101/
+Source Monitoring in Schizophrenia and At-Risk                         2024.01.10.575131
+Mental States—A Systematic Review of fMRI Studies.
+J Clin Med. 2021;10(18):4126. doi:10.3390/                             74. Du Y, Pearlson GD, Lin D, et al. Identifying
+jcm10184126                                                            dynamic functional connectivity biomarkers using
+                                                                       GIG-ICA: Application to schizophrenia,
+68. Bateman TM. Advantages and disadvantages of                        schizoaffective disorder, and psychotic bipolar
+PET and SPECT in a busy clinical practice. J Nucl                      disorder. Hum Brain Mapp. 2017;38(5):2683-2708.
+Cardiol. 2012;19:3-11. doi:10.1007/                                    doi:10.1002/hbm.23553
+s12350-011-9490-9
+                                                                       75. Biswal B, Zerrin Yetkin F, Haughton VM, Hyde JS.
+                                                                       Functional connectivity in the motor cortex of resting
+                                                                       human brain using echo-planar mri. Magn Reson
+                                                                       Med. 1995;34(4):537-541. doi:10.1002/
+                                                                       mrm.1910340409
+
+
+
+
+                                                           Aperture Neuro                                                      19
+               Fully automated estimation of fMRI-guided SPECT brain networks and their functional network connectivi…
+
+
+
+
+                                       SUPPLEMENTARY MATERIALS
+
+
+Supplementary Material
+Download: https://apertureneuro.org/article/138726-fully-automated-estimation-of-fmri-guided-spect-brain-
+networks-and-their-functional-network-connectivity-in-schizophrenia-patients-versus-controls-a/attachment/
+285031.xlsx
+
+
+
+
+                                                           Aperture Neuro                                                20
+

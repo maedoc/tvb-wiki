@@ -1,0 +1,669 @@
+                                           End-to-end Cortical Surface Reconstruction from
+                                                 Clinical Magnetic Resonance Images
+
+                                                Jesper Duemose Nielsen1 , Karthik Gopinath2 , Andrew Hoopes2,3 , Adrian
+                                                  Dalca2,3,4 , Colin Magdamo5 , Steven Arnold5 , Sudeshna Das2,5 , Axel
+                                                      Thielscher1,6 , Juan Eugenio Iglesias2,3,4,7 , and Oula Puonti1,2
+arXiv:2505.14017v1 [eess.IV] 20 May 2025
+
+
+
+
+                                            1
+                                                Danish Research Centre for Magnetic Resonance, Department of Radiology and
+                                                  Nuclear Medicine, Copenhagen University Hospital – Amager and Hvidovre,
+                                                                           Copenhagen, Denmark
+                                              2
+                                                  Athinoula A. Martinos Center for Biomedical Imaging, Massachusetts General
+                                                                      Hospital, Charlestown, MA, USA
+                                                3
+                                                   Computer Science and Artificial Intelligence Lab, Massachusetts Institute of
+                                                                     Technology, Cambridge, MA, USA
+                                                    4
+                                                      Department of Radiology, Harvard Medical School, Boston, MA, USA
+                                           5
+                                              Department of Neurology, Massachusetts General Hospital, Charlestown, MA, USA
+                                            6
+                                              Department of Health Technology, Technical University of Denmark, Kgs. Lyngby,
+                                                                                   Denmark
+                                                         7
+                                                           Hawkes Institute, University College London, London, UK
+
+
+
+
+                                                   Abstract. Surface-based cortical analysis is valuable for a variety of
+                                                   neuroimaging tasks, such as spatial normalization, parcellation, and gray
+                                                   matter (GM) thickness estimation. However, most tools for estimating
+                                                   cortical surfaces work exclusively on scans with at least 1 mm isotropic
+                                                   resolution and are tuned to a specific magnetic resonance (MR) contrast,
+                                                   often T1-weighted (T1w). This precludes application using most clinical
+                                                   MR scans, which are very heterogeneous in terms of contrast and reso-
+                                                   lution. Here, we use synthetic domain-randomized data to train the first
+                                                   neural network for explicit estimation of cortical surfaces from scans of
+                                                   any contrast and resolution, without retraining. Our method deforms
+                                                   a template mesh to the white matter (WM) surface, which guarantees
+                                                   topological correctness. This mesh is further deformed to estimate the
+                                                   GM surface. We compare our method to recon-all-clinical (RAC), an im-
+                                                   plicit surface reconstruction method which is currently the only other
+                                                   tool capable of processing heterogeneous clinical MR scans, on ADNI
+                                                   and a large clinical dataset (n=1,332). We show a ∼ 50 % reduction in
+                                                   cortical thickness error (from 0.50 to 0.24 mm) with respect to RAC and
+                                                   better recovery of the aging-related cortical thinning patterns detected
+                                                   by FreeSurfer on high-resolution T1w scans. Our method enables fast and
+                                                   accurate surface reconstruction of clinical scans, allowing studies (1) with
+                                                   sample sizes far beyond what is feasible in a research setting, and (2) of
+                                                   clinical populations that are difficult to enroll in research studies. The
+                                                   code is publicly available at https://github.com/simnibs/brainnet.
+
+                                                   Keywords: Deep learning · Cortical surface modeling · Clinical data.
+2       J. D. Nielsen et al.
+
+1   Introduction
+
+Background. The human cortex is a tightly folded sheet of neural tissue orga-
+nized in distinct layers with characteristic cellular and microstructural features
+in different cortical areas. Morphometric analysis of cortical surfaces, namely
+the white matter (WM) and gray matter (GM) (pial) surfaces, has improved
+our understanding of structural changes related to brain development [26], neu-
+rological and psychiatric disorders [18,28], and aging [33]. For example, cortical
+thickness has proven especially powerful as a biomarker for detecting and track-
+ing the development of dementia [28]. By limiting blurring across gyri and sulci,
+surface-based analysis also improves the sensitivity of functional magnetic reso-
+nance imaging (MRI) studies, possibly at the level of the individual layers [27].
+
+
+Related work. Classical surface reconstruction approaches [8,9,10,22,32,35] rely
+on iterative optimization and geometry processing algorithms. A representative
+example is FreeSurfer’s widely used recon-all pipeline, where surface recon-
+struction starts from a volumetric segmentation of the WM compartment, the
+boundary of which is first tessellated. Due in part to the finite resolution of the
+input image, the generated surface mesh may possess a number of implausible
+characteristics, e.g., bridges or holes, which are corrected post hoc to ensure that
+the surface is topologically correct and homotopic (continuously deformable) to
+a sphere [7]. The corrected WM surface is then deformed to optimally align with
+the local intensity gradients in the original image. Subsequently, the GM surface
+is estimated by iteratively moving the vertices of the WM surface outward while
+monitoring and fixing self-intersections until it aligns with the image gradient [5].
+    Classical methods have long run times due to their iterative nature and their
+need for topology correction. More recent deep learning (DL) methods can speed
+up cortical reconstruction. Here we distinguish two main approaches: implicit
+and explicit methods. The former estimate a function that implicitly defines a
+surface, typically evaluated on the image grid. The function can represent a tis-
+sue segmentation, as in FastSurfer [13], or a real-valued signed distance function
+(SDF) whose zero level-set defines the surface [12,4]. Importantly, as these meth-
+ods do not predict a surface directly, the surface needs to be constructed using an
+isosurface extraction method such as marching cubes [21]. The resulting surface
+may suffer from topological defects and post-processing is typically necessary, for
+example, to ensure that it is homotopic to a sphere. Explicit methods [2,15,31] de-
+form a template mesh directly and are potentially more accurate. They typically
+consist of two parts: a convolutional neural network (CNN), to extract volumet-
+ric features, and a graph convolutional neural network (GCN), which estimates
+deformation vectors for the surface vertices by sampling the volumetric features.
+An attractive property of explicit methods is that the predicted surfaces are
+guaranteed to be topologically correct, provided that the original template is.
+Consequently, no topology correction is needed—but self-intersections may still
+be present.
+              End-to-end Cortical Surface Reconstruction from Clinical MRI         3
+
+Limitations of current methods. The methods listed above are tuned to specific
+acquisitions, typically isotropic T1-weighted (T1w) scans, either by training data
+(neural networks) or careful tuning of hyperparamters (classical methods). This
+is generally not a problem in research, where 1 mm isotropic T1w scans are
+commonly acquired. However, it is a severe limitation when analyzing clinical
+MRI sessions, which generally do not include such 1 mm T1w volumes, but rather
+a plethora of scans with heterogeneous contrast and resolution, often with larger
+slice spacings [1]. The ability to effectively process such diverse data would open
+up opportunities for studies (1) with sample sizes far exceeding those typically
+achievable in a research setting, and (2) of certain clinical populations that may
+be difficult to enroll in research studies (e.g., rare diseases).
+
+Contribution. Here, we present the first deep learning method for explicit cor-
+tical surface reconstruction of brain MRI scans of any contrast and resolution.
+We build on a domain randomization approach with synthetic data that has
+been successfully applied to volumetric tasks [1,14,16] and which enables pro-
+cessing of heterogeneous clinical scans without retraining. Our proposed method
+is considerably faster and more accurate than recon-all-clinical (RAC) [12], the
+only existing cortical reconstruction method that can also cope with heteroge-
+neous MRI data. RAC also builds on domain randomization but, being implicit,
+it is slow (as it requires iterative surface fitting and topology correction) and its
+accuracy is limited by the discrete SDF.
+
+
+2     Methods
+
+2.1   Problem Formulation
+
+Given an MRI scan, our goal is to estimate the WM and GM surfaces (see
+fig. 1 for an overview). These surfaces, which are 2D manifolds embedded in 3D
+Euclidean space, are defined by vertices and their connectivity. We use M =
+{V, F } to denote a surface mesh where V ∈ R|V |×3 and F ∈ N|F |×3 are the
+vertices and faces of the manifold, respectively. Here we assume that we are
+given the initial location of a set of vertices, which can be obtained from an
+affine registration of a template to the target scan, and we need to estimate,
+for each vertex, a (series of) displacement vector(s) that aligns these with the
+anatomical boundaries in the input scan. This problem can be described by an
+ordinary differential equation (ODE) of the form [31]:
+
+                            dV (t)
+                                   = g (s [f (I), V (t)]) ,                      (1)
+                             dt
+where I is the input scan, t ∈ [0, 1] is the time, and V (t) are the vertex positions
+at time t. The function f returns a number of features extracted from the input
+scan, s is a function that samples f (I) at V (t), and g uses these (sampled) fea-
+tures to estimate the positional change of each vertex. The boundary conditions
+of this equation, i.e., the values of V (0) and V (1), are given as the position of
+4         J. D. Nielsen et al.
+
+
+
+
+      Fig. 1: Overview of the synthetic data generation and training approach.
+
+
+the template surface and the final vertex positions, respectively. To solve eq. (1),
+we discretize the time interval in K steps and apply a simple forward Euler
+integration scheme with step size h = 1/K,
+
+                       V (k + 1) = V (k) + h × g(s [f (I), V (k)]).              (2)
+
+
+2.2     Model Definition
+Following [15], we model f using a CNN with a UNet architecture [29]. The UNet
+has five levels (encoder channels 16, 32, 64, 96, 128; decoder channels 96, 64, 64,
+32) between which we do max-pooling with a kernel size of 2 in the encoder and
+upsampling with a factor of 2 in the decoder. At each level, 3×3×3 convolutions
+are applied followed by instance normalization and parametric rectified linear
+unit (PReLU) activation. The WM surface is modeled by solving a recursive
+series of the function g, i.e.,
+
+                     Vn+1 = gn+1 (s [f (I), u (gn (s [f (I), V (t)]))]) ,        (3)
+
+where u is a mesh upsampling operation. That is, we sample the image features,
+f (I) at V (t), solve eq. (2) K times, upsample the surface, and repeat until the
+desired mesh resolution has been achieved. Each g is modeled with a GCN with a
+UNet-like architecture, which has a maximum depth of four levels (encoder chan-
+nels 64, 64, 64, 64, max-pooling; decoder channels 64, 64, 64, max-unpooling).
+It uses blocks of graph convolutions on the edges, instance normalization, and
+PReLU activation. Finally, a graph convolution layer is used to estimate a de-
+formation vector. This UNet is repeated twice at each level, i.e., K = 2. The
+initial template has 62 vertices (n = 0) and we recurse until n = 6 (245,762
+vertices). Starting from the WM surface, the GM surface is placed using only a
+single g since this displacement is relatively simple compared to predicting the
+WM surface from the template positions. Here, g is a simple linear layer with 32
+channels followed by PReLU activation and another linear layer to predict the
+displacement vector. We repeat this process K = 10 times.
+
+2.3     Training the Model
+Datasets We train our model on multiple datasets (5898 total subjects; ages
+7–97) [6,25,17,30,37,23,36,3,11,19] all of which include high-resolution (near 1
+              End-to-end Cortical Surface Reconstruction from Clinical MRI       5
+
+mm isotropic) T1w scans. All scans were resampled to 1 × 1 × 1 mm3 and pro-
+cessed with FreeSurfer 7.4.1 to obtain the WM and GM surfaces and a brain
+segmentation. For generating synthetic MRI scans (see below), we simplify the
+volume segmentation by merging structures with similar intensity profiles (e.g.,
+amygdala, cortex, hippocampus), and model the non-brain tissues using k-means
+clustering. Importantly, to account for the partial volume (PV) effect close to the
+cortex, we encode the WM, GM, and cerebrospinal fluid (CSF) labels using the
+signed distance of a voxel to the nearest surface (WM or GM) (details below).
+The cortical surfaces, which are the training targets, were resampled to the tem-
+plate surface, which the model learns to deform, to allow calculation of distances
+between matched vertices (see section 2.3). The template is co-registered to each
+subject using the Talairach registration from FreeSurfer. The dataset is split to
+train, test, and validation with fractions 0.8, 0.1, and 0.1.
+
+
+Domain Randomization Similar to [1], we generate synthetic MRI scans by
+sampling, for each voxel, intensity values from a Gaussian distribution condi-
+tioned on the label images. Specifically, we sample a mean and a standard de-
+viation for each label, draw an image according to the mean, apply smoothing
+with a Gaussian kernel with random standard deviation to avoid sharp borders
+between regions with different labels, and finally add noise according to the stan-
+dard deviation of each label. We force a minimum contrast between WM, GM,
+and CSF to stabilize the training. We model the PV effect around the cortex
+by converting the signed distances to PV fractions using a scaled sigmoid as the
+transfer function, PV(d) = 1+e1−ρd , where d is the distance and ρ controls the
+steepness of the transfer function (high ρ, steeper PV). Next, we apply a Gamma
+transform with a probability of 0.33 and a bias field with a probability of 0.75.
+Finally, we simulate a range of isotropic and anisotropic voxel resolutions along
+different dimensions. To handle different resolutions at test time, we resample
+the input to 1 × 1 × 1 mm3 and min-max normalize the intensities.
+
+
+Learning During training we seek to find the network parameters which min-
+imize a combination of data fidelity and regularization losses. We use three fi-
+delity terms that encourage accurate placement of the vertices. The first one is
+the symmetric chamfer distance,
+                              1 X                 1 X
+    Lchamfer (Px , Py ) =         min ∥x − y∥2 +       min ∥y − x∥2 ,          (4)
+                            |Px | y∈Py           |Py | x∈Px
+                               x∈Px                             y∈Py
+
+where x and y are points on the predicted and target surfaces, respectively.
+Px (Py ) denotes a set consisting of 100,000 points sampled from the predicted
+(target) surface and |·| its cardinality. The second fidelity term is a matched
+vertex distance which is useful to stabilize training in the initial phase,
+                                            1        X
+                   Lmatched (Mx , My ) =                       ∥x − y∥2 .      (5)
+                                           |V |
+                                                  x∈Vx ,y∈Vy
+6      J. D. Nielsen et al.
+
+The third fidelity term, Lcurv (Hx , Hy ), tries to match the curvature between the
+predicted and ground-truth surfaces. Specifically, we estimate the mean curva-
+ture using the discrete mean curvature normal (Laplace-Beltrami) operator [24],
+and calculate the symmetric curvature loss as in eq. (4), where the inputs are Hx
+and Hy , which denote sets of mean curvature sampled at positions Px and Py .
+Since the resampled surfaces are not always smooth, we apply Taubin smooth-
+ing [34] to the target surface before computing its curvature. Additionally, we
+clip this estimate to percentile ranges [.001, .999] and [.01, .99] for the WM and
+GM.
+    We also use two regularization terms. First, we use a spring loss which en-
+courages smoothness by penalizing inconsistencies of neighboring face normals:
+                                        1          X
+                   Lspring (Mx ) =                            ∥ni − nj ∥2 .    (6)
+                                     |E(Fx )|
+                                                i,j∈E(Fx )
+
+Here ni denotes the normal of the ith face and E(Fx ) is the set of faces that
+share an edge. Second, we use an edge loss which encourages equilateral triangles
+by penalizing the variance of the normalized edge lengths, Ē(Vx ):
+                                          1         X                2
+                      Ledge (Mx ) =                           (e − 1) .        (7)
+                                      |Ē(Vx )|
+                                                  e∈Ē(Vx )
+
+The normalization is done to avoid shrinking the mesh, which might happen if
+the mean squared edge lengths are penalized directly.
+    During training, we gradually change the weights of each loss as indicated
+in the following by (Wstart → Wend ). In the initial training phase, we put more
+emphasis on Lmatched (1 → 0) and Lspring (100 → 0) which we gradually change
+to emphasize Lchamfer (1 → 1) and Lcurv (40 → 2.5). The optimization is done
+on an Nvidia RTX 6000 GPU (48 GB) using the AdamW optimizer with an
+initial learning rate of 10−4 which we decrease to 5 × 10−5 . In all our experi-
+ments, we train until the chamfer loss on the validation set plateaus which was
+approximately 160,000 iterations (33 hours).
+
+2.4   Evaluation
+We evaluate the performance of our model against RAC [12], the only existing
+method able to extract cortical surfaces from brain scans of arbitrary contrast
+and resolution. We use two evaluation metrics: (1) cortical thickness estimation
+against a reference calculated with FreeSurfer on 1 mm isotropic T1w scans,
+and (2) sensitivity to age-related thickness changes. We use two datasets for the
+comparisons. First, 200 subjects from the Alzheimer’s Disease Neuroimaging
+Initiative (ADNI) GO/2 dataset (ages 56–89) which contains paired 1 × 1 ×
+1 mm3 T1w scans and 0.85 × 0.85 × 5 mm3 fluid-attenuated inversion recovery
+(FLAIR) scans. We use the FLAIR scans as input and the FreeSurfer output
+on the T1w (co-registered to the FLAIR) as ground truth. The second dataset
+is a large clinical dataset consisting of 1,332 subjects (ages 18–90) acquired at
+              End-to-end Cortical Surface Reconstruction from Clinical MRI        7
+
+
+
+
+      recon-all (T1w)            recon-all-clinical        Our proposed method
+
+Fig. 2: Cortical surface reconstruction on 0.85×0.85×5 mm3 FLAIR (recon-all
+reconstruction based on 1×1×1 mm3 T1w for reference). Green arrows highlight
+regions of poor reconstruction by RAC. Note that RAC does not circumvent the
+hippocampus (blue arrows); this region, together with the medial wall, is masked
+out of the evaluation.
+
+
+Massachusetts General Hospital, which contains scans of varying contrasts (T1w,
+T2w, FLAIR, DWI, etc.) and resolutions (slice spacings from 1–8 mm). Crucially,
+the MRI sessions for these subjects included high-resolution T1w scans, which
+were processed with FreeSurfer to generate the ground truth.
+
+
+3   Results
+Our method outperforms RAC in terms of surface accuracy. The mean symmetric
+surface reconstruction errors for white and pial surfaces are 0.940 and 0.926 mm
+for RAC and 0.800 and 0.796 mm for our method. Likewise, the 90th percentile
+Hausdorff distances for white and pial surfaces are 2.376 and 2.689 mm for RAC
+and 1.942 and 2.049 mm for our method.
+    Figure 2 shows a sample surface reconstruction from ADNI GO/2 using the
+different approaches. Although the PV effects on low-resolution data make ac-
+curate surface prediction an extremely challenging task, both RAC and the pro-
+posed approach successfully capture the general folding pattern. Our method
+does, however, recover smaller folds that are missed by RAC (green arrows).
+    In fig. 3, we show the absolute value of mean thickness errors in different cor-
+tical areas. We see that our method produces more accurate thickness estimates
+than RAC in most regions. Remarkably, the average error is reduced by over 50 %
+(from 0.50 to 0.24 mm). Age-thickness relationships are shown in fig. 4. For both
+  8                                         J. D. Nielsen et al.
+
+                                           Cingulate                         Frontal                                Parietal                     Temporal                       Occipital
+                                2.0
+
+                                1.5
+
+                                1.0
+Absolute Thickness Error (mm)
+
+
+                                0.5
+
+                                0.0
+
+                                2.5                                                                                                                                         recon-all-clinical
+                                                                                                                                                                            ours
+                                2.0
+                                1.5
+                                1.0
+                                0.5
+                                0.0
+
+
+
+
+                                                    O
+
+
+
+
+                                                 STC
+                                                PCC
+
+                                                SFG
+
+                                          IFG rc
+                                      IFG rb
+                                              cMF g
+                                                    G
+                                                    G
+                                                FPO
+
+                                                    C
+
+
+
+
+                                                    G
+                                                   FC
+                                                  CG
+
+                                                  ula
+
+
+                                                    G
+                                                  IPC
+
+                                      pre C
+                                              entus
+                                                    C
+                                                 FFG
+                                                PHG
+                                                TPO
+                                                 ITG
+                                                    G
+
+
+                                      ban TC
+                                        ling STS
+                                        per l G
+                                                   lC
+                                                LOC
+                                                 eus
+                                                    C
+                                                    C
+
+                                                   CC
+
+
+
+
+                                                   n
+
+
+
+                                               LOF
+
+
+
+
+                                                 SP
+                                              cAC
+                                               rAC
+
+
+
+
+                                               PaL
+                                              rMF
+
+
+
+
+                                              PoC
+                                                SM
+
+
+
+
+                                                MT
+                                              ope
+                                                 o
+
+
+
+
+                                                 e
+                                             tria
+
+
+
+
+                                            mO
+
+
+
+
+                                              ica
+                                              ua
+                                            Pre
+
+                                             ins
+
+
+
+
+                                              ns
+                                           isth
+
+
+
+
+                                          cun
+
+
+
+
+                                          cun
+                                            ks
+                                         tra
+                                       IFG
+
+
+
+
+  Fig. 3: Box plots for absolute value of mean cortical thickness error on the axial
+  FLAIR scans from ADNI GO/2 (top) and the clinical dataset (bottom).
+
+
+
+  datasets, we find that the thickness estimates from our approach are overall less
+  biased (offset on the y axis) and that the trends are more similar to those from
+  recon-all using high-resolution T1w scans.
+     Finally, we note that the mean number of self-intersecting faces (SIF) is
+  negligible for both approaches: RAC yields 0.001 % in WM and 0.002 % in GM,
+  whereas our method yields 0.005 % and 0.006 %, respectively.
+
+
+
+                                              Cingulate                     Frontal                         Parietal                       Temporal                      Occipital
+
+                            3.0
+ Thickness (mm)
+
+
+
+
+                            2.5
+
+                            2.0
+
+                                      60        70      80        90   60    70        80        90   60     70        80        90   60    70    80        90   60        70       80        90
+                                                                                                                                                                      recon-all [T1w]
+                            3.0                                                                                                                                       recon-all-clinical [T1w]
+ Thickness (mm)
+
+
+
+
+                                                                                                                                                                      recon-all-clinical [CLI]
+                                                                                                                                                                      ours [T1w]
+                            2.5                                                                                                                                       ours [CLI]
+
+                            2.0
+
+                                      20       40      60    80        20   40    60        80        20    40 60           80        20   40    60    80        20       40     60      80
+                                                                                                           Age (years)
+
+
+  Fig. 4: Cortical thickness variation with age on ADNI GO/2 (top) and the clinical
+  dataset (bottom). Solid (dashed) lines show the age trend using T1w (clinical)
+  scans estimated using a quadratic fit. Note the different ranges on the x axis.
+             End-to-end Cortical Surface Reconstruction from Clinical MRI        9
+
+4   Discussion
+
+We have presented a neural network, trained exclusively on synthetic data, ca-
+pable of estimating cortical surfaces on scans with highly variable contrast and
+resolution. Compared to RAC, a state-of-the-art implicit approach, our method
+is more accurate, achieves a lower thickness estimation error, and can replicate
+aging effects on cortical thickness more reliably. Our approach is also signifi-
+cantly faster. It runs in 1 s on a GPU and a few minutes on a CPU compared
+to 1–2 hours required by RAC. The surfaces produced by our method also have
+a very low number of SIF even though no specific post-processing steps are per-
+formed. Future work will explore the application of our method as a foundation
+model (i.e., potential for fine-tuning to other datasets), and seek to close the
+performance gap with approaches trained on 1 mm isotropic T1w scans. In com-
+bination with other DL-based models (e.g., for spherical registration [20]) this
+is a first step towards a fully learning-based surface pipeline that not only runs
+in a few seconds but can be applied to any kind of MRI scans, thus enabling
+retrospective studies of cortical morphometry at an unprecedented scale.
+
+Acknowledgments. JDN and OP were supported by the Lundbeck Foundation
+(R360–2021–39). AD was supported by the National Institutes of Health (NIH) (R01EB033773).
+CM was supported by NIH (R01AG058063). AT was supported by the Lundbeck Foun-
+dation (R313-2019-622), the German Research Foundation (DFG grants TH 1330/6-1
+and TH 1330/7-1, part of Research Unit FOR 5429 “MeMoSLAP”), NIH (1RF1MH117428-
+01A1) and European Union’s Horizon Europe research and innovation programme
+(grant agreement No. 101071008). JEI was supported by NIH – BRAIN Initiative
+(1RF1MH123195, 1UM1MH130981), NIH – National Institute of Aging (1R01AG070988,
+1RF1AG080371, 1R21NS138995), and NIH – NIBIB (1R01EB031114).
+10      J. D. Nielsen et al.
+
+References
+
+ 1. Billot, B., Greve, D.N., Puonti, O., Thielscher, A., et al.: SynthSeg: Segmentation
+    of brain MRI scans of any contrast and resolution without retraining. Med Im Anal
+    86, 102789 (2023)
+ 2. Bongratz, F., Rickmann, A.M., Wachinger, C.: Neural deformation fields for
+    template-based reconstruction of cortical surfaces from MRI. Med Im Anal 93,
+    103093 (2024)
+ 3. Carass, A., Roy, S., Jog, A., Cuzzocreo, J., Magrath, E., et al.: Longitudinal multi-
+    ple sclerosis lesion segmentation: Resource and challenge. NeuroIm 148, 77 (2017)
+ 4. Cruz, R.S., Lebrat, L., Bourgeat, P., Fookes, C., Fripp, J., Salvado, O.: DeepCSR:
+    A 3D Deep Learning Approach for Cortical Surface Reconstruction. In: 2021 IEEE
+    Winter Conference on Applications of Computer Vision (WACV). pp. 806–815
+    (2021)
+ 5. Dale, A.M., Fischl, B., Sereno, M.I.: Cortical Surface-Based Analysis: I. Segmen-
+    tation and Surface Reconstruction. NeuroImage 9(2), 179–194 (1999)
+ 6. Di Martino, A., Yan, C.G., Li, Q., Denio, E., et al.: The autism brain imaging
+    data exchange: Towards a large-scale evaluation of the intrinsic brain architecture
+    in autism. Mol Psychiatry 19(6), 659–667 (2014)
+ 7. Fischl, B., Liu, A., Dale, A.: Automated manifold surgery: Constructing geometri-
+    cally accurate and topologically correct models of the human cerebral cortex. IEEE
+    Trans Med Im 20(1), 70–80 (2001)
+ 8. Fischl, B.: FreeSurfer. NeuroIm 62(2), 774–781 (2012)
+ 9. Gaser, C., Dahnke, R., Thompson, P.M., Kurth, F., et al.: CAT: A computational
+    anatomy toolbox for the analysis of structural MRI data. GigaSci p. giae049 (2024)
+10. Goebel, R.: BrainVoyager — Past, present, future. NeuroImage 62(2), 748–756
+    (2012)
+11. Gollub, R.L., Shoemaker, J.M., King, M.D., White, T., et al.: The MCIC Collec-
+    tion: A Shared Repository of Multi-Modal, Multi-Site Brain Image Data from a
+    Clinical Investigation of Schizophrenia. Neuroinformatics 11(3), 367–388 (2013)
+12. Gopinath, K., Greve, D.N., Magdamo, C., Arnold, S., et al.: Recon-all-clinical:
+    Cortical surface reconstruction and analysis of heterogeneous clinical brain MRI
+    (2024)
+13. Henschel, L., Conjeti, S., Estrada, S., Diers, K., et al.: FastSurfer - A fast and
+    accurate deep learning based neuroimaging pipeline. NeuroIm 219, 117012 (2020)
+14. Hoffmann, M., Billot, B., Greve, D.N., Iglesias, J.E., Fischl, B., Dalca, A.V.: Synth-
+    Morph: Learning Contrast-Invariant Registration Without Acquired Images. IEEE
+    Transactions on Medical Imaging 41(3), 543–558 (2022)
+15. Hoopes, A., Iglesias, J., Fischl, B., Greve, D., Dalca, A.: TopoFit: Rapid Recon-
+    struction of Topologically-Correct Cortical Surfaces. PMLR 172, 508–520 (2022)
+16. Iglesias, J.E., Billot, B., Balbastre, Y., Magdamo, C., Arnold, S.E., Das, S.,
+    et al.: SynthSR: A public AI tool to turn heterogeneous clinical brain scans into
+    high-resolution T1-weighted images for 3D morphometry. Science Advances 9(5),
+    eadd3607 (2023)
+17. Jack Jr., C.R., Bernstein, M.A., Fox, N.C., Thompson, P., et al.: The Alzheimer’s
+    disease neuroimaging initiative (ADNI): MRI methods. J Magn Reson Imaging
+    27(4), 685–691 (2008)
+18. Kuperberg, G., Broome, M., McGuire, P., David, A., et al.: Regionally localized
+    thinning of the cerebral cortex in schizophrenia. Schizophr Res 60, 199–200 (2003)
+               End-to-end Cortical Surface Reconstruction from Clinical MRI            11
+
+19. LaMontagne, P.J., Benzinger, T.L., Morris, J.C., Keefe, S., et al.: OASIS-3: Lon-
+    gitudinal Neuroimaging, Clinical, and Cognitive Dataset for Normal Aging and
+    Alzheimer Disease (2019)
+20. Li, J., Tuckute, G., Fedorenko, E., Edlow, B.L., Dalca, A.V., Fischl, B.: JOSA: Joint
+    surface-based registration and atlas construction of brain geometry and function.
+    Medical Image Analysis 98, 103292 (2024)
+21. Lorensen, W.E., Cline, H.E.: Marching cubes: A high resolution 3D surface con-
+    struction algorithm. SIGGRAPH Comput. Graph. 21(4), 163–169 (1987)
+22. MacDonald, D., Kabani, N., Avis, D., Evans, A.C.: Automated 3-D Extraction
+    of Inner and Outer Surfaces of Cerebral Cortex from MRI. NeuroImage 12(3),
+    340–356 (2000)
+23. Mayer, A.R., Ruhl, D., Merideth, F., Ling, J., et al.: Functional imaging of the
+    hemodynamic sensory gating response in schizophrenia. Hum Brain Mapp 34(9),
+    2302–2312 (2013)
+24. Meyer, M., Desbrun, M., Schröder, P., Barr, A.H.: Discrete Differential-Geometry
+    Operators for Triangulated 2-Manifolds. In: Visualization and Mathematics III,
+    pp. 35–57. Springer, Berlin, Heidelberg (2003)
+25. Milham, M.P., Fair, D., Mennes, M., Mostofsky, S.H.: The Adhd-200 consortium:
+    A model to advance the translational potential of neuroimaging in clinical neuro-
+    science. Front syst neurosci 6 (2012)
+26. Natu, V.S., Rosenke, M., Wu, H., Querdasi, F.R., et al.: Infants’ cortex undergoes
+    microstructural growth coupled with myelination during development. Commun
+    Bio 4(1), 1–12 (2021)
+27. Polimeni, J.R., Renvall, V., Zaretskaya, N., Fischl, B.: Analysis strategies for high-
+    resolution UHF-fMRI data. NeuroIm 168, 296–320 (2018)
+28. Querbes, O., Aubry, F., Parienté, J., Lotterie, JA., et al.: Individual Early Di-
+    agnosis of Alzheimer’s Disease using Cortical Thickness Measurement: Impact of
+    Cognitive Reserve. NeuroIm 47, S79 (2009)
+29. Ronneberger, O., Fischer, P., Brox, T.: U-Net: Convolutional Networks for Biomed-
+    ical Image Segmentation. In: Proceedings of MICCAI. pp. 234–241 (2015)
+30. Rowe, C.C., Ellis, K.A., Rimajova, M., Bourgeat, P., et al.: Amyloid imaging results
+    from the Australian Imaging, Biomarkers and Lifestyle (AIBL) study of aging.
+    Neurobiol Aging 31(8), 1275–1283 (2010)
+31. Santa Cruz, R., Lebrat, L., Fu, D., Bourgeat, P., et al.: CorticalFlow++: Boosting
+    Cortical Surface Reconstruction Accuracy, Regularity, and Interoperability. In:
+    Proceedings of MICCAI. pp. 496–505 (2022)
+32. Shattuck, D.W., Leahy, R.M.: BrainSuite: An automated cortical surface identifi-
+    cation tool. Medical Image Analysis 6(2), 129–142 (2002)
+33. Shaw, M.E., Sachdev, P.S., Anstey, K.J., Cherbuin, N.: Age-related cortical thin-
+    ning in cognitively healthy individuals in their 60s: The PATH Through Life study.
+    Neurobiology of Aging 39, 202–209 (2016)
+34. Taubin, G.: Curve and surface smoothing without shrinkage. In: Proceedings of
+    IEEE International Conference on Computer Vision. pp. 852–857 (1995)
+35. Van Essen, D.C., Drury, H.A., Dickson, J., Harwell, J., Hanlon, D., Anderson,
+    C.H.: An Integrated Software Suite for Surface-based Analyses of Cerebral Cortex.
+    Journal of the American Medical Informatics Association 8(5), 443–459 (2001)
+36. Van Essen, D.C., Smith, S.M., Barch, D.M., Behrens, T.E.J., et al.: The WU-Minn
+    Human Connectome Project: An overview. NeuroImage 80, 62–79 (2013)
+37. Vogt, N.: The Chinese Human Connectome Project. Nat Methods 20, 177 (2023)
+

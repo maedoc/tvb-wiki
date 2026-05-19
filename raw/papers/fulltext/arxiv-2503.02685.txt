@@ -1,0 +1,707 @@
+                                              TReND: Transformer derived features and
+                                           Regularized NMF for neonatal functional network
+                                                            Delineation
+
+                                            Sovesh Mohapatra1,2 , Minhui Ouyang2,3 , Shufang Tan2,4 , Jianlin Guo2,5 ,
+                                                       Lianglong Sun6 , Yong He6 , and Hao Huang2,3
+arXiv:2503.02685v1 [q-bio.NC] 4 Mar 2025
+
+
+
+
+                                             1
+                                                 Department of Bioengineering, School of Engineering and Applied Science,
+                                                      University of Pennsylvania, Philadelphia, PA, United States
+                                           2
+                                              Department of Radiology, Children’s Hospital of Philadelphia, Philadelphia, PA,
+                                                                             United States
+                                                 3
+                                                   Department of Radiology, Perelman School of Medicine, University of
+                                                            Pennsylvania, Philadelphia, PA, United States
+                                                   4
+                                                     Graduate School of Education, Peking University, Beijing, China
+                                               5
+                                                 Department of Radiology, Beijing Children’s Hospital, National Center for
+                                                                    Children’s health, Beijing, China
+                                            6
+                                              State Key Laboratory of Cognitive Neuroscience and Learning, Beijing Normal
+                                                                       University, Beijing, China
+
+
+
+
+                                                 Abstract. Precise parcellation of functional networks (FNs) of early de-
+                                                 veloping human brain is the fundamental basis for identifying biomarker
+                                                 of developmental disorders and understanding functional development.
+                                                 Resting-state fMRI (rs-fMRI) enables in vivo exploration of functional
+                                                 changes, but adult FN parcellations cannot be directly applied to the
+                                                 neonates due to incomplete network maturation. No standardized neona-
+                                                 tal functional atlas is currently available. To solve this fundamental is-
+                                                 sue, we propose TReND, a novel and fully automated self-supervised
+                                                 transformer-autoencoder framework that integrates regularized nonnega-
+                                                 tive matrix factorization (RNMF) to unveil the FNs in neonates. TReND
+                                                 effectively disentangles spatiotemporal features in voxel-wise rs-fMRI
+                                                 data. The framework integrates confidence-adaptive masks into trans-
+                                                 former self-attention layers to mitigate noise influence. A self supervised
+                                                 decoder acts as a regulator to refine the encoder’s latent embeddings,
+                                                 which serve as reliable temporal features. For spatial coherence, we incor-
+                                                 porate brain surface-based geodesic distances as spatial encodings along
+                                                 with functional connectivity from temporal features. The TReND clus-
+                                                 tering approach processes these features under sparsity and smoothness
+                                                 constraints, producing robust and biologically plausible parcellations. We
+                                                 extensively validated our TReND framework on three different rs-fMRI
+                                                 datasets: simulated, dHCP and HCP-YA against comparable traditional
+                                                 feature extraction and clustering techniques. Our results demonstrated
+                                                 the superiority of the TReND framework in the delineation of neonate
+                                                 FNs with significantly better spatial contiguity and functional homogene-
+                                                 ity. Collectively, we established TReND, a novel and robust framework,
+                                                 for neonatal FN delineation. TReND-derived neonatal FNs could serve
+2                              Sovesh Mohapatra et al.
+
+                              as a neonatal functional atlas for perinatal populations in health and
+                              disease.
+
+                              Keywords: Functional Parcellation · Neonate · Transformer
+
+
+1           Introduction
+
+Neuroscientists have long attempted to subdivide the human brain into a mesh
+of anatomically and functionally distinct, contiguous regions [1,2,3,4,5,6]. This
+challenge become particularly complex in the neonatal brain, where functional
+organization differs markedly from that of adults. During the third trimester,
+the neonatal brain undergoes a critical phase of enhanced functional segrega-
+tion, largely driven by the rapid development of functional connectivity (FC)
+and the formation of hubs in primary regions [7,8,9]. This period of growth and
+organization leads to the emergence of functionally segregated networks, reveal-
+ing the underlying principles that shape both healthy and diseased brain states
+[10,11,12]. However, achieving accurate and reliable parcellation of specific func-
+tional networks (FNs) in newborns presents unique challenges. The combined
+effects of rapid functional segregation, low imaging quality, and the absence of
+established functional atlases as prior reference knowledge complicate this pro-
+cess [13,14].
+
+
+A                             BOLD fMRI                          B                     Feature Extraction using Transformer-based Autoencoder
+                                                                                                                                  !! "#!       '
+                                           2300 Timepoints                                          Loss function = ∑$%&'                  +       ∑$%&'(#% −#%% )(                                         Linear
+                                                                                                                                    $          $                                                        Transformation
+                                       …                  …
+                                                                                                                                                                                                          Attention
+                                                                                       Encoder                          Embedding                                          Decoder
+                                                                                                                                                                                                         Feedforward
+                                       !!
+                                                                         Input                                                                                                          Output
+                                                                                                                                                                                                         Dropout &
+                                                                     No. of Voxels x                                              × 512                                               No. of Voxels x
+                                                                                                                          57532                                                                         Normalization
+                                                                       Timepoints                                                                                                       Timepoints
+                                                                     (57532 × 2300)                                                                                                   (57532 × 2300)
+                              !"                                                                                                                                                                         Embedding
+
+
+                                                                                                                                                                                                          Projection
+                                                                                                                                                                                                            layer
+…                                  …
+    2300 Timepoints
+              C                 Correlation Matrix using                                D             Clustering using RNMF + KMeans                                         E       Parcellation
+                                 Transformer Features
+                                           512 Features
+          Transformer-based
+          feature embedding
+
+
+
+
+                              "!                              #, %                               Correlation matrix     Weighted matrix            RNMF feature matrix
+                                    × 512
+                              57532                                                               (57532×57532)         (57532×57532)                 (57532×14)
+
+                              ""                                                                 RNMF Loss = | * − ,- |"! + /# × 01$# ×
+                                                      %, #                                                        %                                …                   …
+                                                                                                  2 $ + 1%# × 2 & 3 + /' × 01$' × 4 $ +
+                                                                                                                                                       KMeans labels
+                                                                                                                       %
+                                                                                                              1%' × 4 & 3                               (57532×1)
+                                   512 Features
+
+
+
+
+Fig. 1. Schematic representation of end-to-end functional parcellation framework. A.
+Processed Blood Oxygenation Level Dependent (BOLD) fMRI data. B. Feature ex-
+traction using transformer-based autoencoder to convert BOLD signals into low-
+dimensional embeddings. C. Correlation matrix from the transformer-based feature
+embeddings. D. Clustering using RNMF + KMeans are performed to generate parcel-
+lation of different regions. E. Parcellation shows different regions based on correlation
+matrix.
+                                   Title Suppressed Due to Excessive Length        3
+
+    In this study, we developed the Transformer derived Regularized NMF for
+neonatal FN Delineation (TReND) framework. This approach integrates a novel
+transformer-based autoencoder architecture to extract features from rs-fMRI
+signals with an innovative regularized nonnegative matrix factorization (RNMF)
+clustering algorithm for the delineation of FNs.
+
+
+2     Methods
+2.1   Data description
+The study included three datasets. The simulated dataset contained 200 2D
+images (100 × 100 pixels, 2300 timepoints) with 15 FNs [15]. The developing
+human connectome project (dHCP) included 300 term neonates (mean scan
+age: 41.16 weeks) [16]. All data were preprocessed and registered to the 40 week
+neonatal surface (∼32K vertices per hemisphere, 2300 timepoints) [17]. HCP
+Young Adult (HCP-YA) comprised of 200 randomly selected subjects and all
+were preprocessed and registered to fsLR surface with 1200 timepoints [18,19].
+
+2.2   Overview of TReND framework
+TReND is an automated self-supervised transformer-based autoencoder frame-
+work that incorporates confidence-adaptive masks to extract salient tempo-
+ral features and employs geodesic-guided RNMF-KMeans clustering for robust
+neonatal FN delineation. (Fig 1).
+
+Transformer based autoencoder with confidence-adaptive mask for
+temporal feature extraction. The architecture is designed to capture long-
+range temporal dependencies while mitigating the over-influence of noise. The
+autoencoder consists of two main components: an encoder fθ (·) that maps the
+input fMRI signal (Fig 1A) to a latent representation and a decoder acting as a
+self-regulator gϕ (·) that reconstructs the original signal from the latent represen-
+tation. The encoder is built by stacking multiple transformer layers that capture
+long-range temporal dependencies via self-attention (Fig 1B and 2A-left panel )
+[20]. The attention operation is being modified to include a confidence-adaptive
+mask M:
+                                                     QK ⊤
+                                                               
+                  Attention(Q, K, V ) = softmax √           +M V                  (1)
+                                                        dk
+Here, Q, K, and V represent the query, key, and value matrices obtained from
+linear projections of the input dk (e.g. 512) is the dimensionality of the key
+vectors, and the confidence mask M modulates the contribution of each token
+based on its reliability.
+    A central innovation of our approach is the ConfidenceModule: a two-layer
+multilayer perceptron (MLP) that estimates the reliability of each embedded
+token. Given an embedded sequence xemb ∈ RT ×B×dk (where B is the batch
+size, T is the number of time points), the module computes a scalar confidence
+4      Sovesh Mohapatra et al.
+
+score for each token. These scores, which range between 0 and 1, are transformed
+into log domain values and combined pairwise to form the additive confidence
+mask.
+1. Token-wise confidence estimation: Each token is passed through the Confi-
+   denceModule, which applies a ReLU activation followed by a sigmoid func-
+   tion to produce a confidence score that reflects the reliability of the token.
+2. Mask formation: The log-transformed confidence scores are summed pairwise
+   to produce a mask M such that for tokens i and j, the mask entry is given
+   by:
+                          Mij = log(ci + ϵ) + log(cj + ϵ)                      (2)
+    where ci and cj denote the confidence scores for tokens i and j respectively,
+    and ϵ is a small constant to avoid numerical instability.
+This confidence-adaptive mechanism implicitly detects and down-weights over-
+influencing tokens during the attention computation, ensuring that the latent
+representations are dominated by reliable and discriminative features.
+    The transformer-based autoencoder, trained in a self-supervised manner with
+a reconstruction objective, inherently regularizes the latent space, guiding the
+encoder to extract the most salient temporal features.
+
+Feature extraction loss. To balance the trade-off between bias and variance
+in the reconstruction, we employ a composite loss function that combines Mean
+Squared Error (MSE) and the Mean Absolute Error (MAE):
+                       L = λMSE · LMSE + λMAE · LMAE                          (3)
+                           N                             N
+                       1 X                           1 X
+              LMSE =         (xi − x̂i )2   LMAE =         |xi − x̂i |        (4)
+                       N i=1                         N i=1
+where N is the is the total number of data points across time and voxels, and
+λM SE and λM AE are hyperparameters that adjust the relative contribution of
+each loss component.
+
+Regularized non-negative matrix factorization with KMeans for clus-
+tering. To robustly parcellate neonatal FNs, we propose a clustering approach
+that synergistically integrates an advanced initialization strategy with regular-
+ization parameters [21]. Our method begins with the construction of the data
+matrix (V) which is derived by integrating FC matrix (Fig 1C and 2B-left panel )
+obtained via temporal features with spatial encodings derived from brain surface-
+based geodesic distances. This constructed data matrix is then decomposed using
+RNMF.
+    As NMF algorithms are well known for their sensitivity to initialization; ran-
+dom initialization often leads to suboptimal or unstable solutions. To mitigate
+this, we employ the non-negative double singular value decomposition with aver-
+aging (NNDSVDa) to initialize W (basis matrix) and H (encoding matrix) [22].
+This approach provides a more reliable starting point than random initialization,
+helping to position the algorithm in a favorable region of the solution space.
+                                                   Title Suppressed Due to Excessive Length                                                                                                                                   5
+
+Clustering loss. To extract functionally and spatially coherent regions, we
+introduce a loss function that both minimizes the reconstruction error and in-
+corporates regularization terms to promote sparsity and smoothness in the de-
+composed factors:
+                                                                 
+            L = ∥V − WH∥2F + αW × βW    1
+                                          × ∥W∥1 + βW 2
+                                                         × ∥W∥2F
+                                1            2
+                                                                          (5)
+                       +αH × βH   × ∥H∥1 + βH  × ∥H∥2F
+
+where ∥.∥F denotes the Frobenius norm, ensuring that the overall reconstruction
+error is minimized. ∥.∥1 promotes sparsity in the factors, essential for isolating
+brain networks. The parameters αW and αH control the overall regularization
+                                                             1           2
+strength for the basis and encoding matrices, respectively. βW,H  and βW,H    bal-
+ance the respective weighted contributions of the sparsity and smoothness.
+
+
+A                                                                                                            Traditional Feature Extraction
+                                                                                                   PCA                           UMAP                                                              TD
+
+
+
+
+                                                                                1.00
+                                                                                           *            **                1.00   *         **                                                                      44
+
+
+
+
+                                                                                                                                                      % of Mislabeled Vertices
+                                                          Ground Truth                                                                                                           40
+                                                                                0.75                                      0.75
+                                                                         Dice
+
+
+
+
+                                                                                                                    IoU
+                                                                                                                                                                                 30
+                                                                                0.50                                      0.50                                                                                           20
+                                                                                                                                                                                 20                         18
+
+                                                                                0.25                                      0.25
+                                                                                                                                                                                 10 5.8
+                                                                                0.00                                      0.00                                                         0 TReND PCA UMAP
+                                                                                    TReND PCA UMAP TD                        TReND PCA UMAP TD                                                                           TD
+                                                                                               Methods                                Methods                                                  Methods
+                                                                                                        Traditional Clustering Algorithm
+B                                                                                                  K-PCA                             ICA                                                           NMF
+                                                            TReND
+    Random
+    Initialization      NMF
+
+
+
+
+                                                                                       *           **
+                                                                            1.00                                      1.00       *         **                                                                 49
+                                                                                                                                                                                                   50
+                                                                                                                                                                        % of Mislabeled Vertices
+
+
+
+
+                                          KMeans                                                                                                                                                                    43
+                       R-NMF                                                0.75                                      0.75                                                                         40
+                                                                     Dice
+
+
+
+
+                                                                                                                IoU
+
+
+
+
+    NNDSVDa                                                                 0.50                                      0.50
+                                                                                                                                                                                                   30                     24
+    Initialization                                                                                                                                                                                 20
+                                                                            0.25                                      0.25
+                                                                                                                                                                                                   10 5.8
+                     TReND clustering approach
+                                                                            0.00                                      0.00                                                                          0
+                                                                                   TReND kPCA ICA             NMF            TReND kPCA ICA     NMF                                                     TReND kPCA ICA   NMF
+                                                                                           Methods                                   Methods                                                                 Methods
+
+
+
+
+Fig. 2. Performance evaluation of TReND versus traditional parcellation methods on
+simulated data. A. Left panel : The cartoon illustrates how TReND extracts features
+and preserves more fine-grained details. Right panel : Comparison of feature extraction
+techniques: Principal component analysis (PCA), Uniform manifold approximation and
+projection (UMAP), Tensor decomposition (TD), and TReND. B. Left panel : The car-
+toon shows how TReND produces spatially coherent clusters. Right panel : Comparison
+of clustering methods: kernel-PCA (kPCA), Independent component analysis (ICA),
+NMF, and TReND.
+
+
+    After factorizing V ≈ W×H, we obtain a latent representation of each brain
+voxel in W. To define final parcels, we apply KMeans on W (rows of W cor-
+respond to voxels, columns correspond to latent features) (Fig 1D). This addi-
+tional clustering step refines each row’s component assignments into discrete la-
+6             Sovesh Mohapatra et al.
+
+bels, thereby producing coherent, biologically plausible neonatal functional brain
+parcellations (Fig 1E).
+
+
+2.3       Evaluation of TReND framework
+
+Given the absence of well-established functional atlases for neonates, we evalu-
+ated TReND using a simulated dataset with 15 FNs as ground truth. We then ap-
+plied to the dHCP cohort with 300 term neonates. To find optimal starting points
+for delineation of FNs, we assessed cluster stability by splitting the ∼64K vertices
+into two groups, clustering them independently, and using learned parameters
+from one to predict clusters in the other [23]. The agreement between predicted
+and derived clusters reflects the stability. Subsequently, the spatial confidence
+map is calculated using the silhouette measure, which quantifies correlation-
+based similarity to the assigned network versus the nearest alternative [24]. The
+validation is further performed via bootstrap analysis across 100 combinations
+using discovery and replication subsets (150 subjects each) of the dHCP co-
+hort. TReND’s applicability is also tested on the HCP-YA dataset using the Yeo
+7-Network atlas [3].
+
+
+                A                                                      B
+                                0.20
+                                                                                                     Somatomotor (SM)
+                                0.15                                                                 Frontoparietal (FP)
+                  Instability
+
+
+
+
+                                                                                                     Attention (Att)
+                                0.10                                                                 Limbic (Limb)
+                                                                                7 Neonatal FNs
+                                                                                  (N = 300+)         Visual (Vis)
+                                0.05                                                                 Emerging default (ED)
+                                                                                                     Auditory (Aud)
+                                0.00
+                                         3 5 7 9 11 13 15 17 19
+                                             Number of clusters
+
+C                                                  D                        E                    F     SM      Emerging default
+
+
+
+                                                             Subgroup – 1
+                                                              (N = 150)
+           Confidence Map
+                                                                                                                   Vis
+                                                                                                               Neonatal Atlas
+                                                                                                     SM
+                                                                                                                    Default
+
+      0                                0.7
+          Silhouette values                                  Subgroup – 2
+                                                              (N = 150)
+                                                                                                                    Vis
+                                                                                                   Default                          Default
+                                                                                                 temporal C.     Adult Atlas      frontal C.
+
+
+
+
+Fig. 3. Coarse parcellation of 7 functional networks in neonates derived from a 300-
+subject dHCP cohort. A. Stability analysis of the clustering algorithm identifies 7 and
+19 networks as robust estimates. B. Neonatal cortical parcellation of 7 FNs. C. Confi-
+dence map representing the reliability of the 7 neonatal FNs parcellation. D. Discovery
+and replication of the 7 neonatal FNs cortical parcellation. E. Dice score evaluation
+FN-wise. F. Comparison of primary and higher-order FNs in TReND-derived neonate
+and adult atlas [3]. (Abbreviation: C.: Component)
+                                               Title Suppressed Due to Excessive Length                           7
+
+3     Results
+
+
+3.1   Validation on simulated dataset
+
+
+Before applying TReND to real-world datasets, we first validated its ability
+to parcellate FNs using a controlled simulated dataset. The robustness of our
+transformer-based autoencoder for feature extraction was tested by keeping the
+RNMF-KMeans clustering consistent against other conventional mathematically
+constrained methods, PCA, UMAP and TD. Our approach achieved a Dice of
+0.92 and IoU of 0.89, with only 5.82% mislabeled vertices, indicating a ∼15%
+improvement (Fig 2A). To further assess our clustering strategy, we indepen-
+dently validated the RNMF-KMeans approach using features from the TReND
+framework. The results also demonstrate a ∼15% accuracy gain over standalone
+NMF, kPCA and ICA (Fig 2B). This validation highlights the robustness of our
+framework in preserving structural patterns while mitigating noise and spurious
+signals, a key challenge in neonatal fMRI data.
+
+
+         A
+                                                            SM1       Aud1
+                                                            SM2       Aud2
+                                                                                          Att1
+                                                                                                    FP1
+                             19 Neonatal FNs                Vis1      Limb1               Att2
+                                                                                                    FP2
+                                (N = 300+)                  Vis2                          Att3
+                                                                      Limb2                         FP3
+                                                                      Limb3               Att4
+                                                            ED1
+                                                            ED2       Limb4
+
+
+ B                                             C                         D
+                                                                                    1.0
+
+
+                                                       Subgroup – 1
+                                                                                    0.8
+                                                        (N = 150)
+                                                                                    0.6
+                                                                             Dice
+
+
+
+
+             Confidence Map
+
+                                                                                    0.4
+
+                                                                                    0.2
+
+                                                       Subgroup – 2
+             0                   0.7                    (N = 150)
+                                                                                    0.0
+                                                                                            Vis1
+                                                                                            Vis2
+                                                                                           SM1
+                                                                                           SM2
+
+
+
+
+                                                                                          Limb1
+                                                                                          Limb2
+                                                                                          Limb3
+                                                                                          Limb4
+                                                                                            Att1
+                                                                                            Att2
+                                                                                            Att3
+                                                                                            Att4
+                                                                                           Aud1
+                                                                                           Aud2
+
+
+
+
+                                                                                            FP1
+                                                                                            FP2
+                                                                                            FP3
+                                                                                            ED1
+                                                                                            ED2
+
+
+
+
+                 Silhouette values
+                                                                                            Functional Networks
+
+
+
+Fig. 4. Fine-grained parcellation of 19 functional networks in neonates derived from a
+300-subject dHCP cohort. A. Neonatal cortical parcellation of 19 FNs. B. Confidence
+map representing the reliability of the 19 neonatal FNs parcellation. C. Discovery and
+replication of the 19 neonatal FNs cortical parcellation. D. Dice score evaluation of
+FN-wise via bootstrap analysis, assessing the consistency of the parcellation.
+8      Sovesh Mohapatra et al.
+
+3.2   Coarse parcellation of 7 and 19 functional networks in neonates
+
+Building on the validation with the simulated dataset, we applied the TReND
+framework to the dHCP cohort. Our cluster stability analyses identify 7 and 19
+FNs as optimal starting points for delineation of neonatal cortex (Fig 3A). The
+7 FNs atlas provide a coarse parcellation of developing networks, derived from
+300 term neonates in the dHCP cohort (Fig 3B). Confidence maps reveal lower
+confidence at boundary regions, suggesting further subdivision (Fig 3C). Boot-
+strap analysis with 100 combinations confirms high reproducibility, with the 7
+FNs atlas achieving an average Dice of ∼0.92 (Fig 3D). Network-wise variabil-
+ity remains low (Standard deviation (SD) ∼0.05 Dice), except for the attention
+network, which exhibits slightly higher variation (Fig 3E). We identify emerging
+default network in neonates, where the absence of frontal and temporal com-
+ponents reflects the incomplete maturation of higher-order FNs compared to
+adults (Fig 3F) [25]. In contrast, primary networks, such as somatomotor and
+visual FNs, exhibit great consistency with the adult atlas (Fig 3F). This find-
+ing highlights why adult parcellation is not transferable to neonates, as several
+higher-order FNs are yet to fully develop.
+    Similarly, the 19 FNs atlas provide a finer-grained parcellation (Fig 4A),
+further fractionating low-confidence boundary regions from the 7 FNs, reflecting
+the hierarchical organization of neonatal FC (Fig 4B). This atlas also achieves
+an average Dice of ∼0.90, maintaining strong reproducibility despite increased
+granularity (Fig 4C). Most networks exhibit an SD of ∼0.09 Dice, except for the
+limbic 4 network, which shows higher variability (Fig 4D).
+
+
+                                                                           Dice
+                                                                       Defa
+
+
+
+
+                                                                                                                   1.0
+                                                                                              l
+                                                                                            ta
+
+
+                                                                                                             0.8
+                                                                           ult M
+
+
+
+
+                                                                                          r ie
+
+
+
+
+                                                                                                       0.6
+                                                                                        pa
+                                                                             ode
+
+
+                                                                                      to
+
+
+
+
+                                                               Vis                               0.4
+                                                                                    on
+
+
+
+
+                                                                     ual
+                                                                                        0.2
+                                                                                   Fr
+
+
+
+
+         7 Adult FNs               TReND-derived                                        Dorsal Attention
+                                                                       bic
+                                       7FNs                      Lim
+                                                                           Ve
+                                                                           Somat
+
+                                                                              n tr
+                                                                                   al
+                                                                                      At
+                                                                                      omotor
+
+
+
+                                                                                         te n
+                                                                                              tio
+                                                                                                  n
+
+
+
+
+Fig. 5. Validation of TReND’s performance on the HCP-YA dataset. Consistency of
+the 7 FNs identified by TReND compared to the Yeo 7-network atlas evaluated with
+dice.
+
+
+
+
+3.3   Cross-dataset performance of TReND using HCP-YA
+
+Although the TReND framework is developed for the neonatal cortex parcel-
+lation, we evaluated its applicability on the HCP-YA dataset using the Yeo
+7-network atlas as ground truth [3]. All networks, except the limbic network,
+                                    Title Suppressed Due to Excessive Length           9
+
+achieved a Dice score of ∼0.7 or higher, with the somatomotor and visual net-
+works reaching ∼0.9 (Fig 5). These variations may have arisen due to TReND’s
+voxel-wise rather than ROI-wise approach and cohort differences.
+
+4    Conclusion
+Our study introduced TReND, a novel transformer-autoencoder framework with
+RNMF for neonatal FN parcellation. Given that adult FNs are not directly trans-
+ferable to neonates due to their incomplete maturation, our approach provides
+a dedicated solution for neonatal brain functional organization. The resulting 7-
+and 19-network parcellations aim to establish standardized neonatal functional
+atlases, paving the way for future research in early brain development.
+
+References
+1. Behrens, T.E., Johansen-Berg, H., Woolrich, M.W., Smith, S.M., Wheeler King-
+   shott, C.A., Boulby, P.A., Barker, G.J., Sillery, E.L., Sheehan, K., Ciccarelli, O.,
+   Thompson, A.J., Brady, J.M., Matthews, P.M.: Non-invasive mapping of connec-
+   tions between human thalamus and cortex using diffusion imaging. Nature neuro-
+   science 6(7), 750–757 (2003)
+2. Huang, H., Zhang, J., Jiang, H., Wakana, S., Poetscher, L., Miller, M.I., van Zijl,
+   P.C., Hillis, A.E., Wytik, R., Mori, S.: DTI tractography based parcellation of white
+   matter: application to the mid-sagittal morphology of corpus callosum. Neuroimage
+   26(1), 195–205 (2005).
+3. Yeo, B.T., Krienen, F.M., Sepulcre, J., Sabuncu, M.R., Lashkari, D., Hollinshead,
+   M., Roffman, J.L., Smoller, J.W., Zollei, L., Polimeni, J.R., Fischl, B., Liu, H.,
+   Buckner, R.L.: The organization of the human cerebral cortex estimated by intrinsic
+   functional connectivity. Journal of neurophysiology. 106(3), 1125–1165 (2011).
+4. Glasser, M.F., Coalson, T.S., Robinson, E.C., Hacker, C.D., Harwell, J., Yacoub, E.,
+   Ugurbil, K., Andersson, J., Beckmann, C.F., Jenkinson, M., Smith, S.M., Van Essen,
+   D.C.: A multi-modal parcellation of human cerebral cortex. Nature. 536(7615), 171–
+   178 (2016).
+5. Peng, Q., Ouyang, M., Wang, J., Yu, Q., Zhao, C., Slinger, M., Li, H., Fan, Y., Hong,
+   B., Huang, H.: Regularized-Ncut: Robust and homogeneous functional parcellation
+   of neonate and adult brain networks. Artificial intelligence in medicine. 106, 101872
+   (2020).
+6. Wang, F., Zhang, H., et al.: Fine-grained functional parcellation maps of the infant
+   cerebral cortex. elife. 12, e75401 (2023).
+7. Cao, M., He, Y., Dai, Z., Liao, X., Jeon, T., Ouyang, M., Chalak, L., Bi, Y., Rollins,
+   N., Dong, Q.: Early development of functional network segregation revealed by
+   connectomic analysis of the preterm human brain. Cerebral cortex. 27(3), 1949–
+   1963 (2017).
+8. Xia, Y., Zhao, J., Xu, Y., Duan, D., Xia, M., Jeon, T., Ouyang, M., Chalak, L.,
+   Rollins, N., Huang, H.: Development of sensorimotor-visual connectome gradient at
+   birth predicts neurocognitive outcomes at 2 years of age. iScience. 27(2) (2024).
+9. Xu, Y., Cao, M., Liao, X., Xia, M., Wang, X., Jeon, T., Ouyang, M., Chalak, L.,
+   Rollins, N., Huang, H.: Development and emergence of individual variability in the
+   functional connectivity architecture of the preterm human brain. Cerebral cortex.
+   29(10), 4208–4222 (2019).
+10      Sovesh Mohapatra et al.
+
+10. Bassett, D.S., Bullmore, E., Verchinski, B.A., Mattay, V.S., Weinberger, D.R.,
+   Meyer-Lindenberg, A.: Hierarchical organization of human cortical networks in
+   health and schizophrenia. Journal of neuroscience. 28(37), 9239–9248 (2008).
+11. Smith, S.M., Fox, P.T., Miller, K.L., Glahn, D.C., Fox, P.M., Mackay, C.E., Fil-
+   ippini, N., Watkins, K.E., Toro, R., Laird, A.R., Beckmann, C.F.: Correspondence
+   of the brain’s functional architecture during activation and rest. Proceedings of the
+   national academy of sciences. 106(31), 13040–13045 (2009).
+12. Yerys, B.E., Herrington, J.D., Satterthwaite, T.D., Guy, L., Schultz, R.T., Bassett,
+   D.S.: Globally weaker and topologically different: resting-state connectivity in youth
+   with autism. Molecular autism. 8, 39 (2017).
+13. Oishi K., Chang L., Huang H.: Baby brain atlases. Neuroimage. 185, 865–880
+   (2019).
+14. Huang, H., Huppi, P.S., He, Y., Lerch, J.: Imaging baby brain development. Neu-
+   roimage. 203, 116142 (2019).
+15. Erhardt, E.B., Allen, E.A., Wei, Y., Eichele, T., Calhoun, V.D.: SimTB, a simula-
+   tion toolbox for fMRI data under a model of spatiotemporal separability. Neuroim-
+   age. 59(4), 4160–4167 (2012).
+16. Edwards, A.D., Rueckert, D., Smith, S.M., et al.: The Developing Human Connec-
+   tome Project Neonatal Data Release. Frontiers in neuroscience. 16, 886772 (2022).
+17. Fitzgibbon, S.P., Harrison, S.J., Jenkinson, M., et al.: The Developing Human Con-
+   nectome Project (dHCP) automated resting-state functional processing framework
+   for newborn infants. Neuroimage. 223, 117303 (2020).
+18. Van Essen, D.C., Smith, S.M., Barch, D.M., et al.: The WU-Minn human connec-
+   tome project: an overview. Neuroimage. 80, 62–79 (2013).
+19. Glasser, M.F., Sotiropoulos, S.N., et al.: The minimal preprocessing pipelines for
+   the Human Connectome Project. Neuroimage. 80, 105–124 (2013).
+20. Vaswani, A., Guyon, I., Luxburg, U.V., Bengio, S., et al.:Attention is all you need.
+   In: 31st Advances in Neural Information Processing Systems (NeurIPS), pp. 5998–
+   6008. Curran Associates, Inc. (2017).
+21. Paatero, P., Tapper, U.: Positive matrix factorization: A non-negative factor model
+   with optimal utilization of error estimates of data values. Environmetrics. 5(2), 111–
+   126 (1994).
+22. Boutsidis, C., Gallopoulos, E.: SVD based initialization: A head start for nonneg-
+   ative matrix factorization. Pattern Recognition. 41(4), 1350–1362 (2008).
+23. Ben-Hur, A., Elisseeff, A., Guyon, I.: A stability-based method for discovering
+   structure in clustered data. Biocomputing. 2002, 6–17 (2001).
+24. Rousseeuw, P.J.: Silhouettes: A graphical aid to the interpretation and validation
+   of cluster analysis. Journal of computational and applied mathematics. 20, 53–65
+   (1987).
+25. Yu, Q., Ouyang, M., Detre, J., et al.: Infant brain regional cerebral blood flow
+   increases supporting emergence of the default-mode network. elife. 12, e78397 (2023)
+

@@ -1,0 +1,354 @@
+                                           ULTRAFAST HIGH-FLUX SINGLE-PHOTON LIDAR SIMULATOR VIA NEURAL MAPPING
+
+                                                                            Weijian Zhang, Hashan K. Weerasooriya, Stanley Chan
+
+                                                      School of Electrical and Computer Engineering, Purdue University, West Lafayette, USA
+
+
+                                                                      ABSTRACT                                      simulation is an efficient way to generate abundant training
+                                                                                                                    data, enabling the application of powerful deep learning tech-
+                                           Efficient simulation of photon registrations in single-photon
+arXiv:2505.23992v1 [eess.SP] 29 May 2025
+
+
+
+
+                                                                                                                    niques to SPL-related problems.
+                                           LiDAR (SPL) is essential for applications such as depth es-
+                                           timation under high-flux conditions, where hardware dead                      However, the challenge in rapidly and accurately simu-
+                                           time significantly distorts photon measurements. However,                lating photons arises from the dead time in the SPAD and
+                                           the conventional wisdom is computationally intensive due                 TCSPC, during which incoming photons cannot be detected
+                                           to their inherently sequential, photon-by-photon processing.             or recorded. Without the dead time, the number of photons
+                                           In this paper, we propose a learning-based framework that                follows a Poisson distribution and their timestamps are inde-
+                                           accelerates the simulation process by modeling the photon                pendent and identically distributed (i.i.d.) ordered statistics
+                                           count and directly predicting the photon registration proba-             according to the photon arrival flux function [9, 10], which is
+                                           bility density function (PDF) using an autoencoder (AE). Our             determined by system and environmental parameters such as
+                                           method achieves high accuracy in estimating both the total               the laser repetition period, target delay, and signal strength.
+                                           number of registered photons and their temporal distribu-                These factors combine in a closed-form equation that fully
+                                           tion, while substantially reducing simulation time. Extensive            describes the timestamp distribution. However, when dead
+                                           experiments validate the effectiveness and efficiency of our             time is non-negligible, the registration process is disrupted
+                                           approach, highlighting its potential to enable fast and accu-            by random photon losses. As a result, the photon count no
+                                           rate SPL simulations for data-intensive imaging tasks in the             longer follows a Poisson distribution, and the timestamps be-
+                                           high-flux regime.                                                        come dependent, governed by a complex steady-state proba-
+                                                                                                                    bility density function (PDF) [11, 12]. While this PDF still
+                                              Index Terms— Single-Photon LiDAR, Dead Time, High-                    depends on the same underlying parameters, the closed-form
+                                           Flux Regime, Autoencoder, Timestamp Simulation                           connection is lost, and the mapping becomes highly nonlin-
+                                                                                                                    ear — small changes in parameters can lead to dramatically
+                                                                1. INTRODUCTION                                     different PDF shapes.
+                                                                                                                         The conventional wisdom generates photon arrivals first
+                                           Single-photon LiDAR (SPL) is an emerging active imag-                    and culls out those within dead time durations [11, 13]. There
+                                           ing technique [1, 2], particularly suitable for accurate long-           is no need to model the photon registration number and PDF,
+                                           range and low-light tasks because of its high sensitivity and            but it is slow to examine the photons one by one. Though
+                                           temporal resolution empowered by advanced single-photon                  there exist algorithms that can correctly predict the photon
+                                           avalanche diode (SPAD) sensors and time-correlated single-               registration PDFs from the parameters [11, 12], the compu-
+                                           photon counting (TCSPC) modules [3]. After illuminating                  tation of the mapping might be time-intensive. Our goal in
+                                           the scene with a periodic laser pulse train of a known shape,            this paper is to model the photon count and learn the intricate
+                                           the SPAD and TCSPC are used to detect and register arriving              mapping from the system and environmental parameters to
+                                           photons, respectively [4, 5, 6, 7]. The depth and reflectiv-             the PDFs using a neural network, facilitating fast inference.
+                                           ity of an object can be recovered from the collected photon              We assume a nonparalyzable SPAD followed by a modern
+                                           timestamps simultaneously [8].                                           TCSPC module and only one dead time source as in [11, 13].
+                                               Fast and accurate simulation of photon timestamps plays
+                                           a critical role in SPL for three key reasons. First, it provides a
+                                           cost-effective means to study and validate the statistical prop-         1.1. Related Work
+                                           erties of photons under various random processes, guiding al-            Low-flux regime. A typical solution is to apply the 5% rule
+                                           gorithm design. Second, it allows for performance evaluation             and operate the SPL system in the low-flux regime [14, 15]. In
+                                           of proposed methods in a controlled environment, minimizing              this regime, the photon registration is equivalent to photon ar-
+                                           risks and expenses before real-world implementation. Finally,            rival because the probability of new photons hitting the sensor
+                                               The work is supported, in part, by the DARPA / SRC CogniSense JUMP   during its dead time is negligible. Therefore, techniques de-
+                                           2.0 Center, NSF IIS-2133032, and NSF ECCS-2030570.                       rived for the photon arrival process are applicable. The down-
+side of limiting the flux to such a low level is that the data
+acquisition takes longer to collect enough photons to counter-
+act the shot noise for the downstream tasks.
+Pile-up modeling. Under high-flux conditions, synchronous
+SPL systems with classic TCSPC register at most one pho-
+ton per laser cycle and remain inactive until the next cycle.
+This leads to a bias toward early arrivals, known as the pile-
+up effect. Since registrations occur independently across cy-
+cles, several studies [16, 17, 18] have modeled this process
+using a Poisson multinomial distribution, enabling efficient                 (a).                     (b).                  (c).
+simulation. However, such systems suffer from slower ac-
+quisition rates compared to our asynchronous systems with         Fig. 1: Depth estimation from timestamps generated by dif-
+modern TCSPC, which resume detection immediately after            ferent simulation tools: (a) Ground truth depth maps. (b)
+dead time. In asynchronous setups, timestamps become de-          Depth estimation with the conventional simulator. (c) Depth
+pendent, making the modeling of dead time distortions and         estimation with our proposed simulator. The estimated results
+thus the simulation significantly more challenging.               are visually the same for the two simulators, proving that our
+Conventional simulation. The conventional wisdom to sim-          simulated timestamps are statistically accurate. However, it
+ulate timestamps affected by dead time distortions is based       takes the conventional simulator 35.2 minutes and ours 8.64
+on mimicking the physics of photon registrations. A photon        seconds for a 120 × 180 image. We utilize a naive sample
+arrival stream is generated, followed by a sequential and man-    mean estimator for the depth recovery.
+ual comparison between the inter-arrival time and the dead
+time to decide whether to record the new photon [11, 13].
+While this method produces statistically accurate photon          Fig. 1 illustrates the accuracy and speed of our simulator. The
+counts and timestamps, thereby circumventing the need for         scenes are selected from NYU Depth Dataset V2 [20].
+explicit modeling, it requires manually eliminating photons,
+which is time-consuming and impedes fast simulation.                          2. SPL PHOTON REGISTRATION
+Photon registration modeling. To speed up the conventional
+simulation, one promising direction is to sample timestamps       In a photon timestamp simulator, the most important ingre-
+similarly to the photon arrival simulation, provided that we      dients are the number of photons to generate and their PDF.
+can fast and accurately model the registration counts and their   In this section, we start from the photon arrival process and
+locations. While limited work has addressed photon count          examine factors affecting photon loss and PDF distortions.
+modeling, a few teams [11, 12, 19] have focused on esti-
+mating the photon registration PDF, among which Rapp et           2.1. Photon Arrival from Target
+al. [11] rigorously modeled the photon registration process
+as a Markov chain. However, obtaining the PDF requires            For each pixel (i, j), we assume that there is a single bounce
+computing entries of a large transition matrix and its lead-      from the object. Following [21, 22, 23, 24], we model the
+ing eigenvector, making the method computationally heavy.         per-pixel and per-cycle photon arrival as an inhomogeneous
+In contrast, we introduce a novel approach that models the        Poisson process with the flux function
+photon count in asynchronous systems and leverages a neural                         λi,j (t) = αi,j · s(t − τi,j ) + λb ,          (1)
+network to accelerate the timestamp PDF prediction.
+                                                                  where τi,j is the pulse delay indicating the depth, αi,j is the
+                                                                  object reflectivity, λb is the constant ambient light level across
+1.2. Contributions: Neural Mapping
+                                                                  all pixels, and s(t) denotes the Gaussian-shaped transmitted
+In this paper, we build a learning-based framework for effi-      laser pulse, i.e. s(t − τ ) = E · N (t; τ, σt2 ) where E is the laser
+cient and accurate photon registration simulation in high flux.   energy and σt is the half pulse width.
+Our contributions are summarized below.                                For simplicity, we remove the subscript (i, j) and make
+                                                                  the following assumptions. The repetition period tr is longer
+    • We propose a new method to model the number of pho-         than the delay from the farthest target. The pulse width
+      ton registrations. This informs our simulator of how                                                                  R t is neg-
+                                                                  ligible compared to the repetition period such that 0 r s(t −
+      many photons to generate.                                   τ ) dt ≈ E. The sensor’s quantum efficiency η = 1 and the
+                                                                  dark current λd = 0.
+    • Given system parameters, we learn a neural map-
+                                                                       Within one cycle, the energy carried by λ(t) is
+      ping from varying environmental parameters to corre-
+                                                                                    Z tr
+      sponding distorted photon registration PDFs, following                    def
+      which our simulator generates samples.                                 Q=          λ(t) dt = αE + tr λb = S + B,              (2)
+                                                                                      0
+                                        def
+where we define the signal level S = αE, the noise level
+   def
+B = tr λb . We define the signal-to-background ratio (SBR)
+       def
+as SBR = S/B.
+
+2.2. Photon Arrival Simulator
+We can follow the two steps below to simulate photon arrival
+timestamps during N acquisition cycles as in [23].                   (a) Lower total energy (N Q).    (b) Higher total energy (N Q).
+
+    • Step 1: Decide on the number of photon arrivals Ma to         Fig. 2: Empirical distribution of photon arrival and registra-
+      be generated. Ma is a Poisson random variable whose           tion counts under varying energy and SBRs.
+      parameter is the total energy N Q. Thus, we simply
+      draw a sample based on
+
+                       Ma ∼ Poisson(N Q).                    (3)
+
+    • Step 2: Generate Ma timestamps that statistically
+      match Eq. (1). In the photon arrival process, pho-
+      tons within the same cycle and even from different
+      cycles are i.i.d. according to the following PDF                              (a) Fixed energy, different SBRs.
+
+                     λ(t)    α                 λb
+          fa (t) =        =     · s(t − τ ) +     ,          (4)
+                      Q     S+B               S+B
+
+      if we apply the relative timestamp representation, i.e
+      t ∈ [0, tr ). Then, the Ma timestamps can be immedi-
+      ately sampled from Eq. (4) using the inverse transform
+      method since we have the knowledge of the PDF.                                (b) Fixed SBR, different energy.
+
+2.3. Photon Registration at Sensor                                  Fig. 3: Effects of signal and background levels on the regis-
+                                                                    tration PDF fr (t).
+Photon arrival simulation is efficient because the mappings
+to Ma and fa (t) are analytically defined by Eqs. (3) and (4).
+However, dead time incurs random photon loss, making the                From Fig. 2a to Fig. 2b, we fix the SBR while doubling the
+mappings to the photon registration count Mr and PDF fr (t)         energy. The mean and variance of Mr do not scale linearly.
+highly nonlinear and difficult to simulate. We utilize the con-     The mean remains nearly constant, as the hardware’s ability
+ventional simulation scheme to study the functional connec-         to register photons is constrained by the fixed dead time dura-
+tions from system/environmental parameters to Mr and fr (t).        tion, emphasizing the complexity of modeling Mr .
+
+2.3.1. Number of photon registrations                               2.3.2. Photon registration PDF
+Rather than the system parameters {tr , td , σt , N }, which are    Similarly, we simulate photon registrations for 20 realiza-
+determined by the hardware, we are more interested in under-        tions and average the empirical histograms to approximate
+standing how the scene-dependent environmental parameters           the ground truth PDF fr (t). We investigate the effects of
+{τ, S, B} influence the transition from Ma to Mr .                  various S and B on fr (t) in Fig. 3.
+    We simulate 5000 realizations of photon arrival and the             Fixed energy, different SBRs. As shown in Fig. 3a, SBR
+consequent registration process under different total energy        affects the weights of three components: a main peak, a small
+levels, as shown in Fig. 2a and 2b. For each energy level, we       bump, and a noise floor. As the SBR decreases, the main
+vary the SBR and build empirical histograms of arrival counts       peak shrinks, the noise floor grows, and a small bump emerges
+(Ma1 , Ma2 ) and registration counts (Mr1 , Mr2 ) under different   because noise-incurred photons accumulate roughly (tr − td )
+SBRs. Both subfigures illustrate that while Ma1 and Ma2 are         ahead of the main peak, resembling pile-up effects.
+statistically equivalent, Mr1 and Mr2 exhibit distinct distribu-        Fixed SBR, different energy. Fig. 3b indicates that in-
+tions. We observe that Mr is bell-shaped with reduced mean          creasing total energy, with fixed SBR (infinity as a special
+and variance compared to Ma , though the precise relationship       case), leads to greater distortion toward earlier timestamps.
+remains unknown.                                                    This occurs because the system’s capability of registering
+photons is limited by the fixed dead time duration. As energy
+increases, more photons arriving after τ are missed, resulting
+in a pronounced leftward shift of the main peak.
+    In conclusion, S and B control the relative proportions
+of the main peak, noise bump, and noise floor, as well as the
+degree of distortion. Meanwhile, τ shifts the entire histogram
+horizontally. Therefore, deriving the registration PDF directly
+from these three scene parameters is highly nontrivial.                 (a) Energy loss per registration modeled by integration over the
+                                                                        extended flux function λ̃(t).
+
+                             3. METHOD
+
+In this section, we formulate the problems and propose our
+solutions to the challenging mapping tasks of the photon reg-
+istration number Mr and PDF fr (t), respectively.
+
+3.1. Problem Statement                                                  (b) Expected photon loss computed as the inner product. In this
+                                                                        case, E[g(tk )] = ⟨fr , g⟩ = 2.43.
+From the previous section, Mr and fr (t) both highly de-
+pend on a set of parameters θ = {tr , td , σt , N, τ, S, B}.           Fig. 4: Visualization of energy loss modeling for estimating
+We partition θ into two groups: system parameters θs =                 photon registration count.
+{tr , td , σt , N } that rely on the laser and sensor specifications
+and environmental parameters θe = {τ, S, B} that come                           def
+from the scene.                                                        where R = N Q/ (1 + E[g(tk )]).
+     For most SPL applications, the system is calibrated and               This is a valid Gaussian estimator that is consistent with
+θs is known. Therefore, the goal is to model and estimate the          the bell-shaped observations in Section
+                                                                                                        q       2.3.1. However, the
+mapping from θe to the corresponding photon count Mr and                                                       R
+                                                                       empirical width is narrower than 1+E[g(tk )] . Therefore, we
+PDF fr (t), given θs .                                                 refine the estimator as
+                                                                                                                   
+                                                                                      cr ∼ N R,           R
+3.2. Modeling of Photon Registration Count                                            M                                .          (6)
+                                                                                                   (1 + E[g(tk )])2
+Mr is the result of subtracting photon loss from the arrival
+photon count Ma . For each photon registered at tk , the num-          The only unknown in Eq. 6 is fr (t), which is solved in the
+ber of missing photons in the subsequent dead time is propor-          next subsection.
+tional to the energy under the flux function λ(t) from tk to
+tk + td . If tk + td > tr , we apply a periodic padding to build       3.3. Neural Mapping of Photon Registration PDF
+an extended flux function λ̃(t).                                       The mapping from environmental parameters θe to the pho-
+    We define a function g(·) that maps from a timestamp to            ton registration PDF fr (t) is highly nonlinear and difficult to
+                                              R t +t
+the energy loss starting at it, then g(tk ) = tkk d λ̃(t) dt, as       model analytically. Our goal is to approximate this mapping
+illustrated in Fig. 4a. Since tk follows the stationary photon         efficiently using a neural network.
+registration PDF fr (t), the expected number of photon loss                We explored various input-output representations. One
+per new registration is                                                option is to directly discretize fr (t) into a high-dimensional
+                        Z tr                                           vector, which aligns with the need for fine temporal resolution
+          E[g(tk )] =          g(tk )fr (tk ) dtk = ⟨fr , g⟩,   (5)    in timestamp sampling. However, θe is a low-dimensional
+                         0                                             vector, and this dimensionality mismatch impedes effective
+                                                                       learning. Alternatively, we considered representing fr (t) us-
+which is a dot product between fr (·) and g(·), as in Fig. 4b.
+                                                                       ing a Gaussian-uniform mixture model (GUMM) to reduce
+    Accounting for the photon loss, we construct an estimator
+                                                                       output dimensionality [13]. Yet, the ambiguity of GUMM pa-
+for Mr as Ma / (1 + E[g(tk )]). When N Q is large, Ma ∼
+                                                                       rameters led to poor convergence during training.
+Poisson(N Q) ≈ N (N Q, N Q). Therefore,
+                                                                           To address this, we observe that θe is implicitly embed-
+        Ma
+                       
+                             NQ               NQ
+                                                                      ded in the photon arrival flux function λ(t), as in Eq. 1. Dis-
+                  ∼N                   ,                               cretizing λ(t) to the same dimension as fr (t) resolves the
+    1 + E[g(tk )]        1 + E[g(tk )] (1 + E[g(tk )])2
+                                                                     mismatch. Based on this insight, we design an autoencoder
+                                 R                                     (AE) to extract features from λ(t) and reconstruct the corre-
+                  ∼ N R,                    ,
+                            1 + E[g(tk )]                              sponding distorted PDF fr (t), as shown in Fig. 5.
+      Input                                                           Output
+
+
+
+
+              Batch Normalization   Latent Layer   Linear Layer   Relu Activation
+
+
+
+
+                                                                                            Fig. 7: Prediction of photon registration PDFs.
+Fig. 5: Proposed AE architecture for PDF’s neural mapping.
+
+
+
+
+      Fig. 6: Prediction of photon registration counts.
+
+
+              4. EXPERIMENTAL RESULTS
+                                                                                    Fig. 8: Per-pixel runtime comparison between conventional
+4.1. Network and Training Specifications                                            and proposed simulators.
+
+A simple yet effective AE architecture is proposed in Fig. 5.
+The input flux function λ(t) and the output distorted PDF                           the generalizability of the network.
+fr (t) are discretized into 1024-dimensional vectors, which
+can be adjusted based on the actual bin resolution of TCSPC.                        4.3. Runtime Analysis
+The encoder progressively downsamples by a factor of 2 per
+layer, while the decoder symmetrically upsamples, with a la-                        We further emphasize the efficiency of our method by mea-
+tent representation of size 16 at the bottleneck.                                   suring the time each simulator requires to generate per-pixel
+    We generate a dataset of 11, 000 input-output pairs for                         timestamps, as shown in Fig. 8. The values annotated along
+training and testing, with a 4 : 1 split. Physically meaning-                       the curves indicate the effective number of registered photons,
+ful environmental parameters θe are uniformly sampled from                          accounting for losses due to dead time.1
+S ∼ U(0, 3), B ∼ U(0, 3) and τ ∼ U(2, 6) to calculate the                               While the runtime of the conventional simulator increases
+flux function as defined in Eq. 1. For each sample, 20 real-                        rapidly with the number of laser cycles, our method maintains
+izations of photon registrations are simulated using the con-                       negligible latency, demonstrating its suitability for efficiently
+ventional wisdom, and their averaged histogram serves as the                        simulating large-scale SPL images and videos.
+empirical ground truth PDF (label).
+    We adopt the mean squared error (MSE) between the AE                                                  5. CONCLUSION
+network’s prediction and the ground truth as the loss function.
+The network is trained using the Adam optimizer with a batch                        In this work, we introduce a learning-based approach to ac-
+size of 128 for 5000 epochs on an NVIDIA A100 GPU.                                  celerate the simulation of photon registrations in high-flux
+                                                                                    single-photon LiDAR systems, where detector dead time in-
+                                                                                    troduces complex distortions to photon statistics. We design a
+4.2. Results for the Simulated Dataset                                              new model for the registration count and learn a neural map-
+Figs. 6 and 7 illustrate the effectiveness of our method by                         ping from environmental parameters to the registration PDF.
+comparing the predicted photon registration counts and PDFs                         Our method effectively bridges the gap between conventional,
+with empirical ground truth, respectively, across various com-                      computationally expensive simulations and the need for large-
+binations of environmental parameters θe . The proposed AE                          scale training data in deep learning applications. Experimen-
+accurately captures the distorted PDFs, which in turn enables                       tal results demonstrate that our approach achieves high accu-
+precise estimation of the registration counts.                                      racy in both photon count and PDF estimations while signifi-
+    The root mean square error (RMSE) of the PDF predic-                            cantly reducing computational time.
+tion across the testing dataset is 0.017. Notably, the hand-                            1 Experiments were conducted in MATLAB 2023b on a system with an
+
+picked θe values in Fig. 7 lie outside the dataset, reflecting                      Intel® Core™ i7-8700K CPU and 32 GB DDR4 RAM.
+                    6. REFERENCES                                [14] D. F. Yu and J. A. Fessler, “Mean and variance of single
+                                                                      photon counting with deadtime,” Physics in Medicine &
+ [1] J. S. Massa, A. M. Wallace, G. S. Buller, S. Fancey, and         Biology, vol. 45, no. 7, pp. 2043, 2000.
+     A. C. Walker, “Laser depth measurement based on time-
+     correlated single-photon counting,” Optics letters, vol.    [15] D. Phillips, R. Drake, D. O’Connor, and R. C. and,
+     22, no. 8, pp. 543–545, 1997.                                    “Time correlated single-photon counting (tcspc) using
+                                                                      laser excitation,” Instrumentation Science & Technol-
+ [2] J. Rapp, J. Tachella, Y. Altmann, S. McLaughlin, and             ogy, vol. 14, no. 3-4, pp. 267–292, 1985.
+     V. K. Goyal, “Advances in single-photon lidar for au-
+     tonomous vehicles: Working principles, challenges, and      [16] A. K. Pediredla, A. C. Sankaranarayanan, M. Buttafava,
+     recent advances,” IEEE Signal Processing Magazine,               A. Tosi, and A. Veeraraghavan, “Signal processing
+     vol. 37, no. 4, pp. 62–71, 2020.                                 based pile-up compensation for gated single-photon
+                                                                      avalanche diodes,” arXiv preprint arXiv: 1806.07437,
+ [3] Z.-P. Li, J.-T. Ye, X. Huang, P.-Y. Jiang, Y. Cao,               2018.
+     Y. Hong, C. Yu, J. Zhang, Q. Zhang, C.-Z. Peng, F. Xu,
+     and J.-W. Pan, “Single-photon imaging over 200km,”          [17] F. Heide, S. Diamond, D. B. Lindell, and G. Wet-
+     Optica, pp. 344–349, 2021.                                       zstein, “Sub-picosecond photon-efficient 3d imaging us-
+                                                                      ing single-photon sensors,” Scientific reports, vol. 8, no.
+ [4] A. Rochas, Single Photon Avalanche Diodes in CMOS                1, pp. 17726, 2018.
+     Technology, EPFL, 2003.
+                                                                 [18] A. Gupta, A. Ingle, A. Velten, and M. Gupta, “Photon-
+ [5] E. Charbon, M. Fishburn, R. Walker, R. K. Henderson,             flooded single-photon 3D cameras,” in CVPR, 2019, pp.
+     and C. Niclass, “SPAD-Based Sensors,” in TOF Range-              6763–6772.
+     Imaging Cameras, pp. 11–38. Springer, 2013.
+                                                                 [19] S. Isbaner, N. Karedla, D. Ruhlandt, S. C. Stein,
+ [6] E. R. Fossum, J. Ma, S. Masoodian, L. Anzagira, and              A. Chizhik, I. Gregor, and J. Enderlein, “Dead-time cor-
+     R. Zizza, “The quanta image sensor: Every photon                 rection of fluorescence lifetime measurements and fluo-
+     counts,” Sensors, vol. 16, no. 8, pp. 1260, 2016.                rescence lifetime imaging,” Optics express, vol. 24, no.
+ [7] W. Becker, Advanced Time-Correlated Single Pho-                  9, pp. 9429–9445, 2016.
+     ton Counting Techniques, vol. 81 of Springer Series in      [20] N. Silberman, D. Hoiem, P. Kohli, and R. Fergus, “In-
+     Chemical Physics, Springer, 2005.                                door segmentation and support inference from rgbd im-
+ [8] H. K. Weerasooriya, P. Chennuri, W. Zhang, I. Gy-                ages,” in ECCV, 2012.
+     ongy, and S. H. Chan, “Joint depth and reflectivity         [21] D. Shin, A. Kirmani, V. K. Goyal, and J. H. Shapiro,
+     estimation using single-photon lidar,” arXiv preprint            “Photon-efficient computational 3-d and reflectivity
+     arXiv:2505.13250, 2025.                                          imaging with single-photon detectors,” IEEE Transac-
+ [9] I. Bar-David,     “Communication under the poisson               tions on Computational Imaging, vol. 1, no. 2, pp. 112–
+     regime,” IEEE Transactions on Information Theory, vol.           125, 2015.
+     15, no. 1, pp. 31–37, 1969.                                 [22] J. Rapp and V. K. Goyal, “A few photons among many:
+[10] D. L. Snyder and M. I. Miller, Random Point Processes            Unmixing signal and noise for photon-efficient active
+     in Time and Space, Springer, 1991.                               imaging,” IEEE Transactions on Computational Imag-
+                                                                      ing, vol. 3, no. 3, pp. 445–459, 2017.
+[11] J. Rapp, Y. Ma, R. M. A. Dawson, and V. K. Goyal,
+     “Dead time compensation for high-flux ranging,” IEEE        [23] S. H. Chan, H. K. Weerasooriya, W. Zhang, P. Abshire,
+     Transactions on Signal Processing, vol. 67, no. 13, pp.          I. Gyongy, and R. K. Henderson, “Resolution limit of
+     3471–3486, 2019.                                                 single-photon LiDAR,” in CVPR, 2024, pp. 25307–
+                                                                      25316.
+[12] J. Rapp, Y. Ma, R. M. Dawson, and V. K. Goyal, “High-
+     flux single-photon lidar,” Optica, vol. 8, no. 1, pp. 30–   [24] R. Kitichotkul, J. Rapp, and V. K. Goyal, “The role
+     39, 2021.                                                        of detection times in reflectivity estimation with single-
+                                                                      photon lidar,” IEEE Journal of Selected Topics in Quan-
+[13] W. Zhang, H. K. Weerasooriya, P. Chennuri, and S. H.             tum Electronics, vol. 30, 2024.
+     Chan, “Parametric modeling and estimation of photon
+     registrations for 3d imaging,” in 2024 IEEE 26th In-
+     ternational Workshop on Multimedia Signal Processing
+     (MMSP), 2024, pp. 1–6.
+

@@ -1,0 +1,445 @@
+Al-Khalidi et al                                                                    Structural and functional MRI for autism classification
+
+Al-Rafidain J Med Sci. 2025;9(2):266-271.
+DOI: https://doi.org/10.54133/ajms.v9i2.2559
+
+
+
+
+Research Article
+
+        Hybrid 3D CNN and Swin Transformer for Autism Classification Through Structural and
+                                     Functional Brain MRI
+                            Rafal Razzaq Al-Khalidi1*            , Roaa Razaq Al-Khalidy2             , Sarah Zuhair Kurdi2
+1Department of Surgery, College of Medicine, Jabir Ibn Hayyan University for Medical and Pharmaceutical Sciences, Najaf, Iraq;
+   2Department of Computer Science, Faculty of Education, University of Kufa, Najaf, Iraq; 3Department of Surgery, College of
+
+                                                Medicine, University of Kufa, Najaf, Iraq
+                          Received: 5 October 2025; Revised: 17 November 2025; Accepted: 20 November 2025
+Abstract
+
+Background: Autism spectrum disorder is a prevalent neurodevelopmental condition characterized by social communication deficits
+and behavioral disturbance. Early diagnosis is essential for timely intervention and condition control. Yet current behavioral
+assessments are subjective and often delayed; neuroimaging provides objective insights into structural and functional brain
+alterations. Objective: To evaluate whether integrating structural MRI and functional MRI using a deep learning framework can
+improve the interpretability and diagnostic accuracy of autism spectrum disorders. Methods: In this retrospective diagnostic
+modeling study, a hybrid model architecture was proposed, combining 3D convolutional neural networks for structural MRI features
+with Swin Transformers for functional MRI representations. Features were fused through cross-attention and classified with a fully
+connected layer. The model was trained and validated on the Autism Brain Imaging Data Exchange II dataset (ABIDE II)
+Georgetown University site and externally tested on the larger ABIDE II dataset NYU-1 site. Performance metrics included accuracy,
+F1-score, and ROC-AUC. The hybrid model was compared to each model alone. Results: The model achieved 94.6% accuracy on
+the GU site, which also maintained a high testing performance on NYU_1. Attention-based fusion of structural MRI and functional
+MRI revealed brain regions connected to autism spectrum disorder, making the images easier to understand. Conclusions:
+Multimodal fusion of structural MRI and functional MRI demonstrates a clinically valuable AI tool for early autism spectrum
+disorder detection. This approach may increase diagnostic confidence and timely interventions.
+
+Keywords: Autism, Hybrid 3D CNN, fMRI, sMRI, Swin transformer.
+
+                ‫ ﺛﻼﺛﻲ اﻷﺑﻌﺎد وﻣﺤﻮل ﺳﻮﯾﻦ ﻟﺘﺼﻨﯿﻒ اﻟﺘﻮﺣﺪ ﻣﺘﻌﺪد اﻟﻮﺳﺎﺋﻂ ﺑﺎﺳﺘﺨﺪام اﻟﺘﺼﻮﯾﺮ ﺑﺎﻟﺮﻧﯿﻦ اﻟﻤﻐﻨﺎطﯿﺴﻲ اﻟﮭﯿﻜﻠﻲ واﻟﻮظﯿﻔﻲ‬CNN ‫ﻣﺰﯾﺞ ﻣﻦ‬
+                                                                                                                                                        ‫اﻟﺨﻼﺻﺔ‬
+‫ اﻟﺘﺸﺨﯿﺺ اﻟﻤﺒﻜﺮ ﺿﺮوري ﻟﻠﺘﺪﺧﻞ اﻟﺴﺮﯾﻊ‬.‫ اﺿﻄﺮاب طﯿﻒ اﻟﺘﻮﺣﺪ ھﻮ ﺣﺎﻟﺔ ﺗﻨﻤﺎﺋﯿﺔ ﻋﺼﺒﯿﺔ ﺷﺎﺋﻌﺔ ﺗﺘﻤﯿﺰ ﺑﻌﺠﺰ ﻓﻲ اﻟﺘﻮاﺻﻞ اﻻﺟﺘﻤﺎﻋﻲ واﺿﻄﺮاﺑﺎت ﺳﻠﻮﻛﯿﺔ‬:‫اﻟﺨﻠﻔﯿﺔ‬
+‫ ﯾﻮﻓﺮ اﻟﺘﺼﻮﯾﺮ اﻟﻌﺼﺒﻲ رؤى ﻣﻮﺿﻮﻋﯿﺔ ﺣﻮل اﻟﺘﻐﯿﺮات اﻟﮭﯿﻜﻠﯿﺔ واﻟﻮظﯿﻔﯿﺔ ﻓﻲ‬.‫ ﻓﺈن اﻟﺘﻘﯿﯿﻤﺎت اﻟﺴﻠﻮﻛﯿﺔ اﻟﺤﺎﻟﯿﺔ ذاﺗﯿﺔ وﻏﺎﻟﺒﺎ ﻣﺎ ﺗﻜﻮن ﻣﺘﺄﺧﺮة‬،‫ وﻣﻊ ذﻟﻚ‬.‫واﻟﺴﯿﻄﺮة ﻋﻠﻰ اﻟﺤﺎﻟﺔ‬
+‫ ﺗﻘﯿﯿﻢ ﻣﺎ إذا ﻛﺎن دﻣﺞ اﻟﺮﻧﯿﻦ اﻟﻤﻐﻨﺎطﯿﺴﻲ اﻟﺒﻨﯿﻮي واﻟﺮﻧﯿﻦ اﻟﻤﻐﻨﺎطﯿﺴﻲ اﻟﻮظﯿﻔﻲ ﺑﺎﺳﺘﺨﺪام إطﺎر اﻟﺘﻌﻠﻢ اﻟﻌﻤﯿﻖ ﯾﻤﻜﻦ أن ﯾﺤﺴﻦ ﻗﺎﺑﻠﯿﺔ اﻟﺘﻔﺴﯿﺮ واﻟﺪﻗﺔ اﻟﺘﺸﺨﯿﺼﯿﺔ‬:‫ اﻟﮭﺪف‬.‫اﻟﺪﻣﺎغ‬
+‫ ﺗﺠﻤﻊ ﺑﯿﻦ اﻟﺸﺒﻜﺎت اﻟﻌﺼﺒﯿﺔ اﻻﻟﻔﺎﻓﯿﺔ ﺛﻼﺛﯿﺔ اﻷﺑﻌﺎد ﻟﻤﯿﺰات اﻟﺮﻧﯿﻦ‬،‫ ﺗﻢ اﻗﺘﺮاح ﺑﻨﯿﺔ ﻧﻤﻮذج ھﺠﯿﻨﺔ‬،‫ ﻓﻲ ھﺬه اﻟﺪراﺳﺔ اﻟﺘﺸﺨﯿﺼﯿﺔ اﻟﺮﺟﻌﯿﺔ‬:‫ اﻟﻄﺮاﺋﻖ‬.‫ﻻﺿﻄﺮاﺑﺎت طﯿﻒ اﻟﺘﻮﺣﺪ‬
+‫ ﺗﻢ ﺗﺪرﯾﺐ اﻟﻨﻤﻮذج‬.‫ ﺗﻢ دﻣﺞ اﻟﻤﯿﺰات ﻋﺒﺮ اﻻﻧﺘﺒﺎه اﻟﻤﺘﻘﺎطﻊ وﺗﺼﻨﯿﻔﮭﺎ ﺑﻄﺒﻘﺔ ﻣﺘﺼﻠﺔ ﺑﺎﻟﻜﺎﻣﻞ‬.‫اﻟﻤﻐﻨﺎطﯿﺴﻲ اﻟﮭﯿﻜﻠﻲ ﻣﻊ ﻣﺤﻮﻻت ﺳﻮﯾﻦ ﻟﺘﻤﺜﯿﻼت اﻟﺮﻧﯿﻦ اﻟﻤﻐﻨﺎطﯿﺴﻲ اﻟﻮظﯿﻔﯿﺔ‬
+‫ اﻷﻛﺒﺮ ﻓﻲ‬ABIDE II ‫ وﺗﻢ اﺧﺘﺒﺎره ﺧﺎرﺟﯿﺎ ﻋﻠﻰ ﻣﺠﻤﻮﻋﺔ ﺑﯿﺎﻧﺎت‬،‫ ﻓﻲ ﺟﺎﻣﻌﺔ ﺟﻮرﺟﺘﺎون‬II (ABIDE II) ‫واﻟﺘﺤﻘﻖ ﻣﻨﮫ ﻋﻠﻰ ﻣﺠﻤﻮﻋﺔ ﺑﯿﺎﻧﺎت ﺗﺒﺎدل ﺑﯿﺎﻧﺎت اﻟﺪﻣﺎغ ﻟﻠﺘﻮﺣﺪ‬
+‫ ﻓﻲ‬٪94.6 ‫ ﺣﻘﻖ اﻟﻨﻤﻮذج دﻗﺔ‬:‫ اﻟﻨﺘﺎﺋﺞ‬.‫ ﺗﻤﺖ ﻣﻘﺎرﻧﺔ اﻟﻨﻤﻮذج اﻟﮭﺠﯿﻦ ﻣﻊ ﻛﻞ ﻧﻤﻮذج ﻟﻮﺣﺪه‬.ROC-AUC‫ و‬،1 ‫ وﻧﺘﯿﺠﺔ اﻟﻨﻤﻮذج‬،‫ ﺷﻤﻠﺖ ﻣﻘﺎﯾﯿﺲ اﻷداء اﻟﺪﻗﺔ‬.NYU-1 ‫ﻣﻮﻗﻊ‬
+‫ ﻛﺸﻒ دﻣﺞ اﻟﺘﺼﻮﯾﺮ ﺑﺎﻟﺮﻧﯿﻦ اﻟﻤﻐﻨﺎطﯿﺴﻲ اﻟﺒﻨﯿﻮي واﻟﺮﻧﯿﻦ اﻟﻤﻐﻨﺎطﯿﺴﻲ اﻟﻮظﯿﻔﻲ اﻟﻘﺎﺋﻢ ﻋﻠﻰ اﻻﻧﺘﺒﺎه اﻟﻰ‬.NYU_1 ‫ ﻣﻤﺎ ﺣﺎﻓﻆ أﯾﻀﺎ ﻋﻠﻰ أداء اﺧﺘﺒﺎر ﻋﺎﻟﻲ ﻋﻠﻰ‬،GU ‫ﻣﻮﻗﻊ‬
+‫ اﻟﺪﻣﺞ ﻣﺘﻌﺪد اﻟﻮﺳﺎﺋﻂ ﺑﯿﻦ اﻟﺮﻧﯿﻦ اﻟﻤﻐﻨﺎطﯿﺴﻲ اﻟﮭﯿﻜﻠﻲ واﻟﺮﻧﯿﻦ اﻟﻤﻐﻨﺎطﯿﺴﻲ‬:‫ اﻻﺳﺘﻨﺘﺎﺟﺎت‬.‫ ﻣﻤﺎ ﺟﻌﻞ اﻟﺼﻮر أﺳﮭﻞ ﻓﻲ اﻟﻔﮭﻢ‬،‫ﻣﻨﺎطﻖ دﻣﺎﻏﯿﺔ ﻣﺮﺗﺒﻄﺔ ﺑﺎﺿﻄﺮاب طﯿﻒ اﻟﺘﻮﺣﺪ‬
+‫ ﻗﺪ ﯾﺪﻋﻢ ھﺬا اﻟﻨﮭﺞ اﻟﺜﻘﺔ اﻟﺘﺸﺨﯿﺼﯿﺔ واﻟﺘﺪﺧﻼت ﻓﻲ اﻟﻮﻗﺖ‬.‫اﻟﻮظﯿﻔﻲ ﯾﻈﮭﺮ أداة ذﻛﺎء اﻟﺬﻛﺎء اﻻﺻﻄﻨﺎﻋﻲ ذات ﻗﯿﻤﺔ ﺳﺮﯾﺮﯾﺔ ﻟﻠﻜﺸﻒ اﻟﻤﺒﻜﺮ ﻋﻦ اﺿﻄﺮاﺑﺎت طﯿﻒ اﻟﺘﻮﺣﺪ‬
+                                                                                                                                                       .‫اﻟﻤﻨﺎﺳﺐ‬
+
+* Corresponding author: Rafal R. Al-Khalidi, Department of Surgery, College of Medicine, Jabir Ibn Hayyan University for
+Medical and Pharmaceutical Sciences, Najaf, Iraq; Email: rafal.alkhalidi@jmu.edu.iq
+Article citation: Al-Khalidi RR, Al-Khalidy RR, Kurdi SZ. Hybrid 3D CNN and Swin Transformer for Multi Modal Autism
+Classification Using Structural and Functional MRI. Al-Rafidain J Med Sci. 2025;9(2):266-271. doi:
+https://doi.org/10.54133/ajms.v9i2.2559
+© 2025 The Author(s). Published by Al-Rafidain University College. This is an open access journal issued under the CC BY-
+NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+INTRODUCTION                                                                          traditional diagnostic methods are excessively based on
+                                                                                      behavioral observations, which might be subjective
+Autism      spectrum     disorder      (ASD)     affects                              and time-consuming [4]. To address these challenges,
+approximately 1 in 100 children worldwide, according                                  neuroimaging, especially structural MRI (sMRI) and
+to the World Health Organization (WHO) [1]. The                                       functional MRI (fMRI), has become an attractive
+prevalence is higher in the United States, which was                                  method to find neural biomarkers of ASD through
+estimated to be 1 in 31 children [2,3]. The diagnosis of                              analysis of anatomical and functional features [5].
+ASD represents an enormous difficulty in terms of                                     Medical image analysis has seen a potential in deep
+timely and accurate identification, because the                                       learning by multimodal combination of sMRI and
+
+
+                                                                             266
+Al-Khalidi et al                                                        Structural and functional MRI for autism classification
+
+fMRI, which is a complex process that necessitates                       ABIDE II (GU) and NYU-1
+sophisticated modeling techniques that are able not
+only to capture local anatomical structure but also to                   In this study, we utilized data from participants trained
+establish long-range functional relationships in a single                and validated from the Georgetown University (GU)
+architecture [6]. However, there is limited research                     site of the ABIDE-II (Autism Brain Imaging Data
+examining how they can work together in multimodal                       Exchange II dataset), which provides a relatively large
+ASD classification. In order to fill this gap, this study                cohort compared to other sites [11]. The dataset
+suggested a mixed model of 3D convolutional neural                       consisted of a total of 106 participants, including 55
+network (3D-CNN) and Swin Transformer with cross-                        diagnosed with ASD and 51 controls, as shown in
+attention to combine fMRI and sMRI analysis. The                         Table 1.
+contributions are: Proposed a novel hybrid architecture
+combining 3D-CNN [7] for feature extraction and                          Table 1: Demographic data of the ABIDE-II GU dataset on this
+Swin Transformer attention [8] for feature                               study
+representation. Cross-attention mechanism that                             Dataset                   Group     n     Male Female
+                                                                           GU                        ASD       55
+adaptively aligns sMRI and fMRI representations.                           (Georgetown University) Control     51    90      30
+                                                                                                     Total    106
+METHODS                                                                    NYU_1                     ASD       29
+                                                                           (New York University)     Control   45    55      29
+                                                                                                     Total     74
+Study design and setting
+                                                                         sMRI (T1-weighted anatomical images) and fMRI
+It was a retrospective diagnostic modelling study that
+                                                                         scans were collected for each subject. External
+proposed a framework that introduces a hybrid 3D
+                                                                         validation was performed on the larger NYU_1 site
+CNN and Swin Transformer architecture [7,8] with
+                                                                         (New York University), including 74 subjects: 29 of
+cross-attention fusion for the classification of ASD
+                                                                         them ASD and 45 control, to assess model
+using sMRI and fMRI. The methodology is designed to
+                                                                         generalization across different scanning protocols and
+fully exploit the complementary nature of both imaging
+                                                                         participant demographics. All participants underwent
+modalities, sMRI captures high-resolution anatomical
+                                                                         sMRI and resting-state functional MRI (fMRI) scans.
+structures of the brain [9], while fMRI provides
+                                                                         Demographic details, including age and sex
+spatiotemporal dynamics of neural activity [10]. The
+                                                                         distribution, were obtained from the NITRC ABIDE II
+integration of these two sources of information
+                                                                         database [12]. Previous studies have demonstrated that
+enhances the capacity of the model to identify
+                                                                         individuals with ASD exhibit altered functional
+discriminative biomarkers associated with ASD, and
+                                                                         connectivity in several key regions, particularly the
+this fusion ensures that anatomical structures and
+                                                                         prefrontal cortex, associated with executive functions
+functional patterns are simultaneously preserved,
+                                                                         and decision-making. Amygdala and hippocampus,
+enabling the proposed hybrid architecture to better
+                                                                         involved in emotion regulation and memory. The
+discriminate between ASD and control groups. The
+                                                                         default mode network (DMN), which shows atypical
+overall pipeline of the proposed method is composed
+                                                                         synchronization during rest [13].
+of four main stages, Preprocessing, Feature Extraction,
+Cross-Attention Fusion, and Classification Head.
+                                                                         Fusion (sMRI and fMRI)
+Figure 1 illustrates the workflow of architecture. This
+mixed method offers a major benefit in identifying
+minute structural differences in medical imaging                         The inclusion of both sMRI and fMRI modalities
+content and thus increases the accuracy of the diagnosis                 enables a multi-modal analysis. This dual modality
+compared to the application of each of the 3D CNN and                    design makes the ABIDE-II GU dataset site
+Transformer architectures in isolation.                                  particularly suitable for testing hybrid deep learning
+                                                                         models that combine spatial and temporal
+                                                                         representations. Figure 2 demonstrates the fusion
+                                                                         process of set samples, where both modalities are
+                                                                         aligned and integrated into a single image
+                                                                         representation. Once the sMRI was combined with the
+                                                                         fMRI, an activation map generated and overlaid with a
+                                                                         standard heat colormap (jet). Red and yellow areas in
+                                                                         these maps indicate higher levels of blood-oxygen-
+                                                                         level-dependent (BOLD) activity, whereas blue and
+                                                                         darker areas indicate little or no activity. This
+                                                                         visualization allows integration of sMRI and fMRI,
+                                                                         with obvious visualization of functional hotspots
+                                                                         superimposed on anatomical brain structures, thus
+                                                                         providing crucial insights for easy and precise
+                                                                         detection of regional brain abnormality in autistic
+                                                                         individual.
+Figure 1: General workflow of the proposed architecture for ASD
+classification.
+
+
+                                                                  267
+Al-Khalidi et al                                                       Structural and functional MRI for autism classification
+
+
+
+
+                               Figure 2: A) Structural MRI, B) functional MRI, and C) fusion (sMRI+fMRI).
+
+
+Hybrid architecture
+                                                                         Ethical information
+The procedural representation of the proposed hybrid
+framework that summarizes the entire pipeline shown                      This research did not involve human participants,
+in Algorithm 1. The algorithm details the sequential                     human data, or animals. Therefore, ethical review and
+functions of the 3D-CNN for sMRI feature extraction,                     approval were not required for this study in accordance
+the Swin Transformer branch for fMRI spatiotemporal                      with institutional guidelines and national regulations;
+pattern learning, the cross-attention fusion mechanism,                  the data set images included in this study were freely
+and the final ASD versus Control classification. To                      accessible online.
+better illustrate the overall workflow of the proposed
+methodology, Figure 3 presents the general                               RESULTS
+architecture of the hybrid framework. The diagram
+highlights the dual feature extraction branches, the                     To train and validate the proposed Hybrid 3D CNN -
+cross-attention fusion mechanism, and the final                          Swim Transformer with Cross-Attention, a large-scale
+classification stage.                                                    experiment of multimodal autism classification was
+                                                                         performed on the GU site of the sMRI and fMRI
+                                                                         neuroimaging. The results are presented in Tables 2
+                                                                         and 3, which report results of quantitative and ablation
+                                                                         analysis respectively. The evaluation measures are
+                                                                         accuracy, F1-score, area under the ROC curve (AUC),
+                                                                         precision, and recall in 5-fold cross-validation. The
+                                                                         results of 5-fold cross-validation have a stable
+                                                                         performance as shown in Table 2, thus indicating the
+                                                                         robustness of the proposed method. As shown in table
+                                                                         3, the proposed hybrid CNN–Swin Transformer with
+                                                                         cross-attention fusion achieved the highest overall
+                                                                         performance with 94.6% accuracy, 92.8% precision,
+                                                                         94.2% recall, 93.5% F1-score, and 0.94 ROC-AUC, in
+                                                                         comparison with baseline 3D CNN (90.1% accuracy).
+Figure 3: Overall architecture of the proposed Hybrid 3D-CNN +
+Swin Transformer model with cross-attention fusion for ASD
+classification.
+
+
+                                                                 268
+Al-Khalidi et al                                                           Structural and functional MRI for autism classification
+
+Table 2: Performance 5-Fold Cross Validation of the proposed model
+                           Accuracy                     Precision               Recall                F1-score                  ROC
+      Fold
+                             (%)                          (%)                    (%)                    (%)                    (AUC)
+ 1                           93.1                         92.5                   93.6                   93.0                    0.94
+ 2                           94.0                         93.2                   94.8                   94.0                    0.95
+ 3                           92.8                         92.0                   93.3                   92.6                    0.93
+ 4                           93.9                         93.0                   94.5                   93.7                    0.94
+ 5                           94.2                         93.5                   94.7                   94.1                    0.95
+ Mean                        94.6                         92.8                   94.2                   93.5                    0.94
+
+Table 3: Performance of the proposed model vs. baselines across 5 folds
+                                                                           Accuracy       Precision     Recall      F1-score       ROC
+ Model
+                                                                             (%)            (%)          (%)          (%)         (AUC)
+ 3D CNN (sMRI only)                                                          90.1           89.2         90.4         89.8         0.91
+ Swin Transformer (fMRI only)                                                91.0           90.7         90.9         90.8         0.92
+ 3D CNN + Swin Transformer (without Cross-Attention)                         92.1           91.6         92.0         91.8         0.93
+ Proposed Hybrid (3D CNN + Swin + Cross-Attention)                           94.6           92.8         94.2         93.5         0.95
+
+Figure 4 evaluate the comparative analysis of model’s                       In addition, the confusion matrix presented in figure 6
+performance as an evaluation metrics, accuracy,                             visualizes the classification outcomes of the true
+precision, recall and F1-score. This visualization                          positives (TP), false positives (FP), true negatives
+highlights the strengths and weaknesses of each model                       (TN), and the false negatives (FN) rate.
+in a more intuitive manner, thus facilitating a clearer
+comparison across different dimensions of
+classification performance. The proposed hybrid
+model achieves the highest scores consistently,
+outperforming all baselines. Figure 5 showing
+sensitivity (true positive rate), specificity (false
+positive rate) across various thresholds, and the
+Receiver Operating Characteristic curve (ROC) of the
+proposed hybrid model on the ABIDE-II GU dataset.
+The model achieved an AUC of 0.93, this refers to a
+strong discriminative performance between ASD and
+Control groups.
+
+                                                                            Figure 6: Confusion matrix of the proposed model on the ABIDE-II
+                                                                            GU dataset.
+
+                                                                            This provides a direct assessment of the model’s
+                                                                            classification behavior on the tested set. The confusion
+                                                                            matrix confirms that the proposed model maintains a
+                                                                            strong balance between sensitivity and specificity, with
+                                                                            correct identification of 94.2% ASD cases and 92.1%
+                                                                            control cases. Misclassifications were minimal, further
+                                                                            supporting the effectiveness of the hybrid CNN–Swin
+                                                                            Transformer framework. In addition to the UCD site,
+Figure 4: Comparing the performance of different models across              further testing of this proposed model was performed
+four evaluation metrics (Accuracy, Precision, Recall, F1-score).            using the NYU_1 subset of the ABIDE II dataset, as
+                                                                            shown in table 4. It matched the performance obtained
+                                                                            on the UCD site. Evaluation metrics included accuracy,
+                                                                            F1-score, and area under the ROC curve (AUC). The
+                                                                            classification report and confusion matrix confirmed
+                                                                            that the model effectively discriminated between ASD
+                                                                            and control subjects across both sites. These findings
+                                                                            demonstrate that the proposed framework generalizes
+                                                                            well to independent cohorts, underscoring its
+                                                                            robustness and potential for clinical translation.
+
+                                                                            DISCUSSION
+
+                                                                            Neuroimaging modalities that have been involved in
+                                                                            the classification of ASD, encompassing sMRI and
+                                                                            fMRI modalities, have been an active research area in
+Figure 5: the ROC curve of the proposed hybrid model demonstrates
+                                                                            recent years. In the classical deep learning models, one
+superior performance compared to all baselines.                             of the main models used was the Convolutional Neural
+
+
+
+                                                                     269
+Al-Khalidi et al                                                       Structural and functional MRI for autism classification
+
+Network (CNN) that would extract spatial or                             sMRI and demonstrated superior fusion performance
+connectivity features of single modalities.                             and non-linear feature representation. Even though
+                                                                        they are not directly ASD-related, their success points
+Table 4: Performance of the proposed framework across ABIDE II          to the increased potential of transformer-based fusion
+sites                                                                   in neuropsychiatric imaging. Similarly, Mellema et al.
+                               Accuracy
+  Dataset (Site)
+                                  (%)
+                                            F1-score    AUC             (2021) [21] compared 12 ML models on sMRI and
+  GU (training/validation)        94.6       0.935      0.950           fMRI (IMPAC and ABIDE I + II) and reported 80-86%
+  NYU_1 (external test)           91.8       0.923      0.948           AUROC that generalized to clinical data but was an
+                                                                        early manuscript that had very little clinical validation.
+Although these models were fairly accurate, they were
+frequently unable to capture fine-grained spatial and                   Study limitations
+contextual information because of the constraints of
+convolution and pooling mechanisms [5,6]. This study                    These comparisons demonstrate that the former models
+shows a brand-new multimodal fusion model that                          were limited by the fact of data heterogeneity, the
+combines 3D CNNs with Swin Transformers. It does                        imbalance of the modality, and the limitation of their
+this by using a cross-attention mechanism that makes it                 generalization. On the other hand, the cross-attention
+easier for anatomical and functional features to interact               fusion mechanism shown in this study is good at lining
+with each other. This combination modality can be                       up spatial and functional cues, which makes diagnosis
+used to discriminate abnormal cortical and subcortical                  much more accurate and easier to understand. There
+areas in ASD, therefore enhancing accuracy in                           are still some issues, such as the lack of data balance
+diagnosis and consistency in interpretation. Functional                 between the ASD and control groups, cross-site
+hyperactivation and hypoactivation patterns obtained                    inconsistency in the ABIDE-II database, and the use of
+through the use of fMRI are neurofunctional                             the 2D middle-slice images rather than full volume
+biomarkers and complement structural data obtained                      scans. Further work in the future will include 3D
+through sMRI. As a result, this combination gives a                     multimodal transformers and domain adaptation
+complete picture of brain changes, which allows them                    methodology in more than one slice to enhance model
+to detect ASD earlier and more objectively. The                         generalizability, stability, and clinical robustness.
+proposed model had better performance across all
+metrics of evaluation with an accuracy of 94.6,                         Conclusion
+precision of 92.8, recall of 94.2, F1-score of 93.5, and
+an AUC of 0.95 with five-fold cross-validation. The                     The model achieved a more comprehensive representation of
+proposed hybrid method achieved the most balanced                       brain characteristics associated with ASD. The suggested
+and stable classification compared to baseline models,                  design was much superior to traditional baseline designs. It
+which consisted of 3D CNN using sMRI (90.1%), Swin                      is highlighting its potential for clinical decision support in
+                                                                        ASD diagnosis from brain MRI. It is a reliable, valuable, and
+Transformer using fMRI (91.0%), and CNN-
+                                                                        rapid tool for computer-aided ASD diagnosis and screening
+Transformer with no cross-attention (92.1%). The                        of children related to high-risk family history.
+sensitivity and specificity levels that the model has
+retained are indicators of clinical potential in                        Conflict of interests
+distinguishing ASD from control subjects. The
+proposed method has a significant improvement over                      The authors declared no conflict of interest.
+the studies conducted in the past. Zhang et al. (2022)
+[14], as a multi-scale Swin Transformer with context-                   Funding source
+enhanced modules on fMRI, yielded the highest
+accuracy at 78%. Alharthi and Alzahrani (2023) [15]                     The authors did not receive any source of funds.
+reported the highest accuracy of 87.1% and the highest
+F1-score of 0.8261 with multimodal fusion of 3D-CNN                     Data sharing statement
+and ConvNeXT/Vision Transformers. Likewise,
+Jahani et al. (2023) [16] have found 76.9% ± 2.34                       The data set images included in this study were freely
+accuracy when using a 3D DenseNet with two channels                     accessible                      online                     at:
+of sMRI and rs-fMRI ALFF maps. Other unimodal or                        https://www.nitrc.org/frs/downloadlink.php/9068,
+dimensionality-reduction methods had relatively                         https://fcon_1000.projects.nitrc.org/indi/abide/abide_II.html
+poorer results; Krajevski et al. (2023) [17], with
+dimensionality reduction, had 71.4% accuracy with                       REFERENCES
+fMRI and 73.4% AUC with sMRI; Pavelica et al.
+(2024) [18], with dimensionality reduction, had 70.4%                   1. World Health Organization. Autism spectrum disorders (ASD).
+                                                                           15       Nov       2023      [Internet].     Available      from:
+accuracy with functional connectivity features; and
+                                                                           https://www.who.int/news-room/fact-sheets/detail/autism-
+Gao et al. (2024) [19], with dimensionality reduction,                     spectrum-disorders
+had 67.6-72% accuracy when he used a multi-task                         2. Centers for Disease Control and Prevention. Data & statistics on
+Transformer with attention mechanisms. Wang et al.                         autism spectrum disorder (ASD). 2022 [Internet]. Available
+                                                                           from: https://www.cdc.gov/autism/data-research/index.html
+(2023) [20] suggested a Multi-Dimension Embedding-
+                                                                        3. Maenner MJ, Shaw KA, Bakian AV, Bilder DA, Durkin MS,
+Aware Fusion Transformer to classify psychiatric                           Esler A, et al. Prevalence and characteristics of autism spectrum
+disorders (schizophrenia and bipolar disorder) using                       disorder among children aged 8 years - Autism and
+dual-branch encoders in the case of both the public and                    Developmental Disabilities Monitoring Network, 11 Sites,
+private datasets of both rs-fMRI and T1-weighted
+
+                                                                 270
+Al-Khalidi et al                                                                      Structural and functional MRI for autism classification
+
+    United States, 2018. MMWR Surveill Summ. 202;70(11):1-16.                             12. ABIDE II – Site-specific datasets (GU, NYU_1). NITRC.
+    doi: 10.15585/mmwr.ss7011a1.                                                              [Internet]. 2025 [cited Sep 2025]. Available from:
+4. Kadhim DA, Mohammed MA. Advanced machine learning                                          https://fcon_1000.projects.nitrc.org/indi/abide/abide_II.html
+    models for accurate kidney cancer classification using CT                             13. Di Martino A, Kelly C, Grzadzinski R, Zuo XN, Mennes M,
+    images. Mesopotamian J Big Data. 2025;1–25. doi:                                          Mairena MA, et al. Aberrant striatal functional connectivity in
+    10.58496/MJBD/2025/001.                                                                   children with autism. Biol Psychiatry. 2011;69(9):847–856. doi:
+5. Ayoub MJ, Keegan L, Tager-Flusberg H, Gill SV.                                             10.1016/j.biopsych.2010.10.029.
+    Neuroimaging techniques as descriptive and diagnostic tools for                       14. Zhang X, Li Y, Chen H, Zhou J. Classification and diagnosis of
+    infants at risk for autism spectrum disorder: A systematic review.                        ASD using Swin Transformer. In: Proceedings of the IEEE
+    Brain Sci. 2022;12(5):602. doi: 10.3390/brainsci12050602.                                 International Symposium on Biomedical Imaging (ISBI). 2023.
+6. Müller RA, Shih P, Keehn B, Deyoe JR, Leyden KM, Shukla                                    doi: 10.1109/isbi53787.2023.10230792.
+    DK. Review of neuroimaging in autism spectrum disorders:                              15. Alharthi H, Alzahrani A. Multi-slice generation of sMRI and
+    What have we learned and where we go from here? Mol Autism.                               fMRI with 3D-CNN and vision transformers. Brain Sci.
+    2011;2(1):4. doi: 10.1186/2040-2392-2-4.                                                  2023;13(11):1578. doi: 10.3390/brainsci13111578.
+7. Garcia M, Kelly C. Toward building an interpretable predictive                         16. Jahani N, Patel S, Thomas G. Twinned neuroimaging analysis
+    tool for ASD with 3D convolutional neural networks. medRxiv.                              for ASD. Sci Rep. 2024;14:71174. doi:10.1038/s41598-024-
+    2022. doi: 10.1101/2022.10.18.22281196.                                                   71174-z
+8. Liu Z, Lin Y, Cao Y, Hu H, Wei Y, Zhang Z, et al. Swin                                 17. Krajevski T, Müller H, Smith J. ASD classification from sMRI
+    Transformer: Hierarchical vision transformer using shifted                                and fMRI. In: Communications in Computer and Information
+    windows. arXiv. 2021. doi: 10.48550/arXiv.2103.14030.                                     Science (CCIS). Springer; 2022. p. 212–224. doi: 10.1007/978-
+9. Müller RA, Fishman I. Brain connectivity and neuroimaging of                               3-031-22792-9_14.
+    autism spectrum disorders. Ann N Y Acad Sci. 2018;1431(1):38–                         18. Pavelić M, Kovač D, Prpić T. Deep learning for ASD detection
+    56. doi: 10.1111/nyas.13715.                                                              using rs-fMRI. In: Proceedings of the IEEE ELMAR
+10. Li X, Zhang K, He X, Zhou J, Jin C, Shen L, et al. Structural,                            Conference. 2024. doi: 10.1109/elmar62909.2024.10693972.
+    functional, and molecular imaging of autism spectrum disorder.                        19. Gao J, Huang Y, Zhao F. Multi-task transformer for ASD
+    Neurosci Bull. 2021;37(7):1051-1071. doi: 10.1007/s12264-                                 detection. BMC Neurosci. 2024;25:870. doi: 10.1186/s12868-
+    021-00673-0.                                                                              024-00870-3.
+11. Neuroimaging Informatics Tools and Resources Clearinghouse                            20. Wang Y, Liu M, Xu Z. Multi-dimension embedding-aware
+    (NITRC). Autism Brain Imaging Data Exchange II (ABIDE-II).                                fusion transformer for ASD detection. arXiv. 2023. doi:
+    2016              [Internet].           Available            from:                        10.48550/arxiv.2310.02690.
+    https://www.nitrc.org/frs/downloadlink.php/9068                                       21. Mellema C, Riaz A, Lee S. Reproducible neuroimaging features
+                                                                                              for ASD with machine learning. medRxiv. 2021. doi:
+                                                                                              10.21203/RS.3.RS-1024223/V1.
+
+Algorithm 1: Hybrid 3D-CNN + Swin for binary Classification
+ Input:
+ sMRI scans
+ fMRI scans
+ Training parameter
+ Loss function: Weighted Cross-Entropy (for class imbalance).
+ Optimizer: Adam (lr = 1e-4, weight decay = 1e-5).
+ Batch size= 8.
+ Learning rate with Cosine Annealing with Warm Restarts.
+ 5-fold Cross-Validation.
+ Output: ASD vs. Control classification
+ Step 1:
+ 1. Preprocess sMRI:
+     - Skull stripping
+     - Bias-field correction
+     - Normalize
+ 2. Preprocess fMRI:
+     - Motion & slice-timing correction
+     - Temporal filtering (0.01–0.1 Hz)
+     - Spatial smoothing
+     - Normalize
+ Step 2: Feature Extraction of sMRI using 3D-CNN.
+ Input sMRI volume.
+ Apply 4 convolutional blocks:
+ Each block = Conv3D → BatchNorm → ReLU → MaxPool.
+ Channel depth progression: [32, 64, 128, 256].
+ Apply Global Average Pooling → get embedding X_sMRI ∈ 𝐑𝐑∧ 256.
+ Step 3: Feature Extraction of fMRI using Swin Transformer.
+ Divide fMRI volume into patches of size 4 × 4 × 4.
+ Feed into Swin Transformer hierarchy with layers [2,2,6,2] (shifted window attention).
+ Progressive embedding dimensions: 96 → 192 → 384 → 768.
+ Obtain final feature vector X_fMRI ∈ 𝐑𝐑∧ 768.
+ Step 4: Cross-Attention Fusion
+ Project embeddings:
+ Query: 𝑄𝑄 = 𝑊𝑊𝑄𝑄 𝑋𝑋𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠
+ Key: 𝐾𝐾 = 𝑊𝑊𝐾𝐾 𝑋𝑋𝑓𝑓𝑓𝑓𝑓𝑓𝑓𝑓
+ Value: 𝑉𝑉 = 𝑊𝑊𝑉𝑉 𝑋𝑋𝑓𝑓𝑓𝑓𝑓𝑓𝑓𝑓
+                                                    𝑄𝑄𝐾𝐾𝑇𝑇
+ Compute attention: Attention(𝑄𝑄, 𝐾𝐾, 𝑉𝑉) = softmax �         � 𝑉𝑉
+                                                        √𝑑𝑑
+ Fuse sMRI with fMRI signals → obtain fused embedding ∈ 𝐑𝐑∧ 512.
+ Step 5: Classification (MLP + Softmax)
+ Feed fused embedding into MLP:
+ Fully connected: 512 → 128 → 2.
+ Dropout = 0.4.
+ Apply Softmax activation → Output probabilities:
+ Class 0: Control
+ Class 1: ASD
+ Output
+ Trained model predicting ASD and Control.
+
+
+
+
+                                                                               271
+

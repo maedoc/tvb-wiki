@@ -1,0 +1,1159 @@
+                                         ARXIV PREPRINT                                                                                                            1
+
+
+
+
+                                              Attention-Based Variational Framework for
+                                         Joint and Individual Components Learning with
+                                                  Applications in Brain Network Analysis
+                                                                  Yifei Zhang, Meimei Liu, and Zhengwu Zhang
+arXiv:2601.17073v1 [cs.LG] 23 Jan 2026
+
+
+
+
+                                                                                                 Abstract
+
+                                                   Brain organization is increasingly characterized through multiple imaging modalities, most notably
+                                               structural connectivity (SC) and functional connectivity (FC). Integrating these inherently distinct yet
+                                               complementary data sources is essential for uncovering the cross-modal patterns that drive behavioral
+                                               phenotypes. However, effective integration is hindered by the high dimensionality and non-linearity
+                                               of connectome data, complex non-linear SC–FC coupling, and the challenge of disentangling shared
+                                               information from modality-specific variations. To address these issues, we propose the Cross-Modal
+                                               Joint-Individual Variational Network (CM-JIVNet), a unified probabilistic framework designed to learn
+                                               factorized latent representations from paired SC–FC datasets. Our model utilizes a multi-head attention
+                                               fusion module to capture non-linear cross-modal dependencies while isolating independent, modality-
+                                               specific signals. Validated on Human Connectome Project Young Adult (HCP-YA) data, CM-JIVNet
+                                               demonstrates superior performance in cross-modal reconstruction and behavioral trait prediction. By
+                                               effectively disentangling joint and individual feature spaces, CM-JIVNet provides a robust, interpretable,
+                                               and scalable solution for large-scale multimodal brain analysis.
+
+
+                                                                                               Index Terms
+
+                                                   Brain connectivity, Variational autoencoder, Structural-functional connectivity, Multimodal integra-
+                                               tion, Joint and individual components.
+
+
+                                           Y. Zhang is with the Department of Biostatistics, Yale School of Public Health, New Haven, CT, USA (e-mail:
+                                         yifei.zhang.yz2489@yale.edu).
+                                           M. Liu is with the Department of Statistics, Virginia Tech, Blacksburg, VA, USA (e-mail: meimeiliu@vt.edu).
+                                           Z. Zhang is with the Department of Statistics and Operations Research, University of North Carolina at Chapel Hill, Chapel
+                                         Hill, NC, USA (e-mail: zhengwu zhang@unc.edu). Corresponding author: Zhengwu Zhang.
+ARXIV PREPRINT                                                                                      2
+
+
+
+                                        I. I NTRODUCTION
+
+  Modern neuroimaging yields complementary views of brain organization through functional
+connectivity (FC), derived from fMRI, and structural connectivity (SC), via dMRI [1]. FC
+captures temporal correlations in brain activity, while SC delineates the underlying white matter
+infrastructure. A central goal in neuroscience is to understand the intricate relationship between
+these modalities to decipher how anatomical structure shapes functional dynamics [2], [3]. While
+direct anatomical links contribute to functional coupling [4], [5], substantial evidence indicates
+that complex, network-wide interactions and indirect pathways mediated by SC are crucial for
+explaining the full repertoire of FC patterns [6].
+  Significant research efforts have aimed to model this SC-FC relationship using diverse compu-
+tational strategies, ranging from biophysical simulations to graph-theoretic analyses and statistical
+learning techniques [7]–[11]. Although these methods provide valuable insights, they often face
+difficulties in fully predicting empirical FC from SC, typically explaining only a moderate fraction
+of its variance and highlighting limitations in capturing the system’s non-linearity and complexity
+[12]. Concurrently, techniques like Joint and Individual Variation Explained (JIVE) [13], [14]
+have focused specifically on disentangling joint and modality-specific sources of variance, yet
+their effectiveness can be constrained by inherent linear assumptions [15]. These challenges,
+specifically predictive ceilings in modeling SC-FC coupling and linearity constraints in variance
+decomposition, motivate the development of powerful, flexible frameworks leveraging non-linear
+latent variable modeling.
+  Deep generative models, particularly Variational Autoencoders (VAEs) and Graph Autoen-
+coders (GATEs) [16]–[18], represent a promising direction, offering the ability to learn compact,
+non-linear latent representations of high-dimensional connectome data. However, their appli-
+cation to the joint analysis of FC and SC remains underdeveloped. Existing deep learning
+efforts, while showing progress in specific tasks, often face several drawbacks when considering
+comprehensive multimodal integration: (i) They typically focus on single modality modeling or
+unidirectional prediction, such as predicting FC from SC. For example, Multilayer Perceptron
+(MLP)-based approaches have demonstrated strong predictive performance—reporting group-
+average correlations up to 0.9 and individual-level correlations around 0.55 for FC prediction
+from SC [19]. However, this unidirectional framework neglects the simultaneous, bidirectional
+modeling and joint generation necessary for understanding the interdependent nature of FC–SC
+ARXIV PREPRINT                                                                                      3
+
+
+
+relationships. (ii) The architectures employed, including standard MLPs as used by [19], are
+frequently generic and not specifically adapted for the distinct characteristics and structures
+(e.g., graph topology, symmetry, sparsity) of FC and SC data, potentially limiting representational
+capacity and biological interpretability. (iii) Crucially, they generally lack explicit mechanisms to
+disentangle joint and modality-specific availabilities, which is vital for a nuanced understanding
+of multimodal brain organization.
+  This work addresses two interconnected objectives in multi-modal connectome analysis: (1) to
+learn interpretable latent representations that factorize paired SC-FC data into joint and individual
+components while maintaining high-fidelity reconstruction, and (2) to leverage these disentangled
+representations for enhanced analysis of structure-function relationships and improved prediction
+of individual cognitive traits.
+  More specifically, we propose the Cross-Modal Joint-Individual Variational Network (CM-
+JIVNet). This novel framework is designed for simultaneous joint generation and analysis of FC
+and SC, integrating connectivity-tailored deep learning architectures with an explicit attention-
+based mechanism for latent space disentanglement. Our key contributions are:
+  1) A joint generation and disentanglement framework: CM-JIVNet is a unified VAE ar-
+      chitecture capable of generating both FCs and SCs. Crucially, it can disentangle these
+      networks’ latent representations into components reflecting joint cross-modal information
+      and modality-specific variations.
+  2) Connectivity-tailored architectures: We employ specialized encoder and decoder structures
+      (leveraging Convolutional Neural Networks (CNNs) and Residual Networks (ResNets),
+      adapted for graph-structured data) optimized for the distinct structures of FC and SC data,
+      enhancing representational power and generative fidelity.
+  3) Attention-based latent space fusion and separation: We incorporate a Query-Key-Value
+      (QKV) multi-head attention mechanism directly within the latent space. This module
+      dynamically fuses information to form the joint latent representation while also isolating
+      the independent latent variables for each modality, enabling effective modeling of joint
+      variance and specific features.
+  4) Comprehensive empirical validation: We rigorously evaluate CM-JIVNet on a large cohort
+      of 1,065 subjects from the Human Connectome Project Young Adult (HCP-YA) dataset.
+      We demonstrate state-of-the-art performance through significantly lower Fréchet Incep-
+      tion Distance (FID) scores for generative quality, improved accuracy in cross-modality
+ARXIV PREPRINT                                                                                  4
+
+
+
+      prediction, and behavioral traits prediction compared to relevant baselines.
+
+
+                             II. DATASETS AND P REPROCESSING
+
+A. HCP Dataset
+
+  The Human Connectome Project Young Adult (HCP-YA) [20] is a large-scale effort that
+provides high-quality T1-weighted MRI, dMRI, and resting-state fMRI (rs-fMRI) data, along
+with behavioral assessments, for over 1,200 healthy adults. In this study, we processed 1,065
+subjects (age range: 22–35 years) who had both T1 and dMRI available. Below, we briefly
+outline our image preprocessing pipeline for deriving FC and SC matrices.
+
+
+B. Data Preprocessing
+
+  1) Structural Connectivity: We processed minimally preprocessed dMRI and T1 data for each
+HCP-YA subject using the population-based structural connectome (PSC) mapping framework
+[21]. The dMRI acquisition comprised six runs with three diffusion-weighting shells (b = 1000,
+2000, and 3000 s/mm2 ), each collected with opposing phase-encoding polarities. This yielded
+approximately 90 gradient directions per shell and six interspersed b0 volumes per run (270
+diffusion-weighted volumes total) at 1.25 mm isotropic resolution [22]. T1-weighted images
+were acquired at 0.7 mm isotropic resolution [22]. PSC leverages a reproducible probabilistic
+tractography algorithm [23] constrained by anatomical priors from the T1 image to reduce bias
+in tract reconstruction. We parcellated the cortex into 68 regions of interest (ROIs) using the
+Desikan–Killiany atlas [24]. To extract streamlines, gray-matter ROIs were dilated into adjacent
+white matter, streamlines traversing multiple ROIs were segmented to isolate complete path-
+ways, and outlier tracts were removed based on length and curvature criteria. Finally, structural
+connectivity strength between each ROI pair was quantified by the number of reconstructed
+streamlines, a measure widely used in imaging–genetics studies [25].
+  2) Functional Connectivity: The HCP-YA rs-fMRI data include two left-right and two right-
+left phase-encoded, eyes-open runs of 15 min each [22]. Imaging parameters were 2 mm3
+isotropic voxels with 0.72 s repetition time (TR). For each run, we extracted the average BOLD
+time series for each of the 68 cortical ROIs defined by Desikan et al [24]. Pairwise Pearson
+correlation coefficients were computed between all ROI time courses, Fisher z-transformed,
+averaged across the four runs, and then inverse-transformed back to correlation values.
+ARXIV PREPRINT                                                                                        5
+
+
+
+C. Data Representation
+
+  We represent brain connectivity as networks where nodes correspond to anatomically defined
+ROIs and edges encode connectivity strength between region pairs. For each subject i, structural
+                                               i
+connectivity is denoted as a symmetric matrix XSC ∈ RV ×V , where entry XSC
+                                                                         i
+                                                                            [uv] quantifies
+the number of white matter fiber tracts connecting regions u and v. The symmetry property
+ i          i
+XSC [uv] = XSC [vu] reflects the bidirectional nature of anatomical connections. Functional con-
+                                                          i
+nectivity is similarly represented as a symmetric matrix XFC ∈ RV ×V , where each entry XFC
+                                                                                         i
+                                                                                            [uv]
+denotes the temporal correlation (typically Pearson correlation) between BOLD signal time
+                                                                     i          i
+series from regions u and v, satisfying the symmetric property that XFC [uv] = XFC [vu]. We
+further vectorize each symmetric matrix by extracting its lower triangular elements, excluding
+the diagonal. An analogous vectorization is also applied to functional connectivity. With a bit
+                                i       i
+of notation abuse, we also use XSC and XFC to denote the vectorized SC and FC for the subject
+i, respectively.
+
+                                           III. M ETHOD
+                         i     i
+  Given a dataset D = {(XSC , XFC )}N
+                                    i=1 containing paired structural and functional brain con-
+
+nectivity matrices from N subjects, we propose CM-JIVNet to learn interpretable latent repre-
+sentations that capture both modality-joint and modality-specific patterns of brain connectivity.
+CM-JIVNet addresses two interconnected goals: (i) to learn low-dimensional latent factors that
+jointly encode joint and individual variations across SC and FC while preserving the ability
+to accurately reconstruct each modality; (ii) to leverage these disentangled representations for
+interpretable characterization of SC–FC coupling and improved prediction of individual traits
+through multimodal information integration.
+
+
+A. Model Overview
+
+  An overview of the CM-JIVNet architecture is presented in Fig. 1. The model adopts a dual-
+branch variational autoencoder structure that processes SC and FC connectomes through four
+sequential modules:
+  1) Dual VAE Encoders: Two modality-specific convolutional variational encoders indepen-
+      dently process the FC and SC matrices to extract probabilistic latent representations.
+      Each encoder outputs Gaussian distribution parameters (µfc , σ 2fc ) and (µsc , σ 2sc ), enabling
+      stochastic latent sampling via the reparameterization trick.
+ARXIV PREPRINT                                                                                     6
+
+
+
+  2) Attention-Based Cross-Modal Fusion: A multi-head self-attention and gating fusion
+      module integrates the two latent spaces, identifying nonlinear dependencies between SC
+      and FC.
+  3) Joint–Individual Separation Module: The fused latent representation is decomposed into
+      three statistically orthogonal components, i.e., joint, FC-specific, and SC-specific compo-
+      nents, through an attention-guided separation mechanism. This decomposition extends the
+      classical JIVE framework to a nonlinear variational setting, promoting interpretability by
+      disentangling modality-common from modality-unique patterns.
+  4) Dual VAE Decoder and Supervision: CM-JIVNet employs two modality-specific VAE
+      decoders to reconstruct functional and structural connectivity data using likelihood models
+      tailored to each modality. The FC decoder is implemented with a Gaussian likelihood and a
+      ResNet-based architecture, whereas the SC decoder uses a Poisson likelihood parameterized
+      by an MLP-based network. These decoders jointly enforce modality-consistent reconstruc-
+      tion and serve as generative constraints for the latent representations. To introduce a trait-
+      supervised version of CM-JIVNet, a two-stage training procedure is applied. The model
+      is first trained using only reconstruction and regularization losses. A supervised trait-
+      prediction head is then added and fine-tuned, during which both decoders remain active
+      to preserve cross-modal reconstruction consistency.
+  Together, these four modules form a unified generative framework that disentangles joint and
+modality-specific representations of brain connectivity, enabling both interpretable cross-modal
+analysis and predictive modeling.
+
+B. Dual VAE Encoders
+
+  We model the joint distribution of structural and functional connectivity through a latent
+variable framework. Specifically, denote z ∈ Rd as the latent representation of the paired
+connectome (XSC , XFC ). For notational simplicity, we drop the subject index i; all derivations
+apply to each subject independently. The generative process is characterized by:
+                                           Z
+                          pθ (XSC , XFC ) = pθ (XSC , XFC |z)p(z)dz
+where p(z) = N (0, I) represents the standard Gaussian prior over latent variables, and pθ (XSC , XFC |z)
+characterizes how latent representations generate observable connectivity patterns. We assume
+conditional independence of modalities given z:
+                            pθ (XSC , XFC |z) = pθ (XSC |z) · pθ (XFC |z),
+ARXIV PREPRINT                                                                                                                  7
+
+
+
+
+Fig. 1. Overview of the CM-JIVNet workflow. CM-JIVNet comprises four main modules. (1) Dual variational encoders
+extract latent Gaussian parameters from the FC and SC connectivity matrices. (2) Attention-based fusion aligns the modality-
+specific latent spaces through a multi-head self-attention and gating mechanism, capturing nonlinear SC–FC dependencies.
+(3) Joint–individual separation decomposes the fused latent representation into three orthogonal components—joint, FC-
+specific, and SC-specific—enhancing interpretability of cross-modal coupling. (4) Dual decoders and supervision (optional)
+reconstruct each modality from its corresponding latent factors while separate branch (optional) encourages prediction of traits
+from the learned latent factors. During training, reconstruction and prediction losses are optimized jointly under variational and
+orthogonality regularization constraints.
+
+where the latent variable z captures the coupling between SC and FC while allowing each
+modality to follow its own generative process.
+   However, a single entangled latent representation obscures interpretability. Understanding
+brain connectivity mechanisms requires distinguishing which latent features are shared across
+modalities and which are modality-specific. Prior work [2] suggests that SC and FC reflect both
+overlapping and distinct neural mechanisms: joint components encode fundamental organizational
+principles constrained by anatomy, while modality-specific components capture features unique
+to structural wiring or dynamic neural activity.
+   We therefore decompose the latent representation z into three interpretable, factorized com-
+ponents: (i) a joint factor z joint capturing connectivity patterns shared across both modalities,
+(ii) an SC-specific factor z ind
+                             sc representing anatomical features unique to structure, and (iii) an
+
+FC-specific factor z ind
+                     fc encoding functional dynamics independent of structural constraints. The
+
+complete latent vector is defined as: z = [z joint ; z ind    ind
+                                                       sc ; z fc ]. To achieve JIVE-like disentanglement
+
+[14], we ensure that each component captures non-overlapping information by enforcing mutual
+orthogonality between the latent subspaces. Since each latent component is modeled as a Gaus-
+ARXIV PREPRINT                                                                                               8
+
+
+
+sian distribution with mean µ and variance σ 2 (detailed in the encoder specification below), we
+encourage the directions of the posterior mean vectors to be orthonormal:
+                                 ⟨µ̂a , µ̂b ⟩ = δab ,   a, b ∈ {joint, sc, fc},
+where µ̂ = µ/∥µ∥ denotes the normalized mean vector and δab is the Kronecker delta (0 if a, b
+are different and 1 if they are the same.)
+  With this decomposition, we reformulate the generative model by defining modality-specific
+latent combinations: z full              ind        full              ind
+                       sc = [z joint ; z sc ] and z fc = [z joint ; z fc ]. This yields:
+
+                             pθ (XSC , XFC |z) = pθ (XSC |z full              full
+                                                            sc ) · pθ (XFC |z fc ).
+
+Each modality is generated from a combination of joint factors capturing cross-modal depen-
+dencies and modality-specific factors capturing unique characteristics.
+  To learn this factorized generative model from observed data, we employ a VAE framework
+that approximates the intractable posterior p(z joint , z ind    ind
+                                                          sc , z fc |XSC , XFC ) with a Gaussian:
+
+                                       qϕ (z joint , z ind    ind
+                                                       sc , z fc |XSC , XFC ).
+
+Now, the goal becomes estimating/obtaining these latent variables z joint , z ind        ind
+                                                                              sc , and z fc from
+
+XSC , XFC .
+  We design dual VAE encoders to achieve this goal. First, two modality-specific encoders
+independently produce parameters of diagonal Gaussian distributions:
+                                                              2
+                           qϕ (z̃ full
+                                                                  
+                                  fc | XFC ) = N µfc , diag(σ fc ) ,
+
+                                                              2
+                           qϕ (z̃ full
+                                                                  
+                                  sc | XSC ) = N µsc , diag(σ sc ) ,
+
+Note that z̃ full      full
+             fc and z̃ sc capture modality-specific information independently and we have not
+
+separated the joint latent factor z joint , SC-specific factor z ind                    ind
+                                                                 sc , and FC-specific z fc yet. In other
+
+words, z̃ full               ind         full               ind
+          fc ̸= [z joint ; z fc ] and z̃ sc ̸= [z joint , z sc ]. The key challenge lies in transforming these
+
+unimodal representations into the disentangled components that satisfy the orthonormal con-
+straints. The following subsection presents our attention-based fusion mechanism that achieves
+this disentanglement.
+
+C. Cross-Modal Joint-Individual Separation Network
+
+  The encoder outputs z̃ full    full
+                         fc , z̃ sc ∈ R
+                                       dz
+                                          are produced independently without cross-modal infor-
+mation exchange. To decompose them into joint and individual components (z joint , z ind    ind
+                                                                                     sc , z fc ),
+
+we must determine which features represent common patterns across both modalities versus
+which are modality-specific.
+ARXIV PREPRINT                                                                                           9
+
+
+
+   To achieve the disentangled factorization, we develop multi-head self-attention to learn subject-
+specific cross-modal alignments. For each subject, we compute attention weights quantifying
+how each feature in z̃ full                             full
+                       fc relates to each feature in z̃ sc . Features exhibiting strong cross-modal
+
+correlation should contribute to the joint component z joint , while weakly correlated features
+should remain in the individual components z ind      ind
+                                             fc and z sc .
+
+   1) Attention-based Fusion: We first project the latent features into a shared space through
+modality-specific linear transformations hfc = WFC z̃ full  dz
+                                                      fc ∈ R ,         hsc = WSC z̃ full
+                                                                                    sc ∈ R
+                                                                                          dz
+                                                                                             and then
+stack them into a matrix token H = [hfc , hsc ]. This token will then be processed using multiple
+attention heads: head(j) = Attention(Qj , K j , V j ), where Qj , K j , V j are queries, keys and values
+obtained via linear transformations of H. Outputs from all attention heads are concatenated and
+linearly transformed into H                          e ∈ R2×dz .
+                           e = [h̃fc , h̃sc ], where H
+   2) Joint and Individual Components Separation: To allow flexible adjustment of each modal-
+ity’s contribution, we introduce a learnable gating modulation to rescale each column in H
+                                                                                         e and
+then fuse them based on hfused = ĥfc + ĥsc , where ĥj = mj h̃j for j ∈ {fc, sc} and mj ∈ (0, 1)
+is learned through a sigmoid gating operation from h̃j . The fused representation hfused ∈ Rdz
+summarizes the shared information from both modalities.
+   The fused vector is then passed through a linear transformation that expands its dimensionality
+to 6dz , yielding v ∈ R6dz . This vector is then partitioned into six contiguous segments of size
+dz :
+                                                                     vℓ ∈ Rdz .
+                                                      
+                           v1 , v2 , v3 , v4 , v5 , v6 = Split(v),
+Each sliced segment is subsequently passed through a modality-specific linear transformation
+to obtain the final posterior parameters, (µjoint , log σ joint , µind        ind   ind        ind
+                                                                   fc , log σ fc , µsc , log σ sc ). These
+
+parameters can be used to generate joint and individual embeddings, z joint , z ind       ind
+                                                                                fc , and µsc .
+
+   To ensure that the three components capture non-overlapping information, we constrain them
+to be orthogonal to each other with the following loss function:
+                        Lortho = cos2 µjoint , µind   + cos2 µjoint , µind
+                                                                          
+                                                fc                     sc
+                                                                                                      (1)
+                                 + cos2 µind      ind
+                                                      
+                                           fc , µsc     ,
+where cos(a, b) = ⟨a, b⟩/(∥a∥ ∥b∥ + ε) for a small ε > 0.
+   Unlike classical JIVE [13] that relies on linear projections, multi-head attention captures
+complex, nonlinear relationships between modalities. Moreover, classical JIVE decomposes each
+data matrix into joint structure, individual structure, and noise via SVD-based constrained fac-
+torization requiring orthogonal subspaces. CM-JIVNet achieves an analogous decomposition
+ARXIV PREPRINT                                                                                      10
+
+
+
+z = [z joint ; z ind    ind
+                 fc ; z sc ] in latent space with three advantages: (i) nonlinearity via deep networks
+
+captures complex SC-FC relationships beyond linear correlation; (ii) probabilistic treatment
+quantifies decomposition uncertainty; (iii) attention-based learning enables subject-specific rather
+than population-average factorizations. The orthogonality constraint in Eq. (1) mirrors JIVE’s
+orthogonality requirement but operates in the latent space rather than observed data.
+
+
+D. Dual VAE Decoders
+
+  The disentangled latent components or scores must be decoded back to connectivity matrices
+to enable reconstruction-based training and the generative nature of the proposed model. We
+employ modality-specific decoders that map from latent scores to brain networks: the FC decoder
+reconstructs functional connectivity from z full              ind
+                                            fc = [z joint ; z fc ], while the SC decoder reconstructs
+
+structural connectivity from z full              ind
+                               sc = [z joint ; z sc ].
+
+  Assuming each brain network is formed by V nodes (brain regions) and D = V (V − 1)/2
+number of unique connections (ignoring self-connections). For edge (or connection) ℓ, let XF C [ℓ]
+denote its FC connection strength, and [u(ℓ), v(ℓ)] denote its node pair with u(ℓ) < v(ℓ). We
+model each edge observation conditionally independent given the latent scores:
+                                              D
+                                              Y
+                                       full
+                           pθ (XFC | z fc ) =   pθ (XFC [ℓ] | z full
+                                                                fc )
+                                                       ℓ=1
+                                                       D
+                                                       Y
+                                 pθ (XSC | z full
+                                             sc ) =          pθ (XSC [ℓ] | z full
+                                                                             sc ).
+                                                       ℓ=1
+  1) Functional Connectivity Decoder: In the FC decoder, we model each connection with
+a Gaussian likelihood (note that we have applied Fisher z-transformation in the preprocessing
+step):
+                                                 D
+                                                 Y
+                            pθ (XFC | z full
+                                        fc ) =         N (XFC [ℓ]; µFℓ (z full   2
+                                                                          fc ), σF ),
+                                                 ℓ=1
+where µFℓ (z full                                 2
+             fc ) is the mean for ℓ-th edge, and σF is a learnable variance parameter for all edges.
+
+The edge mean µFℓ is a function of z full
+                                     fc . We employ a two-stage process to compute it: first, map
+
+the latent vector to node-level representations, and then compute edge predictions from pairwise
+node interactions. Specifically, we transform z full
+                                                fc into a node-level embedding X
+                                                                                 F
+                                                                                   ∈ RV ×RF
+via a ResNet block. The r-th column X F [·, r] ∈ RV assigns an embedding value to each of
+the V brain regions. The edge mean is then computed as a weighted sum of products between
+ARXIV PREPRINT                                                                                 11
+
+
+
+node-level embeddings:
+                                          RF
+                                          X
+                            µFℓ = bFℓ +         αrF X F [u(ℓ), r] X F [v(ℓ), r],
+                                          r=1
+where bFℓ is an edge-specific bias term and αrF ≥ 0 are learned weights.
+  With µFℓ and σF , we can easily write down the log-likelihood for FC as:
+                             log pθ (XFC | z full
+                                             fc )
+
+                              D             1 X
+                                                D                                             (2)
+                                      2
+                           = − log(2πσF ) − 2      (XFC [ℓ] − µFℓ )2 .
+                              2            2σF ℓ=1
+  2) Structural Connectivity Decoder: The SC data is very different from FC data. In our case,
+the SC matrix contains discrete, nonnegative streamline counts, and therefore, we use a Poisson
+distribution to characterize the uncertainty:
+                                             D
+                                             Y
+                                      full
+                          pθ (XSC | z sc ) =   Poisson(XSC [ℓ]; λSℓ (z full
+                                                                       sc )),
+                                           ℓ=1
+where λℓ (z sc ) is the rate parameter for the Poisson distribution. To model λSℓ , we employ a
+       S    full
+
+
+similar two-stage process to what we do for the FC data. We first transform z full
+                                                                              sc into node-level
+
+embeddings X S ∈ RV ×RS through multi-layer perceptrons.
+  Each row of X S assigns an embedding vector to each of the V brain regions. Next, λSℓ is
+computed from node embeddings with an exponential link to ensure positivity:
+                                            RS
+                                       S X
+                  λSℓ (z full
+                         sc   ) = exp  γℓ +    αrS X S [u(ℓ), r] X S [v(ℓ), r] ,
+                                                 r=1
+where γℓS is an edge-specific bias term and αrS ≥ 0 are learned weights. The exponential function
+guarantees that λSℓ > 0, satisfying the Poisson distribution requirement. With λSℓ , we can write
+the log-likelihood for SC as:
+                            log pθ (XSC | z full
+                                            sc )
+                                D
+                                X                                                             (3)
+                                      XSC [ℓ] log λSℓ − λSℓ − log(XSC [ℓ]!) .
+                                                                           
+                            =
+                                ℓ=1
+
+
+E. Model Training
+
+  The CM-JIVNet is trained by maximizing a variational lower bound on the joint log-likelihood,
+augmented with regularization terms that enforce disentanglement. The complete objective is
+discussed below, and it balances reconstruction accuracy, distributional regularization, cross-
+modal information sharing, and component orthogonality.
+ARXIV PREPRINT                                                                                       12
+
+
+
+  1) Evidence Lower Bound: We use the evidence lower bound (ELBO) to approximate the
+intractable log marginal likelihood log pθ (XFC , XSC ) as follows:
+                            log pθ (XFC , XSC )
+
+                           ≥Eqϕ log pθ (XFC | z full                   full
+                                                                           
+                                                fc ) + log pθ (XSC | z sc )
+
+                                − DKL (qϕ (z | XFC , XSC )∥p(z)),
+where p(z) = N (0, I) is the standard Gaussian prior, qϕ (z | XFC , XSC ) is the approximate
+posterior produced by the encoders and fusion mechanism. The first term encourages accurate
+reconstruction of both modalities, while the second term regularizes the posterior toward the
+prior.
+  Utilizing the derived conditional log-likelihoods in Equation. 2 and 3, we approximate the
+first data term as
+                                      Lrecon = λFC LFC + λSC LSC ,
+                     hP                       i                   hP                           i
+                         D               F 2                         D                 S     S
+where LFC = −Eqϕ         ℓ=1 (XFC [ℓ] − µℓ )    and LSC = −Eqϕ       ℓ=1 X SC [ℓ] log λℓ − λ ℓ    , and
+λFC , λSC > 0 balance the relative importance of each modality.
+  The KL divergence term is decomposed across the model’s two-stage encoding architecture.
+First, we regularize the initial encoder distributions:
+                              LKL,enc = DKL (qϕ (z̃ full
+                                                    fc | XFC )∥p(z̃ fc ))
+
+                                          + DKL (qϕ (z̃ full
+                                                        sc | XSC )∥p(z̃ sc )).
+
+Next, we also regularize the disentangled distributions produced by the fusion step:
+                          LKL,fusion = DKL (qϕ (z joint | XFC , XSC )∥p(z joint ))
+
+                                       + DKL (qϕ (z ind                  ind
+                                                    fc | XFC , XSC )∥p(z fc ))
+
+                                 + DKL (qϕ (z ind                  ind
+                                              sc | XFC , XSC )∥p(z sc )).
+Both terms have a closed-form formula since the involved distributions are Gaussians.
+  2) Additional Regularizations: Beyond the ELBO, we impose two additional constraints to
+achieve effective disentanglement in the latent space.
+     a) Mutual Information Regularization: To ensure the initial encoders capture joint cross-
+modal information before disentanglement, we maximize their mutual information using the
+Mutual Information Neural Estimator (MINE) [26]. MINE provides a variational lower bound
+on mutual information:
+ARXIV PREPRINT                                                                                                    13
+
+
+
+
+                                                                              h                        i
+                                                                                   Tψ (z̃ full   full
+                                                                                          fc ,z̃ sc )
+                 I(z̃ full    full
+                                              Tψ (z̃ full    full
+                                                               
+                      fc ; z̃ sc ) ≥ Ep              fc , z̃ sc )   − log Epprod e                           ,
+where Tψ : Rd × Rd → R is a neural network critic parameterized by ψ, p denotes the joint
+distribution, and pprod denotes the product of marginals. The estimate Iˆψ (z̃ full    full
+                                                                               fc ; z̃ sc ) is obtained
+
+by maximizing this variational objective with respect to the neural critic Tψ . We then define the
+loss term as:
+                                               LMI = −Iˆψ (z̃ full    full
+                                                              fc ; z̃ sc ),
+
+This regularization term encourages the encoders to preserve cross-modal dependencies that will
+subsequently be allocated to the joint component.
+     b) Orthogonality Constraint: To enforce non-overlapping information in the modality-
+specific components, we minimize the orthogonality loss Lortho defined in Eq. (1).
+  3) Complete Objective: The final training objective combines all terms:
+                   L = Lrecon + LKL,enc + λfusion LKL,fusion + λMI LMI + λortho Lortho                           (4)
+where λfusion , λMI , λortho > 0 control the relative importance of fusion regularization, cross-modal
+information sharing, and component disentanglement, respectively. This objective enables end-
+to-end training of CM-JIVNet while achieving probabilistic decomposition of brain connectivity
+into interpretable joint and individual components.
+  4) Training Algorithm: Algorithm 1 summarizes the optimization procedure. We briefly de-
+scribe the encoder and decoder architectures below.
+     a) CNN encoders for FC and SC: We treat each connectome (FC or SC) as a single-channel
+68-by-68 image and encode it with a modality-specific CNN. The FC encoder and SC encoder
+share the same layer configuration but do not share parameters. Each encoder contains three
+Conv–ReLU–MaxPool blocks: the three convolution layers output 32, 64, and 128 channels, and
+each 2-by-2 max-pooling step halves the spatial size, so 68 becomes 34, then 17, then 8. The
+final 128-by-8-by-8 feature map is flattened into a 8192-dimensional vector and fed into two
+linear heads that output a 64-dimensional mean vector and a 64-dimensional log-variance vector.
+     b) Attention-based fusion and latent decomposition: The two modality latents are first
+projected to a common hidden width (hidden_dim) using modality-specific linear layers,
+and then stacked as a two-token sequence. A 3-head self-attention layer exchanges information
+between the two tokens, after which a small gating layer (a linear layer to one scalar followed
+by a sigmoid) produces one weight per modality to form a weighted fused representation. From
+ARXIV PREPRINT                                                                                    14
+
+
+
+this fused representation, three pairs of linear heads predict the mean and log-variance for one
+joint latent and two modality-specific latents.
+     c) Decoders: For reconstruction, each decoder takes the concatenation of the joint latent
+and the corresponding modality-specific latent (two 64-dimensional vectors concatenated).
+  To reconstruct FC, we use a convolutional decoder. A linear layer reshapes the concatenated
+latent into a 64-by-17-by-17 feature map; we use 17-by-17 so that two successive upsampling
+stages (each doubling the resolution) recover exactly 68-by-68. We apply two residual blocks
+(each block has two 3-by-3 convolutions with batch normalization and ReLU plus a skip
+connection), followed by two transposed-convolution layers that upsample 17 to 34 and then
+34 to 68 while reducing channels from 64 to 32 to 16. A final 3-by-3 convolution maps 16
+channels to one channel, and a tanh activation produces the reconstructed FC image.
+  To reconstruct SC, we use an MLP decoder. The concatenated latent is passed through two
+fully connected layers of width hidden_dim with ReLU activations, projected to a 68-by-68
+output. A softplus activation is applied at the output to enforce non-negativity, yielding the
+reconstructed SC image.
+
+
+F. Supervised CM-JIVNet
+
+  A central goal in network neuroscience is to decipher the relationship between individual brain
+connectivity and behavioral or cognitive phenotypes. For instance, to what extent can SC and FC
+patterns jointly predict an individual’s IQ? While the unsupervised CM-JIVNet encodes SC and
+FC into latent variables to capture intrinsic data variance, these representations may not fully
+encompass the specific features required for behavioral prediction. To address this, we extend
+CM-JIVNet into a supervised framework (sCM-JIVNet). This variant allows the encoders to
+adapt to the downstream prediction task, extracting latent variables that are not only statistically
+representative but also behaviorally relevant. In sCM-JIVNet, we leverage the pretrained encoder
+and fusion modules as a robust initialization and add linear regression heads to guide the latent
+space toward trait prediction.
+                              i       i
+  For a given subject’s data XFC and XSC , sCM-JIVNet utilizes the pretrained VAE encoders in
+CM-JIVNet to obtain three disentangled latents: µijoint , µind,i     ind,i
+                                                           fc , and µsc . These latents are then
+
+concatenated into a vector z icat for trait prediction. We use means rather than sampled latents to
+get deterministic predictions and avoid stochasticity during inference.
+ARXIV PREPRINT                                                                                           15
+
+
+
+Algorithm 1 Training the CM-JIVNet Model
+                   i     i
+Require: Data {(XFC  , XSC )}N
+                             i=1 , batch size m, learning rate η, and hyperparameters
+
+      {λfusion , λMI , λortho , λFC , λSC }.
+ 1: Randomly initialize model parameters θ and ϕ.
+
+ 2: for epoch = 1 to max epochs do
+
+ 3:        Shuffle training data and split into batches of size m.
+                                  i     i
+ 4:        for each mini-batch {(XFC , XSC )}m
+                                             i=1 do
+
+ 5:                    i
+               Encode XFC      i
+                          and XSC to obtain initial latent variables z̃ ifc , z̃ isc using the reparameter-
+      ization trick.
+ 6:            Apply CM-JIVE attention-based fusion to disentangle into z ijoint , z ind,i  ind,i
+                                                                                     fc , z sc .
+
+ 7:            Decode using [z ijoint ; z ind,i       i         ind,i                i       i
+                                          fc ] and [z joint ; z sc ] to reconstruct XFC and XSC .
+
+ 8:            Compute Ltotal using Eq. 4.
+ 9:            Update θ and ϕ via stochastic gradient-based optimization (Adam) with learning rate
+      η.
+10:        end for
+11: end for
+
+12: return Trained parameters θ and ϕ.
+
+  1) Prediction Heads and Revised Training Objective: For each target trait tk in the trait set
+T = {t1 , . . . , tK }, we attach a linear regression head:
+                                               yki = β ⊤   i           i
+                                                       k z cat + bk + ϵk ,
+
+where β k and bk are learnable parameters, and ϵik captures the prediction error. We use a
+composite loss that balances mean squared error and correlation to train the prediction model:
+                           XK
+                    Lsup =    (λmse MSE(ŷk , yk ) + λcorr (1 − corr(ŷk , yk ))) .
+                                     k=1
+  2) Two-Stage Fine-Tuning: The sCM-JIVNet’s training proceeds in two stages based on the
+pretrained CM-JIVNet:
+      a) Stage 1: Initialization: The pretrained encoders and fusion module are frozen, and only
+the regression heads {β k , bk }K
+                                k=1 are optimized based on Lsup . This initializes the prediction
+
+heads using pretrained CM-JIVNet.
+      b) Stage 2: Fine-Tuning.: All model parameters are then unfrozen and jointly optimized
+with:
+                                                  Ls = Lsup + λL,
+ARXIV PREPRINT                                                                                       16
+
+
+
+where λ ≪ 1 applies weak reconstruction regularization to prevent catastrophic forgetting of the
+generative structure while allowing the encoders to adapt to the supervised task.
+
+                                        IV. N UMERICAL S TUDY
+
+  We use the HCP-YA dataset introduced in Section II containing 1,065 subjects with paired FC
+and SC to study the numerical performance of the proposed CM-JIVNet framework. With these
+data, we aim to address the following objectives: (1) validating that CM-JIVNet effectively disen-
+tangles joint and modality-specific latent components that capture interpretable brain organization
+patterns; (2) demonstrating that CM-JIVNet outperforms existing methods in cross-modality
+reconstruction while preserving both individual-level and group-level connectome patterns; and
+(3) evaluating whether the learned latent representations can predict behavioral traits and whether
+supervision improves predictive performance compared to unsupervised feature extraction.
+
+A. Validating Latent Space Disentanglement
+
+  A key contribution of CM-JIVNet is its ability to decompose the latent representation into
+three components: a joint component capturing cross-modal information shared between FC and
+SC, and two individual components preserving modality-specific features unique to FC or SC. In
+this section, we first examine whether the proposed attention-based fusion successfully achieves
+this disentanglement.
+  To evaluate orthogonality, we quantify the geometric separation of the three latent subspaces
+by computing pairwise angles between latent vectors. For each subject i, CM-JIVNet produces
+three latent mean vectors: µijoint ∈ Rdz , µind,i ∈ Rdz , and µind,i
+                                                                   sc ∈ Rdz . For each pair of vectors,
+                                            fc           
+                                                ⟨µa ,µb ⟩
+we compute their angle based on arccos ∥µ         ∥∥µ ∥
+                                                            . We then aggregate these angles across all
+                                                     a    b
+
+subjects, and report the mean and standard deviation.
+                                                     TABLE I
+      M EAN AND STANDARD DEVIATION OF PAIRWISE ANGLES BETWEEN MEAN LATENT VECTORS ( IN DEGREES )
+
+
+                                Pair              Mean Angle (°)   Std. Dev. (°)
+
+                                (µjoint , µind
+                                           fc )       88.96            6.33
+                                (µjoint , µind
+                                           sc )       91.10            6.96
+                                (µind   ind
+                                  fc , µsc )          89.20            6.96
+
+
+  Table I shows that the mean angles are close to 90◦ for all three pairs. These near-orthogonal
+angles confirm that the learned subspaces capture largely non-overlapping information. The
+ARXIV PREPRINT                                                                                         17
+
+
+
+relatively small standard deviations indicate that this orthogonality is consistent across subjects.
+This geometric separation validates that our attention-based separation mechanism, combined
+with the orthogonality loss, achieves effective disentanglement in the latent space.
+   We next visualize the latent space separation using the t-SNE method. We vertically stack the
+                                                                                    1:N,ind
+three latent components from all subjects into a single matrix Xconcat = [µ1:N
+                                                                           joint ; µfc      ; µ1:N,ind
+                                                                                               sc      ]∈
+R3N ×dz . This row-wise concatenation allows t-SNE to embed every joint and modality-specific
+vector into a shared two-dimensional space. As shown in Fig. 2, the representations partition
+into distinct manifolds, confirming the model’s ability to successfully disentangle cross-modal
+from modality-specific features.
+
+
+
+
+Fig. 2. t-SNE embedding of concatenated latent representations, colored by subspace.
+
+   Next, we quantify edge-wise SC–FC coupling induced by a single axis of the learned joint
+latent space. Let {µijoint }N
+                            i=1 denote the joint mean embeddings, and let u1 be the first principal
+
+direction obtained by PCA. We perform a conditional joint traversal by varying only the joint
+coordinate z joint (t) = µ̄joint + t u1 , while fixing the modality-specific latent variables.
+   Decoding yields FC(t) and SC(t) in the original network space. For each edge (i, j), we
+measure the endpoint changes ∆FCij ≜ FCij (t+ ) − FCij (t− ) and ∆SCij ≜ log(1 + SCij (t+ )) −
+log(1 + SCij (t− )), where (t− , t+ ) correspond to the traversal endpoints where set to ±3σ
+along PC1 .As shown in Fig. 3, the vast majority of edges (≈ 87.6%) fall into the {∆FCij >
+0, ∆SCij > 0} quadrant, indicating that the dominant joint axis produces increased connections
+ARXIV PREPRINT                                                                                                               18
+
+
+
+
+Fig. 3. Edge-level SC-FC coupling induced by a PC1 traversal in the joint latent space. Each point corresponds to one undirected
+edge. The horizontal and vertical axes report endpoint changes ∆SCij and ∆FCij , respectively, between the traversal extremes
+(e.g., ±3σ along PC1 ). Quadrants categorize coupling signatures: FC ↑ /SC ↑ (concordant increase), FC ↑ /SC ↓ (decoupling),
+and the remaining sign combinations. A dominant mass in the FC ↑ /SC ↑ quadrant indicates that the leading joint axis encodes
+a coupled mode of variation, while the minority decoupling edges highlight edge-specific departures from monotone SC–FC
+co-variation.
+
+in both modalities. A notable subset (≈ 11.9%) exhibits ∆FCij > 0 but ∆SCij < 0, revealing
+localized decoupling where structural weakening accompanies functional strengthening. The
+remaining quadrants contain negligible edges (< 0.6%). This edge-level view complements
+matrix reconstructions by explicitly showing that coupling in the joint space is heterogeneous
+rather than uniform.
+   To localize where the joint axis acts most strongly, we estimate per-edge rates of change along
+PC1 . For each edge, we fit a least-squares line across traversal steps, FCij (t) ≈ aFC    FC
+                                                                                     ij + bij t and
+
+log(1 + SCij (t)) ≈ aSC    SC                                       FC         SC
+                     ij + bij t, and visualize the slope matrices {bij } and {bij } in Fig. 4.
+
+The FC slope map is broadly positive, consistent with a global functional modulation captured
+by PC1 , whereas SC slopes are weaker and spatially heterogeneous, suggesting that structural
+variations aligned with the same joint factor are more localized.
+ARXIV PREPRINT                                                                                                                   19
+
+
+
+
+Fig. 4. Spatial distribution of per-edge change rates along the joint latent PC1 . Each matrix entry is the least-squares slope with
+respect to the PC1 coordinate, bFC             SC
+                                ij for FC and bij for log(1 + SC).Positive values (red) indicate edges that strengthen as PC1
+
+increases, while negative values (blue) indicate weakening
+
+B. Reconstruction Performance Evaluation
+
+   We next evaluate whether CM-JIVNet can accurately reconstruct FC and SC matrices through
+its encoder and decoder and whether it outperforms baseline methods. We compare CM-JIVNet
+against several baselines: CNN–MLP, which uses convolutional encoders with multi-layer per-
+ceptron decoders; MLP–Attention, which incorporates attention mechanisms into the MLP archi-
+tecture; and Graph Auto-Encoding (GATE) [16], a graph-based variational autoencoder designed
+for brain network analysis. We assess reconstruction quality using Mean Squared Error (MSE),
+Structural Similarity Index Measure (SSIM) [27], Fréchet Inception Distance (FID), and Pear-
+son correlation. MSE evaluates element-wise reconstruction accuracy, while SSIM measures
+structural similarity by accounting for global intensity, contrast, and spatial organization of
+connectivity patterns. FID compares the distribution of reconstructed and empirical connectomes
+in a feature space rather than at the matrix level; we consider two variants: Spectral FID,
+computed from the leading eigenvalues of the normalized graph Laplacian to capture global
+topology, and Graph FID, computed from summary graph-theoretic statistics to reflect local and
+meso-scale organization. Finally, Pearson correlation quantifies similarity of connectivity patterns
+at both the individual-subject and group-average levels.
+ARXIV PREPRINT                                                                                                20
+
+
+
+                                                     TABLE II
+ I N - HOUSE BASELINE COMPARISON FOR FC AND SC RECONSTRUCTION ( BOTH MODALITIES AVAILABLE AT INFERENCE ).
+                            A LL MODELS USE THE SAME DATA SPLIT AND PREPROCESSING .
+
+
+                                 FC reconstruction                                  SC reconstruction
+
+Model            MSE↓ SSIM↑ Spectral FID↓ Individual↑ Group↑        MSE↓ SSIM↑ Graph FID↓ Individual↑ Group↑
+
+CM-JIVNet        0.011   0.761     3.420     0.816±0.046    0.993   0.575   0.828     0.226     0.923±0.024    0.999
+
+CNN–MLP          0.022   0.603     8.790     0.666±0.066    0.994   0.587   0.793     0.239     0.918±0.023    0.999
+
+MLP–Attention 0.018      0.644     2.580     0.709±0.066    0.984   0.654   0.817     0.232     0.917±0.024    0.999
+
+GATE             0.037   0.262     74.870    0.714±0.161    0.818   1.576   0.594     6.777     0.857±0.013    0.897
+
+
+  Both modalities are provided at inference. Table II reports reconstruction performance
+when both FC and SC are available at inference. In this joint reconstruction setting, the encoded
+representations µjoint , µind       ind
+                          fc , and µsc are jointly used to reconstruct both modalities. For FC
+
+reconstruction, CM-JIVNet achieves the lowest MSE and the highest SSIM among all in-house
+baselines, indicating improved edge-wise accuracy and structural similarity. CM-JIVNet also
+yields the highest individual-level Pearson correlation (0.816 ± 0.046), demonstrating superior
+preservation of subject-specific functional connectivity patterns. While MLP–Attention attains a
+lower FC Spectral FID, CM-JIVNet substantially improves spectral alignment relative to GATE
+(3.42 vs. 74.87), reflecting markedly reduced distributional mismatch in the eigenspectrum. For
+SC reconstruction, CM-JIVNet achieves the lowest MSE, the highest SSIM, and the lowest
+Graph FID, indicating more faithful recovery of both edge-wise values and topological properties
+of structural connectivity. Although MLP–Attention attains slightly lower spectral discrepancy,
+CM-JIVNet consistently achieves the highest individual-level Pearson correlation (0.923±0.024),
+suggesting superior preservation of subject-specific structural organization beyond global spectral
+similarity.
+  Only one modality is provided at inference. In clinical settings where only one modality is
+available, CM-JIVNet enables the prediction of the missing modality by leveraging the joint latent
+component. We evaluated this capacity using edge-wise Pearson correlation between empirical
+and predicted FC at both the group and individual levels (Table III). CM-JIVNet achieves a
+group-level correlation of 0.990 and an individual-level correlation of 0.712 ± 0.074. To ensure
+a fair comparison, our results are grouped by parcellation scale (V ), as the number of nodes
+significantly impacts the prediction and evaluation tasks. Within the V ≈ 68 group, our model
+ARXIV PREPRINT                                                                                                   21
+
+
+
+                                                         TABLE III
+    SC→FC PREDICTION PERFORMANCE (P EARSON CORRELATION ) COMPARED WITH PRIOR STUDIES , GROUPED BY
+                                                PARCELLATION SCALE (V ).
+
+
+
+
+        Study                     N    Nodes (V )    Approach                         Group       Individual
+
+        Standard Resolution (V ≈ 68)
+
+        Ours (CM-JIVNet)       1,058           68    CNN + attention fusion + MINE    0.990      0.712 ± 0.074
+
+        Li et al. [30]         1,058           68    Graph convolutional net          ≈0.75†          –
+
+        Neudorf et al. [28]     998            66    Graph Nets                        0.94          0.69
+
+        Yang et al. [17]        103            68    Graph autoencoder                 0.96          0.572
+
+        Sarwar et al. [19]      103            68    Multilayer perceptron           0.9 ± 0.1     0.5 ± 0.1
+
+        Medium Resolution (V ≈ 90–100)
+
+        Hong et al. [31]        360            90    Graph convolutional net            –         0.716–0.724
+
+        Benkarim et al. [32]    326           100    Riemannian optimization            –        0.804 ± 0.060
+
+        High Resolution (V = 400)
+
+        Chen et al. [29]        404           400    Graph convolutional net          0.953      0.715 ± 0.052
+
+    †
+        Values are reported/approximated as in the referenced survey table.
+
+outperforms recent benchmarks, including Neudorf et al. [28] (0.69) and Yang et al. [17] (0.572).
+Furthermore, CM-JIVNet remains competitive with high-resolution models (e.g., Chen et al. [29],
+V = 400).
+  The high group correlation signifies the successful recovery of dominant group-level con-
+nectivity, while the individual-level performance highlights the model’s modality-transforming
+ability—specifically, its capacity to extract subject-specific functional information from struc-
+tural data. These findings confirm that CM-JIVNet accurately models the structural-functional
+interrelationship within the joint latent space, enabling the effective reconstruction of missing
+modalities from the available one.
+
+
+C. Behavioral Trait Prediction
+
+  Linking brain connectivity to behavioral traits is one of the most important tasks in neuro-
+science. While the standard CM-JIVNet is excellent at reconstructing brain networks, its latent
+variables are not automatically optimized to predict behavior. To address this, we use the super-
+vised version, sCM-JIVNet, which fine-tunes the model to extract features that are specifically
+ARXIV PREPRINT                                                                                      22
+
+
+
+relevant to cognitive traits. In this section, we evaluate how well these supervised representations
+predict various behavioral phenotypes compared to standard unsupervised features.
+  We selected seven traits spanning distinct behavioral domains to provide a comprehensive
+evaluation: fluid intelligence (FluidInt CR, FluidInt SI), language abilities (OralReading, Pic-
+tureVocab), visuospatial reasoning (Visuospatial), and affective/psychiatric measures (AngerAggr,
+ChildConduct). For each continuous trait, we performed 5-fold cross-validated Ridge regression,
+with the regularization parameter selected via nested cross-validation within each training fold.
+Predictive performance is evaluated using the Pearson correlation coefficient between observed
+and out-of-fold predicted trait values: r = corr(y, y
+                                                    b), where y and y
+                                                                    b are vectors of observed
+and predicted trait scores across all subjects.
+  Fig. 5 compares the prediction performance of the unsupervised and supervised CM-JIVNet
+models using the concatenated latent embeddings zicat . While the unsupervised model successfully
+captures intrinsic variance for connectome reconstruction, the sCM-JIVNet variant markedly
+improves behavioral prediction, achieving an average gain of ∆r ≈ 0.11. The most signifi-
+cant improvements are observed in Fluid Intelligence (FluidInt SI: +0.17, FluidInt CR: +0.15)
+and Language/Vocabulary (PictureVocab: +0.14). These results suggest that the latent features
+required to maximize reconstruction fidelity do not perfectly overlap with those that drive
+behavioral phenotypes. This finding aligns with recent literature suggesting that “prediction-
+relevant” brain features are often distinct from “reconstruction-relevant” ones, necessitating
+supervised objectives to bridge the gap between generative modeling and predictive neuroscience
+[16], [18]. By incorporating a supervised loss, the model effectively shifts its latent focus toward
+connectivity patterns that are biologically relevant to behavioral outcomes.
+  To assess the specific contribution of each latent subspace, we compared four feature con-
+figurations: (1) joint latent variables (µjoint ), (2) FC-individual (µind                       ind
+                                                                       fc ), (3) SC-individual (µsc ),
+
+and (4) the concatenated set. As shown in Figure 6, the concatenated representation yields the
+highest accuracy across all traits, confirming that joint and modality-specific components provide
+complementary information. Specifically, FC-individual features demonstrate superior predictive
+power for fluid intelligence and affective traits, while SC-individual features perform on par with
+or slightly better than FC in language and visuospatial domains. This is consistent with evidence
+that functional co-activation patterns are more closely linked to dynamic cognitive processes like
+fluid reasoning [33], whereas structural white-matter integrity provides a more stable foundation
+for “crystallized” abilities like vocabulary and language syntax [34]. Furthermore, the joint
+ARXIV PREPRINT                                                                                                             23
+
+
+
+
+Fig. 5. Comparison of behavioral trait prediction performances between unsupervised and supervised CM-JIVNet models using
+concatenated latent representations.
+
+component captures shared SC-FC dependencies, often referred to as “SC-FC coupling”, presents
+a fair prediction power with behavior traits, and has been identified as a critical neurobiological
+marker for general cognitive ability [35]. These results validate that CM-JIVNet’s disentangled
+latent space successfully isolates distinct, biologically meaningful aspects of brain organization.
+
+
+
+
+Fig. 6. Comparison of behavioral trait prediction performance across latent feature configurations. Performance is reported as
+the Pearson correlation for joint, functional-individual, structural-individual, and concatenated subspaces.
+
+
+                                        V. D ISCUSSION AND C ONCLUSION
+
+   We have presented CM-JIVNet, a novel variational framework that integrates connectivity-
+tailored CNN-ResNet architectures with a JIVE-inspired joint–individual decomposition and
+ARXIV PREPRINT                                                                                     24
+
+
+
+multi-head attention fusion. By jointly modeling functional and structural connectomes on 1,065
+HCP-YA subjects, our framework addresses a critical challenge in multimodal integration: the
+ability to disentangle shared cross-modal patterns from modality-specific variations within a
+non-linear, generative setting.
+  Our experimental results demonstrate that CM-JIVNet significantly outperforms standard gen-
+erative baselines, including GATE and MLP-based architectures, across all reconstruction met-
+rics. As shown in Table II, the model achieves the lowest MSE and highest SSIM, alongside
+substantially reduced spectral and graph FID scores, indicating superior preservation of both
+global topology and local graph properties. Furthermore, in the missing-modality scenario (Table
+III), CM-JIVNet achieves a state-of-the-art SC→FC group-level correlation of 0.990 and an
+individual-level correlation of 0.712, surpassing several recent graph-based and deep learning
+approaches in the literature.
+  A key contribution of this work is the explicit disentanglement of the latent space. Geometric
+analysis (Table I) and t-SNE embeddings (Fig. 2) verify that the joint and modality-specific
+subspaces partition into distinct, near-orthogonal manifolds. This separation is functionally mean-
+ingful: while the joint subspace captures fundamental organizational principles shared across
+modalities, the individual subspaces retain fine-grained details unique to structure or function.
+Latent traversal experiments (Figs. 3 and 4) further characterize this interpretability, revealing
+that the joint axis encodes a dominant mode of coordinated network strengthening, while simul-
+taneously capturing spatially localized structural variations and specific SC–FC decoupling.
+  Additionally, our supervised extension, sCM-JIVNet, demonstrates that while unsupervised
+representations capture intrinsic data variance, targeted fine-tuning is essential for behavioral
+prediction. By incorporating a supervised objective, we achieved significant gains in predicting
+cognitive phenotypes, with an average improvement of ∆r ≈ 0.11. The model was particularly
+successful in identifying connectivity patterns relevant to fluid intelligence and language abilities
+(Figs. 5–6), validating that the disentangled components capture complementary aspects of brain
+organization relevant to human behavior.
+  Despite these successes, our study has certain limitations. We evaluated the framework on
+two modalities within a healthy young adult cohort; future research should test its utility in
+clinical populations and incorporate additional modalities, such as EEG or PET. While our
+VAE-based approach is highly effective, the integration of emerging generative architectures,
+such as diffusion models, may further enhance high-fidelity matrix synthesis. Finally, scaling
+ARXIV PREPRINT                                                                                                                25
+
+
+
+CM-JIVNet to massive, diverse datasets like the UK Biobank and ABCD study will be critical
+to assess its generalizability across the human lifespan and in various disease states.
+   In conclusion, CM-JIVNet provides a robust, interpretable, and scalable solution for multi-
+modal connectome analysis. By bridging the gap between deep generative modeling and factor-
+ized latent representations, this framework offers a powerful tool for uncovering the neural basis
+of cognition and developing clinically relevant biomarkers for brain disorders.
+
+
+                                                      R EFERENCES
+
+ [1] S. G. Mueller, M. W. Weiner, L. J. Thal, R. C. Petersen, C. R. Jack, W. Jagust et al., “Ways toward an early diagnosis
+     in Alzheimer’s disease: The Alzheimer’s disease neuroimaging initiative (ADNI),” Alzheimer’s & Dementia, vol. 1, no. 1,
+     pp. 55–66, 2005.
+ [2] C. J. Honey, O. Sporns, L. Cammoun, X. Gigandet, J.-P. Thiran, R. Meuli, and P. Hagmann, “Predicting human resting-
+     state functional connectivity from structural connectivity,” Proceedings of the National Academy of Sciences of the United
+     States of America, vol. 106, no. 6, pp. 2035–2040, 2009.
+ [3] V. D. Calhoun and J. Sui, “Multimodal fusion of brain imaging data: A key to finding the missing link(s) in complex
+     mental illness,” Biological Psychiatry: Cognitive Neuroscience and Neuroimaging, vol. 1, no. 3, pp. 230–244, 2016.
+ [4] M. A. Koch, D. G. Norris, and M. Hund-Georgiadis, “An investigation of functional and anatomical connectivity using
+     magnetic resonance imaging,” NeuroImage, vol. 16, no. 1, pp. 241–250, 2002.
+ [5] M. D. Greicius, K. Supekar, V. Menon, and R. F. Dougherty, “Resting-state functional connectivity reflects structural
+     connectivity in the default mode network,” Cerebral Cortex, vol. 19, no. 1, pp. 72–78, 2009.
+ [6] L. E. Suárez, R. D. Markello, R. F. Betzel, and B. Misic, “Linking structure and function in macroscale brain networks,”
+     Trends in Cognitive Sciences, vol. 24, no. 4, pp. 302–315, 2020.
+ [7] G. Deco, A. Ponce-Alvarez, D. Mantini, G. L. Romani, P. Hagmann, and M. Corbetta, “How local excitation-inhibition
+     ratio impacts the whole brain dynamics,” Journal of Neuroscience, vol. 34, no. 23, pp. 7886–7898, 2014.
+ [8] J. Goñi, M. P. van den Heuvel, A. Avena-Koenigsberger, N. V. de Mendizabal, R. F. Betzel, A. Griffa, P. Hagmann, M. Cor-
+     betta, and O. Sporns, “Resting-brain functional connectivity predicted by analytic measures of network communication,”
+     Proceedings of the National Academy of Sciences of the United States of America, vol. 111, no. 2, pp. 833–838, 2014.
+ [9] A. Messé, D. Rudrauf, H. Benali, and G. Marrelec, “Relating structure and function in the human brain: Relative
+     contributions of anatomy, stationary dynamics, and non-stationarities,” PLoS Computational Biology, vol. 10, no. 3, p.
+     e1003530, 2014.
+[10] P. Wang, R. Kong, X. Kong, R. Liégeois, C. Orban, G. Deco, M. P. van den Heuvel, and B. T. T. Yeo, “Inversion of a
+     large-scale circuit model reveals a cortical hierarchy in the dynamic resting human brain,” Science Advances, vol. 5, no. 1,
+     p. eaat7854, 2019.
+[11] J. L. Popp, J. A. Thiele, J. Faskowitz, C. Seguin, O. Sporns, and K. Hilger, “Structural-functional brain network coupling
+     predicts human cognitive ability,” NeuroImage, vol. 290, p. 120563, Apr. 2024.
+[12] A. Ackerman, Z. Zhang, J. Hannig, J. Prothero, and J. S. Marron, “Multi-faceted neuroimaging data integration via analysis
+     of subspaces,” arXiv preprint arXiv:2408.16791, Aug. 2024.
+[13] E. F. Lock, K. A. Hoadley, J. S. Marron, and A. B. Nobel, “Joint and individual variation explained (JIVE) for integrated
+     analysis of multiple data types,” The Annals of Applied Statistics, vol. 7, no. 1, pp. 523–542, 2013.
+ARXIV PREPRINT                                                                                                                26
+
+
+
+[14] R. J. Murden, Z. Zhang, Y. Guo, and B. B. Risk, “Interpretive JIVE: Connections with CCA and an application to brain
+     connectivity,” Frontiers in Neuroscience, vol. 16, p. 969510, Oct. 2022.
+[15] G. Zhou, A. Cichocki, Y. Zhang, and D. P. Mandic, “Group component analysis for multiblock data: common and individual
+     feature extraction,” IEEE Transactions on Neural Networks and Learning Systems, vol. 27, no. 11, pp. 2426–2439, 2016.
+[16] M. Liu, Z. Zhang, and D. B. Dunson, “Graph auto-encoding brain networks with applications to analyzing large-scale
+     brain imaging datasets,” NeuroImage, vol. 245, p. 118750, 2021.
+[17] H. Yang, S. Winter, Z. Zhang, and D. B. Dunson, “Interpretable AI for relating brain structural and functional connectomes,”
+     arXiv preprint arXiv:2210.05672, Oct. 2022.
+[18] Y. Zhang, M. Liu, Z. Zhang, and D. B. Dunson, “Motion-invariant variational autoencoding of brain structural connectomes,”
+     Imaging Neuroscience, vol. 2, pp. imag–2–00 303, 2024.
+[19] T. Sarwar, Y. Tian, B. T. T. Yeo, K. Ramamohanarao, and A. Zalesky, “Structure-function coupling in the human
+     connectome: A machine learning approach,” NeuroImage, vol. 226, p. 117609, 2021.
+[20] D. C. Van Essen, S. M. Smith, D. M. Barch, T. E. J. Behrens, E. Yacoub, K. Ugurbil, and the WU-Minn Human Connectome
+     Project Consortium, “The WU-Minn human connectome project: An overview,” NeuroImage, vol. 80, pp. 62–79, 2013.
+[21] Z. Zhang, M. Descoteaux, J. Zhang, G. Girard, M. Chamberland, D. B. Dunson, A. Srivastava, and H. Zhu, “Mapping
+     population-based structural connectomes,” NeuroImage, vol. 172, pp. 130–145, 2018.
+[22] D. C. Van Essen, K. Ugurbil, E. Auerbach, D. Barch, T. E. J. Behrens, R. Bucholz, A. Chang, L. Chen, M. Corbetta, S. W.
+     Curtiss, S. Della Penna et al., “The human connectome project: A data acquisition perspective,” NeuroImage, vol. 62,
+     no. 4, pp. 2222–2231, 2012.
+[23] K. H. Maier-Hein, P. F. Neher, J.-C. Houde, M.-A. Côté, E. Garyfallidis, J. Zhong, M. Chamberland, F.-C. Yeh, Y.-C. Lin,
+     Q. Ji et al., “The challenge of mapping the human connectome based on diffusion tractography,” Nature Communications,
+     vol. 8, no. 1, p. 1349, 2017.
+[24] R. S. Desikan, F. Ségonne, B. Fischl, B. T. Quinn, B. C. Dickerson, D. Blacker, R. L. Buckner, A. M. Dale, R. P. Maguire,
+     B. T. Hyman, M. S. Albert, and R. J. Killiany, “An automated labeling system for subdividing the human cerebral cortex
+     on MRI scans into gyral based regions of interest,” NeuroImage, vol. 31, no. 3, pp. 968–980, 2006.
+[25] Y. Zhao, C. Chang, J. Zhang, and Z. Zhang, “Genetic underpinnings of brain structural connectome for young adults,”
+     Journal of the American Statistical Association, vol. 118, no. 543, pp. 1473–1487, 2023.
+[26] M. I. Belghazi, A. Baratin, S. Rajeswar, S. Ozair, Y. Bengio, A. Courville, and R. D. Hjelm, “Mutual information neural
+     estimation,” in Proceedings of the 35th International Conference on Machine Learning (ICML), ser. Proceedings of Machine
+     Learning Research, vol. 80.     PMLR, 2018, pp. 531–540.
+[27] Z. Wang, A. C. Bovik, H. R. Sheikh, and E. P. Simoncelli, “Image quality assessment: From error visibility to structural
+     similarity,” IEEE Transactions on Image Processing, vol. 13, no. 4, pp. 600–612, 2004.
+[28] J. Neudorf, S. Kress, and R. Borowsky, “Structure can predict function in the human brain: A graph neural network deep
+     learning model of functional connectivity and centrality based on structural connectivity,” Brain Structure and Function,
+     vol. 227, no. 1, pp. 331–343, 2022.
+[29] P. Chen, J. Ye, J. Chen, Y. Zhang, and A. Zalesky, “Group-common and individual-specific effects of structure-function
+     coupling in human brain networks with graph neural networks,” bioRxiv, 2023.
+[30] Y. Li, R. Shafipour, G. Mateos, and Z. Zhang, “Mapping brain structural connectivities to functional networks via
+     graph encode-decoder with interpretable latent embeddings,” in 2019 IEEE Global Conference on Signal and Information
+     Processing (GlobalSIP), 2019, pp. 1–5.
+[31] S. J. Hong et al., “Structural and functional connectome relationships in early childhood,” Developmental Cognitive
+     Neuroscience, vol. 64, p. 101314, 2023.
+ARXIV PREPRINT                                                                                                              27
+
+
+
+[32] O. Benkarim, F. Váša, M. G. Preti, and D. Van De Ville, “A riemannian approach to predicting brain function from the
+     structural connectome,” NeuroImage, vol. 257, p. 119299, 2022.
+[33] E. Dhamala, K. W. Jamison, A. Jaywant, S. Dennis, and A. Kuceyeski, “Distinct functional and structural connections
+     predict crystallised and fluid cognition in healthy adults,” Human Brain Mapping, vol. 42, no. 10, pp. 3102–3118, 2021.
+[34] S. M. Sánchez, H. Schmidt, G. Gallardo, A. Anwander, J. Brauer, A. D. Friederici, and T. R. Knösche, “White matter brain
+     structure predicts language performance and learning success,” Human Brain Mapping, vol. 44, no. 4, pp. 1445–1455,
+     2023.
+[35] P. Fotiadis, L. Parkes, K. A. Davis, T. D. Satterthwaite, R. T. Shinohara, and D. S. Bassett, “Structure–function coupling
+     in macroscale human brain networks,” Nature Reviews Neuroscience, vol. 25, no. 10, pp. 688–704, 2024.
+

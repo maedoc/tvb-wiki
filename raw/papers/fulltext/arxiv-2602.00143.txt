@@ -1,0 +1,1037 @@
+                                                  Early warning prediction: Onsager-Machlup vs Schrödinger
+                                                 Xiaoai Xu1,6,7 , Yixuan Zhou2,3 , Xiang Zhou5 , Jingqiao Duan6,7 , and Ting Gao2,3,4*
+                                             1
+                                               School of Mathematics and Information Science, Guangzhou University, Guangzhou
+                                                                                    510000, China.
+                                            2
+                                              School of Mathematics and Statistics, Huazhong University of Science and Technology,
+                                                                                Wuhan 430074, China.
+arXiv:2602.00143v1 [q-bio.QM] 29 Jan 2026
+
+
+
+
+                                               3
+                                                 Center for Mathematical Science, Huazhong University of Science and Technology,
+                                                                                Wuhan 430074, China
+                                                 4
+                                                   Steklov-Wuhan Institute for Mathematical Exploration, Huazhong University of
+                                                                    Science and Technology, Wuhan 430074, China
+                                            5
+                                              Department of Mathematics, City University of Hong Kong, Kowloon, Hong Kong SAR.
+                                                        6
+                                                          School of Sciences, Great Bay University, Dongguan 523000, China.
+                                                 7
+                                                   Guangdong Provincial Key Laboratory of Mathematical and Neural Dynamical
+                                                              Systems, Great Bay University, Dongguan 523000, China.
+                                                                 *
+                                                                   Address correspondence to: tgao0716@hust.edu.cn
+
+
+
+                                                                                                  Abstract
+
+                                                      Predicting critical transitions in complex systems, such as epileptic seizures in the brain, repre-
+                                                   sents a major challenge in scientific research. The high-dimensional characteristics and hidden critical
+                                                   signals further complicate early-warning tasks. This study proposes a novel early-warning framework
+                                                   that integrates manifold learning with stochastic dynamical system modeling. Through systematic
+                                                   comparison, six methods including diffusion maps (DM) are selected to construct low-dimensional
+                                                   representations. Based on these, a data-driven stochastic differential equation model is established
+                                                   to robustly estimate the probability evolution scoring function of the system. Building on this, a new
+                                                   Score Function (SF) indicator is defined by incorporating Schrödinger bridge theory to quantify the
+                                                   likelihood of significant state transitions in the system. Experiments demonstrate that this indicator
+                                                   exhibits higher sensitivity and robustness in epilepsy prediction, enables earlier identification of criti-
+                                                   cal points, and clearly captures dynamic features across various stages before and after seizure onset.
+                                                   This work provides a systematic theoretical framework and practical methodology for extracting
+                                                   early-warning signals from high-dimensional data.
+
+
+
+                                            1     INTRODUCTION
+                                                Complex systems are prevalent in various fields such as ecology, climate science, finance, and neuro-
+                                            science. These systems often exhibit critical transition phenomena, where a slight disturbance can lead
+                                            to sudden and significant changes in the system’s state [1]. In ecological systems, lakes may rapidly
+                                            change from a clear state with rich biodiversity to a turbid state with algal blooms due to factors such
+                                            as eutrophication, resulting in a large number of fish deaths and the disruption of ecological balance [1].
+                                            In medicine, the occurrence of a disease is usually not a smooth process, but rather a sudden transition
+
+
+                                                                                                       1
+that occurs when a critical point is reached [2, 3]. These critical points represent the key states of disease
+transition, such as the transition from health to disease [4]. In the social-economic field, financial markets
+may collapse suddenly, bringing huge impacts to society [5].
+   A critical point is the point at which the system behavior undergoes a qualitative change when the
+system parameters reach a certain threshold, at which point the system becomes highly sensitive to
+perturbations. Critical points can be divided into three categories: bifurcation-related critical points
+(B-tipping), noise-induced critical points (N-tipping), and rate-dependent critical points (R-tipping) [6].
+N-tipping refer to the phenomenon wherein a system departs from the neighborhood of a quasi-static
+attractor driven by stochastic fluctuations noise. This process is theoretically independent of parameter
+changes crossing bifurcation points; noise alone can trigger an abrupt state transition in the system,
+which is our focus for this paper. Traditional analytical frameworks predominantly concentrate on the
+examination of specific statistical features, such as variance amplification and changes in autocorrelation,
+among others [7]. Nevertheless, the analysis of complex systems characterized by high-dimensional data
+and intricate dynamic properties presents substantial challenges to these conventional methods.
+   Recognizing the challenges posed by high-dimensional data, researchers have dedicated extensive
+research efforts to developing robust analytical frameworks and methodological innovations. Zheng
+et al. formalize global resilience in tropical forests, within a dynamical systems framework, as the
+mean exit time. Researchers’ analysis with stochastic differential equations demystified the transition
+behavior of unstable critical points in multi-stable systems, offering a formal dynamical method for
+tipping point analysis [8]. The study of critical points in complex networks necessitates the consideration
+of network topology and other characteristics, which differ from the analysis of dynamical systems in low
+dimension. The Early Warning Signal Network (EWSNet) framework provides a systematic methodology
+for detecting precursory signals prior to critical transitions or systemic collapse through comprehensive
+analysis of network topological configurations and temporal dynamics. Complex networks are applied
+to analyze gene regulatory networks, protein-protein interaction networks, and other biological systems.
+EWSNet can help identify key nodes and early warning signals in the occurrence and development of
+diseases [9, 10]. The Dynamic Network Biomarker (DNB) method is a commonly used approach based
+on bifurcation theory to detect critical points of phase transitions in complex systems from data [11].
+The Master Stability Function (MSF) method can be utilized to analyze the loss of synchronization
+stability in complex networks, thereby predicting abrupt transitions in network dynamical behavior.
+There are also related studies on constructing predictive models using advanced technologies such as
+deep learning. For example, the EWSNet detects early warning signals of critical transitions by training
+a deep neural network using a simple theoretical model, and this network can distinguish the types of
+critical transitions [12]. Feng et al. utilize latent stochastic dynamical systems to extract early warning
+signals from high-dimensional observational data [13]. In addition, there are deep learning algorithms
+based on two-dimensional convolutional neural networks (CNN) and long short-term memory networks
+(LSTM) for predicting the emergence of critical points in dynamic systems [14]. Zhang et al. propose a
+two-level optimization framework that combines, utilizing the predicted probability by the meta-network
+as an early warning indicator [15]. This approach captures critical signals before seizure onset than
+variance indicators, providing an effective solution for early warning of epilepsy patients [15].
+   The analysis of rare events, characterized by an exceedingly low probability of occurrence, presents a
+significant computational challenge. Conventional Monte Carlo simulations, which often require sampling
+on the order of thousands of trials to capture such events, can become computationally prohibitive. The
+theory of large deviations provides a rigorous framework to describe their exponentially small likelihood.
+Within it, the Freidlin-Wentzell theory characterizes the pathwise probabilities of stochastic systems un-
+der weak noise [16]. The Onsager-Machlup action provides a powerful tool for quantifying the probability
+of any path, effectively measuring its deviation from the most probable transition pathway [13]. In this
+
+
+                                                      2
+context, the Schrödinger bridge problem reformulates the search for a connecting stochastic process as
+the minimization of the OM functional. Modern numerical solutions employ diffusion models and score
+matching. Building on this, we propose a new “score-function indicator” for early warning. By learning
+the dynamical score function, it detects early signals of a system approaching a critical, rare-event state.
+   The contribution of this paper is in the following aspects:
+
+    • We construct a theoretical framework that integrates manifold learning with stochastic dynamics
+      to examine the impact of dimensionality reduction.
+
+    • We propose a novel early-warning indicator via the score function.
+
+    • We compare and analyze the OM-functional indicator and the score-function indicator using real-
+      world data.
+
+    The remaining structure of this paper is as follows: In Section 2, we first introduce the application
+background of manifold learning in high-dimensional data dimensionality reduction, laying the foundation
+for subsequent analysis. Subsequently, we present the relevant theories of the Onsager-Machlup action
+and the Schrödinger bridge problem. Based on these theories, we construct two warning indicators in
+Section 3—the Onsager-Machlup indicator and the Score Function indicator—and conduct a systematic
+comparative analysis of the two. To verify the effectiveness of the method, experimental validation is
+conducted in Section 4 using real electroencephalogram data. Furthermore, we perform a formal error
+analysis of the warning potential in Section 5. Finally, Section 6 summarizes the entire work and draws
+conclusions.
+
+
+2     Background Knowledge
+2.1    Dimensionality Reduction via Manifold Learning
+    Manifold learning is a machine learning method used to discover low-dimensional structures within
+high-dimensional data. These methods assume that the data actually lies on or near a low-dimensional
+manifold embedded in a high-dimensional space. Through nonlinear transformation, manifold learning
+algorithms can find a low-dimensional representation (embedding) while retaining the most important
+structure of the original data [17][18].
+    Manifold learning can be viewed as an attempt to generalize linear frameworks such as Principal
+Component Analysis (PCA), enabling them to capture nonlinear structures in data. PCA is a linear
+dimensionality reduction technique that transforms the original data into a set of linearly uncorrelated
+variables through orthogonal transformation. Kernel Principal Component Analysis (Kernel PCA) uti-
+lizes kernel methods to non-linearly map the data into a high-dimensional space and performs PCA
+in this space, aiming to find a low-dimensional embedding suitable for linear classification of the origi-
+nally non-linearly separable data. Isometric Mapping (Isomap) is one of the earliest manifold learning
+methods. This algorithm can be regarded as an extension of Multidimensional Scaling (MDS) or Kernel
+PCA. Isomap seeks to find a low-dimensional embedding that preserves the geodesic distances between
+all points [19]. Locally Linear Embedding (LLE) aims to preserve the local neighborhood distance
+relationships of the original data by seeking a projection of the data in a low-dimensional space [20].
+Neighborhood Preserving Embedding (NPE) is a linearly approximated manifold learning method that
+attempts to preserve the local neighborhood structure of the data after dimensionality reduction. NPE
+can be considered the linear version of the manifold learning method LLE. Spectral Embedding is a non-
+linear dimensionality reduction method that preserves the local structure of data through the spectral
+decomposition of the graph Laplacian matrix [21]. Orthogonal Locality Preserving Projection (OLPP)
+
+
+                                                     3
+is an improved version of Locality Preserving Projection (LPP), introducing orthogonal constraints to
+achieve better performance. LPP is a linear dimensionality reduction method designed to preserve the
+local neighborhood relationships between data points, while OLPP orthogonalizes the projection direc-
+tions, making the eigenvectors orthogonal to avoid redundant information. MDS is a technique that
+reduces dimensionality by preserving the distances or the order of distances between original data points
+in a low-dimensional space [22]. T-Distributed Stochastic Neighbor Embedding (T-SNE) is a nonlinear
+dimensionality reduction technique that preserves the local structure of data by matching probability
+distributions in high-dimensional and low-dimensional spaces, making it suitable for visualizing and
+clustering high-dimensional data [23]. Laplacian Eigenmaps is a graph-based dimensionality reduction
+method aimed at preserving the local neighborhood structure of the data. Diffusion Map (DM) is a
+nonlinear dimensionality reduction method that utilizes the diffusion process of random walks to convert
+spatial distances into transition probabilities. In manifold learning, OLPP and NPE incorporate orthogo-
+nal constraints and linearized improvements, respectively, balancing discriminability with computational
+eﬀiciency while preserving local structures. Kernel PCA elegantly captures global nonlinear features of
+data through the kernel trick. In contrast, Isomap and DM are more adept at revealing complex global
+geometries and multi-scale nonlinear structures. These methods perform particularly well when handling
+complex manifold shapes.
+   Although a wide variety of manifold learning methods exist, not all are equally suitable for the
+specific task of early warning. The core of early warning lies in capturing subtle and leading signals of
+critical transitions in a system from high-dimensional, nonlinear, and often noisy data. Based on this,
+the selection criteria in this study primarily consider the robustness of the methods, their ability to
+capture the intrinsic geometric structure of the data, and their sensitivity to temporal dynamics or local
+structures. Therefore, this study adopts six representative manifold learning methods, namely OLPP,
+DM, Isomap, PCA, Kernel PCA, and NPE, to conduct the research.
+
+
+2.2     Onsager-Machlup Action Functional and Schrödinger Bridge Problem
+2.2.1   Onsager-Machlup Action Functional
+
+  In the stochastic differential equation(SDE)
+
+
+                              dX(t) = b(X(t))dt + σ(X(t))dW (t), 0 ≤ t ≤ T,                                (1)
+
+what we are interested in is studying the transition phenomenon between its two metastable states.
+Specifically, b(X(t)) : Rd → Rd represents a drift, δ : Rd → Rd×u denotes a d×u matrix-valued function,
+and W denotes a Brownian motion on Ru .
+   The core idea of the Onsager-Machlup theory is to assign a probability density to these continuous
+trajectories (rather than just a certain end state). More precisely, it estimates the probability of the true
+solution X(t) occurring within a minimal ‘tube’ σ around a given smooth reference trajectory z(t) [24]
+
+                                                           
+                             P {∥X − z∥T ≤ δ} ∝ C(δ, T) exp −SOM
+                                                              T (z, ż) ,                                  (2)
+
+where δ is positive and suﬀiciently small, the norm of ∥ · ∥T is defined as ∥a(t)∥T := sup0≤t≤T |a(t)| , and
+C(δ, T ) is a normalization constant related to the tube radius δ and time T, but it is independent of the
+                                   
+specific reference path z. The exp −SOM T (z, ż) is the core part of probability. It explicitly relies on the
+path z we choose. It indicates that the probability of the path decays exponentially as SOM     T    increases.
+Therefore, SOM
+            T  is called the action functional.It is akin to a ‘cost function’ or ‘energy function’ defined
+for paths, where paths with higher action functional values have lower probabilities of occurrence, and
+
+
+
+                                                      4
+paths with lower action functional values have higher probabilities of occurrence. Its functional role is
+[13]
+                                                       Z T                          
+                                             1                |ż − b(z)|2
+                              STOM (z, ż) =                               + ∇ · b(z) dt.                 (3)
+                                                   2   0           σ2
+
+2.2.2   Schrödinger Bridge Problem
+
+  The Schrödinger Bridge is a mathematical framework used to solve the dynamical optimal transport
+problem between two probability distributions. Specifically, given an initial probability measure and a
+final probability measure, the Schrödinger bridge problem aims to find the time evolutionary probability
+density connecting given initial and final probability measures that minimizes the relative entropy.
+
+Definition 2.1. Definition 1(Relative Entropy) [25]: Let r be a certain σ-finite positive measure on
+space y. The relative entropy of probability measure p with respect to r is loosely defined as
+                                         Z
+                        H(P | R) :=              log(dP/dR) dP ∈ (−∞, ∞],          P ∈ P(Y ).             (4)
+                                             Y
+
+If P is much smaller than R, the value is infinite. The smaller H(P | R) is, the more similar the new
+process P is to the original Brownian motion R, and thus the higher its probability of occurrence (in a large
+number of independent particle systems, its realization frequency is the highest). Therefore, finding the
+most likely process is transformed into a variational problem of minimizing the relative entropy H(P | R)
+under the marginal constraints P0 = µ0 and P1 = µ1 .
+
+Definition 2.2. Definition 2 (Dynamic Schrödinger’s Problem) [25]: The dynamic Schrödinger problem
+associated with a reference path measure R ∈ M+ (Ω) is the following entropy minimization problem
+
+
+                            H(P | R) → min;                P ∈ P(Ω) : P0 = µ0 , P1 = µ1                   (5)
+
+where µ0 , µ1 ∈ P(X ) are prescribed initial and final marginals.
+
+   Its general form is as follows [26]
+
+
+                     Π∗ = arg min {KL(Π | P ) : Π ∈ PN +1 , Π0 ∈ Pdata , Π1 ∈ Pprior } ,                  (6)
+
+where KL(Π∥P ) represents the Kullback-Leibler divergence of the path distribution π relative to the
+reference distribution P , measuring the difference between the two. PN +1 is the set of path probability
+distributions defined over N + 1 time steps. The distributions π0 and π1 are the marginal distributions of
+the path at the initial time t = 0 and the terminal time t = 1, respectively, following the data distribution
+Pdata and the prior distribution Pprior . By applying an iterative optimization method with relaxed
+constraints to the above equation, the Iterative Proportional Fitting (IPF) is obtained. Furthermore,
+the original optimization of the joint probability distribution in each round is decomposed into optimizing
+a series of conditional distributions between adjacent time steps, thereby decomposing into a series of
+forward and backward conditional distributions. During the training process, the forward and backward
+trajectories are optimized alternately [26]
+                                  n                                                o
+                   Π2n+1 = arg min KL Πt|t+1 | Π2n
+                                                t|t+1   : Π ∈ P N +1 , Π N ∈ P prior   ,
+                                  n                                              o                      (7)
+                   Π2n+2 = arg min KL Πt+1|t | Π2n+1
+                                                t+1|t : Π ∈ PN +1 , Π0 ∈ Pdata ,
+
+   The Schrödinger bridge provides a generative model for time series. In this framework, the evolution
+and generation of new time series samples can be described and simulated via a stochastic differential
+
+
+                                                               5
+equation (SDE) [27]. Specifically, Chen et al. demonstrate that the optimal solution to this problem
+takes the form of the SDE [28]
+                                                             
+                   dXt = f (Xt , t) + g 2 (t)∇ log Ψ(Xt , t) dt + g(t)dWt , X0 ∼ pdata ,
+                                                                                                     (8)
+                   dXt = f (Xt , t) − g 2 (t)∇ log Ψ̂(Xt , t) dt + g(t)dW̄t , XT ∼ pprior ,
+                                                                                  
+where Wt is Wiener process and W̄t is its time reversal. Ψ, Ψ̂ ∈ C 2,1 [0, T ], Rd are time-varying energy
+potentials that constrained by the interconnected PDEs [29]
+                                                                
+                                   ∂Ψ = −∇x Ψ⊤ f − 1 Tr g 2 ∇2 Ψ ,
+                                    ∂t             2       x
+                                                                                                      (9)
+                                   ∂ Ψ̂ = −∇x · Ψ̂f + 1 Tr g 2 ∇2 Ψ̂ ,
+                                    ∂t                 2         x
+
+such that Ψ(x, 0)Ψ(x, 0) = pdata , Ψ(x, T )Ψ(x, T ) = pprior .
+
+2.2.3   Score Matching Method
+
+  Applying the six selected dimensionality reduction methods to processed data can effectively predict
+critical points, significantly aiding our early warning efforts (see Experiment 4). We then learn from
+the reduced-dimensionality data, derive its stochastic differential equation through data-driven methods,
+and ultimately obtain the Schrödinger bridge equation by using fractional matching to derive the scoring
+function term S(t).
+   The methods for obtaining the scoring function S(t) include score matching (SM), sliced score match-
+ing (SSM), Physics-Informed Score Matching Networks (Score-PINN), denoising score matching, etc [30–
+32].
+    Score Matching (SM) is a key technique for estimating parameters in unnormalized statistical models.
+It circumvents the computationally challenging partition function (normalizing constant) required in
+maximum likelihood estimation by minimizing the discrepancy between the model’s score function and
+the true data score function, thereby enabling parameter inference without evaluating the intractable
+normalizing constant. However, Score Matching encounters significant computational bottlenecks when
+applied to high-dimensional data or complex models, as its objective depends on the second-order deriva-
+tive (Hessian matrix) of the log-density, whose computation and storage become prohibitive in high-
+dimensional settings. Although subsequent approaches, such as Score-PINN, have partially alleviated
+these high-dimensional modeling diﬀiculties, they still suffer from issues like high memory demand and
+suboptimal computational eﬀiciency. In contrast, the SM framework itself offers a strong theoretical foun-
+dation. It directly optimizes the score-based objective, often delivering good computational eﬀiciency
+and faster convergence when model structure and dimensionality are moderate, thereby maintaining a
+well-balanced trade-off between theoretical rigor and practical applicability.
+   The goal of Score Matching is to minimize the following loss function [31]
+                                                       h                                  i
+                                                                                        2
+                      LSM (θ) = Et∼Unif[0,T ] Ex∼pt (x) λ(t) ∥st (x; θ) − ∇x log pt (x)∥ .            (10)
+
+   The sample x ∼ pt (x) can be obtained via SDE discretization. Unif[0, T] denotes the uniform time
+sampling between 0 and T. Consequently, we can obtain the score function st (x; θ) = st (x) via optimizing
+θ in the loss function.
+   The specific method can be seen in the Figure 1 below.
+
+
+
+
+                                                       6
+                                   Figure 1: Overall Framework Flowchart
+
+
+3     Early Warning Indicators
+3.1     Onsager-Machlup Indicator
+    Let the time series x(t) be a random variable controlled by a stochastic differential equation in latent
+space. Construct two neural networks µθ and ηθ to estimate µ and σ, with their inputs and weights
+represented by basis functions and coeﬀicients, respectively. Here, we define the Onsager-Machlup (OM)
+function according to Eq(3) [13]
+                                          Z t                                               
+                                      1                |ẋ(s) − µθ (x(s))|2
+                        OM (l, t) =                                         + ∇ · µ θ (x(s))   ds,      (11)
+                                      2    t−l+1                ηθ2
+
+where ż is the derivative function written as ẋ(s) ≈ x(s+ds)−x(s−ds)
+                                                             2ds       with the time step ds.
+     The OM indicator is formulated as follows
+
+                                                            OM (l, t)
+                                            IOM =                                                       (12)
+                                                         OM (0.9l, t − 0.9l)
+
+3.2     Score Function Indicator
+    The degree of imbalance can be measured by the generation of entropy. Entropy is defined as
+                                                            Z
+                                                S=−             P ln P dx.                              (13)
+
+     For continuous dynamical systems, statistical behavior is governed by the probability density distri-
+
+
+
+                                                                7
+bution P (x, t). The temporal evolution of the probability density is determined by the Fokker-Planck
+equation [33].
+     Inspired by entropy production and the OM functional, we propose an early-warning indicator for
+the Schrödinger bridge, which we call the Score Function (SF) Indicator
+                                         Z t                           Z t
+                          SF(l,t) = Ex            ∥∇x(s) ln φ∥2 ds =            ∥S(s)∥2 ds.              (14)
+                                          t−l+1                         t−l+1
+
+     The SF indicator is formulated as follows
+
+                                                        SF (l, t)
+                                           ISF =                                                         (15)
+                                                    SF (0.9l, t − 0.9l)
+
+3.3     Comparison of Two Indicators
+    The SF indicator is essentially identical to the OM functional indicator. Specifically, the SF indicator
+is derived by substituting the score function obtained through training into the Schrödinger bridge
+equation Eq(18), and then incorporating it into the first term—namely, the large deviation term—of the
+OM functional Eq(11), thereby resulting in a new indicator.
+     In the early warning analysis of critical transitions in complex systems, the OM functional indicator
+and the SF indicator offer distinct monitoring approaches from the perspectives of probability functionals
+and thermodynamics, respectively. The OM functional, based on the principle of least action, quantifies
+the likelihood of state transitions through path probability functionals. Its analysis relies on systems with
+well-defined stochastic differential equation models (such as chemical or neuronal dynamics with known
+drift and diffusion terms) and often exhibits steep extrema or bifurcation behavior in the functional
+before critical points, indicating the system’s tendency toward a new state. In contrast, the SF indicator
+leverages the time-varying characteristics of the score function S(t) to measure the irreversibility of
+processes. The magnitude of S(t) corresponds to the degree of deviation from equilibrium; a higher value
+signifies a more marked deviation. This indicator does not require prior models and can be estimated
+directly from observed time series (e.g., climate, ecological, or biomedical signals), making it suitable
+for nonlinear and non-stationary systems. Experiments (see Chapter 4) show that SF indicators often
+exhibit sharp peaks or sustained upward trends in critical regions, accompanied by significant changes
+in statistical properties such as variance and autocorrelation. The two indicators are complementary in
+methodology; the OM indicator applies to systems with clear dynamical models and has a well-defined
+mathematical-physical foundation, while the SF indicator is more suitable for complex systems with
+abundant data but unclear mechanisms, offering broader applicability and computational feasibility.
+
+
+4     Experiment
+4.1     Data Processing and Dimensionality Reduction
+    The Electroencephalography (EEG) data processing pipeline employed in this study is as follows. The
+raw data consist of multi-channel matrices, sampled at 256 Hz during pre-ictal and ictal periods. First,
+amplitude normalization was applied to scale the data to the range [−0.5, 0.5]. To reduce computational
+load, downsampling was subsequently performed by selecting one point from every 16 consecutive points,
+resulting in an effective sampling interval of 0.0625 s. Furthermore, based on medical annotations,
+T = 500 was defined as the critical time point for seizure onset.
+     The results demonstrate that although several dimensionality reduction methods can distinguish pre-
+and post-critical transition data in epileptic seizures, we ultimately selected OLPP, DM, Isomap, PCA,
+
+
+
+                                                         8
+Kernel PCA, and NPE for constructing early-warning indicators (see Table 2(a,d)). This selection is
+based on a comprehensive evaluation where these six methods collectively exhibited superior sensitivity,
+robustness, and interpretability in capturing critical transitions. Specifically, all six methods consistently
+detected a distribution shift around time point T ≈ 600, yet with distinct behavioral patterns: For
+instance, kernel PCA exhibited significant mean shifts and increased variance after the transition, whereas
+DM, Isomap, OLPP, and NPE maintained stable mean values but displayed markedly elevated variance
+post-transition. Overall, OLPP, DM, Isomap, PCA, Kernel PCA, and NPE not only provided clearer
+separation between pre- and post-seizure states but also offered a balanced trade-off between preserving
+local structures and capturing global manifold geometry, making them particularly suitable for the
+subsequent derivation of probabilistic early-warning measures.
+
+
+4.2    Learning SDE in Latent Space
+  Our objective is to solve the Schrödinger bridge problem. Specifically, we aim to find effective para-
+metric representations for the diffusion and drift terms of its associated stochastic differential equation.
+To this end, we employ neural networks to approximate the equation and learn the score function via
+score matching, ultimately achieving the construction of the Schrödinger bridge.
+   By employing polynomial basis functions for fitting, with the time step set as ∆t = 0.0625, the entire
+time domain is discretized into 1500 time points, thereby generating 1499 data pairs of consecutive time
+points {(z(ti+1 ), z(ti ))}. Among these, 1200 pairs are used for training, while the remaining 299 pairs
+are reserved for validation. Through this fitting process, we obtain the following SDE
+
+
+                                        dX = f (x, t)dt + g(x, t)dWt                                     (16)
+
+This article focuses on the SDE corresponding to anisotropic diffusion maps, which perform better in
+dimensionality reduction. The SDE learned from various manifold learning dimensionality reduction
+methods is shown in the following Table 1.
+   The consistency between our approximate and true data densities is evident (as shown in Table 2).
+Among them, Kernel PCA exhibits two metastable states in the near-sighted view of SDE under the
+projected coordinates, while OLLP, Isomap, NPE, PCA, and DM display a single peak in the near-sighted
+view under the projected coordinates.
+
+
+4.3    Learning Score Function via Score Matching
+The stochastic differential equation corresponding to the Schrödinger bridge was solved using a direct
+sampling method based on score matching, applied to the fitted SDE. This approach utilizes a 3-layer fully
+connected neural network to approximate the score function. The network’s input and output dimensions
+are consistent with the dimensionality of the SDE, with the hidden layer dimension uniformly set to 218.
+Training was performed using the Adam optimizer with a learning rate of 1e-3. Through this method,
+we ultimately obtained the following Schrödinger bridge equation
+
+
+                              dX = (f (x, t) − g 2 (x, t)S(x, t))dt + g(x, t)dWt ,                       (17)
+
+where S denotes the score function, defined as the gradient with respect to x of the logarithm of the
+probability density p, i.e., S = ∇x log p(x).
+   To evaluate the accuracy of the learned score function, we trained the network using 1000 SDE
+trajectories, resulting in a score function of dimension (1500, 1000). Table 2 (b,e) presents a comparison
+between the learned score function and the true score function at four specific time points. The results
+demonstrate close agreement between the two, indicating that our model effectively approximates the true
+
+
+                                                       9
+         Table 1: SDE learned by various manifold learning dimensionality reduction methods
+
+        Result/Method                 Latent SDE                           Evaluation
+
+                                         dXt =
+            Isomap          (−0.0121 + 0.4773x + 0.5140x2 −
+                               1.5114x3 )dt − 0.5023dWt
+
+
+                                           dXt =
+         Kernel PCA          (0.2160 + 0.4978x − 0.5168x2 −
+                                 1.4849x3 )dt − 0.4264dWt
+
+
+                                          dXt =
+              NPE            (0.0022 + 0.4823x − 0.5070x2 −
+                                 1.50863 )dt − 0.5006dWt
+
+
+                                         dXt =
+             OLPP           (−0.0163 + 0.4810x + 0.5038x2 −
+                                1.50823 )dt − 0.4897dWt
+
+
+                                         dXt =
+              DM            (−0.0650 + 0.4746x − 0.5048x2 −
+                               1.5105x3 )dt − 0.4711dWt
+
+
+                                           dXt =
+              PCA            (0.0026 + 0.4809x + 0.5067x2 −
+                                 1.5101x3 )dt − 0.5026dWt
+
+
+The probability density comparison between the true distribution and the model-predicted distribution
+is shown in the table. Based on 1499 consecutive data pairs generated with dt = 0.0625 (1200 for training
+and 299 for validation), two separate single-layer networks were employed to approximate the drift term
+(using the polynomial basis [1, x, x², x³]) and the diffusion term (using a constant basis with Softplus
+activation) of an SDE. The model was trained for 100 epochs using the AdamW optimizer (learning rate
+= 0.005) with a batch size of 1200 and a negative log-likelihood loss function, ultimately achieving close
+agreement between the true and predicted distributions.
+
+
+
+
+                                                   10
+score function. The learned score function based on our projection coordinates and the corresponding
+projection coordinates are shown in Table 2 (c,f).
+
+
+4.4    Early Warning Indicator
+   This study is based on a time series comprising 1500 data points. We employ a sliding window approach
+to calculate the variation of each indicator over time and compare it with the standard deviation (Std).
+The window length is set to l = 300, and the sliding step is ∆t = 0.0625. For the Onsager-Machlup (OM)
+functional indicator, we define it as the ratio of two OM functionals (Eq. (11)) in each window, i.e.,
+
+                                       OM(l, t)/OM(0.9l, t − 0.9l).                                      (18)
+
+Meanwhile, we propose a new early warning indicator SF, which is defined as the integral of the square
+of the score function averaged over the state variable x (Eq. (13)). To maintain consistency in the
+calculation, the SF indicator also adopts the ratio form, i.e.,
+
+                                         SF(l, t)/SF(0.9l, t − 0.9l).                                    (19)
+
+   As shown in Table 3(b,e), the standard deviation (Std) curves (green curves) derived from the four
+dimensionality reduction methods all exhibit interpretable patterns. In the dimensionality-reduced data,
+both the OM and SF indicators issue warning signals prior to the sharp rise in standard deviation.
+Specifically, the warning signals based on manifold learning show relatively gradual changes and higher
+noise levels around T ≈ 600.
+   Compared to the OM indicator, the SF indicator demonstrates higher sensitivity and robustness. For
+instance, as shown for OLPP in Table 3(c), the SF indicator not only accurately identifies the critical
+point at T ≈ 600 but is also highly responsive to dynamic characteristics at later time points such as
+T ≈ 1000 and T ≈ 1300. Although the signal patterns vary across different dimensionality reduction
+methods, the SF indicator consistently captures key transitions across multiple approaches.
+   While the computation of the OM indicator depends on solving stochastic differential equations, the
+SF indicator is derived directly from the predicted score function. Furthermore, compared to the OM
+indicator, the SF indicator provides earlier and more pronounced warnings of critical states and more
+reliably identifies the dynamic transition characteristics across different phases before and after epileptic
+seizures.
+
+
+4.5    Validation
+  To validate the generalization performance of the proposed epilepsy prediction method, we tested it on
+a new EEG dataset. These data were collected from epilepsy patients during pre-ictal and ictal phases
+at a sampling frequency of 256 Hz. Based on medical annotations, T = 780 was defined as the critical
+time point for seizure onset.
+   The raw data underwent standard preprocessing prior to analysis. First, amplitude normalization
+scaled the signals to the range [−0.5, 0.5] to mitigate inter-individual amplitude variations. Subsequently,
+downsampling was performed by selecting one point from every 16 consecutive points. This step preserved
+critical dynamic information while reducing the effective sampling interval to 0.0625 seconds, thereby
+enhancing computational eﬀiciency for subsequent steps.
+   The preprocessed data were then separately input into the six manifold learning-based dimensionality
+reduction models. These models effectively capture essential changes in brain network connectivity and
+dynamics associated with epileptic seizures. As shown in Table 4(a,d), the dimensionally-reduced data
+
+
+                                                     11
+             Table 2: ϕ1 and the Score Function Across Manifold Learning Methods
+
+Result/Method                OLPP                        DM                       Isomap
+
+
+
+
+(a)ϕ1 Data
+
+
+
+
+(b)Ture vs Learn
+
+
+
+
+(c)Score Function
+Result/Method                NPE                        PCA                    Kernel PCA
+
+
+
+
+(d)ϕ1 Data
+
+
+
+
+(e)Ture vs Learn
+
+
+
+
+(f)Score Function
+ (a,d) The one-dimensional ϕ1 data is obtained by applying manifold learning methods to reduce the
+dimensionality of the data. (b,e) The score function S(x) learned by the trained Score Model (SM)
+(red) is quantitatively compared with the score function computed via kernel density estimation
+(blue) at four specific time points (t = 6, 200, 500, 700). (c,f) The temporal evolution of the
+score function S(t) learned by the SM is fully illustrated. This method employs a three-layer fully
+connected neural network to approximate the score function of a stochastic differential equation
+(SDE), with the hidden layer dimension fixed at 218. Training is performed using 1,000 sampled
+trajectories and the Adam optimizer with a learning rate of 1e-3 and a step size dt = 0.0625.
+
+
+
+
+                                                12
+                  Table 3: OM and SF Indicator Across Manifold Learning Methods
+
+Result/Method                OLPP                         DM                        Isomap
+
+
+
+
+(a)ϕ1 Data
+
+
+
+
+(b)OM Indicator
+
+
+
+
+(c)SF Indicator
+Result/Method                 NPE                        PCA                     Kernel PCA
+
+
+
+
+(d)ϕ1 Data
+
+
+
+
+(e)OM Indicator
+
+
+
+
+(f)SF Indicator
+ Based on a time-series comprising 1500 data points, a sliding-window analysis was employed (win-
+dow length l = 300, step size dt = 0.0625). (a, d) Principal variable ϕ1 obtained after dimensionality
+reduction via different methods. (b, e) Comparison between the OM early-warning indicator (red,
+calculated as Eq. (18)) and the standard deviation (Std) of ϕ1 (green). (c, f) Comparison between
+the SF early-warning indicator (red, calculated as Eq. (19)) and the Std of ϕ1 (green). All indica-
+tors are presented in ratio form. The time axis ranges from 300 to 1500.
+
+
+
+
+                                                 13
+clearly reveal the evolutionary trajectory from the pre-ictal to the ictal state on a low-dimensional
+manifold, confirming that this feature extraction method can effectively distinguish between different
+brain states.
+   Subsequently, we applied the trained score-matching model to predict the score function and employed
+a sliding-window technique to dynamically compute early-warning indicators within the Schrödinger
+bridge framework, enabling online and continuous seizure monitoring. The resulting time-series plots of
+the OM and SF indicators are presented in Table 4.
+    Both warning indicators exhibited significant mutations or persistent supra-threshold phenomena
+around the 780th time point. This time point closely aligns with the clinically annotated onset of the
+epileptic seizure, and the warning signals appeared significantly earlier than the typical clinical symptoms
+of the ictal phase. These results strongly demonstrate that the early warning indicators constructed in
+this study, based on anisotropic dimensionality reduction and Schrödinger bridge theory, can effectively
+and preemptively detect the critical dynamic features of the brain’s transition from the pre-ictal to the
+ictal state, validating the effectiveness and warning potential of the proposed method.
+
+
+5    Formal Error Analysis of the Early-warning Potential
+  To justify the reliability of the proposed SF indicator, we provide a high-probability error bound
+                                                  c
+quantifying the deviation between the estimated SF(t)   and its population counterpart SF∗ (t). Our
+analysis builds upon the data processing pipeline in Figure 1: dimensionality reduction via Diffusion
+Map, SDE learning, and score function estimation through score matching.
+
+Assumption 5.1. Let {Xt }t∈[0,T ] be a stochastic process in RD whose latent evolution lies near a smooth
+1D manifold M.
+(A1) (Manifold regularity) M is C ∞ and admits a C ∞ embedding Φtrue : M → R; the Diffusion
+      Map estimator ΦDM satisfies
+                                                                 
+                                       E |ΦDM (Xt ) − Φtrue (Xt )| ≤ εman .
+
+(A2) (SDE identifiability) The true reduced dynamics zt = Φtrue (Xt ) obeys
+
+                                           dzt = b∗ (zt ) dt + σ ∗ (zt ) dWt ,
+
+      with b∗ , σ ∗ ∈ Cb∞ (R), and 0 < σmin ≤ |σ ∗ (z)| ≤ σmax for all z. The estimated drift b̂ and diffusion
+      σ̂ satisfy
+                                    ∥b̂ − b∗ ∥∞ ≤ εb ,        ∥σ̂ 2 − (σ ∗ )2 ∥∞ ≤ εσ .
+
+(A3) (Density positivity) The marginal density p∗ (z, t) > 0 and inf z,t p∗ (z, t) ≥ pmin > 0.
+(A4) (Score regularity) The true score s∗ (z, t) = ∇z log p∗ (z, t) belongs to Sobolev space H β ([0, T ] × R)
+      for some β > 1/2, and satisfies ∥s∗ ∥∞ ≤ Smax , ∥∇z s∗ ∥∞ ≤ Ls .
+(A5) (Score network) ŝθ (z, t) is trained via score matching on n = M N samples from M SDE trajec-
+      tories of length N , using a 3-layer MLP with hidden size H.
+
+    The following theorem quantifies how each stage of our pipeline contributes to SF uncertainty.
+
+Theorem 5.1 (High-probability error bound for Early-warning Potential). Under the above assumptions,
+for any confidence level δ ∈ (0, 1), with probability at least 1 − δ the estimated Early-warning Potential
+                                              Z t
+                                                   1 X  τn
+                                  c       1                      (τ )
+                                  SF(t) =                 ∥ŝθ (zi , τ )∥2 dτ
+                                          l    t−l nτ i=1
+
+
+
+                                                         14
+             Table 4: Indicator Results on New Data Across Manifold Learning Methods
+
+Result/Method                OLPP                      DM                       Isomap
+
+
+
+
+(a)ϕ2 Data
+
+
+
+
+(b)OM Indicator
+
+
+
+
+(c)SF Indicator
+Result/Method                 NPE                      PCA                   Kernel PCA
+
+
+
+
+(d)ϕ2 Data
+
+
+
+
+(e)OM Indicator
+
+
+
+
+(f)SF Indicator
+ (a,d) The ϕ2 time series extracted via dimensionality reduction. (b,e) Comparison between the
+OM indicator (red) and the Std. (green). (c,f) Comparison between the SF indicator (red) and the
+Std (green). All indicators are computed using a sliding window (width l=300). Both the OM and
+SF indicators are derived within the framework of the previously learned SDE. The results show
+that both indicators issue an early-warning signal around T ≈ 780, demonstrating that the learned
+SDE model remains applicable to new data and can provide an effective stability warning.
+
+
+
+
+                                               15
+satisfies the uniform bound
+                                                                                                               √
+         c − SF∗ (t) ≤ C1 εman + εb + εσ +
+ sup SF(t)                                                              C2 Eapp + Eest + Eopt              + C3 / n + C4 (∆t)2 ,
+t∈[l,T ]               |       {z       }                               |        {z           }              |      {z       }
+                                 manifold & SDE error             score approximation & estimation error     sampling & discretization
+
+                                                                                                                                  (20)
+
+where
+                                                              r
+                        −β                                        HL log H + log(2/δ)
+             Eapp ≲ H        ,                       Eest ≲                           ,                    Eopt ≤ εopt .
+                                                                          n
+
+The constants depend only on Smax , Ls , pmin , σmin , σmax , T, l, and are given explicitly by
+
+                                                      2Smax    Ls T 
+                                              C1 =            1+ 2     ,
+                                                       pmin     σmin
+                                              C2 = 2Smax ,
+                                                     2
+                                              C3 = 2Smax ,
+                                                   2                            
+                                              C4 = ∥∂t s∗ ∥2∞ + 2Smax ∥∂t ∇s∗ ∥∞ l.
+                                                   3
+
+Proof. Define auxiliary quantities:
+               Rt                                 
+   f
+• SF(t)  := 1l t−l Eẑτ ∼p̂(·,τ ) ∥ŝθ (ẑτ , τ )∥2 dτ — EP under estimated SDE p̂ using estimated score;
+               Rt                                 
+• SF(t) := 1l t−l Eẑτ ∼p̂(·,τ ) ∥s∗ (ẑτ , τ )∥2 dτ — SF under estimated SDE but true score;
+                R                                   
+• SF∗ (t) := 1l t−l Ezτ ∼p∗ (·,τ ) ∥s∗ (zτ , τ )∥2 dτ — population SF.
+                  t
+
+    We decompose the total error as
+
+                              c − SF∗ (t)| ≤ |SF
+                             |SF(t)           c − SF|
+                                                  f + |SF
+                                                       f − SF| + |SF − SF∗ |.
+
+                                                                               (τ )
+Step (I): Sampling and Discretization Error. Let zi                                   ∼ p̂(·, τ ) i.i.d., and approximate the time
+integral by trapezoidal rule with step ∆t. Since ∥ŝθ ∥ ≤ Smax + εs ≤ 2Smax with high probability,
+Hoeffding’s inequality yields for each τ ,
+                                             X                                                
+                                                                                       nτ η 2
+                                 P        1
+                                         nτ        ∥ŝθ ∥2 − E∥ŝθ ∥2 ≥ η ≤ 2 exp − 2(2S max )
+                                                                                               4   .
+                                               i
+
+
+Applying a union bound over at most T /∆t discretization points and integrating over [t − l, t], we obtain
+with probability at least 1 − δ/3,
+                                                                    √
+                                                   c − SF(t)|
+                                              sup |SF(t) f    ≤ C3 / n + C4 (∆t)2 ,
+                                               t
+
+                                                          
+             2
+where C3 = 2Smax and C4 = 23 ∥∂t s∗ ∥2∞ + 2Smax ∥∂t ∇s∗ ∥∞ l.
+Step (II): Score Estimation Error. Using |a2 − b2 | ≤ |a − b|(|a| + |b|) ≤ 2Smax ∥ŝθ − s∗ ∥ (since both
+scores are bounded by Smax w.h.p.), we have
+
+                                         f − SF(t) ≤ 2Smax ∥ŝθ − s∗ ∥L2 (p̂⊗Unif[0,T ]) .
+                                         SF(t)
+
+Standard score matching theory [30, 31] implies that, with probability at least 1 − δ/3,
+
+                                                   ∥ŝθ − s∗ ∥L2 ≤ Eapp + Eest + Eopt ,
+                                         p
+with Eapp ≲ H −β [34], Eest ≲                 (HL log H + log(3/δ))/n [35], and Eopt the optimization residual. Thus,
+
+
+                                                                      16
+ f − SF| ≤ C2 (Eapp + Eest + Eopt ) with C2 = 2Smax .
+|SF
+Step (III): Model Misspecification Error. Let zt = Φtrue (Xt ) and ẑt = ΦDM (Xt ).
+1. Manifold error: By (A1), E[|zt − ẑt |] ≤ εman . Since s∗ (·, τ ) is Ls -Lipschitz and ∥s∗ ∥∞ ≤ Smax ,
+
+                                   ∥s∗ (zt , τ )∥2 − ∥s∗ (ẑt , τ )∥2 ≤ 2Smax Ls |zt − ẑt |.
+
+    Taking expectation under the natural coupling induced by Xt , and integrating over τ , we obtain
+
+                                      Ep∗τ [∥s∗ ∥2 ] − Epeτ [∥s∗ ∥2 ] ≤ 2Smax Ls εman .
+
+2. SDE error: Let p∗ (·, τ ) and p̂(·, τ ) denote the marginal laws of the true and estimated SDEs. Under
+    (A2)–(A3), standard perturbation analysis of the Fokker–Planck equation (see e.g., [36]) yields
+
+                                                                                           T
+                               ∥p∗ (·, τ ) − p̂(·, τ )∥L1 ≤ CFP (εb + εσ ),     CFP =     2   .
+                                                                                         σmin
+
+    Since ∥s∗ ∥2 ≤ Smax
+                    2
+                        , this implies
+
+                                   Ep̂τ [∥s∗ ∥2 ] − Ep∗τ [∥s∗ ∥2 ] ≤ Smax
+                                                                      2
+                                                                          CFP (εb + εσ ).
+
+    However, the Early-warning Potential is defined as a Fisher information, which involves integration
+    against the density. To control sensitivity to distributional perturbations, we invoke the positivity
+    assumption (A3): p∗ (z, t) ≥ pmin > 0. This allows us to bound the relative error in the expectation by
+    a factor proportional to 1/pmin . Combining both effects and integrating over τ ∈ [t − l, t], we obtain
+
+                                        2Smax    Ls T 
+                  SF(t) − SF∗ (t) ≤             1+ 2     (εman + εb + εσ ) = C1 (εman + εb + εσ ).
+                                         pmin     σmin
+
+     Applying a union bound over the three error events (each controlled with failure probability at most
+δ/3) and summing the bounds from Steps (I)–(III) yields the desired high-probability error bound (20).
+
+
+Remark 5.1. The bound is tight in the sense that:
+
+    1. C1 blows up as pmin → 0, reflecting the well-known diﬀiculty of score estimation near low-density
+       regions (e.g., saddle points);
+
+    2. C2 scales linearly with Smax , consistent with empirical observations that score magnitude peaks near
+       critical transitions.
+
+Thus, Theorem 5.1 not only supports the empirical findings but also provides guidance for practical tuning
+(e.g., increasing H or n when SF variance is high).
+
+
+6     Conclusion
+    This study proposes a critical early-warning framework that integrates manifold learning, stochastic
+system identification, and Schrödinger bridge theory, aiming to address the challenge of predicting state
+transitions in high-dimensional complex systems. The framework first employs manifold learning to re-
+duce the dimensionality of high-dimensional observational signals, extracting directional characteristics
+of system evolution. Subsequently, a stochastic differential equation model is established using data-
+driven methods, and the score function characterizing the evolution of the system’s probability density
+
+
+                                                            17
+is robustly estimated with the aid of enhanced sampling techniques. On this basis, a novel SF indica-
+tor is proposed by formulating a Schrödinger bridge problem. This indicator quantifies the likelihood
+of significant state transitions in a probabilistic form and employs a proportional calculation method
+consistent with the OM functional, significantly enhancing the detection sensitivity to subtle early-stage
+perturbations in the system.
+      Experimental results demonstrate that, in the task of epilepsy seizure warning, the SF indicator
+exhibits superior overall performance compared to traditional methods. It not only identifies the pri-
+mary critical point earlier and more clearly but also effectively captures specific dynamic fluctuations
+across different stages before and after seizures, even under low-noise conditions. Notably, this frame-
+work possesses broad applicability. Beyond neurodynamic systems, the method is equally applicable
+to other complex systems exhibiting critical transition phenomena, such as tropical rainforest deserti-
+fication, the emergence of financial ”black swan events,” and the onset of strokes. In these systems,
+high-dimensionality, nonlinearity, and non-equilibrium characteristics are prevalent, and the proposed
+data-driven integrative framework offers a novel approach to extracting robust early-warning signals
+from complex observational data.
+      Looking ahead, the proposed framework can be extended to model a wider range of stochastic pro-
+cesses. An important direction is generalizing the current stochastic differential equation model based on
+Gaussian noise to systems driven by Lévy noise with heavy-tailed characteristics. Such models can more
+accurately describe severe fluctuations and discontinuous jump behaviors observed in systems like stock
+markets or extreme climate events. By developing corresponding methods for score function estimation
+and Schrödinger bridge solving, it is expected to achieve more precise identification of critical states in
+fields such as financial risk warning and extreme event prediction, thereby enhancing the framework’s
+early-warning capability for strongly non-Gaussian, highly volatile complex systems.
+      In summary, this work constructs a complete analytical workflow for identifying critical transitions
+from high-dimensional data. The proposed SF indicator and modeling framework have not only proven
+effective in specific neuroscience applications but also provide a generalizable theoretical tool and method-
+ological foundation for critical early warning in a broader range of complex system types. Furthermore,
+it opens new avenues for extending early-warning research towards non-Gaussian dynamics.
+
+
+Acknowledgements
+  This work was partly supported by the NSFC International Collaboration Fund for Creative Research
+Teams (Grant W2541005), the Guangdong Provincial Key Laboratory of Mathematical and Neural Dy-
+namical Systems (Grant 2024B1212010004), the Cross Disciplinary Research Team on Data Science
+and Intelligent Medicine (2023KCXTD054), the Guangdong-Dongguan Joint Research Fund (Grant
+2023A151514 0016), Dongguan Key Laboratory for Data Science and Intelligent Medicine, and the
+Guangdong-Dongguan Joint Research Grant (2023A1515140016).
+
+
+References
+ 1.    Scheffer M, Carpenter S, Foley JA, Folke C, and Walker B. Catastrophic shifts in ecosystems. Nature
+       2001;413:591–6.
+ 2.    Liu R, Chen L, and Aihara K. The early warning signal of complex diseases based on the net-
+       work transition entropy. In: 2011 IEEE International Conference on Systems Biology (ISB). IEEE.
+       2011:362–7.
+
+
+
+
+                                                     18
+ 3.   Chen L, Liu R, Liu ZP, Li M, and Aihara K. Detecting early-warning signals for sudden deterioration
+      of complex diseases by dynamical network biomarkers. Scientific reports 2012;2:342.
+ 4.   Deb S, Bhandary S, Sinha SK, Jolly MK, and Dutta PS. Identifying critical transitions in complex
+      diseases. J Biosci 2022;47:25.
+ 5.   Fabiani G, Evangelou N, Cui T, et al. Task-oriented machine learning surrogates for tipping points
+      of agent-based models. Nature communications 2024;15:4117.
+ 6.   Ashwin P, Wieczorek S, Vitolo R, and Cox P. Tipping points in open systems: bifurcation, noise-
+      induced and rate-dependent examples in the climate system. Philosophical Transactions of the Royal
+      Society A: Mathematical, Physical and Engineering Sciences 2012;370:1166–84.
+ 7.   Scheffer M, Bascompte J, Brock WA, et al. Early-warning signals for critical transitions. Nature
+      2009;461:53–9.
+ 8.   Zheng Y and Boers N. Mean exit times as global measure of resilience of tropical forest systems
+      under climatic disturbances—Analytical and numerical results. Chaos: An Interdisciplinary Journal
+      of Nonlinear Science 2023;33.
+ 9.   Olgun N and Özkaynak E. A novel approach to detecting epileptic patients: complex network-based
+      EEG classification. Journal of Complex Networks 2024;12:cnae044.
+10. Zhong J, Huang Z, Qiu J, Ling F, Chen P, and Liu R. Identification of Critical States in Complex
+      Biological Systems Using Cell-Specific Causal Network Entropy. Research 2025;8:0852.
+11. Tao P, Du C, Xiao Y, and Zeng C. Data-driven detection of critical points of phase transitions in
+      complex systems. Communications Physics 2023;6:311.
+12. Deb S, Sidheekh S, Clements CF, Krishnan NC, and Dutta PS. Machine learning methods trained
+      on simple models can predict critical transitions in complex natural systems. Royal Society Open
+      Science 2022;9:211475.
+13. Feng L, Gao T, Xiao W, and Duan J. Early warning indicators via latent stochastic dynamical
+      systems. Chaos: An Interdisciplinary Journal of Nonlinear Science 2024;34.
+14. Zhuge C, Li J, and Chen W. Deep learning for predicting the occurrence of tipping points. arXiv
+      preprint arXiv:2407.18693 2024.
+15. Zhang P, Gao T, Guo J, Duan J, and Nikolenko S. EARLY WARNING PREDICTION WITH
+      AUTOMATIC LABELLING IN EPILEPSY PATIENTS. The ANZIAM Journal 2025;67:e4.
+16. Heymann M and Vanden�ijnden E. The geometric minimum action method: A least action principle
+      on the space of curves. Communications on Pure and Applied Mathematics 2008;61:1052–117.
+17. Zheng N and Xue J. Manifold Learning. In: Statistical Learning and Pattern Analysis for Image and
+      Video Processing. London: Springer London, 2009:87–119. doi: 10.1007/978-1-84882-312-9_4.
+      url: https://doi.org/10.1007/978-1-84882-312-9_4.
+18. Meilă M and Zhang H. Manifold learning: what, how, and why. arXiv preprint arXiv:2311.03757
+      2023.
+19. Tenenbaum JB, Silva Vd, and Langford JC. A global geometric framework for nonlinear dimension-
+      ality reduction. science 2000;290:2319–23.
+20. Roweis ST and Saul LK. Nonlinear dimensionality reduction by locally linear embedding. science
+      2000;290:2323–6.
+21. Belkin M and Niyogi P. Laplacian eigenmaps for dimensionality reduction and data representation.
+      Neural computation 2003;15:1373–96.
+
+
+                                                   19
+22. Mair P, Groenen PJ, and De Leeuw J. More on multidimensional scaling and unfolding in R: smacof
+     version 2. Journal of Statistical Software 2022;102:1–47.
+23. Belkina AC, Ciccolella CO, Anno R, Halpert R, Spidlen J, and Snyder-Cappione JE. Automated
+     optimized parameters for T-distributed stochastic neighbor embedding improve visualization and
+     analysis of large datasets. Nature communications 2019;10:5415.
+24. Guo J, Gao T, Zhang P, Han J, and Duan J. Deep reinforcement learning in finite-horizon to explore
+     the most probable transition pathway. Physica D: Nonlinear Phenomena 2024;458:133955.
+25. Léonard C. A survey of the Schrödinger problem and some of its connections with optimal transport.
+    arXiv preprint arXiv:1308.0215 2013.
+26. De Bortoli V, Thornton J, Heng J, and Doucet A. Diffusion schrödinger bridge with applications to
+    score-based generative modeling. Advances in neural information processing systems 2021;34:17695–
+     709.
+27. Hamdouche M, Henry-Labordere P, and Pham H. Generative modeling for time series via Schrödinger
+     bridge. arXiv preprint arXiv:2304.05093 2023.
+28. Chen TQ, Liu GH, and Theodorou EA. Likelihood Training of Schrödinger Bridge using Forward-
+     Backward SDEs Theory. ArXiv 2021;abs/2110.11291.
+29. Zhang P, Gao T, Guo J, and Duan J. Action Functional as Early Warning Indicator in the Space
+     of Probability Measures. arXiv preprint arXiv:2403.10405 2024.
+30. Song Y, Garg S, Shi J, and Ermon S. Sliced score matching: A scalable approach to density and
+     score estimation. In: Uncertainty in artificial intelligence. PMLR. 2020:574–84.
+31. Hu Z, Zhang Z, Karniadakis GE, and Kawaguchi K. Score-based physics-informed neural networks
+     for high-dimensional Fokker-Planck equations. arXiv preprint arXiv:2402.07465 2024.
+32. Olga T, Kapushev Y, Burnaev E, and Oseledets I. Denoising Score Matching with Random Fourier
+     Features. arXiv preprint arXiv:2101.05239 2021.
+33. Risken H. Fokker-planck equation. In: The Fokker-Planck equation: methods of solution and appli-
+    cations. Springer, 1989:63–95.
+34. Yarotsky D. Error bounds for approximations with deep ReLU networks. Neural Networks 2017;94:103–
+     14.
+35. Harvey N, Liaw C, and Mehrabian A. Nearly-tight VC-dimension bounds for piecewise linear neural
+     networks. In: Proceedings of the 2017 Conference on Learning Theory. Ed. by Kale S and Shamir O.
+     Vol. 65. Proceedings of Machine Learning Research. PMLR, 2017:1064–8.
+36. Pavliotis G. Stochastic processes and applications (to appear). Vol. 60. 2014. doi: 10.1007/978-1-
+     4939-1323-7.
+
+
+
+
+                                                   20
+

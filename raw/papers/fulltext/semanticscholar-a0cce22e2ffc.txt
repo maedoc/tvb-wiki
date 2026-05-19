@@ -1,0 +1,743 @@
+nature computational science
+
+Brief Communication                                                                                  https://doi.org/10.1038/s43588-026-00953-7
+
+
+deepmriprep: voxel-based morphometry
+preprocessing via deep neural networks
+
+Received: 27 January 2025                          Lukas Fisch 1 , Nils R. Winter1, Janik Goltermann 1,2, Carlotta Barkhau1,
+                                                   Daniel Emden1,2, Jan Ernsting1,3,4, Maximilian Konowski 1, Ramona Leenings1,
+Accepted: 9 January 2026
+                                                   Tiana Borgers1, Kira Flinkenflügel1, Dominik Grotegerd1, Anna Kraus1,
+Published online: 30 January 2026                  Elisabeth J. Leehr1, Susanne Meinert1,5, Frederike Stein6, Lea Teutenberg6,
+                                                   Florian Thomas-Odenthal6, Paula Usemann6, Marco Hermesdorf7,
+   Check for updates
+                                                   Hamidreza Jamalabadi 6, Andreas Jansen6, Igor Nenadić 6,
+                                                   Benjamin Straube6, Tilo Kircher6, Klaus Berger7, Benjamin Risse3,
+                                                   Udo Dannlowski1,8,9,10 & Tim Hahn1
+
+
+                                                   Voxel-based morphometry (VBM), a popular approach in neuroimaging
+                                                   research, uses magnetic resonance imaging data to assess variations in the
+                                                   local density of brain tissue and to examine its associations with biological
+                                                   and psychometric variables. Here we present deepmriprep, a preprocessing
+                                                   pipeline designed to leverage neural networks to perform all the necessary
+                                                   preprocessing steps for the VBM analysis of T1-weighted magnetic resonance
+                                                   imaging. Utilizing the graphics processing unit, deepmriprep is 37 times
+                                                   faster than CAT12, the leading VBM preprocessing toolbox. The proposed
+                                                   method matches CAT12 in accuracy for tissue segmentation and image
+                                                   registration across more than 100 datasets and shows strong correlations in
+                                                   the VBM results. Tissue segmentation maps from deepmriprep have more
+                                                   than 95% agreement with ground-truth maps, and its nonlinear registration
+                                                   predicts smooth deformation fields comparable to CAT12. The high
+                                                   computational speed of deepmriprep enables rapid preprocessing of large
+                                                   datasets and opens the door to real-time applications.
+
+
+Voxel-based morphometry (VBM) is a widely used analytical approach           normalizing the resulting tissue map to a template3–8. Finally, general-
+in neuroimaging research that aims to measure differences in the local       ized linear models (GLMs) are fit for each voxel, modeling associations
+concentration of brain tissue across multiple brain magnetic resonance       between spatially normalized tissue probabilities and the considered
+imaging (MRI) scans and to investigate their association with biological     biological (for instance, age and sex) or psychometric variables (for
+and psychometric variables1,2. Comparing neuroimaging data is chal-          instance, symptom severity or cognitive performance scores). If the
+lenging, because the intensity of MRI is not standardized, and brain         GLM reveals a significant association, the corresponding voxel may
+structures differ across individuals. Standard VBM preprocessing             be considered a region of interest (ROI), indicating a potential neural
+addresses this by segmenting MRI scans into tissue classes and spatially     correlate of the variables under study.
+
+1
+ Institute for Translational Psychiatry, University of Münster, Münster, Germany. 2Department of Psychiatry and Neuroscience, Campus Benjamin Franklin,
+Charité-Universitätsmedizin Berlin, Berlin, Germany. 3Institute for Geoinformatics, University of Münster, Münster, Germany. 4Faculty of Mathematics
+and Computer Science, University of Münster, Münster, Germany. 5Institute for Translational Neuroscience, University of Münster, Münster, Germany.
+6
+  Department of Psychiatry and Psychotherapy, University of Marburg, Marburg, Germany. 7Institute of Epidemiology and Social Medicine, University
+of Münster, Münster, Germany. 8Department of Psychiatry, Medical School and University Medical Center OWL, Protestant Hospital of the Bethel
+Foundation, Bielefeld University, Bielefeld, Germany. 9German Center for Mental Health (DZPG), Site Jena Magdeburg Halle, Berlin, Germany. 10Center for
+Intervention and Research on Adaptive and Maladaptive Brain Circuits Underlying Mental Health (C-I-R-C), Site Jena Magdeburg Halle, Jena, Germany.
+   e-mail: l.fisch@uni-muenster.de
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                     250
+Brief Communication                                                                                          https://doi.org/10.1038/s43588-026-00953-7
+
+
+               a                                                     b     Input magnetic              Reference
+                                                                          resonance image          (CAT12 at 0.5 mm3)                Prediction
+                                     Tissue class
+                                       CSF
+                                       GM
+                       deepmriprep     WM
+                                       Foreground
+              Method
+
+
+
+
+                            CAT12
+
+
+
+
+                                         70         80       90
+                                              Dice score (DSC)
+
+Fig. 1 | Dice scores of tissue segmentations of deepmriprep and CAT12 in          and 75th percentile (upper) with whiskers extending to data points within 1.5×
+OpenNeuro-HD with worst-case segmentation examples. a, Dice scores of             interquartile range (IQR) of the quartiles. b, Sagittal slice of the T1w MRI, the
+deepmriprep and CAT12 with respect to the CSF, GM, WM and foreground              reference tissue map (CAT12 at 0.5 mm3 resolution) and the predicted tissue
+(mean of CSF, GM and WM) across 685 MRI scans from OpenNeuro-HD. Violin           segmentation map in the sample that resulted in the lowest foreground Dice
+plot density traces terminate exactly at the observed minima and maxima, and      score for deepmriprep (first row) and CAT12 (second row).
+the superimposed box plots represent 25th percentile (lower), median (center)
+
+
+     Given that the effect sizes in VBM-based statistical analyses are typi-      (T1w) MRIs of healthy adults. To encompass the full VBM preprocessing,
+cally small9, MRI datasets with thousands of participants are necessary           in this work, we additionally develop neural networks for tissue segmen-
+to obtain accurate measurements10. To meet this demand, large-scale               tation and registration. For tissue segmentation, we use a patch-based
+datasets have expanded to include more than 40,000 participants11,                three-dimensional (3D) UNet approach, inspired by Isensee et al.23,
+resulting in datasets that exceed 100,000 MRIs. However, preprocess-              which also exploits neuroanatomical properties, such as hemispheric
+ing these large datasets with existing toolboxes, such as CAT127, can take        symmetry. Nonlinear image registration is performed using a custom
+weeks or even months on standard hardware, delaying scientific pro-               variant of SYMNet22, which uses a 3D UNet in conjunction with DARTEL
+gress. Developing a more computationally efficient VBM preprocessing              shooting27 to predict smooth and invertible deformation fields.
+pipeline could alleviate these processing bottlenecks, allowing research-               The neural networks are trained on 685 MRIs compiled from 137
+ers to focus on the conceptual aspects of their studies and accelerating          OpenNeuro datasets in a grouped cross-validation to ensure realistic
+scientific discovery. Therefore, creating a faster VBM preprocessing              validation performance. The worst predictions are visually inspected to
+pipeline is a critical step forward for structural neuroimaging research.         identify potential weaknesses. In addition, deepmriprep is tested on 18
+     In recent years, deep learning has emerged as a highly effective             OpenNeuro datasets with pediatric healthy controls (HCs) and a dataset
+approach for various tasks in medical image analysis12, providing                 with synthetic atrophy and synthetic image artifacts. To investigate the
+state-of-the-art performance in a wide range of image-related applica-            effect of preprocessing on VBM-based statistical analyses, the VBM
+tions, such as semantic segmentation13. The neuroimaging community                pipelines of deepmriprep and CAT12 are applied to 4,017 participants
+has followed this trend, resulting in neural network-based tools for              from three cohorts. In subsequent VBM analyses, associations with bio-
+brain extraction14–16, tissue segmentation17,18, registration19–22 and other      logical and psychometric variables are investigated, and the correlation
+neuroimaging-specific tasks23.                                                    of the resulting t-maps based on deepmriprep and CAT12 is analyzed.
+     However, the adoption of neural network-based methods for pre-               Finally, the correlations between deepmriprep- and CAT12-based tissue
+processing still lags behind classical toolboxes, such as CAT127, SPM3 or         volume measurements are investigated in a ROI-based setting using the
+FreeSurfer6, owing to two main reasons. First, deep learning tools often          LPBA40 atlas28. In conclusion, our results indicate that deepmriprep
+perform poorly in a realistic setting where they are applied to MRIs from         is 37 times faster than CAT12 while achieving comparable accuracy in
+scanner sites unseen during model training14. In line with ref. 24, this          the individual preprocessing steps and strongly correlated results in
+problem can be addressed by increasing the number of scanner sites25              the final VBM analysis.
+and the extensive use of data augmentation15,20,24,26. Second, neural
+network-based tools are often specialized for only one processing step,           Results
+while CAT12, SPM and FreeSurfer provide full processing pipelines for             Tissue segmentation
+VBM and other methods such as surface-based morphometry (SBM).                    OpenNeuro-HD. We first evaluated deepmriprep and CAT12 on 685
+Tools, such as SynthMorph24, SynthStrip15 and EasyReg21, attempt to               high-resolution adult MRIs with strict quality control (OpenNeuro-HD)
+resolve this by being integrated into the FreeSurfer toolbox, serving             using cross-dataset validation. deepmriprep demonstrated
+as alternatives for parts of its preprocessing pipeline. However, to the          robust tissue segmentation, achieving a median Dice score DSC-
+best of our knowledge, there is no toolbox that has been developed                median of 95.0 across validation MRIs (Fig. 1a, Supplementary Fig. 1,
+from the ground up to fully harness the potential of neural networks              Supplementary Table 1 (left) and Source Data Fig. 1). This high level of
+across all preprocessing steps needed for VBM analysis.                           agreement with the ground truth—that is, CAT12 tissue segmentation
+     We present deepmriprep, a preprocessing pipeline for VBM analy-              maps derived from high-resolution MRIs (see ‘Preprocessing’ section
+sis of structural MRI data that is built to fully leverage deep learning.         in the Supplementary Information)—is an improvement compared
+deepmriprep uses neural networks for the major VBM preprocessing                  with CAT12 (in original MRI resolution), which achieves a median Dice
+steps: brain extraction, tissue segmentation and spatial registration             score DSCmedian of 93.1.
+with a template. Brain extraction is performed by deepbet14, the most                   The high agreement of deepmriprep’s tissue segmentation with
+accurate existing method to remove nonbrain voxels in T1-weighted                 the ground truth in terms of the Dice score is confirmed by the
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                                        251
+Brief Communication                                                                                                https://doi.org/10.1038/s43588-026-00953-7
+
+
+               a
+                            CSF
+
+             Tissue class
+                             GM
+
+
+
+                            WM
+
+
+
+                      Foreground
+
+
+                                   0              20                      40                            60                          80                    100
+                                                                                  Dice score (DSC)
+
+
+               b                                                  Input magnetic resonance image
+
+
+
+
+                                                              Tissue segmentation map (deepmriprep)
+
+
+
+
+                                       DSC = 0           DSC = 1.9                      DSC = 67.9                     DSC = 73.4                DSC = 75.4
+                                                                 Tissue segmentation map (CAT12)
+
+
+
+
+               Foreground
+               percentile 0                        0.1                            0.2                            0.3                           0.4
+
+Fig. 2 | Dice scores of tissue segmentations of deepmriprep and CAT12 in                and the superimposed box plots represent 25th percentile (lower), median
+OpenNeuro-Total with worst-case segmentation examples. a, Dice scores                   (center) and 75th percentile (upper) with whiskers extending to data points
+between deepmriprep and CAT12 across all 8,279 MRI scans from OpenNeuro                 within 1.5× IQR of the quartiles. b, MRI input (first row) and tissue segmentation
+with respect to the CSF, GM, WM and foreground (mean of CSF, GM and WM).                map (deepmriprep: second row, CAT12: third row) which resulted in the 0.0, 0.1,
+Violin plot density traces terminate exactly at the observed minima and maxima,         0.2, 0.3 and 0.4 percentile foreground Dice scores across all 8,279 MRI scans.
+
+
+
+foreground probabilistic Dice score (pDSC 84.7) and Jaccard score ( JSC                 datasets with only minimal quality control (OpenNeuro-Total). Despite
+90.6) shown in Supplementary Figs. 2 and 3 and Supplementary Tables 2                   this challenging setting, the median Dice score DSCmedian of 93.1 between
+and 3. The segmentation of cerebrospinal fluid (CSF) resulted in the                    deepmriprep and CAT12 tissue maps—not to be confused with Dice
+                                 CSF
+lowest median Dice scores DSCmedian of 91.1 for deepmriprep and 85.6                    scores of each tool’s output compared with ground truths—showed
+for CAT12 (Fig. 2). Furthermore, the CSF Dice scores showed the strong-                 high agreement for most of the respective tissue maps
+est outliers across all 685 validation MRIs, with minimal Dice scores                   (Supplementary Fig. 4a). Again, GM and WM segmentation was most
+     CSF                                                                                                                            GM                      WM
+DSCmin of 73.6 for deepmriprep and 62.9 for CAT12. In the tissue maps                   consistent with Dice scores of 96.0 for DSCmedian and 97.4 for DSCmedian,
+that resulted in the minimal foreground metrics DSCmin, pDSCmin and                     while CSF segmentation resulted in a lower median Dice score of 85.9
+                                                                                                 CSF
+ JSCmin for each method (Fig. 1b and Supplementary Figs. 2 and 3),                      for DSCmedian.
+deepmriprep and CAT12 produced a thicker outer layer of CSF than the                          Despite the absence of ground truth, visually comparing tis-
+ground truth. With respect to gray matter (GM) and white matter (WM),                   sue maps with low Dice scores—that is, low agreement between
+the tissue maps of both methods did not show notable visual differ-                     deepmriprep and CAT12—enables a qualitative assessment of each
+ences compared with the reference maps.                                                 tool’s robustness.
+                                                                                              Throughout the tissue maps with the 0.0th, 0.1th, 0.2th,
+OpenNeuro-Total. To test robustness in a realistic, heterogeneous                       0.3th and 0.4th percentile foreground Dice scores DSC
+setting, we compared deepmriprep and CAT12 on 8,279 scans from 208                      (Supplementary Fig. 4b), deepmriprep showed reasonable results
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                                         252
+Brief Communication                                                                                    https://doi.org/10.1038/s43588-026-00953-7
+
+with minor artifacts, while CAT12 was prone to errors. In the 0.0th                  The VBM results in WM (Supplementary Figs. 12–15) also
+and 0.1th percentile tissue maps, CAT12 produced unusable results              exhibit strong correlations of r > 0.8 between most t-maps. Again,
+with respective Dice scores of 0.0 for DSCGWM and 1.9 for DSCGWM, com-         the BMI-based t-maps showed the lowest correlation caused by
+pared with the reasonable tissue maps created by deepmriprep. In the           CAT12-based large clusters in the cerebellum. In addition, sex-based
+0.2th, 0.3th and 0.4th percentile tissue maps, CAT12 produced less             t-maps for the MNC dataset, BiDirect dataset and the pooled analysis
+detailed tissue maps than deepmriprep and misclassified tissue at              showed lower correlation coefficients of 0.71, 0.71 and 0.73, respec-
+the edge of the brain as background. deepmriprep properly classified           tively, and the HC versus MDD analysis for the BiDirect dataset resulted
+the outer edge tissue, but misclassified areas of CSF as background            in a correlation coefficient of r = 0.74.
+in the 0.4th percentile tissue map. The same characteristic sources                  Finally, ROI-based GM volume measurements of deepmriprep and
+of errors could be found across the 16 tissue maps with the lowest             CAT12 exhibit strong correlations of r > 0.9 across all of the 29 ROIs of
+agreement between deepmriprep and CAT12 (Supplementary Fig. 5),                the LPBA40 atlas, with the only exception being the GM volumes of the
+again measured by DSC. Finally, due to an error, CAT12 did not pro-            brainstem region with a correlation of r = 0.75 (Supplementary Figs. 16–
+duce any tissue map for one MRI scan, while deepmriprep processed              21). For WM, the caudate (r = 0.80), hippocampus (r = 0.81) and cerebel-
+all 8,279 MRIs without any errors.                                             lar lobe (r = 0.89) showed the lowest correlation coefficients, with all
+                                                                               remaining regions resulting in correlations of r > 0.9.
+Image registration
+The registration of tissue probability maps with deepmriprep resulted          Processing time
+in a median mean squared error MSEmedian of 9.9 × 10−3 and a median            deepmriprep achieved the highest processing speed on both low-end
+linear elasticity LE median of 250 during cross-dataset validation             and high-end hardware (Supplementary Fig. 22) across the 8,279 scans
+(Supplementary Figs. 6, left, and 7). These metrics indicate that deep-        from 208 datasets with only minimal quality control (OpenNeuro-Total).
+mriprep performs on par with CAT12 (MSEmedian 9.2 × 10−3, LEmedian 240).       On high-end hardware, DeepMRIPrep took an average of 4.6 s per MRI
+While CAT12 showed slightly better median metrics, the supervised              using the graphics processing unit, whereas CAT12, parallelized across
+SYMNet used within deepmriprep resulted in a smaller maximal linear            all 16 cores of the high-end processor, required an average of 173 s per
+elasticity across MRIs, with an LEmax of 366 (CAT12: LEmax 386), and a         MRI. On low-end hardware, deepmriprep and CAT12 take 209 s and
+smaller 95th percentile LE95p of 280 (CAT12: LE95p 283). This favorable        1,096 s per MRI, respectively.
+linear elasticity indicates improved regularity of the deformation field
+for challenging probability maps—that is, maps that exhibit large              Discussion
+voxel-wise differences from the template.                                      We present deepmriprep, a neural network-based pipeline specifically
+     For both registration methods, the same probability map resulted          built for VBM preprocessing. deepmriprep is 37× faster than CAT12, a
+in the largest voxel-wise mean squared error (MSE) after registration          leading toolbox known to be the more efficient preprocessing alterna-
+(Supplementary Fig. 6, right). Visual inspection of this warped prob-          tive to FreeSurfer for SBM. For preprocessing a large dataset contain-
+ability map uncovers a small misalignment at the upper edge of the             ing 100,000 MRI scans such as the UK Biobank11, this translates into a
+ventricles for deepmriprep, indicating less rigor in aligning the map          reduction of computation time from 6 months to 5 days. While being
+with the template. Based on the absolute voxel-wise difference to the          faster, it delivers equivalent or better accuracy across tissue segmen-
+template, no apparent differences between deepmriprep and CAT12                tation and registration. Most importantly, statistical maps based on
+could be found.                                                                deepmriprep preprocessing show strong correlations with respective
+                                                                               CAT12-based VBM results.
+VBM analyses                                                                         It should be highlighted that assigning reliability to any statistical
+VBM analysis results for GM based on deepmriprep and CAT12 across              VBM map in the absence of gold standard or ground truth is inherently
+all three datasets (Marburg-Münster Affective Disorders Cohort Study           difficult29, aggravated by the large amounts of data required to achieve
+(MACS), Münster Neuroimaging Cohort (MNC) and BiDirect) demon-                 sufficient statistical power10. Therefore, the differences between the
+strated high similarity (Supplementary Fig. 8 and Supplementary Data           results of the deepmriprep- and CAT12-based VBM analyses should
+1), with strong correlation between the respective t-maps                      be interpreted with caution. Consequently, more research is needed
+(Supplementary Table 7). The correlation of t-maps remained strong             to advance VBM from a scientific tool for detecting group-level differ-
+even for the psychometric variables—years of education, HC versus              ences to a reliable clinical application for individual patient diagnosis.
+major depressive disorder (HC versus MDD) and intelligence quotient                  Furthermore, it should be noted that CAT12 is not solely a VBM
+(IQ)—despite their smaller effects compared with the biological vari-          toolbox but also offers SBM, while the current version of deepm-
+ables, namely age, sex and body mass index (BMI). The analyses that            riprep is limited to VBM, a shortcoming that should be addressed in
+used all three datasets all resulted in correlation coefficients of r > 0.8,   a future version of deepmriprep to gain adoption in the broad neuro-
+with BMI (r = 0.75) being the only exception. The equivalence between          imaging community. Furthermore, the nonlinear registration could
+deepmriprep- and CAT12-based analysis outcomes is also supported               be improved by optimizing the affine matrix in conjunction with the
+by their similar maximal, absolute t-scores |t|max(Supplementary Tables 8      warping field, thereby avoiding any potential biases of the initial affine
+and 9), especially for age and HC versus MDD. deepmriprep resulted             registration. Finally, the training data quality could be improved to
+in a larger maximal, absolute t-score for sex and age and smaller max-         further increase deepmriprep’s accuracy. One promising, straightfor-
+imal, absolute t-scores for IQ, years of education and BMI. The differ-        ward approach would be to use more training data with higher image
+ence in maximal values and the reduced t-map correlation for BMI was           quality, for instance, by using MRIs acquired with increased scan time,
+primarily driven by a large cluster in the outer cerebellum, which             increased matrix size and reduced slice thickness.In addition, human
+appeared only in the CAT12-preprocessed data (Supplementary Fig. 8).           expert annotations can be used to generate high-quality tissue segmen-
+      The correlation coefficients of r > 0.8 also hold for the analyses       tation maps and deformation fields, which can then be combined with
+using the MACS dataset and BiDirect dataset individually, again with           lower-quality MRIs from the same session as input data. This would
+BMI being the exception due to CAT12-based large clusters in the outer         train the neural networks to predict high-quality tissue segmentation
+cerebellum (Supplementary Figs. 9 and 11). For analyses using only             maps and deformation fields, even if the input MRI is of lower quality.
+the MNC dataset, BMI-based t-maps strongly correlated with r = 0.83,                 Although deepmriprep’s high processing speed and user-friendly
+while the sex-based t-maps resulted in a correlation coefficient of r =        interface are its main advantages, its underlying software design
+0.72 (Supplementary Fig. 10).                                                  may hold even greater implications for future development
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                        253
+Brief Communication                                                                                 https://doi.org/10.1038/s43588-026-00953-7
+
+(https://github.com/wwu-mmll/deepmriprep)30. The software is                 Neuroimaging Initiative34 to synthetically introduce global neocorti-
+structured into small, modular components, each comprising fewer             cal atrophy. Simulating ten progressions of atrophy, ranging from
+than 1,000 lines of code. This streamlined design improves long-term         0.1 mm to 1 mm of global thickness reduction, the resulting dataset
+maintainability and reduces the likelihood of potentially far-reaching       consists of 220 T1w MRIs (including the 20 originals) and their respec-
+bugs5,31. Most importantly, the straightforward software architecture        tive ground-truth tissue maps.
+of deepmriprep reduces the barrier for researchers in VBM and other               To additionally investigate the influence of scanner effects, we
+neuroimaging domains, making it easier to understand, adapt and              introduce artificial artifacts in the 20 original T1w MRIs using Rician
+reuse the code for various neuroimaging pipelines. We anticipate that        noise, bias field, blurring, ghosting, motion, ringing and spike artifacts
+the broader adoption of deepmriprep into other neuroimaging pipe-            (Supplementary Fig. 25). Each of the seven artifacts is applied with
+lines will advance the underlying methods, thus fostering progress in        medium and strong intensity, resulting in 480 synthetic MRIs.
+the broader neuroscience community.
+                                                                             VBM analysis datasets. For the VBM analyses, we use a total of 4,017 MRIs
+Methods                                                                      from three independent German cohorts (Supplementary Fig. 26): the
+Datasets                                                                     Marburg-Münster Affective Disorders Cohort Study (MACS; N = 1,799),
+This study uses existing data from 225 datasets published on the Open-       the Münster Neuroimaging Cohort (MNC; N = 1,194) and the BiDirect
+Neuro platform32 downloaded via the openneuro-py version 2023.1.0            cohort (N = 1,024). All three cohorts include subsamples with both
+Python package (https://github.com/hoechenberger/openneuro-py).              patients with MDD and HCs who are free from any lifetime mental
+OpenNeuro data from adult HCs were used for training and validation          disorder diagnoses according to DSM-IV criteria.
+with cross-validation, while OpenNeuro data from HCs aged 2–12 years
+were used for testing, along with a Synthetic Atrophy dataset and            Marburg-Münster Affective Disorders Cohort Study (FOR2107/MACS).
+three patient datasets: the Münster Neuroimaging Cohort (MNC), the           Patients were recruited through psychiatric hospitals, while the con-
+Marburg-Münster Affective Disorders Cohort Study (FOR2107/MACS)              trol group was recruited via newspaper advertisements. Patients
+and the BiDirect study. Data availability is governed by the respective      diagnosed with MDD showed varying levels of symptom severity and
+consortia. No new data were acquired for this study.                         underwent various forms of treatment (inpatient, outpatient or none).
+                                                                             The FOR2107/MACS was conducted at two scanning sites: University of
+Training and validation datasets. OpenNeuro-Total. Out of the over           Münster and University of Marburg. Inclusion criteria for the present
+700 datasets available at OpenNeuro at the time of compilation (10           study were availability of completed baseline MRI data with sufficient
+November 2021), each dataset that contained at least five T1w MRIs from      MRI quality. Further details about the structure of the FOR2107/MACS35
+at least five adult HCs was included, resulting in 208 datasets. Based on    and MRI quality assurance protocol36 are provided elsewhere.
+a successive visual quality check, 30 MRIs were excluded, mainly due
+to improper masking (Supplementary Fig. 23a) and erroneous orienta-          Münster Neuroimaging Cohort (MNC). In MNC, patients were recruited
+tion (Supplementary Fig. 23b). The remaining compilation of 8,279 T1w        from local psychiatric hospitals and underwent inpatient treatment
+MRIs is used as the OpenNeuro-Total dataset (Supplementary Fig. 24           due to a moderate or severe depressive disorder. Further information
+and Supplementary Table 10).                                                 regarding this study can be found in refs. 37,38.
+
+OpenNeuro-HD. The 8,279 MRIs from OpenNeuro-Total were preproc-              BiDirect. The BiDirect Study is a prospective project that comprises
+essed using the commonly used CAT12 toolbox (https://neuro-jena.             three distinct cohorts: patients hospitalized for an acute episode of
+github.io/cat/) with default parameters7. To ensure high quality of the      major depression, patients up to 6 months after an acute cardiac event,
+training data, strict quality thresholds were set based on the preprocess-   and HCs randomly drawn from the population register of the city
+ing quality ratings provided by the toolbox. To be included, all ratings     of Münster, Germany. Further details on the rationale, design and
+had to be at least a B− grade, resulting in the following thresholds: a      recruitment procedures of the BiDirect study have been described
+surface Euler number below 25, a surface defect area under 5.0, a surface    in refs. 39,40.
+intensity root mean square error below 0.1, and a surface position root
+mean square error below 1.0. All OpenNeuro datasets that contained           Preprocessing
+fewer than ten adult HCs after this quality control were excluded. In the    All datasets are preprocessed using the VBM pipeline of version 12.8.2
+remaining datasets, MRIs were ranked according to the surface defect         of the CAT12 toolbox, which was the latest version available at the time
+number, and finally the top five MRIs per dataset that passed a visual       of analysis, with default parameters7. The affine transformation calcu-
+quality check were included in the dataset. This results in a total of 685   lated during this initial CAT12 preprocessing is used such that tissue
+MRIs from 137 datasets called OpenNeuro-HD (Supplementary Fig. 24,           segmentation (see ‘Tissue segmentation’ section in the Methods) and
+middle, Supplementary Table 10 and Source Data Fig. 2).                      image registration (see ‘Image registration’ section in the Methods) are
+                                                                             consistently applied in the template coordinate space. Image registra-
+Test datasets. OpenNeuro-Kids. Among the over 700 datasets avail-            tion is based on GM and WM probability maps in the standard resolution
+able at OpenNeuro at the time of compilation (10 November 2021),             of 1.5 mm (113 × 137 × 113 voxels).
+each dataset that contained at least 5 T1w MRIs from at least 5 HCs in             For tissue segmentation, unprocessed MRIs are affinely registered
+the age range from 2 to 12 years was included, resulting in 18 datasets.     to the template in a high resolution of 0.5 mm (339 × 411 × 339 voxels)
+Based on a successive visual quality check, 300 MRIs were excluded,          using B-spline interpolation, and the CAT12 preprocessing is repeated
+mainly due to strong motion artifacts (Supplementary Fig. 23c) and           on the basis of these high-resolution MRIs. This circumvents any poten-
+improper masking (Supplementary Fig. 23d). The remaining com-                tial image degradation caused by additional resizing of the CAT12 tissue
+pilation of 867 T1w MRIs is used as the OpenNeuro-Kids dataset               map. Because there exist no ground-truth tissue maps, these
+(Supplementary Fig. 24, right, Supplementary Table 10 and Source             high-resolution tissue maps are used as reference maps for model
+Data Fig. 1). The CAT12 preprocessing for OpenNeuro-Kids used the            training and validation. Because the MRIs are skull-stripped before
+TMP_Age11.5 template.                                                        tissue segmentation in deepmriprep’s prediction pipeline (see ‘Predic-
+                                                                             tion pipeline’ section in the Methods), all voxels in the MRI that do not
+Synthetic atrophy and synthetic artifacts. Published by Rusak et al.33,      contain tissue in the respective tissue map are set to zero. Furthermore,
+this dataset uses T1w MRIs of 20 HCs from the Alzheimer’s Disease            the standard N4 bias correction41 is applied using the ANTS package4
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                    254
+Brief Communication                                                                                       https://doi.org/10.1038/s43588-026-00953-7
+
+to avoid interference with potential artificial bias fields introduced         the patch. To exploit the brain’s bilateral symmetry, each of the patch
+during data augmentation (see ‘Data augmentation’ section in the               on the left hemisphere is moved in lockstep with its corresponding
+Methods). Finally, min–max scaling between the 0.5th and 99.5th                patch on the right hemisphere.
+percentile is used as proposed in ref. 23 with one modification: values             Before applying patches from the right hemisphere to the UNet,
+above the maximum are not clipped to one but scaled via the function           we apply flipping along the sagittal axis such that they resemble
+ f(x) = 1 + log10 x to prevent any loss of crucial information in areas with   left-hemisphere patches. The resulting prediction is then flipped back.
+extreme intensity values (for example, blood vessels). The code for the        This approach reduces the number of effective patch positions for
+input preprocessing is publicly accessible at https://github.com/wwu-          which individual UNets need to be trained from 27 to 18.
+mmll/deepmriprep-train (ref. 42).                                                   Close to the border of a patch, the accuracy of the prediction
+                                                                               typically decreases. Therefore, predictions close to the border of
+Data augmentation                                                              a patch are weighted less via Gaussian importance weighting23 dur-
+Data augmentation is used during training to artificially introduce            ing accumulation of the final prediction containing 336 × 384 ×
+image artifacts that may occur in real-world datasets. This increases          336 voxels.
+model generalizability, because effects that are infrequent in the train-
+ing data can be systematically oversampled with any desired intensity.         Multilevel activation function. Based on SPM3, the tissue maps pro-
+Data augmentations for the image registration step would have to be            duced by CAT12 contain continuous values ranging from 0 to 3. The
+consistent with equation (2), requiring specialized implementations.           values 1, 2 and 3 correspond to CSF, GM and WM, while 0 indicates that
+Hence, for the current version of deepmriprep, data augmentation is            the respective voxel does not contain any tissue. The histogram of the
+omitted during image registration model training.                              template tissue map (Supplementary Fig. 29, right) shows that values
+     The 12 different data augmentations used during model train-              close to 0, 1, 2 and 3 are more frequent than intermediate values. Fur-
+ing (Supplementary Fig. 27) are implemented in the niftiai version             thermore, smaller peaks can be observed around the values 1.5 and 2.5,
+0.3.2 Python package (https://github.com/codingfisch/niftiai)43 and            which correspond to the classes CSF–GM and GM–WM, respectively,
+introduce artificial bias fields, motion artifacts, noise, blurring, ghost-    which CAT12 introduces. To introduce an inductive bias toward this
+ing, spike artifacts, downsampling, translation, flipping, brightness,         desired value distribution, the final layer of the tissue segmentation
+contrast and Gibbs ringing. Bias fields are generated by applying an           UNet utilizes a custom multilevel activation function inspired by Hu
+inverse Fourier transform to low-frequency Gaussian noise, whereas             et al.50. This custom multilevel activation is achieved through the sum-
+motion artifacts, ghosting44, spike artifacts45 and Gibbs ringing46 are        mation of six sigmoid functions,
+achieved by introducing artifacts in the k-space of the T1w MRI. To be
+                                                                                                                             S(α(x − i))                1
+MRI-specific, noise is sampled out of a chi distribution47, a generaliza-               f(x) = S(αx) +         ∑                         with S(x) =         ,
+                                                                                                                                 2                   1 + e−x
+tion of the Rician noise distribution48. Instead of using the full set of                                i∈[1.5,2.,2.5,3.]
+
+affine and nonlinear spatial transformations, only translation and
+flipping are applied via nearest-neighbor resampling to circumvent             with α being a parameter of the neural network that is optimized during
+any potential image degradation.                                               model training. This function (Supplementary Fig. 29, left) successfully
+                                                                               maps a normal distribution—that is, the typical output distribution of
+Tissue segmentation                                                            a neural network—to the desired value distribution with peaks at 0, 1,
+To achieve high-quality tissue segmentation, a cascaded 3D UNet                1.5, 2, 2.5 and 3 (Supplementary Fig. 29, middle). In combination with
+approach, inspired by Isensee et al.23, is applied to a cropped region of      a MAE loss, this multilevel activation function facilitates the training
+336 × 384 × 336 voxels in the high-resolution MRI (see ‘Preprocessing’         of the tissue segmentation model.
+section in the Methods). This specific cropping is chosen to make the
+image dimensions divisible by 16 (required by UNet), without excluding         Training procedure. The two stages of 3D UNets are trained in a
+voxels which potentially contain tissue. The first stage of the cascaded       cascaded fashion. The first stage model is trained for 60 epochs on
+UNet processes the whole image with a reduced resolution of 0.75 mm            full-view MRIs with a resolution of 0.75 mm (224 × 256 × 224 voxels)
+(224 × 256 × 224 voxels). In the second stage, the original resolution of      using a batch size of 1.
+0.5 mm is processed using a patchwise approach, which incorporates                  The training of the 3 × 3 × 3 patchwise approach in the second stage
+the prediction from the first stage in its model input. For each patch         is more complex and results in 18 models, each dedicated to one of
+position, an individual UNet is trained (see ‘Training procedure’ sec-         the 18 effective patch positions (3 × 3 × 3 = 27 minus the 9 flipped right
+tion in the Methods). Both stages of the UNet architecture are identical       hemisphere patches; see ‘Patchwise UNet’ section in the Methods).
+with respect to the use of the rectified linear unit (ReLU) activation         First, a UNet is trained on all effective patch positions for two epochs as
+function, instance normalization49, a depth of 4, and the doubling of          a foundation model. For each of the 18 patch positions, this foundation
+the number of channels with increasing depth, starting with 8 chan-            model is finally fine-tuned, using solely the respective patch position
+nels. The implementation of the model and the training procedure               for 20 epochs. For all patch-based training the batch size is set to 2, and
+is publicly accessible via GitHub at https://github.com/wwu-mmll/              the flip augmentation is disabled for patches located on the left and
+deepmriprep-train (ref. 42).                                                   right hemispheres. The input of the second model consists of patches
+                                                                               of the original MRI, concatenated with the respective patch of the first
+Patchwise UNet. The second stage of the cascaded UNet subdivides               stage predictions upsampled to the image resolution of 0.5 mm. All
+the 336 × 384 × 336 voxels of the high-resolution MRI into 27 patches,         models are trained with the one-cycle learning rate schedule51 using a
+each containing 128 × 128 × 128 voxels (Supplementary Fig. 28). For            maximal learning rate of 0.001, which follows the default settings of
+each of these 27 patches, a specific UNet model is trained (see ‘Train-        the fastai library52.
+ing procedure’ section in the Methods). To minimize the number of
+voxels in a patch that do not contain any tissue, the positions of the         Image registration
+patches are optimized based on the tissue segmentation masks of the            To introduce the neural network-based image registration used for
+685 MRIs in OpenNeuro-HD. This iterative optimization starts from a            deepmriprep, we first introduce the standard image registration
+regular grid of 3 × 3 × 3 patches that covers the total volume. Then, each     approaches. In standard image registration such as DARTEL27, given
+patch is moved stepwise by one voxel toward the image center until this        an input image I and a template J, the sum of image dissimilarity D and
+would cause a tissue voxel in one of the 685 MRIs not to be covered by         a regularization metric R weighted with a regularization parameter Λ,
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                                   255
+Brief Communication                                                                                                                https://doi.org/10.1038/s43588-026-00953-7
+
+
+                           L(I, J, Φ) = D(I ⋅ Φ, J) + ΛR(Φ)                                uses instance normalization49, a depth of 4, and is doubling the number
+                                                                                           of channels with increasing depth, starting with 8 channels. However,
+is minimized via the deformation field Φ. In the loss function L used in                   we apply two modifications: (1) usage of LeakyReLU58 instead of ReLU
+this standard approach, the regularization parameter Λ controls the                        activation layers, and (2) hyperbolic tangent (tanh) activation function
+trade-off between image similarity and the regularity of the deforma-                      in the final layer, ensuring that the UNet’s output conforms to the value
+tion field. In CAT12, the default metric for image similarity is simply the                range of −1 to 1 used for image coordinates by PyTorch59. The model is
+MSE between the moving and the target image                                                trained for 50 epochs using the one-cycle learning rate schedule with
+                                                                                           a maximal learning rate of 0.001.
+                                              1
+            D(I ⋅ Φ, J) = MSE(I ⋅ Φ, J) =         ∑ ||I ⋅ Φ(p) − J(p)||2 ,                      During initial tests, training with the standard SyN loss function
+                                             |Ω| p∈Ω
+                                                                                           (equation (3)) led to major artifacts in the predicted velocity and defor-
+                                                                                           mation field (Supplementary Fig. 31b). To avoid these artifacts, we
+and the regularization term is the linear elasticity of the deformation                    tested supervised approaches (Supplementary Fig. 31c–e) that utilize
+field Φ                                                                                    deformation fields created by CAT12 (Supplementary Fig. 31a). Using
+                                                                                                                                                                                               1       1
+                                                                                                                                                                                                   −
+                                        λ          2
+                                                                                           an iterative approach, we determined the velocity fields vCAT
+                                                                                                                                                      2
+                                                                                                                                                          and vCAT
+                                                                                                                                                                 2
+                                             2
+                   R(Φ) = ∫ (μ ∥ ϵ(Φ)∥ + (tr(ϵ(Φ))) ) dx,                            (1)                                                                −1
+                                                                                           that produce these given deformation fields ΦCAT and ΦCAT in our
+                                        2
+                                                                                           PyTorch-based implementation and used these velocity fields as tar-
+                                                                                           gets. Using the MSE, the resulting loss function Lv measures disagree-
+where μ is the weight of the zoom elasticity and λ is the weight of the                                                                         1       1
+                                                                                           ments between the predicted velocity fields v 2 and v− 2 and the
+shearing elasticity.                                                                       targets via
+    To guarantee that the deformations are invertible, registration
+frameworks27,53,54 consider the deformation as the solution of an initial                             1
+                                                                                                          −
+                                                                                                              1
+                                                                                                                        1                   1
+                                                                                                                                                1
+                                                                                                                                                          −          −
+                                                                                                                                                                       1
+                                                                                                                                                                                         1
+
+                                                                                                Lv (v 2 , v   2   )=        ∑ ||v 2 (p) − v 2 (p)||2 + ||vCAT
+                                                                                                                                                            2
+                                                                                                                                                              (p) − v 2 (p)||2 .
+value problem of the form                                                                                              |Ω| p∈Ω CAT
+
+                   dΦ(s; x)
+                            = v(Φ(s; x), s) with Φ(0; x) = x.                        (2)        Using this loss function, the predicted velocity fields show fewer
+                     ds
+                                                                                           artifacts, but based on the resulting Jacobi determinant field JΦ, some
+                                                                                           inaccuracies remain (Supplementary Fig. 31c). The Jacobi determinant
+The mapping x → Φ(s; x) defines a family of diffeomorphisms for all time                   indicates the volume change caused by the deformation for each voxel.
+s ∈ [0, τ]. Hence, it is guaranteed that an inverse of the mapping exists,                 By explicitly adding the MSE between the predicted and ground-truth
+which can be computed through backward integration. As proposed                            Jacobi determinant JΦ, the loss function
+in DARTEL (diffeomorphic anatomical registration through exponenti-                                                                                                1
+                                                                                                                               1        1                                            1
+ated lie algebra), a stationary velocity field framework instead of the                                           Lv,JΦ (v 2 , v
+                                                                                                                                    −
+                                                                                                                                        2   )=
+                                                                                                                                                        1
+                                                                                                                                                            ∑ ||vCAT
+                                                                                                                                                                 2
+                                                                                                                                                                     (p) − v 2 (p)||2
+                                                                                                                                                    |Ω| p∈Ω
+large deformation diffeomorphic metric mapping (LDDMM) model55,56
+allows the velocity field v to be constant over time. Using this simplifica-                                           −
+                                                                                                                           1
+                                                                                                                                            −
+                                                                                                                                                1
+
+tion, the regularity of the deformation field—that is, smoothness and                                             +||vCAT
+                                                                                                                       2
+                                                                                                                          (p) − v               2   (p)||2 + ||JΦ CAT (p) − JΦ (p)||2
+invertibility—is automatically reinforced via forward integration (also
+called shooting) of this constant velocity field. In this way, a smooth                    improves regularity of the predicted velocity fields and the resulting
+and invertible deformation field can be found by iteratively optimizing                    Jacobi determinant field (Supplementary Fig. 31d). Finally, we reintro-
+the velocity field v with respect to L using a gradient descent approach.                  duce the original loss function LSyN as
+      SyN registration57 additionally enforces symmetry between the                                                                     1           1                  1       1
+                                                                                                                                                −                          −
+forward (image to template) Φ and backward (template to image)                                                    Lsupervised (v 2 , v              2   ) = Lv,JΦ (v 2 , v     2   ) + βLSyN
+deformation field Φ−1. SyN considers the full forward and     1
+                                                                 backward
+                                                                        1
+                                                                     −
+deformations to be compositions of half deformations Φ 2 and Φ 2 via
+                            1          1                      1         1
+                                                                                           with β set to 2 × 10−5. The fields predicted with this approach, called
+                                   −             −1       −
+                   Φ = Φ 2 ⋅ −Φ        2   and Φ      =Φ      2   ⋅ −Φ 2 .                 supervised SYMNet or sSYMNet, do not show any apparent artifacts
+                                                                                           (Supplementary Fig. 31e). The implementation of the model and the
+Based on this consideration, SyN adds the dissimilarity between the                        training procedure is publicly accessible via GitHub at https://github.
+image and the backward deformed template D(I, J ⋅ Φ−1) and the dis-                        com/wwu-mmll/deepmriprep-train (ref. 42).
+similarity between the half forward
+                                 1
+                                     deformed
+                                          1
+                                                 image and the half back-
+                                        −
+ward deformed template D(I ⋅ Φ 2 , J ⋅ Φ 2 ) to arrive at the loss function                Cross-dataset validation and evaluation metrics
+                                                              1        −1
+                                                                                           We follow best practices by applying a five-fold cross-dataset valida-
+       L(I, J, Φ) = D(I ⋅ Φ, J) + D(I, J ⋅ Φ−1 ) + D (I ⋅ Φ 2 , J ⋅ Φ 2 ) + ΛR(Φ).   (3)   tion—that is, cross-validation with datasets grouped together—using
+                                                                                           the 137 datasets from OpenNeuro-HD (see ‘Training and validation
+                                                                                       1
+                                                                                           datasets’ section in the Methods). Thereby, we enforce realistic perfor-
+Using the
+       1
+           diffeomorphic mapping in equation (2), velocity
+                                                      1
+                                                             fields
+                                                               1
+                                                                    v2                     mance measures because all reported results are achieved in datasets
+                                                             −
+and v− 2 are used to generate the half deformations Φ 2 and Φ 2 .                          unseen during training of the respective model. We apply the same folds
+                                                                                           across tissue segmentation, image registration and GM masking (see
+Model architecture and training. The neural network-based image                            ‘Gray matter masking’ in the Supplementary Information) to avoid data
+registration framework used for deepmriprep is based on SYMNet221                          leakage between these processing steps. The test datasets (see ‘Test
+and uses1
+            a UNet to predict the forward and backward velocity field v 2                  datasets’ section in the Methods) and the datasets in OpenNeuro-Total
+and v− 2 . Analogous to the SyN registration, these velocity fields are                    and OpenNeuro-Kids, which are not part of OpenNeuro-HD (see
+integrated1
+              according
+                   1
+                         to equation (2) to arrive at the half deformation                 ‘OpenNeuro-Total’ section in the ‘Results’), are evaluated with an addi-
+                 −
+fields Φ 2 and Φ 2 via the scaling and squaring method27,53 with τ = 7 time                tional model trained with the full OpenNeuro-HD dataset.
+steps (Supplementary Fig. 30).                                                                   Given that the distribution of performance metrics across images
+     Similar to the neural network architecture used for tissue segmen-                    is often skewed, the median is used as a measure of central tendency,
+tation (see ‘Tissue segmentation’ section in the Methods), the UNet                        complemented by a visual inspection of negative outliers.
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                                                                     256
+Brief Communication                                                                                  https://doi.org/10.1038/s43588-026-00953-7
+
+     To evaluate tissue segmentation and GM masking performance,             protection regulations and the sensitive nature of clinical MRI data but
+we use the Dice score DSC, the probabilistic Dice score pDSC and the         can be made available in form of summary statistics or anonymized
+Jaccard score JSC. The image registrations are evaluated based on the        aggregation of voxel-wise data upon reasonable request to the cor-
+regularity of the deformation field and the dissimilarity between the        responding author, within 4 weeks, depending on the required data or
+warped input and the template image. This dissimilarity is measured          results derivates. The data availability of the FOR2107/MACS and MNC
+using the voxel-wise MSE between the images. The deformation field’s         dataset is governed by U.D. and the availibility of the BiDirect dataset
+regularity—that is, its physical legitimacy—is quantified via the linear     is governed by K.B. Source data are provided in this paper.
+elasticity LE (equation (1)).
+                                                                             Code availability
+Prediction pipeline                                                          This Brief Communication describes deepmriprep version 0.3.1, which
+The complete deepmriprep pipeline used before the GLM analysis in            is publicly available via GitHub at https://github.com/wwu-mmll/deep-
+the ‘VBM analyses’ section in the ‘Results’ consists of six steps: brain     mriprep (ref. 30). The implementation of the models and the respective
+extraction, affine registration, tissue segmentation, tissue separa-         training procedures are publicly available via GitHub at https://github.
+tion, nonlinear registration and smoothing. After brain extraction           com/wwu-mmll/deepmriprep-train (ref. 42).
+using deepbet14 with default settings, affine registration is applied
+using the sum of the MSE (between image and template) and Dice loss          References
+(between image brain mask and template brain mask). The affine regis-        1.    Ashburner, J. & Friston, K. J. Voxel-based morphometry—the
+tration is implemented in torchreg60 with zero padding—sensible after              methods. NeuroImage 11, 805–821 (2000).
+brain extraction—and the default two-stage setting with 500 iterations       2.    Friston, K. J. et al. Statistical parametric maps in functional
+in 12-mm3 and successive 100 iterations in 6-mm3 image resolution.                 imaging: a general linear approach. Hum. Brain Mapping 2,
+After tissue segmentation (see ‘Tissue segmentation’ section in the                189–210 (1994).
+Methods) and before image registration (see ‘Image registration’ sec-        3.    Ashburner, J. & Friston, K. J. Unified segmentation. NeuroImage
+tion in the Methods), we apply GM masking in the ventricles and around             26, 839–851 (2005).
+the brain stem to conform the probability masks to an undocumented           4.    Avants, B. B. et al. A reproducible evaluation of ANTs similarity
+step in the existing CAT12 preprocessing (see ‘Gray matter masking’                metric performance in brain image registration. NeuroImage 54,
+section in the Supplementary Information). After image registration                2033–2044 (2011).
+of the GM and WM probability masks, Gaussian smoothing with a 6 mm           5.    Cox, R. W. AFNI: software for analysis and visualization of
+full width at half maximum kernel is applied. In line with all previous            functional magnetic resonance neuroimages. Comput. Biomed.
+steps, smoothing (a simple convolution operation) is implemented in                Res. 29, 162–173 (1996).
+PyTorch, enabling graphics processing unit acceleration throughout           6.    Fischl, B. FreeSurfer. NeuroImage 62, 774–781 (2012).
+the entire prediction pipeline.                                              7.    Gaser, C. et al. CAT: a computational anatomy toolbox for the
+                                                                                   analysis of structural MRI data. GigaScience 13, giae049 (2024).
+VBM analyses                                                                 8.    Smith, S. M. et al. Advances in functional and structural MR image
+To investigate the effect of different preprocessings on the VBM analy-            analysis and implementation as FSL. NeuroImage 23, S208–S219
+ses, deepmriprep- and CAT12-preprocessed data are used to examine                  (2004).
+statistical associations with both biological variables (age, sex and BMI)   9.    Winter, N. R. et al. Quantifying deviations of brain structure and
+and psychometric variables (years of education, MDD versus HC, and                 function in major depressive disorder across neuroimaging
+IQ). To ensure the reliability of results, each VBM analysis is repeated           modalities. JAMA Psychiatry 79, 879–888 (2022).
+100 times with a randomly selected 80% subset of the data. Finally, the      10.   Marek, S. et al. Reproducible brain-wide association studies
+median t-map across these 100 VBM analyses is used to compare the                  require thousands of individuals. Nature 603, 654–660
+VBM results of deepmriprep and CAT12.                                              (2022).
+                                                                             11.   Bycroft, C. et al. The UK Biobank resource with deep phenotyping
+Statistics and reproducibility                                                     and genomic data. Nature 562, 203–209 (2018).
+We follow best practices by applying a five-fold cross-dataset valida-       12.   Shen, D., Wu, G. & Suk, H. eung-I. l Deep learning in medical
+tion—that is, cross-validation with datasets grouped together—during               image analysis. Annu. Rev. Biomed. Eng. 19, 221–248 (2017).
+training and extensive testing of the models across multiple test data-      13.   Ronneberger, O., Fischer, P. & Brox, T. U-Net: convolutional
+sets. In addition, the number of datasets was maximized by collecting              networks for biomedical image segmentation. In Medical Image
+MRI data from OpenNeuro and performing quality checks, resulting in                Computing and Computer-Assisted Intervention – MICCAI 2015
+225 datasets. Each VBM analysis is repeated 100 times with a randomly              (eds Navab, N. et al.) Vol. 9351, 234–241 (Springer, 2015).
+selected 80% subset of the data. No statistical method was used to           14.   Fisch, L. et al. deepbet: fast brain extraction of T1-weighted MRI
+predetermine sample size.                                                          using convolutional neural networks. Comput. Biol. Med. 179,
+                                                                                   108845 (2024).
+Reporting summary                                                            15.   Hoopes, A., Mora, J. S., Dalca, A. V., Fischl, B. & Hoffmann, M.
+Further information on research design is available in the Nature                  SynthStrip: skull-stripping for any brain image. NeuroImage 260,
+Portfolio Reporting Summary linked to this article.                                119474 (2022).
+                                                                             16.   Isensee, F. et al. Automated brain extraction of multisequence
+Data availability                                                                  MRI using artificial neural networks. Hum. Brain Mapping 40,
+All raw data of the datasets OpenNeuro-HD, OpenNeuro-Total and                     4952–4964 (2019).
+OpenNeuro-Kids are publicly available at https://openneuro.org (the          17.   Kumar, P., Nagar, P., Arora, C. & Gupta, A. U-Segnet: fully
+respective OpenNeuro dataset IDs and filepaths can be found in Sup-                convolutional neural network based automated brain tissue
+plementary Data 1). All raw data of the Synthetic Atrophy dataset are              segmentation tool. In 2018 25th IEEE International Conference on
+publicly available at https://data.csiro.au/collection/csiro:53241. With           Image Processing 3503–3507 (IEEE, 2018).
+regard to the Marburg-Münster Affective Disorders Cohort Study               18.   Moeskops, P. et al. Automatic segmentation of MR brain images of
+(FOR2107/MACS), Münster Neuroimaging Cohort (MNC) and BiDirect                     preterm infants using supervised classification. NeuroImage 118,
+dataset, individual raw data are not published due to current EU data              628–641 (2015).
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                   257
+Brief Communication                                                                                     https://doi.org/10.1038/s43588-026-00953-7
+
+19. Balakrishnan, G., Zhao, A., Sabuncu, M. R., Guttag, J. & Dalca, A. V.       40. Teuber, A. et al. MR imaging of the brain in large cohort studies:
+    VoxelMorph: a learning framework for deformable medical image                   feasibility report of the population- and patient-based BiDirect
+    registration. IEEE Trans. Med. Imaging 38, 1788–1800                            study. Eur. Radiol. 27, 231–238 (2017).
+    (2019).                                                                     41. Tustison, N. J. et al. N4ITK: improved N3 bias correction. IEEE
+20. Hoffmann, M., Hoopes, A., Fischl, B. & Dalca, A. V.                             Trans. Med. Imag. 29, 1310–1320 (2010).
+    Anatomy-specific acquisition-agnostic affine registration learned           42. Fisch, L. deepmriprep-train: version 0.1.0. Zenodo https://doi.org/
+    from fictitious images. In Medical Imaging 2023: Image Processing               10.5281/zenodo.17749045 (2025).
+    Vol. 12464 (eds Oliver, C. et al) 1246402 (SPIE, 2023).                     43. Fisch, L. niftiai: version 0.3.2. Zenodo https://doi.org/10.5281/
+21. Iglesias, J. E. A ready-to-use machine learning tool for symmetric              zenodo.17749166 (2025).
+    multi-modality registration of brain MRI. Sci. Rep. 13, 6657                44. Wood, M. L. & Henkelman, R. M. MR image artifacts from periodic
+    (2023).                                                                         motion. Med. Phys. 12, 143–151 (1985).
+22. Mok, T. C. W. & Chung, A. C. S. Fast symmetric diffeomorphic                45. Graves, M. J. & Mitchell, D. G. Body MRI artifacts in clinical
+    image registration with convolutional neural networks. In Proc.                 practice: a physicist’s and radiologist’s perspective. J. Magn.
+    IEEE/CVF Conference on Computer Vision and Pattern Recognition                  Reson. Imag. 38, 269–287 (2013).
+    4644–4653 (IEEE, 2020).                                                     46. Veraart, J., Fieremans, E., Jelescu, I. O., Knoll, F. & Novikov, D. S.
+23. Isensee, F., Jaeger, P. F., Kohl, S. A. A., Petersen, J. & Maier-Hein, K.       Gibbs ringing in diffusion MRI. Magn. Reson. Med. 76, 301–314
+    H. nnU-Net: a self-configuring method for deep learning-based                   (2016).
+    biomedical image segmentation. Nat. Methods 18, 203–211 (2021).             47. Aja-Fernández, S., Vegas-Sánchez-Ferrero, G. & Tristán-Vega,
+24. Hoffmann, M. et al. SynthMorph: learning contrast-invariant                     A. Noise estimation in parallel MRI: GRAPPA and SENSE. Magn.
+    registration without acquired images. IEEE Trans. Med. Imaging                  Reson. Imag. 32, 281–290 (2014).
+    41, 543–558 (2022).                                                         48. Gudbjartsson, H.áK. on & Patz, S. The Rician distribution of noisy
+25. Mårtensson, G. et al. The reliability of a deep learning model in               MRI data. Magn. Reson. Med. 34, 910–914 (1995).
+    clinical out-of-distribution MRI data: a multicohort study. Med.            49. Ulyanov, D., Vedaldi, A. & Lempitsky, V. Instance normalization:
+    Image Anal. 66, 101714 (2020).                                                  the missing ingredient for fast stylization. Preprint at https://arxiv.
+26. Hoffmann, M., Billot, B., Iglesias, J. E., Fischl, B. & Dalca, A. V.            org/abs/1607.08022 (2017).
+    Learning MRI contrast-agnostic registration. In 2021 IEEE 18th              50. Hu, X. et al. Hierarchical multi-class segmentation of glioma
+    International Symposium on Biomedical Imaging 899–903 (IEEE,                    images using networks with multi-level activation function. In
+    2021).                                                                          Brainlesion: Glioma, Multiple Sclerosis, Stroke and Traumatic Brain
+27. Ashburner, J. A fast diffeomorphic image registration algorithm.                Injuries, Lecture Notes in Computer Science (eds Crimi, A. et al.)
+    NeuroImage 38, 95–113 (2007).                                                   116–127 (Springer, 2019).
+28. Shattuck, D. W. et al. Construction of a 3D probabilistic atlas of          51. Smith, L. N. Cyclical learning rates for training neural networks. In
+    human cortical structures. NeuroImage 39, 1064–80 (2008).                       2017 IEEE Winter Conference on Applications of Computer Vision
+29. Zhou, X. et al. Choice of voxel-based morphometry processing                    464–472 (IEEE, 2017).
+    pipeline drives variability in the location of neuroanatomical brain        52. Howard, J. & Gugger, S. Fastai: a layered API for deep learning.
+    markers. Commun. Biol. 5, 913 (2022).                                           Information 11, 108 (2020).
+30. Fisch, L. deepmriprep: version 0.3.1. Zenodo https://doi.org/               53. Arsigny, V., Pennec, X. & Ayache, N. Polyrigid and polyaffine
+    10.5281/zenodo.17748963 (2025).                                                 transformations: a novel geometrical tool to deal with non-rigid
+31. Eklund, A., Nichols, T. E. & Knutsson, H. Cluster failure: why fMRI             deformations—application to the registration of histological
+    inferences for spatial extent have inflated false-positive rates.               slices. Med. Image Anal. 9, 507–523 (2005).
+    Proc. Natl Acad. Sci. USA 113, 7900–7905 (2016).                            54. Camion, V. & Younes, L. Geodesic interpolating splines. In Energy
+32. Markiewicz, C. J. et al. The OpenNeuro resource for sharing of                  Minimization Methods in Computer Vision and Pattern Recognition,
+    neuroscience data. Elife 10, e71774 (2021).                                     Lecture Notes in Computer Science (Figueiredo, M. et al.) 513–527
+33. Rusak, F. et al. Quantifiable brain atrophy synthesis for                       (Springer, 2001).
+    benchmarking of cortical thickness estimation methods. Med.                 55. Beg, M. F., Miller, M. I., Trouvé, A. & Younes, L. Computing
+    Image Anal. 82, 102576 (2022).                                                  large deformation metric mappings via geodesic flows of
+34. Jack Jr, C. R. et al. The Alzheimer’s disease neuroimaging initiative           diffeomorphisms. Int. J. Comput. Vis. 61, 139–157 (2005).
+    (ADNI): MRI methods. J. Magn. Reson. Imag. 27, 685–691 (2008).              56. Vialard, F. rançois-X. avier, Risser, L., Rueckert, D. & Cotter, C. J.
+35. Kircher, T. et al. Neurobiology of the major psychoses: a                       Diffeomorphic 3D image registration via geodesic shooting using an
+    translational perspective on brain structure and function-the                   efficient adjoint calculation. Int. J. Comput. Vis. 97, 229–241 (2012).
+    FOR2107 consortium. Eur. Arch. Psychiatry Clin. Neurosci. 269,              57. Avants, B. B., Epstein, C. L., Grossman, M. & Gee, J. C. Symmetric
+    949–962 (2019).                                                                 diffeomorphic image registration with cross-correlation:
+36. Vogelbacher, C. et al. The Marburg-Münster Affective Disorders                  evaluating automated labeling of elderly and neurodegenerative
+    Cohort Study (MACS): a quality assurance protocol for MR                        brain. Med. Image Anal. 12, 26–41 (2008).
+    neuroimaging data. NeuroImage 172, 450–460 (2018).                          58. Xu, B., Wang, N., Chen, T. & Li, M. Empirical evaluation of rectified
+37. Dannlowski, U. et al. Disadvantage of social sensitivity: interaction           activations in convolutional network. Preprint at https://arxiv.org/
+    of oxytocin receptor genotype and child maltreatment on brain                   abs/1505.00853 (2015).
+    structure. Biol. Psychiatry 80, 398–405 (2016).                             59. Paszke, A. et al. PyTorch: an imperative style, high-performance
+38. Opel, N. et al. Mediation of the influence of childhood                         deep learning library. In Proc. 33rd International Conference on
+    maltreatment on depression relapse by cortical structure: a                     Neural Information Processing Systems 8026–8037 (Curran, 2019).
+    2-year longitudinal observational study. Lancet Psychiatry 6,               60. Fisch, L. torchreg—Lightweight image registration library using
+    318–326 (2019).                                                                 PyTorch. GitHub https://github.com/codingfisch/torchreg (2023).
+39. Teismann, H. et al. Establishing the bidirectional relationship
+    between depression and subclinical arteriosclerosis - rationale,            Acknowledgements
+    design, and characteristics of the BiDirect Study. BMC Psychiatry           This work was funded in part by the consortia grants from
+    14, 174 (2014).                                                             the German Research Foundation (DFG) FOR 2107, SFB/TRR
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                        258
+Brief Communication                                                                                           https://doi.org/10.1038/s43588-026-00953-7
+
+393 (‘Trajectories of Affective Disorders’, project grant no.                         I.N., B.S., T.K., K.B., U.D. and T.H. All authors reviewed and approved the
+521379614). In addition, it was (in part) funded by the Else                          final version of the manuscript.
+Kröner-Fresenius-Stiftung (grant no. 2023_EKEA.153) and the
+Innovative Medical Research (IMF) of the medical faculty of the                       Funding
+University of Münster (grant no. ME122205) and the Germany’s                          Open access funding provided by Universität Münster.
+Excellence Strategy (EXC 3066/1 ‘The Adaptive Mind’, project no.
+533717223), as well as the DYNAMIC center, funded by the LOEWE                        Competing interests
+program of the Hessian Ministry of Science and Arts (grant no. LOE                    The authors declare no competing interests.
+WE1/16/519/03/09.001(0009)/98). Biosamples and corresponding
+data were sampled, processed and stored in the Marburg Biobank                        Additional information
+CBBMR. U.D. was funded by the German Research Foundation (DFG,                        Supplementary information The online version contains supplementary
+grant nos. FOR2107 DA1151/5-1, DA1151/5-2, DA1151/9-1, DA1151/10-                     material available at https://doi.org/10.1038/s43588-026-00953-7.
+1, DA1151/11-1 to UD; SFB/TRR 393, project grant no. 521379614)
+and the Interdisciplinary Center for Clinical Research (IZKF) of the                  Correspondence and requests for materials should be addressed to
+medical faculty of Münster (grant nos. Dan3/022/22 to U.D. and                        Lukas Fisch.
+MzH 3/020/20 to T.H.). T.H. was supported by the German Research
+Foundation (DFG grant nos. HA7070/2-2, HA7070/3 and HA7070/4).                        Peer review information Nature Computational Science thanks Iman
+Coauthors that are principal investigators with respective areas                      Beheshti, Oscar Esteban and Christian Gaser for their contribution to
+of responsibility in the FOR2107 consortium are: Work Package                         the peer review of this work. Primary Handling Editor: Ananya Rastogi,
+WP1, FOR2107/MACS cohort and brainimaging: T.K. (speaker                              in collaboration with the Nature Computational Science team.
+FOR2107; DFG grant nos. KI588/14-1, KI588/14-2, KI588/20-1 and
+KI588/22-1), U.D. (cospeaker FOR2107; DA 1151/5-1, DA 1151/5-2 and                    Reprints and permissions information is available at
+DA1151/6-1) and I.N. (NE2254/1-2, NE2254/3-1 and NE2254/4-1); WP6,                    www.nature.com/reprints.
+multimethod data analytics: A.J. (JA 1890/7-1 and JA 1890/7-2), T.H.
+(HA 7070/2-2); CP2, administration: T.K. (KI 588/15-1 and KI 588/17-                  Publisher’s note Springer Nature remains neutral with regard to
+1) and U.D. (DA 1151/6-1); and the anxiety extension project: T.K. (KI                jurisdictional claims in published maps and institutional affiliations.
+588/22-1), U.D. (DA 1151/11-1) und B.S. (STR1146/18-1). The funders had
+no role in the study design, data collection and analysis, decision to                Open Access This article is licensed under a Creative Commons
+publish or preparation of the manuscript.                                             Attribution 4.0 International License, which permits use, sharing,
+                                                                                      adaptation, distribution and reproduction in any medium or format,
+Author contributions                                                                  as long as you give appropriate credit to the original author(s) and the
+Conceptualization: L.F. and T.H. Data acquisition: J.G, T.B, K.F., A.K.,              source, provide a link to the Creative Commons licence, and indicate
+E.J.L., S.M., L.T., F.T.-O., P.U., H.J., A.J., I.N., B.S., T.K., K.B. and U.D. Data   if changes were made. The images or other third party material in this
+preprocessing: L.F. and T.H. Data curation: L.F., J.G., T.B., K.F., D.G.,             article are included in the article’s Creative Commons licence, unless
+A.K., E.J.L., S.M., L.T., F.T.-O., P.U., M.H., I.N., T.K. and T.H. Resources          indicated otherwise in a credit line to the material. If material is not
+(providing data/tools/infrastructure): L.F., N.R.W., C.B., D.E., J.E., M.K.,          included in the article’s Creative Commons licence and your intended
+R.L., T.B., D.G., A.K., E.J.L., H.J., A.J., I.N., B.S., K.B., B.R., U.D. and T.H.     use is not permitted by statutory regulation or exceeds the permitted
+Formal analysis: L.F. interpretation of results: L.F., N.R.W., J.E., M.H.,            use, you will need to obtain permission directly from the copyright
+T.K., K.B., B.R., U.D. and T.H. Writing—original draft: L.F. Writing—review           holder. To view a copy of this licence, visit http://creativecommons.
+and editing: N.R.W., J.G., C.B., D.E., J.E., M.K., R.L., T.B., K.F., D.G., A.K.,      org/licenses/by/4.0/.
+E.J.L., F.S., L.T., M.H., H.J., A.J., I.N., B.S., T.K., K.B., B.R., U.D. and T.H.
+Supervision: K.B., B.R., U.D. and T.H. Funding acquisition: F.S., H.J., A.J.,         © The Author(s) 2026
+
+
+
+
+Nature Computational Science | Volume 6 | March 2026 | 250–259                                                                                               259
+

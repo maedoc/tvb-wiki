@@ -1,0 +1,760 @@
+Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity   (2025) 30:46
+https://doi.org/10.1007/s40519-025-01757-w
+
+    REVIEW
+
+
+
+Neuroimaging and machine learning in eating disorders: a systematic
+review
+Francesco Monaco1,2 · Annarita Vignapiano1,2 · Benedetta Di Gruttola1 · Stefania Landi1 · Ernesta Panarello1 ·
+Raffaele Malvone1 · Stefania Palermo1 · Alessandra Marenna2 · Enrico Collantoni3 · Giovanna Celia4 ·
+Valeria Di Stefano5 · Paolo Meneguzzo3 · Martina D’Angelo5 · Giulio Corrivetti1,2 · Luca Steardo Jr.5
+
+Received: 27 March 2025 / Accepted: 16 May 2025
+© The Author(s) 2025
+
+
+Abstract
+Purpose Eating disorders (EDs), including anorexia nervosa (AN), bulimia nervosa (BN), and binge eating disorder (BED),
+are complex psychiatric conditions with high morbidity and mortality. Neuroimaging and machine learning (ML) represent
+promising approaches to improve diagnosis, understand pathophysiological mechanisms, and predict treatment response.
+This systematic review aimed to evaluate the application of ML techniques to neuroimaging data in EDs.
+Methods Following PRISMA guidelines (PROSPERO registration: CRD42024628157), we systematically searched PubMed
+and APA PsycINFO for studies published between 2014 and 2024. Inclusion criteria encompassed human studies using
+neuroimaging and ML methods applied to AN, BN, or BED. Data extraction focused on study design, imaging modalities,
+ML techniques, and performance metrics. Quality was assessed using the GRADE framework and the ROBINS-I tool.
+Results Out of 185 records screened, 5 studies met the inclusion criteria. Most applied support vector machines (SVMs) or
+other supervised ML models to structural MRI or diffusion tensor imaging data. Cortical thickness alterations in AN and
+diffusion-based metrics effectively distinguished ED subtypes. However, all studies were observational, heterogeneous, and
+at moderate to serious risk of bias. Sample sizes were small, and external validation was lacking.
+Conclusion ML applied to neuroimaging shows potential for improving ED characterization and outcome prediction. Nev-
+ertheless, methodological limitations restrict generalizability. Future research should focus on larger, multicenter, and mul-
+timodal studies to enhance clinical applicability.
+Level of Evidence: Level IV, multiple observational studies with methodological heterogeneity and moderate to serious risk
+of bias.
+
+Keywords Neuroimaging · Machine learning · Eating disorders · Biomarkers · Predictive analytic
+
+
+                                                                          Introduction
+Francesco Monaco and Annarita Vignapiano have contributed
+equally to this work and share first authorship.                          Eating disorders (EDs) are serious psychiatric illnesses
+                                                                          associated with high morbidity and mortality and charac-
+* Benedetta Di Gruttola                                                   terized by overlapping clinical features such as distorted
+  bennydgr2@gmail.com
+                                                                          body image, obsessive–compulsive behaviors, and impaired
+* Luca Steardo Jr.                                                        insight, which contribute to diagnostic challenges and poten-
+  steardo@unicz.it
+                                                                          tially inappropriate treatment [1]. These shared features sug-
+1
+     Department of Mental Health, Azienda Sanitaria Locale                gest the involvement of common underlying mechanisms,
+     Salerno, Salerno, Italy                                              including psychological traits such as perfectionism and
+2
+     European Biomedical Research Institute of Salerno (EBRIS),           impulsivity, and neurobiological alterations in fronto-striatal
+     Salerno, Italy                                                       circuits involved in reward processing, inhibitory control,
+3
+     University of Padova, Padua, Italy                                   and body image perception.
+4
+     University Telematica Pegaso, Naples, Italy
+5
+     University “Magna Graecia” of Catanzaro, Catanzaro, Italy
+
+
+                                                                                                                         Vol.:(0123456789)
+ 46     Page 2 of 14                          Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity   (2025) 30:46
+
+
+    While this categorical framework facilitates clinical               complexity of ED symptomatology [7]. While other feed-
+diagnosis and treatment planning, it may oversimplify the               ing and eating disorders, such as avoidant/restrictive food
+substantial heterogeneity observed within and across EDs.               intake disorder (ARFID), pica, and rumination disorder, are
+    In clinical practice, individuals often exhibit features that       recognized in the DSM-5, the present review focuses on AN,
+span multiple diagnostic categories or evolve over time from            BN, and BED due to their more consistent representation in
+one form of ED to another. This phenotypic overlap sug-                 the current neuroimaging and machine learning literature.
+gests the existence of shared transdiagnostic dimensions or             However, the etiology of EDs remains incompletely under-
+biotypes that cut across DSM-defined boundaries. Moreover,              stood, underscoring the need for more precise diagnostic
+traits such as compulsivity, perfectionism, and emotional               tools and improved treatment strategies [8]. The develop-
+dysregulation are common to many ED presentations, yet                  ment of EDs arises from a complex interplay of genetic,
+their neurobiological underpinnings may vary. This raises               biological, psychological, and socio-environmental factors
+two important questions: Do similar clinical features imply             [9]. Genetic factors significantly influence the heritability
+shared biological mechanisms? Or might similar behaviors                of EDs, impacting gender distribution, metabolic traits, the
+arise from distinct pathophysiological pathways?                        co-occurrence of EDs with other psychiatric conditions, and
+    These issues challenge the assumption that DSM-defined              the neurobiological mechanisms regulating appetite and
+categories reflect discrete biological entities, and support a          body weight [10–12]. A wide array of psychological fac-
+shift toward data-driven, dimensional models that incorpo-              tors contributes, including personality traits such as perfec-
+rate neurobiological, cognitive, and affective dimensions.              tionism, low self-esteem, impulsivity, and compulsiveness,
+Recent advances in neuroimaging and machine learning                    as well as comorbid psychiatric disorders, such as depres-
+offer promising avenues to identify latent biotypes and to              sion, anxiety disorders, and borderline personality disorder
+disentangle the biological heterogeneity underlying ED                  [13–15]. Socio-environmental influences also play a critical
+symptomatology. Addressing these open questions is essen-               role, encompassing aspects of family dynamics, childhood
+tial for improving diagnostic precision and developing tar-             weight status, trauma, peer pressure, and broader societal
+geted, personalized interventions.                                      factors [16–18]. These factors vary across ED subtypes: for
+    Anorexia nervosa (AN) is a chronic psychiatric disorder             example, higher educational attainment is more strongly
+characterized by decreased caloric intake, weight loss, dis-            associated with AN, food insecurity with binge eating dis-
+torted body image, and excessive physical activity. Approxi-            order, and exposure to social media or video gaming with
+mately 90% of individuals with this disorder are females [2].           BED; participation in elite sports (i.e., long-distance run-
+AN carries a high mortality risk due to starvation-related              ning, gymnastics, and high board diving) may also be a con-
+complications [3].                                                      tributing factor [9, 18, 19]. A particularly challenging aspect
+    Bulimia nervosa (BN) is an eating disorder that typically           of research in EDs lies in understanding how these diverse
+begins in adolescence, up to 3% of females and more than                psychosocial factors interact with biological mechanisms to
+1% of males suffer from this disorder during their lifetime.            shape the neurobiology of these conditions. Moreover, it
+It is associated with an increased risk for a range of future           remains critical to discern the extent to which neurobiologi-
+physical and mental health problems. It is characterized by             cal traits are specific to EDs diagnosis. Addressing these
+recurrent binge eating episodes, where individuals consume              questions is essential not only to deepen our understanding
+large amounts of food within a short time and feel a lack of            of the underlying neurobiological mechanisms of EDs, but
+control. They may engage in harmful compensatory behav-                 also to inform the development of more targeted therapeutic
+iors to avoid weight gain, such as self-induced vomiting, lax-          approaches.
+ative misuse, fasting, or excessive exercise. These behaviors              Studies employing these modalities consistently report
+occur at least once a week for 3 months, with self-evaluation           brain alterations across multiple scales, encompassing global
+heavily influenced by body shape and weight [4].                        brain organization alongside specific disruptions in neural
+    Binge eating disorder (BED) is characterized by recur-              networks involved in key functions, such as reward process-
+rent episodes of compulsive overeating (significantly larger            ing, habit formation, and body perception [20, 21]. Patients
+amounts of food than most would eat in a short time) accom-             with AN have shown hyperactivation of the left parietal and
+panied by a feeling of loss of control [5].                             right superior frontal areas in response to a neutral or posi-
+    The diagnosis of EDs, including AN, BN, and BED, cur-               tive stimulus, whereas patients with BN have shown hyper-
+rently relies on a multifaceted approach integrating medical            activation of the right temporal and right occipital areas
+evaluations, psychological assessments, and the application             Alterations in the cortico-striatal circuits of individuals
+of standardized diagnostic criteria [6]. This process involves          with BN and BED are similar to those reported in studies of
+a comprehensive assessment using physical examinations,                 people with substance abuse, with changes in the function
+laboratory tests, structured clinical interviews, validated             of the prefrontal, insular cortex, orbitofrontal cortex (OFC)
+questionnaires, and self-reported measures to capture the               and striatum. Alterations in the cortico-striatal circuits of
+Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity   (2025) 30:46                                Page 3 of 14   46
+
+individuals with BN and BED are similar to those reported                 of AI, not all AI relies on ML; symbolic reasoning and rule-
+in the studies of people with substance abuse, with changes               based systems represent other approaches within AI. The
+in the function of the prefrontal, insular cortex, orbitofrontal          advent of sophisticated statistical learning (SL) methods,
+cortex (OFC), and striatum [18]. In BED, functional imag-                 coupled with readily available computational resources and
+ing studies suggest a shift from ventral-striatal reward-based            the emergence of large datasets, has enabled the application
+responses to dorsal-striatal engagement associated with                   of machine learning (ML) to a broad range of healthcare
+impulsive and compulsive food consumption [22]. However,                  challenges. In this manuscript, we use the term “machine
+this neurobiological model remains preliminary and should                 learning” as a broad category that includes both traditional
+be interpreted with caution due to limited and heterogeneous              approaches (e.g., regularized regression, decision trees)
+evidence. In BN, functional neuroimaging studies suggest                  and more advanced, non-linear models (e.g., support vector
+that the urge to binge eat may be mediated by hyperactiv-                 machines, neural networks). “Deep learning” (DL), in con-
+ity of the orbitofrontal cortex (OFC) and anterior cingulate              trast, is a subfield of ML based on artificial neural networks
+cortex (ACC), along with impaired inhibitory control from                 with multiple hidden layers, capable of learning complex
+lateral prefrontal circuits. Some studies also report hyper-              hierarchical representations directly from raw data. While
+activity in parieto-occipital regions and reduced activation              the boundaries between SL, ML, and DL are not always
+of executive control networks compared to healthy controls                sharply defined, we adopt this taxonomy to enhance clar-
+[22, 23]. However, these findings should be interpreted with              ity and consistency throughout the review. ML, particularly
+caution due to the moderate to serious risk of bias, small                deep learning (DL), holds considerable promise for enhanc-
+sample sizes, and heterogeneity in imaging protocols and                  ing ED diagnosis and treatment through its ability to identify
+analysis methods [22, 23].                                                complex interactions among numerous risk factors, predict
+   The neurobiology of EDs has been extensively investi-                  ED development, and personalized treatment strategies.
+gated using a range of neuroimaging techniques, including                 While some ML algorithms particularly deep neural net-
+structural imaging to study both gray and white matter, and               works and ensemble methods are often considered “black
+functional imaging methods [24, 25]. Studies employing                    boxes”, many others, including penalized regressions and
+these modalities consistently report brain alterations across             decision trees, offer greater transparency. Furthermore,
+multiple scales, encompassing global brain organization                   recent developments in model-agnostic interpretability
+alongside specific disruptions in neural networks involved                methods, such as SHAP and LIME, allow for meaningful
+in key functions, such as reward processing, habit forma-                 assessment of variable importance, thus enhancing the clini-
+tion, and body perception [20, 21]. Resting-state functional              cal applicability and trustworthiness of even complex ML
+connectivity (RSFC) analysis provides a robust neuroim-                   models. However, the inherent complexity of ML models
+aging approach that is less dependent on task compliance,                 can potentially limit transparency and reduce confidence
+offering a powerful tool for differentiating state-related (e.g.,         among clinicians [29, 30]. Therefore, the focus should be
+due to malnutrition) from trait-related neural effects [26,               on developing and validating explainable ML models that
+27]. However, despite the significant insights these methods              can improve accuracy while maintaining transparency and
+provide, identifying specific neurobiological biomarkers to               clinical utility. This systematic review aims to synthesize
+aid in diagnosis remains a critical area of ongoing research.             and critically evaluate recent studies that apply machine
+This challenge is also underscored by recent evidence from                learning techniques to neuroimaging data for the diagnosis,
+Bracké et al. [28], who reviewed longitudinal neuroimaging                characterization, and outcome prediction of eating disorders.
+studies in AN and emphasized the potential role of specific               Specifically, it examines the feasibility, accuracy, and clini-
+brain-based markers in predicting clinical trajectories and               cal relevance of ML models in identifying neurobiological
+treatment outcomes [28].                                                  markers associated with EDs.
+   Thus, current diagnostic practices heavily rely on clini-
+cal observation, behavioral assessments, and self-reported
+symptoms, underscoring the urgent need for more objective                 Methods
+and quantifiable diagnostic tools that complement exist-
+ing approaches and enhance diagnostic precision. Artifi-                  The present review was conducted following the Preferred
+cial intelligence (AI) refers to the broader scientific field             Reporting Items for Systematic Reviews and Meta-Analyses
+concerned with building systems that can perform tasks                    (PRISMA) statement (registration no CRD42024628157).
+typically requiring human intelligence, such as reasoning,
+problem-solving, and learning. Machine learning (ML), a                   Search strategy and study eligibility criteria
+subfield of AI, focuses specifically on algorithms that learn
+patterns from data and improve their performance over time                A systematic literature search was conducted using PubMed
+without being explicitly programmed. While all ML is part                 and APA PsycINFO, which were selected for their high
+ 46     Page 4 of 14                        Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity   (2025) 30:46
+
+specificity in indexing peer-reviewed studies in medicine,            concerning conceptualization, diagnosis of anorexia ner-
+neuroscience, and psychology. Although broader databases              vosa, bulimia nervosa, binge eating disorder according to
+such as Scopus were considered, they were not included due            DSM-5-TR, neuroimaging, magnetic resonance imaging,
+to substantial overlap in retrieved records and a lower speci-        diffusion tensor image, resting-state functional MRI, arti-
+ficity for the clinical and neuroimaging domains relevant to          ficial intelligence and machine learning techniques, studies
+this review. Articles published between January 1, 2014,              published in English, studies carried out in humans and stud-
+and November 30, 2024, were included. This time frame                 ies published in journals indexed in Embase or Medline. The
+was chosen to capture studies that reflect the application            exclusion criteria were meta-analysis, review, duplicates,
+of contemporary machine learning techniques and modern                comments, study protocol, editorials, case reports/case
+neuroimaging protocols, ensuring methodological consist-              series, theses, proceedings, letters, short surveys and notes,
+ency and clinical relevance across included papers. We                studies irrelevant to the topic, unavailable full-text, and stud-
+used the following search terms: (“Anorexia Nervosa” OR               ies that do not meet inclusion criteria. The study selection
+“Bulimia Nervosa” OR “Binge Eating Disorder” OR “Eat-                 process was conducted systematically to ensure rigor and
+ing Disorder”) AND (“Neuroimaging” OR “Magnetic Reso-                 transparency, as illustrated in the PRISMA flow diagram
+nance Imaging” OR “Diffusion Tensor Images” OR “Rest-                 (Fig. 1). A comprehensive search was performed in two large
+ing State”) AND (“Artificial Intelligence” OR “Machine                databases: PubMed (n = 100) and APA PsycINFO (n = 87).
+Learning”). We opted to use the full forms of technical terms         After removing duplicates (n = 2), 185 records remained for
+(e.g., “Magnetic Resonance Imaging” instead of “MRI”, and             screening. During the screening phase, titles and abstracts
+“Machine Learning” instead of “ML”) to maximize com-                  were assessed for relevance based on predefined inclusion
+patibility with controlled vocabularies such as MeSH and              criteria. A total of 157 records were excluded at this stage
+Thesaurus terms in PubMed and PsycINFO. This approach                 for the following reasons: 12 were meta-analyses, 10 were
+was intended to enhance retrieval precision and reduce ambi-          reviews, 5 were case reports, 14 were studies not based on
+guity, while still capturing all relevant literature within the       DSM-5-TR criteria, 43 were no studies on ED, 39 did not
+scope of the review.                                                  include studies on AI/ML, 34 did not include studies on neu-
+   Studies were chosen based on these inclusion criteria:             roimaging. Subsequently, 28 full-text articles were assessed
+randomized controlled trial, retrospective study, cross-              for eligibility. Of these, 23 articles were excluded, 8 were
+sectional study, cohort study, open study, expert opinion,            studies not based on DSM-5-TR criteria, 8 were not a study
+
+
+
+
+Fig. 1  PRISMA search process
+Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity   (2025) 30:46                                Page 5 of 14   46
+
+on AI/ML, 7 were not studies on ED. Ultimately, 5 studies                 80%. The discriminative features involved regions implicated
+met all inclusion criteria and were included in the systematic            in sensory integration, body image, and interoception, such
+review.                                                                   as the occipital cortex, premotor areas, and medial prefrontal
+   A detailed summary of the included studies, including                  cortex.
+study design, participant characteristics, and intervention                   Lavagnino et al. [32] applied the Least Absolute Shrink-
+details, is presented in Table 1 for further reference.                   age and Selection Operator (LASSO) to volumetric features
+                                                                          extracted via FreeSurfer, identifying six neuroanatomical
+Study selection                                                           structures—including the putamen, cerebellum, and accum-
+                                                                          bens that significantly predicted AN diagnosis. The proba-
+The selection of studies for this review occurred in a two-               bilistic outputs of the model correlated with key clinical fea-
+stage process. Initially, four independent reviewers assessed             tures (e.g., BMI and drive for thinness), suggesting biological
+the titles and abstracts of all the retrieved papers (CV, EC,             validity. In a subsequent study, Lavagnino et al. [33] examined
+AM, SL). In the subsequent stage, these same reviewers                    cortical thickness across 24 regions and used a relevance vec-
+individually examined the full texts of the papers identi-                tor machine (RVM) classifier to differentiate AN, recovered
+fied in the first phase. Any discrepancies between the four               AN (REC-AN), and HC, yielding moderate predictive perfor-
+reviewers were resolved by involving a senior researcher.                 mance (74% sensitivity and specificity). Findings pointed to
+                                                                          cortical asymmetries, particularly in orbitofrontal and insular
+Data extraction and data synthesis                                        areas, as potential state-dependent biomarkers of AN.
+                                                                              Arold et al. [34] investigated whether brain structural
+Four independent researchers (SP, EP, BG, and RM) car-                    alterations observed after partial weight restoration in AN
+ried out data extraction for each included study, utilizing a             could serve as predictors of long-term outcomes. ML models
+standardized data extraction sheet in Microsoft Excel. The                successfully distinguished acutely underweight and partially
+focus of this extraction encompassed several key subjects,                weight-restored patients from HC, but failed to classify fully
+including study design, participant characteristics, diagnosis            recovered individuals, suggesting partial normalization of
+of ED, neuroimaging, and AI and ML techniques details                     neuroanatomical alterations. Persistent changes, particu-
+derived from the original research. A meta-analysis was not               larly in regions of high functional connectivity (e.g., insula,
+conducted due to significant heterogeneity in study designs,              orbitofrontal cortex), were associated with poorer clinical
+interventions, outcome measures, and durations. Therefore,                trajectories, indicating potential prognostic value.
+a narrative synthesis was employed to summarize the find-                     Zheng et al. [35] was the only study utilizing diffusion
+ings systematically.                                                      tensor imaging (DTI). Their SVM model, trained on axial
+                                                                          diffusivity (AD) features, achieved 75.9% accuracy in distin-
+Quality assessment                                                        guishing AN from BN, with key contributions from the left
+                                                                          middle and superior temporal gyri. No significant group dif-
+Given the heterogeneity of the included studies, the Grad-                ferences emerged in fractional anisotropy or mean diffusiv-
+ing of Recommendations, Assessment, Development, and                      ity, suggesting AD as a more sensitive metric in this context.
+Evaluation (GRADE) approach was employed to assess the                        According to studies, predictive accuracies ranged from
+quality of the evidence. As no randomized controlled trials               74 to 83.3% (Table 1), with most models relying exclusively
+were selected, the ROBINS-I tool was used. This assessment                on structural MRI and internally validated through cross-
+was conducted by two reviewers (VDS, MDA) with any dis-                   validation techniques. As detailed in Table 3, there was
+agreements resolved through discussion with an additional                 minimal integration of psychometric, genetic, or environ-
+reviewer (FM) (Table 2).                                                  mental data, which limits both model generalizability and
+                                                                          translational applicability. These findings underscore the
+                                                                          potential of ML-based neuroimaging for ED characterization
+Results                                                                   while highlighting the need for more integrative, multimodal
+                                                                          approaches to capture the full biopsychosocial complexity
+The application of machine learning (ML) techniques to                    of these disorders.
+neuroimaging data in eating disorders (EDs) demonstrates
+encouraging diagnostic and prognostic potential, particu-
+larly in anorexia nervosa (AN). As summarized in Table 1,                 Discussion
+Cerasa et al. [31] employed support vector machines (SVM)
+on T1-weighted structural MRI data to classify patients with              EDs are severe psychiatric illnesses associated with substan-
+AN and bulimia nervosa (BN) versus BMI-matched healthy                    tial morbidity and mortality risk. Current diagnostic prac-
+controls (HC), achieving classification accuracies exceeding              tices, reliant on clinical observation, structured interviews,
+Table 1  Summary of the included studies
+                                                                                                                                                                              46
+
+
+
+Author         Year and        Period           Study design      Study sample     Measures          ML model         Diagnosis         Outcome               GRADE
+               country                                                                                                                                        assessment of
+                                                                                                                                                              articles
+
+Arold et al    2023, Ger-      From             Observational     N = 573 females: EDI-2; BDI-2    Support vector     Anorexia nervosa Significant classifica- Low
+                                                                                                                                                                              Page 6 of 14
+
+
+
+
+                many            2.78 months      study using       271 with ano-                    machine (SVM)      (AN) diagnosed    tion of underweight
+                                between base-    structural MRI    rexia nervosa                    with L2-reg-       according to      and partially weight-
+                                line and post-   data. Support     (165 acAN-TP1,                   ularization        DSM-5 criteria    restored AN patients
+                                treatment scans  vector machine    115 acAN-TP2,                    applied to corti-                    from healthy
+                                to a maximum     (SVM) machine     89 recAN) and                    cal thickness                        controls; machine
+                                of 53.54 months learning models    302 healthy                      and subcortical                      learning-based
+                                post-recov-      were applied to   controls (HC)                    volume features,                     risk score at partial
+                                ery, with a      cortical thick-                                    using PCA for                        weight restoration
+                                minimum of       ness and sub-                                      dimensionality                       predicted 1-year out-
+                                12 months of     cortical volume                                    reduction and                        come independent of
+                                stable weight    data to classify                                   nested cross-                        BMI; no significant
+                                recovery         individuals                                        validation for                       brain alterations in
+                                                 with anorexia                                      performance                          long-term recovered
+                                                 nervosa at dif-                                    optimization                         patients; persistent
+                                                 ferent recovery                                                                         brain alterations
+                                                 stages from                                                                             associated with
+                                                 healthy controls                                                                        worse outcomes
+                                                 and to predict
+                                                 1-year treatment
+                                                 outcomes
+Cerasa et al   2015, Italy     From 16 months Observational       N = 34 females:   EDI-2; TEC;    Support vector     Anorexia nervosa SVM achieved ≥ 0.80 Low
+                                (mean illness    cross-sectional   17 with eating    DES-II;        machine (SVM)      (AN) and          accuracy distin-
+                                duration) to     study using       disorders (6      SDQ-20; PBI;   with linear        bulimia nervosa   guishing ED from
+                                approximately    structural MRI.   anorexia ner-     EAT-26; BIDA;  kernel applied     (BN) diagnosed    healthy controls.
+                                24 months, with SVM with           vosa, 11 bulimia HAM-A; BDI      to structural      according to      Discriminative brain
+                                data collected   PCA applied       nervosa) and 17                  MRI data. PCA      DSM-5 criteria    regions included
+                                between 2011     to whole-brain    BMI-matched                      used for feature                     occipital cortex,
+                                and 2012         images to clas-   healthy controls                 extraction and                       posterior cerebellar
+                                                 sify ED from                                       dimensional-                         lobule, precuneus,
+                                                 HC based on                                        ity reduction.                       sensorimotor/pre-
+                                                 neuroanatomical                                    Model evaluated                      motor cortices, and
+                                                 features                                           with 20-fold and                     medial prefrontal
+                                                                                                    tenfold cross-                       cortex. No global
+                                                                                                                                                                              Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity
+
+
+
+
+                                                                                                    validation                           brain volume differ-
+                                                                                                                                         ences detected
+                                                                                                                                                                              (2025) 30:46
+Table 1  (continued)
+Author         Year and        Period             Study design     Study sample     Measures       ML model          Diagnosis         Outcome                GRADE
+               country                                                                                                                                        assessment of
+                                                                                                                                                              articles
+
+Lavagnino      2015, Italy &   Cross-sectional    Observational     N = 30 females:  EDI-2; SCID   Least Absolute     Anorexia nervosa 83.3% classification    Moderate
+ et al          USA             study with data    study using       15 with ano-                   Shrinkage          (DSM-IV-TR)      accuracy (sensitivity
+                                collected from     structural        rexia nervosa                  and Selec-                          86.7%, specificity
+                                AN outpatients     MRI. LASSO        (12 restricting                tion Operator                       80.0%). Predic-
+                                and controls in    machine learn-    type, 3 binge-                 (LASSO), with                       tion probability
+                                Turin, Italy       ing model         purging) and 15                leave-one-out                       correlated with
+                                                   applied to        matched healthy                cross-validation,                   drive for thinness
+                                                   neuroanatomi-     controls                       using volu-                         (r = 0.52) and BMI
+                                                   cal volumes to                                   metric features                     (r = −0.45). Brain
+                                                   classify AN                                      extracted from                      regions contribut-
+                                                   patients vs.                                     T1-weighted                         ing to classification
+                                                   healthy controls                                 MRI scans                           included cerebellum,
+                                                   and explore                                                                          choroid plexus, puta-
+                                                   associations                                                                         men, accumbens,
+                                                   with symptoms                                                                        diencephalon, and
+                                                                                                                                        third ventricle. Find-
+                                                                                                                                        ings suggest neuro-
+                                                                                                                                                                              Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity
+
+
+
+
+                                                                                                                                        imaging may help in
+                                                                                                                                        clinical prediction
+Lavagnino      2018, USA       Cross-sectional; Observational      N = 67 women:     EDI-3; STAI   Relevance Vec-     Anorexia nervosa 74% sensitivity and     Moderate
+ et al                          scans performed study using         19 with AN                      tor Machine        (DSM-IV)         74% specificity in
+                                after 1–2 weeks  structural         (restricting                    (RVM), linear                       classifying AN vs.
+                                of inpatient     MRI; machine       type), 24 recov-                kernel; applied                     HC; cortical thick-
+                                                                                                                                                                              (2025) 30:46
+
+
+
+
+                                or partial       learning model     ered from AN                    to cortical                         ness patterns (higher
+                                hospitalization  applied to corti-  (REC-AN), 24                    thickness from                      in orbitofrontal
+                                treatment in AN cal thickness       healthy controls                24 regions                          and insular, lower
+                                patients         data to classify   (HC)                            (orbitofrontal,                     in superior frontal
+                                                 participants                                       insula, frontal,                    regions) may serve
+                                                                                                    cingulate) using                    as state biomarkers;
+                                                                                                    LOOCV                               REC-AN group not
+                                                                                                                                        distinguishable from
+                                                                                                                                        HC
+                                                                                                                                                                              Page 7 of 14
+                                                                                                                                                                              46
+                                                                                                                                                                                              46
+                                                                                                                                                                                              Page 8 of 14
+
+
+
+
+Table 1  (continued)
+Author         Year and        Period              Study design      Study sample        Measures           ML model            Diagnosis          Outcome                 GRADE
+               country                                                                                                                                                     assessment of
+                                                                                                                                                                           articles
+Zhang et al    2024, China     From approxi-       Observational     N = 58 drug-naïve SCID                 Support vector    Anorexia nervosa The AD-based SVM       Low
+                                mately              cross-sectional   females: 24                            machine (SVM)     (AN) and         model distinguished
+                                30–35 months        study using       with anorexia                          with linear       bulimia nervosa  AN from BN with
+                                of illness dura-    diffusion ten-    nervosa and 34                         kernel applied    (BN) diagnosed   75.86% accuracy
+                                tion, with no       sor imaging       with bulimia                           to DTI metrics    according to     (sensitivity: 66.67%,
+                                treatment in        (DTI). Linear     nervosa                                (AD, FA, MD,      DSM-5 criteria   specificity: 88.23%,
+                                the previous        SVM applied                                              RD), evaluated                     AUC: 0.793). AN
+                                12 months           to diffusion                                             using leave-one-                   patients showed
+                                                    metrics to clas-                                         out cross-vali-                    lower AD values
+                                                    sify anorexia                                            dation and ROC                     in the left middle
+                                                    nervosa and                                              analysis                           temporal gyrus
+                                                    bulimia nervosa                                                                             (MTG_L) and left
+                                                    patients with                                                                               superior temporal
+                                                    leave-one-out                                                                               gyrus (STG_L). No
+                                                    cross-validation                                                                            significant differ-
+                                                                                                                                                ences were found
+                                                                                                                                                with FA, MD, or RD
+
+SVM support vector machine, HC healthy controls, PCA principal component analysis, EDs eating disorders, AN anorexia nervosa, BN bulimia nervosa, BDD body dysmorphic disorder, BMI
+body mass index, MRI magnetic resonance imaging, fMRI functional magnetic resonance imaging, DTI diffusion tensor imaging, AD axial diffusivity, FA fractional anisotropy, MD mean dif-
+fusivity, RD radial diffusivity, ROC receiver operating characteristic, MTG-L left middle temporal gyrus, STG-L left superior temporal gyrus, acAN-TP1 acute anorexia nervosa—time point 1,
+recAN recovered anorexia nervosa, TEC Traumatic Experiences Checklist, DES-II Dissociative Experiences Scale—Version II, SDQ-20 Somatoform Dissociation Questionnaire—20 items, PBI
+Parental Bonding Instrument, EAT-26 Eating Attitude Test—26 items, BIDA Body Image Dimensional Assessment, EDI-2 Eating Disorder Inventory—Version 2, EDI-3 Eating Disorder Inven-
+tory—Version 3, HAM-A Hamilton Anxiety Rating Scale, BDI Beck Depression Inventory, SCID Structured Clinical Interview for Diagnosis, MADRS Montgomery-Åsberg Depression Rating
+Scale, BDD-YBOCS Yale-Brown Obsessive Compulsive Scale for Body Dysmorphic Disorder, MINI Mini International Neuropsychiatric Interview, BDD Diagnostic Module Body Dysmorphic
+                                                                                                                                                                                              Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity
+
+
+
+
+Disorder Diagnostic Module, YBC-EDS Yale-Brown-Cornell Eating Disorder Scale, EDE Eating Disorder Examination, BABS Brown Assessment of Beliefs Scale
+                                                                                                                                                                                              (2025) 30:46
+Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity   (2025) 30:46                                Page 9 of 14   46
+
+standardized questionnaires, and self-reported measures,                  experiential factors better to capture the fluid and heteroge-
+struggle to fully capture the complicated and polyhedral                  neous nature of EDs [42, 43]. This integrative approach is
+nature of EDs, leading to diagnostic challenges and poten-                essential to avoid the pitfalls of reductionism and to ensure
+tially suboptimal treatment strategies [7]. The etiology of               that neurobiological insights meaningfully inform person-
+EDs is complex, arising from a dynamic interplay of genetic               centered care. Current diagnostic practices rely heavily on
+predisposition, neurobiological vulnerabilities, psychologi-              clinical observation and self-reported symptoms, under-
+cal factors, and socio-environmental influences, the relative             scoring the urgent need for objective, quantifiable diagnos-
+contributions of which vary significantly across ED subtypes              tic tools to complement existing approaches and improve
+[37]. Genetic factors influence heritability, gender distribu-            diagnostic precision.
+tion, metabolic traits, comorbidity with other psychiatric dis-              The integration of sophisticated statistical learning (SL)
+orders, and the neurobiological regulation of appetite and                and ML methods [44], particularly DL techniques, offers
+body weight. Psychological factors include personality traits             considerable promise for revolutionizing ED diagnosis and
+(perfectionism, low self-esteem, impulsivity, compulsivity),              treatment. ML's capacity to identify complex, non-linear
+and the presence of comorbid conditions such as depression,               interactions among numerous risk factors, predict ED devel-
+anxiety, and borderline personality disorder [38]. Crucially,             opment, and personalize treatment strategies, is particularly
+socio-environmental factors, including family dynamics,                   relevant given the multifaceted nature of EDs. However, the
+childhood weight status, trauma, peer pressure, and broader               inherent "black box" nature of complex ML models can limit
+societal influences, exert a profound impact, particularly                transparency and erode clinician confidence. Therefore, a
+concerning exposure to media and social pressures related                 concerted effort should focus on developing and rigorously
+to body image [17]. The distinction interplay of these factors            validating *explainable* ML models that enhance diagnostic
+across ED subtypes further complicates diagnostic clarity:                accuracy while maintaining transparency and clinical utility.
+for instance, higher educational attainment is more strongly                 This review presents several limitations that warrant
+associated with AN, food insecurity with BED, and social                  careful consideration. Moreover, the overall body of evi-
+media exposure with BED [39]. Understanding how these                     dence is characterized by a high risk of bias and substan-
+diverse factors interact with underlying biological mecha-                tial uncertainty, due to small sample sizes, lack of pre-
+nisms to shape the neurobiology of EDs remains a critical,                registered protocols, and variability in study quality. These
+yet unresolved, challenge. Furthermore, identifying neuro-                factors warrant caution in the interpretation of reported
+biological traits specific to ED diagnoses is predominant                 results and highlight the need for more rigorous study
+for developing effective, targeted treatments. Neuroimag-                 designs and external validation in future research. Firstly,
+ing studies, employing various techniques from structural                 the included studies exhibited significant heterogeneity
+and functional MRI [31–33] to DTI [35], have consistently                 in terms of sample size, participant demographics (age,
+revealed brain alterations across multiple scales, from global            gender, ethnicity, comorbidity), and methodologies (neu-
+brain organization to highly specific disruptions within neu-             roimaging modalities, machine learning algorithms, data
+ral networks involved in reward processing, habit formation,              preprocessing techniques, and outcome measures). This
+and body perception. While functional neuroimaging pro-                   heterogeneity makes a direct comparison of findings chal-
+vides valuable insights into brain activity patterns, RSFC                lenging and limits the ability to draw robust, universally
+analysis offers a powerful, less task-dependent approach                  applicable conclusions. The selection of studies was also
+to disentangling state-related (e.g., effects of malnutrition)            influenced by the availability of published data, potentially
+from trait-related neural effects. Despite these advances,                introducing bias. Secondly, the application of ML mod-
+translating these neuroimaging findings into reliable, clini-             els, while promising, introduces inherent complexities and
+cally useful biomarkers remains a key challenge. However,                 potential limitations that need scrutiny. The "black box"
+while these findings highlight promising neurobiological                  nature of some ML algorithms, particularly DL models,
+associations, caution is warranted in interpreting them as                can hamper transparency and reduce clinician confidence
+direct reflections of clinical phenotypes. Eating disorders               in their use for diagnostic and prognostic purposes. Fur-
+emerge from the complex interaction of biological, psycho-                thermore, the potential for bias in ML models arising from
+logical, and socio-environmental factors, which vary across               data imbalances, confounding factors, and limitations in
+individuals and over time. The risk of oversimplifying such               model generalizability requires thorough attention. Moreo-
+complexity by attributing symptomatology solely to brain                  ver, future studies should explicitly address the clinical
+alterations must be acknowledged. Neural markers should                   implications of misclassification errors in ML applica-
+be understood not as definitive diagnostic entities but as one            tions. In particular, the potential harm of false positives
+layer within a multidimensional framework of psychopa-                    such as incorrectly labeling a vulnerable individual as at
+thology [40, 41]. Future studies should strive to integrate               risk for AN may contribute to unnecessary stigma, psycho-
+neuroimaging data with ecological, developmental, and                     logical distress, or inappropriate interventions [45–47]. A
+ 46       Page 10 of 14                            Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity       (2025) 30:46
+
+Table 2  This table summarizes the risk of bias assessment for each included study, evaluated using the ROBINS-I tool
+Author/year          Confounding     Selection bias Classification     Deviations        Missing Outcome            Reporting bias Overall risk of
+                     bias                           bias               from intended     data bias measurement                     bias
+                                                                       interventions               bias
+
+Arold et al.         Moderate        Moderate       Low                Low               Low       Moderate         Moderate          Moderate
+ 2023
+Cerasa et al.        Serious         Serious        Moderate           Low               Low       Moderate         Serious           Serious
+ 2015
+Lavagnino            Moderate        Serious        Low                Low               Low       Moderate         Low               Moderate
+ et al. 2015
+Lavagnino            Moderate        Serious        Low                Low               Low       Moderate         Low               Moderate
+ et al. 2018
+Vaughn et al.        Serious         Serious        Moderate           Low               Low       Serious          Serious           Serious
+ 2019
+Zhang et al.         Serious         Serious        Moderate           Low               Low       Moderate         Serious           Serious
+ 2024
+
+Each domain confounding, selection, classification of interventions, deviations from intended interventions, missing data, outcome measure-
+ment, and reporting was rated as Low, Moderate, or Serious risk. The overall risk of bias reflects the highest level of concern across domains,
+following GRADE recommendations
+
+
+Table 3  Overview of included studies by neuroimaging modality, machine learning approach, and data integration strategy
+
+Study                     Neuroimaging modal- ML technique                Psychometric meas-      Genetic/environmen-         Multimodal integration
+                          ity                                             ures included           tal data
+
+Arold et al. [34]         Structural MRI         SVM with PCA and         EDI-2, BDI-2            No                          Partial (structural
+                            (cortical thickness,  L2-regularization                                                            MRI + clinical out-
+                            subcortical volumes)                                                                               come prediction)
+Cerasa et al. [31]        Structural MRI (whole SVM with PCA (lin-        EDI-2, TEC, DES-II, Environmental meas-             Yes (neuroimag-
+                            brain)                ear kernel)              SDQ-20, PBI, EAT-   ures (e.g., parental            ing + extensive psy-
+                                                                           26, BIDA, HAM-A,    bonding, trauma)                chometric profiling)
+                                                                           BDI
+Lavagnino et al. [32] Structural MRI (volu- LASSO regression              EDI-2, SCID         No                              Limited (neuroimag-
+                        metric T1-weighted)                                                                                    ing + symptoms)
+Lavagnino et al. [33] Structural MRI (corti- Relevance vector             EDI-3, STAI             No                          Limited (neuroim-
+                        cal thickness)        machine (RVM)                                                                    aging + symptom
+                                                                                                                               severity)
+Zhang et al. [36]         Diffusion tensor imag- SVM (linear kernel)      SCID                    No                          Minimal (neuroimaging
+                           ing (DTI)                                                                                           only)
+
+
+
+transparent discussion of model uncertainty and classifica-                  and analysis pipelines represents a major limitation for
+tion thresholds is essential for safe and responsible clinical               cross-study comparability and replication. Variability in
+deployment. Bias arising from non-representative samples,                    motion correction, spatial normalization, or segmentation
+poorly chosen features, and inadequate model validation                      procedures may substantially affect extracted features and
+could lead to inaccurate and potentially misleading clinical                 model performance. To enhance reproducibility, future
+predictions. Furthermore, the limited number of studies                      studies should adopt transparent, open-source pipelines,
+included in this review reflects the emerging and highly                     report preprocessing steps in detail, and validate mod-
+specialized nature of research combining neuroimaging                        els across independent datasets processed with different
+and machine learning in the context of eating disorders.                     pipelines. Achieving robust and generalizable findings in
+Despite growing interest in each individually, few stud-                     this field will likely require large-scale, multicenter col-
+ies have integrated these methodologies with sufficient                      laborations. Such efforts enable access to larger and more
+methodological rigor to meet inclusion criteria. This gap                    diverse samples, increase statistical power, and facilitate
+underscores the need for future research adopting robust,                    external validation across heterogeneous populations and
+interdisciplinary designs to advance the field. In addition,                 imaging protocols. However, designing and implement-
+the absence of standardized neuroimaging preprocessing                       ing multicenter studies poses several challenges, including
+Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity   (2025) 30:46                               Page 11 of 14   46
+
+data harmonization, ethical and legal constraints in data                 methodologically heterogeneous, and lacking in clinical
+sharing, variability in imaging acquisition parameters,                   translation.
+and the need for consensus on standardized preprocessing
+pipelines. Future initiatives should prioritize open science
+frameworks, federated learning approaches, and collabora-                 What your study adds
+tive consortia to overcome these obstacles and accelerate
+progress in ML-based neuroimaging research on EDs.                        This study provides the first systematic synthesis of research
+   Thirdly, translating the promising research findings pre-              applying machine learning techniques to neuroimaging data
+sented into clinically relevant tools and effective interven-             in eating disorders. It identifies promising diagnostic and
+tions demands further robust investigation and rigorous                   prognostic applications while highlighting critical meth-
+validation. Large-scale, well-designed, multi-center stud-                odological limitations, such as small sample sizes, lack of
+ies employing standardized diagnostic criteria, outcome                   external validation, and high risk of bias. These findings
+measures, and data acquisition protocols are critical for                 underscore the need for future large-scale, multimodal stud-
+establishing the clinical utility and generalizability of the             ies to improve translational applicability in clinical and pub-
+neuroimaging and ML approaches reviewed. The develop-                     lic health settings.
+ment of user-friendly interfaces and clinically interpret-
+able algorithms is also necessary to facilitate widespread
+adoption and integration into routine clinical practice.                  Conclusion
+Finally, the integration of other relevant data, such as
+genetic information, psychological assessments, and envi-                 EDs represent a significant public health concern, demand-
+ronmental factors, could potentially improve the accuracy                 ing improved diagnostic tools and treatment strategies.
+and precision of ED diagnosis and risk prediction models.                 While traditional diagnostic methods rely heavily on clini-
+                                                                          cal observation and self-reported symptoms, neuroimaging
+                                                                          techniques offer the potential for more objective and precise
+                                                                          biomarkers. This review highlights the growing application
+Strengths and limits                                                      of ML to neuroimaging data in ED research, demonstrating
+                                                                          its potential to enhance diagnostic accuracy and personal-
+This systematic review has several strengths. It is the                   ized treatment. Studies utilizing MRI have shown success in
+first to synthesize and critically evaluate the integration               distinguishing AN from healthy controls, identifying brain
+of neuroimaging and machine learning in eating disor-                     regions involved in AN pathophysiology, and even pre-
+ders, following PRISMA guidelines and including only                      dicting long-term outcomes. The investigation of cortical
+peer-reviewed human studies indexed in major biomedi-                     thickness patterns revealed unique signatures characteristic
+cal databases. The review highlights key methodological                   of AN. Furthermore, the use of DTI demonstrated promise
+trends and limitations, offering clinically relevant insights             in differentiating AN from BN. However, considerable chal-
+for future research. However, the study has some limi-                    lenges remain. The heterogeneity of existing studies, includ-
+tations. The number of eligible studies was limited, and                  ing variations in sample size, participant characteristics, and
+all were observational, with moderate to serious risk of                  methodological approaches, hampers the ability to draw uni-
+bias. The included studies showed high heterogeneity in                   versally applicable conclusions. The inherent complexity of
+sample size, imaging modalities, and machine learning                     ML models necessitates a focus on explainable AI to ensure
+approaches, precluding meta-analytic synthesis. Moreover,                 transparency and build clinician confidence. Furthermore,
+the generalizability of the findings is constrained by small              rigorous validation in large, well-powered, multi-site studies
+sample sizes and a lack of external validation.                           is crucial to confirm these findings and ensure the generaliz-
+                                                                          ability of ML-based diagnostic tools.
+
+
+What is already known on this subject?                                    Future direction
+
+Previous studies have shown that individuals with eating                  Future directions in EDs research should cover several main
+disorders exhibit consistent neurobiological alterations,                 areas dedicated to intensifying our understanding, refining
+particularly in fronto-striatal and limbic circuits. While                diagnosis, and improving treatment outcomes for these com-
+neuroimaging and machine learning have been increas-                      plex conditions. One of the principal priorities should be the
+ingly applied to psychiatric disorders, their combined                    establishment of longitudinal studies that meticulously track
+use in the study of eating disorders remains limited,                     changes in neural, psychological, and behavioral patterns
+ 46     Page 12 of 14                       Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity   (2025) 30:46
+
+over time. Such research attempts will not only illuminate            localism. As Pessoa argues in The Entangled Brain (MIT
+causal relationships, but also help to identify critical inter-       Press), mental processes emerge from dynamic, distributed
+vention periods, particularly within vulnerable popula-               neural interactions rather than discrete regional activations,
+tions such as adolescents, who may be at heightened risk              an argument that supports the use of ML models capable
+for developing EDs during pivotal developmental stages.               of capturing such multivariate brain–behavior relationships.
+Machine learning approaches may also be applied to lon-                  Furthermore, leveraging technology and telehealth plat-
+gitudinal neurocognitive data to characterize trajectories            forms to deliver treatments presents an exciting avenue for
+of cognitive recovery following nutritional rehabilitation,           significantly expanding access to care. This approach is par-
+potentially identifying predictive markers of treatment               ticularly beneficial for individuals residing in underserved or
+response [48, 49].                                                    remote areas, who may currently face barriers to receiving
+   Future studies should also emphasize external validation           adequate treatment. By facilitating virtual consultations and
+of ML models across independent, diverse clinical sam-                digital interventions, researchers and clinicians can ensure
+ples to ensure generalizability and replicability of findings,        that more individuals benefit from timely and effective
+addressing current concerns about overfitting and model               support, ultimately bridging gaps in care. Beyond predic-
+robustness [50].                                                      tion and prognosis, machine learning approaches may also
+   Additionally, the development of personalized treatment            support the refinement of current diagnostic categories in
+strategies is crucial, leveraging predictive modeling and ML          EDs. By identifying latent biotypes across neurobiological,
+techniques to enhance intervention effectiveness. By tailor-          cognitive, and behavioral domains, ML has the potential to
+ing therapeutic approaches to meet the specific needs of indi-        move psychiatric classification toward more dimensional and
+viduals, researchers can better target the unique characteris-        biologically informed systems that better reflect underlying
+tics of each patient's condition, potentially leading to more         pathophysiological mechanisms.
+successful outcomes. Future research should also prioritize              Incorporating these directions into future research will
+the integration of psychological, behavioral, and socio-envi-         not only advance the field of EDs studies, but also result
+ronmental variables into ML models, to avoid overempha-               in more comprehensive, effective, and accessible treatment
+sizing the biological substrate of EDs and to better reflect          options for those affected by these challenging disorders.
+their inherently multidimensional nature [41, 43]. The future
+integration of predictive ML models into digital platforms
+could facilitate more personalized and scalable interven-
+tions for EDs. Although not directly addressed in the cur-            Appendix
+rent review, the deployment of such tools within telehealth
+environments may eventually support early detection and               Glossary of machine learning terms
+clinical monitoring, especially in underserved populations.
+These translational potential underscores the importance of           1. L2 regularization: A technique used to prevent overfit-
+interdisciplinary collaboration between computational sci-               ting by penalizing large model coefficients; also known
+entists, clinicians, and digital health developers. This multi-          as ridge regression.
+dimensionality includes potential interactions between bio-           2. Linear kernel: A function used in support vector
+logical vulnerabilities and environmental stressors, which               machines (SVM) that assumes a linear relationship
+are increasingly recognized as key to understanding ED                   between features, allowing for a simple, interpretable
+onset and progression. Many ML algorithms, particularly                  decision boundary.
+non-linear models such as random forests, gradient boosting           3. Principal component analysis (PCA): A method for
+machines, and deep learning architectures, are well-suited               reducing the number of input variables in a dataset by
+to capture high-order interactions without requiring them to             transforming them into a smaller set of uncorrelated
+be pre-specified. Future studies should explicitly test such             components that retain most of the variance.
+interactions by integrating multimodal data sources and               4. Cross-validation: A statistical method for evaluating
+applying explainable ML techniques capable of identifying                model performance by dividing data into subsets used
+synergistic or moderating effects across biological and psy-             for training and testing, helping to estimate generaliz-
+chosocial domains.                                                       ability.
+   As highlighted in reference [41], the integration of envi-         5. Leave-one-out cross-validation: A specific form of
+ronmental, behavioral, and psychological variables into pre-             cross-validation where one observation is used for test-
+dictive models is essential to fully capture the complexity of           ing and all remaining observations are used for training;
+eating disorders and to avoid biologically reductionist inter-           this is repeated for each data point.
+pretations. This perspective is aligned with a network-based          6. Performance optimization: The process of adjusting
+view of brain function that challenges classical anatomical              model parameters and structure to maximize accuracy,
+Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity       (2025) 30:46                                        Page 13 of 14      46
+
+    precision, or other performance metrics based on train-                         a rapid review. J Eat Disord. https:// ​ d oi. ​ o rg/ ​ 1 0. ​ 1 186/​
+    ing data.                                                                       s40337-​022-​00597-8
+                                                                               7.   Schaefer LM, Crosby RD, MacHado PPP (2021) A systematic
+                                                                                    review of instruments for the assessment of eating disorders
+                                                                                    among adults. Curr Opin Psychiatry 34:543–562
+Acknowledgements None.                                                         8.   Feng B, Harms J, Chen E et al (2023) Current discoveries and
+                                                                                    future implications of eating disorders. Int J Environ Res Public
+Author contributions Author contributions A.V., F.M., and S.L. con-                 Health 20:6325
+ceptualized the study. E.P., B.D.G., R.M., M.D., S.P., E.C., V.D.S.,           9.   Barakat S, McLean SA, Bryant E et al (2023) Risk factors for eat-
+M.D.G., and L.S.Jr. conducted the investigations. A.V., F.M., and                   ing disorders: findings from a rapid review. J Eat Disord. https://​
+L.S.Jr. drafted the manuscript, with contributions from C.V., E.C.,                 doi.​org/​10.​1186/​s40337-​022-​00717-4
+A.M., S.P., V.D.S., M.D., and G.C. V.D.S., A.V., F.M., E.P., L.S.Jr., and     10.   Bulik CM, Coleman JRI, Hardaway JA et al (2022) Genetics and
+B.D.G. prepared the final version. A.V., F.M., V.D.S., M.D., L.S.Jr.,               neurobiology of eating disorders. Nat Neurosci 25:543–554
+A.M., G.C., S.P., R.M., B.D.G., E.C., and G.C. reviewed and edited the        11.   Prince T, McLoughlin L, Lagopoulos J et al (2022) The neural
+manuscript. All authors have read and agreed to the published version               correlates of socio-cognitive factors and eating disorders in young
+of the manuscript.                                                                  people: a systematic review. J Psychiatr Res 156:647–659. https://​
+                                                                                    doi.​org/​10.​1016/j.​jpsyc​hires.​2022.​10.​058
+Funding None.                                                                 12.   Slof-Opt Landt MCT, Claes L, van Furth EF (2016) Classifying
+                                                                                    eating disorders based on “healthy” and “unhealthy” perfection-
+Availability of data and materials No datasets were generated or ana-               ism and impulsivity. Int J Eat Disord 49:673–80. https://​doi.​org/​
+lysed during the current study.                                                     10.​1002/​eat.​22557
+                                                                              13.   Soidla K, Akkermann K (2020) Perfectionism and impulsivity
+Declarations                                                                        based risk profiles in eating disorders. Int J Eat Disord 53:1108–
+                                                                                    1119. https://​doi.​org/​10.​1002/​eat.​23285
+Competing interests The authors declare no competing interests.               14.   Wonderlich S, Mitchell JE (2001) The role of personality in the
+                                                                                    onset of eating disorders and treatment implications. Psychiatr
+Open Access This article is licensed under a Creative Commons Attri-                Clin North Am 24:249–258. https://​doi.​org/​10.​1016/​s0193-​
+bution 4.0 International License, which permits use, sharing, adapta-               953x(05)​70221-5
+tion, distribution and reproduction in any medium or format, as long          15.   Abdoli M, Scotto Rosato M, Cipriano A et al (2023) Affect,
+as you give appropriate credit to the original author(s) and the source,            body, and eating habits in children: a systematic review. Nutrients
+provide a link to the Creative Commons licence, and indicate if changes             15:3343
+were made. The images or other third party material in this article are       16.   Al-Sheyab NA, Gharaibeh T, Kheirallah K (2018) Relationship
+included in the article’s Creative Commons licence, unless indicated                between peer pressure and risk of eating disorders among adoles-
+otherwise in a credit line to the material. If material is not included in          cents in Jordan. J Obes. https://​doi.​org/​10.​1155/​2018/​73098​78
+the article’s Creative Commons licence and your intended use is not           17.   Erriu M, Cimino S, Cerniglia L (2020) The role of family relation-
+permitted by statutory regulation or exceeds the permitted use, you will            ships in eating disorders in adolescents: a narrative review. Behav
+need to obtain permission directly from the copyright holder. To view a             Sci 10:71
+copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.      18.   Chu J, Ganson KT, Testa A et al (2024) Screen time, problematic
+                                                                                    screen use, and eating disorder symptoms among early adoles-
+                                                                                    cents: findings from the Adolescent Brain Cognitive Develop-
+                                                                                    ment (ABCD) study. Eat Weight Disord. https://​doi.​org/​10.​1007/​
+                                                                                    s40519-​024-​01685-1
+                                                                              19.   Mushtaq T, Ashraf S, Hameed H et al (2023) Prevalence of eating
+                                                                                    disorders and their association with social media addiction among
+References                                                                          youths. Nutrients. https://​doi.​org/​10.​3390/​nu152​14687
+                                                                              20.   Kappou K, Ntougia M, Kourtesi A et al (2021) children neuro-
+ 1. Hamatani S, Hirano Y, Sugawara A et al (2021) Eating Dis-                       imaging findings in adolescents and young adults with anorexia
+    order Neuroimaging Initiative (EDNI): a multicentre prospec-                    nervosa: a systematic review. https://​doi.​org/​10.​3390/​child​ren
+    tive cohort study protocol for elucidating the neural effects of          21.   Jáuregui-Lobera I (2011) Neuroimaging in eating disorders. Neu-
+    cognitive-behavioural therapy for eating disorders. BMJ Open.                   ropsychiatr Dis Treat. https://​doi.​org/​10.​2147/​NDT.​S25186
+    https://​doi.​org/​10.​1136/​bmjop​en-​2020-​042685                       22.   Donnelly B, Touyz S, Hay P et al (2018) Neuroimaging in bulimia
+ 2. Nagy H, Paul T, Jain E, Loh H et al (2022) A clinical overview                  nervosa and binge eating disorder: a systematic review. J Eat Dis-
+    of anorexia nervosa and overcoming treatment resistance. Avi-                   ord 6:3. https://​doi.​org/​10.​1186/​s40337-​018-​0187-1
+    cenna J Med. https://​doi.​org/​10.​1055/s-​0042-​17588​59                23.   de Carvalho MNP, Dias MCF, Nogueira TDR et al (2024) Body
+ 3. Clemente-Suárez VJ, Ramírez-Goerke MI, Redondo-Flórez L                         image alterations in eating disorders patients: a systematic review
+    et al (2023) The impact of anorexia nervosa and the basis for                   of neuroimaging studies. https://​doi.​org/​10.​21203/​rs.3.​rs-​47268​
+    non-pharmacological interventions. Nutrients 15:2594                            00/​v1
+ 4. Stice E, Marti CN, Spoor S et al (2008) Dissonance and healthy            24.   Chen X, Ai C, Liu Z, Wang G (2024) Neuroimaging studies of
+    weight eating disorder prevention programs: long-term effects                   resting-state functional magnetic resonance imaging in eating dis-
+    from a randomized efficacy trial. J Consult Clin Psychol                        orders. BMC Med Imaging 24:265
+    76:329–340. https://​doi.​org/​10.​1037/​0022-​006X.​76.2.​329            25.   Frank GKW, Favaro A, Marsh R et al (2018) Toward valid and
+ 5. Giel KE, Bulik CM, Fernandez-Aranda F et al (2022) Binge                        reliable brain imaging results in eating disorders. Int J Eat Disord
+    eating disorder. Nat Rev Dis Primers. https://​doi.​org/​10.​1038/​             51:250–261. https://​doi.​org/​10.​1002/​eat.​22829
+    s41572-​022-​00344-y                                                      26.   Chen Y, Zhao P, Pan C et al (2024) State- and trait-related dys-
+ 6. Bryant E, Spielman K, Le A et al (2022) Screening, assess-                      functions in bipolar disorder across different mood states: a graph
+    ment and diagnosis in the eating disorders: findings from
+ 46        Page 14 of 14                                Eating and Weight Disorders - Studies on Anorexia, Bulimia and Obesity          (2025) 30:46
+
+      theory study. J Psychiatry Neurosci 49:E11–E22. https://​doi.​org/​          39. West CE, Hazzard VM, Loth KA et al (2023) The interplay
+      10.​1503/​jpn.​230069                                                            between food insecurity and family factors in relation to disor-
+27.   Chen X, Gao X, Qin J et al (2021) Resting-state functional net-                  dered eating in adolescence. Appetite 189:106994. https://d​ oi.o​ rg/​
+      work connectivity underlying eating disorder symptoms in healthy                 10.​1016/j.​appet.​2023.​106994
+      young adults. Neuroimage Clin. https://​doi.​org/​10.​1016/j.​nicl.​         40. Kapur S, Phillips AG, Insel TR (2012) Why has it taken so long
+      2021.​102671                                                                     for biological psychiatry to develop clinical tests and what to do
+28.   Bracké K, Verschueren L, Geerardyn F et al (2023) The potential                  about it? Mol Psychiatry 17:1174–1179. https://​doi.​org/​10.​1038/​
+      of neuroimaging results to predict the course of anorexia nervosa:               mp.​2012.​105
+      a systematic review. J Psychiatr Res 161:34–47. https://​doi.​org/​          41. Kendler KS (2012) The dappled nature of causes of psychiat-
+      10.​1016/j.​jpsyc​hires.​2023.​05.​059                                           ric illness: replacing the organic–functional/hardware–software
+29.   Fardouly J, Crosby RD, Sukunesan S (2022) Potential benefits and                 dichotomy with empirically based pluralism. Mol Psychiatry
+      limitations of machine learning in the field of eating disorders:                17:377–388. https://​doi.​org/​10.​1038/​mp.​2011.​182
+      current research and future directions. J Eat Disord. https://​doi.​         42. Vartanian LR, Hayward LE, Smyth JM et al (2018) Risk and resil-
+      org/​10.​1186/​s40337-​022-​00581-2                                              iency factors related to body dissatisfaction and disordered eat-
+30.   Haynos AF, Hall LMJ, Lavender JM et al (2019) Resting state                      ing: the identity disruption model. Int J Eat Disord 51:322–330.
+      functional connectivity of networks associated with reward and                   https://​doi.​org/​10.​1002/​eat.​22835
+      habit in anorexia nervosa. Hum Brain Mapp 40:652–662. https://​              43. Gaudio S, Quattrocchi CC (2012) Neural basis of a multidimen-
+      doi.​org/​10.​1002/​hbm.​24402                                                   sional model of body image distortion in anorexia nervosa. Neu-
+31.   Cerasa A, Castiglioni I, Salvatore C et al (2015) Biomarkers of                  rosci Biobehav Rev 36:1839–1847. https://d​ oi.o​ rg/1​ 0.1​ 016/j.n​ eubi​
+      eating disorders using support vector machine analysis of struc-                 orev.​2012.​05.​003
+      tural neuroimaging data: preliminary results. Behav Neurol                   44. Monaco F, Vignapiano A, Piacente M et al (2024) An advanced
+      2015:924814. https://​doi.​org/​10.​1155/​2015/​924814                           artificial intelligence platform for a personalised treatment of eat-
+32.   Lavagnino L, Amianto F, Mwangi B et al (2015) Identifying                        ing disorders. Front Psychiatry 15:1414439. https://​doi.​org/​10.​
+      neuroanatomical signatures of anorexia nervosa: a multivariate                   3389/​fpsyt.​2024.​14144​39
+      machine learning approach. Psychol Med 45:2805–2812. https://​               45. London AJ (2019) Artificial intelligence and black-box medi-
+      doi.​org/​10.​1017/​S0033​29171​50007​68                                         cal decisions: accuracy versus explainability. Hastings Cent Rep
+33.   Lavagnino L, Mwangi B, Cao B et al (2018) Cortical thickness                     49:15–21. https://​doi.​org/​10.​1002/​hast.​973
+      patterns as state biomarker of anorexia nervosa. Int J Eat Disord            46. Char DS, Shah NH, Magnus D (2018) Implementing machine
+      51:241–249. https://​doi.​org/​10.​1002/​eat.​22828                              learning in health care — addressing ethical challenges. N Engl J
+34.   Arold D, Bernardoni F, Geisler D et al (2023) Predicting long-                   Med 378:981–983. https://​doi.​org/​10.​1056/​NEJMp​17142​29
+      term outcome in anorexia nervosa: a machine learning analysis                47. Maiese M (2021) Anorexia nervosa, the visceral body, and the
+      of brain structure at different stages of weight recovery. Psychol               sense of ownership. Philos Psychiatry Psychol 28:63–65. https://​
+      Med 53:7827–7836. https://d​ oi.o​ rg/1​ 0.1​ 017/S
+                                                        ​ 00332​ 91723​ 00186​ 1       doi.​org/​10.​1353/​ppp.​2021.​0010
+35.   Zheng L, Wang Y, Ma J et al (2024) Machine learning research                 48. Shi M-G, Feng X-M, Zhi H-Y et al (2024) Machine learning-based
+      based on diffusion tensor images to distinguish between anorexia                 radiomics in neurodegenerative and cerebrovascular disease. Med-
+      nervosa and bulimia nervosa. Front Psychiatry. https://​doi.​org/​10.​           Comm 5:e778. https://​doi.​org/​10.​1002/​mco2.​778
+      3389/​fpsyt.​2023.​13262​71                                                  49. Chudzik A, Śledzianowski A, Przybyszewski AW (2024) Machine
+36.   Zhang L, Wang Y, Ma J et al (2024) Machine learning research                     learning and digital biomarkers can detect early stages of neurode-
+      based on diffusion tensor images to distinguish between anorexia                 generative diseases. Sensors. https://​doi.​org/​10.​3390/​s2405​1572
+      nervosa and bulimia nervosa. Front Psychiatry 14:1326271.                    50. Poldrack RA, Huckins G, Varoquaux G (2020) Establishment of
+      https://​doi.​org/​10.​3389/​fpsyt.​2023.​13262​71                               best practices for evidence for prediction. JAMA Psychiat 77:534.
+37.   Donato K, Ceccarini MR, Dhuli K et al (2022) Gene variants in                    https://​doi.​org/​10.​1001/​jamap​sychi​atry.​2019.​3671
+      eating disorders. Focus on anorexia nervosa, bulimia nervosa, and
+      binge-eating disorder. J Prev Med Hyg 63:E297–E305. https://d​ oi.​          Publisher's Note Springer Nature remains neutral with regard to
+      org/​10.​15167/​2421-​4248/​jpmh2​022.​63.​2S3.​2772                         jurisdictional claims in published maps and institutional affiliations.
+38.   Solmi M, Monaco F, Højlund M et al (2024) Outcomes in people
+      with eating disorders: a transdiagnostic and disorder-specific sys-
+      tematic review, meta-analysis and multivariable meta-regression
+      analysis. World Psychiatry 23:124–138. https://​doi.​org/​10.​1002/​
+      wps.​21182
+

@@ -1,0 +1,1159 @@
+Models of Neocortical Layer 5b Pyramidal Cells
+Capturing a Wide Range of Dendritic and Perisomatic
+Active Properties
+Etay Hay1*, Sean Hill2, Felix Schürmann2, Henry Markram2, Idan Segev1,3
+1 Interdisciplinary Center for Neural Computation and Edmond and Lily Safra Center for Brain Sciences, The Hebrew University, Jerusalem, Israel, 2 Brain Mind Institute,
+Ecole Polytechnique Fèdèrale de Lausanne (EPFL), Lausanne, Switzerland, 3 Department of Neurobiology, The Hebrew University, Jerusalem, Israel
+
+
+
+     Abstract
+     The thick-tufted layer 5b pyramidal cell extends its dendritic tree to all six layers of the mammalian neocortex and serves as
+     a major building block for the cortical column. L5b pyramidal cells have been the subject of extensive experimental and
+     modeling studies, yet conductance-based models of these cells that faithfully reproduce both their perisomatic Na+-spiking
+     behavior as well as key dendritic active properties, including Ca2+ spikes and back-propagating action potentials, are still
+     lacking. Based on a large body of experimental recordings from both the soma and dendrites of L5b pyramidal cells in adult
+     rats, we characterized key features of the somatic and dendritic firing and quantified their statistics. We used these features
+     to constrain the density of a set of ion channels over the soma and dendritic surface via multi-objective optimization with
+     an evolutionary algorithm, thus generating a set of detailed conductance-based models that faithfully replicate the back-
+     propagating action potential activated Ca2+ spike firing and the perisomatic firing response to current steps, as well as the
+     experimental variability of the properties. Furthermore, we show a useful way to analyze model parameters with our sets of
+     models, which enabled us to identify some of the mechanisms responsible for the dynamic properties of L5b pyramidal cells
+     as well as mechanisms that are sensitive to morphological changes. This automated framework can be used to develop a
+     database of faithful models for other neuron types. The models we present provide several experimentally-testable
+     predictions and can serve as a powerful tool for theoretical investigations of the contribution of single-cell dynamics to
+     network activity and its computational capabilities.
+
+  Citation: Hay E, Hill S, Schürmann F, Markram H, Segev I (2011) Models of Neocortical Layer 5b Pyramidal Cells Capturing a Wide Range of Dendritic and
+  Perisomatic Active Properties. PLoS Comput Biol 7(7): e1002107. doi:10.1371/journal.pcbi.1002107
+  Editor: Lyle J. Graham, Université Paris Descartes, Centre National de la Recherche Scientifique, France
+  Received November 11, 2010; Accepted May 13, 2011; Published July 28, 2011
+  Copyright: ß 2011 Hay et al. This is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted
+  use, distribution, and reproduction in any medium, provided the original author and source are credited.
+  Funding: This study was funded by the Israeli Science Foundation, by the EPFL project fund for the Blue Brain Project, by internal fellowship from the
+  Interdisciplinary Center for Neural Computation, and by The Gatsby Charitable Fund. The financial support for CADMOS and the Blue Gene/P system is provided
+  by the Canton of Geneva, Canton of Vaud, Hans Wilsdorf Foundation, Louis-Jeantet Foundation, University of Geneva, University of Lausanne, and Ecole
+  Polytechnique Fédérale de Lausanne. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+  Competing Interests: The authors have declared that no competing interests exist.
+  * E-mail: etay.hay@mail.huji.ac.il
+
+
+
+
+Introduction                                                                           [9–11], as well as the ionic currents involved and partially also the
+                                                                                       spatial distribution of the underlying ion channels over the
+   Neocortical pyramidal cells in layer 5 (L5 PCs) are important                       dendritic surface [12–13]. Such active dendritic properties are
+input-output units in the cortical column. Their dendrites span the                    suggested to play a key role in information processing [14], non-
+entire column, thus receiving input from all six layers, and the cells                 linear computations [15–16] and synaptic integration [17–18].
+provide the major output from the column to various parts of the                       Recent experiments have also highlighted the impact of L5 PCs on
+brain. These cells are divided into two main classes that differ in                    sensation and action in anaesthetized [19] and in behaving [20]
+dendritic morphology, electrical properties, axonal projections that                   animals.
+they typically make [1–2], thalamocortical input they receive [3],                        The key active properties of L5b PCs involve two main spiking
+and location of their soma within layer 5. L5b PCs are pyramidal                       zones. Na+ action potentials (APs) are initiated at the perisomatic
+cells of the deeper part of the layer (L5b). These thick-tufted cells                  region with a typical frequency-current (f–I) relation and firing
+project to subcortical targets such as the tectum, brainstem and                       response to a prolonged suprathreshold step current (perisomatic
+spinal cord, and they tend to discharge a short burst of spikes in the                 step current firing) [4]. The second spiking zone is located at the
+beginning of a spike train. By contrast, the thin-tufted pyramidal                     distal apical dendrites [7,21–22], where Ca2+ spikes are generated
+cells of the superficial part of the layer (L5a) discharge spikes with no              in response to an intense dendritic [22] or somatic [23] stimulation
+adaptation, and project to other parts of the cortex [4].                              in vitro. Recent in vivo studies demonstrate a correlation between
+   Due to the large diameter of their apical dendrites, L5b PCs are                    dendritic Ca2+ signals and sensation [24] or wakefulness [25].
+readily available for intracellular dendritic recordings and as such                   Importantly, in vitro studies have demonstrated that the two spiking
+they have been extensively studied over the past few decades.                          zones interact with each other, whereby the coincidence of the
+Previous works characterized numerous active properties of the                         back-propagating action potential (BAP) and local excitatory
+cells apical dendrites [5–8] and recently also the basal dendrites                     postsynaptic potential (EPSP) at the distal dendrites triggers a
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                          1                                 July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                               Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+
+  Author Summary                                                             sets of models provides useful insights into the key ionic
+                                                                             conductances that underlie the active properties of L5b PCs, as
+  The pyramidal cell of layer 5b in the mammalian neocortex                  well as mechanisms that are sensitive to morphological changes.
+  extends its dendritic tree to all six layers of cortex, thus               We propose that our MOO framework can be used to extend
+  receiving inputs from the entire cortical column and                       these models for both L5b PCs as well as other neuron types when
+  supplying the major output of the column to other brain                    further experimental data becomes available. Eventually, this
+  areas. L5b pyramidal cells have been the subject of                        approach will provide a database of neuron models that capture
+  extensive experimental and modeling studies, yet realistic                 the key properties of all neuron types, including their experimental
+  models of these cells that faithfully reproduce both their                 variability. Our realistic models can serve as a powerful tool for
+  perisomatic Na+ and dendritic Ca2+ firing behaviors are still              theoretical investigations of the contribution of single-cell dynam-
+  lacking. Using an automated algorithm and a large body of                  ics to the overall network dynamics and its emergent computa-
+  experimental data, we generated a set of models that                       tional capabilities.
+  faithfully replicate a range of active dendritic and
+  perisomatic properties of L5b pyramidal cells, as well as
+  the experimental variability of the properties. Furthermore,               Results
+  we show a useful way to analyze model parameters with
+  our sets of models, which enabled us to identify some of                   Features of perisomatic and dendritic firing in L5b PCs
+  the mechanisms responsible for the dynamic properties of                       We defined the features of the perisomatic and dendritic firing
+  L5b pyramidal cells as well as mechanisms that are                         behaviors that we intended our models to replicate (the ‘‘target’’
+  sensitive to morphological changes. This framework can                     firing behaviors) and quantified their mean and standard deviation
+  be used to develop a database of faithful models for other                 (SD, see Table 1) using experimental voltage traces recorded in
+  neuron types. The models we present can serve as a                         several mature L5b PCs or data reported in the experimental
+  powerful tool for theoretical investigations of the contri-                literature (see Methods). For the target of perisomatic step current
+  bution of single-cell dynamics to network activity and its                 firing, we used ten somatic features of the average response to
+  computational capabilities.                                                three normalized (see Methods) current step amplitudes (Table 1,
+                                                                             leftmost four columns). Evidently, some perisomatic firing features
+                                                                             such as the AP half-width, AP peak and inter-spike interval (ISI)
+dendritic Ca2+ spike, which in turn triggers one or more additional          adaptation did not differ significantly over different step
+perisomatic Na+ APs [6]. This BAP-activated Ca2+ spike (BAC)                 amplitudes, in contrast to features such as the first spike latency
+firing highlights the interplay between the two spiking zones, and           and ISI-CV for the spike train. With increasing current, the spike
+may be involved in coincidence detection of EPSPs and APs [26],              train became more regular (as quantified by the ISI-CV feature),
+and in spike timing-dependent plasticity [27–28].                            the latency of the first spike decreased and the initial burst’s ISI
+   While there are various conductance-based models of L5b PCs,              became less variable (see also [4]). For the target of BAC firing we
+they are either hand-tailored to capture only a few particular               used ten dendritic and somatic firing features (Table 1, rightmost
+properties of these cells, such as the back propagation of action            two columns). The experimental traces indicated a rather robust
+potentials [29] or the effect of Ih on input integration [13], or they       Ca2+ spike height and width during BAC firing, and a more
+are meant to explore a general idea rather than faithfully replicate         variable ISI for the resulting burst of perisomatic Na+ APs. The
+specific dynamical properties [30]. A notable existing model was             experimentally observed amplitude and variability of the BAP at
+developed by Schaefer et al. [31] and is capable of replicating the          two distal apical locations also served to constrain the model BAC
+BAC firing; however it does not produce the typical f–I curve and            firing.
+perisomatic step current firing behavior of these cells. Kole et al.
+[32] developed a model that fits the shape of a single spike at the          Models constrained by either BAC firing or perisomatic
+axon, soma and dendrites, but is incapable of generating apical              step current firing
+Ca2+ spikes and does not capture the f–I curve or perisomatic step              We first fitted, separately, either the BAC firing target or the
+current firing. Another significant modeling effort did manage to            perisomatic step current firing target and explored their respective
+reproduce some features of the response to suprathreshold current            conductance mechanisms. We selected key conductance mecha-
+steps recorded at the soma and apical dendrites [33], or only                nisms found in L5b PCs or generally in neocortical neurons [39]
+features of the Na+ excitability in the apical dendrites [34].               and well-characterized experimentally (see Methods). In optimiz-
+However, these models do not attempt to reproduce dendritic                  ing either target, we used the same set of 22 free parameters
+Ca2+ spikes or BAC firing, and the relevant channels are missing             (Table 2), primarily the densities of the conductance mechanisms.
+from the apical dendrites. Presently, there is still no model for L5b        The density of Ih conductance was not a free parameter but rather
+PCs that faithfully replicates both of the two basic firing behaviors,       distributed similarly in all optimizations based on previous studies
+one at the soma and the other at the apical dendrite (but see an             (see Methods). This distribution of Ih ensured that all our models
+important effort in this direction for hippocampal CA1 PCs [35]).            exhibited key subthreshold properties of L5b PCs such as Ih
+   In this work we extended our theoretical framework [36] of                related effects on EPSP summation [40–43], as well as a resting
+utilizing an automated fitting method, the multi-objective                   membrane potential gradient along the apical tree, with a slope of
+optimization (MOO) algorithm combined with an evolutionary                   10 mV/mm [7,13].
+algorithm, to constrain the features of the firing and shape of                 We first constrained models only by features of the BAC firing
+spikes (for a review on automated fitting of models to experiments,          (Table 1, rightmost two columns), generating a set of 899
+see [37–38]). We targeted local spikes both in the soma and distal           acceptable models (see definition in Methods). Figure 1 depicts
+apical tree, as well as the interaction between the two zones. We            the firing behavior of one example model from the set. An EPSP-
+arrived at models that faithfully capture the main active properties         like current with 0.5 ms rise time, 5 ms decay time and amplitude
+of mature L5b PCs, including their experimental variability, as              of 0.5 nA injected at the model distal apical dendrites (620 mm
+quantified by feature statistics over this cell type. We also                away from the soma) resulted in a local EPSP of 14 mV and a
+demonstrate that an inspection of parameter value ranges in our              somatic EPSP of 2.5 mV (Figure 1B). A brief 5 ms, 1.9 nA
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                 2                           July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                               Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+
+ Table 1. Mean and SD values of features of perisomatic step current firing and of BAC firing.
+
+
+ Features of perisomatic step current firing                                                                      Features of BAC firing
+
+                                     Mean±SD, Low          Mean±SD, Reference             Mean±SD, High
+ Feature                             frequency             frequency (15 Hz)              frequency               Feature                                      Mean±SD
+
+ 1. Spike frequency (Hz)             960.88                14.560.56                      22.562.22               1. Ca2+ spike peak (mV)                      6.7362.54
+ 2. Adaptation Index                 0.003660.0091         0.002360.0056                  0.004660.0026           2. Ca2+ spike width (ms)                     37.4361.27
+ 3. ISI-CV                           0.120460.0321         0.108360.0368                  0.095460.0140           3. Somatic AP spike count (during            360
+                                                                                                                  somatic + dendrite current injection)
+ 4. Initial Burst ISI (ms)           57.75633.48           6.62568.65                     5.3860.83               4. Mean somatic AP ISI (ms)                  9.960.85
+ 5. First spike latency (ms)         43.2567.32            19.1367.31                     7.2561                  5. Somatic AHP depth (mV)                    26564
+ 6. AP peak (mV)                     26.2364.97            16.5266.11                     16.4466.93              6. Somatic AP peak (mV)                      2565
+ 7. Fast AHP depth (mV)              251.9565.82           254.1965.57                    256.5663.58             7. Somatic AP half-width (ms)                260.5
+ 8. Slow AHP depth (mV)              258.0464.58           260.5164.67                    259.9963.92             8. Somatic AP spike count (during            160
+                                                                                                                  somatic current injection only)
+ 9. Slow AHP time                    0.23860.030           0.27960.027                    0.21360.037             9. BAP amplitude at 620 mm (mV)              45610
+ 10. AP half-width (ms)              1.3160.17             1.3860.28                      1.8660.41               10. BAP amplitude at 800 mm (mV)             3669.33
+
+ Leftmost four columns–features of perisomatic step current firing, for three different step amplitudes yielding low, medium and high firing rates. Rightmost two
+ columns–features of BAC firing. Statistics reflect several cells. In constraining models for BAC firing, we used features of the dendritic Ca2+ spike and somatic Na+ APs in
+ response to coincident somatic and dendritic current injections, as well as BAP attenuation during current injection only to the soma (See Methods for details).
+ doi:10.1371/journal.pcbi.1002107.t001
+
+
+suprathreshold current injected in the model soma yielded an AP                          acceptable models) from the experimental mean, thus exhibiting
+that back-propagated to the dendrites (Figure 1C), decaying to                           the experimental variability.
+yield the BAP amplitude at the main bifurcation which is within                             Importantly, acceptable models that were constrained to only
+the experimental range [44]. When both somatic and dendritic                             replicate the BAC firing were not guaranteed to faithfully replicate
+stimuli coincided within 5 ms, the model neuron generated BAC                            the firing response to prolonged somatic depolarizing current step
+firing with a large and broad Ca2+ spike followed by a burst of two                      (Figure 1F). In the example model described above, the frequency
+additional somatic Na+ APs (Figure 1D). Intense stimulation of the                       of Na+ APs at the soma was too low (Figure 1F, top) and the shape
+distal dendrites alone (Figure 1E) was sufficient to produce a                           of individual spikes within the train did not resemble that of the
+dendritic Ca2+ spike and two somatic Na+ APs. These behaviors                            experimental spikes (Figure 1F, bottom). Hence, fitting the BAC
+are in full agreement with the experimental literature [6]. The                          firing target behavior did not ensure good performance on our
+model Ca2+ spike peak and width were within 0.86 SD from the                             other target behavior (see also [45]).
+experimental mean; the BAP amplitudes were within 1.4 SD from                               Next, we constrained models only by features of the perisomatic
+the experimental mean; and the perisomatic AP ISI was within                             step current firing (Table 1, leftmost four columns), and arrived at
+1.1 SD from the experimental mean. Models in the set had feature                         a second set of 52 acceptable models. For an example model from
+values ranging within 2–3 SD (our designated cut-off for                                 the set, a qualitative comparison of the experimental and
+                                                                                         simulated model response to depolarizing current step is shown
+ Table 2. Parameter limits for ion channel density and Ca2+                              in Figure 2A, demonstrating the similarity in spike train features
+ dynamics parameters used in the evolutionary algorithm.                                 (frequency, latency, initial burst, ISI-CV and adaptation index)
+                                                                                         and spike shape features (spike height, after-hyperpolarization, and
+                                                                                         spike width). The values of all features in that model were within
+                    Lower      Upper                        Lower        Upper           1–2 SD from the experimental mean, except for the first spike
+ Parameter          Limit      Limit          Parameter     Limit        Limit
+                                                                                         latency that was within 3 SD from the experimental mean. In
+   g Nat
+ s.                0          40,000            gleak
+                                              ax.          0.2          0.5             addition, the whole f–I curve of the model fell within the range of
+   gNap
+ s.                0          100              gleak
+                                              b.           0.15         0.5             the experimental f–I curves (Figure 2B), demonstrating that
+   gKp
+ s.                0          10,000           gleak
+                                              a.           0.15         0.5
+                                                                                         matching model parameters to only three selected points in the
+                                                                                         f–I curve was sufficient to constrain the entire f–I curve. Models in
+   gKt
+ s.                0          1,000            gNat
+                                              a.           0            200
+                                                                                         the set had feature values ranging within 2–3 SD from the
+   gKv3.1
+ s.                0          20,000           gKv3.1
+                                              a.           0            200             experimental mean, thus exhibiting the experimental variability.
+   gCa_HVA
+ s.                0          10               gCa_HVA
+                                              a.           0            25              As expected, these models were not guaranteed to capture the
+   gCa_LVA
+ s.                0          100              gCa_LVA
+                                              a.           0            1000            active dendritic properties, despite having the same free
+   gSK
+ s.                0          1,000            gSK
+                                              a.           0            50              parameters on the apical dendrites as those used for fitting BAC
+ s.tdecay           20         1,000            gm
+                                              a.           0            5
+                                                                                         firing (Figure 1). In the example model shown in Figure 2,
+                                                                                         dendrites were only weakly excitable, resulting in a strongly
+ s. c               0.0005     0.05           a.tdecay      20           200
+                                                                                         attenuated, essentially passive, BAP (Figure 2C, top), and failure to
+   gleak
+ s.                0.2        0.5            a. c          0.0005       0.05            produce a Ca2+ spike even under intense distal apical stimulation
+                                                                   2
+ s–soma, a–apical, b–basal, ax–axon. Conductance is in pS/mm , tdecay is in ms.
+                                                                                         (Figure 2C, bottom).
+ Values of apical Ca2+ channels are given for the high density distal zone.                 To highlight mechanisms that provide acceptable models for
+ doi:10.1371/journal.pcbi.1002107.t002                                                   BAC firing or for perisomatic step current firing, we compared the
+
+
+           PLoS Computational Biology | www.ploscompbiol.org                         3                                 July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                  Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+
+
+Figure 1. Models constrained only by BAC firing may fail to respond properly to perisomatic step current. A. Reconstructed
+morphology of an L5b neocortical pyramidal cell, age p36, used for the fitting and simulations. Recording and stimulation sites are indicated by
+schematic electrodes at the soma (black), proximal apical dendrite (400 mm from the soma, blue) and distal apical site (620 mm from the soma, red).
+(B–E). Model simulation of BAC firing (compare to [6]). B. EPSP-like current injection at the distal dendrites (Istim, red trace) with peak amplitude of
+0.5 nA produced a subthreshold depolarization of 2.5 mV at the soma (Vm, black trace). C. Suprathreshold step current at the soma evoked a somatic
+AP that back-propagated into the dendrites. D. BAC firing. The combination of somatic and dendritic current injection (separated by an interval of
+5 ms) evoked a dendritic Ca2+ spike (Vm, red trace) followed by a burst of two additional somatic APs. E. Dendritic Ca2+ spike could be evoked by an
+intense (2.5 nA) current injection to the distal dendrite alone, also evoking two APs at the soma. F. Top: the model’s firing response to somatic step
+current injection did not agree with the experimentally observed response (black–model, magenta–experiment). Bottom: 300 ms of the response
+corresponding to the bar in the top part.
+doi:10.1371/journal.pcbi.1002107.g001
+
+range of each model parameter in the two corresponding sets of                 acceptable BAC firing models are in agreement with previous
+models (Figure 3). Evidently, the ranges of most apical parameters             theoretical estimates [30–31].
+(shaded area in Figure 3) were markedly smaller when constraining                 In order to understand why the models shown in Figures 1 and
+for BAC firing alone (Figure 3, red lines) than when constraining              2 failed in the targets they were not constrained with, we related
+only for perisomatic step current firing (Figure 3, black lines). Thus,        the particular parameter values of a model for one target to the
+faithful models for BAC firing required the density of Ca2+, Na+ and           ranges delineated by the set of acceptable models for the other
+K+ ion channels in the apical tree, as well as the parameters of Ca2+          target. The red and black circles in Figure 3 correspond to the
+dynamics, c and tdecay (see Methods), to be within a rather tight              normalized parameter values of the models shown in Figures 1 and
+range (Figure 3, red lines in shaded area). For example, the range for         2, respectively.
+the density of apical Nat was 101–133.5 pS/mm2 when constraining                  First, we looked for dendritic parameter values of the model for
+for BAC firing (Figure 3, red lines), and 51.5–200 pS/mm2 (almost              perisomatic step current firing (Figure 3, black circles) that were
+spanning the entire free parameter range) when not constraining for            outside the parameter ranges delineated by the set of acceptable
+BAC firing (Figure 3, black lines). The ranges of Im, Kv3.1, CaHVA,            models for BAC firing (Figure 3, red ranges), and therefore might
+CaLVA, SK, c and tdecay in models for BAC firing were 0–1.155, 0–              underlie the failure of the model to generate a Ca2+ spike or
+3.05, 0–8.65, 0–211, 25–29.5 pS/mm2, 5e-4–5.85e-4 and 24.6–                    properly back-propagate APs (Figure 2C). For example, the
+175 ms, respectively. Conversely, in models for perisomatic step               model’s apical Nat density (82.5 pS/mm2) was below the
+current firing the ranges of somatic parameters such as CaHVA                  acceptable range for BAC firing (Figure 3, red range, correspond-
+density, Ca2+ dynamics c and tdecay were smaller, and the ranges of            ing to 101–133.5 pS/mm2), and its apical Kv3.1 density (119 pS/
+SK and Nap densities were shifted, compared to models for BAC                  mm2) was above the acceptable range (0–3.05 pS/mm2). Either of
+firing. Other somatic parameter ranges in both sets of models were             the deviant densities was therefore likely to be the reason for the
+similar (see Discussion). We note that the range of acceptable                 model’s failure to properly back-propagate APs to the apical tree
+density of apical Nat given above agrees with previous experiments             [12]. We verified this hypothesis either by reducing the apical Nat
+[12], and that the densities of the other dendritic channels in                density in the acceptable model for BAC firing (Figure 3, red
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                   4                             July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                 Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+
+
+Figure 2. Models constrained only by perisomatic step current firing are not guaranteed to generate BAC firing. A. Top: model (black)
+response to a 2 second 793 pA depolarizing step current at the soma as compared to the corresponding experimental trace (magenta). Bottom:
+300 ms of the response corresponding to the bar in the top part. B. f–I curve for the 11 L5b PCs (colors) and for the model (black). C. The apical tree
+in this model was only weakly excitable, exhibiting no active BAP (top), and was incapable of generating a dendritic Ca2+ spike even under intense
+distal stimulation (bottom). All measures and definitions in C are as in Figure 1.
+doi:10.1371/journal.pcbi.1002107.g002
+
+circles, corresponding to 105.5 pS/mm2) to this low value, which                 A similar examination of the parameter values of the model for
+resulted in a similar failure to back-propagate APs; or by                    BAC firing (Figure 3, red circles) showed that the model had
+increasing the value of this channel density in the model for                 apical Im and Kv3.1 densities (0.3 and 1.49 pS/mm2, respectively)
+perisomatic step current firing to acceptable values (Figure 3, red           below the acceptable ranges for perisomatic current step firing
+range), which resulted in a more acceptable BAP (not shown).                  (Figure 3, black ranges, corresponding to 0.93–5 and 36.2–
+Several parameters may underlie the failure of the model to                   200 pS/mm2, respectively), and somatic Ca2+ dynamics tdecay
+generate a Ca2+ spike. Its apical Im and Kv3.1 densities (3.9 and             (486 ms) above the acceptable range (197–395 ms). These
+119 pS/mm2, respectively) as well as the apical c value (7.59e-3)             aberrant values may have increased the somatic and dendritic
+were above the acceptable ranges for BAC firing (0–1.155, 0–                  excitability as suggested by the bursts seen in the response to
+3.05 pS/mm2, and 5.00e-4-5.85e-4, respectively). We tested this               somatic step current (Figure 1F). We tested the model when
+hypothesis by shifting the values of these three parameters in the            shifting the apical Kv3.1 and Im densities and somatic tdecay to the
+model to those of the acceptable model for BAC firing, and indeed             values of the acceptable model for perisomatic step current firing
+observed Ca2+ spike under distal apical stimulation (not shown) as            (Figure 3, black circles) and managed to significantly improve the
+in models for BAC firing (Figure 1E).                                         response (not shown).
+
+
+
+
+Figure 3. Parameter ranges for acceptable models for either perisomatic step current firing or BAC firing. Distribution of normalized
+parameter values in models constrained by BAC firing (red, n = 899 acceptable models) or by perisomatic step current firing (black, n = 52 acceptable
+models). For ease of viewing, the graph region containing parameters at the apical tree is shaded in gray. Red and Black circles correspond to specific
+normalized parameter values of the models shown in Figures 1 and 2, respectively. Real values for the different ion conductances can be derived by
+referring to the upper limits given in Table 2.
+doi:10.1371/journal.pcbi.1002107.g003
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                  5                             July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                  Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+   We found further evidence that active dendritic mechanisms did              models, we noticed a marked increase in intracellular Ca2+
+not play a significant role in perisomatic step current firing, by             dynamics tdecay (363–616 vs. 197–395 ms) in models that were
+comparing somatic parameters in our models for this target                     capable of producing acceptable BAC firing, possibly due to the
+behavior to models that optimized the same target but without the              constraint of three APs in the perisomatic burst response during
+free apical parameters. The dendrites in the latter models were                BAC firing (see Methods). tdecay seems likely to underlie the
+therefore essentially passive, having only Ih and leak conductance.            stronger saturation of f–I curve since it is active on long time
+We found that the somatic parameter ranges in both sets of models              scales. We tested this hypothesis by lowering the tdecay value in the
+were quite similar (Figure S1), with no range shifts and only a                model (460 ms) to be within the range of models for perisomatic
+relatively moderate change in range size for Nap and Kv3.1                     step current firing alone (300 ms). We found that the f–I curve of
+densities (see Discussion).                                                    the modified model indeed shifted to lie on the average (Figure S2,
+                                                                               top). However, as expected, this modified model produced only
+Models constrained by both BAC firing and perisomatic                          two perisomatic APs in BAC firing (Figure S2, bottom). Hence, the
+step current firing                                                            constraint of three APs during BAC firing is likely to have clashed
+   Having successfully fitted the perisomatic step current firing and          with the f–I curve constraint. We suggest that a more complex
+BAC firing features separately, we next attempted to do the same               Ca2+ dynamics mechanism might improve the fit (see Discussion).
+for their conjunction. Trying to simultaneously fit all 20 features               The model shown in Figure 4 had a membrane time constant of
+for the two targets (Table 1) in a single MOO with high resources              10 ms, and we measured the input resistance at the soma to be
+for the evolutionary algorithm (population size of 5000 and 2000               41.9 MV. Both values are within the experimental range [4]. The
+generations) did not yield satisfactory models for both targets, but           parameter values of that model are given in Table 3, and
+rather generated models with large errors in one or several key                parameter values of the three additional acceptable models that
+features. This was to be expected with the large number of                     agree with both targets are given in Table S1. As an indication
+objectives, which requires a much larger population for conver-                that our model densities are biologically plausible, we observed
+gence [46] (see Discussion). We therefore conducted the                        that the dendritic Nat density (107 pS/mm2) and the measured
+optimization process in two stages. The first stage was the fitting            peak somatic Nat current (50pA/mm2) are in the same order of
+of BAC firing target, which resulted in the set of acceptable models           magnitude of experimental estimates [12,32]. As a demonstration
+shown in Figure 3 (red lines). We then tested this set of models on            that a feasible Ih is present in the apical dendrites, we verified that
+the features of perisomatic step current firing. Some models                   the model exhibits experimental findings [47] regarding the effect
+performed poorly, as demonstrated in Figure 1, whereas others                  of Ih in attenuation of voltage along the dendrites (Figure S3). The
+performed somewhat better, although not as satisfactorily as the               slope of the curve when Ih is blocked (Figure S3B) is slightly less
+acceptable model for perisomatic step current firing shown in                  steep than seen experimentally, either due to the difference in
+Figure 2. We thus selected the one acceptable model for BAC                    dendritic morphology or the difference between a complete
+firing that performed best on the other target behavior as well, and           blocking of Ih in simulation compared to the limited extent of
+used its specific dendritic parameter values in a new MOO on the               pharmacological blockade experimentally.
+perisomatic parameters alone, now constraining with both target
+behaviors. The fixation of dendritic parameters was based on the               Testing the dually-constrained model on new stimuli and
+assumption that acceptable apical conductance densities do not                 different morphologies
+influence the perisomatic step current firing significantly, as                   We examined how well the dually-constrained model (shown in
+suggested in Figure S1. Indeed, this two-step method resulted in a             Figure 4) performs on a target behavior with which it was not
+successful fit, yielding acceptable models that faithfully reproduced          explicitly constrained. Larkum et al. [23] have shown that when a
+the features of both target behaviors.                                         train of APs is generated at the soma by a series of brief somatic
+   An example of such a model is shown in Figure 4. This model was             pulses there is a critical frequency of somatic APs whereby the
+selected for having feature values closest to the experimental mean.           summated BAPs in the distal apical dendrites reach threshold for a
+The BAC firing that it produced (Figure 4A) was similar to that of             regenerative dendritic Ca2+ spike. This critical frequency ranges in
+the models exemplified in Figure 1, and the values of all BAC firing           different L5b PCs from 50 Hz up to 200 Hz, with an average
+features were within 1–2 SD from the experimental mean, except                 around 100 Hz. In Figure 5 we replicated this experiment by
+that the average AP ISI was slightly longer (15 ms, ,4 SD from the             injecting a train of five brief suprathreshold current pulses to the
+experimental mean). However, since we observed such a value in                 soma of the dually-constrained model depicted in Figure 4. At
+the experimental recordings data, we considered it acceptable. The             frequencies below 100 Hz (Figure 5A, left) a dendritic Ca2+ spike
+model faithfully reproduced all the perisomatic step current firing            was not elicited, whereas above 100 Hz a dendritic Ca2+ spike was
+features (Figure 4B) to within 1–2 SD from the experimental mean,              generated (Figure 5A, right; and Figure 5B), in close agreement
+except that its initial burst response was slightly stronger (comprising       with the experimental results. This result strengthens our
+3–4 spikes instead of 2–3). The model’s f–I curve was within the               confidence in the model, as its good performance generalizes to
+experimental range (Figure 4C). Models in the set had feature values           novel experimental stimuli.
+ranging within 2–3 SD from the experimental mean, thus                            Next, we investigated the influence of the dendritic morphology
+exhibiting the experimental variability.                                       on the results that we obtained for cell #1 (shown in Figure 1A).
+   The f–I curve of the resulting models did, however, saturate at             We selected two other L5b PC morphologies of the same age. One
+lower frequencies than average, so that the models captured the f–             cell (cell #2) was generally similar to cell #1, while the other cell
+I curve of cells from the margins of our experimental set                      (cell #3) was more different than cell #1, in terms of input
+(Figure 4C). To explore the reason for this, we compared the                   resistance (Rin) and dendrite-to-soma conductance ratio [48] (r or
+somatic parameter ranges in the set of models for both BAC firing              ‘‘dendritic load’’), or in the distance between the main apical
+and perisomatic step current firing to the set of models fitting only          bifurcation and the soma.
+perisomatic step current firing (Figure 4D). Apart from several                   First, we used cell #2 (Figure 6A) with the same parameters
+decreases in range size (Nap, Nat, Kp, and Kv3.1 densities), which             (Table 3) as in the model shown in Figure 4. The main bifurcation
+may be attributed to the small data set of dually-constrained                  in cell #2 was slightly more distal as compared to cell #1 (750 vs.
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                   6                            July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                  Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+
+
+Figure 4. Example of an acceptable model for both BAC firing and perisomatic step current firing. A. The model faithfully reproduced
+BAC firing (compare to Figure 1B–E). B. Firing response of the same model as in (A) to perisomatic step current injection (black–model, magenta–
+experiment). C. The model’s f–I curve (black) and experimental f–I curves (colors). All measures and definitions are as described in Figures 1 and 2. D.
+
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                   7                             July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                           Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+
+Distribution of the normalized parameter values in models targeted at only the perisomatic step current firing (black, n = 52), and in models that also
+fit the BAC firing target (blue, n = 4). The black and blue circles refer to the parameter values of specific models shown in Figure 2 and this figure,
+respectively. Ranges of some parameters in both cases overlapped, whereas the range of the Ca2+ tdecay was markedly different in the two
+optimizations. Real values for the different ion conductances can be derived by referring to the upper limits given in Table 2.
+doi:10.1371/journal.pcbi.1002107.g004
+
+650 mm) although within the Ca2+ ‘‘hot’’ zone of cell #1; The Rin                      Nat density required for the active BAP seen experimentally.
+of cell #2 was smaller by 18% (34.4 vs. 41.9 MV) and its r was                         Hence, when we used the parameters of the model shown in
+larger by 9% (16.1 vs. 14.7). The perisomatic firing response to                       Figure 4 with cell #2, the apical Nat was too high for that
+step current (with amplitudes adjusted to the new Rin) was                             morphology to faithfully replicate BAC firing.
+acceptable and similar to that observed with the original                                In addition, we checked if the successful transfer of somatic
+morphology (Figure 6B). However, the dendritic tree was evidently                      parameters between the two cells in terms of perisomatic step
+more excitable, producing BAC firing upon a brief suprathreshold                       current firing was reflected in a similarity of somatic parameter
+stimulation of the soma alone (Figure 6C). As is evident in that                       ranges when cell #2 was fitted anew. We therefore repeated the
+figure, the BAP amplitude at the distal apical dendrites was quite                     MOO fitting procedure of the perisomatic step current firing using
+large in cell #2 as compared to cell #1 (Figure 1C), and was                           the second morphology. We used only leak and Ih conductance in
+sufficient to trigger a Ca2+ spike (and consequently BAC firing).
+Based on previous studies [49–50] we measured the transfer
+impedance between the soma and the apical dendrite ‘‘hot’’ zone
+(700 mm away from the soma) in cells #1 and #2. For steady
+state, the transfer resistance was similar in the two cells (13.1 vs.
+12.5 MV), however for a brief (5 ms) somatic pulse (corresponding
+to the duration of an AP) the transfer impedance was 1.4 times
+larger in cell #2 (1.714 vs. 1.2 MV), which explains why the
+somatic AP was less attenuated in cell #2 compared to cell #1.
+   We were interested in discovering ionic currents that compen-
+sate for the difference in transfer impedance. We therefore
+repeated the MOO fitting procedure of the BAC firing using the
+second morphology. We maintained the apical ‘‘hot’’ zone of Ca2+
+channels at the same distance from the soma as for cell #1 (see
+Methods), since the main bifurcation differed only by 100 mm and
+was within the ‘‘hot’’ zone. We thus generated acceptable models
+for BAC firing in cell #2, and compared the ranges of their
+parameters to the set of acceptable models for cell #1 (Figure 6E).
+We found that acceptable models for cell #2 had a strictly lower
+apical dendritic Nat density as compared to acceptable models for
+cell #1 (84–95.5 vs. 101–133.5 pS/mm2). This finding is in
+agreement with a previous study [50] that showed an inverse
+correlation between dendritic transfer impedance and the apical
+
+
+ Table 3. Parameter values for the dually-constrained model
+ shown in Figure 4.
+
+
+ Parameter           Value              Parameter           Value
+
+   g Nat
+ s.                 20,400                gleak
+                                        ax.                0.325
+   gNap
+ s.                 17.2                 gleak
+                                        b.                 0.234
+   gKp
+ s.                 22.3                 gleak
+                                        a.                 0.295
+   gKt
+ s.                 812                  gNat
+                                        a.                 107
+   gSK
+ s.                 441                  gKv3.1
+                                        a.                 1.31
+   gKv3.1
+ s.                 6,930                gCa_HVA
+                                        a.                 2.78
+                                                                                       Figure 5. Ca2+ electrogenesis in distal apical dendrites in
+   gCa_HVA
+ s.                 9.92                 gCa_LVA
+                                        a.                 93.5                       response to a critical frequency of somatic stimulation. A. The
+   gCa_LVA
+ s.                 34.3                 gSK
+                                        a.                 6                          dually-constrained model neuron shown in Figure 4 was stimulated at
+                                                                                       the soma with a train of five brief suprathreshold depolarizing pulses,
+ s. c                0.000501             gm
+                                        a.                 0.338
+                                                                                       resulting in a train of somatic Na+ APs (black). Left, five somatic APs at
+ s.tdecay            460                a.tdecay            122                        70 Hz did not elicit a Ca2+ spike in the dendrites whereas at 120 Hz
+ s.gleak             0.338              a. c                0.000509                   (right) a regenerative Ca2+ spike was generated in the dendrites (red
+                                                                                       trace denotes dendritic voltage, measured at 830 mm from soma). B.
+ s–soma, a–apical, b–basal, ax–axon. Conductance is in pS/mm2, tdecay in ms.           Peak voltage response in the apical dendritic ‘‘hot’’ zone (830 mm from
+ Values for the apical Ca2+ channels are given for the ‘‘hot’’ zone. See Methods       soma) as a function of the frequency of the somatic train of five APs. At
+ for fixed Ih values and passive parameters. The complete model is available in        a ‘‘critical frequency’’ around 100 Hz an ‘‘all or none’’ Ca2+ spike was
+ ModelDB [65] (accession number 139653).                                               generated at the dendrites.
+ doi:10.1371/journal.pcbi.1002107.t003                                                 doi:10.1371/journal.pcbi.1002107.g005
+
+
+           PLoS Computational Biology | www.ploscompbiol.org                       8                             July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                 Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+
+
+Figure 6. Model transfer to a similar morphology preserves perisomatic but not dendritic active properties. A. Reconstruction of a
+second L5b PC morphology of the same age as that of the cell in Figure 1A, with similar area and branching. B. Using the dually-constrained model
+shown in Figure 4 (and parameters shown in Table 3) with cell #2 provided an acceptable perisomatic step current firing (experimental trace–
+magenta; simulation–black). C. Brief suprathreshold somatic stimulation of the model with cell #2 generated BAC firing, in disagreement with the
+experimental results. D. Parameter ranges for acceptable models fitting perisomatic step current firing with cell #1 (black, n = 139) and cell #2 (red,
+n = 110) tightly overlapped. E. Parameter ranges for acceptable models fitting BAC firing with cell #1 (black, n = 899) and cell #2 (red, n = 948)
+generally overlapped, except for apical Nat density. Real values for the different ion conductances can be derived by referring to the upper limits
+given in Table 2.
+doi:10.1371/journal.pcbi.1002107.g006
+
+the dendrites (as in generating the set of models for cell #1 shown           density ranges were shifted upwards (Figure 7D, 23,500–32,300 vs.
+in Figure S1, purple lines) to facilitate the comparison, and                 17,600–26,600, and 3,540–12,200 vs. 2,410–5,060 pS/mm2, respec-
+adjusted the step amplitudes according to Rin. We thus generated              tively). Hence, these two conductances are likely to be important in
+acceptable models for perisomatic step current firing in cell #2.             adjusting for the dendritic load difference. A parameter range
+We found a tight overlap between their somatic parameter ranges               comparison between models for BAC firing was not possible,
+and those of the corresponding models for cell #1 (Figure 6D),                however, since the optimization of BAC firing with cell #3 did not
+explaining the successful transfer from the cell #1 model to cell             converge well, regardless of whether assigning the apical Ca2+
+#2 in the case of perisomatic target behavior.                                channels high density using the distance rule (see Methods) or starting
+   The extreme effect of morphology on model performance is                   at the main bifurcation. This result suggests that there is a different
+demonstrated by a third morphology, that of cell #3 (Figure 7A).              channel distribution or BAC firing behavior for morphologies with
+Its main bifurcation was only 200 mm from the soma, its Rin was               such proximal main bifurcation. Overall, these results demonstrate
+less than half that of cell #1 (18.8 vs. 41.9 MV) and its r was               some of the limitations of transferring models across L5b PC
+nearly 50% larger (20.2 vs. 14.7). When simulated using the                   morphologies based on our current knowledge (see Discussion).
+parameters of the dually-constrained model for cell #1 shown in
+Figure 4, it fired incorrectly in response to somatic step current            Model prediction for BAC firing in Up vs. Down states
+(Figure 7B). We observed similar poor transfer even for models                   We used our model to test the expected effect of the Up state as
+with only leak and Ih conductance in the dendrites, which implied             seen in vivo [51–52] on the BAC firing. Previous experimental
+that the difference in the dendritic load underlies the poor transfer         studies [53] explored some of the properties of dendritic Ca2+
+of parameters between the two modeled cells. While fitting anew               spikes and perisomatic Na+ spikes under noisy ‘‘high conductance’’
+for the perisomatic step current firing using cell #3 was successful          state. We emulated the Up state simply by applying a DC current
+(Figure 7C), acceptable models using cell #3 differed markedly                of 0.42 nA for 200 ms at the proximal apical dendrite, 200 mm
+from acceptable models that used cell #1, in that Nat and Kv3.1               from the soma. Under this condition, a brief square pulse (5 ms,
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                  9                             July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                     Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+
+
+Figure 7. Model transfer between largely different morphologies is unsuccessful. A. Reconstruction of a third L5b PC morphology, cell #3,
+of the same age as cell #1 but with very proximal main bifurcation and larger dendritic tree area. B. Using cell #3 with the parameters of the
+acceptable model shown in Figure 4 did not yield a proper response even to somatic depolarization. C. Example of an acceptable model for
+perisomatic step current firing in cell #3. D. The parameter ranges of models for perisomatic step current firing using the morphology of cell #1
+(black, n = 139) or cell #3 (red, n = 77) generally overlap, but not as tightly as for the second, more similar, morphology (Figure 6). Nat and Kv3.1 ranges
+are shifted. Real values for the different ion conductances can be derived by referring to the upper limits given in Table 2.
+doi:10.1371/journal.pcbi.1002107.g007
+
+0.5 nA) at the soma resulted in a perisomatic Na+ AP (Figure 8A).                experimental variability (Table 1). As a result, for a given modeled
+An EPSP-like current, similar to that used in our BAC firing                     L5b PC morphology this study provides a set of acceptable models
+simulations (0.5 nA), injected at the distal apical dendrite 700 mm              (and consequently a range of model parameters) that faithfully
+from the soma (Figure 8B) resulted in a perisomatic Na+ AP, due                  replicate the target experimental results, as well as exhibiting the
+to the proximity of the membrane potential to firing threshold in                experimental variability. Importantly, experimental studies also
+the Up state. When the EPSP input preceded or followed the                       show that numerous combinations of ion channel densities can
+somatic stimulus by 20 ms (Figure 8C and Figure 8E, respectively)                result in similar firing behavior [54]. Our sets of models can be
+the model cell fired two Na+ APs, with no spikes at the dendrite.                used in further analyses that examine the interplay between
+However, when the two inputs were applied simultaneously, the                    channel density combinations. Dendritic Ih distribution in the
+cell BAC fired, with a burst of four additional Na+ APs as well as               models based on previous studies ensured replication of Ih-related
+Ca2+ spike at the dendrite (Figure 8D). We then determined the                   subthreshold input integration properties (e.g., Figure S3). The
+temporal window conducive to the generation of Ca2+ spike, by                    faithful performance of the models we present also generalized to
+plotting the peak distal dendritic membrane potential as a function              stimuli with which they were not constrained (Figure 5), and the
+of the stimulus time difference (Dt) in the Up state and the Down                models perisomatic and dendritic maximal conductances are in
+state (without the DC current, Figure 8F). The temporal window                   the same order of magnitude as experimental estimates. Previous
+for the generation of the BAC firing was much narrower in the Up                 modeling studies of L5b PCs replicated only some aspects of the
+state (Dt = 0–5 ms, Figure 8F black trace) compared to the Down                  cell’s behavior (e.g., BAC firing but not perisomatic step current
+state (Dt = 210–15 ms, Figure 8F blue trace). Ca2+ spike peak was                firing [31], or vice versa [33]). Thus, our work provides a set of
+smaller in the Up state, in agreement with previous experimental                 models faithfully replicating a range of important active properties
+studies [53]. Interesting also is the larger gain in the Up state (a             of a key neuron in the mammalian neocortex, which can serve as a
+larger number of additional BAC firing-related spikes) in the Up                 basic building block for in silico models of large-scale cortical
+state compared to the Down state (see Figure 4). Therefore, our                  networks.
+simulations predict an increase in temporal sensitivity for BAP and                 In order to pinpoint key mechanisms that underlie the multi-
+EPSP coincidence, as well as an increase in perisomatic AP gain                  regional firing properties of L5b PCs, we compared the range of
+during the Up state (see Discussion).                                            parameters for models that optimized either of the two target
+                                                                                 behaviors. We sought parameters that differed between the two
+Discussion                                                                       targets either in range size or in range values. Such differences
+                                                                                 provided a first order, readily-observable indication of the change
+   To the best of our knowledge, this is the first modeling study for            in the role of a given ion channel and therefore hinted at its
+any neuron type that utilizes an automated feature-based                         relevance to the target behavior. Also of interest were cases where
+parameter search to faithfully replicate both dendritic Ca2+ and                 the range of a parameter values included zero, indicating that this
+perisomatic Na+ electrogenesis and the interaction between these                 ion channel may be replaced by a combination of other ion
+two spiking regions. In this study we modeled mature L5b PCs,                    channels for achieving the target behavior. Such comparisons
+focusing on the firing of Na+ APs at the soma in response to a                   provided a clear delineation of the range of apical Nat and Kv3.1
+prolonged step current, the generation of a Ca2+ spike at the distal             density values required for a proper active back-propagation of
+apical dendrites, as well as the interaction between the two spiking             APs, and also highlighted the K+ and Ca2+ related mechanisms
+zones via the BAC firing. To characterize these target behaviors,                affecting dendritic capability to generate local Ca2+ spikes
+we used a total of 20 experimentally-based features and their                    (Figure 3). In particular, Im and Kv3.1 may act directly to counter
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                    10                              July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+
+
+Figure 8. Enhanced gain and temporal sensitivity in BAC firing in Up state. Subthreshold DC depolarizing current of 0.42 nA was injected to
+the model shown in Figure 4, 200 mm from the soma, to emulate the Up state. Black–recording at the soma, red–recording at the apical dendrite,
+700 mm from the soma. A. Model response to a brief, 5 ms 0.5 nA, step current pulse to the soma, resulting in a single AP. B. Model response when
+an EPSP-like current (0.5 nA) is injected in the main apical bifurcation, resulting in a single Na+ AP in the soma. C–E. Model response when the
+somatic and dendritic inputs coincide with time difference (Dt) of 220 msec (C), 0 msec (D) and +20 msec (E). Note that when the two inputs are
+applied with Dt of 0 (D), a Ca2+ spike is generated in the dendrite, along with a burst of five perisomatic Na+ APs. F. Peak dendritic voltage at the
+distal dendrite recording site as a function of Dt during an Up state (black) or Down state (when no DC current is applied, blue). Note the narrower
+time window for Ca2+ spike generation in an Up state.
+doi:10.1371/journal.pcbi.1002107.g008
+
+
+the regenerative effect of Ca2+ and Na+ currents, whereas Ca2+                active dendritic mechanisms do not seem to play a significant role
+dynamics c may act by increasing the free Ca2+ concentration for              in perisomatic step current firing (Figures 3, S1), except perhaps in
+a given Ca2+ current, thus triggering a larger SK current which               contributing to the steady excitability involving the balance
+dampens the local Ca2+ spike.                                                 between persistent conductances such as dendritic Kv3.1, and
+   Through similar analysis we differentiated between somatic                 somatic Nap and Kv3.1 (Figure S1).
+mechanisms that are primarily involved in shaping the AP, and                    The range of values for perisomatic NaT density in our models is
+somatic mechanisms that are more involved in features of the AP               somewhat higher than in several other estimates [32,55]. In
+train. Ranges of values for parameters of somatic mechanisms with             addition to the limitations of the experimental methods used for
+long time constants, such as SK, CaHVA and Nap currents, and                  estimating ion channel density, which may underestimate the true
+Ca2+ dynamics c and tdecay, differed between the two sets of                  density (as indicated by [32]), several reasons can account for the
+models. We verified that these mechanisms did indeed play a role              higher NaT density used in our models. Some experimental
+in features of somatic spike trains such as adaptation. Such features         estimates were based on younger preparations [55], where the cells
+were not sufficiently constrained by the BAC firing, which lasts              (and thus the ‘‘dendritic load’’) are considerably smaller than in
+only tens of milliseconds. By contrast, somatic parameter ranges              mature cells [56]. Thus, models for younger cells require smaller
+that were similar in value were therefore likely to contribute to             density of perisomatic NaT for generating ‘‘healthy’’ somatic Na+
+features of the perisomatic spike shape, which were constrained in            spikes (as also suggested by Figure 7). Other estimates are based on
+both of our target behaviors.                                                 model-fitting of only a single-spike in response to a brief current
+   Additionally, we highlighted the role of somatic Nat density in            pulse [32]. Interestingly, we could also fit a single spike response
+compensating for changes in the dendritic load on perisomatic                 using lower NaT density (,4,000 pS/mm2, not shown). However,
+excitability in different L5b PC morphologies (Figure 7), as well as          a higher density was required to fit prolonged train of spikes. This
+the role of dendritic Nat density in compensating for changes in              is mostly due to the inactivation of Na+ channels during the
+the transfer impedance between soma and apical dendrite in                    plateau depolarization seen during firing response to prolonged
+different L5b PC morphologies (Figure 6). We also found that                  current step. Our perisomatic NaT density values agree with
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                 11                            July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+previous modeling studies of current step firing [30,33–34].                 regardless of the concentration level. It therefore either acts
+Another critical factor that affects the estimates of NaT channels           strongly or weakly during both intense and weak stimuli.
+density is the kinetics of the activation/inactivation of the                    Our study demonstrates the limitations in transferring an
+channels. The estimates for kinetics parameters such as VK values            existing model to different morphologies. Even within the same
+differ considerably in different studies [32,55,57], by 5–15 mV on           general class (in our case, L5b PCs), different dendritic
+average. A shift in VK to more hyperpolarized values compensates             morphologies can have significant differences in the degree of
+for reduced channel density [29]. We therefore verified that the             electrical coupling between the two active zones (Figure 6, and see
+peak Na+ current measured at the soma in our models agrees with              also [50,61]) as well as differences in the dendrite-to-soma
+experimental estimates [32]. We also note that in the axonal                 conductance ratio. Interestingly, when the dendrite-to-soma
+model (Figure S2), the ratio of axonal to somatic NaT densities              conductance ratio differs significantly, parameters that enable
+agrees with recent experimental estimates [58].                              the fitting of perisomatic firing features in one cell fail to fit this
+   In agreement with previous studies, we found that constraining            target behavior in the other cell (Figure 7). Further parameter
+one spiking zone did not guarantee the constraining of the other             range comparison and more systematic investigations are needed
+spiking zone [45]. In addition, the dissociation between the                 to elucidate morphological effects on transferring models across
+perisomatic AP features and the dendritic conductance mecha-                 morphologies. This will help in defining general rules for
+nisms that underlie dendritic BAP is in agreement with previous              constructing generic models for a particular neuron type that are
+experimental studies that blocked dendritic Na+ channels and                 invariant to their morphological differences.
+showed no significant change in features of perisomatic APs in L5b               Previous in vitro studies [53] indicated invariance of the time
+PCs [12].                                                                    window between BAP and dendritic EPSP conducive to BAC
+   Previous modeling studies [47] suggest a non-uniform specific             firing when comparing silent slice conditions (which can be
+membrane resistance (Rm) in the apical dendrites. In our study we            considered a Down state) to when the cell is bombarded by intense
+used a uniform distribution. However, we verified that our models            dendritic input. Their suggested time window is ,30 ms, in
+retain the faithful replication of the features in both soma and             agreement with our simulation results for the Down state
+dendrites also for the case when Rm is spatially non-uniform.                (,25 ms). However, our model predicts a narrower time window
+Specifically, we simulated the model shown in Figure 4, using the            (5 ms) during an Up state, a condition observed in vivo [51–52]. In
+sigmoid function for Rm, with Rm(soma) = 34,963 V:cm2 ,                      our model, threshold for Ca2+ spike generation remained fixed in
+Rm(end) = 5357 V:cm2 , dhalf = 406 mm, steep = 50 mm, with a                 both our Up and Down states; therefore the reason for narrowing
+factor of 1.16 to maintain the overall spatial integral of the leak          of the time window for BAC firing in the Up state is the reduction
+conductance density as in our original model. In this case, in order         in the peak BAP recorded at the distal dendrite (reduction of
+to retain the resting membrane potential in the dendrites and the            ,15 mV), due to inactivation of dendritic Na+ channels as a result
+soma, we found it necessary to adjust Eleak across the apical                of the DC depolarization. Our results thus complement the
+dendrites, with Eleak(soma) = 290 mV, Eleak(end) = 280 mV, with              previous findings and suggest an enhanced sensitivity for input
+similar dhalf and slope as of Rm.                                            coincidence associated with increase in the BAC-firing related
+   In this study we did not attempt to fit for local dendritic Na+           input-output gain–a prediction, which we hope, will be examined
+spikes [5,10], primarily to lessen the load on the optimization              experimentally soon.
+algorithm since their occurrence and function in the context of                  With the current computational resources in most neurobiology
+network activity in the intact brain seems to be minor [59] relative         departments, multi-objective evolutionary algorithms of the kind
+                                                                             we have used [62] are limited to fitting only a few objectives [46].
+to Ca2+ spikes. Nor did we fit for active BAP in the basal dendrites
+                                                                             Optimization convergence seems to be further compromised when
+since it does not differ substantially from passive propagation [10].
+                                                                             the objectives involve several highly nonlinear active zones that
+We also did not fit for dendritic NMDA spikes [8–9,11] since,
+                                                                             interact strongly with each other. For this reason, our method of
+although they are an important signal, there is currently
+                                                                             fitting in stages (first the dendritic spiking zone, and then both
+insufficient data with regard to the distribution and density of
+                                                                             spiking zones, Figure 4) can be useful for further optimization
+NMDA receptors. Once sufficient experimental data is available,
+                                                                             studies. It will be worthwhile to examine other MOO algorithms
+the models presented hereby could serve as a scaffold on which
+                                                                             that may be better suited for a large number of objectives [63–64].
+NMDA spikes can be fitted for, using a similar automated
+                                                                                 The sets of parameter and feature error values for all (,2,000)
+optimization framework, since NMDA spikes do not depend
+                                                                             models reported in this work are available in ModelDB [65], along
+significantly on voltage gated channels [9].
+                                                                             with the relevant NEURON code (accession number 139653).
+   In the present study, the optimization parameters were the
+densities of the different ion channels. Our evolutionary algorithm
+framework can be used for exploring the effect of the kinetics of            Methods
+the different ion channels [60] as well as of different spatial              Optimization algorithm
+distribution of ion channels in the soma-dendritic surface.                     We extended the algorithm described previously [36]. Briefly,
+Similarly, the powerful search algorithm can be used to refine               statistics of electrophysiological features such as spike frequency,
+our selected set of conductance mechanisms, e.g. when results                spike width, and adaptation index were grouped into multiple
+imply that a certain mechanism is not necessary for fitting any of           objectives and fitted to a detailed conductance-based model of a
+the targets, or that different mechanisms are required to improve            reconstructed L5b PC by an elitist non-dominated sorting
+the fit. For example, future optimization studies will benefit from a        evolutionary algorithm [62]. The free parameters in the
+better model of intracellular Ca2+ dynamics, one that would                  optimization were primarily the density of a set of nine predefined
+account for a saturating buffer and a saturating pump. To our                ion channels (see below and Figures S4, S5) located in the soma
+knowledge, a well-constrained model of such complexity does not              and in the dendrites (Table 2). We divided the detailed
+yet exist. One major shortcoming of the simplistic and widely used           reconstructed morphologies into compartments, each at most
+model for Ca2+ dynamics that we employed in this study is that it            20 mm long, resulting in an average of about 200 compartments
+acts to reduce intracellular Ca2+ concentration to a similar degree          per model cell. The algorithmic optimization and all simulations
+
+
+      PLoS Computational Biology | www.ploscompbiol.org                 12                            July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                  Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+were conducted in NEURON [66]. For the evolutionary                             Fast inactivating Na+ current, INat [57]:
+algorithm we used a population size of 1000 and 500 generations,
+running either on a grid of 60 Sun64100 AMD 64 bit Opteron                                      0:182:ðV z38Þ               {0:124:ðV z38Þ
+dual core (240 cores in total), running Linux 2.6, or on 1024 cores                      am ~       {ðV z38Þ
+                                                                                                                     bm ~              V z38
+of an IBM BlueGene/P supercomputer hosted by CADMOS and                                          1{e 6                           1{e     6
+
+accessible to the Blue Brain Project [67]. Runtime ranged from 2
+to 5 days.
+                                                                                                {0:015:ðV z66Þ                 0:015:ðV z66Þ
+                                                                                         ah ~         V z66
+                                                                                                                        bh ~          {ðV z66Þ
+Modeling                                                                                           1{e 6                         1{e     6
+   Passive properties. We set the membrane capacitance (Cm)
+to 1 mF/cm2 for the soma and axon, and 2 mF/cm2 for the basal
+and apical dendrites to correct for dendritic spine area [68–69].                                           am                     ah
+Specific membrane (leak) conductance (inverse of the specific                                     m? ~                  h? ~
+                                                                                                         am zbm                 ah zbh
+membrane resistance, Rm) was kept as a free parameter with limits
+doubled for the dendrites, corresponding to the capacitance
+modification. For the same reason, all dendritic conductance                                             1                            1
+densities were doubled, although reported here in actual (not                              tm ~                         th ~
+                                                                                                  Tadj ðam zbm Þ               Tadj ðah zbh Þ
+doubled) value. We set the axial resistance (Ra) to be 100 VNcm for
+all compartments [47]. Leak reversal potential was set to 290 mV
+[13].
+   Perisomatic spike initiation zone. Although it is known                                                 Nm ~3, Nh ~1
+that the action potential initiation zone in L5b PCs is at the axon
+[70], for simplicity we chose to reduce the multi-compartmental
+axon spiking zone into a single compartment zone located at the                 Persistent Na+ current, INap [71]:
+soma, to which we henceforth refer as the perisomatic spiking
+zone. In the reconstructed morphologies we kept only the initial                                           1                           1
+                                                                                           m? ~       {ðV z52:6Þ
+                                                                                                                         h? ~       V z48:8
+axon segment, deleting the rest of the axon. However, we have
+                                                                                                   1ze 4:6                       1ze 10
+also provided (see Text S1) a model with AP initiation in the axon
+rather than in the soma, which replicates faithfully the features of
+current step firing and of BAC firing, except that it is less successful
+                                                                                                0:182:ðV z38Þ               {0:124:ðV z38Þ
+in replicating the features related to the BAP (see Figure S6, Table                     am ~                        bm ~
+                                                                                                    {ðV z38Þ                           V z38
+S2).                                                                                             1{e 6                           1{e     6
+   Conductance mechanisms. We included ten key active
+ionic currents known to play a role in L5 PCs or generally in
+neocortical neurons [39], with kinetics taken strictly from the                          {2:88:10{6 :(V z17)                   6:94:10{6 :(V z64:4)
+experimental literature. Kinetics of ion conductances that were                   ah ~             V z17
+                                                                                                                        bh ~             {(V z64:4)
+characterized in room temperature (21uC) were adjusted to the                                   1{e 4:63                          1{e       2:63
+
+simulation temperature of 34uC using Q10 of 2.3, and those taken
+from experiments where the junction potential was not corrected
+for were shifted by 210 mV. The reversal potentials for Na+ and                                          6                            1
+                                                                                           tm ~                         th ~
+K+ were ENa = 50 mV and EK = 285 mV, respectively, and a                                          Tadj ðam zbm Þ               Tadj ðah zbh Þ
+245 mV reversal potential was used for the Ih current [13].
+   Ion currents were modeled using Hodgkin-Huxley formalism, so
+that for each ion current:                                                                                 Nm ~3, Nh ~1
+
+                           g:mx hy :ðV {E Þ
+                         I~
+                                                                                Non-specific cation current, Ih [13]:
+
+   Where g is the maximal conductance (or density); x and y are                                0:00643:ðV z154:9Þ                        V
+the number of gate activation and inactivation variables,                                am ~       V z154:9
+                                                                                                                            bm ~0:00193:e33:1
+respectively; E is the reversal potential of the ion involved; and                                 e 11:9 {1
+V is the membrane potential.
+   The kinetics of the conductance mechanisms used in this study                                            am                    1
+is detailed below (see also Figures S4, S5). Time constants are                                   m? ~                  tm ~
+                                                                                                         am zbm                am zbm
+given in milliseconds (ms), voltage in millivolts (mV), and ion
+concentration in millimolar (mM). F is Faraday’s constant; d is the
+depth of sub-membrane shell for concentration calculations in mm;
+c is the inverse of the Ca2+ buffer’s binding ratio; and tdecay is the                                         Nm ~1
+time constant of Ca2+ diffusion. 1e-4 mM refers to the steady state
+intracellular free Ca2+ concentration. The activation time constant
+of SK is estimated to be instantaneous (1 ms), since we could find              Muscarinic K+ current, Im [72]:
+no definite characterization of it in the literature due to the
+difficulty in measuring it experimentally.                                            am ~0:0033:e0:1ðV z35Þ         bm ~0:0033:e{0:1ðV z35Þ
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                   13                            July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                    Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+                                                                                   High voltage activated Ca2+ current, ICa_HVA [76]:
+                             am                        1
+                m? ~                 tm ~
+                          am zbm                Tadj ðam zbm Þ                                      {0:055:ðV z27Þ                     V z75
+                                                                                             am ~        {ðV z27Þ
+                                                                                                                             bm ~0:94:e 17
+                                                                                                        e 3:8 {1
+                                    Nm ~1
+                                                                                                                 am                   1
+                                                                                                    m? ~                   tm ~
+Slow inactivating K+ current, IKp [73]:                                                                       am zbm               am zbm
+
+                                1                        1
+               m? ~                        h? ~                                                                 {ðV z13Þ          0:0065
+                            {ðV z11Þ                      V z64
+                                                      1ze 11                               ah ~0:000457:e          50       bh ~ {ðV z15Þ
+                         1ze 12
+                                                                                                                                e 28 z1
+
+                                            :
+                     1:25z175:03:e0:026 ðV z10Þ
+             tm ~                               ,Vv{60                                                           ah                  1
+                              Tadj                                                                   h? ~                  th ~
+                                                                                                              ah zbh              ah zbh
+
+
+                        1:25z13:e{0:026ðV z10Þ
+              tm ~                             ,otherwise                                                      Nm ~2, Nh ~1
+                               Tadj
+
+                                                                                   Low voltage activated Ca2+ current, ICa_LVA [77–78] :
+                                                                  2
+                                           V z85
+                    360zð1010z24:ðV z65ÞÞe{ 48
+             th ~                                                                                              1                       1
+                                Tadj                                                           m? ~        {ðV z40Þ
+                                                                                                                            h? ~           V z90
+                                                                                                        1ze 6                       1ze 6:4
+
+                                Nm ~2, Nh ~1
+                                                                                                         20                                    50
+                                                                                     tm ~5z            V z35 
+                                                                                                                       th ~20z                     V z50 
+                    +                                                                           Tadj 1ze 5                           Tadj 1ze         7
+Fast inactivating K current, IKt [73]:
+
+                                1                        1
+               m? ~         {ðV z10Þ
+                                           h? ~           V z76
+                                                      1ze 10                                                   Nm ~2, Nh ~1
+                         1ze 19
+
+
+                                     2                                2          Small-conductance, Ca2+ activated K+ current, ISK [79]:
+                         V z81                               V z83
+             0:34z0:92:e{ 59                          8z49:e{ 23
+      tm ~                                  th ~
+                         Tadj                                 Tadj                                                      1
+                                                                                                        m? ~                  
+                                                                                                                     0:00043 4:8
+                                                                                                                 1z
+                                                                                                                      ½Ca2z i
+                                Nm ~4, Nh ~1
+
+                                                                                                               tm ~1,Nm ~1
+  Fast, non inactivating K+ current, IKv3.1 [74]:
+
+                         1                                4                        Temperature adjustment factor:
+       m? ~       {ðV {18:7Þ
+                                    tm ~                              
+                                                         {ðVz56:56Þ
+               1ze 9:7                     Tadj       1ze 44:14
+                                                                                                                           34{21
+                                                                                                               Tadj ~2:3 10
+
+
+                                    Nm ~1                                           The optimization algorithm aimed at searching the densities for
+                                                                                 the ion channels (except for Ih which we fixed, see below) and the
+                                                                                 parameters of the Ca2+ buffer mechanism that best fit the target
+  Intracellular [Ca2+] dynamics [35,75]:                                         experimental features (see also [36]). The list of the free
+                                                                                 parameters and their limits used by the search algorithm is given
+                               2z 
+             d Ca2z i     Ica    Ca   i
+                                        {0:0001                                  in Table 2. The lower limits for density were 0, and upper limits
+                      ~{      {                                                  were as high as biologically plausible.
+                dt       2cFd       tdecay
+                                                                                   Dendritic channel distribution. All dendritic channels
+                                                                                 except for Ih, CaLVA and CaHVA were uniformly distributed. Ih
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                    14                                July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                 Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+channels were distributed on the apical dendrites using an                    N Mean slow AHP time: the time (relative to the ISI duration) of the
+exponential density function suggested in [13]: gsoma :ð{0:8696z                 minimum of the slow AHP. This feature complements the
+         x
+2:087:e323 Þ, where x is the distance from the soma in mm, with                   previous feature in characterizing the shape of the voltage
+gsoma = 1 pS/mm2. The density of Ih on the basal dendrites was set               trace between spikes.
+to be uniform as suggested in [10].
+    Previous experimental studies [7] indicate that the low threshold
+                                                                              N   f-I curve: we normalized the f-I curves of the different
+                                                                                  experimental cells we used in this study (Figure 2B), which
+zone for Ca2+ spikes in the apical dendrites might be located                     differ in their Rin value, by defining a ‘reference frequency’ of
+somewhere between 600 and 1000 mm from the soma, roughly                          15 Hz (the middle, more linear, part of the f–I curve) with the
+from the main bifurcation to the end of the primary tuft. The main                corresponding reference step current that produced this
+bifurcation in the reconstructed ‘‘typical’’ L5b PC (see below) that              frequency. We then selected two additional normalized current
+we used (Figure 1A) was 650 mm away from the soma and the                         amplitudes for which we had sufficient data (which were 78%
+primary tuft ended around 950 mm away from the soma. CaLVA                        and 190% of the reference current) to quantify the variability
+and CaHVA were therefore distributed on the apical tree using a                   of spike rate in low, medium and high firing frequencies. We
+step function, with increased conductance between 685 and                         also used the corresponding voltage traces for the three current
+885 mm from the soma. This high density (‘‘hot’’) Ca2+ zone had                   amplitudes in quantifying the statistics of the other features
+100 and 10 times higher density of CaLVA and CaHVA than                           mentioned above.
+anywhere else on the apical tree.
+                                                                                 The current amplitudes used in the optimization algorithm were
+Experimental data                                                             the averages across cells. The primary morphology we used
+   We calculated statistics for the features of perisomatic step              (Figure 1A) was that of a cell that fired at the reference frequency
+current firing directly from experimental voltage traces of the               (15 Hz) in response to a current of amplitude that was near the
+firing response to step currents in adult, P36 Wistar rats measured           average across all eleven cells. This cell also had feature values that
+in vitro (see [4] for methods). Briefly, cells were injected with             were close to the average across cells, and was therefore considered
+depolarizing current of variable amplitudes, each 2 seconds in                ‘‘typical’’.
+duration, and recorded in whole-cell configuration at 33–35uC.                   Features of BAC firing. We constrained the distal apical
+We used data from 11 L5b PCs, each with 10–15 different current               spiking zone to exhibit experimentally observed BAC firing [6]
+step amplitudes that were repeated twice. These cells were also               that included: (a) a proper somatic AP when the soma is injected
+stained with biocytin and some were 3D reconstructed under light              with brief suprathreshold step current; (b) an attenuated BAP; and
+microscopy in Neurolucida (Microbrightfield). All morphologies                (c) the generation of a dendritic Ca2+ spike accompanied by
+have been checked for z-axis noise, improper diameters, and                   additional somatic Na+ APs when the somatic injection coincided
+corrected for tissue shrinkage. We chose a cell with a typical                with distal dendritic EPSP-like current stimulation.
+response (see below) and morphology to be used as our reference                  The ten features characterizing BAC firing (Table 1) included
+cell for fitting and simulations (Figure 1A). We used two other cell          dendritic features as well as somatic spike shape features similar to
+reconstructions for investigating how the models generalized                  those described for the perisomatic step current firing.
+across different morphologies (Figures 6A, 7A). According to
+experimental studies [56], pyramidal cells at age P36 are mostly              N Somatic AP spike count, during soma current injection only: ensuring
+mature in terms of electrical properties, morphology and the                    exactly one spike for a brief suprathreshold pulse.
+ability to generate dendritic Ca2+ spikes. For the BAC firing                 N BAP amplitude, at 620 and 800 mm from the soma: was constrained
+features, we used statistics reported in [6] as well as our own                   according to experimental findings [44]. These two points
+calculations from voltage traces of five cells that were kindly                   were chosen since they delineate the ‘‘hot’’ zone, from the
+provided by M. Larkum. BAP attenuation features were                              distal apical trunk to the furthest distance for which
+characterized using statistics derived from the literature [44].                  experimental data was available.
+
+Extracting spiking features from experimental data
+                                                                              N   Somatic AP count, during soma and dendrite current injection: strictly
+                                                                                  ensuring a burst of three somatic APs, since that case was more
+    We used a set of key features of target firing behavior at the                frequent than the case of two somatic APs in the experimental
+soma and dendrites (Table 1). These served as the objectives to be                data we used, and also involved more clearly defined Ca2+
+fitted by the evolutionary algorithm. The error in each feature was               spikes.
+measured in terms of SD from the experimental mean for that
+feature.                                                                      N   Mean somatic ISI: the average ISI of the somatic APs during
+   Features of perisomatic step current firing. For the
+                                                                                  BAC firing.
+perisomatic firing response to step current, some features of                 N   Dendritic Ca2+ spike peak: the maximum dendritic voltage during
+interest were defined as in [36]. We added the following features:                the Ca2+ spike in the distal trunk.
+
+N Inter-spike interval coefficient of variance (ISI-CV): defined as           N   Dendritic Ca2+ spike width: was computed at the base of the spike
+                                                                                  (255 mV) since it was a consistent feature of all Ca2+ spikes
+     ISImean                                                                      (unlike the width at half-height).
+      ISISD
+N   Initial Burst ISI: the length (in ms) of the ISI between the first           The values for the BAC firing features were derived from five
+    two spikes, which in these cells is typically much smaller than           somatic and dendritic voltage traces that were previously reported
+    that of the rest of the spikes, and is considered as a burst.             [6], or directly from values reported in that article.
+N   Mean fast and slow after-hyperpolarization (AHP) depth: the                  Objectives number. There is a critical advantage in
+    minimum voltage between two spikes in the train. Due to                   reducing the number of objectives that our evolutionary
+    the occurrence of two types of AHP, fast and slow, which                  algorithm has to optimize both in terms of required resources
+    correspond approximately to before and after the first 5 ms of            and convergence [46]. We combined some of the features into
+    the ISI, we defined two separate features for the AHP.                    single objectives (see Text S2), resulting in eight objectives for
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                 15                             July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                                    Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+fitting the perisomatic step current firing and five objectives for                           current, ICa_HVA. H. Low voltage activated Ca2+ current, ICa_LVA.
+fitting BAC firing.                                                                           I. Muscarinic K+ current, Im. J. Fast, non inactivating K+ current,
+   Acceptable models and parameter ranges. From the                                           IKv3.1.
+entire population in each optimization, we selected as acceptable                             (EPS)
+models ones that had all feature values within 2–3 experimental
+standard deviations from the corresponding experimental mean.                                 Figure S5     Channel kinetics curves, time constants. Time
+Our resultant sets of models comprised tens to hundreds of models                             constant curves for the ionic channels used in this study. See
+from at least two (and often three or four) runs using different                              Methods for kinetics equations. A. Fast inactivating Na+ current,
+randomizations to avoid single run effects on correlations between                            INat. B. Persistent Na+ current, INap. C. Non-specific cation
+the model parameters. We used the sets of models to delineate                                 current, Ih. D. Slow inactivating K+ current, IKp. E. Fast
+‘‘acceptable’’ parameter value ranges for each target. Adding                                 inactivating K+ current, IKt. F. High voltage activated Ca2+
+models from further runs did not change the parameter ranges                                  current, ICa_HVA. G. Low voltage activated Ca2+ current, ICa_LVA.
+significantly, therefore we considered the ranges a good                                      H. Muscarinic K+ current, Im. I. Fast, non inactivating K+
+approximation of the complete ranges. For ease of visualization,                              current, IKv3.1.
+we presented normalized parameter values so that 1 corresponds                                (EPS)
+to the upper limit given to the algorithm (see Table 2 for values).                           Figure S6 Dually-constrained model with AP initiation
+                                                                                              at the axon. A. The model replicates faithfully all features of
+Supporting Information                                                                        BAC firing except that its BAP attenuation is stronger and the
+Figure S1 Parameter ranges in acceptable models for                                           BAP is too broad compared to the experimental results. B. The
+step current firing are independent of active dendritic                                       model replicates faithfully all features of perisomatic current step
+mechanisms. Distribution of normalized parameter values in                                    firing. All measures and definitions are as in Figures 1, 2 and 4.
+models of perisomatic step current firing with active dendritic                               Parameters are provided in Table S2.
+mechanisms (black, n = 52) or with only Ih and leak conductance                               (EPS)
+in dendrites (purple, n = 139). Real values for the different ion                             Table S1 Parameter values of additional models for
+conductances can be derived by referring to the upper limits given                            both BAC firing and perisomatic step current firing.
+in Table 2.                                                                                   (DOC)
+(EPS)
+                                                                                              Table S2 Parameter values of model with AP initiation
+Figure S2 Trade-off between fitting f-I curve and BAC                                         in the axon.
+                                            2+
+firing. When we lowered the Ca dynamics tdecay in the model                                   (DOC)
+shown in Figure 4, its f-I curve shifted closer to the average (top),
+but the modified model produced two APs instead of three during                               Text S1 Supporting results.
+BAC firing (bottom). See Figures 1 and 2 for measures and                                     (DOC)
+definitions.                                                                                  Text S2 Supporting methods.
+(EPS)
+                                                                                              (DOC)
+Figure S3 Effect of Ih on voltage attenuation in the
+apical dendrites. A. The response of the model shown in                                       Acknowledgments
+Figure 4 to a 250 pA, 200 ms square current injected at the soma
+in control conditions (top) and when Ih is blocked (bottom). Note                             We thank Sandrine Romand for kindly providing the electrophysiological
+                                                                                              recording data of step current firing and morphology reconstructions;
+the sag current typical to Ih. (Black – soma, Red – main apical
+                                                                                              Rajnish Ranjan for discussions about ion channels; Srikanth Ramaswamy
+dendrite bifurcation). B. Steady state voltage attenuation along the                          for discussions about ion channels and cell properties; Shaul Druckmann
+apical dendrites in control condition (black) and when Ih is blocked                          and Albert Gidon for assisting with the optimization algorithm and
+(red).                                                                                        NEURON programming, and providing valuable general comments; Lital
+(EPS)                                                                                         Bar-Ilan for useful discussions about BAC firing. This study was part of the
+                                                                                              Blue Brain Project.
+Figure S4 Channel kinetics curves, activation/inactiva-
+tion. Activation/inactivation curves for the ionic channels used in
+this study. See Methods for kinetics equations. A. Fast inactivating                          Author Contributions
+Na+ current, INat. B. Persistent Na+ current, INap. C. Non-specific                           Conceived and designed the experiments: EH IS. Performed the
+cation current, Ih. D. Small-conductance, Ca2+ activated K+                                   experiments: EH. Analyzed the data: EH. Wrote the paper: EH.
+current, ISK. E. Slow inactivating K+ current, IKp. F. Fast                                   Contributed to the analysis and to the revision of the manuscript: SH FS
+inactivating K+ current, IKt. G. High voltage activated Ca2+                                  HM IS.
+
+
+References
+ 1. Markram H, Lubke J, Frotscher M, Roth A, Sakmann B (1997) Physiology and                   5. Stuart G, Schiller J, Sakmann B (1997) Action potential initiation and
+    anatomy of synaptic connections between thick tufted pyramidal neurones in the                propagation in rat neocortical pyramidal neurons. J Physiol 505 ( Pt 3): 617–632.
+    developing rat neocortex. J Physiol 500 (Pt 2): 409–440.                                   6. Larkum ME, Zhu JJ, Sakmann B (1999) A new cellular mechanism for coupling
+ 2. Hattox AM, Nelson SB (2007) Layer V neurons in mouse cortex projecting to                     inputs arriving at different cortical layers. Nature 398: 338–341.
+    different targets have distinct physiological properties. J Neurophysiol 98:               7. Larkum ME, Zhu JJ (2002) Signaling of layer 1 and whisker-evoked Ca2+ and
+    3330–3340.                                                                                    Na+ action potentials in distal and terminal dendrites of rat neocortical
+ 3. Meyer HS, Wimmer VC, Hemberger M, Bruno RM, de Kock CP, et al. (2010)                         pyramidal neurons in vitro and in vivo. J Neurosci 22: 6991–7005.
+    Cell type-specific thalamic innervation in a column of rat vibrissal cortex. Cereb         8. Larkum ME, Nevian T, Sandler M, Polsky A, Schiller J (2009) Synaptic
+    Cortex 20: 2287–2303.                                                                         integration in tuft dendrites of layer 5 pyramidal neurons: a new unifying
+ 4. Le Be JV, Silberberg G, Wang Y, Markram H (2007) Morphological,                               principle. Science 325: 756–760.
+    electrophysiological, and synaptic properties of corticocallosal pyramidal cells           9. Schiller J, Major G, Koester HJ, Schiller Y (2000) NMDA spikes in basal
+    in the neonatal rat neocortex. Cereb Cortex 17: 2204–2213.                                    dendrites of cortical pyramidal neurons. Nature 404: 285–289.
+
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                                16                                 July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                                        Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+10. Nevian T, Larkum ME, Polsky A, Schiller J (2007) Properties of basal dendrites               42. Berger T, Senn W, Luscher HR (2003) Hyperpolarization-activated current Ih
+    of layer 5 pyramidal neurons: a direct patch-clamp recording study. Nat                          disconnects somatic and dendritic spike initiation zones in layer V pyramidal
+    Neurosci 10: 206–214.                                                                            neurons. J Neurophysiol 90: 2428–2437.
+11. Polsky A, Mel B, Schiller J (2009) Encoding and decoding bursts by NMDA                      43. Tsay D, Dudman JT, Siegelbaum SA (2007) HCN1 channels constrain
+    spikes in basal dendrites of layer 5 pyramidal neurons. J Neurosci 29:                           synaptically evoked Ca2+ spikes in distal dendrites of CA1 pyramidal neurons.
+    11891–11903.                                                                                     Neuron 56: 1076–1089.
+12. Stuart GJ, Sakmann B (1994) Active propagation of somatic action potentials                  44. Larkum ME, Zhu JJ, Sakmann B (2001) Dendritic mechanisms underlying the
+    into neocortical pyramidal cell dendrites. Nature 367: 69–72.                                    coupling of the dendritic with the axonal action potential initiation zone of adult
+13. Kole MH, Hallermann S, Stuart GJ (2006) Single Ih channels in pyramidal                          rat layer 5 pyramidal neurons. J Physiol 533: 447–466.
+    neuron dendrites: properties, distribution, and impact on action potential                   45. Shen GY, Chen WR, Midtgaard J, Shepherd GM, Hines ML (1999)
+    output. J Neurosci 26: 1677–1687.                                                                Computational analysis of action potential initiation in mitral cell soma and
+14. Koch C, Segev I (2000) The role of single neurons in information processing.                     dendrites based on dual patch recordings. J Neurophysiol 82: 3006–3020.
+    Nat Neurosci 3 Suppl. pp 1171–1177.                                                          46. Deb K (2001) Multi-objective optimization using evolutionary algorithms.
+15. Mel BW, Ruderman DL, Archie KA (1998) Translation-invariant orientation                          Chichester ;. New York: John Wiley & Sons. xix. 497 p.
+    tuning in visual "complex" cells could derive from intradendritic computations.              47. Stuart G, Spruston N (1998) Determinants of voltage attenuation in neocortical
+    J Neurosci 18: 4325–4334.                                                                        pyramidal neuron dendrites. J Neurosci 18: 3501–3510.
+16. Archie KA, Mel BW (2000) A model for intradendritic computation of binocular                 48. Rall W (1959) Branching dendritic trees and motoneuron membrane resistivity.
+    disparity. Nat Neurosci 3: 54–63.                                                                Exp Neurol 1: 491–527.
+                                                                                                 49. Goldstein SS, Rall W (1974) Changes of action potential shape and velocity for
+17. Polsky A, Mel BW, Schiller J (2004) Computational subunits in thin dendrites of
+                                                                                                     changing core conductor geometry. Biophys J 14: 731–757.
+    pyramidal cells. Nat Neurosci 7: 621–627.
+                                                                                                 50. Vetter P, Roth A, Hausser M (2001) Propagation of action potentials in
+18. Remme MW, Lengyel M, Gutkin BS (2009) The role of ongoing dendritic
+                                                                                                     dendrites depends on dendritic morphology. J Neurophysiol 85: 926–937.
+    oscillations in single-neuron dynamics. PLoS Comput Biol 5: e1000493.
+                                                                                                 51. Okun M, Lampl I (2008) Instantaneous correlation of excitation and inhibition
+19. Brecht M, Schneider M, Sakmann B, Margrie TW (2004) Whisker movements                            during ongoing and sensory-evoked activities. Nat Neurosci 11: 535–537.
+    evoked by stimulation of single pyramidal cells in rat motor cortex. Nature 427:             52. Gentet LJ, Avermann M, Matyas F, Staiger JF, Petersen CC (2010) Membrane
+    704–710.                                                                                         potential dynamics of GABAergic neurons in the barrel cortex of behaving mice.
+20. Houweling AR, Brecht M (2008) Behavioural report of single neuron stimulation                    Neuron 65: 422–435.
+    in somatosensory cortex. Nature 451: 65–68.                                                  53. Larkum ME, Senn W, Luscher HR (2004) Top-down dendritic input increases
+21. Amitai Y, Friedman A, Connors BW, Gutnick MJ (1993) Regenerative activity                        the gain of layer 5 pyramidal neurons. Cereb Cortex 14: 1059–1070.
+    in apical dendrites of pyramidal cells in neocortex. Cereb Cortex 3: 26–38.                  54. Goaillard JM, Taylor AL, Schulz DJ, Marder E (2009) Functional consequences
+22. Schiller J, Schiller Y, Stuart G, Sakmann B (1997) Calcium action potentials                     of animal-to-animal variation in circuit parameters. Nat Neurosci 12:
+    restricted to distal apical dendrites of rat neocortical pyramidal neurons. J Physiol            1424–1430.
+    505 (Pt 3): 605–616.                                                                         55. Hu W, Tian C, Li T, Yang M, Hou H, et al. (2009) Distinct contributions of
+23. Larkum ME, Kaiser KM, Sakmann B (1999) Calcium electrogenesis in distal                          Na(v)1.6 and Na(v)1.2 in action potential initiation and backpropagation. Nat
+    apical dendrites of layer 5 pyramidal cells at a critical frequency of back-                     Neurosci 12: 996–1002.
+    propagating action potentials. Proc Natl Acad Sci U S A 96: 14600–14604.                     56. Zhu JJ (2000) Maturation of layer 5 neocortical pyramidal neurons: amplifying
+24. Murayama M, Perez-Garci E, Nevian T, Bock T, Senn W, et al. (2009)                               salient layer 1 and layer 4 inputs by Ca2+ action potentials in adult rat tuft
+    Dendritic encoding of sensory stimuli controlled by deep cortical interneurons.                  dendrites. J Physiol 526 Pt 3: 571–587.
+    Nature 457: 1137–1141.                                                                       57. Colbert CM, Pan E (2002) Ion channel properties underlying axonal action
+25. Murayama M, Larkum ME (2009) Enhanced dendritic activity in awake rats.                          potential initiation in pyramidal neurons. Nat Neurosci 5: 533–538.
+    Proc Natl Acad Sci U S A 106: 20482–20486.                                                   58. Fleidervish IA, Lasser-Ross N, Gutnick MJ, Ross WN (2010) Na+ imaging
+26. Stuart GJ, Hausser M (2001) Dendritic coincidence detection of EPSPs and                         reveals little difference in action potential-evoked Na+ influx between axon and
+    action potentials. Nat Neurosci 4: 63–71.                                                        soma. Nat Neurosci 13: 852–860.
+27. Markram H, Lubke J, Frotscher M, Sakmann B (1997) Regulation of synaptic                     59. Remy S, Csicsvari J, Beck H (2009) Activity-dependent control of neuronal
+    efficacy by coincidence of postsynaptic APs and EPSPs. Science 275: 213–215.                     output by local and global dendritic spike attenuation. Neuron 61: 906–916.
+28. Bar Ilan L, Gidon A, Segev I (2011) Interregional synaptic competition in                    60. Menon V, Spruston N, Kath WL (2009) A state-mutating genetic algorithm to
+    neurons with multiple STDP-inducing signals. J Neurophysiol 105: 989–998.                        design ion-channel models. Proc Natl Acad Sci U S A 106: 16829–16834.
+29. Rapp M, Yarom Y, Segev I (1996) Modeling back propagating action potential                   61. Kim HG, Connors BW (1993) Apical dendrites of the neocortex: correlation
+    in weakly excitable dendrites of neocortical pyramidal cells. Proc Natl Acad                     between sodium- and calcium-dependent spiking and pyramidal cell morphol-
+    Sci U S A 93: 11985–11990.                                                                       ogy. J Neurosci 13: 5301–5311.
+30. Mainen ZF, Sejnowski TJ (1996) Influence of dendritic structure on firing                    62. Deb K, Pratap A, Agarwal S, Meyarivan T (2002) A fast and elitist
+    pattern in model neocortical neurons. Nature 382: 363–366.                                       multiobjective genetic algorithm: NSGA-II. Ieee Transactions on Evolutionary
+31. Schaefer AT, Larkum ME, Sakmann B, Roth A (2003) Coincidence detection in                        Computation 6: 182–197.
+    pyramidal neurons is tuned by their dendritic branching pattern. J Neurophysiol              63. Zitzler E, Kunzli S (2004) Indicator-based selection in multiobjective search.
+    89: 3143–3154.                                                                                   Parallel Problem Solving from Nature - Ppsn Viii 3242: 832–842.
+32. Kole MH, Ilschner SU, Kampa BM, Williams SR, Ruben PC, et al. (2008)                         64. Beume N, Naujoks B, Emmerich M (2007) SMS-EMOA: Multiobjective
+    Action potential generation requires a high sodium channel density in the axon                   selection based on dominated hypervolume. Eur J Oper Res 181: 1653–1669.
+    initial segment. Nat Neurosci 11: 178–186.                                                   65. Hines ML, Morse T, Migliore M, Carnevale NT, Shepherd GM (2004)
+                                                                                                     ModelDB: A Database to Support Computational Neuroscience. J Comput
+33. Keren N, Peled N, Korngreen A (2005) Constraining compartmental models
+                                                                                                     Neurosci 17: 7–11.
+    using multiple voltage recordings and genetic algorithms. J Neurophysiol 94:
+                                                                                                 66. Carnevale NT, Hines ML (2006) The NEURON book. Cambridge, UK; New
+    3730–3742.
+                                                                                                     York: Cambridge University Press. xix, 457 p.
+34. Keren N, Bar-Yehuda D, Korngreen A (2009) Experimentally guided modelling
+                                                                                                 67. Markram H (2006) The blue brain project. Nat Rev Neurosci 7: 153–160.
+    of dendritic excitability in rat neocortical pyramidal neurones. J Physiol 587:
+                                                                                                 68. Larkman AU (1991) Dendritic morphology of pyramidal neurones of the visual
+    1413–1437.
+                                                                                                     cortex of the rat: III. Spine distributions. J Comp Neurol 306: 332–343.
+35. Poirazi P, Brannon T, Mel BW (2003) Arithmetic of subthreshold synaptic
+                                                                                                 69. Holmes WR, Rall W (1992) Estimating the electrotonic structure of neurons
+    summation in a model CA1 pyramidal cell. Neuron 37: 977–987.                                     with compartmental models. J Neurophysiol 68: 1438–1452.
+36. Druckmann S, Banitt Y, Gidon A, Schurmann F, Markram H, et al. (2007) A                      70. Palmer LM, Stuart GJ (2006) Site of action potential initiation in layer 5
+    novel multiple objective optimization framework for constraining conductance-                    pyramidal neurons. J Neurosci 26: 1854–1863.
+    based neuron models by experimental data. Front Neurosci 1: 7–18.                            71. Magistretti J, Alonso A (1999) Biophysical properties and slow voltage-
+37. Vanier MC, Bower JM (1999) A comparative survey of automated parameter-                          dependent inactivation of a sustained sodium current in entorhinal cortex
+    search methods for compartmental neural models. J Comput Neurosci 7:                             layer-II principal neurons: a whole-cell and single-channel study. J Gen Physiol
+    149–171.                                                                                         114: 491–509.
+38. Van Geit W, De Schutter E, Achard P (2008) Automated neuron model                            72. Adams PR, Brown DA, Constanti A (1982) M-Currents and Other Potassium
+    optimization techniques: a review. Biol Cybern 99: 241–251.                                      Currents in Bullfrog Sympathetic Neurons. J Physiol 330: 537–572.
+39. Toledo-Rodriguez M, Blumenfeld B, Wu C, Luo J, Attali B, et al. (2004)                       73. Korngreen A, Sakmann B (2000) Voltage-gated K+ channels in layer 5
+    Correlation maps allow neuronal electrical properties to be predicted from                       neocortical pyramidal neurones from young rats: subtypes and gradients.
+    single-cell gene expression profiles in rat neocortex. Cereb Cortex 14:                          J Physiol 525: 621–639.
+    1310–1327.                                                                                   74. Rettig J, Wunder F, Stocker M, Lichtinghagen R, Mastiaux F, et al. (1992)
+40. Magee JC, Cook EP (2000) Somatic EPSP amplitude is independent of synapse                        Characterization of a Shaw-Related Potassium Channel Family in Rat-Brain.
+    location in hippocampal pyramidal neurons. Nat Neurosci 3: 895–903.                              Embo Journal 11: 2473–2486.
+41. Williams SR, Stuart GJ (2000) Site independence of EPSP time course is                       75. Destexhe A, Mainen ZF, Sejnowski TJ (1994) Synthesis of models for excitable
+    mediated by dendritic I(h) in neocortical pyramidal neurons. J Neurophysiol 83:                  membranes, synaptic transmission and neuromodulation using a common
+    3177–3182.                                                                                       kinetic formalism. J Comput Neurosci 1: 195–230.
+
+
+
+        PLoS Computational Biology | www.ploscompbiol.org                                   17                                  July 2011 | Volume 7 | Issue 7 | e1002107
+                                                                                                          Pyramidal Cell Dendritic and Somatic Firing Models
+
+
+76. Reuveni I, Friedman A, Amitai Y, Gutnick MJ (1993) Stepwise repolarization        78. Randall AD, Tsien RW (1997) Contrasting biophysical and pharmacological
+    from Ca2+ plateaus in neocortical pyramidal cells: evidence for nonhomoge-            properties of T-type and R-type calcium channels. Neuropharmacology 36:
+    neous distribution of HVA Ca2+ channels in dendrites. J Neurosci 13:                  879–893.
+    4609–4621.                                                                        79. Kohler M, Hirschberg B, Bond CT, Kinzie JM, Marrion NV, et al. (1996)
+77. Avery RB, Johnston D (1996) Multiple channel types contribute to the low-             Small-conductance, calcium-activated potassium channels from mammalian
+    voltage-activated calcium current in hippocampal CA3 pyramidal neurons.               brain. Science 273: 1709–1714.
+    J Neurosci 16: 5567–5582.
+
+
+
+
+       PLoS Computational Biology | www.ploscompbiol.org                         18                              July 2011 | Volume 7 | Issue 7 | e1002107
+

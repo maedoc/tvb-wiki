@@ -1,0 +1,368 @@
+                                                  BRAIN–MGF: MULTIMODAL GRAPH FUSION NETWORK FOR EEG–FMRI BRAIN
+                                                              CONNECTIVITY ANALYSIS UNDER PSILOCYBIN
+
+                                                                Sin-Yee Yap1 , Fuad Noman1 , Junn Yong Loo1 , Devon Stoliker3 , Moein Khajehnejad3 ,
+                                                                    Raphaël C.-W. Phan1 , David L. Dowe2 , Adeel Razi3,⋆ , and Chee-Ming Ting1,⋆
+                                                                      1
+                                                                 School of Information Technology, Monash University Malaysia, Malaysia
+                                                  2
+                                                  Department of Data Science and AI, Faculty of Information Technology, Monash University, Australia
+                                             3
+                                               Turner Institute for Brain and Mental Health, School of Psychological Sciences, Monash University, Australia
+arXiv:2511.18325v1 [q-bio.NC] 23 Nov 2025
+
+
+
+
+                                                                         ABSTRACT                                     Recent advances in network neuroscience emphasise the importance
+                                            Psychedelics, such as psilocybin, reorganise large-scale brain con-       of modelling the brain as a complex graph of interacting regions
+                                            nectivity, yet how these changes are reflected across electrophys-        rather than a collection of isolated areas [5]. Graph neural networks
+                                            iological (electroencephalogram, EEG) and haemodynamic (func-             (GNNs) have emerged as powerful tools for analysing such struc-
+                                            tional magnetic resonance imaging, fMRI) networks remains un-             tured data, offering the ability to learn representations that capture
+                                            clear. We present Brain–MGF, a multimodal graph fusion network            both local and global connectivity patterns [6]. In brain imaging,
+                                            for joint EEG–fMRI connectivity analysis. For each modality, we           GNNs have demonstrated strong performance in tasks such as dis-
+                                            construct graphs with partial-correlation edges and Pearson-profile       ease diagnosis [7, 8, 9], cognitive state decoding [10, 11], and be-
+                                            node features, and learn subject-level embeddings via graph convo-        havioural prediction [12, 13], as they can encode topological depen-
+                                            lution. An adaptive softmax gate then fuses modalities with sample-       dencies that traditional machine learning models overlook.
+                                            specific weights to capture context-dependent contributions. Using             Building upon this, multimodal neuroimaging enables the inves-
+                                            the world’s largest single-site psilocybin dataset, PsiConnect, Brain–    tigation of brain connectivity across complementary physiological
+                                            MGF distinguishes psilocybin condition from no-psilocybin condi-          domains. Functional magnetic resonance imaging (fMRI) captures
+                                            tion in meditation and rest. Fusion improves over unimodal and non-       large-scale haemodynamic coupling, at a temporal scale of seconds,
+                                            adaptive variants, achieving 74.0% accuracy and 76.5% F1 score            that reflects distributed integration among cortical and subcortical
+                                            on meditation, and 76.0% accuracy with 85.8% ROC–AUC on rest.             regions owing to its higher spatial resolution, whereas electroen-
+                                            UMAP visualisations reveal clearer class separation for fused em-         cephalography (EEG) measures, at the millisecond-scale, electro-
+                                            beddings. These results indicate that adaptive graph fusion effec-        physiological coherence that indexes fast-scale neuronal synchrony,
+                                            tively integrates complementary EEG-fMRI information, providing           however without the spatial resolution to resolve signals from sub-
+                                            an interpretable framework for characterising psilocybin-induced al-      cortical regions [14]. Integrating these complementary connectivity
+                                            terations in large-scale neural organisation.                             profiles might therefore yield a more comprehensive characterisation
+                                                                                                                      of psilocybin’s network-level effects by linking haemodynamic and
+                                               Index Terms— Multimodal Graph Fusion, EEG–fMRI, Brain
+                                                                                                                      electrophysiological coupling patterns.
+                                            Connectivity, Psychedelics, Psilocybin
+                                                                                                                           While such multimodal data promise richer insights, computa-
+                                                                                                                      tional strategies for combining them are still evolving and require
+                                                                   1. INTRODUCTION                                    further methodological refinement. Conventional approaches typ-
+                                                                                                                      ically concatenate features or assign fixed weights to modalities
+                                            Psilocybin, the psychoactive compound in Psychedelic mushrooms,           [15], neglecting the inter-individual variability and differences in
+                                            serves as a tool to perturb perception for investigating altered states   task stimuli or pharmacological state. Such fixed fusion strategies
+                                            of consciousness. It induces transient changes in perception and          are limited in their ability to capture the dynamic, subject-specific
+                                            cognition accompanied by large-scale reorganisation of brain net-         contributions of each modality. Existing multimodal GNNs often
+                                            works. Studies report reduced default-mode network connectiv-             perform late fusion without adaptive weighting [16], failing to ac-
+                                            ity and increased cross-network communication [1, 2], reflecting          count for the varying relevance of each modality across cognitive
+                                            greater global integration. However, how these network-level al-          states or participants [17]. These considerations suggest that adap-
+                                            terations manifest across physiological (temporal) scales remains         tively learning modality contributions may offer a more suitable and
+                                            unclear, despite their relevance to therapeutic mechanisms linking        context-responsive approach than fixed fusion schemes.
+                                            reduced modularity with improved mental health [3, 4]. In this                 To address this gap, we introduce the Brain–MGF (Multi-
+                                            paper, we investigate whether psilocybin-induced brain states can         modal Graph Fusion Network), an adaptive GNN framework
+                                            be distinguished from no-psilocybin states in the same participants       for the joint analysis of EEG and fMRI connectivity. Brain–MGF
+                                            across distinct experimental stimuli using graph-based multimodal         employs modality-specific graph encoders to extract latent repre-
+                                            connectivity representations, providing a computational approach to       sentations and a gating mechanism that dynamically modulates
+                                            quantify how psychedelics reorganise large-scale neural integration.      the contribution of each modality during fusion. This architecture
+                                                 Analysing these network-level effects requires models that cap-      enables flexible integration of complementary neural information
+                                            ture the brain’s graph-like organisation and distributed connectivity.    across physiological scales, facilitating a more precise characterisa-
+                                               * Corresponding authors: Adeel Razi (adeel.razi@monash.edu)            tion of brain dynamics. Our main contributions are as follows:
+                                            and Chee-Ming Ting (ting.cheeming@monash.edu)                               • Adaptive multimodal fusion: a gating-based graph model
+                                                                                            fMRI Branch                       Embedding             Adaptive Gating Fusion
+                             fMRI Graph Construction
+                               Mpearson
+                                                        GCN                                                                                                       Gate
+
+
+
+
+                                                                                                     Global Mean Pooling
+                                                                                                                                  ZfMRI                          Linear
+      fMRI time-series
+
+
+
+
+                                                              LeakyReLU
+                                                                                                                                                                  GELU
+
+
+
+
+                                                                           (Dropout)
+                                              + ψ(I)
+                         …
+                                Mpartial
+                                                                                        …                                                                        Linear
+
+
+                                                                                                                                                                 SoftMax
+                                                                                                                                                                 Weights
+
+                                                                                                                                                            Weighted Fusion
+                                                                                                                                          Concat
+
+
+                                                                                            EEG Branch
+                             EEG Graph Construction
+                                                                                                                                                                LayerNorm
+                              Mpearson
+                                                        GCN
+
+
+
+
+                                                                                                     Global Mean Pooling
+                                                                                                                                  ZEEG
+       EEG time-series
+
+
+
+
+                                                                                                                                                            Classifier
+
+
+                                                               LeakyReLU
+                                                                            (Dropout)
+                                                                                        …
+                                           + ψ(I)
+                         …                                                                                                                                        …
+                               Mpartial
+
+                                                                                                                                                                  …
+
+
+
+                                                                                                                                                   Psilocybin              No-psilocybin
+
+
+
+Fig. 1: Brain–MGF architecture. Each modality (fMRI and EEG) constructs a connectivity graph from Pearson and partial correlations,
+combined with a pseudo-identity projection to form node features X and edges A. Three GraphConv blocks with LeakyReLU and dropout
+encode node representations, followed by global mean pooling to obtain subject-level embeddings zfMRI and zEEG . An adaptive gating MLP
+computes softmax weights αfMRI , αEEG ∈ (0, 1) to fuse modalities: zfus = αfMRI zfMRI + αEEG zEEG . The fused embedding is normalised
+with LayerNorm and passed through an MLP classifier with sigmoid output, optimised using binary cross-entropy loss.
+
+
+   that learns subject-specific modality weights, enabling context-                           extracted using the Schaefer 200-parcel atlas (7-network version).
+   dependent integration of EEG and fMRI signals.                                             For EEG, artefacts were removed using multi-channel Wiener filter-
+ • Graph construction with complementary features: edges de-                                  ing and wavelet-enhanced ICA, followed by robust re-referencing.
+   rived from partial correlations and node features from Pearson                             Each cleaned recording was arranged as a time × channel array (64
+   profiles with a pseudo-identity projection, jointly representing                           channels, 500 Hz).
+   both direct dependencies and global co-activation patterns.
+ • Empirical validation on the PsiConnect dataset: evaluation in                              2.2. Graph Construction
+   participants imaged during guided meditation and rest demon-
+   strates that Brain–MGF outperforms unimodal and non-adaptive                               Each subject and modality was represented as a weighted undirected
+   variants, producing more separable latent representations that                             graph G = (V, E, A), with |V | = 200 for fMRI, |V | = 64 for
+   reflect enhanced discriminability between psilocybin and no-                               EEG.
+   psilocybin brain states.                                                                        For fMRI, regional BOLD time series X ∈ RT ×200 were ex-
+                                                                                              tracted using the Schaefer 200-parcel atlas [21]. Functional con-
+                                                                                              nectivity was estimated using both Pearson and partial correlations
+                                           2. METHODS                                         between regions. The Pearson correlation between regions i and j is
+                                                                                              defined as
+2.1. Dataset and Preprocessing
+                                                                                                                           Mpearson,ij = cov(xi , xj )/(σ(xi )σ(xj )),                     (1)
+We used the PsiConnect dataset [18, 1], which contains EEG and
+fMRI recorded under psilocybin and no-psilocybin across naturalis-                            where xi and xj denote the BOLD time series of regions of interest
+tic conditions (rest, meditation, music, and movie). In this paper, we                        (ROIs) i and j, and Σ denotes the covariance matrix across all ROIs.
+focused on rest and guided meditation because these contexts exhib-                           Partial correlations were computed from the inverse covariance ma-
+ited lower inter-subject variability and stronger cross-modal align-                          trix Θ = Σ−1 as
+ment between EEG and fMRI connectivity patterns, compared to                                                                         p
+                                                                                                                Mpartial,ij = −Θij /( Θii Θjj ),               (2)
+the more stimulus-driven music and movie conditions. The study in-
+volved 65 healthy adults (aged 18–55). After quality control, fMRI                            which capture direct functional dependencies after removing indirect
+data were available for 64 participants in the no-psilocybin session                          effects mediated by other regions. Each resulting 200 × 200 matrix
+and 61 in the psilocybin session, while EEG data were available for                           was symmetrised with a unit diagonal and sparsified by retaining the
+64 and 59 participants, respectively. All data followed the PsiCon-                           top 40% of the strongest connections to preserve salient edges.
+nect preprocessing pipeline using fMRIPrep [19] and the RELAX                                      For EEG, functional connectivity was derived from the time × chan-
+EEG pipeline [20]. For fMRI, preprocessing included slice-timing                              nel matrix S ∈ RT ×64 by computing Pearson and partial correla-
+and motion correction, spatial normalisation to MNI (Montreal Neu-                            tions across channels, using the same definitions as in Eqs. (1)–(2).
+rological Institute) space, and temporal filtering (0.01–0.1 Hz). Re-                         Each resulting 64 × 64 matrix was symmetrised and sparsified in
+gional BOLD (Blood Oxygenation Level–Dependent) signals were                                  the same way, retaining top 40% of the strongest connections.
+    In the Brain–MGF model, partial-correlation matrices Mpartial
+define the graph structure, while Pearson matrices Mpearson provide
+                                                                                                             N
+node-wise connectivity profiles as features. For each modality, the                                      1 X
+node feature matrix is given by                                                           LBCE = −             [yi log ŷi + (1 − yi ) log(1 − ŷi )]   (7)
+                                                                                                         N i=1
+                       X = Mpearson + ψ(I)                            (3)
+where ψ(·) is a learnable linear projection applied to the identity ma-                           3. EXPERIMENTAL RESULTS
+trix I to introduce a pseudo-identity prior. In implementation, this
+corresponds to node feat = Mpearson + fc p(pseudo),                             We benchmarked GCN [22], BrainGNN [7] and BrainNetCNN
+where fc p denotes the learnable projection layer. Thus, the GNN                [23] against three multimodal fusion variants:
+operates on node features X and sparsified partial-correlation adja-             • Late-Fusion (MLP): Each modality is processed by a dedicated
+cency Ã = T40% (Mpartial ), where T40% (·) denotes a threshold-                   graph encoder to produce embeddings zfMRI and zEEG . These
+ing operator that retains the top 40% of edges (by absolute partial-               are concatenated and passed to an MLP classifier:
+correlation strength) while setting the rest to zero. This combines
+global co-activation (Pearson) and direct dependencies (partial cor-                            zfus = [ zfMRI , zEEG ],       ŷ = MLP(zfus )          (8)
+relation) within a unified graph representation.
+                                                                                   This late-fusion variant relies on dense layers to integrate EEG
+                                                                                   and fMRI information without explicit modality weighting.
+2.3. Proposed Brain–MGF Framework                                                • Brain–MGF (w/o Gate): A simplified version of the proposed
+The proposed Brain–MGF integrates modality-specific graph en-                      model without (w/o) gating mechanism. The modality embed-
+coders with an adaptive fusion gate for joint EEG–fMRI analysis.                   dings are directly averaged to form a unified representation:
+The model architecture is shown in Fig. 1.
+    (1) Graph encoders. Each modality m ∈ {EEG, fMRI} is rep-                                zfus = 12 (zfMRI + zEEG ) ,         ŷ = MLP(zfus ).       (9)
+resented by a graph (Ãm , Xm ), where Ãm is the top-k sparsified
+                                                                                    This provides a fixed and interpretable fusion for isolating the
+partial-correlation matrix and Xm = AP  m + ψ(I) is the node feature                effect of adaptive gating.
+matrix combining Pearson-based connectivity profiles with a learn-
+                                                                                  • Brain–MGF (Proposed): The full adaptive fusion framework,
+able pseudo-identity prior. Each graph is processed by a three-layer
+                                                                                    where a softmax gating network learns sample-specific weights
+GraphConv encoder:
+                                                                                    α ∈ (0, 1) to modulate modality contributions, as shown in Eq.
+                                                                                    5. The gating enables context-sensitive integration of EEG and
+                                                
+                    H(l+1)
+                      m     = ϕ Ãm H(l)
+                                       m Wm
+                                             (l)
+                                                                 (4)
+                                                                                    fMRI representations.
+                                     (l)                              (l)            All models share identical preprocessing, top-40% sparsifica-
+where ϕ is the ReLU activation, Hm the node features, and Wm
+                                                                                tion, per-modality ROI projections, and classifier depth for fair com-
+the trainable weights at layer l respectively. Global mean pooling
+                                                                                parison. Training used the Adam optimiser (learning rate 3 × 10−4
+produces a subject-level embedding zm ∈ Rd for each modality.
+                                                                                to 5 × 10−4 , weight decay 1 × 10−4 ) with early stopping (patience
+    (2) Adaptive fusion gating. A two-layer MLP takes the con-
+                                                                                8 epochs). Evaluation employed 5-fold cross-validation with strat-
+catenated embeddings [ zEEG , zfMRI ] and outputs softmax weights
+                                                                                ified splits, reporting accuracy, precision, sensitivity, specificity, F1-
+αEEG and αfMRI satisfying αEEG + αfMRI = 1. The fused repre-
+                                                                                score, ROC–AUC and BCE loss.
+sentation is computed as
+                                                                                     Table 1 compares Brain-MGF against established fMRI-based
+                zfus = αfMRI zfMRI + αEEG zEEG                        (5)       graph models on the meditation task. Among unimodal base-
+                                                                                line models, GCN achieved the highest accuracy (69.71%) and
+where gating weights are applied uniformly across feature dimen-                ROC-AUC (76.45%), outperforming BrainGNN and BrainNetCNN,
+sions after mean pooling.                                                       which exhibited higher loss variance and lower specificity. When ex-
+    (3) Classification head. The fused embedding zfus is passed                 tended to multimodal EEG–fMRI fusion, the proposed Brain-MGF
+through a multilayer perceptron with sigmoid output:                            framework consistently improved predictive performance. The full
+                       ŷ = σ(Wc zfus + bc )                          (6)       model achieved 74.02% accuracy and 76.48% F1-score, surpassing
+                                                                                its Late-Fusion MLP and w/o Gate variants by 4.3% to 4.4%. This
+to predict the psilocybin versus no-psilocybin condition. The model             demonstrates the effectiveness of the adaptive gating mechanism
+was implemented in PyTorch and optimised using the binary cross-                in balancing complementary information across modalities while
+entropy (BCE) loss:                                                             maintaining stable training loss (0.58 ± 0.11).
+
+
+Table 1: Benchmark comparison of unimodal (fMRI) and multimodal (EEG+fMRI) models on the meditation task. Brain-MGF denotes the
+proposed Adaptive Graph Fusion Network and its ablated variants. Results are reported as mean ± SD over 5 folds (BCE loss).
+
+      Model                     Modality    Accuracy      Precision         Sensitivity    Specificity       F1 Score    ROC-AUC          BCE Loss
+      GCN [22]                    fMRI     69.71±5.73 68.92±4.19 79.23±11.44 58.79±12.65 73.20±5.88 76.45±9.67 0.6358±0.2090
+      BrainGNN [7]                fMRI     61.27±7.15 66.22±9.50 56.92±5.65 65.91±13.64 60.96±6.34 67.12±7.93 0.6514±0.0845
+      BrainNetCNN [23]            fMRI     62.93±8.14 64.46±12.77 82.69±17.29 41.21±29.23 69.89±5.73 69.58±6.64 0.8479±0.4399
+      Late-Fusion (MLP)    EEG+fMRI 69.75±3.09 68.63±4.11                    80.64±8.89 56.97±13.74 73.69±3.02 74.46±2.65 0.6567±0.1318
+      Brain-MGF (w/o Gate) EEG+fMRI 69.67±6.54 70.50±7.30                   74.36±12.59 64.55±11.64 71.71±8.10 77.13±9.21 0.6459±0.1675
+      Brain-MGF (Proposed) EEG+fMRI 74.02±6.99 74.05±9.00                   80.90±12.93 66.21±17.22 76.48±6.95 75.72±11.29 0.5800±0.1075
+Table 2: EEG, fMRI, and Fusion performance on PsiConnect (Meditation and Rest; 5-fold CV, BCE loss). Fusion is implemented using the
+proposed Brain–MGF network. Results are mean ± SD (%).
+
+ Task         Modality                Accuracy        Precision      Sensitivity     Specificity      F1 Score       ROC-AUC         BCE Loss
+              EEG                    59.64 ± 9.45   65.18 ± 13.03   55.38 ± 16.74   64.39 ± 19.63   58.26 ± 12.02   67.80 ± 10.35   0.623 ± 0.038
+ Meditation   fMRI                  68.84 ± 10.30    69.95 ± 8.52   73.08 ± 12.99   63.94 ± 13.29    71.14 ± 9.79    77.16 ± 9.24   0.548 ± 0.078
+              Fusion (EEG+fMRI)      74.02 ± 6.99    74.05 ± 9.00   80.90 ± 12.93   66.21 ± 17.22    76.48 ± 6.95   75.72 ± 11.29   0.580 ± 0.108
+              EEG                   68.53 ± 7.91     71.76 ± 7.29   62.95 ± 15.29    73.94 ± 6.29   66.57 ± 11.52   75.35 ± 6.23    0.566 ± 0.065
+ Rest         fMRI                  72.67 ± 4.52     74.32 ± 6.55    74.49 ± 9.32   70.61 ± 11.96    73.77 ± 4.54   81.33 ± 6.78    0.513 ± 0.063
+              Fusion (EEG+fMRI)     76.00 ± 8.15    76.30 ± 10.30   79.10 ± 11.11   72.58 ± 12.41    77.20 ± 8.20   85.83 ± 8.57    0.467 ± 0.115
+
+
+
+
+                         (a) EEG                                    (b) fMRI                              (c) Fusion (EEG+fMRI)
+
+Fig. 2: UMAP visualisation of learned embeddings during meditation. Each point represents a subject; colour denotes condition (no-
+psilocybin vs. psilocybin). EEG embeddings show overlapping clusters, fMRI displays clearer separation, and fusion achieves the most
+distinct manifolds, reflecting its quantitative advantage in Table 1 and Table 2.
+                                                                        .
+     Table 2 presents results for EEG, fMRI, and fusion models             sion produces a more separable latent space.
+on both meditation and rest tasks. For meditation, fMRI yielded                 Beyond aggregate performance, the adaptive gate provides an
+stronger discriminative performance (68.84% accuracy) than EEG             interpretable view of modality contributions. The gating coefficients
+alone (59.64%), consistent with the richer spatial information cap-        αfMRI and αEEG were obtained from the softmax fusion defined
+tured in fMRI connectivity. However, the multimodal fusion via             in Eq. (5). Across folds, a modest fMRI bias was observed at
+Brain-MGF further enhanced accuracy to 74.02% and ROC-AUC                  rest (mean αfMRI = 0.58 ± 0.07), with several folds significantly
+to 75.72%, confirming that integrating temporal EEG dynamics               above chance (Wilcoxon vs. 0.5) [25], suggesting that slow haemo-
+with spatial fMRI structure benefits behavioural state decoding. For       dynamic coupling offers a more stable representation of baseline
+the rest condition, overall accuracies were higher across modalities,      integration. During meditation, the average weighting still favoured
+suggesting reduced inter-subject variability during unconstrained          fMRI (mean αfMRI = 0.56 ± 0.10) but showed greater between-
+no-psilocybin scans. Fusion again achieved the best results (76.00%        fold variability, including one EEG-dominant case, consistent with
+accuracy, 85.83% ROC-AUC), highlighting the model’s robustness             increased electrophysiological synchrony during focused atten-
+across cognitive states. In both tasks, the adaptive gating enabled        tion. This state-dependent reweighting aligns with evidence that
+effective cross-modality weighting, leading to consistent improve-         psilocybin reorganises large-scale network dynamics and enhances
+ments over single-modality baseline models.                                cross-system integration [1]. Overall, the gating analysis indicates
+     Across benchmarks and tasks, Brain-MGF achieved perfor-               that fMRI connectivity forms a stable backbone for decoding psilo-
+mance gains over unimodal and non-adaptive variants, providing             cybin versus no-psilocybin, while EEG contributes complementary,
+preliminary evidence that adaptive EEG–fMRI fusion is useful.              context-dependent information.
+
+                         4. DISCUSSION                                                              5. CONCLUSION
+
+To qualitatively assess the latent representations, Fig. 2 visualises      This work presented Brain–MGF, a multimodal graph fusion
+the final-layer embeddings of EEG, fMRI, and fused features for the        framework for joint EEG–fMRI connectivity analysis under psilo-
+meditation task using Uniform Manifold Approximation and Projec-           cybin. By learning adaptive weights between modalities, the model
+tion (UMAP) [24]. UMAP is a non-linear dimensionality reduction            integrates complementary patterns of haemodynamic and electro-
+technique that preserves both local and global data structure by con-      physiological connectivity in a data-driven manner. Experiments
+structing a fuzzy topological representation of the high-dimensional       on the PsiConnect dataset showed consistent improvements over
+manifold. It was applied to the combined train–test embeddings             unimodal and non-adaptive variants, indicating that adaptive gating
+(nneighbors = 15, mindist = 0.1, Euclidean metric) from the best-          enhances cross-modal representation of psilocybin-induced brain
+performing fold for visualisation. While unimodal embeddings ex-           states. While preliminary, these findings suggest that Brain–MGF
+hibit partial overlap between no-psilocybin and psilocybin, the fused      provides a practical approach for studying neural integration across
+embeddings form more distinct clusters, suggesting that adaptive fu-       physiological domains.
+     6. COMPLIANCE WITH ETHICAL STANDARDS                                 [12] Dongya Wu, Xin Li, and Jun Feng, “Connectome-based indi-
+                                                                               vidual prediction of cognitive behaviors via graph propagation
+The PsiConnect study was approved by the Monash University                     network reveals directed brain network topology,” Journal of
+Human Research Ethics Committee and registered under AC-                       Neural Engineering, vol. 18, no. 4, pp. 0460a3, 2021.
+TRN12621001375842. All participants provided informed consent.
+                                                                          [13] Xuyun Wen, Qumei Cao, Bin Jing, and Daoqiang Zhang,
+                                                                               “Multi-scale fc-based multi-order gcn: A novel model for pre-
+                        7. REFERENCES                                          dicting individual behavior from fmri,” IEEE Transactions on
+                                                                               Neural Systems and Rehabilitation Engineering, vol. 32, pp.
+ [1] Devon Stoliker, Leonardo Novelli, Moein Khajehnejad, Mana                 548–558, 2024.
+     Biabani, Tamrin Barta, Matthew D Greaves, Martin Williams,
+     Sidhant Chopra, Olivier Bazin, Otto Simonsson, et al.,               [14] Hiroshi Shibasaki, “Human brain mapping: hemodynamic re-
+     “Psychedelics align brain activity with context,” bioRxiv, pp.            sponse and electrophysiology,” Clinical Neurophysiology, vol.
+     2025–03, 2025.                                                            119, no. 4, pp. 731–743, 2008.
+
+ [2] James J Gattuso, Daniel Perkins, Simon Ruffell, Andrew J             [15] Tadas Baltrušaitis, Chaitanya Ahuja, and Louis-Philippe
+     Lawrence, Daniel Hoyer, Laura H Jacobson, Christopher Tim-                Morency, “Multimodal machine learning: A survey and tax-
+     mermann, David Castle, Susan L Rossell, Luke A Downey,                    onomy,” IEEE transactions on pattern analysis and machine
+     et al., “Default mode network modulation by psychedelics:                 intelligence, vol. 41, no. 2, pp. 423–443, 2018.
+     a systematic review,” International Journal of Neuropsy-             [16] Hamed Mohammadi and Waldemar Karwowski, “Graph neu-
+     chopharmacology, vol. 26, no. 3, pp. 155–188, 2023.                       ral networks in brain connectivity studies: Methods, chal-
+ [3] Sarah Kuburi, Anne-Marie Di Passa, Vanessa K Tassone,                     lenges, and future directions,” Brain Sciences, vol. 15, no. 1,
+     Raesham Mahmood, Aleksandra Lalovic, Karim S Ladha,                       pp. 17, 2024.
+     Katharine Dunlop, Sakina Rizvi, Ilya Demchenko, and Venkat           [17] Jing Sui, Dongmei Zhi, and Vince D Calhoun, “Data-driven
+     Bhat, “Neuroimaging correlates of treatment response with                 multimodal fusion: approaches and applications in psychiatric
+     psychedelics in major depressive disorder: A systematic re-               research,” Psychoradiology, vol. 3, pp. kkad026, 2023.
+     view,” Chronic Stress, vol. 6, pp. 24705470221115342, 2022.          [18] Leonardo Novelli, Devon Stoliker, Tamrin Barta, Matthew D
+ [4] Richard E Daws, Christopher Timmermann, Bruna Giribaldi,                  Greaves, Sidhant Chopra, James Jackson, Jessica Kwee, Mar-
+     James D Sexton, Matthew B Wall, David Erritzoe, Leor Rose-                tin L Williams, and Adeel Razi, “Psiconnect: A multimodal
+     man, David Nutt, and Robin Carhart-Harris, “Increased global              neuroimaging study of psilocybin-induced changes in brain
+     integration in the brain after psilocybin therapy for depression,”        and behaviour,” bioRxiv, pp. 2025–04, 2025.
+     Nature medicine, vol. 28, no. 4, pp. 844–851, 2022.                  [19] Oscar Esteban, Christopher J Markiewicz, Ross W Blair,
+ [5] Danielle S Bassett and Olaf Sporns, “Network neuroscience,”               Craig A Moodie, A Ilkay Isik, Asier Erramuzpe, James D
+     Nature neuroscience, vol. 20, no. 3, pp. 353–364, 2017.                   Kent, Mathias Goncalves, Elizabeth DuPre, Madeleine Sny-
+ [6] Alaa Bessadok, Mohamed Ali Mahjoub, and Islem Rekik,                      der, et al., “fMRIPrep: a robust preprocessing pipeline for
+     “Graph neural networks in network neuroscience,” IEEE                     functional MRI,” Nature methods, vol. 16, no. 1, pp. 111–116,
+     Transactions on Pattern Analysis and Machine Intelligence,                2019.
+     vol. 45, no. 5, pp. 5833–5848, 2022.                                 [20] NW Bailey, Mana Biabani, AT Hill, Aleksandra Miljevic,
+ [7] Xiaoxiao Li, Yuan Zhou, Nicha Dvornek, Muhan Zhang,                       Nigel C Rogasch, B McQueen, Oscar W Murphy, and
+     Siyuan Gao, Juntang Zhuang, Dustin Scheinost, Lawrence H                  PB Fitzgerald,      “Introducing relax: An automated pre-
+     Staib, Pamela Ventola, and James S Duncan, “Braingnn: Inter-              processing pipeline for cleaning eeg data-part 1: Algorithm
+     pretable brain graph neural network for fmri analysis,” Medical           and application to oscillations,” Clinical Neurophysiology, vol.
+     Image Analysis, vol. 74, pp. 102233, 2021.                                149, pp. 178–201, 2023.
+ [8] Fuad Noman, Sin-Yee Yap, Raphaël C-W Phan, Hernando                 [21] Alexander Schaefer, Ru Kong, Evan M Gordon, Timothy O
+     Ombao, and Chee-Ming Ting, “Graph autoencoder-based em-                   Laumann, Xi-Nian Zuo, Avram J Holmes, Simon B Eickhoff,
+     bedded learning in dynamic brain networks for autism spec-                and BT Thomas Yeo, “Local-global parcellation of the human
+     trum disorder identification,” in 2022 IEEE International Conf.           cerebral cortex from intrinsic functional connectivity MRI,”
+     on Image Processing (ICIP). IEEE, 2022, pp. 2891–2895.                    Cerebral cortex, vol. 28, no. 9, pp. 3095–3114, 2018.
+ [9] Fuad Noman, Raphaël C.-W. Phan, Hernando Ombao, and                 [22] TN Kipf, “Semi-supervised classification with graph convolu-
+     Chee-Ming Ting, “Adaptive graph learning with multi-graph                 tional networks,” arXiv preprint arXiv:1609.02907, 2016.
+     convolutions for brain disorder classification,” in Proceed-         [23] Jeremy Kawahara, Colin J Brown, Steven P Miller, Brian G
+     ings of the International Conference on Medical Image Com-                Booth, Vann Chau, Ruth E Grunau, Jill G Zwicker, and Ghas-
+     puting and Computer-Assisted Intervention (MICCAI 2025).                  san Hamarneh, “Brainnetcnn: Convolutional neural networks
+     2025, pp. 56–65, Springer Nature Switzerland.                             for brain networks; towards predicting neurodevelopment,”
+[10] Yu Zhang, Loı̈c Tetrel, Bertrand Thirion, and Pierre Bellec,              NeuroImage, vol. 146, pp. 1038–1049, 2017.
+     “Functional annotation of human cognitive states using deep          [24] Leland McInnes, John Healy, and James Melville, “Umap:
+     graph convolution,” NeuroImage, vol. 231, pp. 117847, 2021.               Uniform manifold approximation and projection for dimension
+[11] Ziyuan Ye, Youzhi Qu, Zhichao Liang, Mo Wang, and Quany-                  reduction,” arXiv preprint arXiv:1802.03426, 2018.
+     ing Liu, “Explainable fMRI-based brain decoding via spa-             [25] Jack Cuzick, “A Wilcoxon-type test for trend,” Statistics in
+     tial temporal-pyramid graph convolutional network,” Human                 medicine, vol. 4, no. 1, pp. 87–90, 1985.
+     Brain Mapping, vol. 44, no. 7, pp. 2921–2935, 2023.
+

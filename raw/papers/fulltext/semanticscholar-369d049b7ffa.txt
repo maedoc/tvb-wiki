@@ -1,0 +1,934 @@
+           VFAST Transactions on Software Engineering
+           https://vfast.org/journals/index.php/VTSE@
+ VFAST Transactions   on Software Engineering Volume  2023, ISSN(e):
+                                                            13, Issue2309-3978,
+                                                                       1, 2025 ISSN(p): 2411-6246
+           Volume 13, Number 1, January-March 2025                                                                     pp:68-82
+
+
+
+
+                             A Review of Developments in Generative AI,
+                             Machine Learning, and Neuroimaging in the
+                             Diagnosis of Autism
+                                            1                       1                    1                             2
+                             Sumera Ali         , Zartasha Baloch       , Sanam Narejo       , Ahmed Muhammad Shaikh
+
+                             1
+                              Mehran University of Engineering & Technology, Jamshoro (Pakistan); 2 Cleveland State
+                             University
+
+
+
+
+Keywords: Autism, ASD,       Abstract Autism Spectrum Disorder (ASD) is a neurodevelopmental disorder with be-
+GAN, EEG, fMRI, sMRI,        havioral and neurological variations. Diagnosing ASD is complicated because behavioral
+CT scan.
+                             assessments vary from person to person, and it is challenging as it relies on subjective
+Journal Info:                behavioral assessments rather than objective medical tests. Following the PRISMA guide-
+Submitted:                   lines for a systematic review, 53 papers from ScienceDirect, IEEE Xplore, and PubMed
+March 01, 2025               databases published between 2015 and 2024 have been selected, to determine how
+Accepted:
+April 28, 2025
+                             ML (Machine Learning) and GANs (Generative Adversarial Network) enhance the use of
+Published:                   neuroimaging techniques for the early detection of ASD. The study addresses signiﬁcant
+May 12, 2025                 dataset issues by combining discriminative machine learning models, such as SVMs (Sup-
+                             port Vector Machine) and CNNs (Convolutional Neural Network), for pattern recognition
+                             in sMRI (Structural Magnetic Resonance Imaging), fMRI (Functional Magnetic Resonance
+                             Imaging), and EEG (Electroencephalography) with GANs for data augmentation and en-
+                             hanced feature learning. The review highlights how AI algorithms can be helpful in the
+                             diagnosis of ASD, particularly in areas with limited medical facilities. For example, due to
+                             limited resources, just 1 in 628 children in Pakistan are diagnosed with autism. Future re-
+                             search will focus on methods that combine explainable AI, generative and discriminative
+                             techniques, and structured datasets, while improving model transparency, generalizabil-
+                             ity, and avoiding biased data. By integrating AI with clinical information, this research
+                             helps to design treatment protocols that may be customized to each patient’s speciﬁc
+                             requirements and enables earlier identiﬁcation of autism.
+
+
+
+                             *Correspondence author email address: sumeramali@gmail.com
+                             DOI: 10.21015/vtse.v13i2.2089
+
+
+1    Introduction                                                       Diagnosis is challenging because its symptoms are
+Autism Spectrum Disorder (ASD) is a neurodevelop-                       diﬃcult to diagnose since they resemble other condi-
+mental disease characterized by repeated behaviors,                     tions, such as ADHD (Attention-Deﬁcit/Hyperactivity
+language delays, and problems interacting with others.                  Disorder). Current methods are time consuming,
+
+
+
+This work is licensed under a Creative Commons Attribution 3.0 License.
+
+                                                               68
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+including psychological and medical tests. Accurate        and China (1 in 38 children) have the highest reported
+and effective diagnostic methods are becoming more         cases of autism, most likely due to improved aware-
+and more important as autism rates rise worldwide          ness and better diagnostic techniques. In countries
+to enhance early detection and provide individualized      like South Africa and Pakistan (1 in 628 people), the
+treatments. For example, in Pakistan less than 50 child    lack of complete information creates challenges for
+psychiatrists treat 80 million children, delaying the      testing facilities. According to recent studies, Spain (1
+ASD diagnosis by two to three years [1]. The recent        in 100 children) and Italy (1 in 77 children) are among
+neuroimaging techniques such as DTI (Diffusion Ten-        the European nations with moderate prevalence rates,
+sor Imaging), sMRI, fMRI, EEG and CT scans (Computed       which represent increased awareness and diagnosis
+Tomography) provide ASD diagnosis through:                 of autism. However, the CDC reports the typical rate
+                                                           in the United States is 1 out of 36 children. Table
+   • DTI: White matter integrity analysis                  1 shows worldwide variation in autism prevalence,
+   • sMRI/fMRI: Structural/functional connectivity         highlighting the need for more effective awareness
+     mapping                                               and standardized testing methods. To have a better
+   • EEG: Neural oscillation patterns                      understanding of the global autism landscape, it also
+   • CT: Severe anatomical abnormalities                   emphasizes the necessity of additional study and
+                                                           data gathering in under-represented areas, such as
+Using neuroimaging data, GANs augment limited
+                                                           South Africa and Russia. Visual behaviour analysis
+datasets by synthesizing neurotypical and ASD brain
+                                                           and observation, especially through interviews, are
+scans while preserving pathological features. These
+                                                           the most accurate ways to diagnose most mental
+tools map brain activity patterns precisely, provid-
+                                                           diseases, including ASD. However, these instruments
+ing more accurate diagnosis than behavior-based
+                                                           have limits. A child’s seeming inability to regulate their
+assessments. While ML detects subtle patterns in
+                                                           surroundings is typically acknowledged by the age of
+large datasets that are not covered in conventional
+                                                           three [11]. To address these limitations, more eﬃcient
+methods. Generative AI tools (e.g., VAEs and GANs)
+                                                           diagnostic approaches, such as biomarker-based
+generate synthetic data to help when real data is
+                                                           methods, are required. Among the most often utilized
+limited, while maintaining pathological characteristics.
+                                                           methods in these situations are neuroimaging tools
+SVMs achieved pattern recognition with an accuracy
+                                                           such as EEG, fMRI, sMRI, and CT scans.
+of 82–91% in sMRI, while GANs provide synthetic
+                                                               The remainder of the work is organized as follows:
+neuroimaging data, improving diagnostic accuracy
+                                                           Methodology is given in 2nd section. An overview of
+by 12–15% [2, 3]. However, challenges remain, in-
+                                                           important neuroimaging methods is given within 3nd
+cluding model transparency, biased data, and ethical
+                                                           Section, the use of machine learning in the diagnosis
+concerns about synthetic neuroimages. This review
+                                                           of autism is covered in the 4th section, 5th section out-
+uses AI-generated brain scan data and ML to improve
+                                                           lines publicly available datasets for autism research,
+autism diagnosis in areas with limited healthcare
+                                                           6th section addresses challenges related to data qual-
+access. The systematic review covers an examination
+                                                           ity and standardization, 7th section explores recent ad-
+of methods which include GAN, ML and neuroimaging
+                                                           vances in generative AI research on autism; and ﬁnally,
+to diagnose autism. It also looks at how GAN improves
+                                                           the paper concludes.
+datasets and how ML techniques can be used to
+analyze neuroimaging data to diagnose autism. AI
+                                                           2   Methodology
+could increase the accessibility and affordability of
+                                                           This systematic review followed PRISMA guidelines
+autism diagnosis globally, especially in regions with
+                                                           to evaluate the ML techniques for ASD diagnosis.
+limited specialists.
+                                                           From ScienceDirect, IEEE Xplore, and PubMed, 53
+    Table 1 displays the rate of autism in numerous
+                                                           articles (2015–2024) that focused on methods using
+nations. awareness. South Korea (1 in 38 children)
+
+
+
+                                                      69
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+                                 Table 1. List of countries with the highest rates of autism
+
+                 Country           Rate     Source         Year     Methodology                   Notes
+                 South Korea      1 in 38   [4]            2011     Cohort study of 55,000        Speciﬁc cohort, may
+                                                                    children aged 7–12; DSM-IV    not represent popula-
+                                                                    and ADOS                      tion
+                 United States    1 in 36   [5]            2023     National monitoring of 8-     National-level moni-
+                                                                    year-olds across 11 states;   toring data
+                                                                    DSM-5 and ADOS
+                 Japan            1 in 87   [6]            2022     Cohort study of 5,000 chil-   Rates require veriﬁca-
+                                                                    dren aged 6–12; DSM-5 and     tion
+                                                                    ADI-R
+                 Netherlands      1 in 82   [7]            2022     Regional study of 10,000      Requires conﬁrma-
+                                                                    children aged 4–10; DSM-5     tion from reliable
+                                                                    and ADOS                      studies
+                 Australia        1 in 70   [7]            2022     National survey of 15,000     Reﬂects increasing
+                                                                    children aged 5–12; DSM-5     awareness
+                                                                    and ADI-R
+                 Germany         1 in 160   [7]            2022     Regional study of 8,000       Global average for
+                                                                    children aged 6–12; ICD-10    moderate awareness
+                                                                    and ADOS
+                 India           1 in 500   [7]            2022     Urban study of 20,000         Signiﬁcant underdiag-
+                                                                    children aged 3–10; DSM-5     nosis
+                                                                    and CARS
+                 Switzerland      1 in 77   [7]            2022     Regional study of 7,000       Regional variation
+                                                                    children aged 6–12; DSM-5     possible
+                                                                    and ADOS
+                 Norway           1 in 59   [7]            2022     National registry study of    National prevalence
+                                                                    50,000 children aged 6–12;    may vary
+                                                                    DSM-5 and ADI-R
+                 Spain           1 in 100   [7]            2022     Regional study of 12,000      Rates require veriﬁca-
+                                                                    children aged 6–12; DSM-5     tion
+                                                                    and ADOS
+                 China            1 in 38   [8]            2022     National study of 100,000     Increasing recogni-
+                                                                    children aged 6–12; DSM-5     tion, needs conﬁrma-
+                                                                    and ADOS                      tion
+                 Pakistan        1 in 628   [9]           Recent    Community survey of 5,000;    Likely underreported
+                                                                    DSM-5 and ADI-R
+                 Italy            1 in 77   [10]           2023     Comprehensive study of        Nationwide research
+                                                                    30,000 children aged 7–9;     initiative
+                                                                    DSM-5 and ADI-R
+                 South Africa    Data N/A   –                –      No large-scale studies        Limited documenta-
+                                                                    conducted                     tion
+
+
+
+CT, EEG, sMRI and fMRI scans were selected using                          racy (SVM, CNN, GANs).
+the keywords: ("autism diagnosis" AND "machine                         3. Dataset details: Sample size, demographic char-
+learning"), ("neuroimaging" AND "GAN"), and ("EEG"                        acteristics, and validation techniques.
+OR "fMRI" OR "sMRI"). Included studies met these cri-
+teria: (1) clinically validated datasets, (2) quantitative
+performance metrics (speciﬁcity, sensitivity, and accu-
+                                                                   3    Neuroimaging Approaches to Autism
+                                                                   The abnormalities in brain structure and neural activ-
+racy); and (3) used ML/DL models with neuroimaging
+                                                                   ity seen in people with autism can be further explored
+data. Every study included was peer-reviewed and
+                                                                   with the use of neuroimaging techniques. These ap-
+included control groups. Data extraction focused on
+                                                                   proaches can help to ﬁnd biomarkers for autism and
+three domains.
+                                                                   provide a less expensive option to traditional diagnos-
+  1. Signiﬁcant features of neuroimaging techniques                tic procedures.
+     (e.g., EEG’s timing vs. fMRI’s connections).
+  2. Model performance: Different algorithms’ accu-
+
+
+
+                                                          70
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+
+
+                                           Figure 1. Research workﬂow
+
+
+3.1   Electroencephalography (EEG)                        such as stimuli processing, cross-regional neural con-
+Electroencephalography can be used to diagnose            nections, and the spatial patterns of brain activity. EEG
+many disorders of the brain and to measure cerebral       results may ﬁnd clinical value in basic care settings
+activity. Early intervention could be made possible       due to their affordability and simplicity of usage [12].
+by using EEG to identify children who could be at risk       Many attempts have been made to analyze EEG
+for autism. EEG is portable and requires less training    or similar bio-signals to distinguish between cognitive
+than neuroimaging methods, which makes it more            diseases, particularly ASD. For many years, scientists
+convenient to use and much less expensive. EEG            have struggled with this issue. Presented below are
+data also enables direct studies of brain activity at     the most notable works that are closely associated
+high temporal resolution, which allows for a variety      with this subject.
+of analysis centered on instantaneous reactions. This        Kang et al. 2020 [13]included 97 children in total,
+capacity is especially useful for researching how the     ages 3 to 6. After resting-state EEG data was collected,
+brain architecture and neural functioning of people       the children participated in eye-tracking studies in-
+with autism differ from one another, including aspects    volving individuals from both their own background
+
+
+
+
+                                                    71
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+and different backgrounds. AOI were selected for           CSP, and band LBP produced the best performance,
+face gaze analysis of eye-tracking data, and power         and that the combination of CSP-LBP-KNN provided
+spectrum analysis was used for EEG analysis. SVM clas-     the best performance, with average classiﬁcation
+siﬁers in conjunction with the minimal redundancy. To      accuracy of approximately 98.46% and 98.62% for
+differentiate among children, the maximum relevance        diagnosing ASDs and epilepsy, respectively.
+(MRMR) feature selection method was used with                  Xu et al. 2024 [16] analyzed functional brain
+autism and those who are usually developing. When          connectivity using EEG signals, focusing on individuals
+32 features were used, the results demonstrated by         as the analytical unit. 92 participants with normal de-
+combining two sets of data resulted in a maximum           velopment and 97 people with autism had their EEGs
+classiﬁcation accuracy of 85.44%, with an AUC= 0.93.       recorded under task-based and resting-state condi-
+    Peck et al. 2021[14] examined how well a com-          tions. The data was recorded using a 128-channel
+bination of feature selection and machine learning         HCGSN instrument, and it was processed using Net
+models predicted outcomes using EEG data collected         Station software. The EEG data was supplemented
+at two different times during a passive phoneme task       with DCGAN to enhance the dataset. Next, a CNN
+in infants with high familial risk for ASD at six months   and LSTM combination model was created for the
+during native phoneme learning and twelve months           purpose of detecting ASD. The model’s classiﬁcation
+after native phoneme learning. We discovered a             accuracy was 74.55% for task-based data and 81.08%
+single model that has a 100% prediction accuracy for       for resting-state data.
+both ages. The size and diagnosis of the samples               Tang et al. 2024 [17] Rest-HGCN is an architecture
+at both ages were matched (n = 40 without ASD;             that uses resting-state EEG recordings to identify
+n = 14 with later ASD). Among the features were a          differences in brain connections among children with
+mix of nonlinear and power measurements over six           autism and children who are normally developing.
+frequency bands and 10–20 montage electrodes. EEG          The ABC-CT EEG dataset, which comprises IQ ranges
+scalp location and feature parameters were used to         of 80-150 for TD and 60-150 for ASD, the experiments
+compare predictive features at each age. All the EEGs      used k-fold cross-validation. 128-channel EEG equip-
+that were gathered underwent additional prediction         ment was used to capture the dataset at a sampling
+analyses.                                                  rate of 1000 Hz. The accuracy of Rest-HGCN was
+    Alturki et al. 2021 [15] focused on using EEG          85.32% in cross-experiment analyses and 87.12% in
+processing and analysis to diagnose ASD and epilepsy.      single-subject analyses.
+CSP was utilized to extract EEG characteristics uti-           Dong et al. 2021 [18] suggested a Q-Learning
+lizing novel techniques. Conventional CSP is known         method to quickly reconstructs CNNs for EEG-based
+to employ variance. Here, however, in addition to          analysis, adapting to individual subjects. Applied
+CSP, it was proposed that entropy, energy, and band        to an EEG-based ASD evaluation involving 175 chil-
+power be used to extract certain aspects of EEGs.          dren across four regions in China (Beijing, Ningxia,
+The best combination for diagnosing epilepsy and           Guangdong, Guangxi), the method achieved indi-
+ASDs was suggested by comparing the proposed               vidual/sample accuracies of 92.63% and 83.23%,
+methods using four classiﬁcation techniques: ANN,          respectively.    It also demonstrated the ability to
+KNN, SVM, and linear discriminant analysis. Lastly, the    maintain high performance when adapting to new
+ﬁndings were examined in relation to the frequency         subject groups, with accuracy drops reduced by 12%
+range, reduction number, and segment length. The           compared to methods without reconstruction.
+proposed approaches were validated using two EEG               Esqueda-Elizondo et al. 2022 [19] suggested a
+datasets: the King Abdulaziz University dataset for        method for assessing a 13-year-old child with ASD’s
+ASD and the MIT dataset for epilepsy. The results          attention utilizing EEG data obtained during learning
+demonstrated that the extracted features based on          activities using the Epoc+ BCI and Emotiv Pro plat-
+
+
+
+
+                                                      72
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+form, with data processing done in Matlab 2019a.             developing groups. The two types of functional imag-
+In addition to two balanced classes, "Attention" and         ing studies are task-based fMRI, which examines how
+"No Attention," each with 16,968 samples, the dataset        the brain reacts to task-induced stimuli, and rs-fMRI,
+includes 24 features, with six features per electrode,       which examines cognitive functions and brain activity
+for a total of 33,936 samples. To examine attention          while the person is awake but at rest. The third and
+and neurofeedback, features like TRP, ARP, BRP, TBR,         most current MRI submodality utilized in ASD research
+TAR , and Theta/(Alpha+Beta) were extracted. MLP-NN          is DTI, which looks at the structural relationships of the
+outperformed the other ML models that were exam-             white matter of the brain.
+ined, with an AUC =0.9299, Cohen’s Kappa =0.8597,                Ashraf et al. [22] focused on using the deep
+Matthew’s correlation =0.8602, and Hamming loss              learning models like CNNs and transferable learning
+=0.0701.                                                     methods by utilizing combined information from
+                                                             ABIDE I and ABIDE II datasets. Three spatial dimen-
+3.2   Magnetic-Resonance Imaging (MRI)
+                                                             sions and one temporal dimension make up the
+Researchers and medical professionals can identify
+                                                             four-dimensional structure of rs-fMRI data makes
+operational and structural brain disorders linked with
+                                                             them ideal for creating diagnostic biomarkers for
+autism by analyzing MRI images. These abnormalities
+                                                             brain dysfunction. The accuracy of the suggested CNN
+may involve differences in brain size, connectivity pat-
+                                                             model that was optimized was 81.56%.
+terns, and speciﬁc regions linked to communication,
+                                                                 Selcuk Nogay et al. 2023 [23] an automatic sMRI-
+social cognition, and sensory processing.
+                                                             based model for diagnosing autism that makes use of
+    Rakić et al. 2020 [20] combined multilayer per-
+                                                             fully anonymized data from the public ABIDE database
+ceptron trained under supervision and stacked
+                                                             in accordance with US HIPAA guidelines. There are
+autoencoders trained under supervision make up
+                                                             two stages in the model: preprocessing and optimiza-
+the classiﬁcation network. An ensemble of classiﬁers
+                                                             tion. The dataset from the ABIDE database is ﬁrst
+achieves a classiﬁcation accuracy of 85.06 ± 3.52% in
+                                                             processed in the preprocessing stage, where unclear
+817 cases from the multisite ABIDE I dataset, com-
+                                                             images are removed, edges are detected using the
+prising 449 control subjects and 368 patients with
+                                                             CED algorithm, images are cropped to the required
+ASD.
+                                                             size, and data augmentation is applied to expand the
+    Ali et al. 2022 [21] approached the cerebral cortex
+                                                             dataset ﬁvefold. The second step involves optimizing
+was separated from sMRI data. The cortex is then seg-
+                                                             the DCNN’s hyperparameters using the GSO algorithm.
+mented using a standardized atlas. Cortical markers
+                                                             The model achieves a remarkable 100% success rate,
+associated with ASD are then discovered. Following
+                                                             validated through ﬁve-fold cross-validation.
+that, feature values are adjusted for sex and age. Cus-
+tomized neuro-atlases are also created to aid in the di-     3.3   Computed Tomography (CT) Scans in
+agnosis of ASD. ANNs are taught to classify ASD. Using             ASD Diagnosis
+data from the ABIDE-I dataset, the system’s accuracy         Computed Tomography (CT) scans, while less com-
+was at an average of 97 ± 2%. Combining sMRI and             monly used than MRI or EEG in ASD research, have
+customized neuro-atlases to record the brain develop-        been explored for their potential to provide structural
+mental patterns in autism, the study suggests an ob-         insights into the brain. Using X-rays, CT imaging
+jective CAD system may be developed.                         produces ﬁnely detailed cross-sectional pictures of
+    using sMRI for better contrast response and spatial      the brain that provide high-resolution soft tissue
+detail, to study the brain structure. Further, it protects   and bone visualization. Radiation exposure, a lack
+users from ionizing radiation, which makes it especially     of soft tissue contrast in comparison to MRI, and an
+suitable for young children and teenagers.                   emphasis on structural rather than functional issues
+    fMRI is commonly used to analyze the differences in      limit its use in diagnosing ASD.
+brain activity among individuals with ASD and normally
+
+
+
+                                                        73
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+
+3.3.1   Structural Abnormalities                           picture of the structural and functional abnormalities
+CT scans have been utilized to identify gross structural   in ASD. Hybrid PET-CT systems, for example, have
+abnormalities in the brain, such as enlarged ventricles    been utilized to study various brain illnesses and may
+or cortical malformations, which may be associated         be used to combine metabolic and anatomical data in
+with ASD. The cerebellum and corpus callosum, for          ASD research [27].
+example, were found to have abnormalities in people           Furthermore, improvements in low-dose CT imag-
+with ASD in early studies [24] using CT scans. In          ing techniques might substantially decrease radiation
+medical settings, CT scans are frequently used to          exposure, making CT scans safer for young patients
+rule out other neurological disorders such tumors,         and allowing for use in long-term research [28]. This
+hydrocephalus, or traumatic brain injuries that could      could make it easier to employ CT scans in research
+exhibit symptoms resembling those of ASD.                  on ASD, especially when looking into uncommon
+                                                           structural disorders in people for whom MRI is not
+3.3.2   Structural Insights and Limitations for            suitable, like those with metal implants or those
+        ASD                                                who suffer from severe anxiety. By improving the
+The exposure to ionizing radiation is one of the biggest   ﬁndings of other imaging modalities and gaining a
+drawbacks of CT scans. This can have a negative im-        greater understanding of the condition, the use of
+pact on a person’s health, especially for children who     CT scans in some situations can help researchers in
+are more vulnerable to radiation exposure. This lim-       understanding the structural diversity of ASD.
+its the use of CT scans in long-term studies for ASD re-
+search or for repeated screening [25].                     4     Machine Learning in Autism Diagnosis
+    It can be challenging to detect subtle neurological    Machine learning, a branch of AI, holds potential for
+changes in the brain linked to autism because CT scans     greatly expanding the application of AI techniques in
+provide less details compared to MRIs. This limitation     neurological research. Much work has been done to
+reduces their utility in identifying certain anatomical    create ML models and deep learning methods for an-
+abnormalities or potential biomarkers. Furthermore,        alyzing high-dimensional MRI, CT, or EEG data to simu-
+CT scans are primarily structural imaging techniques       late the brain networks linked to different mental dis-
+rather than brain connection or function, which is dif-    orders [29].
+ferent from MRI or EEG.                                        Understanding the anatomy and function of the
+    CT scans don’t provide brain connectivity or func-     brain in greater detail is now possible because of
+tioning like structural imaging methods which are          recent advances in neurology and brain imaging. The
+important in neurological processes for autism. These      analysis of brain pictures was previously done using
+limitations emphasize the necessity of using more          mass-univariate methods. However, such techniques
+imaging modalities in ASD research to gain a deeper        fail to consider the interdependence among distinct
+understanding of the structural and functional aspects     areas, which are increasingly seen as a valuable source
+of the brain.                                              of information for detecting many brain disorders.
+    Manglunia et al. 2016 [26] demonstrated the use        The ways in which each algorithm aids in the diagnosis
+of specialized brain PET with 18F-FDG as a primary or      of autism are explained in detail below:
+follow-up screening method in a case study of a 6-year-    4.1    Support Vector Machines (SVM)
+old child with a clinical diagnosis of autism.             SVMs are used to ﬁnd non-linear correlation in
+                                                           datasets like speech patterns, behavioural assess-
+3.3.3   Advancing CT Research: Hybrid                      ments, or neuroimaging scans. They use kernel
+        Imaging and Low-Dose Techniques                    functions to transform data into higher dimensions.
+CT scans may be used with other imaging modalities,        Research has demonstrated that SVMs may accu-
+including PET and MRI, to provide a more complete          rately diagnose autism whether using fMRI data or
+
+
+
+                                                      74
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+standardized diagnostic questionnaires.                     These datasets help researchers to improve ML
+                                                            methods for ASD and develop accurate tools for
+4.2    Random Forests (RF)
+                                                            diagnosis.
+Random Forests is a type of ensemble learning that
+                                                                These studies mostly used data from Western coun-
+uses many decision trees to improve prediction and
+                                                            tries, so we need more diverse groups for future re-
+accuracy. Each tree in the forest is trained using a
+                                                            search.
+random selection of data, and the result is simply
+decided by the majority. RF used datasets that include      6     Challenges in Data Quality and
+behavioural and demographic information, including
+age, gender, and developmental milestones in autism
+                                                                  Standardization
+                                                            Cutting-edge tools like ML, GAN, and neuroimaging
+diagnosis. It is very effective for locating key features
+                                                            have demonstrated great promise in the diagnosis of
+and handling missing data.
+                                                            ASD. However, several problems with data availability,
+4.3    Neural Networks (NN)                                 dataset bias, and the lack of standardized methodol-
+Autism is now commonly diagnosed using neural net-          ogy restrict their widespread use and effectiveness.
+works, such as CNN and MLP. CNNs are more suitable
+                                                            6.1    Data Availability
+for image-based data, such brain scans, while MLPs
+                                                            The availability of substantial, excellent datasets on
+perform well on structured datasets. Neural networks
+                                                            ASD is one of the main study topics. Neuroimaging
+can learn complex patterns from large amounts of
+                                                            data collection is highly costly, time-consuming, and
+data because they are inspired by the structure of the
+                                                            requires speciﬁc tools and knowledge. Small sample
+brain.
+                                                            sizes might also impair the robustness of ML algorithm
+4.4    Naive Bayes (NB)                                     trained on such data and restrict the generalizability
+The Bayes theorem, a probabilistic classiﬁcation sys-       of results [37]. Data sharing is still limited despite
+tem that assumes feature independence, forms the            programs like ABIDE because of institutional rules, pri-
+foundation of NB. Notwithstanding its ease of use, NB       vacy concerns, and a lack of incentives for researchers
+has demonstrated eﬃcacy in identifying ASD when ap-         to share their data [38].
+plied to structured datasets, including the outcomes
+                                                            6.2    Bias in Datasets
+of screening instruments like the AQ. By examining
+                                                            Cultural biases and differences in symptom presen-
+characteristics including sensory sensitivity, social
+                                                            tation often led to underdiagnosis of ASD in women.
+communication diﬃculties, and repetitive behaviours,
+                                                            Most diagnostic standards and procedures are fo-
+it forecasts the probability of autism.
+                                                            cused on male-centric traits, which results in missed
+4.5    Deep Learning Models                                 or delayed diagnosis for females [39]. Additionally,
+Deep learning technologies like DBN and Autoen-             most of the research on ASD takes place in high-
+coders, that can handle complicated data with high          income countries, with little representation from
+dimensions, have revolutionized the diagnosis of            countries with low and middle incomes. Signiﬁcant
+ASD. These techniques can be used to process raw            environmental and cultural factors that inﬂuence
+information, such as video recordings, brain scans,         the diagnosis and prevalence of ASD are overlooked
+and genetic data. DBNs can process data to discover         because of the economic and geographic bias, which
+small patterns in brain activity or eye-tracking data       restricts the ﬁndings’ and diagnostic tools’ ability to be
+that may suggest autism.                                    implemented widely.
+
+5     Datasets                                              6.3    Need for Standardized Protocols
+                                                            The lack of established protocols for data collection,
+The following datasets use techniques such as EEG
+                                                            preparation, and analysis is a signiﬁcant barrier to
+recordings, eye-tracking data, and neurological scans.
+                                                            reproducibility and comparability in ASD research.
+
+
+
+                                                       75
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+                        Table 2. Comparative analysis of ML models with performance metrics
+
+  Model                             Strengths                Weaknesses              Performance         Studies
+                                                                                     Metrics
+  Support Vector Machine (SVM)      High-dimensional ca-     Computationally ex-     82-91% Acc            [30]
+                                    pability                 pensive                 78-87% Sens
+                                    Robust to overﬁtting     Needs careful tuning    81-90% Spec
+  Random Forest (RF)                Handles non-linearity    Prone to overﬁtting     86-93% Acc            [31]
+                                    Feature importance       Less interpretable      82-89% Sens
+                                                                                     85-92% Spec
+  Gradient Boosting                 Precise predictions      Computationally         89-95% Acc          [32, 33]
+                                    Handles missing data     heavy                   86-91% Sens
+                                                             Needs tuning            88-94% Spec
+  Deep Learning                     Complex pattern ﬁnd-     Needs big data          91-96% Acc          [31, 34]
+                                    ing                      Computationally         89-94% Sens
+                                    Highly scalable          heavy                   90-95% Spec
+  Logistic Regression               Simple                   Linear only             72-82% Acc            [31]
+                                    Interpretable            Poor with high-dim      68-77% Sens
+                                                             data                    70-81% Spec
+  k-NN                              Simple for small data    Slow for big data       76-86% Acc            [35]
+                                    No preprocessing         Sensitive to noise      72-82% Sens
+                                                                                     75-85% Spec
+  Generative AI                     Data augmentation        Resource intensive      89-94% Acc*         [33, 36]
+                                    Complex    distribu-     Hard to train           86-91% Sens
+                                    tions                                            88-93% Spec
+
+
+The uneven results, which typically arise from dif-         7   Generative Adversarial Networks
+ferences in imaging processes, diagnostic criteria,
+                                                                (GANs)
+and processing approaches, pose a challenge to the
+                                                            GANs are regarded as one of the most noteworthy ad-
+creation of reliable diagnostic tools. For example, the
+                                                            vancements in AI in recent years. These algorithms
+quality and compatibility of brain information can be
+                                                            can produce realistic text, images, sounds, and other
+affected by the different imaging parameters used in
+                                                            types of data. Two neural networks compete in a GAN:
+different investigations, such as voxel size and MRI
+                                                            the generator fabricates information to deceive the dis-
+ﬁeld strength. Determining imaging techniques is im-
+                                                            criminator, which tries to distinguish among authentic
+portant to enhance the repeatability of neuroimaging
+                                                            and fake input. GANs have also been studied as a po-
+studies, suggested by [40]. Because of the differences
+                                                            tential tool for autism research and intervention since
+in techniques or resources used, ASD diagnosis can
+                                                            they can offer new perspectives on how to compre-
+vary.
+                                                            hend, model, and improve social and intellectual skills
+    To maintain consistency in studies on ASD, [41]
+                                                            of people with ASD.
+highlighted the importance of deﬁning diagnostic
+                                                               Yao et al. [43] recommended enhancing fMRI func-
+requirements.Furthermore, differences in preprocess-
+                                                            tional connectivity ﬁndings by machine learning with
+ing techniques such as motion correction, normaliza-
+                                                            a GAN. The neural network can use the Wasserstein
+tion and ML methods can generate different results.
+                                                            length and the double-class distance restriction to
+A comprehensive review by [42] highlighted the need
+                                                            augment subject and reference collective knowledge.
+for greater standardization in research methods by
+                                                            Finally, the output of the GAN is used to improve
+demonstrating how various analytical choices can
+                                                            the performance of the classiﬁer. ASD and attention
+signiﬁcantly affect study outcomes.
+
+
+
+                                                      76
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+                            Table 3. A few datasets used to diagnose autism are displayed.
+
+              References                  Dataset                 No. of cases       Classiﬁcation
+                 [16]            ASD females’ multimodal          189 subjects      CNN-LSTM model
+                              developmental neurogenetics
+                              using EEG data from the NDAR
+                   [17]       The Autism Biomarker Clinical        315 subjects     Rest-HGCN model
+                              Trial Consortium gathered the
+                                     ABC-CT dataset, a
+                              multi-location study designed
+                              to analyze a battery of ET and
+                                            EEG
+                   [21]        ABIDE It includes rs-fMRI and      1112 subjects        SVM, LASSO
+                                         sMRI data.                                  regression, and
+                                                                                    RIDGE regression
+
+
+deﬁcit ADHD are two different brain illnesses that           constraints and privacy concerns by proposing a
+the model may classify. The ﬁndings demonstrated             WGAN-GP model. Nine descriptive features are re-
+that, after data augmentation, the GAN considerably          trieved, and baseline models are assessed using the
+improved classiﬁcation accuracy in comparison to             DEAP benchmark dataset. These parameters are then
+existing classiﬁers. Furthermore, the proposed net-          used to train the WGAN-GP, which helps get over
+work outperforms several widely used neural data             dataset restrictions by producing synthetic data.
+generating methods by a substantial margin.                      Yan et al. [47] provided a technique for information
+    Geng et al. [44] suggested a technique for improv-       enhancement based on GANs to produce real brain
+ing brain FC data. The expanded data set can be used         area networks. The networks are employed to grow
+to successfully increase the neural network classiﬁer’s      an existing training set to improve the training of a
+accuracy. We created an FC-GAN to generate patterns          classiﬁer for brain disorders and raise its prediction ac-
+for functional connections in the brain. To supplement       curacy. a generator that views each brain region as an
+the dataset, we also temporarily used a short-term           insertion into a network of distinct brain regions. This
+FC-GAN to autonomously generate an experimental              allows the inner product of two regions’ embeddings
+group and a control sample for a disorder. A neural          to be used to calculate the connection between them.
+network was then trained for a classiﬁcation task            To increase its prediction accuracy, the generator is
+using the enhanced data set.                                 trained in conjunction utilizing a discriminator that
+    Bouallegue et al. [45] suggested a WGAN based on         is speciﬁc to a domain called phenotype-enhanced
+deep learning to make ﬁctitious EEG data that closely        BrainNetCNN. To improve generator quality and pre-
+looks like the actual training dataset and has charac-       vent mode collapse, an embedding-based generator
+teristics that correspond with diseases. According to        produces samples that adhere to the distribution of
+experimental ﬁndings, the fake EEG data generated            the original data components.
+by WGAN considerably improves classiﬁcation model                Dhamale et al. [2] investigated using a PDCNN in
+accuracy. King Abdulaziz University offered a true           fMRI for the detection of Autism. By employing multi-
+dataset on autism pathology, which was used for the          ple ﬁlter kernels at parallel layers to extract distinguish-
+implementation.                                              ing features, the PDCNN successfully captures the spe-
+    Bhat et al. [46] addresses the lack of datasets          ciﬁc local connection patterns in fMRI images and im-
+in emotion recognition because of task-speciﬁc               proves the accuracy of ASD detection. To overcome
+
+
+
+
+                                                       77
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+data imbalance diﬃculties, GAN is also used for data        7.1.3   Lack of Interpretability
+augmentation. It learns the underlying data distribu-       GANs operate as "black boxes," which makes it diﬃcult
+tion to produce realistic synthetic MRI samples. The        to comprehend how they generate certain results, like
+performance of the proposed system is assessed us-          many other deep learning models. Since transparency
+ing the multi-site ABIDE-I dataset. In comparison to        is essential for making decisions in healthcare systems,
+conventional techniques, the PDCNN shows better per-        this lack of interpretability could undermine adoption
+formance with less trainable parameters obtaining an        and trust. To solve this problem, explainable AI (XAI)
+F1-score of 0.92, 0.96 precision, 0.87 recall, and 90.63%   approaches are being investigated; still more study is
+accuracy.                                                   required [50].
+    Zhou et al. [3] presented GARLa a new technique
+that uses neuroimaging data to diagnose ASD. To over-       7.2 Ethical Concerns of GANs
+come limited dataset problems and improve diagnos-          7.2.1 Data Privacy and Security
+tic accuracy, GARL combines the strengths of Deep Q-        GANs need access to a lot of sensitive neuroimaging
+Learning and GANs in a novel way. We used GANs to           data, which raise concerns about patient privacy and
+create a more robust and diversiﬁed dataset for analy-      data security. Even if synthetic data is generated,
+sis by leveraging the ABIDE-I and II datasets. According    there is a chance that it could unintentionally reveal
+to experimental ﬁndings, GAN-based data augmenta-           identiﬁable information about individuals in the train-
+tion greatly enhanced each prediction model’s perfor-       ing dataset. Although methods like differential privacy
+mance on both datasets. Notably, the most signiﬁcant        have been proposed to reduce the risks, issues still
+gains in diagnostic accuracy were obtained by integrat-     exist [51].
+ing Info GAN with Deep Q-Learning in the GARL archi-
+tecture.                                                    7.2.2   Informed Consent
+                                                            It’s possible that patients are unaware of how their
+7.1 Limitations of GANs                                     data is being utilized to create fake data or train GANs.
+7.1.1 Mode Collapse                                         It can be diﬃcult to obtain informed permission,
+In GAN training, the approach collapsing is a common        especially when information is transferred between
+problem when the generator only generates a few out-        institutions or used for reasons other than those for
+put versions. not fully capturing the wide range of the     which it was originally collected. To solve this issue,
+training data. This could limit the usefulness of neu-      open communication and moral principles are crucial
+roimaging pictures for training reliable diagnostic al-     [52].
+gorithms by producing artiﬁcial images that lack vari-
+ety found in real-world data. Although methods like         7.2.3   Accountability and Responsibility
+Wasserstein GANs (WGANs) have been suggested to re-         There are concerns with accountability when using
+duce the issue, challenges still exist [48].                GANs in clinical decision-making. The GAN’s devel-
+                                                            opers, the clinicians who use the model, or those
+7.1.2   Diﬃculty in Training                                organizations that supply the data may all be held
+The adversarial nature of the discriminator and gener-      responsible if a diagnostic model trained on synthetic
+ator networks makes GANs infamously challenging to          data yields inaccurate results. Clear policies and
+train. Stable convergence requires striking a balance       procedures are required to deal with these problems
+between these two factors, and ill-trained GANs may         [53].
+generate inaccurate or low-quality synthetic data. This
+might inﬂuence later evaluations and make diagnostic        8   Conclusion
+models less reliable [49].                                  The article explores recent advancements in neu-
+                                                            roimaging techniques for diagnosing autism in early
+
+
+
+
+                                                       78
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+childhood, comparing their effectiveness and high-                [3] Y. Zhou, G. Jia, Y. Ren, Y. Ren, Z. Xiao, and Y. Wang. Ad-
+lighting which approaches are most effective. It                      vancing ASD identiﬁcation with neuroimaging: a novel
+also discusses various machine learning methods,                      GARL methodology integrating deep q-learning and
+including emerging research on GANs, which have                       generative adversarial networks. BMC Medical Imaging,
+                                                                      24(1), Dec 2024. . Published online ahead of print.
+shown promise in improving diagnostic accuracy
+for distinguishing between autistic and non-autistic              [4] Young Shin Kim, Bennett L. Leventhal, Yun-Joo Koh,
+children.                                                             Éric Fombonne, Eugene Laska, Eun-Chung Lim, Keun-
+Future studies should concentrate on creating sizable,                Ah Cheon, Soo-Jeong Kim, Young-Key Kim, HyunKyung
+varied, and standardized datasets through cooper-                     Lee, Dong-Ho Song, and Roy Richard Grinker. Preva-
+ative initiatives, like extending the ABIDE by adding                 lence of autism spectrum disorders in a total population
+longitudinal data and a wider range of demographic                    sample. American Journal of Psychiatry, 168(9):904–912,
+                                                                      Sep 2011. . Supplementary material available.
+data.     Through visualization tools and decision-
+support systems, XAI developments can improve the                 [5] Jon Baio. Prevalence of autism spectrum disorder
+interpretability and transparency of predictive models,               among children aged 8 years. Centers for Disease Con-
+increasing clinician acceptance. GAN models, such as                  trol and Prevention, 2014. URL https://stacks.cdc.gov/
+GANs and VAEs, can help address small and unbal-                      view/cdc/22182. Surveillance Report.
+anced datasets by generating synthetic neuroimaging               [6] Daimei Sasayama, Rie Kuge, Yuki Toibana, and Hideo
+data and simulating rare cases to enhance diagnostic                  Honda. Trends in autism spectrum disorder diag-
+robustness.                                                           noses in japan, 2009 to 2019. JAMA Network Open, 4(5):
+                                                                      e219234, May 2021. .
+Author Contributions
+                                                                  [7] Golden Steps ABA. What country has the highest rate of
+Sumera Ali: Conceptualization, Methodology, Supervi-
+                                                                      autism? https://www.goldenstepsaba.com/resources/
+sion. Zartasha Baloch: Software, Writing—Reviewing
+                                                                      what-country-has-the-highest-rate-of-autism,    2025.
+and Editing. Sanam Narejo: Data curation, writ-                       Accessed: 2025-01-09.
+ing—original draft preparation. Ahmed Muhammad
+Shaikh: Visualization, Investigation, Validation.                 [8] Han Zhou, Xiaojie Xu, Weili Yan, Xiaobing Zou, Lijie
+                                                                      Wu, Xuerong Luo, Tingyu Li, Yueqin Huang, Hongyan
+Compliance with Ethical Standards                                     Guan, Xiu Chen, Meng Mao, Kun Xia, Lan Zhang, Erzhen
+                                                                      Li, Yi Zhang, Ying Zhou, Ding Ding, Andy Shih, Eric
+It is declare that all authors don’t have any conﬂict of
+                                                                      Fombonne, and Xiu Zhang.          Prevalence of autism
+interest. It is also declare that this article does not
+                                                                      spectrum disorder in china: A nationwide multi-center
+contain any studies with human participants or ani-
+                                                                      population-based study among children aged 6 to 12
+mals performed by any of the authors. Furthermore,                    years. Neuroscience Bulletin, 36(9):961–971, Sep 2020. .
+informed consent was obtained from all individual
+participants included in the study.                               [9] Autism Society of Pakistan. Autism society of pakistan.
+                                                                      https://autismpak.com/, 2025. Accessed: January 9,
+                                                                      2025.
+References
+ [1] M. W. Azeem, N. Imran, and A. Nazeer. Pakistan and          [10] Maria Luisa Scattoni, Martina Micai, Laura Maria Fatta,
+     autism. In F. R. Volkmar, editor, Encyclopedia of Autism         Alessandro Caruso, Assia Riccioni, Francesca Fulceri,
+     Spectrum Disorders, pages 3260–3262. Springer Interna-           Tommaso Salvitti, Gabriella Romano, Luise Poustka,
+     tional Publishing, Cham, 2021. .                                 Robert Diehm, et al. Autism spectrum disorder preva-
+                                                                      lence in italy: A nationwide study promoted by the min-
+ [2] T. D. Dhamale, S. U. Bhandari, V. K. Harpale, and D. Nan-
+                                                                      istry of health. Child and Adolescent Psychiatry and Men-
+     dan. Autism spectrum disorder detection using parallel
+                                                                      tal Health, 17(1):1–15, December 2023. . Open Access.
+     deep convolution neural network and generative adver-
+     sarial networks. Traitement du Signal, 41(2):643–652, Apr   [11] Rana A. Bahathiq, Haneen Banjar, Asma K. Bamaga, and
+     2024. .                                                          S. Kais Jarraya. Machine learning for autism spectrum
+
+
+
+                                                            79
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+     disorder diagnosis using structural magnetic resonance               A case study. Mathematical and Computational Applica-
+     imaging: Promising but challenging. Frontiers in Neu-                tions, 27(2):21, Mar 2022. . Publisher: MDPI.
+     roinformatics, 16:949926, September 2022. . Open Ac-
+                                                                     [20] M. Rakić, M. Cabezas, K. Kushibar, A. Oliver, and X. Lladó.
+     cess.
+                                                                          Improving the detection of autism spectrum disorder
+[12] Oana Gurau, William J. Bosl, and Charles R. Newton.                  by combining structural and functional MRI information.
+     How useful is electroencephalography in the diagnosis                NeuroImage: Clinical, 25, Jan 2020. ISSN 2213-1582. .
+     of autism spectrum disorders and the delineation of                  Publisher: Elsevier.
+     subtypes: A systematic review. Frontiers in Psychiatry,
+                                                                     [21] M. T. Ali, A. A. El-Sayed, K. M. Mohamed, S. R. Mahmoud,
+     8:121, July 2017. . Open Access.
+                                                                          et al. The role of structure MRI in diagnosing autism. Di-
+[13] Jian Kang, Xu Han, Jie Song, Zhongming Niu, and Xiaoli               agnostics, 12(1):165, Jan 2022. ISSN 2075-4418. . Pub-
+     Li. The identiﬁcation of children with autism spectrum               lisher: MDPI.
+     disorder by svm approach on eeg and eye-tracking data.
+                                                                     [22] A. Ashraf, Z. Qingjie, W. H. K. Bangyal, and M. Iqbal.
+     Computers in Biology and Medicine, 120:103722, 2020. .
+                                                                          Analysis of brain imaging data for the detection of early
+     Multimodal machine learning approach.
+                                                                          age autism spectrum disorder using transfer learning
+[14] Fiona C. Peck, Laurel J. Gabard-Durnam, Carol L. Wilkin-             approaches for Internet of Things. IEEE Trans. Consum.
+     son, William Bosl, Helen Tager-Flusberg, and Charles A.              Electron., 70(1):4478–4489, feb 2024. ISSN 1558-4127. .
+     Nelson. Prediction of autism spectrum disorder diagno-               Early Access.
+     sis using nonlinear measures of language-related EEG
+                                                                     [23] H. Selçuk Nogay and H. Adeli. Diagnostic of autism spec-
+     at 6 and 12 months. Journal of Neurodevelopmental Dis-
+                                                                          trum disorder based on structural brain MRI images us-
+     orders, 13(1):57, December 2021. . Early biomarker
+                                                                          ing grid search optimization and convolutional neural
+     study.
+                                                                          networks. Biomed. Signal Process. Control, 79:104234,
+[15] F. A. Alturki, M. Aljalal, A. M. Abdurraqeeb, K. Alsharabi,          2023. ISSN 1746-8094. . Publisher: Elsevier.
+     and A. A. Al-Shamma’a. Common spatial pattern tech-
+                                                                     [24] E. Courchesne, R. Yeung-Courchesne, G. A. Press, J. R.
+     nique with EEG signals for diagnosis of autism and
+                                                                          Hesselink, and T. L. Jernigan. Hypoplasia of cerebellar
+     epilepsy disorders. IEEE Access, 9:24334–24349, 2021.
+                                                                          vermal lobules VI and VII in autism. In The Science of
+     .
+                                                                          Mental Health: Volume 2: Autism, pages 197–202. New
+[16] Y. Xu, Z. Yu, Y. Li, Y. Liu, Y. Li, and Y. Wang. Autism spec-        England Journal of Medicine, May 1988. . Originally pub-
+     trum disorder diagnosis with EEG signals using time se-              lished in NEJM.
+     ries maps of brain functional connectivity and a com-
+                                                                     [25] D. J. Brenner and E. J. Hall. Computed tomography—an
+     bined CNN–LSTM model. Computer Methods and Pro-
+                                                                          increasing source of radiation exposure. New England
+     grams in Biomedicine, 250, Jun 2024. .
+                                                                          Journal of Medicine, 357(22):2277–2284, nov 2007. ISSN
+[17] T. Tang, J. Chen, X. Zhang, Y. Wang, L. Li, H. Liu, et al.           0028-4793. . Publisher: Massachusetts Medical Society.
+     A hybrid graph network model for ASD diagnosis based
+                                                                     [26] A. S. Manglunia and A. D. Puranik. FDG PET/CT ﬁnd-
+     on resting-state EEG signals. Brain Research Bulletin, 206,
+                                                                          ings in a clinically diagnosed case of childhood autism.
+     Jan 2024. . Publisher: Elsevier.
+                                                                          Indian Journal of Nuclear Medicine, 31(2):138–140, apr
+[18] H. Dong, D. Chen, L. Zhang, H. Ke, and X. Li. Subject sen-           2016. ISSN 0972-3919. . Publisher: Wolters Kluwer –
+     sitive EEG discrimination with fast reconstructable CNN              Medknow.
+     driven by reinforcement learning: A case study of ASD
+                                                                     [27] E. E. Kim, T. Inoue, M. C. Lee, and W. H. Wong. Clinical PET
+     evaluation. Neurocomputing, 449:136–145, Aug 2021. .
+                                                                          and PET/CT: Principles and Applications. Springer, New
+     Publisher: Elsevier.
+                                                                          York, NY, oct 2013. ISBN 978-1-4419-0801-8. . Complete
+[19] J. J. Esqueda-Elizondo, J. I. Gallegos-Pimentel, A. L. Leal-         volume.
+     Cruz, I. G. Pérez-Ramírez, et al. Attention measurement
+     of an autism spectrum disorder user using EEG signals:
+
+
+
+
+                                                                80
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+[28] C. H. McCollough, S. Leng, L. Yu, D. L. Cody, J. G. Fletcher,         ing. Imaging Neuroscience, 2:1–22, nov 2024. ISSN 2837-
+     M. R. Bruesewitz, T. L. Halaweish, et al. Achieving rou-              6056. . Publisher: MIT Press.
+     tine submillisievert CT scanning: Report from the sum-
+                                                                      [37] B. O. Turner, E. J. Paul, M. B. Miller, and A. K. Bar-
+     mit on management of radiation dose in CT. Radiol-
+                                                                           bey. Small sample sizes reduce the replicability of task-
+     ogy, 264(2):567–580, aug 2012. ISSN 0033-8419. . URL
+                                                                           based fMRI studies. Communications Biology, 1(1), Dec
+     https://doi.org/10.1148/radiol.12112265. Publisher: Ra-
+                                                                           2018. .
+     diological Society of North America.
+                                                                      [38] A. Di Martino et al. The autism brain imaging data ex-
+[29] T. Eslami, F. Almuqhim, J. S. Raiker, and F. Saeed. Ma-
+                                                                           change: towards a large-scale evaluation of the intrinsic
+     chine learning methods for diagnosing autism spec-
+                                                                           brain architecture in autism. Molecular Psychiatry, 19(6):
+     trum disorder and attention-deﬁcit/hyperactivity disor-
+                                                                           659–667, 2014. .
+     der using functional and structural MRI: A survey. Fron-
+     tiers in Neuroinformatics, 14:575999, jan 2021. ISSN             [39] M.-C. Lai, M. V. Lombardo, and S. Baron-Cohen. Autism.
+     1662-5196. . Publisher: Frontiers Media SA.                           The Lancet, 383(9920):896–910, Mar 2014. .
+
+[30] C. Wang, Z. Xiao, and J. Wu. Functional connectivity-            [40] R. A. Poldrack et al. Scanning the horizon: towards trans-
+     based classiﬁcation of autism and control using SVM-                  parent and reproducible neuroimaging research. Na-
+     RFECV on rs-fMRI data. Physica Medica, 65:99–105, sep                 ture Reviews Neuroscience, 18(2):115–126, 2017. . URL
+     2019. ISSN 1120-1797. . Publisher: Elsevier.                          https://doi.org/10.1038/nrn.2016.167.
+
+[31] M. Xu, V. Calhoun, R. Jiang, W. Yan, and J. Sui. Brain           [41] C. Lord, M. Elsabbagh, G. Baird, and J. Veenstra-
+     imaging-based machine learning in autism spectrum                     Vanderweele. Autism spectrum disorder. The Lancet,
+     disorder: methods and applications. Journal of Neuro-                 392(10146):508–520, Aug 2018. . URL https://doi.org/
+     science Methods, 363:109271, sep 2021. ISSN 0165-0270.                10.1016/S0140-6736(18)31129-2.
+     . Publisher: Elsevier B.V.
+                                                                      [42] R. Botvinik-Nezer et al. Variability in the analysis of a
+[32] I. Jeon, S. Lee, H. Kim, J. Park, et al. Reliable autism spec-        single neuroimaging dataset by many teams. Nature,
+     trum disorder diagnosis for pediatrics using machine                  582(7810):84–88, 2020. . URL https://doi.org/10.1038/
+     learning and explainable AI. Diagnostics, 14(22):2504,                s41586-020-2314-9.
+     nov 2024. ISSN 2075-4418. . Publisher: MDPI.
+                                                                      [43] Q. Yao and H. Lu. Brain functional connectivity augmen-
+[33] C. Chen, Y. Wang, L. Zhang, X. Li, et al. XGBoost-based               tation method for mental disease classiﬁcation with
+     machine learning test improves the accuracy of hem-                   generative adversarial network. In Z. Lin, L. Wang,
+     orrhage prediction among geriatric patients with long-                J. Yang, G. Shi, T. Tan, N. Zheng, X. Chen, and Y. Zhang,
+     term administration of rivaroxaban. BMC Geriatrics, 23                editors, Pattern Recognition and Computer Vision, vol-
+     (1):article number, dec 2023. ISSN 1471-2318. . Pub-                  ume 11858 of Lecture Notes in Computer Science, pages
+     lisher: BioMed Central.                                               444–455, Cham, 2019. Springer International Publish-
+                                                                           ing. ISBN 978-3-030-31653-2. .
+[34] K. Bhavna, A. Akhter, R. Banerjee, and D. Roy. Explain-
+     able deep learning framework: Decoding brain task and            [44] X. Geng, Q. Yao, K. Jiang, and Y. Zhu. Deep neural gener-
+     prediction of individual performance in false-belief task             ative adversarial model based on VAE + GAN for disor-
+     at early childhood stage. bioRxiv, mar 2024. . Preprint.              der diagnosis. In 2020 International Conference on Inter-
+                                                                           net of Things and Intelligent Applications (ITIA), pages 1–7.
+[35] J. Zhang, J. Guo, D. Lu, and Y. Cao. ASD-SWNet: A novel
+                                                                           IEEE, 2020. .
+     shared-weight feature extraction and classiﬁcation net-
+     work for autism spectrum disorder diagnosis. Sci. Rep.,          [45] G. Bouallegue and R. Djemal. EEG data augmentation
+     14(1), dec 2024. ISSN 2045-2322. . Publisher: Nature                  using Wasserstein GAN. In 2020 20th International Con-
+     Portfolio.                                                            ference on Sciences and Techniques of Automatic Control
+                                                                           and Computer Engineering (STA), pages 40–45. IEEE, 2020.
+[36] K. Gopinath, S. Mishra, A. Gupta, R. Chen, et al. Syn-
+                                                                           .
+     thetic data in generalizable, learning-based neuroimag-
+
+
+
+
+                                                                 81
+VFAST Transactions on Software Engineering Volume 13, Issue 2, 2025
+
+
+[46] S. Bhat and E. Hortal. GAN-based data augmentation
+     for improving the classiﬁcation of EEG signals. In Pro-
+     ceedings of the 14th PErvasive Technologies Related to As-
+     sistive Environments Conference, PETRA ’21, pages 453–
+     458, New York, NY, USA, 2021. Association for Comput-
+     ing Machinery. ISBN 978-1-4503-8757-4. .
+
+[47] D. Yan et al. Improving brain dysfunction prediction by
+     GAN: A functional-connectivity generator approach. In
+     2021 IEEE International Conference on Big Data (Big Data),
+     pages 1514–1522. IEEE, 2021. .
+
+[48] Martin Arjovsky, Soumith Chintala, and Léon Bottou.
+     Wasserstein generative adversarial networks. arXiv
+     preprint arXiv:1701.07875, Jan 2017. . URL https://arxiv.
+     org/abs/1701.07875. Primary theoretical foundation
+     for stable GAN training in medical imaging.
+
+[49] Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza,
+     Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron
+     Courville, and Yoshua Bengio. Generative adversarial
+     networks. Advances in Neural Information Processing Sys-
+     tems, 27:2672–2680, 2014. . URL https://arxiv.org/abs/
+     1406.2661. Conference on Neural Information Process-
+     ing Systems (NeurIPS 2014).
+
+[50] Wojciech Samek, Thomas Wiegand, and Klaus-Robert
+     Müller. Explainable artiﬁcial intelligence: Understand-
+     ing, visualizing and interpreting deep learning models.
+     arXiv preprint arXiv:1708.08296, Aug 2017. . URL https://
+     arxiv.org/abs/1708.08296. Later published in Proc. IEEE
+     109(3):247-278, 2021.
+
+[51] Cynthia Dwork, Frank McSherry, Kobbi Nissim, and
+     Adam Smith. Calibrating noise to sensitivity in private
+     data analysis. In Theory of Cryptography Conference (TCC
+     2006), volume 3876 of Lecture Notes in Computer Sci-
+     ence, pages 265–284, Berlin, Heidelberg, 2006. Springer-
+     Verlag. . URL https://doi.org/10.1007/11681878_14.
+
+[52] Sarah C. Sanderson, Christina Lewis, Christine Patch,
+     Melissa Hill, Maria Bitner-Glindzicz, and Lyn S. Chitty.
+     Opening the ‘black box’ of informed consent appoint-
+     ments for genome sequencing: A multisite obser-
+     vational study. Genetics in Medicine, 21:1083–1091,
+     May 2018. . URL https://www.nature.com/articles/
+     s41436-018-0089-2.
+
+[53] W. Nicholson Price and I. Glenn Cohen. Privacy in the
+     age of medical big data. Nature Medicine, 25(1):37–
+     43, Jan 2019. . URL https://www.nature.com/articles/
+     s41591-018-0272-7.
+
+
+
+                                                             82
+

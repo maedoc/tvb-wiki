@@ -1,0 +1,992 @@
+                                                  Cell–cell adhesion cannot sustain extended follower streams in
+                                                     a minimal non-local model of leader–follower migration
+                                                Thomas Jun Jewell∗1 , Samuel W.S. Johnson∗1 , Ruth E. Baker†1 , and Philip K. Maini†1
+                                            1
+                                                Wolfson Centre for Mathematical Biology, Mathematical Institute, University of Oxford,
+arXiv:2604.15283v1 [q-bio.CB] 16 Apr 2026
+
+
+
+
+                                                                             Oxford, United Kingdom
+
+
+
+
+                                                   Cell–cell adhesion is widely hypothesised to maintain cohesion within the long streams of follower cells
+
+                                                   that trail leader subpopulations during collective migration, including in neural crest cell migration,
+
+                                                   angiogenesis, and cancer cell invasion. Mathematically, non-local advection–diffusion equations provide
+
+                                                   the canonical continuum framework within which to study such adhesive cell–cell interactions. Here,
+
+                                                   we study a minimal model of leader–follower migration within this framework, in which leaders migrate
+
+                                                   at constant velocity while followers are attracted to leaders and to one another over a finite spatial
+
+                                                   interaction range. Numerical simulations reveal that, although the model can maintain small cohorts of
+
+                                                   travelling follower cells, the size of these cohorts is limited by the adhesive interaction lengthscale, and is
+
+                                                   far below what is needed to reproduce the extended streams observed in vivo. This points to a structural
+
+                                                   limitation of the standard non-local adhesion formulation and highlights the need for the development
+
+                                                   of extended continuum models capable of sustaining long, coherent migratory streams through purely
+
+                                                   mass-conserving collective cell movement.
+
+
+
+
+                                                ∗ These authors contributed equally and share first authorship.
+                                                † These authors contributed equally and share senior authorship.
+
+
+
+
+                                                                                                           1
+Introduction
+
+
+Collective motion is widespread across biology, from flocking birds [1] and schooling fish [2], to the coordinated
+
+migration of cells in vivo [3]. A recurring feature of such systems is leader–follower dynamics, in which a small
+
+subset of individuals (leaders) directs the movement of a much larger population (followers). In multicellular
+
+systems, leader–follower migration underpins key processes including embryonic development [4], wound
+
+healing [5], and cancer invasion [6]. In vivo, leader cells migrate in response to external guidance cues such
+
+as chemotactic, durotactic, or haptotactic gradients [7], while follower cells coordinate their motion through
+
+interactions with neighbouring cells [8]. This leads to the formation of large, connected streams of follower
+
+cells trailing leader subpopulations. A canonical example of this phenomenon occurs in chick cranial neural
+
+crest migration, where leader cells respond to gradients in vascular endothelial growth factor and follower
+
+cells migrate collectively behind them, with cell–cell adhesion hypothesised to maintain cohesion within the
+
+stream [9]. From a mathematical modelling perspective, such spatially extended streams present a challenge,
+
+as they persist over distances far greater than the range of direct cell–cell interactions.
+
+
+Spatially extended migratory fronts arise naturally in mathematical models that include cell proliferation.
+
+Classical reaction–diffusion models such as the Fisher–KPP equation produce travelling waves in which cell
+
+density behind the advancing front remains high [10, 11]. Similar mechanisms have been proposed in the
+
+context of neural crest migration in the gut. For example, continuum partial differential equation models
+
+[12, 13] have predicted that proliferation at the migratory wavefront of neural crest streams drives invasion
+
+of the developing gut, a prediction later supported by tissue graft experiments in quail. However, in other
+
+systems, including the chick cranial neural crest, proliferation during migration is negligible [14]. In such
+
+settings, follower streams must be driven by cell–cell interactions that induce movement, rather than by
+
+proliferation. Chemotaxis-based continuum models [15] have been proposed to explain follower migration in
+
+such contexts, but typically assume that cells can sense arbitrarily small chemical gradients. Explaining how
+
+spatially extended streams emerge without proliferation or long-range gradient sensing, therefore, presents
+
+a significant modelling challenge.
+
+
+                                                        2
+Cell–cell adhesion is frequently proposed as a mechanism for coordinating follower motion in such systems [9].
+
+A canonical and widely used continuum framework for modelling such interactions utilises non-local advec-
+
+tion–diffusion equations, also known as non-local aggregation equations, to represent the evolution of inter-
+
+acting cell populations [16–18]. In this framework, the direction of cell migration depends on cell-density
+
+gradients sensed over a finite range, reflecting the inherently non-local nature of cell–cell interactions. This
+
+formulation captures the fact that cells can attract or respond to neighbouring cells across finite distances
+
+through adhesive, chemical, or mechanical cues. Such models have proven remarkably versatile in the study
+
+of collective cell behaviours, reproducing a wide repertoire of multicellular patterning [17, 19].
+
+
+A notable example illustrating the power of this framework is provided by Carrillo et al. [17], who showed
+
+that this class of models can reproduce, both qualitatively and quantitatively, the sorting and mixing of
+
+cell sub-populations driven by differential adhesion, as measured experimentally by Katsunuma et al. [20].
+
+More broadly, non-local advection–diffusion models have been applied across developmental and pathological
+
+contexts, providing mechanistic explanations for cell aggregation during development [21–23] and forming
+
+the basis for representing cell–cell adhesion in a range of processes including cancer invasion [24–26], vascu-
+
+logenesis [27], and skeletal morphogenesis [28]. For an extensive review of these models, see [18].
+
+
+Accordingly, the non-local advection–diffusion framework provides a canonical continuum description of
+
+cell–cell adhesion and therefore a natural setting in which to study leader–follower migration. However, an
+
+unresolved question in this context is whether models based solely on co-attraction and adhesion between
+
+proximal cells can sustain streams of follower cells that are both motile and span distances far greater than
+
+the typical range of cell–cell interactions. Previous analyses have shown that such models can produce
+
+stationary clusters whose extent exceeds the interaction lengthscale of cells [29, 30], or travelling pulses
+
+whose size remains limited by that length scale [30–32], yet long, cohesive streams of migrating followers
+
+have not been reported.
+
+
+To address this question, we study a minimal mathematical model of leader–follower migration formulated
+
+within the non-local advection–diffusion framework. Leader cells are prescribed to migrate at constant
+
+
+                                                       3
+Figure 1: Mathematical model schematic. The model represents leader and follower populations as continu-
+
+ous densities in a one-dimensional domain. Leader cells migrate in the positive x-direction with a constant
+
+speed, v0 , representing migration according to gradients in external cues. Follower cells move according to
+
+an integro-partial differential equation, with terms representing diffusion and attractive cues from leader
+
+cells and other follower cells. Follower–follower and follower–leader interaction strengths are modulated by
+
+the parameters µf f and µf l , respectively, while the typical length over which follower–follower and follower–
+
+leader interactions occur is represented by the parameter ξ.
+
+
+velocity in a one-dimensional domain, representing directed motion in response to external cues, while
+
+follower cells move according to short-ranged attractive interactions with both leaders and other followers
+
+(Figure 1).
+
+
+
+
+Methods
+
+
+We study a minimal continuum model of leader–follower migration on a one-dimensional domain of 2000 µm
+
+in length. The model comprises two cell populations, leaders and followers, each represented as continuously
+
+varying densities along the length of the domain. Leaders and followers each evolve in time according to
+
+a system of coupled partial differential equations (PDEs). The leader PDE prescribes movement in the
+
+positive x-direction at a fixed speed, v0 , representing migration according to local micro-environmental cues,
+
+
+
+                                                       4
+in processes such as chemotaxis. Conversely, the follower PDE contains terms representing movement ac-
+
+cording to random diffusive motion, reflecting undirected motility with diffusivity Df , and short-ranged,
+
+non-local attraction to both leaders and other followers, representing the adhesive and co-attractive interac-
+
+tions commonly cited as key mechanisms for follower cell migration. This effectively extends previous work
+
+by Potts [33], which examined population organisation around a stationary resource, to the case of a moving
+
+resource, here represented by the leaders. Follower–follower and follower–leader interactions are parame-
+
+terised by the (positive) interaction strength coefficients µf f and µf l , respectively, and by an interaction
+
+lengthscale, ξ, that determines the typical distance over which cells can sense and interact with one another.
+
+Here, we take ξ to be the same for follower–follower and follower–leader interactions, as such interactions
+
+are often mediated by intrinsic properties of follower cells, such as the length of actin-based protrusions
+
+extended at their membrane, or the density of ligand receptors along their membrane. This assumption
+
+has also been made in a previous model of non-local leader–follower interactions [32]. Follower motion is
+
+also subject to a volume-filling constraint, which prevents overcrowding when the combined leader–follower
+
+density approaches a maximum density, κ.
+
+
+Under these assumptions, the evolution of the leader and follower cell densities, ρl (x, t) and ρf (x, t), in the
+
+domain x ∈ [0, L] where L = 2000 µm, is governed by the PDE
+
+                               ∂ρl       ∂ρl
+                                   = −v0     ,
+                               ∂t        ∂x
+                                                                                                             (1)
+                                        ∂ 2 ρf
+                                                                          
+                               ∂ρf               ∂                      ∂C
+                                   = Df        −      ρf (κ − ρl − ρf )      ,
+                                ∂t      ∂x2      ∂x                     ∂x
+
+
+where C is the non-local attraction potential, incorporating follower–follower and leader–follower interactions,
+
+                                     Z L                                    Z L
+                    C(x, t) = µf f         Kξ (x − y) ρf (y, t) dy + µf l         Kξ (x − y) ρl (y, t) dy.   (2)
+                                      0                                      0
+
+
+The kernel, Kξ (x), specifies how the strength of co-attraction or adhesion changes with the distance between
+
+
+
+
+                                                             5
+cells, and is taken as an even, non-negative Gaussian function:
+                                            
+                                                          x2
+                                                             
+                                            
+                                            
+                                             α(ξ) exp  −        ,     |x| ≤ 3ξ,
+                                                          2ξ 2
+                                            
+                                            
+                                  Kξ (x) =                                                                       (3)
+                                            
+                                            
+                                            
+                                            
+                                            0,
+                                                                      |x| > 3ξ,
+
+truncated at 3ξ to ensure compact support while retaining over 99% of the Gaussian mass. The factor α(ξ)
+
+ensures that
+                                                 Z
+                                                      Kξ (x) dx = ξ,                                             (4)
+                                                  R
+
+such that, unlike many continuum representations of non-local adhesion, we do not normalise the kernel Kξ (x)
+
+independently of ξ. Instead, we allow the total mass of the kernel to scale proportionally with ξ, reflecting
+
+the modelling assumption that increasing the interaction range introduces additional interactions rather
+
+than diluting the same interactions over a larger distance. Simulations using alternative interaction kernels,
+
+including top-hat and Hookean spring-type functions, display qualitatively similar behaviour, suggesting that
+
+the results are qualitatively robust to the choice of kernel. Further details of the model and the numerical
+
+scheme with which these equations are solved can be found in Appendix A with the corresponding model
+
+code available at https://github.com/SWSJChCh/continuumLeaderFollower.
+
+
+At the beginning of each simulation, leaders are initialised as a narrow cluster positioned closely ahead of a
+
+bulk of follower cells that extend over several hundred micrometres (Figure 1). Leaders then advance with
+
+a constant velocity of 1 µm min−1 for a period of 12 hours, while followers disperse, interact, and reorganise
+
+according to Equation (1). Parameter values of the model are chosen to represent typical cranial neural
+
+crest cell dynamics in vivo. Follower diffusivity is fixed at Df = 10 µm2 min−1 , leader speed at v0 = 1 µm
+
+min−1 , and follower interaction lengthscales ξ range from approximately one to ten cell lengths (10 µm to
+
+100 µm). The interaction strengths µf f and µf l are varied systematically to explore the extent to which
+
+follower–follower and follower–leader adhesion and co-attraction facilitate the formation of extended streams
+
+of follower cells migrating as a collective behind leader cells.
+
+
+To quantify the extent to which each parameter set, (ξ, µf f , µf l ), facilitates the formation of follower streams,
+
+
+                                                          6
+we compare the mass of the main contiguous region of follower density directly behind the leaders after mi-
+
+gration ends (Mf ) to the initial mass of followers in the domain (M0 ) (Figure 2(a)). This ratio provides
+
+a measure of leader–follower migratory efficiency, quantifying the fraction of follower mass that is success-
+
+fully transported across the tissue segment by leaders. Our analysis compares follower stream sizes across
+
+parameter sets and thus investigates whether the model considered here is sufficient to reproduce the long
+
+streams of followers observed in vivo. Systematic explorations of parameter space have been used to classify
+
+pattern-forming behaviour in related non-local advection–diffusion models [19].
+
+
+
+
+Results
+
+
+We systematically explored the parameter space defined by the interaction strengths (µf f , µf l ) and interac-
+
+tion lengthscale, ξ, quantifying migratory success by the ratio Mf /M0 of follower mass transported along the
+
+domain with leaders relative to the total follower mass. Parameter sweeps were performed over wide ranges
+
+of µf f and µf l for ξ = 10, 50, 100 µm, representing characteristic interaction lengthscales of approximately
+
+one, five, and ten cell lengths, respectively (with interactions extending to 3ξ).
+
+
+For all values of ξ considered, two distinct dynamical regimes consistently emerged (Figure 3). In the first
+
+regime, follower–follower attraction, µf f , is sufficiently strong, such that attraction from leader cells is unable
+
+to detach follower cells from the initial bulk, and thus, the entire follower mass remains in place. An example
+
+simulation in this regime is shown in the upper panels of Figure 2(a) and corresponds to the region denoted by
+
+∗ in the binary heatmap shown in Figure 2(b). In the second regime, strong follower–leader attraction, µf l ,
+
+enables followers initially positioned within range of the leaders to move towards them. However, because in
+
+this regime, follower–follower attraction is comparatively weak, these migrating cells are unable to attract
+
+additional followers from the rear of the bulk, leaving the majority of the population behind. An example
+
+simulation in this regime is shown in the lower panels of Figure 2(a) and corresponds to the region denoted
+
+by † in the binary heatmap shown in Figure 2(b). Figure 2(b) shows a heatmap of Mf /M0 for ξ = 50 µm
+
+
+
+                                                         7
+Figure 2:   (a) Model simulations for (ξ, µf f , µf l ) = (50 µm, 40 µm min−1 , 40 µm min−1 ) (upper) and
+
+(50 µm, 40 µm min−1 , 400 µm min−1 ) (lower), shown at 0 h, 6 h, and 12 h.          In the upper panel, fol-
+
+lower–follower and leader–follower attraction strengths are equal. Under these conditions, follower cells
+
+(red) remain tightly-bound, and the attraction exerted by leader cells (green) is insufficient to detach fol-
+
+lowers from the initial cluster. In the lower panel, follower–leader attraction is increased to ten times the
+
+follower–follower attraction. As a result, followers located within the initial interaction range of leaders are
+
+rapidly advected towards leaders, while those outside of this range remain in the bulk due to comparatively
+
+low follower–follower attraction strength. In the lower panel, M0 denotes the initial mass of the follower
+
+cluster and Mf , the final mass advected with the leaders. (b) Heatmaps showing Mf /M0 for ξ = 50 µm
+
+across a range of follower–follower and follower–leader interaction strengths. The left heatmap reveals two
+
+distinct regimes: (∗) a regime in which follower–follower attraction is sufficiently strong to maintain cluster
+
+integrity but followers do not migrate, and (†) a regime in which strong leader–follower attraction advects
+
+only those followers within the leaders’ initial interaction
+                                                        8 radius. The right heatmap provides a binary clas-
+
+sification of these regimes.
+Figure 3: (a) Heatmaps of Mf /M0 for ξ = 10 µm, 50 µm, 100 µm for a range of interaction strengths.
+
+Heatmaps show the existence of two regimes in (µf f , µf l ) space; a regime in which follower–follower attraction
+
+is sufficiently strong to maintain cluster integrity but followers do not migrate, and a regime in which strong
+
+leader–follower attraction advects only those followers within the leaders’ initial interaction radius. (b) Line
+
+plots of Mf /M0 as a function of µf l for fixed µf f = 10 µm min−1 . Line plots show a gradual plateau in
+
+Mf /M0 as µf l is increased, indicating a fundamental limit on the degree to which long follower chains may
+
+be created.
+
+
+
+
+                                                        9
+with regions in which Mf /M0 = 0 for large values of µf f relative to µf l , and Mf /M0 > 0 for smaller values
+
+of µf f relative to µf l , corresponding to the two regimes described above, respectively. Adjacent to this
+
+heatmap is a binary heatmap clearly indicating the demarcation of these two regimes.
+
+
+As shown in Figure 3(b), the fraction of transported follower mass increased monotonically with follower–leader
+
+attraction strength µf l . However, for larger values of this parameter, this increase plateaued, indicating a
+
+fundamental limit on the proportion of followers that could be transported along the domain with leaders.
+
+The precise saturation level depended on the typical follower interaction range, ξ. For ξ = 10 µm, only a
+
+very small fraction of followers, below 0.05, migrated behind the leaders. For ξ = 50 µm, the transported
+
+fraction did not exceed 0.2. For ξ = 100 µm, the transported fraction reached a maximum of approximately
+
+0.35, and consistently produced the largest mass of follower cells transported for a given set of interaction
+
+strengths (µf f , µf l ) (Figure 3). Thus, for all parameter ranges considered, the majority of followers failed to
+
+migrate. Here, we note that if ξ is further increased, it is possible that a larger mass of follower cells could
+
+be transported along the domain. However, such values of ξ would correspond to cell–cell communication
+
+over lengths that are far larger than the typical range of short-range communication or adhesion in vivo.
+
+
+Taken together, these results show that while the model of cell–cell adhesion considered here can generate
+
+small cohorts of followers trailing leaders, it cannot sustain extended streams akin to those observed in vivo.
+
+Instead, follower transport is limited by the maximum length over which followers may interact with other
+
+cells.
+
+
+
+
+Discussion
+
+
+Our analysis demonstrates that, within the minimal non-local advection–diffusion framework considered here,
+
+short-range follower–follower and follower–leader adhesion are not sufficient to sustain spatially extended,
+
+motile follower streams. In the model, the extent of the follower population transported with the leaders
+
+remains constrained by the interaction lengthscale over which adhesive forces act. Thus, although the system
+
+
+                                                        10
+can generate cohesive follower groups, it does not support the formation of long migrating streams under
+
+biologically plausible short-range interactions.
+
+
+Numerical simulations of the coupled one-dimensional non-local PDE system consistently exhibit two dis-
+
+tinct dynamical regimes, determined by the relative magnitudes of the attraction strengths µf f and µf l .
+
+When follower–follower attraction is sufficiently strong, the follower population remains bound within its
+
+initial bulk, and leader attraction is unable to detach and transport it. By contrast, when follower–leader
+
+attraction is sufficiently strong, only those followers initially within the interaction range of leaders are ad-
+
+vected forwards, while the remaining follower mass is left behind because follower–follower attraction is too
+
+weak to propagate motion through the bulk. In both cases, the transported follower mass is restricted by
+
+the finite range of the interaction kernel.
+
+
+Furthermore, our results show that increasing follower–leader attraction does not remove this limitation.
+
+Instead, for fixed interaction lengthscales, ξ, the transported mass increases only up to a plateau, after
+
+which stronger attraction to leaders produces no substantial increase in the size of the migrating follower
+
+cohort. The saturation level depends on ξ, but for all values considered it remains bounded away from
+
+transport of the full follower population. This indicates that the inability to generate extended streams is
+
+not a consequence of parameter choice alone, but an intrinsic feature of the canonical short-range non-local
+
+adhesion framework.
+
+
+As this study is based on numerical exploration of parameter space, we cannot exclude the existence of
+
+isolated parameter values for which the two competing effects balance more delicately. However, the absence
+
+of any broad parameter regime supporting extended follower transport suggests that such behaviour, if it
+
+exists, is not structurally robust within this model class. A key takeaway of the present work is that a widely
+
+used continuum formulation has an important limitation; short-range non-local adhesion and co-attraction
+
+can generate local cohesion, but do not by themselves produce long, coherent travelling streams.
+
+
+This conclusion does not rule out adhesion as a biologically important process in the formation of follower
+
+
+
+                                                       11
+cohorts. Rather, it suggests that something essential may be missing from how adhesion is represented in
+
+current continuum models. Additional mechanisms, such as anisotropic interactions, longer-range signalling,
+
+leaders responding to follower behaviour [34], or coupling to external fields or substrates, may also be
+
+required to maintain coordinated motion across large follower populations. Our results point to an open
+
+challenge: developing continuum models that can produce long, coherent travelling streams through purely
+
+mass-conserving, collective cell movement.
+
+
+
+
+Acknowledgements
+
+
+The authors would like to thank Professor Raluca Eftimie for a valuable discussion leading to the conception
+
+of this study. T.J.J. is supported by funding from the Edmund J. Crampin Scholarship at Linacre College,
+
+University of Oxford; and the Engineering and Physical Sciences Research Council (EPSRC) (grant number
+
+EP/W524311/1). R.E.B. is supported by a grant from the Simons Foundation (MP-SIP-00001828). For the
+
+purpose of open access, the authors have applied a CC BY public copyright licence to any author accepted
+
+manuscript arising from this submission.
+
+
+
+
+References
+
+ [1] Damien R Farine. Collective action in birds. Current Biology, 32(20):R1140–R1144, 2022.
+
+
+ [2] Ugo Lopez, Jacques Gautrais, Iain D Couzin, and Guy Theraulaz. From behavioural analyses to models
+
+    of collective motion in fish schools. Interface Focus, 2(6):693–707, 2012.
+
+
+ [3] Pernille Rørth. Collective cell migration. Annual Review of Cell and Developmental Biology, 25:407–429,
+
+    2009.
+
+
+ [4] Elena Scarpa and Roberto Mayor. Collective cell migration in development. Journal of Cell Biology,
+
+    212(2):143–155, 2016.
+
+
+                                                     12
+ [5] Li Li, Yong He, Min Zhao, and Jianxin Jiang. Collective cell migration: Implications for wound healing
+
+    and cancer invasion. Burns & Trauma, 1(1):21–26, 2013.
+
+
+ [6] Peter Friedl, Yael Hegerfeldt, and Miriam Tusch. Collective cell migration in morphogenesis and cancer.
+
+    International Journal of Developmental Biology, 48(5-6):441–449, 2004.
+
+
+ [7] Shuvasree SenGupta, Carole A Parent, and James E Bear. The principles of directed cell migration.
+
+    Nature Reviews Molecular Cell Biology, 22(8):529–547, 2021.
+
+
+ [8] Abhinava K Mishra, Joseph P Campanale, James A Mondo, and Denise J Montell. Cell interactions in
+
+    collective cell migration. Development, 146(23):dev172056, 2019.
+
+
+ [9] Paul M Kulesa, Caleb M Bailey, Jennifer C Kasemeier-Kulesa, and Rebecca McLennan. Cranial neural
+
+    crest migration: new rules for an old road. Developmental Biology, 344(2):543–554, 2010.
+
+
+[10] James D Murray. Biological waves: single species models. In Mathematical Biology, pages 437–482.
+
+    Springer, 2004.
+
+
+[11] Matthew J Simpson and Scott W McCue. Fisher–KPP-type models of biological invasion: open source
+
+    computational tools, key concepts and analysis. Proceedings of the Royal Society A: Mathematical,
+
+    Physical and Engineering Sciences, 480(2294), 2024.
+
+
+[12] Matthew J Simpson, Kerry A Landman, Barry D Hughes, and Donald F Newgreen. Looking inside an
+
+    invasion wave of cells using continuum models: proliferation is the key. Journal of Theoretical Biology,
+
+    243(3):343–360, 2006.
+
+
+[13] Matthew J Simpson, Dong C Zhang, Michael Mariani, Kerry A Landman, and Donald F Newgreen. Cell
+
+    proliferation drives neural crest cell invasion of the intestine. Developmental Biology, 302(2):553–568,
+
+    2007.
+
+
+[14] Dennis A Ridenour, Rebecca McLennan, Jessica M Teddy, Craig L Semerad, Jeffrey S Haug, and
+
+    Paul M Kulesa. The neural crest cell cycle is related to phases of migration in the head. Development,
+
+    141(5):1095–1103, 2014.
+
+
+                                                    13
+[15] Mehmet Can Uçar, Zane Alsberga, Jonna Alanko, Michael Sixt, and Edouard Hannezo.                  Self-
+
+    generated chemotaxis of mixed cell populations. Proceedings of the National Academy of Sciences,
+
+    122(34):e2504064122, 2025.
+
+
+[16] Nicola J Armstrong, Kevin J Painter, and Jonathan A Sherratt. A continuum approach to modelling
+
+    cell–cell adhesion. Journal of Theoretical Biology, 243(1):98–113, 2006.
+
+
+[17] Jose A Carrillo, Hideki Murakawa, Makoto Sato, Hideru Togashi, and Olena Trush. A population
+
+    dynamics model of cell-cell adhesion incorporating population pressure and density saturation. Journal
+
+    of Theoretical Biology, 474:14–24, 2019.
+
+
+[18] Kevin J Painter, Thomas Hillen, and Jonathan R Potts. Biological modeling with nonlocal advection–
+
+    diffusion equations. Mathematical Models and Methods in Applied Sciences, 34(1):57–107, 2024.
+
+
+[19] Valeria Giunta, Thomas Hillen, Mark A Lewis, and Jonathan R Potts. A phylogeny of biological patterns
+
+    formed by nonlocal advection. arXiv preprint arXiv:2506.00489, 2025.
+
+
+[20] Sayaka Katsunuma, Hisao Honda, Tomoyasu Shinoda, Yukitaka Ishimoto, Takaki Miyata, Hiroshi Kiy-
+
+    onari, Takaya Abe, Ken-ichi Nibu, Yoshimi Takai, and Hideru Togashi. Synergistic action of nectins
+
+    and cadherins generates the mosaic cellular pattern of the olfactory epithelium. Journal of Cell Biology,
+
+    212(5):561–575, 2016.
+
+
+[21] Chengyou Yu, Malte Mederacke, Roman Vetter, and Dagmar Iber. Directed cell migration is a versatile
+
+    mechanism for rapid developmental pattern formation. bioRxiv, 2025.
+
+
+[22] Thomas Jun Jewell, Andrew L Krause, Philip K Maini, and Eamonn A Gaffney. Patterning of nonlocal
+
+    transport models in biology: the impact of spatial dimension. Mathematical Biosciences, 366:109093,
+
+    2023.
+
+
+[23] Kevin J Painter, Jennifer M Bloomfield, Jonathan A Sherratt, and Alf Gerisch. A nonlocal model for
+
+    contact attraction and repulsion in heterogeneous cell populations. Bulletin of Mathematical Biology,
+
+    77(6):1132–1165, 2015.
+
+
+                                                    14
+[24] Pia Domschke, Dumitru Trucu, Alf Gerisch, and Mark AJ Chaplain. Mathematical modelling of cancer
+
+    invasion: implications of cell adhesion variability for tumour infiltrative growth patterns. Journal of
+
+    Theoretical Biology, 361:41–60, 2014.
+
+
+[25] Alf Gerisch and Mark AJ Chaplain. Mathematical modelling of cancer cell invasion of tissue: local and
+
+    non-local models and the effect of adhesion. Journal of Theoretical Biology, 250(4):684–704, 2008.
+
+
+[26] Kevin J Painter, Nicola J Armstrong, and Jonathan A Sherratt. The impact of adhesion on cellular
+
+    invasion processes in cancer and development. Journal of Theoretical Biology, 264(3):1057–1067, 2010.
+
+
+[27] Chiara Villa, Alf Gerisch, and Mark AJ Chaplain. A novel nonlocal partial differential equation model
+
+    of endothelial progenitor cell cluster formation during the early stages of vasculogenesis. Journal of
+
+    Theoretical Biology, 534:110963, 2022.
+
+
+[28] Tilmann Glimm, Ramray Bhat, and Stuart A Newman. Modeling the morphodynamic galectin pat-
+
+    terning network of the developing avian limb skeleton. Journal of Theoretical Biology, 346:86–108,
+
+    2014.
+
+
+[29] Jonathan R Potts and Kevin J Painter. Distinguishing between long-transient and asymptotic states in
+
+    a biological aggregation model. Bulletin of Mathematical Biology, 86(3):28, 2024.
+
+
+[30] Thomas Jun Jewell, Andrew L Krause, Philip K Maini, and Eamonn A Gaffney. Chase-and-run and
+
+    chirality in nonlocal models of pattern formation. arXiv preprint arXiv:2505.17372, 2025.
+
+
+[31] José A Carrillo, Yanghong Huang, and Markus Schmidtchen. Zoology of a nonlocal cross-diffusion
+
+    model for two species. SIAM Journal on Applied Mathematics, 78(2):1078–1104, 2018.
+
+
+[32] Kevin J Painter, Valeria Giunta, Jonathan R Potts, and Sara Bernardi. Variations in non-local interac-
+
+    tion range lead to emergent chase-and-run in heterogeneous populations. Journal of the Royal Society
+
+    Interface, 21(219):20240409, 2024.
+
+
+[33] Jonathan R Potts. Aggregation–diffusion in heterogeneous environments. Journal of Mathematical
+
+    Biology, 90(6):59, 2025.
+
+
+                                                    15
+[34] Sara Bernardi and Kevin J Painter. The impact of different degrees of leadership on collective navigation
+
+    in follower-leader systems. Bulletin of Mathematical Biology, 87(5):1–31, 2025.
+
+
+
+
+                                                     16
+Appendix A: Model Formulation and Numerical Scheme
+
+
+A.1 Numerical scheme
+
+
+
+We discretise the domain into N = 104 mesh points, {xi }N
+                                                        i=1 with uniform spacing, h = L/(N − 1). The sys-
+
+
+tem is integrated explicitly in time using a forward Euler scheme. The time step, ∆t, is chosen conservatively
+
+to satisfy a von Neumann stability constraint
+
+                                                               2
+                                                        h
+                                                  ∆t ≤ 2D f
+                                                            ,                                                 (5)
+
+
+with additional safety factor, θ ∈ (0, 1) (here θ = 0.05), to ensure accurate results, giving a final time step of
+
+
+
+
+                                                             h2
+                                                  ∆t = θ        .                                             (6)
+                                                            2Df
+
+
+In principle one may also impose an advection Courant–Friedrichs–Lewy constraint arising from the taxis
+
+flux. The maximum taxis velocity scales as (using ∥∇Kξ ∥∞ ∼ 1/ξ for unit-amplitude kernels)
+
+                                                     (|µf l | + |µf f |) κ
+                                            vmax =                         ,                                  (7)
+                                                               ξ
+
+giving the condition
+                                                            h
+                                                  ∆t ≤          .                                             (8)
+                                                           vmax
+
+For the parameter ranges considered here (µf l , µf f ∈ [10, 1000] µm min−1 , ξ ∈ [10, 100] µm, and κ = 1), the
+
+advection bound satisfies h/vmax ≥ 1 × 10−3 min, which is comparable in magnitude to the diffusion bound
+
+h2 /(2Df ) = 2 × 10−3 min. Applying the safety factor θ = 0.05 to the diffusion bound in Equation (5) yields
+
+a time step of ∆t = 1 × 10−4 min, which satisfies both the diffusion and advection constraints by an order
+
+of magnitude across all simulations reported in this work.
+
+
+
+
+                                                         17
+A.1.1 Numerical leader update
+
+
+
+Leaders are transported at a speed v0 µm min−1 using a discrete shifting algorithm. The displacement
+
+increment per time step is
+                                                         v0 ∆t
+                                                  δs =         .                                           (9)
+                                                           h
+
+Let S denote the accumulated displacement in the x-direction. At each time step, S is increased by δs, and
+
+whenever ⌊S⌋ increases by one, the leader density profile, ρl , is shifted by one mesh point in the positive
+
+x-direction.
+
+
+
+A.1.2 Numerical follower update
+
+
+
+Followers evolve via explicit forward Euler updates of the form
+
+                                                                       
+                                    ρn+1
+                                     f   = ρn
+                                            f + ∆t   D ∆ ρn
+                                                      f h f − ∇ h · J n
+                                                                          ,                              (10)
+
+
+where superscripts denote time and ∆h denotes a second-order finite-difference Laplacian with homogeneous
+
+Neumann boundary conditions.
+
+
+The taxis flux is written in conservative form as
+
+
+                                     J = ρf P ∇C,        P = κ − (ρl + ρf ),                             (11)
+
+
+where C is the non-local attraction potential. Zero-flux boundary conditions are imposed on ρf at x = 0 µm
+
+and x = 2000 µm, such that the integrated follower mass remains constant throughout migration.
+
+
+
+A.1.3 Discretisation of the taxis flux
+
+
+
+The divergence of the taxis flux is discretised using a finite-volume formulation. Gradients of the attraction
+
+potential, C, are evaluated at cell faces using centred differences,
+
+                                                           Ci+1 − Ci
+                                           (∂x C)i+ 12 =             ,                                   (12)
+                                                               h
+
+                                                      18
+and the corresponding face velocities are defined by
+
+
+                                                 ui+ 12 = Pi+ 12 (∂x C)i+ 21 ,                              (13)
+
+
+where i indexes the centres of mesh points and Pi+ 12 is obtained by arithmetic averaging of P between
+
+adjacent mesh points.
+
+
+The numerical flux through each cell face is computed using an upwind discretisation,
+                                             
+                                             
+                                             ρf,i ui+ 1 ,   ui+ 12 ≥ 0,
+                                             
+                                             
+                                                       2
+                                    Ji+ 21 =                                                                (14)
+                                             
+                                             
+                                             ρf,i+1 ui+ 1 , ui+ 1 < 0,
+                                             
+                                                           2      2
+
+
+
+which yields a conservative update and preserves non-negativity of the follower density.
+
+
+The discrete divergence of the flux is then given by
+
+                                                              Ji+ 12 − Ji− 12
+                                             (∇h · J)i =                         .                          (15)
+                                                                      h
+
+
+
+A.1.4 Non-local convolution
+
+
+
+Given a kernel, K, and a discrete density, Z, the convolution is given by
+
+                                                            X
+                                     (K ∗ Z)(xi ) ≈ h              Kξ (xi − xj )Z(xj ),                     (16)
+                                                              j
+
+
+and is computed using a fast Fourier convolution with zero padding beyond the domain boundaries.
+
+
+
+A.1.5 Follower cell diffusion constant
+
+
+
+In simulations, we choose a moderate diffusion constant of Df = 10 µm2 min−1 for follower cells. For one
+
+hour of migration, this results in a characteristic diffusive length-scale of
+
+                                             q                                       √
+                                                 2 × 10 µm2 min−1 × 60 min =
+                               p
+                 ℓ(60 min) =       2Df t =                                               1200 µm ≈ 35 µm.   (17)
+
+
+
+
+                                                              19
+Thus, with this choice of Df , the expected spread of a cell over one hour is approximately 3.5 cell lengths
+
+(∼ 35 µm), though this diffusion is largely attenuated by the follower–follower attraction that is also present
+
+in the model.
+
+
+
+
+A.2 Initial conditions
+
+
+The initial condition consists of a follower bulk trailing a leader pulse
+
+                                                       x−xf       x−xf
+                                                                      
+                                   ρf (x, 0) = f20 tanh δ a − tanh δ b ,                                  (18)
+                                                               2
+                                                                  
+                                    ρl (x, 0) = l0 exp − (x−x 0)
+                                                           2σ 2     ,                                     (19)
+
+
+with 0 < xfa < xfb < x0 < L, where f0 = l0 ≤ κ. In simulations we take [xfa , xfb ] = [65 µm, 870 µm],
+
+x0 = 895 µm, δ = 5 µm, σ = 12 µm, and f0 = l0 = 0.95, yielding a narrow leader peak located just ahead of
+
+an extended follower train (Figure 2(a)).
+
+
+
+
+                                                        20
+

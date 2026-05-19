@@ -1,0 +1,528 @@
+                                                                                                                       TYPE Original Research
+                                                                                                                       PUBLISHED 12 March 2025
+                                                                                                                       DOI 10.3389/fneur.2025.1552940
+
+
+
+
+                                                    Early prediction of Alzheimer’s
+OPEN ACCESS                                         disease using artificial intelligence
+                                                    and cortical features on T1WI
+EDITED BY
+Demao Deng,
+Guangxi Academy of Medical Sciences, China
+
+REVIEWED BY
+Chengxi Yan,
+                                                    sequences
+The Second Affiliated Hospital of Xi’an
+Jiaotong University, China
+Biqiu Tang,
+                                                    Rong Zeng 1,2†, Beisheng Yang 1†, Faqi Wu 3, Huan Liu 4,
+Sichuan University, China                           Xiaojia Wu 1, Lin Tang 5, Rao Song 1, Qingqing Zheng 1, Xia Wang 6*
+*CORRESPONDENCE                                     and Dajing Guo 1*
+Dajing Guo
+  guodaj@hospital.cqmu.edu.cn                       Department of Radiology, the Second Affiliated Hospital of Chongqing Medical University,
+                                                    1
+
+Xia Wang                                            Chongqing, China, 2 Department of Radiology, the Third Affiliated Hospital of Chongqing Medical
+  17820585@qq.com                                   University, Chongqing, China, 3 Department of Medical Service, Yanzhuang Central Hospital of
+                                                    Gangcheng District, Jinan, China, 4 GE Healthcare, Shanghai, China, 5 Department of Radiology,
+†
+ These authors have contributed equally to
+                                                    Chongqing University Cancer Hospital, Chongqing, China, 6 Department of Radiology, Chongqing
+this work
+                                                    Western Hospital, Chongqing, China
+RECEIVED 29 December 2024
+ACCEPTED 14 February 2025
+PUBLISHED 12 March 2025                             Background: Accurately predicting the progression of mild cognitive impairment
+CITATION                                            (MCI) to Alzheimer’s disease (AD) is a challenging task, which is crucial for helping
+Zeng R, Yang B, Wu F, Liu H, Wu X,                  develop personalized treatment plans to improve prognosis.
+Tang L, Song R, Zheng Q, Wang X and
+Guo D (2025) Early prediction of Alzheimer’s        Purpose: To develop new technology for the early prediction of AD using artificial
+disease using artificial intelligence and           intelligence and cortical features on MRI.
+cortical features on T1WI sequences.
+Front. Neurol. 16:1552940.                          Methods: A total of 162 MCI patients were included from the Alzheimer’s Disease
+doi: 10.3389/fneur.2025.1552940                     Neuroimaging Initiative (ADNI) database. By using a 3D-MPRAGE sequence, T1W
+COPYRIGHT                                           images for each patient were acquired. All patients were randomly divided into a
+© 2025 Zeng, Yang, Wu, Liu, Wu, Tang, Song,
+                                                    training set (n = 112) and a validation set (n = 50) at a ratio of 7:3. Morphological
+Zheng, Wang and Guo. This is an
+open-access article distributed under the           features of the cerebral cortex were extracted with FreeSurfer software. Network
+terms of the Creative Commons Attribution           features were extracted from gray matter with the GRETNA toolbox. The network,
+License (CC BY). The use, distribution or
+                                                    morphology, network-clinical, morphology-clinical, morphology-network and
+reproduction in other forums is permitted,
+provided the original author(s) and the             morphology-network-clinical models were developed by multivariate Cox
+copyright owner(s) are credited and that the        proportional hazard model. The performance of each model was assessed by the
+original publication in this journal is cited, in
+                                                    concordance index (C-index).
+accordance with accepted academic
+practice. No use, distribution or reproduction      Results: In the training group, the C-indexes of the network, morphology,
+is permitted which does not comply with
+these terms.
+                                                    network-clinical, morphology-clinical, morphology-network and morphology-
+                                                    network-clinical models were 0.834, 0.926, 0.915, 0.949, 0.928, and 0.951,
+                                                    respectively. The C-indexes of those models in the validation group were 0.765,
+                                                    0.784, 0.849, 0.877, 0.884, and 0.880, respectively. The morphology-network-
+                                                    clinical model performed the best. A multi-predictor nomogram with high
+                                                    accuracy for individual AD prediction (C-index = 0.951) was established.
+                                                    Conclusion: The early occurrence of AD could be accurately predicted using
+                                                    our morphology-network-clinical model and the multi-predictor nomogram.
+                                                    This could help doctors make early and personalized treatment decisions in
+                                                    clinical practice, which showed important clinical significance.
+
+                                                    KEYWORDS
+
+                                                    Alzheimer’s disease, mild cognitive impairment, prediction, gray matter, network,
+                                                    radiomics, magnetic resonance imaging
+
+
+
+
+Frontiers in Neurology                                                    01                                                             frontiersin.org
+Zeng et al.                                                                                                                      10.3389/fneur.2025.1552940
+
+
+
+
+1 Introduction                                                                   showed no significant impairment in other cognitive domains, everyday
+                                                                                 activities were substantially preserved, and there were no signs of
+    Approximately 0.5–0.8% of the worldwide population suffers from              dementia. In the follow-up period, participants with bidirectional
+cognitive and behavioral deficits caused by Alzheimer’s disease (AD),            changes (MCI to AD and back to MCI) were excluded. All patients
+and the percentage is still increasing (1). The neuropathological                were randomized at a ratio of 7:3 into a training group (n = 112) and a
+change in AD patients is characterized by the loss of neurons and                validation group (n = 50). The workflow is shown in Figure 1.
+synapses in the cortex, which leads to subtle cortical morphological                 Clinical data, including age, sex, education level, body mass index
+changes and even anatomical atrophy (1). Mild cognitive impairment               (BMI), alcohol use and scores on twelve neuropsychological scales
+(MCI) is described as a stage of transition between a normal state and           Montreal Cognitive Assessment [MOCA], 11-item and 13-item
+the pathological state of AD, with 10 to 20% of individuals progressing          Alzheimer’s Disease Assessment Scale, Clinical Dementia Rating
+to dementia within a few years (2). Many studies have shown that if              [CDR] Scale, Functional Activities Questionnaire [FAQ], Geriatric
+AD could be predicted early and intervention was taken, the disease              Depression Scale [GDS], Mini-Mental State Examination [MMSE],
+progression in MCI patients might be slowed or reversed (3, 4). Thus,            four subscales of the Rey Auditory-Verbal Learning Test, and Animal
+developing an accurate method to predict the development of AD in                Fluency Test [AFT], were directly collected from the ADNI website.
+MCI patients has important clinical implications.
+    In previous studies, MCI patients were usually divided into two
+groups based on whether they progressed to AD, and binary                        2.2 MRI acquisition
+classification was performed (5–8). These methods did not provide
+specific information about the time when AD occurred. In recent years,               By using a 3D-MPRAGE sequence or a comparable sequence with
+some studies have begun to use MRI technology to predict the time of             slightly varying resolutions, T1W images for each patient were
+MCI conversion to AD (9–11). However, the MRI indicators used in                 acquired. The parameters of scanner 1 (General Electric Healthcare)
+these studies were mostly large-scale markers of brain atrophy, such as          were repetition time (TR) = 7.7–7.0 msec, echo time
+cortical volume and thickness (9–11). The characteristics of the                 (TE) = 3.1–2.8 msec and matrix = 256 × 256 × 196. Scanner 2 was
+interrelation between cortical regions were ignored. In fact, the subtle         from Siemens Medical Solutions, and its parameters were
+cortical changes at the early stage caused by accumulated harmful                TR = 2300.0 msec, TE = 3.0 msec and matrix = 240 × 256 × 176. The
+metabolites in neurons might be beyond the sensitivity of                        parameters of scanner 3 (Philips Medical Systems) were TR = 6.8 msec,
+morphological indicators, which might be revealed by network                     TE = 3.1 msec and matrix = 256 × 256 × 170. For more information,
+indicators from gray matter covariation or similarity (12). On the other         please see http://adni.loni.usc.edu/methods/documents/.
+hand, the classical gray matter covariant network, which was composed
+of the covariance of gray matter measurements among participants,
+was only used for group-level brain network analysis and cannot                  2.3 Extraction of network features in gray
+be used for personal prediction analysis previously. The individual-level        matter
+gray matter network based on brain region morphological similarities
+(13) has been successfully applied in the diagnosis of neurological and               All network features were extracted from gray matter networks
+psychiatric disorders such as AD (14) and schizophrenia (15). Previous           that were individually constructed and normalized with the
+studies have found a close correlation between cognitive impairment              methodology proposed by Tijms et al. (13) and Batalle et al. (17). The
+in AD patients and topological randomization of the gray matter                  gray matter segmentation was performed with Statistical Parametric
+network (16). This study was the first to use this method to study the           Mapping software. The connection was determined according to the
+cognitive dynamics of MCI patients. We analyzed the individual                   statistical similarities of gray matter morphology. The similarities were
+cortical morphology and gray matter network characteristics of MCI               determined by the maximum correlation between two cubes spanning
+patients using T1WI sequences and constructed an artificial intelligence         multiple rotations based on the unified automated anatomical labeling
+model to achieve early prediction of AD occurrence.                              parcellation template. These procedures yielded a similarity network
+                                                                                 for each individual, with connect strengths ranging from 0 to 1, and
+                                                                                 self-connections were removed. Details of network construction and
+2 Materials and methods                                                          normalization are provided in the Supplementary materials.
+                                                                                      The GRETNA toolbox was used for the calculation of network
+2.1 Participants                                                                 properties (18). The global efficiency (Eg), small-world scalar (σ), local
+                                                                                 efficiency (Eloc), cluster coefficient (Cp), assortativity, characteristic path
+    All participants were included from the Alzheimer’s Disease                  length (Lp), nodal betweenness, nodal degree and nodal efficiency were
+Neuroimaging Initiative (ADNI) database (adni.loni.usc.edu). The                 calculated (19, 20). Detailed explanations of the network properties and
+dataset included baseline T1W images and clinical data of 68 MCI                 calculation procedures are provided in the Supplementary materials.
+patients who progressed to AD in 6–60 months and 94 other MCI
+patients without AD conversion in 5 years (the follow-up period was
+6–12 months within 3 years and 12 months for the following 3–5 years).           2.4 Extraction of morphological features of
+The diagnosis of AD followed the criteria defined by the Alzheimer’s             the cortex
+disease and Related Disorders Association and the National Institute of
+Neurological and Communicative Disorders and Stroke. The MCI                         Morphological features of the cerebral cortex were extracted with
+patients reported subjective memory concerns; however, these patients            FreeSurfer software. First, the T1W images were normalized to the
+
+
+Frontiers in Neurology                                                      02                                                                  frontiersin.org
+Zeng et al.                                                                                                                10.3389/fneur.2025.1552940
+
+
+
+
+    FIGURE 1
+    Flow chart of the study.
+
+
+
+
+MNI space. The Brainnetome Atlas was resliced to the conventional               calculating the correlation coefficients between features using Spearman
+MNI space. Then, the Destrieux atlas was used to divide the entire              correlation analysis, and after removing highly correlated features, 328
+cortex (21, 22). Motion correction, cranial stripping, gray/white               features with correlation coefficients above 0.9 remained. Second, the
+matter segmentation, and cortical surface model reconstruction were             37 features with significant differences (p < 0.05) were chosen using
+performed (23). The cortical indicators of mean thickness, surface              univariate Cox analysis. Third, the most significant features in disease
+area, standard deviation of the thickness, integrated rectified Gaussian        progression were chosen using LASSO Cox regression with 10-fold
+curvature, intrinsic curvature index, integrated rectified mean                 cross validation. Then, 37 radiomics features were finally determined,
+curvature, folding index and gray matter volume were obtained.                  with 28 morphological features and 9 network features (Figure 2). The
+Subcortical brain region segmentation was carried out using SPM12               coefficients of the features were presented in Figure 2. The radiomics
+and the Brainnetome fMRI Toolkit. The gray matter volumes of the                scores (rad-score) of each subject were calculated by combining the
+bilateral thalamus, putamen, hippocampus, caudate nucleus, globus               selected features linearly and multiplying the outputs by the
+pallidus, nucleus accumbens and amygdala were obtained.                         corresponding coefficients. A univariate Cox proportional hazards
+                                                                                model was utilized to identify potential predictors among the clinical
+                                                                                parameters. The factors that were significant in the univariate analysis
+2.5 Feature selection and label                                                 (p < 0.05) were used in a multivariate Cox proportional hazards model
+construction for radiomics                                                      to establish network, morphology, network–clinical, morphology–
+                                                                                clinical, morphology–network and morphology–network–clinical
+    In this study, 276 features of the gray matter network (6 global            models. Finally, the consistency index (C-index) was used to assess the
+properties and 270 nodal network properties) and 1,198 features of the          performance of the models in the training cohort, and the results were
+cortical morphology were obtained. First, redundancy was reduced by             independently verified in the validation cohort.
+
+
+Frontiers in Neurology                                                     03                                                             frontiersin.org
+Zeng et al.                                                                                                                      10.3389/fneur.2025.1552940
+
+
+
+
+    FIGURE 2
+    (A) Parameter selection in the LASSO Cox regression model. (B) LASSO coefficient analysis of the radiomics features. (C) The 37 individual radiomics
+    features and their coefficients. Fonts in black are structural features, while fonts in red are network features.
+
+
+
+
+2.6 Multi-predictor nomogram                                                       95% confidence interval (CI) was used to assess the model
+construction                                                                       performance. The Akaike information criterion (AIC) was used to
+                                                                                   estimate the potential risk of overfitting. The intraclass correlation
+    In this study, multivariate Cox analysis was used to establish a               coefficient (ICC) was adopted to evaluate interobserver reproducibility.
+multi-predictor nomogram including radiomic and clinical metrics.                  Two-tailed p < 0.05 was considered statistically significant.
+Calibration curves were used to analyze the correspondence between
+the real outcomes and the predicted results.
+                                                                                   3 Results
+2.7 Statistical analysis                                                           3.1 Demographics
+
+    The statistical analysis was performed by R software (v. 3.6.0;                    A total of 112 patients (71 males and 41 females) were included in
+http://www.Rproject.org). The Shapiro–Wilk test and Bartlett test were             the training group, and 50 patients (25 males and 25 females) were
+used for clinical, network, and morphological data analysis. The                   included in the validation group. In the training group, the average age
+between-group differences were examined by Student’s t test, the                   was 72.00 ± 6.58 years, the average BMI was 27.98 ± 5.21, and the
+Mann–Whitney U test or the chi-squared test. The C-index with a                    average years of education was 16.29 ± 2.63 years. In the validation
+
+Frontiers in Neurology                                                        04                                                                frontiersin.org
+Zeng et al.                                                                                                                                        10.3389/fneur.2025.1552940
+
+
+
+
+TABLE 1 Baseline characteristics of all the MCI patients.
+
+ Variable                               Training set (n = 112)                   Test set (n = 50)                          Statistics                         p value
+ Sex
+
+ 1                                                71 (63.39%)                          25 (50.00%)                              2.568                             0.109
+
+ 2                                                41 (36.61%)                          25 (50.00%)
+
+ Drink
+
+ 0                                               107 (95.54%)                         50 (100.00%)                              1.053                             0.305
+
+ 1                                                 5 (4.46%)                            0 (0.00%)
+
+ Age                                              72.00 ± 6.58                         71.47 ± 7.82                            −0.413                             0.681
+
+ Education                                        16.29 ± 2.63                         15.86 ± 2.63                            −0.971                             0.333
+
+ BMI                                              27.98 ± 5.21                         27.48 ± 4.79                            −0.583                             0.561
+
+ MOCA                                         23.00 (21.00, 25.00)                 23.00 (20.00, 25.00)                        −0.477                             0.634
+
+ ADAS_11                                       9.00 (6.45, 12.00)                   9.00 (6.00, 13.05)                          0.196                             0.845
+
+ ADAS_13                                      15.00 (11.00, 20.00)                 16.00 (10.95, 21.05)                         0.734                             0.463
+
+ CDR                                            0.50 (0.50, 0.50)                    0.50 (0.50, 0.50)                         −0.203                             0.839
+
+ FAQ                                            2.00 (0.00, 5.00)                    2.00 (0.00, 8.00)                          0.502                             0.616
+
+ GDSCALE                                        2.00 (1.00, 2.00)                    1.00 (1.00, 3.00)                          0.524                              0.6
+
+ MMSE                                         28.00 (27.00, 29.00)                 28.00 (26.95, 30.00)                         0.276                             0.783
+
+ RAVLT_immediate_bl                           34.00 (28.00, 41.00)                 33.50 (26.00, 41.05)                        −0.259                             0.795
+
+ RAVLT_learning_bl                              4.00 (2.00, 6.00)                    4.00 (3.00, 6.00)                           0.78                             0.436
+
+ RAVLT_forgetting_bl                            5.00 (3.00, 6.55)                    5.00 (4.00, 7.05)                          0.906                             0.365
+
+ RAVLT_perc_forgetting_bl                     65.16 (38.00, 90.15)                75.00 (36.36, 100.00)                         1.012                             0.312
+
+ Category_Fluency_Animals.                        17.40 ± 4.78                         16.96 ± 5.47                            −0.519                             0.604
+
+ WM volume                                     4.88 (2.02, 13.28)                   4.47 (1.61, 11.39)                         −0.558                             0.577
+
+ Fazekas                                     −0.27 (−0.27, −0.27)                 −0.27 (−0.27, −0.27)                         −0.678                             0.498
+
+ Radscore                                     −0.13 (−0.84, 0.89)                  −0.09 (−0.88, 0.82)                         −0.007                             0.994
+
+MCI, mild cognitive impairment; BMI, body mass index; ADAS, Alzheimer’s Disease Assessment Scale; CDR, Clinical Dementia Rating; FAQ, Functional Assessment Questionnaire;
+GDSCALE, Geriatric Depression Scale; MMSE, Mini-Mental State Examination; RAVLT, Rey Auditory-Verbal Learning Test; WM, white matter.
+
+
+
+TABLE 2 Performance of the different models.
+
+                                                                 Training set                                                           Test set
+ Models                                     C-index                 Lower              Upper                   C-index                    Lower                   Upper
+ Network                                       0.834                 0.776               0.892                    0.765                     0.672                   0.857
+
+ Morphology                                    0.926                 0.896               0.957                    0.784                     0.672                   0.896
+
+ Morphology-Clinical                           0.949                 0.921               0.978                    0.877                     0.808                   0.945
+
+ Network-Clinical                              0.915                 0.888               0.943                    0.849                     0.783                   0.915
+
+ Network-Morphology                            0.928                 0.898               0.958                    0.844                     0.756                   0.932
+
+ Network-Morphology-Clinical                   0.951                 0.928               0.974                    0.880                     0.817                   0.943
+
+
+
+group, the average age was 71.47 ± 7.82 years, with an average BMI of                        morphology-network-clinical models were 0.834, 0.926, 0.915, 0.949,
+27.48 ± 4.79 and an average of 15.86 ± 2.63 years of education. There                        0.928, and 0.951, respectively. The C-indexes of those models in the
+was no significant difference in demographic data between the two                            validation group were 0.765, 0.784, 0.849, 0.877, 0.884 and 0.880,
+groups (p > 0.05, Table 1).                                                                  respectively. The morphology-network-clinical model performed the
+                                                                                             best (Table 2). The morphology-network-clinical model-based
+                                                                                             Kaplan–Meier (KM) survival curve is presented in Figure 3. The
+3.2 Model establishment and verification                                                     median value used for stratification of risks was 3.341331, which was
+                                                                                             the cutoff value of the morphology-network-clinical model. A
+   In the training group, the C-indexes of the network, morphology,                          substantial difference in time to progression (TTP) was observed
+network-clinical, morphology-clinical, morphology-network and                                between the low-risk and high-risk groups.
+
+
+Frontiers in Neurology                                                                  05                                                                        frontiersin.org
+Zeng et al.                                                                                                                    10.3389/fneur.2025.1552940
+
+
+
+
+    FIGURE 3
+    Network-morphology-clinical model-based KM analysis of the prediction with median cutoff values. (A) Training cohort; (B) validation cohort.
+    Significant variations were observed between the low-risk and high-risk groups (log-rank test, p < 0.05).
+
+
+
+
+Frontiers in Neurology                                                       06                                                               frontiersin.org
+Zeng et al.                                                                                                                 10.3389/fneur.2025.1552940
+
+
+
+
+    FIGURE 4
+    AD occurrence was estimated using the nomogram, and the model calibration was evaluated (A). Calibration plot for the nomogram using the training
+    and validation sets (B,C).
+
+
+
+
+3.3 Multi-predictor nomogram                                                    C-index of 0.951 in the training group and 0.880 in the validation
+construction and validation                                                     group, which could be regarded as an accurate predictive method to
+                                                                                estimate the likelihood of progression in patients with MCI within a
+    A multi-predictor nomogram based on a morphology-network-                   specific time frame. This method was simple and noninvasive;
+clinical model was created for the purpose of individual AD                     moreover, it did not require the use of radiation, which is of great
+prediction. This nomogram included 3 predictors: the Montreal                   significance in clinical practice, as radiation presents risks. Most
+Cognitive Assessment (MoCA) score, Functional Assessment                        previous studies on MCI to AD conversion only focused on the large-
+Questionnaire (FAQ) score, and rad-score (Figure 4A). The calibration           scale indicators of the hippocampus and temporal cortex (9–11, 24).
+curves showed that the 1-, 3-, and 5-year predictions made by the               For example, a deep learning algorithm with a C-index of 0.864 has
+multi-predictor nomogram and the real outcomes were in good                     been created to predict the early occurrence of AD based on
+agreement (Figures 4B,C).                                                       hippocampal MRI (7). According to the thickness of the middle
+                                                                                temporal cortex and the volume of the hippocampus, a model has
+                                                                                been established to predict the 3-year conversion rate with a C-index
+4 Discussion                                                                    of 0.78 (9). Compared with these studies, our model comprehensively
+                                                                                analyzed the microscopic changes in the entire cerebral cortex and
+    In this study, by combining cortical morphology and network                 network for the first time and obtained higher accuracy and
+features, we obtained six models for AD prediction, and all                     objectivity. On the other hand, our study only used T1WI sequences,
+demonstrated good prognostic capability. The combined morphology-               which greatly simplified the prediction parameters and greatly
+network-clinical model presented the best performance, with a                   improved the clinical simplicity.
+
+Frontiers in Neurology                                                     07                                                              frontiersin.org
+Zeng et al.                                                                                                                      10.3389/fneur.2025.1552940
+
+
+
+
+     In the model with the best performance, 37 features of the                    multi-predictor nomogram, which could accurately predict the
+morphology and network (9 from the network and 28 from the                         early occurrence of Alzheimer’s disease. According to the median
+morphology) were retained for AD prediction. Among the 9                           output of the joint model, MCI patients could be divided into
+features of the network, 4 were betweenness, 3 were degree, and 2                  stable and progressive subgroups, which would help identify
+were node efficiency. Betweenness can characterize the effect of                   high-risk individuals and enable them to receive timely treatment.
+nodes on information flow. Degree reflected the ability of node                    There were several limitations in our study. First, being derived
+information communication, whereas node efficiency measured the                    from a multicenter cohort, the ADNI database contains data from
+ability to disseminate information between two nodes. Overall,                     many hospitals in the United States and Canada, and heterogeneity
+these properties could reflect the ability of the brain to transmit and            between scanners was inevitable. Second, our research lacked
+integrate information that was closely related to the composition of               independent external validation. Third, this study did not analyze
+cognitive processes (25). Previous studies have found that these                   dynamic follow-up data. Finally, we used a normalization method
+parameters were damaged in AD patients, which could reflect the                    for anatomical templates, as in other experiments, to ensure that
+neuropathological state (26). Most of these features were located in               the network size was consistent across different populations. This
+the limbic areas (the left insula, left putamen, right amygdala, and               process might have template-dependent effects. Further research
+left hippocampus), right supplementary motor area, right pallidum,                 should overcome these limitations and use larger samples to
+right calcarine, left pars orbitalis, and right dorsolateral superior              examine the relationship between the dynamic changes and the
+frontal gyrus. These regions were involved in the default-mode                     occurrence of AD.
+network, the executive control network and the salience network.
+All these areas were considered strongly linked with human
+situational memory, self-projection, and cognitive management                      Data availability statement
+(27–30). The DMN was the first to be identified to be affected in AD
+(27). Connectivity disruption in the DMN at the early stages of                        Publicly available datasets were analyzed in this study. This data
+illness was thought to be associated with early molecular pathology                can be found here: adni.loni.usc.edu.
+in AD, which evolved before the clinical onset of dementia (31).
+Similarly, network alterations of the SN and ECN in AD patients
+were also reported, which could be a sensitive neuroimaging                        Ethics statement
+biomarker for AD (30, 32).
+     In addition to network features, 28 morphological features were                   Ethical approval was not required for the study involving humans in
+also retained. Among them, 12 features belonged to cortical                        accordance with the local legislation and institutional requirements.
+thickness, 13 features belonged to cortical curvature, and 3 features              Written informed consent to participate in this study was not required from
+belonged to subcortical volume. These cortical features were of great              the participants or the participants’ legal guardians/next of kin in
+significance in characterizing cortical atrophy and brain morphology               accordance with the national legislation and the institutional requirements.
+changes. In previous studies, the decrease in gray matter volume,
+mean curvature and cortex thickness due to the loss of neurons and
+synapses in the cortex and specific subcortical areas has been proven              Author contributions
+to be closely related to the conversion of MCI to AD (33–35).
+Moreover, we observed 28 features that were mostly located in the                      RZ: Investigation, Writing – original draft. BY: Data curation, Writing –
+insular, frontal and temporal cortex, regions that play crucial roles in           original draft. FW: Data curation, Writing – original draft. HL:
+memory and cognition (36–38). Atrophy of these neurons was linked                  Methodology, Validation, Writing – original draft. XWu: Data curation,
+to the emergence of neuropsychiatric impairments in patients                       Writing – original draft. LT: Data curation, Writing – original draft. RS:
+suffering from AD (38–41). In our previous studies (42), we reported               Data curation, Writing – original draft. QZ: Data curation, Writing –
+that the characteristics of these brain regions are helpful in reflecting          original draft. XWa: Resources, Writing – review & editing. DG:
+disease progress.                                                                  Conceptualization, Funding acquisition, Writing – review & editing.
+     In this study, we established a nomogram for early AD prediction,
+which could help doctors make personalized treatment decisions in
+clinical practice. Compared with previous research (42), our                       Funding
+nomogram had higher accuracy and simpler features. In the calibration
+curves, the estimates showed good coherence with clinical outcomes                     The author(s) declare financial support was received for the research
+that actually occurred. Most previous studies have tracked MCI                     and/or publication of this article. This work was supported by the
+patients for 1 to 3 years (9–11, 34, 43). All individuals in our study were        Chongqing Medical Scientific Research Project (2022ZDXM026).
+followed up for 5 years, which brought our model closer to the real
+situation. In this study, the median of the model could correctly classify
+individual patients into high-risk and low-risk categories. In the high-           Conflict of interest
+risk group, over 75% of the MCI population developed AD within
+5 years. This risk stratification has considerable value for the early                 HL was employed by company GE Healthcare.
+clinical detection and timely treatment of high-risk MCI patients.                     The remaining authors declare that the research was conducted in
+     In this study, we utilized artificial intelligence and cortical               the absence of any commercial or financial relationships that could
+features on T1WI sequences to establish a radiomics model and                      be construed as a potential conflict of interest.
+
+
+Frontiers in Neurology                                                        08                                                                 frontiersin.org
+Zeng et al.                                                                                                                                              10.3389/fneur.2025.1552940
+
+
+
+
+Generative AI statement                                                                            or those of the publisher, the editors and the reviewers. Any product
+                                                                                                   that may be evaluated in this article, or claim that may be made by its
+     The authors declare that no Gen AI was used in the creation of                                manufacturer, is not guaranteed or endorsed by the publisher.
+this manuscript.
+
+                                                                                                   Supplementary material
+Publisher’s note
+                                                                                                        The Supplementary material for this article can be found online
+    All claims expressed in this article are solely those of the authors                           at: https://www.frontiersin.org/articles/10.3389/fneur.2025.1552940/
+and do not necessarily represent those of their affiliated organizations,                          full#supplementary-material
+
+
+
+References
+ 1. Alzheimer's Association. 2016 Alzheimer's disease facts and figures. Alzheimers                  18. Wang J, Wang X, Xia M, Liao X, Evans A, He Y. Corrigendum: GRETNA: a graph
+Dement. (2016) 12:459–509. doi: 10.1016/j.jalz.2016.03.001                                         theoretical network analysis toolbox for imaging connectomics. Front Hum Neurosci.
+                                                                                                   (2015) 9:458. doi: 10.3389/fnhum.2015.00458
+  2. Dubois B, Hampel H, Feldman HH, Scheltens P, Aisen P, Andrieu S, et al. Preclinical
+Alzheimer's disease: definition, natural history, and diagnostic criteria. Alzheimers                19. Watts DJ, Strogatz SH. Collective dynamics of 'small-world' networks. Nature.
+Dement. (2016) 12:292–323. doi: 10.1016/j.jalz.2016.02.002                                         (1998) 393:440–2. doi: 10.1038/30918
+  3. Crous-Bou M, Minguillon C, Gramunt N, Molinuevo JL. Alzheimer's disease                         20. Latora V, Marchiori M. Efficient behavior of small-world networks. Phys Rev Lett.
+prevention: from risk factors to early intervention. Alzheimers Res Ther. (2017) 9:71. doi:        (2001) 87:198701. doi: 10.1103/PhysRevLett.87.198701
+10.1186/s13195-017-0297-z                                                                            21. Aerts HJ, Velazquez ER, Leijenaar RT, Parmar C, Grossmann P, Carvalho S, et al.
+  4. Ngandu T, Lehtisalo J, Solomon A, Levalahti E, Ahtiluoto S, Antikainen R, et al. A            Decoding tumour phenotype by noninvasive imaging using a quantitative radiomics
+2 year multidomain intervention of diet, exercise, cognitive training, and vascular risk           approach. Nat Commun. (2014) 5:4006. doi: 10.1038/ncomms5006
+monitoring versus control to prevent cognitive decline in at-risk elderly people                     22. Huynh E, Coroller TP, Narayan V, Agrawal V, Hou Y, Romano J, et al. CT-based
+(FINGER): a randomised controlled trial. Lancet. (2015) 385:2255–63. doi: 10.1016/                 radiomic analysis of stereotactic body radiation therapy patients with lung cancer.
+S0140-6736(15)60461-5                                                                              Radiother Oncol. (2016) 120:258–66. doi: 10.1016/j.radonc.2016.05.024
+  5. Querbes O, Aubry F, Pariente J, Lotterie JA, Demonet JF, Duret V, et al. Early                  23. Destrieux C, Fischl B, Dale A, Halgren E. Automatic parcellation of human cortical
+diagnosis of Alzheimer's disease using cortical thickness: impact of cognitive reserve.            gyri and sulci using standard anatomical nomenclature. NeuroImage. (2010) 53:1–15.
+Brain. (2009) 132:2036–47. doi: 10.1093/brain/awp105                                               doi: 10.1016/j.neuroimage.2010.06.010
+  6. Gomez-Sancho M, Tohka J, Gomez-Verdejo VAlzheimer's Disease Neuroimaging                        24. Feng F, Wang P, Zhao K, Zhou B, Yao H, Meng Q, et al. Radiomic features of
+Initiative. Comparison of feature representations in MRI-based MCI-to-AD conversion                hippocampal subregions in Alzheimer's Disease and amnestic mild cognitive
+prediction. Magn Reson Imaging. (2018) 50:84–95. doi: 10.1016/j.mri.2018.03.003                    impairment. Front Aging Neurosci. (2018) 10:290. doi: 10.3389/fnagi.2018.00290
+  7. Li H, Habes M, Wolk DA, Fan Y, Alzheimer's Disease Neuroimaging Initiativethe                    25. Sporns O, Chialvo D, Kaiser M, Hilgetag C. Organization, development and
+Australian Imaging Biomarkerset al. A deep learning model for early prediction of                  function of complex brain networks. Trends Cogn Sci. (2004) 8:418–25. doi: 10.1016/
+Alzheimer's disease dementia based on hippocampal magnetic resonance imaging data.                 j.tics.2004.07.008
+Alzheimers Dement. (2019) 15:1059–70. doi: 10.1016/j.jalz.2019.02.007
+                                                                                                      26. He Y, Chen Z, Evans A. Structural insights into aberrant topological patterns of
+  8. Vos S, van Rossum I, Burns L, Knol D, Scheltens P, Soininen H, et al. Test sequence           large-scale cortical networks in Alzheimer's disease. J Neurosci. (2008) 28:4756–66. doi:
+of CSF and MRI biomarkers for prediction of AD in subjects with MCI. Neurobiol Aging.              10.1523/JNEUROSCI.0141-08.2008
+(2012) 33:2272–81. doi: 10.1016/j.neurobiolaging.2011.12.017
+                                                                                                     27. Greicius MD, Srivastava G, Reiss AL, Menon V. Default-mode network activity
+   9. Barnes DE, Cenzer IS, Yaffe K, Ritchie CS, Lee SJAlzheimer's Disease Neuroimaging            distinguishes Alzheimer's disease from healthy aging: evidence from functional MRI.
+I. A point-based tool to predict conversion from mild cognitive impairment to probable             Proc Natl Acad Sci USA. (2004) 101:4637–42. doi: 10.1073/pnas.0308627101
+Alzheimer's disease. Alzheimers Dement. (2014) 10:646–55. doi: 10.1016/j.jalz.
+2013.12.014                                                                                          28. Cole MW, Pathak S, Schneider W. Identifying the brain's most globally connected
+                                                                                                   regions. NeuroImage. (2010) 49:3132–48. doi: 10.1016/j.neuroimage.2009.11.001
+  10. Dickerson BC, Wolk DAAlzheimer's Disease Neuroimaging I. Biomarker-based
+prediction of progression in MCI: comparison of AD signature and hippocampal                         29. Menon V, Uddin LQ. Saliency, switching, attention and control: a network model of
+volume with spinal fluid amyloid-beta and tau. Front Aging Neurosci. (2013) 5:55. doi:             insula function. Brain Struct Funct. (2010) 214:655–67. doi: 10.1007/s00429-010-0262-0
+10.3389/fnagi.2013.00055                                                                             30. Menon V. Large-scale brain networks and psychopathology: a unifying triple
+  11. Li K, O'Brien R, Lutz M, Luo S. Alzheimer's Disease Neuroimaging I. A prognostic             network model. Trends Cogn Sci. (2011) 15:483–506. doi: 10.1016/j.tics.2011.08.003
+model of Alzheimer's disease relying on multiple longitudinal measures and time-to-                  31. Drzezga A, Becker JA, Van Dijk KR, Sreenivasan A, Talukdar T, Sullivan C, et al.
+event data. Alzheimers Dement. (2018) 14:644–51. doi: 10.1016/j.jalz.2017.11.004                   Neuronal dysfunction and disconnection of cortical hubs in non-demented subjects
+  12. Yang C, Ren J, Li W, Lu M, Wu S, Chu T. Individual-level morphological                       with elevated amyloid burden. Brain. (2011) 134:1635–46. doi: 10.1093/brain/awr066
+hippocampal networks in patients with Alzheimer's disease. Brain Cogn. (2021)                        32. Liao ZL, Tan YF, Qiu YJ, Zhu JP, Chen Y, Lin SS, et al. Interhemispheric functional
+151:105748. doi: 10.1016/j.bandc.2021.105748                                                       connectivity for Alzheimer's disease and amnestic mild cognitive impairment based on
+  13. Tijms BM, Series P, Willshaw DJ, Lawrie SM. Similarity-based extraction of                   the triple network model. J Zhejiang Univ Sci B. (2018) 19:924–34. doi: 10.1631/
+individual networks from gray matter MRI scans. Cereb Cortex. (2012) 22:1530–41. doi:              jzus.B1800381
+10.1093/cercor/bhr221                                                                                33. Guo S, Lai C, Wu C, Cen G. Alzheimer's Disease Neuroimaging I. Conversion
+  14. Tijms BM, Ten Kate M, Gouw AA, Borta A, Verfaillie S, Teunissen CE, et al. Gray              discriminative analysis on mild cognitive impairment using multiple cortical features
+matter networks and clinical progression in subjects with predementia Alzheimer's                  from MR images. Front Aging Neurosci. (2017) 9:146. doi: 10.3389/fnagi.2017.00146
+disease. Neurobiol Aging. (2018) 61:75–81. doi: 10.1016/j.neurobiolaging.2017.09.011                 34. Li S, Okonkwo O, Albert M, Wang MC. Variation in variables that predict
+                                                                                                   Progression from MCI to AD dementia over duration of follow-up. Am J Alzheimers Dis
+  15. Yang B, Zhang W, Lencer R, Tao B, Tang B, Yang J, et al. Grey matter connectome
+                                                                                                   (Columbia). (2013) 2:12–28. doi: 10.7726/ajad.2013.1002
+abnormalities and age-related effects in antipsychotic-naive schizophrenia.
+EBioMedicine. (2021) 74:103749. doi: 10.1016/j.ebiom.2021.103749                                     35. Dickerson BC, Wolk DA. Alzheimer's Disease Neuroimaging I. MRI cortical
+                                                                                                   thickness biomarker predicts AD-like CSF and cognitive decline in normal adults.
+  16. Tijms BM, Yeung HM, Sikkes SA, Moller C, Smits LL, Stam CJ, et al. Single-subject
+                                                                                                   Neurology. (2012) 78:84–90. doi: 10.1212/WNL.0b013e31823efc6c
+gray matter graph properties and their relationship with cognitive impairment in early-
+and late-onset Alzheimer's disease. Brain Connect. (2014) 4:337–46. doi: 10.1089/brain.              36. Michalon S, Serveaux JP, Allain P. Frontal functions and activities of daily living
+2013.0209                                                                                          in Alzheimer's disease. Geriatr Psychol Neuropsychiatr Vieil. (2018) 16:321–8. doi:
+                                                                                                   10.1684/pnv.2018.0749
+   17. Batalle D, Munoz-Moreno E, Figueras F, Bargallo N, Eixarch E, Gratacos E.
+Normalization of similarity-based individual brain networks from gray matter MRI and                 37. Uddin LQ, Nomi JS, Hebert-Seropian B, Ghaziri J, Boucher O. Structure and
+its association with neurodevelopment in infants with intrauterine growth restriction.             function of the human insula. J Clin Neurophysiol. (2017) 34:300–6. doi: 10.1097/WNP.
+NeuroImage. (2013) 83:901–11. doi: 10.1016/j.neuroimage.2013.07.045                                0000000000000377
+
+
+
+
+Frontiers in Neurology                                                                        09                                                                          frontiersin.org
+Zeng et al.                                                                                                                                         10.3389/fneur.2025.1552940
+
+
+
+
+  38. Geroldi C, Rossi R, Calvagna C, Testa C, Bresciani L, Binetti G, et al. Medial             41. Shany-Ur T, Lin N, Rosen HJ, Sollberger M, Miller BL, Rankin KP.
+temporal atrophy but not memory deficit predicts progression to dementia in patients           Self-awareness in neurodegenerative disease relies on neural structures
+with mild cognitive impairment. J Neurol Neurosurg Psychiatry. (2006) 77:1219–22. doi:         mediating reward-driven attention. Brain. (2014) 137:2368–81. doi: 10.1093/brain/
+10.1136/jnnp.2005.082651                                                                       awu161
+  39. Rabin LA, Saykin AJ, West JD, Borgos MJ, Wishart HA, Nutter-Upham KE, et al.               42. Tang L, Wu X, Liu H, Wu F, Song R, Zhang W, et al. Individualized prediction of
+Judgment in older adults with Normal cognition, cognitive complaints, MCI, and mild            early Alzheimer's Disease based on magnetic resonance imaging Radiomics, clinical,
+AD: relation to regional frontal gray matter. Brain Imaging Behav. (2009) 3:212–9. doi:        and laboratory examinations: a 60-month follow-up study. J Magn Reson Imaging. (2021)
+10.1007/s11682-009-9063-6                                                                      54:1647–57. doi: 10.1002/jmri.27689
+  40. Rosenberg PB, Nowrangi MA, Lyketsos CG. Neuropsychiatric symptoms in                       43. Kong D, Giovanello KS, Wang Y, Lin W, Lee E, Fan Y, et al. Predicting Alzheimer's
+Alzheimer's disease: what might be associated brain circuits? Mol Asp Med. (2015)              Disease using combined imaging-whole genome SNP data. J Alzheimers Dis. (2015)
+43-44:25–37. doi: 10.1016/j.mam.2015.05.005                                                    46:695–702. doi: 10.3233/JAD-150164
+
+
+
+
+Frontiers in Neurology                                                                    10                                                                         frontiersin.org
+

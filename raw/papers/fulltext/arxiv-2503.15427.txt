@@ -1,0 +1,895 @@
+                                           Direct comparison of stochastic-driven nonlinear dynamical systems for combinatorial
+                                                                               optimization
+
+                                                                      Junpeng Hou,1, ∗ Amin Barzegar,2 and Helmut G. Katzgraber3, †
+                                                                               1
+                                                                               Pinterest Inc., San Francisco, California 94103, USA
+                                                                        2
+                                                                         Microsoft Quantum, Microsoft, Redmond, Washington 98052, USA
+                                                                        3
+                                                                          Amazon Advanced Solutions Lab, Seattle, Washington 98170, USA
+                                                            Combinatorial optimization problems are ubiquitous in industrial applications. However, finding
+                                                         optimal or close-to-optimal solutions can often be extremely hard. Because some of these problems
+                                                         can be mapped to the ground-state search of the Ising model, tremendous effort has been devoted to
+                                                         developing solvers for Ising-type problems over the past decades. Recent advances in controlling and
+                                                         manipulating both quantum and classical systems have enabled novel computing paradigms such
+                                                         as quantum simulators and coherent Ising machines to tackle hard optimization problems. Here,
+                                                         we examine and benchmark several physics-inspired optimization algorithms, including coherent
+                                                         Ising machines, gain-dissipative algorithms, simulated bifurcation machines, and Hopfield neural
+                                                         networks, which we collectively refer to as stochastic-driven nonlinear dynamical systems. Most
+                                                         importantly, we benchmark these algorithms against random Ising problems with planted solutions
+arXiv:2503.15427v3 [quant-ph] 2 Sep 2025
+
+
+
+
+                                                         and compare them to simulated annealing as a baseline leveraging the same software stack for all
+                                                         solvers. We further study how different numerical integration techniques and graph connectivity
+                                                         affect performance. This work provides an overview of a diverse set of new optimization paradigms.
+
+
+                                                             I.   INTRODUCTION                               fectively. The energy landscape of many combinatorial
+                                                                                                             optimization problems is generally rather rough with ex-
+                                              The ever-growing need for computing has surged over            ponentially many metastable states [12]. Therefore, the
+                                           the past few decades as we are facing unprecedentedly             resources required by heuristics to reach the low-lying
+                                           complex problems in modern society, industry, and sci-            states scale nonpolynomially with the problem size.
+                                           ence. Among them, combinatorial optimization problems                More recently, various new computing paradigms have
+                                           stand out for being notoriously difficult to solve as a re-       been proposed and realized in different physical systems
+                                           sult of the so-called combinatorial explosion [1], meaning        to more effectively traverse energy landscapes by allowing
+                                           that their solution space grows exponentially with in-            the original binary variable σl = ±1 to relax to a con-
+                                           creasing number of variables. Consequently, many com-             tinuous variable of either real xl ∈ R or complex Ψl ∈ C
+                                           binatorial optimization problems are known to be nonde-           type. In these algorithms, optimization is achieved by
+                                           terministic polynomial (NP)-hard or NP-complete. Nat-             mapping local minima to fixed points through bifurca-
+                                           urally, these problems have attracted considerable atten-         tion processes which are usually created by tuning a
+                                           tion from various fields such as computational science [2]        set of gain/dissipative strengths (or equivalently, proper
+                                           and operations research [3].                                      driven effects) in the system [26]. Throughout this
+                                              From a physical perspective, it is known that many             work, we refer to these physical systems as stochastic-
+                                           combinatorial optimization problems can be mapped to              driven nonlinear dynamical systems (SDNDSs), because
+                                           the problem of finding the ground states of the Ising             the name highlights their three common key features,
+                                           model, and such mapping can be achieved using poly-               namely, stochastic noise terms, driven or gain/dissipative
+                                           nomial resources [4]. Note, however, that the overhead            effects, and nonlinearity.
+                                           can be sizable in some cases. Several examples, such as              In fact, similar ideas can be traced back to early work
+                                           the mapping for the traveling salesperson problem, the            on Hopfield neural networks in which the continuous vari-
+                                           knapsack problem, or maximum independent set prob-                able of each neuron is mapped to a binary variable via an
+                                           lem can be found in Ref. [5]. Moreover, the binary vari-          activation function [27]. It has also been shown that re-
+                                           ables σl = ±1 can be modeled through a plethora of                ducing the gain or the steepness of the activation function
+                                           physical systems including classical and quantum spins            could lead to an exponential decrease in the number of
+                                           [6–12], optical fields [13–17], solid-state circuits [18–23],     local minima, and therefore, improve the solution quality
+                                           and nonequilibrium condensates [24, 25]. These algo-              [28–30]. Despite early skepticism [31], more recent stud-
+                                           rithms are heuristics that start from a random initial            ies have argued that such algorithms might outperform
+                                           state. The probability to find the ground state (or the           state-of-the-art heuristics or perform equally well at the
+                                           lowest-energy state) depends highly on whether or not             very least [12, 32].
+                                           the system’s dynamics can escape from local minima ef-               To address this outstanding debate and to gain a
+                                                                                                             more comprehensive understanding of SDNDSs, in this
+                                                                                                             work we examine some representative systems and al-
+                                                                                                             gorithms using the same code base, including coherent
+                                           ∗ The work was performed when J. H. was an intern at Microsoft.   Ising machines (CIMs), gain-dissipative (GD) platforms,
+                                           † The work of H. G. K. was performed before joining Amazon.       oscillator-based Ising machines (OIM), simulated bifurca-
+                                                                                                                             2
+
+                                                                    chines and gain-dissipative methods, we also discuss the
+TABLE I: List of different stochastic-driven nonlinear dynam-
+                                                                    Hopfield neural network, which is intrinsically a nonlinear
+ical systems studied in this work. The artificial spin is denoted
+by either xl (real field) or Ψl (complex field). Other common       dynamical system. For the convenience of the reader, we
+parameters include the pumping/driving strength α, global           have summarized all the SDNDSs studied here in Table I.
+Ising coupling β, and the nonlinear activation function ϕ(•).       Throughout this work, we adopt a consistent notation for
+For other model-specific parameters, please refer to the rele-      the corresponding EoMs.
+vant subsections in Sec. II.                                           All the SDNDSs are designed to optimize Ising-
+Algorithm Equations of motion                                       like Hamiltonians (which are related to quadratic-
+                                                                    unconstrained binary optimization problems) given by
+                                                                    the following Hamiltonian:
+OPO-CIM ẋl = αxl − 23 x3l + β Jlm xm + gl
+                              P
+                              m
+                                                                                       1X
+                                                                                                    X
+                                                                                H=−       Jlm σl σm −
+                                P
+Sim-CIM xl ← ϕ (α + 1)xl + β Jlm xm + gl                                                                hl σl .            (1)
+                                          m                                            2
+                                                                                         l,m              l
+OEO-CIM xl ← cos2 (αxl + β            Jlm xm − π4 ) + gl − 21
+                                  P
+                                  m
+                                                                    Here, the spin-spin interaction matrix J is self-adjoint,
+                                                                               ∗
+                                      P
+   OIM      ẋl = −α sin(2xl ) − β        Jlm sin(xl − xm ) + gl    namely, Jlm   = Jml (because Hamiltonian dynamics are
+                                      m
+                                                                    hermitian) and hl is a real onsite magnetic field. For
+ Hopfield ẋl = −αxl + β
+                            P
+                                 Jlm ϕ (xm ) + gl                   practical purposes, we assume that the interaction matrix
+                             m                                      is real and therefore symmetric. Moreover, without loss
+            
+              Ψ̇l = Ψl αl − αc0 − |Ψl |2
+                                                                   of generality, we consider only the Ising model with no
+                                                                    magnetic field, i.e. hl = 0, because an N -spin Ising model
+            
+            
+                                         2
+                                            hql Ψ∗l + gl ,
+                     P                 P
+                    + βlm Klm Ψm +
+            
+                                                                   with a magnetic field can be mapped to an (N + 1)-spin
+    GD                 m                q=1
+            
+             α̇l = ϵ ρth − |Ψl |2 ,
+                                                                   Ising model without one using polynomial resources [36].
+            
+            
+            
+              K̇lm = ϵ′ (Jlm − βlm Klm )
+            
+
+            
+            ẋl = ∆yl ,                                               A.   Coherent Ising machine and its variations
+   SBM
+            ẏl = − Kx2l − α(t) + ∆ xl + β Jlm xm
+                                          P
+                                                     m
+                                                                       Physical Ising machines usually suffers from a limited
+                                                                    number of artificial spins when operating in the quan-
+                                                                    tum regime. However, a classical system like an optical
+tion machines (SBM), as well as classical Hopfield neural           platform has been used to demonstrate the so-called co-
+networks. We benchmark these algorithms using Ising                 herent Ising machine (CIM), which can tackle optimiza-
+problems with planted solutions and compare their per-              tion problems with thousands of nodes [37]. The CIM
+formances to that of simulated annealing (SA) [6], which            architecture is primarily based on an optical parametric
+is currently a popular and efficient heuristic for binary           oscillator (OPO) consisting of a fiber loop and a degener-
+combinatorial optimization problems [33].                           ate parametric amplifier or a single-mode squeezer. The
+   Furthermore, we conduct a range of experiments to                OPO is pumped above its oscillation threshold, hence
+deeper investigate the performance of these heuristics.             exciting the pulse modes circulating inside. Thanks to
+First, because the dynamical systems studied here are               the phase sensitivity of the optical squeezer, the phases
+simulated by numerically solving the associated equa-               of these modes tend to become locked at either 0 or π,
+tions of motion (EoM) which are usually ordinary dif-               giving rise to a binary constraint.
+ferential equations (ODEs), we study how using differ-                 CIMs can be regarded as optical neural networks op-
+ent numerical integration methods—e.g., Runge–Kutta                 erating in the quantum limit, yet at room tempera-
+(RK)—affect performance. To better understand how                   ture. Consequently, CIMs may outperform some clas-
+graph connectivity affects performance, we systemat-                sical heuristics like SA [38] for some quadratic binary
+ically dilute a fully-connected Sherrington-Kirkpatrick             optimization problems. CIMs have been benchmarked
+model [34] to a Viana-Bray model [35]. To this end, we              against the D-Wave quantum annealer [39], as well
+compare the performance of SA against the SBM.                      as classical neural networks [40]. In both cases, the
+                                                                    CIM showed better performance although the merits are
+                                                                    highly problem-dependent.
+     II.   OVERVIEW OF PHYSICAL MODELS                                 Given the success of the bare-bones OPO-CIM, many
+                                                                    different optical Ising machines have been proposed. For
+   In this section, we give a brief overview of the SDNDSs          example, a recent work utilizes spatial light modulation
+studied. We present the underlying physics of these algo-           such that the setup can be scaled up more easily [17]. In
+rithms and make comparisons between them. Besides the               this paper, we focus on the following two variants of the
+recently proposed SDNDSs, such as different Ising ma-               OPO-CIM model.
+                                                                                                                           3
+
+            1.   Simulated coherent Ising machine                 where the feedback term fl is similar to that of the CIM
+                                                                  or Sim-CIM
+   The simulated CIM or Sim-CIM was proposed as a
+                                                                                               X
+                                                                                 fl = αxl + β      Jlm xm .             (6)
+variant of the CIM that suits fast simulations [41]. In                                                  m
+the Sim-CIM,√ each pulse inside the OPO is written as
+(xl + ipl )/ 2 in canonical coordinates. By deriving the          In this dynamical system, a rather unique activation
+per-round change of each pulse and ignoring nonlinear             function, i.e., cos2 (•) appears. This is justified by the
+losses, the real part of the EoM reads                            Taylor expansion near xl = 0 because the spin amplitude
+                                                                  is small when the system is driven to the laser threshold
+                              X                                   (α ≈ 1) where CIMs have their optimal performance [32].
+              ∆xl = αxl + β     Jlm xm + gl ,        (2)
+                                                                  Assuming that the pumping term P    is dominant over the
+                               m
+                                                                  Ising potential, namely, αxl ≫ β m Jlm xm and trun-
+where α denotes the linear pumping or gain strength, β            cating the corresponding Taylor series at the third or-
+is the global Ising coupling strength and gl represents a         der, we can easily recover the equations of motion of the
+site-dependent noise term. We note that the three terms           OPO-CIM from those of the OEO-CIM (see Table I).
+on the right-hand side of Eq. (2) play important roles in a       The Sim-CIM is also similar to OEO-CIM except with a
+range of dynamical systems studied in this work. There-           different activation function.
+fore, the same notation is used for all SDNDSs through-
+out the paper. Note also that most of the parameters are
+time-dependent (except the Ising coupling Jlm ). How-                         B.    Gain-dissipative platforms
+ever, we omit this time dependence in our notation for
+better readability.                                                 The Gain-dissipative algorithms are inspired by the
+   Guided by the Hopfield method (see also Sec. II E), the        nonequilibrium dynamics of a polariton Bose-Einstein
+“spins” xl are updated via an activation function ϕ(•) to         condensate [25, 43]. While, in principle, the discussed
+account for saturation                                            CIM models (or the oscillator-based Ising machine to be
+                                                                  discussed in Sec. II C) can also be regarded as a gain-
+                     xl ← ϕ(xl + ∆xl ).                     (3)   dissipative system because of the pumping gain and/or
+                                                                  material loss in the optical systems, in this work, we use
+A recent study has shown that the choice of a nonlin-             the term “GD” to refer specifically to the algorithm stem-
+ear activation function can significantly affect the perfor-      ming from the non-equilibrium dynamics of an exciton-
+mance of Ising machines by influencing the homogeneity            polariton condensate.
+of their spins [42]. Here, we follow the original proposal          The Gross–Pitaevskii equation [44], which governs
+and use a hyperbolic tangent profile for the pumping term         the collective dynamics of the aforementioned polariton
+α and a discontinuous activation function of the form             Bose-Einstein condensate, reads
+                      (                                                                             X
+                        x       if |x| ≤ xsat                            Ψ̇l = Ψl αl − αc0 − |Ψl |2 +      βlm Klm Ψm
+              ϕ(x) =                          ,          (4)                                                 m
+                        xsat    otherwise,
+                                                                                  2
+                                                                                  X
+where xsat defines a hard-wall boundary and confines the                      +         hql Ψ∗l + gl ,                   (7)
+spins within the interval [−xsat , xsat ].                                        q=1
+
+                                                                  where Ψl , αl and αc0 represent the complex order param-
+                                                                  eter of the condensate and the particle injection and loss
+    2.   Optoelectronic oscillator coherent Ising machine         rates, respectively. Note that while αl is site dependent,
+                                                                  αc0 is uniform across all sites. For comparison, a uniform
+   Due to the phase sensitivity of the generation, inter-         αl and αc0 are similar to the parametric gain wα and lin-
+ference, and detection of coherent optical states, stable         ear loss γα in the Sim-CIM model, reparameterized as
+operations can be challenging in the OPO-CIM. To over-            α = w α − γα .
+come this shortcoming, a fully programmable CIM or the               The coefficients βlm Klm represent the coupling
+optoelectronic oscillator (OEO) CIM was proposed [42].            strength between Ψl and Ψm in which βlm arises from
+   The OEO design consists of both an optical and an              particle injection effects, whereas Klm is induced by other
+electrical pathway. The optical part feeds the output of          mechanisms like bare hopping or the laser-controlled cou-
+a laser diode to a Mach–Zehnder modulator, which is               pling [24]. Unlike the global Ising coupling β in other
+then passed to a photo diode. The electrical pathway              models, GD systems use a tunable local coupling strength
+creates feedback by sampling the photo voltage. Such              βlm instead (see Table I). Physically, a common choice
+an OEO feedback system is nonlinear in nature and the             for the coupling coefficients is βlm = αl + αm , where
+dynamics are described by:                                        the onsite injection rate αl is governed by the following
+                                                                  dynamics:
+                              π     1
+                 xl ← cos2 fl − + gl − ,                    (5)                       α̇l = ϵ ρth − |Ψl |2 .
+                                                                                                          
+                               4      2                                                                                   (8)
+                                                                                                                          4
+
+This ensures that the network can be synchronized to            network has local minima and, in general, the dynamical
+reach a uniform density distribution of ρth after some          system can converge to a fixed point that corresponds
+equilibration time. The constant ϵ controls how fast such       to a suboptimal solution. While a careful selection of
+synchronization will occur. Because the local Ising cou-        the noise strength |gl | can prevent the OIM from getting
+pling strength βlm can depend on the injection rates, the       trapped in local minima, optimized annealing schedules
+coupling Klm is controlled via                                  for all three parameters α, β, and gl are crucial to its
+                                                                overall performance [20].
+                K̇lm = ϵ′ (Jlm − βlm Klm ) ,             (9)       The OIM can be easily realized using LC oscillators as
+                                                                first demonstrated by Wang et al. [48] as a small network
+such that the Ising coupling Jlm is recovered at the fixed      of eight “spins” on a breadboard. An OIM consisting of
+points.                                                         up to 240 oscillators has also been built on printed circuit
+   Unlike the two CIM models discussed earlier, the GD          boards (PCBs) that supports programmable couplings
+platform is highly versatile, in the sense that it can be       [48]. Chou et al. [21] demonstrated a smaller prototype
+tuned to suit different types of optimization problems.         circuit of four nodes but with a cross-bar architecture,
+For example, if one sets hql = 0 in Eq. (7), the GD model       therefore offering additional advantages such as access
+can be used to optimize
+                  P        the XY Hamiltonian [45]. How-        to higher bit precision and better scalability to larger
+ever, if h2m > l̸=m |Jlm |, the phases will be fixed at         systems and denser graphs.
+0 or π, and therefore, a binary variable problem can be
+simulated. With other values of hql , the algorithm can
+fit a q-state clock model in which the phases are forced to              D.    Simulated bifurcation machine
+be 2πn/q, n ∈ Z [43]. The GD system’s adaptability can
+also be exploited in other nontrivial ways. For instance,          In addition to the oscillator networks we have pre-
+a recent work demonstrated a physics-inspired algorithm         sented so far, a different approach of applying adia-
+that solves higher-order polynomial binary optimization         batic optimization on Kerr-nonlinear parametric oscilla-
+problems without mapping them to a quadratic uncon-             tors (KPOs) has recently been proposed [49, 50]. Such
+strained binary form [46]. However, higher-order terms          system shares some similarities with CIMs, however it
+become more difficult to numerically integrate and might        is based on quantum mechanics. Without providing too
+lead to numerical instabilities. As another example, by         much mathematical details, we briefly explain how to
+breaking the U (1) symmetry of the order parameter into         tune the gain α and the global Ising coupling β in the
+Z3 , a ternary spin system can be introduced to tackle the      original KPO model. The parameter β should be set
+Max-3-SAT problem [47] natively.                                to a small value so that the vacuum ground states of
+                                                                the underlying physical system are preserved. In turn,
+                                                                α is adiabatically increased from zero to some large
+         C.   Oscillator-based Ising machines
+                                                                value—in comparison to the characteristic energy scale
+                                                                of the system—so that a cat state (an equal superposi-
+   More recently, a new way to engineer Ising machines          tion of two coherent states with opposite parities) can
+using a network of coupled self-sustaining nonlinear oscil-     be achieved in a single decoupled KPO. Eventually, each
+lators called OIM was proposed [20]. Unlike CIMs, the           KPO is pumped to a coherent state through quantum
+system can be experimentally realized by conventional           adiabatic bifurcation, yielding the ground-state solution
+CMOS electronics, making it more cost- and energy-              of the Ising problem. One advantage this system has
+efficient.                                                      over others is that both quadratic and quartic spin-spin
+   The OIM utilizes subharmonic injection locking               interactions can be implemented.
+(SHIL) to lock the oscillators at discrete phases. Specif-         The SBM is obtained from a mean-field treatment of
+ically, when a second-harmonic signal (a perturbation           the KPO system by writing the KPO annihilation opera-
+with double the natural frequency of a single oscillator)       tor as a complex expression xl + iyl . Thus, the EoM can
+is injected into every oscillator in the network, all the os-   be derived through the classical Hamiltonian formalism
+cillator phases will become binary under SHIL. The EoM          by separating real and imaginary parts, and then can be
+of this dynamical system is                                     further simplified as [51]
+                           X
+    ẋl = −α sin(2xl ) − β    Jlm sin(xl − xm ) + gl , (10)            ẋl = ∆yl ,                                      (11)
+                                                                                                        X
+                                                                       ẏl = − Kx2l − α + ∆ xl + β
+                                                                                                
+                          m                                                                                  Jlm xm .
+                                                                                                         m
+where α is the coupling strength from the second har-
+monic signal, and the parameter β modulates the overall         Here, K denotes the inter-oscillator interaction strength,
+coupling strength of the network, similar to other systems      which eventually becomes an onsite but site-dependent
+discussed so far.                                               potential. A similar phenomenon is realized in the
+  Similar to CIMs, a possible fixed point of OIMs is not        GD model via the inter-atomic interaction −|Ψl |2 and
+guaranteed to be the global optimum. This is because            through the nonlinear loss function −x3l in the OPO-
+the global Lyapunov function of such a coupled oscillator       CIM. In the Sim-CIM or OEO-CIM, the effect of such
+                                                                                                                       5
+
+a term is implicitly replaced by a nonlinear activation       has been improved for optimization problems by incor-
+function. Physically, a strong density interaction pre-       porating nonlinear graded-response model neurons [54],
+vents any extra population from accumulating in a single      i.e.,
+state. Similarly, the activation function bounds the vari-                                X
+ables to be in [−1, 1].                                                    ẋl = −αxl + β    Jml ϕ(xm ),       (15)
+   The ∆-term in Eq. (12) represents detuning, namely,                                      m
+the difference between the frequency of each KPO and          where the pumping strength α and the global Ising cou-
+half of the pumping frequency, which is assumed to be         pling β are tunable constants. The Hopfield model as
+uniform for all KPOs in the SBM, and thus, it appears         presented in Eq. (15) is closely related to the Sim-CIM
+along with the pumping and the self-energy terms. The         except that the activation function is only applied to its
+detuning also affects how strongly xl is coupled to yl .      neurons (spins) rather than the entire right-hand side of
+Unlike other systems, the EoMs are intrinsically second-      the EoM as done in the Sim-CIM model. Throughout
+order differential equations because they are derived via     this work, we refer to Eq. (15) when we consider the
+a Hamiltonian formalism.                                      Hopfield method unless specified otherwise.
+   More recently, two variants of SBM have been pro-
+posed [36]. In the first variant, the density interaction
+term is replaced by an activation function similar to Sim-        III. BENCHMARK RESULTS ON ISING
+CIM. This is a result of our previous observation that the       PROBLEMS WITH PLANTED SOLUTIONS
+effect of a physical density interaction is closely related
+to that of a bounded activation function. The other vari-                        A.   Methodology
+ant of the SBM applies an additional activation function,
+namely, sgn(•) when computing the Ising potential term
+to reduce analog errors. These, in turn, can be used ei-         In this work, we have prototyped all dynamical systems
+ther for speed or precision.                                  in Python. In particular, we did not apply any problem-
+                                                              or algorithm-specific optimizations and focused on using
+                                                              the same code base to ensure a fair comparison. For ex-
+             E.   Hopfield neural network                     ample, the momentum method is known to bring fast
+                                                              convergence in gradient descent learning algorithms [55].
+                                                              Such a method can be easily incorporated to optimize al-
+   Neural networks represent a broad class of nonlinear
+                                                              gorithms like CIMs [41], yet it might not be as useful to
+dynamical systems [52]. The Hopfield model, being the
+                                                              other algorithms like the SBM, which is based on quan-
+best-known dynamical system, operates in an unsuper-
+                                                              tum adiabatic optimization instead of gradient descent.
+vised manner. The original proposal for the discrete Hop-
+                                                              Similarly, while the complex coupling switching is very
+field model reads [27]
+                                                              efficient in GD algorithms to prevent the system from
+                           X
+                                     !                        being trapped in local minima [46], it cannot be directly
+                xi ← sgn      Jlm xm ,               (12)     applied to other algorithms using real spin variables.
+                             l                                   Because we are integrating ODEs, it is important to
+                                                              choose the same integration method for all studied model
+which can be regarded as a derandomized simulated an-         systems. For the benchmark results in this section, all the
+nealing algorithm [40]. Note that the Sim-CIM can be re-      algorithms are integrated using the Euler method with
+duced to such a system by merely dropping the pumping         tunable time steps and total number of iterations. In
+term and applying a steeper activation function. Later,       Sec. IV A we explain why we chose the Euler integration
+a similar recurrent neural network was proposed, where        after a detailed study of different integration methods.
+the update rule of the variables reads [53]                   Unless otherwise specified, we use Ising benchmark prob-
+                      X                                       lems with planted solutions on a square lattice. While
+                xl ←      Jlm ϕ(xm ) + θl .        (13)       these problems are not NP-hard, the tunability of the
+                      m̸=l                                    planted problems [56] allows one to tune them to a regime
+                                                              where they challenge the solvers, but are not impossible
+Here, ϕ is a sigmoidal activation function and θl is a
+                                                              to solve. It is worth noting that any results strongly de-
+bias to the neuron. Such system has been recently real-
+                                                              pend on the benchmark problems used. However, we ex-
+ized through memristor circuits demonstrating a power-
+                                                              pect this comprehensive study to spark a more thorough
+efficient combinatorial optimizer [22]. Correspondingly,
+                                                              benchmarking of other optimization heuristics leveraging
+a continuous-time Hopfield model can be defined as
+                                                              the same code base. Clearly, real-world applications are
+                      X                                       rarely defined on planar square-lattice graphs. However,
+                ẋl =    Jlm ϕ(xm ) + θl .         (14)
+                                                              we felt that a benchmark leveraging sparse graphs was
+                       m
+                                                              needed, in addition to the benchmarks leveraging typi-
+In combinatorial optimization problems, the continuous        cally complete graphs.
+model usually outperforms the discrete model due to a            The Ising test sets are tile-planted problems [57, 58]
+smoother energy landscape [52]. The continuous model          generated by using the Chook [56] benchmark instance
+                                                                                                                                           6
+
+generator. These problems consist of square lattices of                  108
+                                                                                   SA
+linear size L with periodic boundary conditions in both                            SimCIM
+directions and N = L2 spins. Each lattice site is con-                   107       Hopfield
+                                                                                   SBM
+nected to four neighboring sites with a coupling strength                          OEOCIM
+that can only be ±1 or ±2. We also study the Viana-                      106       OIM
+Bray [35] model with variable connectivity in Sec. IV B                            GD
+to better understand if graph connectivity influences the                105
+
+
+
+
+                                                               TTS(ms)
+algorithmic performance.
+   For each system size we generated 100 random in-                      104
+stances. Because we are working with heuristic algo-
+rithms, we use time-to-solution (TTS) to measure the                     103
+performance, which is defined as
+                                                                         102
+                   TTS(γ) = n(γ)τrun ,                 (16)
+                                                                         101
+where n(γ) is the number of necessary restarts (also re-                       4          6        8   10     12     14   16     18   20
+ferred to as samples, or shots) of the algorithm to find                                                L [System Size]
+the ground state at least once with a desired probability
+pd for a given set of parameters denoted by γ. For practi-     FIG. 1: Time-to-solution (TTS) of various SDNDSs listed
+cal purposes, we set a high confidence value of pd = 0.99.     in Table I versus the linear size of the two-dimensional lat-
+τrun is the average run time of the algorithm measured         tice. The dashed curves represent linear fits in the logarithmic
+in microseconds. It is straightforward to show [59] that       (base 10) scale to the five largest system sizes.
+
+                            log(1 − pd )
+                 n(γ) =                   ,            (17)    TABLE II: Optimal parameters for the Sim-CIM simulations
+                          log(1 − ps (γ))                      for different linear problem sizes L. α0 and α1 determine the
+                                                               pumping profile (hyperbolic in this case), β is the global Ising
+where ps (γ) gives the success probability, i.e., the chance   coupling strength, xsat is the spin saturation value, σg is the
+of finding the ground state in a single run of the algo-       width of the Gaussian noise function, and Nt is the total
+rithm. Because the TTS depends on the choice of pa-            number of iterations which is held fixed here.
+rameters γ, we carefully tune them for each algorithm to       L         α0        α1      β         xsat       σg        Nt
+extract the true scaling. Note that, as we have multiple       4         0.7       1       0.2       3          0.1       1000
+parameters including the pumping profile α, Ising cou-         6         0.7       1       0.2       3          0.1       1000
+pling strength β, noise profile gl , time step ∆t, the total   8         0.6       1.5     0.2       3          0.1       1000
+number of iterations Nt , etc., the optimization is often      10        0.6       1.5     0.2       3          0.1       1000
+multidimensional, which makes the benchmarking a rel-          12        0.6       1.5     0.2       3          0.1       1000
+atively laborious task. For a given set of parameters γ        14        0.6       1.5     0.2       3          0.1       1000
+                                                               16        0.6       1.5     0.2       5          0.2       1000
+and a given problem instance, we run each algorithm at
+                                                               18        0.6       2       0.2       5          0.2       1000
+least 100 times independently and compute ps (γ) as the        20        0.6       2.5     0.2       5          0.2       1000
+percentage of the ground states found. This process is re-
+peated for all 100 instances to calculate the median TTS
+and the error bars through bootstrap sampling. Once the
+optimal TTS for all different problem sizes is obtained,
+                                                                                              B.   Benchmarking results
+we can study the scaling behavior of each algorithm by
+fitting the TTS to
+                                                                  Figure 1 shows the scaling of various SDNDSs. Note
+                    TTSopt = 10   a+bL
+                                         .             (18)    that the exponential fits are done using the five largest
+                                                               problem sizes to better capture the asymptotic behavior.
+The scaling exponent b gives the performance of the al-        In Fig. 2, we compare the algorithms based on their scal-
+gorithm in the asymptotic limit while the constant offset      ing exponent b, that is, the slope of the corresponding
+imposed by a accounts for non-algorithmic factors and          linear fit (in logarithmic scale) where the height of the
+therefore is not indicative of overall performance. How-       bars represents the uncertainty of the fit, as discussed in
+ever, because in this study we have used the same code         Sec. III C.
+base and ran the code on the same hardware, in this
+study direct comparisons of a across different SDNDSs is
+possible, but should be interpreted carefully. Although                              1.       Simulated coherent Ising machine
+most of the optimizers studied here are better suited for
+GPU-based hardware, we performed the benchmarks us-              For the Sim-CIM, there are several tunable parame-
+ing only a single core of the CPUs for uniformity.             ters including the hyperbolic pumping profile (sharpness
+                                                                                                                               7
+
+α1 and maximum pumping strength α0 ), the global Ising                         3.    Gain dissipative algorithm
+coupling strength β, and the spin saturation value xsat .
+Given the problem sizes studied in this work, we use a
+constant total number of iterations of Nt = 1000. We               We choose the parameters of the GD algorithm fol-
+present the optimized parameters of the Sim-CIM algo-           lowing the original proposal of Ref. [25]. Specifically, we
+rithm in Table II and the corresponding TTS scaling in          use a uniform local Ising coupling βlm = β = 1 and
+Fig. 1. Due to the fixed number of steps, the Sim-CIM           Klm = Jlm such that only two of three equations of mo-
+has a larger TTS for smaller problems, but it becomes           tion are nontrivial (see Table I). The remaining parame-
+competitive as the problem size increases. Our experi-          ters are chosen as
+ments suggest that the performance of the Sim-CIM is
+sensitive to parameter choices. Although α0 and β are                                                  X
+relatively robust, α1 , xsat , and σg vary depending on the                         ϵ = 0.005 max              |Jlm |,       (19)
+                                                                                               l
+size of the problem.                                                                                   m
+                                                                                                       X
+                                                                                    ρth = 0.15 max              |Jlm |,      (20)
+                                                                                                   l
+                                                                                                           m
+                                                                                                           X
+                                                                                    γ(t = 0) = − max               |Jlm |,   (21)
+                                                                                                       l
+                                                                                                               m
+
+    2.   Optoelectronic oscillator coherent Ising machine
+                                                                and Ψi (t = 0) = 1. Finally, h2m has a hyperbolic tan-
+                                                                gent profile specified by α1 and α0 . In our experiments,
+   The OEO-CIM has three tunable parameters, namely,
+                                                                we find that, unlike CIMs, GD systems can be robust
+the gain strength α, the global Ising coupling β, and
+                                                                in terms of parameter choices, which is consistent with
+the noise level σg . In Ref. [42], constants α = 0.25 and
+                                                                the authors’ results on Max-Cut problems reported in
+β = 0.29 are chosen for square lattice problems. These
+                                                                Ref. [25]. Thus, we have fixed the gain profile and the
+values are consistent with our optimized results reported
+                                                                global Ising coupling for different problem sizes and only
+in Table III. Because the OEO-CIM converges relatively
+                                                                tuned the total number of iterations. The parameters
+fast in comparison to the Sim-CIM—usually in a few
+                                                                used in the simulations are summarized in Table IV. Fig-
+hundred steps—it is very competitive for small system
+                                                                ure 1 shows that our implementation of the GD algo-
+sizes. However, the algorithm becomes unstable with
+                                                                rithm has a relatively large TTS for all problem sizes
+larger system sizes, leading to unreasonably large errors
+                                                                studied. We conjecture that the synchronization of the
+in the TTS when L > 10. Thus, the benchmark results
+                                                                network may take extra time due to the small pumping
+for the OEO-CIM in Fig. 1 are obtained by introduc-
+                                                                rate in our experiments and because numerical computa-
+ing a time-dependent gain profile. Table III shows that
+                                                                tions using complex numbers are slower than when using
+the optimal parameters of the OEO-CIM follow a trend
+                                                                real numbers.
+similar to that of the parameters of the Sim-CIM. How-
+ever, we observe a sudden jump in the gain sharpness
+α1 at L = 18, beyond which the OEO-CIM can rarely
+find the ground state after 100 restarts for any of the 100     TABLE IV: Total number of iterations Nt for different dy-
+instances studied.                                              namical system algorithms versus linear problem sizes L used
+                                                                in the simulations. For simulated annealing (SA), we use
+                                                                an inverse linear annealing schedule and set the final inverse
+                                                                temperature to βf = 3. For the GD system we fix α0 = 0.5,
+TABLE III: Optimal parameters for the OEO-CIM simula-           α1 = 10, β = 1, and σg = 0.2. For the SBM, the time step is
+tions for different linear problem sizes L. α0 and α1 define    fixed to dt = 0.5. In the case of the Hopfield model dynami-
+a hyperbolic pumping profile, β is the global Ising coupling    cal system, we set ζ0 = 10, ζd = 0.8, dt = 0.5, and σg = 0.1.
+strength, σg is the Gaussian noise level, and Nt is the total   For the HNN model with fourth-order Runge-Kutta (RK4)
+number of iterations.                                           and Runge-Kutta-Fehlberg (RK45) integration schemes, we
+L          α0            α1        β           σg         Nt    fix the initial time step to dt = 1 and dt0 = 1, respectively.
+4          0.45          2         0.29        0.1        26    We also choose ϵ = 1 to curb errors.
+6          0.45          3.5       0.29        0.1        26     L               4 6 8        10 12 14 16 18 20
+8          0.45          5         0.29        0.1        27    SA               22 24 24 29 29 210 210 213 213
+10         0.45          5         0.29        0.1        27    GD               26 27 28 29 210 210 212 214 214
+12         0.45          5         0.29        0.2        28    SBM              25 27 27 28 28 28 29 29 210
+14         0.45          5         0.29        0.2        28    Hopfield         25 27 27 28 28 28 29 29 210
+16         0.45          5         0.29        0.2        29    HNN(RK4) 25 25 26 26 26 27 28 –                         –
+18         0.45          9         0.29        0.2        29    HNN(RK45) 28 29 210 210 210 210 211 –                   –
+                                                                                                                                                           8
+
+             4.   Oscillator-based Ising machine                                            0.5
+
+
+   In our experiments we follow Fig. 10 in Ref. [20] and
+use the parameters used in the aforementioned reference.                                               TTS~10a + bL
+
+
+
+
+                                                               Slope [scaling exponent b]
+Tests on small system sizes confirm that the choice of                                      0.4
+parameters for the OIM is robust for different system
+sizes. For the OIM the gain is periodic, which helps the
+system escape local minima by imposing and relaxing
+the binary constraint repeatedly. While this approach
+remains untested for other dynamical system, it could                                       0.3
+potentially improve performance across the different ap-
+proaches studied in this work. Figure 1 shows that the
+OIM has the largest TTS values of all method studied for
+almost all problem sizes studied. We have set the evolu-
+tion time of the OIM to 20 steps while the optimal time                                     0.2
+step is found to be 0.02, independent of problem size L.                                          SA           CIM       field   SBM      CIM   OIM   GD
+Thus, the OIM has the same total number of iterations                                                      Sim        Hop              OEO
+as the Sim-CIM. This indicates that OIM has a lower
+success rate to find the optimal than, e.g., the Sim-CIM,        FIG. 2: Scaling exponent b of different SDNDSs listed in in
+and we observe larger error bars for L = 18. It is also          Table I which corresponds to the slope of the linear fit (in
+possible that the adapted annealing scheme might not             logarithmic scale) to the TTS data shown in Fig. 1. The
+                                                                 height of the boxes represents the error bars.
+be optimal and a more careful tuning of the parameters
+might improve the TTS.
+                                                                 shown to have better performance than its deterministic
+             5.   Simulated bifurcation machine                  counterpart [22, 61]. However, in this work we find that
+                                                                 such positive effect is only visible for smaller system sizes.
+                                                                 Our results show that the HNN dynamical system tends
+   For the SBM the gain profile α is a linear function pass-     to become trapped in local minima. However, it remains
+ing through the origin. The other parameters are chosen          competitive for small to medium system sizes. In terms
+as follows. K = ∆ = 1 and β = 0.7/σ(J)Ns , where σ(•)            of the absolute TTS, it is faster than most of the dy-
+denotes the standard deviation [51]. As pointed out be-          namical systems we tested (see Fig. 1) due to its simple
+fore, the SBM is different from other SDNDSs because it          dynamics and fast convergence. However, when L ≥ 24
+has a second-order equation of motion (Hamiltonian dy-           the HNN dynamical system has difficulties in finding the
+namics). Therefore, instead of using the Euler method,           optimal of the problem studied.
+which can cause extra numerical errors in solving higher-
+order ODEs, we apply the symplectic Euler method [51].
+Finally, there is no noise term in the SBM, given its ori-
+                                                                                                                 7.   Simulated annealing
+gin stemming from adiabatic quantum optimization. In
+our experiments the parameters of SBM are mostly con-
+stant across different system sizes and we only optimize            As a benchmark, we also use simulated annealing. In
+the total number of iterations listed in Table IV. From          our implementation we use an inverse linear annealing
+Fig. 1, we observe that the SBM seems to be an effec-            schedule and tune both the decay rate and the total num-
+tive optimizer for the problems studied, because overall         ber of iterations to optimal values to determine the TTS.
+it has one of the smallest TTS for the different system          In our experiments we find the final inverse temperature
+sizes. However, we note that the SBM may require much            βf = 3 is independent of linear lattice size L. The total
+smaller time steps in some cases.                                number of iterations for different system sizes are sum-
+                                                                 marized in Table IV. As shown in Fig. 1, the TTS of SA
+                                                                 is comparable to the SDNDSs.
+       6.   Hopfield neural network dynamical system                However, to better compare the asymptotic behavior
+                                                                 of the different optimizers studied, we extract the scaling
+   For the HNN dynamical system we set parameters                exponent (slope) of the data in Fig. 1 in Sec. III C.
+α = β = 1 and ϕ(xl ) = tanh(xl /ζ(t)) [60]. Specifi-
+cally, ζ(t) > 0 is a geometric function with initial value
+ζ(0) = ζ0 and decay rate ζd . Parameters do not tend to                                                       C.      Scaling exponent
+vary across system sizes studied and thus we fix these for
+all L. Remaining parameters are listed in Table IV. Note            Figure 2 shows the scaling exponent b for the different
+that we simulate a stochastic Hopfield model including a         optimization methods studied, extracted from the data
+noise term (discrete or continuous), because it has been         in Fig. 1 by fitting a linear function to the 5 largest sys-
+                                                                                                                                                                               9
+
+tem sizes in a log-linear sale. Interestingly, SA and the    we empirically determined that using the Störmer-Verlet
+SimCIM have comparable asymptotic performance and            method does not improve the scaling.
+show the best scaling for the benchmark problems and            As an example, we compare the Euler method to
+system sizes studied. This corroborates claims that some     higher-order methods such as the fourth-order RK
+of the SDNDS algorithms can be as efficient as some          method (RK4) and the Runge-Kutta-Fehlberg method
+modern heuristics [12]. Additional experiments for SA        (RK45). Note that, the latter has adaptive step sizes. In
+(not shown) suggest that the scaling exponent slightly       general, a higher-order method indicates higher accuracy.
+decreases further for increasing system sizes. However,      In other words, the algorithm may have larger time steps,
+to perform an apples-to-apples comparison we decided         making it possible to find the solutions within fewer it-
+to restrict the analysis to L ≤ 24. The main reason for      erations. However, these methods usually require more
+this is that many of the SDNDSs are unable to find the       computational steps during each iteration. For RK4 and
+optima for large system sizes, even after hundreds of it-    RK45, the ODEs are evaluated three and five more times,
+erations. We performed experiments for larger system         respectively, than the simple Euler method during each
+sizes (not shown) measuring the time-to-target, but in       iteration.
+that case most problems were too easy to solve and thus         Figure 3(a) shows the scaling results of the Hopfield
+no meaningful results could be extracted.                    neural network with different integration methods. The
+   All other dynamical systems, except the OIM discussed     parameters for the Euler method are the same as in Ta-
+below, have comparable scaling exponents (within error       ble IV. Note that, for RK4, we find that a larger step
+bars), which can be ascribed to the similarities between     size (dt = 1) also works well. For both higher-order inte-
+their equations of motion and corresponding dynamics,        grators (RK4 and RK45) the overall numerical effort is
+see Table I. We suspect that the better performance of       larger than for the Euler method. Given that the scaling
+the Sim-CIM for the problems studied can be ascribed         exponents agree within error bars, there is no clear in-
+to both larger time steps than other SDNDSs, as well as      dication that using higher-order schemes is needed when
+its unique nonlinear activation, which has also improved     integrating the equations of motion.
+the performance of the SBM [36]. However, the improved
+                                                                      106 (a)                                                                   0.5 (b)
+performance of the Sim-CIM comes at the price of tuning
+more parameters. Finally, note that the suboptimal per-
+
+
+
+
+                                                                                                                   Slope [scaling exponent b]
+                                                                      105
+formance of the OIM might be due to the fact parameter
+tuning for this SDNDS is difficult.                                   104
+                                                            TTS(ms)
+
+
+
+
+                                                                                                                                                0.4
+                                                                      103
+        IV.   ADDITIONAL EXPERIMENTS
+                                                                      102                                  Euler
+                                                                                                           RK4
+   In Sec. III we discussed the benchmark results of dif-                                                  RK45
+                                                                      101                                                                       0.3
+                                                                            4   6     8   10   12     14     16                                               r
+ferent SDNDSs on small- to medium-sized random Ising
+                                                                                    L [System Size]                                                       Eule    RK4   RK4
+                                                                                                                                                                           5
+problems and compared performance to SA. In this sec-
+tion we analyze the choice of integrator and the effects
+                                                             FIG. 3: Comparison between the scaling results of different
+of lattice connectivity.
+                                                             integration methods tested on the continuous Hopfield neural
+                                                             network model. (a) Time-to-solution (TTS) of three numeri-
+                                                             cal methods in a logarithmic (base 10) scale versus the linear
+   A.    Effects of numerical integration methods            lattice size. The dashed curves represent linear fits to the
+                                                             five largest system sizes. (b) The scaling exponent b, corre-
+                                                             sponding to the data in panel (a). The height of the boxes
+   Algorithms like Sim-CIM, OEO-CIM, and the discrete-       represents the error bars. Note that we cut the data at L = 16
+time Hopfield neural network are discrete in time. This      so that the slope of the Euler method is slightly larger than
+means that there is no need to specify a numerical in-       that in Fig. 2. The scaling exponent agrees within error bars
+tegration method. However, algorithms such as OPO-           for the different integration schemes used.
+CIM, GD, and OIM, are first-order ordinary differential
+equations (ODEs). While the Euler method is the most            We further test RK4 for the OIM, because it has rela-
+common choice to integrate these, few efforts have been      tively complicated dynamics with periodic gains. A com-
+devoted to investigating how numerical methods affect        parison between the Euler and RK4 methods is shown in
+these optimization routines.                                 Fig. 4. For L = 4, 6, 8, and 10 we use dt = 0.05, whereas
+   A special case is the SBM which is a second-order         for L ≥ 12 we use dt = 0.02. Recall that the optimal
+ODE following a semi-classical Hamiltonian formalism.        time step for OIM using the Euler integration scheme is
+Thus, we can solve the ODE leveraging a symplectic Eu-       dt = 0.02, which is independent of system size. Thus,
+ler method. Note that it has been shown that a sym-          for small problems L ≤ 10, RK4 can bear a larger time
+plectic Euler method can accelerate the algorithm by re-     step dt = 0.05. Again, as can be seen in Fig. 4 the
+ducing the required time step by half [51]. Furthermore,     scaling exponent b agrees within error bars and a more
+                                                                                                                                                                       10
+
+          108 (a)                                                                   0.5 (b)
+                                                                                                            Sherrington-Kirkpatrick spin-glass model [34]. We use
+          107                                                                                               both SA and the SBM to to find optima for this sys-
+
+
+
+
+                                                       Slope [scaling exponent b]
+                                                                                                            tem as a function of connectivity. Data are averaged
+          106                                                                                               over 100 disorder realizations of Gaussian disorder with
+TTS(ms)
+
+
+
+
+          105                                                                       0.4
+                                                                                                            zero mean and standard deviation unity. The results are
+                                                                                                            summarized in Fig. 5. The data clearly show that the
+          104                                                                                               TTS increases with connectivity for SA. This is no sur-
+                                                                                                            prise, because the number of Hamiltonian terms grows
+          103
+                                               Euler                                                        with the connectivity and thus the time it takes for one
+                                               RK4
+          102                                                                       0.3                     Monte Carlo sweep. In contrast, the TTS decreases for
+                4   6     8   10   12     14     16                                               r
+                        L [System Size]                                                       Eule    RK4   increasing connectivity for the SBM. This suggests that
+                                                                                                            large avalanches are needed for SDNDSs to be effective
+ FIG. 4: Comparison of different integration methods tested                                                 optimizers. This, in turn, suggests that the denser the
+ on the OIM. (a) Time-to-solution (TTS) of two numerical                                                    graph of the problem to be optimized, the more effec-
+ integration methods in a logarithmic (base 10) scale versus                                                tive SDNDSs are, and that self-organized critical behav-
+ the linear size L of the problem. The dashed curves represent                                              ior resulting in large spin rearrangements is critical for
+ linear fits to the five largest system sizes. (b) The scaling                                              optimization in dynamical systems.
+ exponent b, corresponding to the data in panel (a). The height
+ of the boxes represents the error bars.
+                                                                                                                      106
+
+ sophisticated integrator means only additional numerical
+ overhead.
+    Summarizing, using different integration schemes does                                                             105
+ not seem to improve the TTS scaling for both the Hop-
+                                                                                                            TTT(ms)
+ field neural network and the OIM. This is in agree-
+ ment with results for digital memcomputing machines
+ [62] based on memristor circuits. One potential use for
+ RK45 could be for initialization. After a short, burn-in                                                             104
+ phase an optimal time step is determined, after which
+ the integrator is swapped out by a simple Euler method.
+ Such approach would drastically simplify parameter tun-                                                                       SA
+ ing.                                                                                                                          SBM
+                                                                                                                      103     24       25           26           27
+                        B.    Effects of graph connectivity
+                                                                                                                                        Connectivity
+                                                                                                            FIG. 5: Time-to-solution (TTS) in a logarithmic (base 10)
+    So far, we have focused on two-dimensional Ising mod-                                                   scale versus the connectivity for the Viana-Bray (VB) model
+ els with a fixed connectivity of 4 between the variables.                                                  with 27 variables with Gaussian couplers between the spins.
+ Considering the collective dynamics of SDNDSs, it is                                                       The figure compares the TTS for SA and SBM when the con-
+ reasonable to suspect that performance might be af-                                                        nectivity between the variables is increased in powers of 2
+ fected by the average connectivity of the graph. In fact,                                                  until the graph is complete. While for SA the TTS increases
+ recent studies [63] suggest that large system-spanning                                                     with increasing graph density due to the fact that the num-
+ rearrangements of variables—needed to effectively tra-                                                     ber of Hamiltonian terms increases, for the SBM the TTS
+ verse the energy landscape—can only occur when graph                                                       decreases. This suggests that the higher the connectivity, the
+ connectivity is high. Furthermore, full self-organized                                                     more efficient SDNDSs such as the SBM are at finding op-
+ criticality—an effect where there is no characteristic size                                                tima of cost functions. For SA the final inverse temperature
+                                                                                                            is βf = 3 and the total number of sweeps is Nt = 210 . For
+ of a variable rearrangement—only sets in when graphs
+                                                                                                            the SBM we use a time step of dt = 0.25 and Nt = 211 total
+ are fully connected. This suggests that the performance                                                    algorithmic steps.
+ of SDNDSs should improve, the denser the graph is.
+    To test this hypothesis we use the Viana-Bray (VB)
+ model [35]. For example, for the Viana-Bray model with
+ connectivity 3, each spin is connected to three other
+ randomly chosen spins, i.e., the system has no geom-                                                                 V.    DISCUSSIONS AND CONCLUSIONS
+ etry despite a fixed connectivity. We study a small
+ VB model with N = 27 = 128 variables and succes-                                                              In this work we have examined several representative
+ sively increase the connectivity in powers of 2 from 16                                                    combinatorial Ising solvers based on stochastic dynam-
+ to 128, where the latter represents the fully-connected                                                    ical nonlinear systems—where binary variables are re-
+                                                                                                                              11
+
+laxed to continuous analog spins—and compared them                is backed by numerical results that show that when the
+using the same software stack optimizing square-lattice           connectivity is increased, performance increases despite
+disordered Ising spin-glass problems with planted solu-           the number of terms to sum over in the cost function in-
+tions. A list of the different equations of motion is given       creases as well. In general, most optimization problems
+in Table I. All dynamical systems share some character-           are not natively QUBO and also often have constraints
+istics, namely a driver term α, a global Ising coupling           that need to be added to the cost function. In the pro-
+β, a noise term gl , and nonlinear dynamics. In addition,         cess of mapping optimization problems to QUBOs, as
+we compared the performance of the driven dynamical               well as including constraints via quadratization into the
+systems to simulated annealing as a benchmark. Our re-            cost function, the resulting graph tends to be highly if not
+sults illustrate the advantages and disadvantages some            fully connected. This means that optimization heuristics
+of these stochastic-driven nonlinear dynamical systems            based on stochastic-driven nonlinear dynamical systems
+pose (in comparison to simulated annealing) for a given           have an inherent advantage over annealing-based quan-
+benchmark problem and moderate system sizes. It would             tum devices [64] for real-world applications.
+be interesting to do further comparisons for larger system           Finally, the dynamical systems listed in Table I stem
+sizes, still leveraging the same software stack. However,         from physical phenomena. It would be interesting to in-
+this was outside the scope of this project and would re-          vestigate if better equations of motion that do not follow
+quire implementations leveraging GPUs. We also analyze            physical processes can be found with the goal of improv-
+the effects of higher-order integration schemes and show          ing performance.
+that simple Euler dynamics seems, in general, sufficient
+for most applications.
+   We also analyzed the effects of graph connectivity on
+the solver performance. Optimizers require large vari-
+                                                                                      Acknowledgments
+able rearrangements to be effective when traversing the
+search space. Our conjecture that self-organized criti-
+cal behavior is needed for SDNDS solvers to be effective            We would like to thank Ken Zick for useful comments.
+
+
+
+
+ [1] S. Arora and B. Barak, Computational complexity: a                arXiv:quant-ph/0001106.
+     modern approach (Cambridge University Press, Cam-            [12] T. Leleu, Y. Yamamoto, P. L. McMahon, and K. Aihara,
+     bridge, U.K., 2009).                                              Destabilization of local minima in analog spin systems by
+ [2] K. A. Smith, Neural networks for combinatorial optimiza-          correction of amplitude heterogeneity, Phys. Rev. Lett.
+     tion: A review of more than a decade of research, IN-             122, 040607 (2019).
+     FORMS Journal on Computing 11, 15 (1999).                    [13] Z. Wang, A. Marandi, K. Wen, R. L. Byer, and Y. Ya-
+ [3] A. A. Juan, J. Faulin, S. E. Grasman, M. Rabe, and                mamoto, Coherent Ising machine based on degenerate
+     G. Figueira, A review of simheuristics: Extending meta-           optical parametric oscillators, Phys. Rev. A 88, 063853
+     heuristics to deal with stochastic combinatorial optimiza-        (2013).
+     tion problems, Operations Research Perspectives 2, 62        [14] A. Marandi, Z. Wang, K. Takata, R. L. Byer, and Y. Ya-
+     (2015), ISSN 2214-7160.                                           mamoto, Network of time-multiplexed optical parametric
+ [4] F. Barahona, On the computational complexity of ising             oscillators as a coherent ising machine, Nature Photonics
+     spin glass models, Journal of Physics A: Mathematical             8, 937–942 (2014), ISSN 1749-4893.
+     and General 15, 3241 (1982).                                 [15] T. Inagaki, K. Inaba, R. Hamerly, K. Inoue, Y. Ya-
+ [5] A. Lucas, Ising formulations of many NP problems,                 mamoto, and H. Takesue, Large-scale ising spin network
+     Front. Physics 12, 5 (2014).                                      based on degenerate optical parametric oscillators, Nature
+ [6] S. Kirkpatrick, C. D. Gelatt, Jr., and M. P. Vecchi,              Photonics 10, 415–419 (2016), ISSN 1749-4893.
+     Optimization by simulated annealing, Science 220, 671        [16] W. R. Clements, J. J. Renema, Y. H. Wen, H. M.
+     (1983).                                                           Chrzanowski, W. S. Kolthammer, and I. A. Walms-
+ [7] S. Boettcher and A. G. Percus, Optimization with Ex-              ley, Gaussian optical ising machines, Phys. Rev. A 96,
+     tremal Dynamics, Phys. Rev. Lett. 86, 5211 (2001).                043850 (2017).
+ [8] W. Wang, J. Machta, and H. G. Katzgraber, Comparing          [17] D. Pierangeli, G. Marcucci, and C. Conti, Large-scale
+     Monte Carlo methods for finding ground states of Ising            photonic ising machine by spatial light modulation, Phys.
+     spin glasses: Population annealing, simulated annealing,          Rev. Lett. 122, 213902 (2019).
+     and parallel tempering, Phys. Rev. E 92, 013303 (2015).      [18] I. Mahboob, H. Okamoto, and H. Yamaguchi, An elec-
+ [9] B. Sutton, K. Y. Camsari, B. Behin-Aein, and S. Datta,            tromechanical ising hamiltonian, Science Advances 2,
+     Intrinsic optimization using stochastic nanomagnets, Sci-         e1600236 (2016).
+     entific Reports 7 (2017), ISSN 2045-2322.                    [19] F. Sheldon, F. L. Traversa, and M. Di Ventra, Taming
+[10] T. Kadowaki and H. Nishimori, Quantum annealing in                a nonconvex landscape with dynamical long-range order:
+     the transverse Ising model, Phys. Rev. E 58, 5355 (1998).         Memcomputing ising benchmarks, Physical Review E 100
+[11] E. Farhi, J. Goldstone, S. Gutmann, and M. Sipser,                (2019), ISSN 2470-0053.
+     Quantum Computation by Adiabatic Evolution (2000),           [20] T. Wang and J. Roychowdhury, Oim: Oscillator-based
+                                                                                                                               12
+
+     ising machines for solving combinatorial optimisation              (2020).
+     problems (2019), 1903.07163.                                  [39] R. Hamerly, T. Inagaki, P. L. McMahon, D. Venturelli,
+[21] J. Chou, S. Bramhavar, S. Ghosh, and W. Herzog, Analog             A. Marandi, T. Onodera, E. Ng, C. Langrock, K. Inaba,
+     Coupled Oscillator Based Weighted Ising Machine, Scien-            T. Honjo, et al., Experimental investigation of perfor-
+     tific Reports 9, 14786 (2019), ISSN 2045-2322.                     mance differences between coherent ising machines and a
+[22] F. Cai, S. Kumar, T. V. Vaerenbergh, X. Sheng, R. Liu,             quantum annealer, Science Advances 5, eaau0823 (2019).
+     C. Li, Z. Liu, M. Foltin, S. Yu, Q. Xia, et al., Power-       [40] Y. Haribara, H. Ishikawa, S. Utsunomiya, K. Aihara,
+     efficient combinatorial optimization using intrinsic noise         and Y. Yamamoto, Performance evaluation of coherent
+     in memristor hopfield neural networks, Nature Electron-            ising machines against classical neural networks, Quan-
+     ics 3, 409 (2020).                                                 tum Science and Technology 2, 044002 (2017), ISSN
+[23] R. Afoakwa, Y. Zhang, U. K. R. Vengalam, Z. Ignjatovic,            2058-9565.
+     and M. Huang, Cmos ising machines with coupled bistable       [41] E. S. Tiunov, A. E. Ulanov, and A. I. Lvovsky, Annealing
+     nodes (2020), 2007.06665.                                          by simulating the coherent ising machine, Optics Express
+[24] N. G. Berloff, M. Silva, K. Kalinin, A. Askitopoulos, J. D.        27, 10288 (2019), ISSN 1094-4087.
+     Töpfer, P. Cilibrizzi, W. Langbein, and P. G. Lagoudakis,    [42] F. Böhm, G. Verschaffelt, and G. Van der Sand, A poor
+     Realizing the classical xy hamiltonian in polariton sim-           man’s coherent ising machine based on opto-electronic
+     ulators, Nature Materials 16, 1120–1126 (2017), ISSN               feedback systems for solving optimization problems, Na-
+     1476-4660.                                                         ture Communications 10, 3538 (2019), ISSN 2041-1723.
+[25] K. P. Kalinin and N. G. Berloff, Global optimization of       [43] K. P. Kalinin and N. G. Berloff, Networks of non-
+     spin hamiltonians with gain-dissipative systems (2018),            equilibrium condensates for global optimization, New
+     1807.00699.                                                        Journal of Physics 20, 113023 (2018), ISSN 1367-2630.
+[26] S. Strogatz, Nonlinear Dynamics and Chaos: With Ap-           [44] L. D. Landau and E. M. Lifshitz, Statistical Physics, Part
+     plications to Physics, Biology, Chemistry, and Engineer-           1, vol. 5 of Course of Theoretical Physics (Butterworth-
+     ing, Studies in Nonlinearity (Westview Press, 2015), 2nd           Heinemann, 1980), 3rd ed.
+     ed., ISBN 9780813349107.                                      [45] J. M. Yeomans, Statistical Mechanics of Phase Transi-
+[27] J. J. Hopfield, Neural networks and physical systems with          tions (Oxford University Press, Oxford, 1992).
+     emergent collective computational abilities, Proc. Natl.      [46] N. Stroev and N. G. Berloff, Discrete polynomial op-
+     Acad. Sci. 79, 2554 (1982).                                        timization with coherent networks of condensates and
+[28] J. J. Hopfield and D. W. Tank, ”neural” computation                complex coupling switching, Physical Review Letters 126
+     of decisions in optimization problems, Biol. Cybern. 52,           (2021), ISSN 1079-7114.
+     141–152 (1985), ISSN 0340-1200.                               [47] S. L. Harrison, H. Sigurdsson, and P. G. Lagoudakis,
+[29] F. R. Waugh, C. M. Marcus, and R. M. Wester-                       Solving the max-3-cut problem using synchronized dissi-
+     velt, Fixed-point attractors in analog neural computation,         pative networks (2020), 2007.06135.
+     Phys. Rev. Lett. 64, 1986 (1990).                             [48] T. Wang, L. Wu, and J. Roychowdhury, Late breaking re-
+[30] T. Fukai and M. Shiino, Large suppression of spurious              sults: New computational results and hardware prototypes
+     states in neural networks of nonlinear analog neurons,             for oscillator-based ising machines (2019), 1904.10211.
+     Phys. Rev. A 42, 7459 (1990).                                 [49] H. Goto, Bifurcation-based adiabatic quantum computa-
+[31] G. V. Wilson and G. S. Pawley, On the stability of the             tion with a nonlinear oscillator network, Scientific Re-
+     travelling salesman problem algorithm of hopfield and              ports 6 (2016), ISSN 2045-2322.
+     tank, Biol. Cybern. 58, 63–70 (1988), ISSN 0340-1200.         [50] S. E. Nigg, N. Lörch, and R. P. Tiwari, Robust quan-
+[32] T. Leleu, Y. Yamamoto, S. Utsunomiya, and K. Aihara,               tum optimizer with full connectivity, Science Advances 3
+     Combinatorial optimization using dynamical phase tran-             (2017), ISSN 2375-2548.
+     sitions in driven-dissipative systems, Phys. Rev. E 95,       [51] H. Goto, K. Tatsumura, and A. R. Dixon, Combina-
+     022118 (2017).                                                     torial optimization by simulating adiabatic bifurcations
+[33] S. V. Isakov, I. N. Zintchenko, T. F. Rønnow, and                  in nonlinear hamiltonian systems, Science Advances 5,
+     M. Troyer, Optimized simulated annealing for Ising spin            eaav2372 (2019).
+     glasses, Comput. Phys. Commun. 192, 265 (2015), (see          [52] K.-L. Du and M. N. S. Swamy, Neural Networks and
+     also ancillary material to arxiv:cond-mat/1401.1084).              Statistical Learning (Springer, London, 2014), ISBN
+[34] D. Sherrington and S. Kirkpatrick, Solvable model of a             9781447155713.
+     spin glass, Phys. Rev. Lett. 35, 1792 (1975).                 [53] J. J. Hopfield, Neurons with graded response have collec-
+[35] L. Viana and A. J. Bray, Phase diagrams for dilute spin            tive computational properties like those of two-state neu-
+     glasses, J. Phys. C 18, 3037 (1985).                               rons, Proceedings of the National Academy of Sciences
+[36] H. Goto, K. Endo, M. Suzuki, Y. Sakai, T. Kanao,                   81, 3088 (1984), ISSN 0027-8424.
+     Y. Hamakawa, R. Hidaka, M. Yamasaki, and K. Tat-              [54] J. J. Hopfield and D. W. Tank, Computing with neural
+     sumura, High-performance combinatorial optimization                circuits: A model, Science 233, 625 (1986).
+     based on classical mechanics, Science Advances 7,             [55] N. Qian, On the momentum term in gradient descent
+     eabe7953 (2021).                                                   learning algorithms, Neural Networks 12, 145 (1999),
+[37] T. Inagaki, Y. Haribara, K. Igarashi, T. Sonobe, S. Ta-            ISSN 0893-6080.
+     mate, T. Honjo, A. Marandi, P. L. McMahon, T. Umeki,          [56] D. Perera, I. Akpabio, F. Hamze, S. Mandra, N. Rose,
+     K. Enbutsu, et al., A coherent ising machine for 2000-             M. Aramon, and H. G. Katzgraber, Chook – a compre-
+     node optimization problems, Science 354, 603 (2016).               hensive suite for generating binary optimization problems
+[38] Y. Yamamoto, T. Leleu, S. Ganguli, and H. Mabuchi, Co-             with planted solutions (2021), 2005.14344.
+     herent ising machines—quantum optics and neural net-          [57] F. Hamze, D. C. Jacob, A. J. Ochoa, D. Perera,
+     work perspectives, Applied Physics Letters 117, 160501             W. Wang, and H. G. Katzgraber, From near to eter-
+                                                                                                                            13
+
+     nity: Spin-glass planting, tiling puzzles, and constraint-        Computing 2, 299 (2009).
+     satisfaction problems, Phys. Rev. E 97, 043303 (2018).       [62] Y.-H. Zhang and M. Di Ventra, Directed percolation and
+[58] D. Perera, F. Hamze, J. Raymond, M. Weigel, and                   numerical stability of simulations of digital memcomput-
+     H. G. Katzgraber, Computational hardness of spin-glass            ing machines, Chaos: An Interdisciplinary Journal of
+     problems with tile-planted solutions, Phys. Rev. E 101,           Nonlinear Science 31, 063127 (2021), ISSN 1089-7682.
+     023316 (2020).                                               [63] J. C. Andresen, Z. Zhu, R. S. Andrist, H. G. Katzgraber,
+[59] T. F. Rønnow, Z. Wang, J. Job, S. Boixo, S. V. Isakov,            V. Dobrosavljević, and G. T. Zimanyi, Self-Organized
+     D. Wecker, J. M. Martinis, D. A. Lidar, and M. Troyer,            Criticality in Glassy Spin Systems Requires a Diverg-
+     Defining and detecting quantum speedup, Science 345,              ing Number of Neighbors, Phys. Rev. Lett. 111, 097203
+     420 (2014).                                                       (2013).
+[60] G. J. Caparrós, M. A. A. Ruiz, and F. S. Hernández,        [64] T. Lanting, A. J. Przybysz, A. Y. Smirnov, F. M.
+     Hopfield neural networks for optimization: study of the           Spedalieri, M. H. Amin, A. J. Berkley, R. Harris, F. Al-
+     different dynamics, Neurocomputing 43, 219 (2002).                tomare, S. Boixo, P. Bunyk, et al., Entanglement in a
+[61] W. Liu and L. Wang, Solving the shortest path routing             quantum annealing processor, Phys. Rev. X 4, 021041
+     problem using noisy hopfield neural networks, 2009 WRI            (2014).
+     International Conference on Communications and Mobile
+

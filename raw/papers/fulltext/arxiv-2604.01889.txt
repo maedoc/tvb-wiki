@@ -1,0 +1,917 @@
+                                        JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                   1
+
+
+
+
+                                               LI-DSN: A Layer-wise Interactive Dual-Stream
+                                                       Network for EEG Decoding
+                                             Chenghao Yue* , Zhiyuan Ma* , Zhongye Xia, Xinche Zhang, Yisi Zhang† , Xinke Shen† , Sen Song†
+
+
+
+                                           Abstract—Electroencephalography (EEG) provides a non-                     and cognitive assessment [1], [2]. Despite significant advance-
+                                        invasive window into brain activity, offering high temporal                  ments in signal processing and machine learning, robust EEG
+                                        resolution crucial for understanding and interacting with neural             decoding remains a formidable challenge. This complexity
+                                        processes through brain-computer interfaces (BCIs). Current
+                                        dual-stream neural networks for EEG often process temporal                   stems from several inherent characteristics: low signal-to-noise
+                                                                                                                     ratios, substantial inter-subject variability, and the intricate
+arXiv:2604.01889v1 [cs.LG] 2 Apr 2026
+
+
+
+
+                                        and spatial features independently through parallel branches,
+                                        delaying their integration until a final, late-stage fusion. This            spatiotemporal dynamics that underpin cortical neural activ-
+                                        design inherently leads to an “information silo” problem, preclud-           ity [3]. Deep learning has emerged as a highly promising
+                                        ing intermediate cross-stream refinement and hindering spatial-              transformative paradigm for EEG decoding, offering end-to-
+                                        temporal decompositions essential for full feature utilization.
+                                        We propose LI-DSN, a layer-wise interactive dual-stream net-                 end feature learning directly from raw signals. While early
+                                        work that facilitates progressive, cross-stream communication                Convolutional Neural Networks (CNNs) like EEGNet [4]
+                                        at each layer, thereby overcoming the limitations of late-fusion             and DeepConvNet [5] effectively extracted localized spa-
+                                        paradigms. LI-DSN introduces a novel Temporal-Spatial Inte-                  tiotemporal patterns, their inherently limited receptive fields
+                                        gration Attention (TSIA) mechanism, which constructs a Spatial               restricted modeling long-range temporal dependencies. This
+                                        Affinity Correlation Matrix (SACM) to capture inter-electrode
+                                        spatial structural relationships and a Temporal Channel Aggrega-             led to the integration of Transformer architectures, leveraging
+                                        tion Matrix (TCAM) to integrate cosine-gated temporal dynamics               self-attention for global temporal modeling in hybrid CNN-
+                                        under spatial guidance. Furthermore, we employ an adaptive                   Transformer models [6], [7]. However, these single-stream
+                                        fusion strategy with learnable channel weights to optimize the               paradigms struggle to simultaneously capture diverse tempo-
+                                        integration of dual-stream features. Extensive experiments across            ral dynamics and complex spatial distributions, as a unified
+                                        eight diverse EEG datasets, encompassing motor imagery (MI)
+                                        classification, emotion recognition, and steady-state visual evoked          representation often lacks the capacity to sufficiently resolve
+                                        potentials (SSVEP), consistently demonstrate that LI-DSN signif-             the distinct spatiotemporal properties of EEG signals.
+                                        icantly outperforms 13 state-of-the-art (SOTA) baseline models,                 Recognizing the distinct advantages and complementary
+                                        showcasing its superior robustness and decoding performance.                 roles of different architectural components, parallel dual-
+                                        The code will be publicized after acceptance.                                stream or multi-branch networks have garnered increasing
+                                          Index Terms—Brain-Computer Interface, EEG Decoding,                        attention as a promising alternative for EEG decoding. By
+                                        Dual-Stream Network, Layer-Wise Interaction.                                 explicitly decoupling and processing different aspects of EEG
+                                                                                                                     signals through dedicated branches, these models aim to better
+                                                                                                                     capture the multifaceted nature of brain activity. For instance,
+                                                                 I. I NTRODUCTION
+                                                                                                                     early multi-branch CNN-based architectures combined sepa-
+                                           Electroencephalography (EEG)-based brain-computer inter-                  rate convolutional pathways for temporal and spatial filtering,
+                                        faces (BCIs) establish direct communication pathways be-                     such as the Inception-based designs [8], [9]. More recently,
+                                        tween neural activity and external devices, with wide-ranging                models have explored integrating attention mechanisms into
+                                        applications in medical rehabilitation, assistive technologies,              dual-stream designs, where different branches independently
+                                                                                                                     employ self-attention modules to refine features before a final
+                                           This work was supported by research grants from the National Natural      fusion stage [10], [11]. While these dual-stream strategies
+                                        Science Foundation of China under Grant 2025ZD0215701, Grant T2341003,
+                                        Grant U2336214, in part by the Beijing Natural Science Foundation under      have demonstrated superior performance compared to single-
+                                        Grant L257019, in part by the Shenzhen Science and Technology Innovation     branch architectures, they often fall short in fully exploiting
+                                        Committee under Grant RCBS20231211090748082.                                 the rich, interconnected nature of EEG. Specifically, existing
+                                           * These authors contributed equally to this work.
+                                           † Corresponding author.                                                   dual-stream networks share a fundamental limitation: streams
+                                           Zhiyuan Ma, Xinche Zhang and Sen Song are with the School of              operate largely independently until final fusion. Temporal and
+                                        Biomedical Engineering, Tsinghua Laboratory of Brain and Intelligence,       spatial branches typically process their respective features
+                                        and IDG/McGovern Institute for Brain Research, Tsinghua University,
+                                        Beijing 100084, China (e-mail: ma-zy25@mails.tsinghua.edu.cn; zhang-         through multiple layers with minimal or no intermediate com-
+                                        xc24@mails.tsinghua.edu.cn; songsen@tsinghua.edu.cn).                        munication, deferring feature combination to the classification
+                                           Chenghao Yue is with the School of Life Sciences, Tsinghua University,    stage via simple concatenation or basic learned gating. This
+                                        Beijing 100084, China (e-mail: 2024261945@qq.com).
+                                           Zhongye Xia and Xinke Shen are with the Department of Biomedical En-      late-fusion strategy inherently creates an ”information silo”
+                                        gineering, Southern University of Science and Technology, Shenzhen 518055,   problem, leading to two critical consequences that hinder
+                                        China (e-mail: Xia Zhongye@outlook.com; shenxk@sustech.edu.cn).              optimal EEG decoding. First, delaying integration forces tem-
+                                           Yisi Zhang is with Department of Psychological and Cognitive Sci-
+                                        ences, Tsinghua University, Beijing, 100084, China (e-mail: zhangy-          poral and spatial streams to evolve in isolated representation
+                                        isi@tsinghua.edu.cn).                                                        spaces, thereby missing vital opportunities for mutual con-
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                        2
+
+
+
+                                                                                  Our main contributions are summarized as follows:
+                                                                                  • We propose LI-DSN, a novel layer-wise interactive dual-
+                                                                                    stream network that enables progressive spatiotemporal
+                                                                                    integration through continuous interaction, effectively ad-
+                                                                                    dressing the “information silo” problem inherent in late-
+                                                                                    fusion approaches.
+                                                                                  • We design the TSIA mechanism to capture synergis-
+                                                                                    tic spatiotemporal representations by integrating spatial
+                                                                                    structural priors with temporal dynamics. To augment
+                                                                                    these representations, an adaptive fusion strategy is em-
+                                                                                    ployed to selectively emphasize critical features through
+                                                                                    learnable weights.
+                                                                                  • Comprehensive experiments on eight EEG datasets, span-
+                                                                                    ning MI classification, emotion recognition, and SSVEP,
+                                                                                    consistently demonstrate LI-DSN’s superior performance
+                                                                                    over 13 SOTA baselines.
+
+                                                                                                     II. R ELATED W ORK
+Fig. 1. Exploration of dual-stream interaction strategies for EEG analysis,
+where Ft and Fs raw temporal and spatial features respectively, F˜t′ and F˜s′   A. CNN-Based EEG Decoding
+denote enhanced features after interaction. (a) Dual-stream architecture with
+cross-flow interactions between temporal and spatial streams. (b) Baseline         Convolutional Neural Networks (CNNs) have emerged as
+with no cross-stream interaction before fusion. (c) Interaction outputs inte-   a dominant paradigm for EEG signal classification due to
+grated only into the spatial stream. (d) Interaction outputs integrated only
+into the temporal stream. (e) Bidirectional interaction feeding both streams.
+                                                                                their effectiveness in extracting hierarchical features from
+                                                                                raw data. Early seminal works include EEGNet [4], which
+                                                                                introduced compact architecture employing depthwise sepa-
+                                                                                rable convolutions for spatial filtering and temporal convo-
+textualization and early-layer cross-stream guidance. Second,
+                                                                                lutions for frequency-specific pattern extraction, and Deep-
+this decoupled processing conflicts with neurophysiological
+                                                                                ConvNet/ShallowConvNet [5], which explored depth-accuracy
+evidence, which indicates that EEG signals arise from coupled
+                                                                                trade-offs, demonstrating that deeper architectures learn more
+spatiotemporal dynamics [12], [13], meaning that independent
+                                                                                abstract representations despite increased overfitting risk.
+feature extraction fails to adequately capture these intrinsic
+                                                                                Building upon these foundations, FBCNet [14] explicitly mod-
+interdependencies.
+                                                                                els spectral information through parallel filter banks tuned
+   To overcome these limitations and unlock the full po-                        to distinct frequency bands, mimicking classical Filter Bank
+tential of coupled spatiotemporal modeling, we propose LI-                      Common Spatial Patterns within an end-to-end framework.
+DSN (Layer-wise Interactive Dual-Stream Network). LI-DSN                        Recent advancements have focused on augmenting CNN ca-
+introduces a novel paradigm enabling progressive cross-                         pabilities for complex spatiotemporal dynamics and robust-
+stream communication at each layer of the network. The                          ness. Sakhavi et al. [15] proposed temporal representation
+core innovation is the Temporal-Spatial Integration Attention                   approaches to preserve temporal dynamics, while Kwon et
+(TSIA) mechanism, specifically developed to allow temporal                      al. [16] developed subject-independent frameworks leverag-
+features to iteratively query and integrate relevant spatial                    ing spectral-spatial features for robust calibration-free de-
+context throughout the network’s depth. Distinct from late-                     coding. Cui et al. [17] introduced Interpretable CNNs inte-
+fusion strategies, TSIA dynamically computes two comple-                        grating global average pooling and class activation mapping
+mentary matrices within each layer to capture coupled dy-                       for consistent pattern identification. For seizure detection,
+namics: (1) a Spatial Affinity Correlation Matrix (SACM),                       EEGWaveNet [18] leverages dilated temporal convolutions
+which incorporates electrode position embeddings to capture                     for long-range dependency modeling. While CNNs excel at
+geometric inter-electrode relationships, and (2) a Temporal                     local pattern extraction, their limited receptive fields constrain
+Channel Aggregation Matrix (TCAM), which utilizes a cosine-                     global temporal dependency modeling across trial durations.
+gated mechanism to discern how spatial patterns modulate
+oscillatory temporal dynamics. As illustrated in Figure 1,
+we explored three distinct fusion paradigms and selected the                    B. Dual-Stream Parallel Architectures
+asymmetric Spatiotemporal-to-Temporal (ST→T) integration                           Dual-stream networks have emerged as a highly effective
+as our model’s core strategy, ensuring that stable spatial priors               architectural paradigm in EEG decoding, explicitly designed
+effectively guide the refinement of temporal features (details                  to decouple and concurrently process complementary signal
+are provided in Section V-C). Finally, to optimize the decision-                aspects via parallel branches, overcoming single-stream model
+making process, we introduce an adaptive fusion strategy                        limitations in jointly optimizing local and global dependencies.
+that employs learnable channel weights to capture data-driven                   Regarding hemispheric asymmetry, Li et al. [19] proposed
+electrode importance, alongside temporal attention pooling to                   BiHDM, employing strict dual-stream architecture to process
+emphasize discriminative temporal segments.                                     left and right hemisphere signals independently, capturing
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                   3
+
+
+
+                                                              TABLE I
+                                   S UMMARY OF DATASETS AND TASK TYPES ACROSS DIFFERENT PARADIGMS .
+
+                                               Number of     Number of     Sampling    Trial Length   Number of
+              Paradigm         Dataset                                                                                   Task Types
+                                                Subjects    EEG Channels   Rate (Hz)    (seconds)     Total Trials
+                               BNCI2014001          9           22            250            4           1,296          left/right hand
+                               BNCI2014002         14           15            512            5           1,400       right hand/both feet
+                 MI
+                               BNCI2014004          9            3            250            5           1,080          left/right hand
+                               Zhou2016             4           14            250            5            409           left/right hand
+                               SEED                15           62            200            2           7,920         negative/positive
+         Emotion Recognition
+                               FACED              123           32            250            4          10,332         negative/positive
+                               Nakanishi2015        9            8            256            4           1,620         12-target stimuli
+               SSVEP
+                               Kalunga2016         12            8            256            2            945           4-target stimuli
+
+
+
+functional asymmetry. For enhanced spatiotemporal discrim-             discriminative spatiotemporal patterns at multiple hierarchical
+inability, TS-SEFFNet [20] utilizes parallel deep integrated           levels, while MSVTNet [30] leverages Transformer modules
+convolutional pathways for concurrent multi-source feature             to fuse multi-scale spatiotemporal representations from CNN
+extraction. Addressing subject variability, PCMDA [21] lever-          extractors for enhanced motor-imagery decoding.
+ages parallel contrastive learning streams for simultaneous               However, despite these advancements, most existing
+emotion-specific and domain-invariant representation extrac-           attention-based frameworks predominantly deploy attention as
+tion, while hybrid architectures like DBConformer [8] and              a late-stage integration module or for static feature weighting.
+MVCNet [22] combine CNN and Transformer branches to                    This design effectively treats feature extraction in different
+synergize local feature extraction with global dependency              streams as isolated processes, neglecting the potential for
+modeling. Beyond temporal and spatial characteristics, re-             mutual guidance and refinement at earlier network layers.
+searchers have expanded this paradigm to spectral and struc-           By deferring interaction to the final classification stage, these
+tural domains. Sun et al. [23] introduced DBGCN, utilizing             models miss critical opportunities to capture the intrinsic, cou-
+parallel graph convolution blocks for temporal and spectral            pled spatiotemporal dynamics of EEG signals throughout the
+representation learning. Similarly, Li et al. [24] proposed dual-      encoding hierarchy. Therefore, developing a progressive, layer-
+branch Transformers where one branch extracts spatiotemporal           wise interactive architecture that enables continuous cross-
+features from raw signals while another captures spectral dy-          stream knowledge exchange, rather than mere final aggre-
+namics from wavelet-transformed data. Structurally, DS-AGC             gation, represents a critical yet underexplored direction for
+[25] employs dual streams for non-structural and structural            advancing robust EEG decoding.
+adaptation via graph contrastive learning, and FBSTCNet [26]
+incorporates parallel branches to jointly decode power-related
+                                                                                               III. M ETHODOLOGY
+dynamics and Pearson correlation-based connectivity. How-
+ever, despite extracting distinct feature sets, these architectures    A. Architecture Overview
+predominantly rely on late fusion, treating streams as isolated           As illustrated in Figure 2, the proposed LI-DSN accepts
+information silos until final classification.                          EEG signal input X ∈ RC×T , where C denotes the number of
+                                                                       electrodes and T the temporal samples. The architecture begins
+C. Feature Fusion Strategies in Multi-Stream Architectures             with parallel Temporal and Spatial Tokenizers that extract
+   Feature fusion strategies in multi-stream EEG architec-             initial embeddings, which then traverse N interactive blocks
+tures have evolved from simple concatenation approaches to             containing complementary temporal and spatial pathways.
+sophisticated attention-based mechanisms. Early dual-stream            Unlike conventional late-fusion designs, LI-DSN employs the
+models typically employ basic concatenation or element-                Temporal-Spatial Integration Attention (TSIA) mechanism at
+wise operations to combine features from parallel branches             each layer, enabling spatial structural priors to progressively
+before final classification [19], [20]. More advanced ap-              refine temporal features throughout the encoding hierarchy.
+proaches utilize weighted fusion schemes, where learnable              Finally, the evolved representations from both streams are
+parameters determine the contribution of each stream [23].             synthesized via an Adaptive Fusion module to generate dis-
+Cross-modal attention mechanisms, successfully applied in              criminative features for the subsequent multi-layer perceptron
+medical image analysis for fusing CT and MRI modalities                (MLP) classifier.
+[27], have been adapted for EEG processing. Within the
+EEG domain, attention-based fusion has shown promise in
+integrating heterogeneous representations. Gong et al. [28]            B. Dual-Stream Tokenization
+adopted transformer-based fusion modules to integrate global             1) Temporal Tokenization: The temporal stream partitions
+spatial projection matrices with bi-hemisphere discrepancy             the input signal into token sequences to capture fine-grained
+streams, modeling dependencies across spatial, spectral, tem-          dynamic features. As illustrated in the Temporal Tokenizer
+poral, and hemispheric information. DMSACNN [29] utilizes              module of Figure 2, we employ a sequential convolutional
+local and global feature fusion attention modules to integrate         pipeline. Let Wpw denote the pointwise convolution weights
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                          4
+
+
+
+and Kdw the depth-wise convolution kernels. The token gen-          Simultaneously, we inject learnable electrode position embed-
+eration process is formulated as:                                   dings Epos ∈ RC×dh to encode geometric information:
+                                        
+            Zt = P↓ σ Kdw ∗ BN Wpw X          ,        (1)                 Y1 = Zs W1 + Epos ,           Y2 = Zs W2 + Epos .     (4)
+
+where ∗ represents the convolution operation, BN(·) is Batch        The SACM is computed to measure the spatial affinity between
+Normalization, and σ(·) denotes the GELU activation function.       these representations:
+The operator P↓ performs temporal downsampling to reduce
+resolution, yielding the final embedding Zt ∈ RP ×D , where                                   Y1 Y2⊤
+                                                                                                    
+                                                                               As = softmax    √       ∈ RH×C×C .             (5)
+P denotes the number of temporal patches and D represents                                        dh
+the embedding dimension.
+   2) Spatial Tokenization: The spatial stream extracts a com-      This affinity matrix is first applied to Y1 via matrix multipli-
+pact representation for each electrode. As depicted in the          cation to aggregate the spatial context. To emphasize task-
+Spatial Tokenizer module of Figure 2, each channel’s signal         relevant channels, we calculate an importance vector ω =
+xc undergoes a dedicated encoding pipeline independent of           softmax(∥Y1 ∥2 ) based on the L2-norm of the features. The
+other channels. We formulate this in two stages. First, we          pooled spatial summary spool is derived via an importance-
+extract the channel-specific feature representation hc through      weighted summation:
+a convolution-activation-normalization sequence followed by                                     C
+                                                                                                X
+average pooling:                                                                      spool =         ω c (As Y1 )(c) .          (6)
+                                                                                                c=1
+                                             
+              hc = AvgPool BN σ(Win xc ) ,                  (2)
+                                                                    Finally, spool is broadcast across the temporal dimension P to
+where Win represents the input projection weights. Second,          yield the global spatial context Sexp ∈ RP ×D .
+we flatten this representation and map it to the embedding             2) Temporal Channel Aggregation Matrix (TCAM): In the
+space via a linear transformation:                                  temporal stream, TCAM models channel-wise dependencies.
+                      z(c)                                          We first project the temporal input Zt into a feature subspace
+                       s = Wout vec(hc ),                    (3)
+                                                                    X1 = Zt Wt1 , where Wt1 ∈ RD×dh is a learnable projec-
+where Wout is the linear projection matrix and vec(·) denotes       tion matrix. Considering that EEG signals are fundamentally
+the flattening operation. This yields the complete spatial em-      composed of neural oscillations with intrinsic rhythmicity,
+bedding Zs ∈ RC×D , which serves as the initial input for the       standard monotonic activation functions (e.g., Sigmoid or
+subsequent interactive blocks.                                      ReLU) are suboptimal for capturing such periodic dynamics.
+                                                                    To explicitly encode these oscillatory properties, we design
+                                                                    a periodicity-aware cosine-gated transformation parameterized
+C. Feed-Forward Network Block
+                                                                    by Wϕ ∈ RD×dh :
+   Before entering the TSIA mechanism, the tokenized fea-
+tures from both streams are first enriched with positional                            X′1 = X1 ⊙ cos(Zt Wϕ ).                    (7)
+embeddings implemented via learnable parameters to preserve
+sequence order and spatial structure. These augmented features      The channel-wise correlation matrix is then computed to
+are then processed through a Feed-Forward Network (FFN)             capture relationships between feature dimensions, utilizing a
+Block to enhance feature representation. As illustrated in          separate key projection Kt = Zt Wkt :
+Figure 2, the FFN Block consists of a Layer Normalization                                    ′ ⊤ 
+step followed by a residual pathway containing two linear                                     (X1 ) Kt
+                                                                             Ac = softmax       √         ∈ RH×dh ×dh .       (8)
+transformations separated by a GELU activation function and                                        P
+a dropout layer. This block refines the features within their re-
+spective streams before they undergo cross-stream interaction.      The enhanced temporal features Z   e t are finally obtained by
+                                                                    aggregating the cosine-gated input according to this correlation
+                                                                    structure:
+D. Temporal-Spatial Integration Attention (TSIA)
+                                                                                            Ze t = X′ Ac .                       (9)
+                                                                                                         1
+   Following the FFN refinement, the TSIA mechanism facil-
+itates bidirectional guidance between the temporal and spatial         3) Multiplicative Integration: To synthesize the information
+domains. As shown in Figure 2, it comprises three sequential        from both streams, the refined temporal features Z      e t and
+stages: spatial context extraction via SACM, temporal feature       the global spatial context Sexp are fused via element-wise
+refinement via TCAM, and the final multiplicative integration.      multiplication. This step acts as a soft gating mechanism,
+   1) Spatial Affinity Correlation Matrix (SACM): In the            where spatial priors highlight relevant temporal patterns. The
+spatial stream, the SACM captures the latent correlations           final output is projected via a linear layer:
+between electrodes. We first project the spatial input Zs into
+two feature spaces Y1 , Y2 via learnable projection matrices
+                                                                                                                  
+                                                                                OTSIA = Concatheads Z  e t ⊙ Sexp Wout ,        (10)
+W1 , W2 ∈ RD×dh , where H denotes the number of attention
+heads and dh = D/H represents the dimension per head.               where Wout ∈ RD×D denotes the output projection weights.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                    5
+
+
+
+
+Fig. 2. The overall architecture of the proposed LI-DSN. The raw EEG signals are first processed by parallel Temporal and Spatial Tokenizers to extract initial
+embeddings. These embeddings are then fed into N blocks, where each block consists of a Feed-Forward Network (FFN) followed by the Temporal-Spatial
+Integration Attention (TSIA) module to enable progressive cross-stream interaction. The refined features are subsequently aggregated by the Adaptive Fusion
+module and passed through an MLP classification head to generate outputs for various EEG tasks (e.g., MI classification, Emotion Recognition, SSVEP). The
+detailed architectures of the five key components, namely the Spatial Tokenizer, Temporal Tokenizer, FFN Block, TSIA and Adaptive Fusion, are illustrated
+in the sub-panels.
+
+
+
+E. Asymmetric Integration Flow                                                   the signal-to-noise ratio by filtering out spatially incoherent
+   At each layer ℓ, LI-DSN follows an asymmetric update                          temporal fluctuations without introducing stochastic noise into
+order. First, the spatial stream updates its representations                     the stable spatial structure. As detailed in Section V-C, em-
+independently through its specific FFN, denoted as S (ℓ) . Sub-                  pirical results support this architectural choice, indicating that
+sequently, the temporal stream processes its features through                    temporal-conditioned integration consistently yields superior
+a temporal FFN, followed by the interaction with the updated                     performance compared to reverse or symmetric alternatives.
+spatial context via the TSIA mechanism. The layer-wise
+update is formulated as:                                                         F. Adaptive Fusion
+                  Z(ℓ)     (ℓ)
+                               Z(ℓ−1)
+                                       
+                    s =S         s       ,                                          After N interactive encoding blocks, the network produces
+                                                                                                                    (N )
+                    (ℓ)
+                  Ht = FFN Zt
+                                 (ℓ−1) 
+                                          ,                (11)                  high-level temporal features Zt         ∈ RP ×D and spatial fea-
+                                                                                         (N )     C×D
+                    (ℓ)            (ℓ)     (ℓ)
+                                                                                tures Zs ∈ R           . To effectively synthesize these represen-
+                  Zt = TSIA Ht , Zs .                                            tations for the final classification, we employ a dual-branch
+This strategy of injecting spatial information into the temporal                 Adaptive Fusion strategy as illustrated in Figure 2.
+stream is motivated by the role of the spatial stream as                            For the spatial stream, we introduce a set of Channel Weight
+a semantic anchor. Since the temporal dimension contains                         Learnable Parameters (CWLP), denoted as wsp ∈ RC . Unlike
+high-resolution yet redundant dynamics, using compact spatial                    standard average pooling, this mechanism allows the model to
+structural priors to guide temporal feature refinement acts as                   learn a static importance score for each electrode, explicitly
+an effective spatial filter. This unidirectional design enhances                 prioritizing task-relevant brain regions (e.g., motor cortex for
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                           6
+
+
+
+MI classification tasks). The global spatial representation zs        Algorithm 1 Training Procedure of LI-DSN
+is obtained via weighted summation:                                   Require: Training set Dtrain , batch size B, max epochs E,
+                             C                                            class weights w
+                                                                      Ensure: Optimized parameters θ
+                             X
+                                    (c)
+                     zs =          wsp  · Z(N,c)
+                                           s     .            (12)
+                             c=1                                       1: Initialize model components and Adam optimizer (β =
+                                                                          (0.9, 0.95), weight decay = 0)
+   For the temporal stream, we utilize a dynamic attention-
+                                                                       2: for epoch = 1 to E do
+based pooling mechanism to identify discriminative time
+                                                                       3:    for each batch {(Xi , yi )}B
+                                                                                                        i=1 in Dtrain do
+segments. The temporal features are processed by a MLP
+                                                                       4:       // Dual-stream Tokenization
+consisting of two linear layers with a ReLU activation in                         (0)
+                                                                       5:       Zt ← TemporalTokenizer(X) via Eq. (1)
+between. This MLP maps the D-dimensional feature at each                          (0)
+time step p to a scalar attention score, which is then normalized      6:       Zs ← SpatialTokenizer(X) via Eq. (3)
+via a Softmax function:                                                7:       // Layer-wise Interactive Encoding
+                                                                       8:       for ℓ = 1 to N do
+                                            (N ) 
+         α = softmax W2 · ReLU(W1 Zt ) ∈ RP ,                (13)      9:
+                                                                                                (ℓ)      (ℓ)
+                                                                                   Update Zs and Zt via Asymmetric Flow
+                                                                                   (Eq. (11))
+where W1 and W2 are the weights of the MLP. The final tem-
+                                                                      10:       end for
+poral representation zt is derived by aggregating the temporal
+                                                                      11:       // Fusion and Optimization
+tokens according to these learned attention weights:                                                    (N )  (N )
+                                                                      12:       u ← AdaptiveFusion(Zt , Zs ) via Eq. (12) (14)
+                             P
+                             X            (N,p)                       13:       ŷ ← MLPP  cls (u)
+                      zt =         αp · Zt        .           (14)    14:
+                                                                                               B
+                                                                                L ← − B1 i=1 wyi log(ŷi,yi ) via Eq. (15)
+                             p=1
+                                                                      15:       Update θ via backpropagation: θ ← θ − η∇θ L
+   Finally, the aggregated spatial and temporal vectors are           16:    end for
+concatenated to form the unified representation u = [zt ; zs ] ∈      17:    Evaluate accuracy on Dtest
+R2D . This vector is fed into the final MLP classifier to obtain      18: end for
+the predicted class probabilities ŷ. The model is trained end-       19: return θ
+to-end using standard cross-entropy loss:
+                                 N
+                              1 X               
+                  LCE = −           log ŷi , yi ,            (15)      2) Emotion Recognition Datasets:
+                              N i=1
+                                                                        • SEED [35]: Fifteen subjects watched 15 film clips across
+where N is the batch size and ŷyi corresponds to the predicted           three sessions to elicit positive, neutral, and negative
+probability of the ground truth class yi .                                emotions, while 62 EEG channels were recorded at 1,000
+                                                                          Hz (down-sampled to 200 Hz). After discarding the
+                        IV. E XPERIMENT                                   neutral class and segmenting the data into 2 s windows,
+A. Datasets                                                               we obtained 7,920 labeled trials for binary classification.
+                                                                        • FACED [36]: One hundred and twenty-three subjects
+   We evaluated the performance of LI-DSN across three
+                                                                          viewed 28 video clips to elicit 9 emotions, while 32
+distinct EEG decoding tasks: MI classification, emotion recog-
+                                                                          EEG channels were recorded at 250 or 1000 Hz (down-
+nition, and SSVEP. The characteristics of the datasets utilized
+                                                                          sampled to 250 Hz). The resulting valence scores were
+are detailed in Table I.
+                                                                          binarized into high and low classes using a threshold
+   1) MI classification Datasets:
+                                                                          of 3.0, and the EEG signals were segmented into 4 s
+   • BNCI2014001 [31]: Nine subjects performed left and
+                                                                          windows, yielding 10,332 labeled trials in total.
+      right hand MI classification tasks while 22 EEG channels
+                                                                        3) SSVEP Datasets:
+      were recorded at 250 Hz over 4 s trials. Only the cali-
+      bration session was used, yielding 144 trials per subject         • Nakanishi2015 [37]: Nine subjects focused on 12 flick-
+
+      and a total of 1,296 trials across all subjects.                    ering targets for 4 s while eight occipital electrodes were
+   • BNCI2014002 [32]: Fourteen subjects performed right                  recorded at 2048 Hz (down-sampled to 256 Hz). Each
+      hand and feet MI classification tasks while 15 EEG                  subject contributes 180 trials across all stimulus codes,
+      channels recorded at 512 Hz. Each subject contributed               yielding 1,620 trials in total.
+      100 trials from the first five runs, yielding 1,400 trials in     • Kalunga2016 [38]: Twelve subjects performed a 4-class
+
+      total.                                                              SSVEP task (13/17/21 Hz plus resting). EEG was ac-
+   • BNCI2014004 [33]: Nine subjects performed left and                   quired with eight channels at 256 Hz. Every session
+      right hand MI classification tasks, recorded from 3 EEG             contains 32 trials (5 s stimulation). Across 2–5 sessions
+      channels at 250 Hz. We use only the first session, yielding         per subject, a total of 945 labeled trials were collected.
+      120 trials per subject and 1,080 trials in total.
+   • Zhou2016 [34]: Four subjects performed left and right
+      hand MI classification tasks, recorded from 14 EEG              B. Baselines
+      channels at 250 Hz. We use only the first session, yielding       We evaluate the performance of our proposed LI-DSN by
+      409 usable 5 s trials in total.                                 comparing it with the following 13 baseline methods:
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                 7
+
+
+
+                                                           TABLE II
+ MI CLASSIFICATION ACCURACIES (%) OF DIFFERENT METHODS ON THE BNCI2014001, BNCI2014002, BNCI2014004, AND Z HOU 2016 DATASETS
+                           UNDER CO, CV, AND LOSO SCENARIOS . (B OLD : BEST; U NDERLINE : SECOND BEST )
+
+
+      Task      Dataset     SCNN      DCNN       EEGNet     FBCNet     CTNet    MSVTNet      IFNet   Conformer DBConformer LI-DSN
+             BNCI2014001 73.57±2.37 59.29±1.64 69.05±1.02 68.97±1.28 73.49±2.12 74.60±3.03 77.94±0.87 78.57±0.72 80.16±1.83 80.95±1.09
+             BNCI2014002 79.07±2.01 64.07±2.68 66.07±2.76 69.50±1.02 71.00±1.78 78.93±1.42 78.29±1.73 76.21±1.52 79.14±0.16 81.57±1.33
+      CO
+             BNCI2014004 68.15±1.42 62.41±1.58 68.43±2.21 65.46±1.56 71.57±1.32 71.30±1.50 73.43±1.71 72.04±1.61 75.09±1.54 75.19±0.23
+              Zhou2016    75.03±6.18 78.03±2.41 80.13±3.35 63.33±2.31 76.81±5.14 70.32±1.42 81.70±2.14 73.87±4.45 82.49±2.42 84.65±1.87
+             BNCI2014001 78.22±0.21 61.59±1.12 71.86±1.03 74.74±0.72 75.97±0.77 81.28±0.72 82.62±0.92 83.62±1.01 83.66±0.42 83.79±0.69
+             BNCI2014002 81.24±0.52 67.17±0.32 68.90±1.37 74.53±0.72 75.50±0.93 80.91±0.52 80.21±0.52 79.30±0.31 81.36±0.33 82.57±0.44
+      CV
+             BNCI2014004 68.13±0.61 63.51±0.42 68.91±0.88 67.17±0.31 70.96±1.11 73.59±0.64 72.02±0.53 73.15±0.71 74.17±0.62 75.11±0.18
+              Zhou2016    82.90±0.91 79.68±1.11 85.30±2.12 80.01±0.52 86.38±1.48 88.06±1.21 87.78±1.01 85.67±1.52 91.54±0.17 91.48±1.38
+             BNCI2014001 72.22±1.02 73.21±1.81 73.64±1.11 72.56±1.02 73.40±1.22 77.10±1.33 74.52±0.67 73.07±2.01 77.67±0.55 77.86±1.23
+             BNCI2014002 70.57±1.41 74.34±0.81 72.86±0.41 71.31±0.77 74.14±0.81 74.61±1.12 73.90±0.71 72.84±1.44 77.17±0.84 77.25±0.13
+   LOSO
+             BNCI2014004 62.19±0.80 62.56±0.62 67.78±0.90 67.09±0.74 65.28±1.09 67.41±0.83 67.69±0.39 64.22±1.14 69.85±0.52 71.44±0.27
+              Zhou2016    82.10±0.71 83.84±1.21 83.22±1.80 82.07±0.93 83.88±1.01 84.95±1.44 86.21±0.97 82.43±1.46 85.37±0.78 86.53±1.24
+
+
+
+  • SCNN (Shallow Convolutional Neural Network) [5]: A                       putational complexity of standard deep ConvNets.
+    shallow CNN architecture for EEG decoding and inspired                 • CTNet (Convolutional Transformer Network) [41]: A
+    by the Filter Bank Common Spatial Pattern (FBCSP)                        hybrid framework that synergizes the local inductive bias
+    paradigm. It employs temporal convolution for frequency-                 of CNNs with the global context modeling capabilities
+    specific filtering and spatial convolution across EEG                    of Transformers. A convolutional front-end extracts fine-
+    channels to extract discriminative spatiotemporal patterns,              grained local patterns, which are then processed by
+    enabling effective decoding of local EEG dynamics.                       a Transformer encoder to capture long-range temporal
+  • DCNN (Deep Convolutional Neural Network) [5]: A                          dependencies and global interactions.
+    deeper version of SCNN with four convolutional blocks                  • MSVTNet (Multi-Scale Vision Transformer Network)
+    and max pooling layers for feature extraction. Its in-                   [30]: A hierarchical framework that integrates multi-scale
+    creased depth enables capturing more complex features                    CNNs with Transformers to capture cross-frequency cou-
+    and intricate patterns in EEG signals.                                   pling and global correlations. It employs auxiliary branch
+  • GCBNet (Graph Convolutional Broad Network) [39]: A                       loss for intermediate supervision, ensuring robust capture
+    hybrid framework integrating Graph Convolutional Net-                    of spatio-temporal dynamics and cross-scale interactions.
+    works (GCN) to model the topological structure of EEG                  • IFNet (Interactive Frequency Convolutional Neural Net-
+    channels, with stacked standard convolutional layers. It                 work) [42]: A multi-branch architecture that decomposes
+    employs a broad learning strategy by concatenating hier-                 EEG into specific frequency bands processed by 1D
+    archical features across layers, efficiently capturing both              convolutions. It employs an attention-based fusion mech-
+    local graph interactions and high-level abstract patterns.               anism to facilitate cross-frequency interaction, effectively
+  • EEGNet (Compact Convolutional Neural Network) [4]:                       capturing complementary spectral patterns that are often
+    A compact CNN architecture for generalized EEG clas-                     overlooked by single-stream models.
+    sification. It utilizes depthwise separable convolutions               • EEG-Conformer (Compact Convolutional Transformer)
+    to efficiently extract frequency-specific temporal features              [6]: A compact, unified framework composed of a con-
+    and spatial filters, reducing trainable parameters while                 volutional module followed by a Transformer encoder,
+    enhancing spatiotemporal representation capabilities.                    synergistically combining the local spatiotemporal feature
+  • TSception (Multi-scale Convolutional Neural Network)                     extraction capabilities of CNNs with the global long-
+    [40]: A multi-scale CNN that models EEG’s temporal                       range dependency modeling of attention mechanisms.
+    dynamics and hemispheric asymmetry using dynamic                       • EEG-Deformer (Dense Convolutional Transformer) [43]:
+    temporal kernels and asymmetric spatial convolutions,                    A hierarchical framework designed to mitigate the loss
+    providing a strong baseline for robust spatiotemporal                    of local details in standard Transformers. It integrates a
+    emotion recognition.                                                     Hierarchical Coarse-to-Fine Transformer with a parallel
+  • FBCNet (Filter Bank Convolutional Neural Network)                        Fine-grained Temporal Learning branch, enabling the
+    [14]: A multi-view convolutional network inspired by                     simultaneous capture of macroscopic temporal trends and
+    the FBCSP pipeline. It decomposes EEG signals into                       microscopic signal dynamics.
+    multiple frequency bands and employs spatial convolu-                  • DBConformer (Dual-Branch Convolutional Transformer)
+    tional layers followed by log-variance layers to extract                 [8]: A parallel dual-branch architecture designed to cap-
+    discriminative spectral-spatial features, avoiding the com-              ture global EEG representations efficiently. It integrates
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                              8
+
+
+
+    a temporal Conformer with a spatial Conformer and                   multi-GPU support. The model architecture used an embed-
+    a lightweight channel attention module, enabling the                ding dimension of 40, spatial dimension of 16, Transformer
+    simultaneous modeling of long-range temporal depen-                 encoders with 3 layers for temporal and channel branches, and
+    dencies and intricate inter-channel interactions with high          dropout rate of 0.25. Training hyperparameters were consistent
+    interpretability and minimal parameter overhead.                    across all scenarios: learning rate of 0.001, batch size of 32,
+  • EmT (Emotion Transformer) [44]: A robust framework                  and maximum 100 epochs with early stopping mechanism to
+    tailored for cross-subject emotion recognition. It models           prevent overfitting. We employed the Adam optimizer with
+    EEG signals as temporal graphs and utilizes a residual              momentum parameters (β1 =0.9, β2 =0.95), epsilon value of 1e-
+    multiview pyramid GCN to learn topological representa-              8 for numerical stability, and no weight decay.
+    tions, while a Temporal Contextual Transformer captures                For data preprocessing, we applied dataset-specific pro-
+    the evolution of these emotional states over time.                  tocols aligned with our implementation. MI classification
+                                                                        datasets utilized MOABB-provided signals without additional
+                                                                        band-pass filtering or notch filters, following standard session
+C. Experiment Settings
+                                                                        and class trimming. Euclidean Alignment (EA) was applied
+   To comprehensively evaluate the proposed LI-DSN                      by default to mitigate inter-subject covariance variability. For
+model, we conducted experiments across three BCI                        emotion recognition datasets, we used the officially prepro-
+paradigms: MI classification, emotion recognition, and                  cessed data. A two-stage temporal segmentation was applied
+SSVEP. For MI classification tasks, we employed four public             to capture both coarse- and fine-grained dynamics. First, 20 s
+datasets (BNCI2014001, BNCI2014002, BNCI2014004, and                    sliding windows with 0.8 overlap partitioned the EEG signals
+Zhou2016) and evaluated our model under three scenarios:                into segments. Each segment was further divided into sub-
+Chronological Order (CO), Cross-Validation (CV), and                    segments using dataset-specific windows (4 s for FACED, 2 s
+Leave-One-Subject-Out (LOSO). In CO, trials were split                  for SEED) with 0.75 overlap. For each sub-segment, relative
+chronologically, with the first 80% for training and the                power spectral density (rPSD) features were extracted across
+last 20% for testing, simulating a realistic time-ordered               seven frequency bands (δ: 1–3 Hz, θ: 4–8 Hz, α: 8–12 Hz,
+deployment. CV was performed using 5-fold cross-validation              β: 12–16 Hz, low-γ: 16–20 Hz, mid-γ: 20–28 Hz, high-γ:
+by splitting each subject’s data into five contiguous time-             30–45 Hz) and normalized per channel using z-score. Finally,
+ordered segments. LOSO tested cross-subject generalization              the sub-segment and frequency dimensions were concatenated
+by training on all subjects except one. For emotion recognition         for each channel, yielding a compact feature vector encoding
+and SSVEP, we used the LOSO protocol to evaluate cross-                 local temporal and spectral information. For SSVEP datasets,
+subject generalization, while for the FACED dataset, a                  signals were resampled to 256 Hz via MOABB with time
+10-fold cross-subject validation was employed. For MI                   windowing and without additional filtering. EA was disabled
+classification and SSVEP datasets, each experiment was                  for Nakanishi2015 while retained for Kalunga2016.
+conducted five times using different random seeds, and the
+mean classification accuracy along with standard deviation              E. Evaluation Metrics
+across subjects was reported. For emotion recognition, results
+                                                                          To assess the proposed LI-DSN model across different BCI
+were obtained without repeated random initialization.
+                                                                        paradigms, we employed task-specific evaluation metrics. For
+                                                                        MI classification tasks, we used classification accuracy (ACC):
+                            TABLE III
+E MOTION RECOGNITION RESULTS OF DIFFERENT METHODS ON THE SEED                                        Nc
+   AND FACED DATASETS . (B OLD : BEST; U NDERLINE : SECOND BEST )                            ACC =      × 100%                 (16)
+                                                                                                     Nt
+                                                                        where Nc is the number of correct predictions and Nt is the
+                       SEED                        FACED
+ Method                                                                 total number of predictions.
+             ACC(±std)↑       F1(±std)↑   ACC(±std)↑        F1(±std)↑
+                                                                           For emotion recognition and SSVEP tasks, we reported
+ GCBNet     68.42 ± 17.21 52.15 ± 35.68 57.38 ± 5.23 69.12 ± 5.36
+                                                                        ACC and F1-score, defined as:
+ EEGNet     69.55 ± 11.28 65.84 ± 22.08 62.60 ± 4.35 76.45 ± 3.31
+                                                                                                        P ×R
+ TSception 66.23 ± 18.12 62.05 ± 28.26 61.92 ± 8.83 70.19 ± 3.58                              F1 = 2 ×                         (17)
+ CTNet      68.71 ± 11.62 63.75 ± 25.41 62.08 ± 4.20 76.10 ± 3.17
+                                                                                                        P +R
+                                                                                       TP               TP
+ MSVTNet     64.36 ± 8.21 59.86 ± 21.78 62.91 ± 6.17 76.79 ± 4.84       where P = TP+FP     and R = TP+FN   are precision and recall,
+ Conformer 61.58 ± 12.70 52.98 ± 22.04 59.06 ± 3.53 72.36 ± 3.58        with TP, FP, FN denoting true positives, false positives, and
+ Deformer   75.95 ± 10.68 74.72 ± 12.39 57.64 ± 7.08 69.15 ± 7.01       false negatives. All metrics were computed per-subject and
+ EmT        80.42 ± 11.56 82.14 ± 9.38 60.81 ± 6.58 74.55 ± 5.85        averaged across subjects with standard deviations reported.
+ LI-DSN     82.37 ± 11.05 81.34 ± 18.65 62.99 ± 4.41 77.04 ± 4.02
+                                                                                       V. R ESULTS AND D ISCUSSION
+                                                                        A. Performance Comparison
+                                                                           1) Motor Imagery Classification: The experimental results
+D. Implementation Details                                               for MI classification are summarized in Table II. We eval-
+  The proposed LI-DSN model was implemented using Py-                   uated the methods across Chronological Order (CO), Cross-
+Torch and trained on NVIDIA GeForce RTX 4090 GPUs with                  Validation (CV), and Leave-One-Subject-Out (LOSO) settings
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                     9
+
+
+
+                            TABLE IV
+SSVEP RESULTS OF DIFFERENT METHODS ON THE NAKANISHI 2015 AND
+ K ALUNGA 2016 DATASETS . (B OLD : BEST; U NDERLINE : SECOND BEST )
+
+                      Nakanishi2015              Kalunga2016
+ Method
+                 ACC(±std)↑    F1(±std)↑    ACC(±std)↑   F1(±std)↑
+ EEGNet      96.09 ± 0.22    95.94 ± 0.22   69.73 ± 0.68 67.87 ± 0.94
+ CTNet       96.19 ± 0.11    96.06 ± 0.14   69.18 ± 0.45 67.05 ± 0.30
+ MSVTNet     90.46 ± 0.27    90.37 ± 0.32   70.84 ± 0.49 68.35 ± 0.54
+ Conformer   94.16 ± 0.34    94.16 ± 0.34   65.17 ± 0.42 63.10 ± 0.52
+ Deformer    96.26 ± 0.33    96.19 ± 0.34   70.01 ± 0.35 68.97 ± 0.51
+ DBConformer 94.12 ± 0.24    93.98 ± 0.23   72.00 ± 0.85 69.97 ± 0.98   Fig. 3. Comparison of integration method under the LOSO protocol across
+ LI-DSN       97.04 ± 0.14 96.89 ± 0.12 73.10 ± 0.49 68.58 ± 0.68       four MI classification datasets.
+
+
+                                                                        resents a substantial improvement over the strongest baseline,
+on the BNCI2014001, BNCI2014002, BNCI2014004, and
+                                                                        MSVTNet (62.91 ± 6.17% ACC, 76.79 ± 4.84% F1). This
+Zhou2016 datasets. As shown in Table II, LI-DSN consistently
+                                                                        notable margin is attributed to LI-DSN’s layer-wise interactive
+achieves superior performance. On BNCI2014001, it achieves
+                                                                        paradigm, which explicitly decouples temporal dynamics and
+the highest accuracy of 80.95±1.09% (CO), 83.79±0.69%
+                                                                        spatial arrangement while facilitating progressive cross-stream
+(CV), and 77.86±1.23% (LOSO). For BNCI2014002, it
+                                                                        exchange. Unlike standard late-fusion architectures, this design
+reaches 81.57±1.33% (CO) and 82.57±0.44% (CV) and
+                                                                        effectively captures complex affective dependencies, ensuring
+77.25±0.13% (LOSO). On BNCI2014004, which has lim-
+                                                                        high accuracy despite inherent inter-subject variability.
+ited channel density, LI-DSN demonstrates robustness with
+                                                                           3) Steady-State Visually Evoked Potentials: The robust-
+75.19±0.23% (CO) 75.11±0.18% and 71.44±0.27% (LOSO).
+                                                                        ness of LI-DSN extends to frequency-modulated SSVEP
+Furthermore, on Zhou2016, it achieves 84.65% ± 1.87% (CO)
+                                                                        tasks, as evidenced by the results on the Nakanishi2015 and
+and 86.53%±1.24% (LOSO), setting new SOTA performance
+                                                                        Kalunga2016 datasets (Table IV). Our model establishes a
+while maintaining competitiveness in CV with 91.48% ±
+                                                                        new SOTA with ACC of 97.04 ± 0.14% and 73.10 ± 0.49%,
+1.38%.
+                                                                        respectively. It consistently marking a clear improvement over
+   These results indicate the effectiveness of the proposed
+                                                                        competitive baselines like Deformer and DBConformer. This
+layer-wise interactive mechanism. Unlike other dual-stream
+                                                                        performance gain is primarily driven by the TSIA mechanism,
+networks that typically process streams independently or fuse
+                                                                        which dynamically aligns the frequency oscillations with their
+them only at the end, LI-DSN explicitly models the exchange
+                                                                        corresponding occipital spatial patterns, thereby enhancing the
+between temporal dynamics and spatial arrangement at multi-
+                                                                        detection of visual evoked potentials amidst background noise.
+ple levels. This allows the network to refine features progres-
+sively. Consequently, the model delivers robust performance
+even when generalizing to unseen subjects or operating with             B. Ablation Study
+limited channel information.
+                                                                           To rigorously validate the effectiveness of the core com-
+                                                                        ponents in LI-DSN, we conducted comprehensive abla-
+                           TABLE V
+ T HE ABLATION STUDY OF THE PROPOSED MODULE AND STRATEGY ON             tion studies on three representative datasets: BNCI2014001,
+               THREE MI CLASSIFICATION DATASETS .                       BNCI2014002, and Zhou2016. We specifically investigated the
+                                                                        impact of the layer-wise interactive mechanism, the direction-
+ Model Variant                   2014001      2014002       Zhou2016    ality of information flow, and the adaptive fusion strategy. The
+ w/o Positional Embedding       74.79±1.18 74.67±0.14 84.87±1.19        comparative results are summarized in Table V.
+ w/o Interaction (Late Fusion) 73.25±1.32 72.05±0.15 81.51±1.38            1) Impact of Positional Embedding: We investigated the
+ w/o TSIA (Simple Concat)       72.37±1.72 70.56±0.23 80.31±1.65        necessity of Positional Embeddings (PE) for encoding se-
+ w/o Cosine Gate                75.22±1.15 75.29±0.08 84.01±1.21        quence order. As shown in Table V, removing PE results in
+ w/o Ele-Pos Embedding          75.65±1.20 75.34±0.12 83.92±1.26
+                                                                        a noticeable performance decline, demonstrating that explicit
+                                                                        sequence information is vital for the model to interpret dy-
+ w/o Adaptive Fusion            73.69±1.45 73.90±0.14 82.14±1.41
+                                                                        namic EEG patterns correctly. Without PE, the self-attention
+ LI-DSN (Full Model)            77.86±1.23 77.25±0.13 86.53±1.24
+                                                                        mechanism treats the input as a bag of features, losing critical
+                                                                        temporal context. We also observed that using learnable posi-
+   2) Emotion Recognition: Table III presents the emotion               tional embeddings provided a slight edge over fixed sinusoidal
+recognition results. On SEED, LI-DSN achieves the highest               ones, likely due to their adaptability to the specific temporal
+ACC of 82.37 ± 11.05% and the second-best F1 of 81.34 ±                 distortions present in the dataset.
+18.65%, surpassing the runner-up EmT (80.42±11.56% ACC,                    2) Impact of Layer-wise Interaction: We rigorously eval-
+82.14 ± 9.38% F1). Results on FACED further validate our                uated the TSIA module through four variants covering both
+model, where it attains top performance with an ACC of                  interaction strategies and internal components: w/o Interaction
+62.99 ± 4.41% and F1 of 77.04 ± 4.02%. Crucially, this rep-             (Late Fusion),” w/o TSIA (Simple Concat),” w/o Cosine Gate,”
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                       10
+
+
+
+
+                                                                                Fig. 5. Comparison of model performance, parameters, and MFLOPS on
+                                                                                BNCI2014001, with model size indicated by circle area.
+
+
+                                                                                in the bidirectional variant, both streams mutually update each
+                                                                                layer, while in ST→S, the temporal stream refines spatial
+                                                                                features instead. Across the datasets, bidirectional interaction
+                                                                                consistently under-performs (e.g., BNCI2014001 drops from
+                                                                                77.86% to 75.12%), and ST→S yields a similar degradation.
+Fig. 4. Impact of architectural hyperparameters on performance under the        This performance disparity suggests that the spatial stream
+LOSO protocol. (a) and (c) illustrate the effect of block depth (Ns , Nt ) on   functions as a robust spatial filter, effectively enhancing
+the SEED and FACED datasets respectively. (b) and (d) display the effect of
+feature embedding width on the SEED and FACED datasets.
+                                                                                the signal-to-noise ratio by aggregating spatial structural
+                                                                                information to guide temporal feature extraction. Conversely,
+                                                                                feeding complex, high-frequency temporal dynamics back
+and w/o Ele-Pos Embedding,” where the latter denotes Elec-                      into the spatial stream likely introduces stochastic noise,
+trode Position Embedding. As detailed in Table V, discarding                    which disrupts the learning of stable spatial patterns due to
+layer-wise interaction or replacing TSIA with simple concate-                   the inherent variability of EEG signals. Thus, the asymmetric
+nation leads to significant performance drops (e.g., > 3%                       ST→T flow, which prioritizes spatially-guided temporal
+on BNCI2014001), validating the necessity of progressive                        refinement, remains the most effective strategy.
+coupling. Crucially, ablating specific internal components also
+degrades performance: removing the Cosine Gate or Electrode                     D. Effect of Depth and Width
+Position Embedding reduces accuracy to 75.22% and 75.65%                           To determine optimal hyperparameters, we evaluated the
+on BNCI2014001, respectively. These results confirm that                        network depth and embedding width on the SEED and FACED
+beyond the interaction paradigm itself, the specific designs of                 datasets under the LOSO protocol. The depth configuration is
+cosine-gated oscillation modeling and explicit spatial priors                   denoted by (Ns , Nt ), where Ns and Nt represent the number
+are essential for capturing subtle spatiotemporal dynamics.                     of blocks in the spatial and temporal streams, respectively. We
+   3) Impact of Adaptive Fusion: Finally, we evaluated the                      constrained the depth search space to Ns ≤ Nt because the
+contribution of the Adaptive Fusion Head by replacing it with                   asymmetric ST → T mechanism relies on spatial features
+a standard concatenation of global average pooled features (de-                 guiding temporal layers. Consequently, setting Ns > Nt is
+noted as “w/o Adaptive Fusion”). The consistent performance                     invalid as the surplus spatial blocks cannot participate in the
+drop in this variant highlights the importance of the learnable                 interaction. As shown in Figure 4(a) and (c), performance
+channel weights and temporal attention pooling. These compo-                    peaks at the (3, 3) configuration before declining due to
+nents allow the model to dynamically suppress task-irrelevant                   overfitting induced by excessive model complexity. Regarding
+background noise and focus on the most discriminative time                      embedding width, Figures 4(b) and (d) indicate that accuracy
+windows and brain regions, which is particularly beneficial for                 maximizes at 40. Beyond this threshold, performance degrades
+datasets with high inter-subject variability like BNCI2014002.                  as excessive dimensionality introduces redundancy and noise.
+                                                                                Therefore, we adopt the (3, 3) configuration and a width of
+C. Effect of Integration method                                                 40 for all subsequent experiments.
+  To further justify our asymmetric spatiotemporal-to-
+temporal (ST→T) integration, we compared it with                                E. Computational Complexity
+two alternatives: symmetric bidirectional interaction and                         To verify the efficiency of LI-DSN, we analyzed its com-
+spatiotemporal-to-spatial (ST→S), under the LOSO protocol                       putational complexity in terms of parameters and Floating
+on four MI classification datasets. As illustrated in Figure 3,                 Point Operations (FLOPs) relative to baselines. As illustrated
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                  11
+
+
+
+
+Fig. 6. Visualization of the TSIA matrices and channel-temporal interactions. Subfigures (a), (b), (e), and (f) correspond to the Nakanishi2015 dataset, while
+(c), (d), (g), and (h) correspond to the Kalunga2016 dataset. Specifically, (a) and (c) illustrate the spatial attention heatmap of SACM; (b) and (d) display
+the spatial attention heatmap of TCAM. Regarding the feature interaction, (e) and (g) depict the channel-temporal feature matrices before TSIA interaction,
+whereas (f) and (h) visualize the matrices after interaction.
+
+
+
+in Figure 5, LI-DSN achieves a superior trade-off between                       F. Interpretability and Visualization
+performance and cost, locating at the optimal position with
+high accuracy and low resource consumption. Specifically,
+our model is extremely lightweight, requiring only 121.3 K                         1) Learned Attention Patterns of SACM and TCAM: To
+parameters and 6.12 M FLOPs. This represents a significant                      validate the effectiveness of the TSIA mechanism, we visu-
+reduction in computational burden compared to heavy-weight                      alize the learned attention patterns on the Nakanishi2015 and
+deep learning models, while still maintaining the highest clas-                 Kalunga2016 datasets, as shown in the top row of Figure 6.
+sification accuracy. This efficiency stems from the streamlined                 The SACM in subfigures (a) and (c) exhibit distinct and sparse
+design of the TSIA mechanism, which effectively integrates                      activation patterns rather than a uniform noise distribution.
+temporal and spatial features without incurring the high com-                   This indicates that the model successfully captures robust
+putational overhead typical of complex attention architectures,                 functional connectivity among channels, implicitly identifying
+making LI-DSN highly suitable for real-time BCI applications                    salient spatial dependencies while suppressing redundant in-
+on resource-constrained devices.                                                teractions. The TCAM in subfigures (b) and (d) display struc-
+                                                                                tured, block-wise attention distributions. This non-uniformity
+                                                                                confirms that the network utilizes the cosine-gated mechanism
+                                                                                to dynamically modulate temporal features, selectively empha-
+                                                                                sizing discriminative temporal features critical for decoding.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                      12
+
+
+
+                                                                                    model consistently highlights the right temporal (e.g., T8,
+                                                                                    FT8), central-parietal (e.g., CP2), and midline parietal (e.g.,
+                                                                                    Pz) regions. These regions are part of the broader prefrontal
+                                                                                    and temporal lobes, which are critical for emotional regulation
+                                                                                    and processing [46]. These biologically consistent patterns
+                                                                                    confirm that LI-DSN effectively captures interpretable, task-
+                                                                                    relevant neural signatures despite individual differences.
+
+                                                                                                 VI. L IMITATIONS AND F UTURE W ORK
+                                                                                       Despite achieving superior performance, LI-DSN has sev-
+                                                                                    eral limitations that warrant future investigation. The current
+                                                                                    layer-wise interactive fusion mechanism, while effective, rep-
+                                                                                    resents only one approach to integrating temporal and spa-
+                                                                                    tial information, and alternative interaction strategies such as
+                                                                                    attention-based cross-modal fusion or dynamic routing mech-
+                                                                                    anisms may further enhance feature integration. The model’s
+                                                                                    generalizability across different EEG paradigms beyond MI
+                                                                                    classification, emotion recognition and SSVEP requires further
+Fig. 7. Visualization of saliency maps across three representative datasets.
+Subfigures (a)-(d) correspond to BNCI2014001, (e)-(h) represent the
+                                                                                    validation, and significant inter-subject variability remains
+Kalunga2016 dataset, and (i)-(l) depict the SEED dataset. Within each group,        challenging despite improved cross-subject performance. Fu-
+the first three subfigures display activation patterns of representative subjects   ture work should focus on exploring more sophisticated fusion
+to illustrate individual variability, while the last subfigure presents the mean
+saliency map averaged across all subjects in the respective dataset.
+                                                                                    architectures that adaptively weight stream contributions based
+                                                                                    on task demands and signal quality, investigating transfer
+                                                                                    learning frameworks to leverage knowledge across different
+   2) Feature Evolution via TSIA Interaction: Crucially, com-                       BCI paradigms and reduce training data requirements, and
+paring the feature maps before and after fusion (bottom row of                      conducting extensive clinical validation with neurological pa-
+Figure 6) reveals the transformative impact of spatial guidance.                    tients to establish practical utility in medical applications such
+The pre-interaction maps (e, g) exhibit disordered vertical                         as stroke rehabilitation and assistive communication systems.
+fluctuations, suggesting that the initial representations lack
+consistent spatial structure and are susceptible to temporal                                                  VII. C ONCLUSION
+instability. In sharp contrast, the post-interaction maps (f, h)                       This paper presents LI-DSN, a Layer-wise Interactive Dual-
+evolve into distinct horizontal stratification. As observed, spe-                   Stream Network for EEG decoding in brain-computer inter-
+cific task-relevant channels exhibit consistent high activation                     faces. By processing temporal dynamics and spatial relation-
+across time windows while irrelevant background activities are                      ships through separate streams with hierarchical interactive
+effectively suppressed. This transition from vertical irregularity                  fusion via the TSIA mechanism, our approach effectively cap-
+to horizontal stability demonstrates that the asymmetric design                     tures complementary spatiotemporal patterns in neural signals.
+functions as an effective spatiotemporal filter, leveraging stable                  Comprehensive experiments on MI classification, emotion
+spatial priors to suppress background noise and lock onto task-                     recognition, and SSVEP datasets demonstrate that LI-DSN
+relevant signal components.                                                         achieves superior performance compared to 13 baselines in
+   3) Saliency Maps Visualization: To validate the neurophys-                       both within-subject and cross-subject scenarios. The dual-
+iological plausibility of LI-DSN, we selected three repre-                          stream architecture with layer-wise interactions enables effec-
+sentative datasets corresponding to three distinct downstream                       tive integration of temporal and spatial information throughout
+EEG tasks: BNCI2014001, Kalunga2016, and SEED. As                                   the feature learning process, while ablation studies confirm the
+shown in Figure 7, we display activation patterns from three                        necessity of each component. As demonstrated through visu-
+representative subjects alongside the group-level average for                       alization analysis, the learned representations and the adaptive
+each dataset to illustrate both inter-subject variability and                       fusion capture meaningful temporal patterns and spatial con-
+common neural signatures. The results demonstrate distinct,                         nectivity, providing interpretable insights into neural decoding
+task-specific activation patterns consistent with established                       processes and offering a promising direction for developing
+neuroscience findings. For MI classification (Figures 7(a)-(d)),                    more effective EEG-based brain-computer interface systems.
+high activations in the average map are concentrated in the
+sensorimotor cortex (e.g., C3, C4), aligning with the lateralized                                                 R EFERENCES
+ERD/ERS phenomena [12]. For SSVEP tasks (Figures 7(e)-
+                                                                                     [1] Wolpaw, Jonathan R, “Brain-computer interfaces (BCIs) for commu-
+(h)), saliency is predominantly localized in the posterior brain                         nication and control,” in Proceedings of the 9th international ACM
+regions, specifically the occipital and parieto-occipital areas                          SIGACCESS conference on Computers and accessibility, 2007, pp. 1–2.
+(e.g., O1, PO). This localization reflects the robust response                       [2] Moghimi, Saba and Kushki, Azadeh and Marie Guerguerian, Anne and
+                                                                                         Chau, Tom, “A review of EEG-based brain-computer interfaces as access
+of the visual cortex to the periodic flickering stimuli [45].                            pathways for individuals with severe disabilities,” Assistive Technology,
+Conversely, in Emotion Recognition (Figures 7(i)-(l)), the                               vol. 25, no. 2, pp. 99–110, 2013.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                  13
+
+
+
+ [3] Murad, Saydul Akbar and Rahimi, Nick, “Unveiling thoughts: A re-           [20] Li, Yang and Wang, Lei and Zheng, Weilong and Zong, Yuan and
+     view of advancements in EEG brain signal decoding into text,” IEEE              Lu, Bao-Liang, “TS-SEFFNet: Two-stage spatial-temporal feature fusion
+     Transactions on Cognitive and Developmental Systems, 2024.                      network for multisource EEG emotion recognition,” IEEE Transactions
+ [4] Lawhern, Vernon J and Solon, Amelia J and Waytowich, Nicholas R and             on Neural Networks and Learning Systems, vol. 33, no. 10, pp. 5629–
+     Gordon, Stephen M and Hung, Chou P and Lance, Brent J, “EEGNet:                 5641, 2022.
+     a compact convolutional neural network for EEG-based brain–computer        [21] Li, Dongdong and Huang, Shengyao and Xie, Li and Wang, Zhe and
+     interfaces,” Journal of neural engineering, vol. 15, no. 5, p. 056013,          Xu, Jiazhen, “Neuron perception inspired EEG emotion recognition with
+     2018.                                                                           parallel contrastive learning,” IEEE Transactions on Neural Networks
+ [5] Schirrmeister, Robin Tibor and Springenberg, Jost Tobias and Fiederer,          and Learning Systems, 2025.
+     Lukáš Josef and Glasstetter, Martin and Eggensperger, Katharina and      [22] Wang, Z and Li, S and Chen, X and Wu, D, “MVCNet: Multi-view
+     Tangermann, Michael and Hutter, Frank and Burgard, Wolfram and                  contrastive network for motor imagery classification,” Knowledge-Based
+     Ball, Tonio, “Deep learning with convolutional neural networks for EEG          Systems, p. 114205, 2025.
+     decoding and visualization,” Human brain mapping, vol. 38, no. 11, pp.     [23] Sun, Mingyi and Cui, Weigang and Yu, Shuyue and Han, Hongbin and
+     5391–5420, 2017.                                                                Hu, Bin and Li, Yang, “A Dual-Branch Dynamic Graph Convolution
+ [6] Y. Song, Q. Zheng, B. Liu, and X. Gao, “EEG Conformer: Convolutional            Based Adaptive TransFormer Feature Fusion Network for EEG Emotion
+     Transformer for EEG Decoding and Visualization,” IEEE Transactions              Recognition,” IEEE Transactions on Affective Computing, vol. 13, no. 4,
+     on Neural Systems and Rehabilitation Engineering, vol. 31, pp. 710–             pp. 2218–2228, 2022.
+     719, 2023.                                                                 [24] Li, Hongqi and Zhang, Haodong and Chen, Yitong, “Dual-TSST: A
+ [7] Xie, Jin and Zhang, Jie and Sun, Jiayao and Ma, Zheng and Qin, Liuni            Dual-Branch Temporal-Spectral-Spatial Transformer Model for EEG
+     and Li, Guanglin and Zhou, Huihui and Zhan, Yang, “A transformer-               Decoding,” IEEE Journal of Biomedical and Health Informatics, vol. 29,
+     based approach combining deep learning network and spatial-temporal             no. 9, pp. 6524–6537, 2025.
+     information for raw EEG classification,” IEEE Transactions on Neural       [25] Ye, Weishan and Zhang, Zhiguo and Teng, Fei and Zhang, Min and
+     Systems and Rehabilitation Engineering, vol. 30, pp. 2126–2136, 2022.           Wang, Jianhong and Ni, Dong and Li, Fali and Xu, Peng and Liang,
+ [8] Z. Wang, H. Wang, T. Jia, X. He, S. Li, and D. Wu, “DBConformer:                Zhen, “Semi-Supervised Dual-Stream Self-Attentive Adversarial Graph
+     Dual-Branch Convolutional Transformer for EEG Decoding,” IEEE                   Contrastive Learning for Cross-Subject EEG-Based Emotion Recogni-
+     Journal of Biomedical and Health Informatics, pp. 1–14, 2025.                   tion,” IEEE Transactions on Affective Computing, vol. 16, no. 1, pp.
+ [9] Salami, Abbas and Andreu-Perez, Javier and Gillmeister, Helge, “EEG-            290–305, 2025.
+     ITNet: An explainable inception temporal convolutional network for         [26] Huang, Weichen and Wang, Wenlong and Li, Yuanqing and Wu, Wei,
+     motor imagery classification,” Ieee Access, vol. 10, pp. 36 672–36 685,         “FBSTCNet: A Spatio-Temporal Convolutional Network Integrating
+     2022.                                                                           Power and Connectivity Features for EEG-Based Emotion Decoding,”
+[10] Gong, Peiliang and Jia, Ziyu and Wang, Pengpai and Zhou, Yueying                IEEE Transactions on Affective Computing, vol. 15, no. 4, pp. 1906–
+     and Zhang, Daoqiang, “ASTDF-net: attention-based spatial-temporal               1918, 2024.
+     dual-stream fusion network for EEG-based emotion recognition,” in          [27] C. Liu and F. Ye, “A review of multimodal medical data fusion
+     Proceedings of the 31st ACM international conference on multimedia,             techniques for personalized medicine,” in Proceedings of the 4th In-
+     2023, pp. 883–892.                                                              ternational Conference on Biomedical and Intelligent Systems, 2025,
+                                                                                     pp. 338–347.
+[11] Amin, Syed Umar and Altaheri, Hamdi and Muhammad, Ghulam and
+                                                                                [28] Gong, Linlin and Chen, Wanzhong and Zhang, Dingguo, “An Attention-
+     Abdul, Wadood and Alsulaiman, Mansour, “Attention-inception and
+                                                                                     Based Multi-Domain Bi-Hemisphere Discrepancy Feature Fusion Model
+     long-short-term memory-based electroencephalography classification for
+                                                                                     for EEG Emotion Recognition,” IEEE Journal of Biomedical and Health
+     motor imagery tasks in rehabilitation,” IEEE Transactions on Industrial
+                                                                                     Informatics, vol. 28, no. 10, pp. 5890–5903, 2024.
+     Informatics, vol. 18, no. 8, pp. 5412–5421, 2021.
+                                                                                [29] Liu, Ke and Xing, Xin and Yang, Tao and Yu, Zhuliang and Xiao, Bin
+[12] G. Pfurtscheller and C. Neuper, “Motor imagery and direct brain-                and Wang, Guoyin and Wu, Wei, “DMSACNN: Deep Multiscale Atten-
+     computer communication,” Proceedings of the IEEE, vol. 89, no. 7,               tional Convolutional Neural Network for EEG-Based Motor Decoding,”
+     pp. 1123–1134, 2001.                                                            IEEE Journal of Biomedical and Health Informatics, vol. 29, no. 7, pp.
+[13] Jiruska, Premysl and De Curtis, Marco and Jefferys, John GR and                 4884–4896, 2025.
+     Schevon, Catherine A and Schiff, Steven J and Schindler, Kaspar,           [30] Liu, Ke and Yang, Tao and Yu, Zhuliang and Yi, Weibo and Yu,
+     “Synchronization and desynchronization in epilepsy: controversies and           Hong and Wang, Guoyin and Wu, Wei, “MSVTNet: Multi-scale vision
+     hypotheses,” The Journal of physiology, vol. 591, no. 4, pp. 787–797,           transformer neural network for EEG-based motor imagery decoding,”
+     2013.                                                                           IEEE Journal of Biomedical and Health Informatics, 2024.
+[14] Mane, Ravikiran and Chew, Effie and Chua, Karen and Ang, Kai Keng          [31] Tangermann, M. and Müller, K.-R. and Aertsen, A. and Birbaumer, N.
+     and Robinson, Neethu and Vinod, A Prasad and Lee, Seong-Whan and                and Braun, C. and Brunner, C. and Leeb, R. and Mehring, C. and Miller,
+     Guan, Cuntai, “FBCNet: A multi-view convolutional neural network for            K. J. and Müller-Putz, G. R. and others, “Review of the BCI competition
+     brain-computer interface,” arXiv preprint arXiv:2104.01233, 2021.               IV,” Frontiers in Neuroscience, vol. 6, p. 55, 2012.
+[15] Sakhavi, Siavash and Guan, Cuntai and Yan, Shuicheng, “Learning            [32] Steyrl, D. and Scherer, R. and Faller, J. and Müller-Putz, G. R.,
+     temporal information for brain-computer interface using convolutional           “Random forests in non-invasive sensorimotor rhythm brain-computer
+     neural networks,” IEEE Transactions on Neural Networks and Learning             interfaces: A practical and convenient non-linear classifier,” Biomedical
+     Systems, vol. 29, no. 11, pp. 5619–5629, 2018.                                  Engineering/Biomedizinische Technik, vol. 61, no. 1, pp. 77–86, 2016.
+[16] Kwon, O-Yeon and Lee, Min-Ho and Guan, Cuntai and Lee, Seong-              [33] Leeb, R. and Lee, F. and Keinrath, C. and Scherer, R. and Bischof,
+     Whan, “Subject-independent brain–computer interfaces based on deep              H. and Pfurtscheller, G., “Brain–computer communication: motivation,
+     convolutional neural networks,” IEEE Transactions on Neural Networks            aim, and impact of exploring a virtual apartment,” IEEE Transactions
+     and Learning Systems, vol. 31, no. 10, pp. 3839–3852, 2020.                     on Neural Systems and Rehabilitation Engineering, vol. 15, no. 4, pp.
+[17] Cui, Jian and Lan, Zirui and Sourina, Olga and Müller-Wittig, Wolfgang,        473–482, 2007.
+     “EEG-based cross-subject driver drowsiness recognition with an inter-      [34] Zhou, B. and Wu, X. and Lv, Z. and Zhang, L. and Guo, X., “A fully
+     pretable convolutional neural network,” IEEE Transactions on Neural             automated trial selection method for optimization of motor imagery
+     Networks and Learning Systems, vol. 34, no. 10, pp. 7921–7933, 2023.            based braincomputer interface,” PloS One, vol. 11, no. 9, p. e0162657,
+[18] Thuwajit, Punnawish and Rangpong, Phurin and Sawangjai, Phattara-               2016.
+     pong and Autthasan, Phairot and Chaisaen, Rattanaphon and Banluesom-       [35] Zheng, W.-L. and Lu, B.-L., “Investigating critical frequency bands
+     batkul, Nannapas and Boonchit, Puttaranun and Tatsaringkansakul, Nat-           and channels for EEG-based emotion recognition with deep neural
+     tasate and Sudhawiyangkul, Thapanun and Wilaiprasitporn, Theerawit,             networks,” IEEE Transactions on Autonomous Mental Development,
+     “EEGWaveNet: Multiscale CNN-based spatiotemporal feature extraction             vol. 7, no. 3, pp. 162–175, Sep 2015.
+     for EEG seizure detection,” IEEE transactions on industrial informatics,   [36] Chen, J. and Wang, X. and Huang, C. and Hu, X. and Shen, X. and
+     vol. 18, no. 8, pp. 5547–5557, 2021.                                            Zhang, D., “A large finer-grained affective computing EEG dataset,”
+[19] Li, Yi and Wang, Lei and Zheng, Weilong and Zong, Yuan and Qi,                  Scientific Data, vol. 10, no. 1, p. 740, Oct 2023.
+     Lei and Cui, Zhen and Zhang, Tong and Lu, Bao-Liang, “A novel bi-          [37] Nakanishi, M. and Wang, Y. and Wang, Y. T. and Jung, T. P., “A
+     hemispheric discrepancy model for EEG emotion recognition,” IEEE                comparison study of canonical correlation analysis based methods for
+     Transactions on Neural Networks and Learning Systems, vol. 32, no. 8,           detecting steady-state visual evoked potentials,” PloS One, vol. 10,
+     pp. 3477–3491, 2021.                                                            no. 10, pp. 1–18, 2015.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                          14
+
+
+
+[38] Kalunga, Emmanuel K. and Chevallier, Sylvain and Barthelemy,
+     Quentin, “Online SSVEP-based BCI using Riemannian Geometry,”
+     Neurocomputing, 2016.
+[39] Zhang, Tong and Wang, Xingliang and Xu, Xiangmin and Chen, C
+     L Philip, “GCB-Net: Graph Convolutional Broad Network and its
+     Application in Emotion Recognition,” IEEE Transactions on Affective
+     Computing, vol. 13, no. 1, pp. 379–388, 2019.
+[40] Y. Ding, N. Robinson, S. Zhang, Q. Zeng, and C. Guan, “TSception:
+     Capturing temporal dynamics and spatial asymmetry from EEG for emo-
+     tion recognition,” IEEE Transactions on Affective Computing, vol. 14,
+     no. 3, pp. 2238–2250, 2022.
+[41] Zhao, Wei and Jiang, Xiaolu and Zhang, Baocan and Xiao, Shixiao and
+     Weng, Sujun, “CTNet: a convolutional transformer network for EEG-
+     based motor imagery classification,” Scientific reports, vol. 14, no. 1, p.
+     20237, 2024.
+[42] J. Wang, L. Yao, and Y. Wang, “IFNet: An Interactive Frequency
+     Convolutional Neural Network for Enhancing Motor Imagery Decoding
+     From EEG,” IEEE Transactions on Neural Systems and Rehabilitation
+     Engineering, vol. 31, pp. 1900–1911, 2023.
+[43] Y. Ding, Y. Li, H. Sun, R. Liu, C. Tong, C. Liu, X. Zhou, and C. Guan,
+     “EEG-Deformer: A dense convolutional transformer for brain-computer
+     interfaces,” IEEE Journal of Biomedical and Health Informatics, 2024.
+[44] Y. Ding, C. Tong, S. Zhang, M. Jiang, Y. Li, K. J. Lim, and C. Guan,
+     “EmT: A novel transformer for generalized cross-subject EEG emotion
+     recognition,” IEEE Transactions on Neural Networks and Learning
+     Systems, 2025.
+[45] Y. Wang, R. Wang, X. Gao, B. Hong, and S. Gao, “A practical VEP-
+     based brain-computer interface,” IEEE Transactions on Neural Systems
+     and Rehabilitation Engineering, vol. 14, no. 2, pp. 234–240, 2006.
+[46] W.-L. Zheng and B.-L. Lu, “Investigating critical frequency bands
+     and channels for EEG-based emotion recognition with deep neural
+     networks,” IEEE Transactions on autonomous mental development,
+     vol. 7, no. 3, pp. 162–175, 2015.
+
