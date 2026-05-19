@@ -12,10 +12,11 @@ tags:
 - brain-atlas
 title: RAMAIS (RAMIS)
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-19'
 ---
-
 # RAMAIS (RAMIS)
+
+Whole-brain segmentation constitutes a foundational task in medical image analysis, providing quantitative assessment of fine-grained brain regions and serving as a cornerstone for both clinical practice and neuroscience research [[raw/papers/semanticscholar-b76b57eda5f0.md|Zhang et al., 2026]]. The anatomical parcellations derived from such segmentation enable the construction of subject-specific [[structural-connectivity]] matrices that parameterize [[whole-brain-modeling]] simulations. [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] describe how platforms such as [[the-virtual-brain]] integrate empirical structural connectivity—derived from diffusion MRI [[tractography]]—with [[neural-mass-models]] to construct [[personalized-brain-modeling|personalized brain models]]. [[raw/papers/ritter-2013.md|Ritter et al. (2013)]] further demonstrate that when subject-specific connectivity matrices are coupled with large-scale [[brain-network]] dynamics, the resulting simulations can reproduce individual [[resting-state]] [[functional-connectivity]] patterns, establishing a direct pipeline from anatomical parcellation to mechanistic model predictions. This page surveys RAMAIS and related segmentation approaches that supply the precise anatomical parcellations required for such [[connectome]]-based modeling workflows, bridging the gap between raw neuroimaging data and simulation-ready brain network models.
 
 ## Overview
 
@@ -43,9 +44,9 @@ The RAMIS framework typically implements several key capabilities relevant to ne
 RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by providing region definitions for [[brain-parcellations]] used in simulations. The resulting parcellations can be combined with [[diffusion-imaging]] derived [[tractography]] to construct comprehensive [[structural-connectivity]] matrices. Similar functions are served by established tools like [[ANTs]], [[pysurfer]], and [[3D-Slicer]] in the broader neuroimaging ecosystem.
 
 ## Key Papers
+[[raw/papers/semanticscholar-b76b57eda5f0.md|Zhang et al. (2026)]] characterize whole-brain segmentation as a foundational task in medical image analysis that supplies quantitative assessment of fine-grained brain regions indispensable to neuroscience research. To confront the pronounced inter-class heterogeneity and intricate spatial dependencies that make this task inherently difficult, they introduce MSCMH-Net, a CNN-MLP hybrid that deploys convolutional layers for local feature extraction and MLP-based modules for modeling long-range dependencies and global contextual information [[raw/papers/semanticscholar-b76b57eda5f0.md|Zhang et al. (2026)]]. A channel-mixing module incorporating an exponential moving average fusion strategy integrates these representations, and the architecture was validated on a composite dataset of 106 brain MR scans spanning multiple sources, illustrating how hybrid multi-scale designs can advance the precision of [[brain-parcellations]] that feed directly into [[whole-brain-modeling]] pipelines [[raw/papers/semanticscholar-b76b57eda5f0.md|Zhang et al. (2026)]].
 
-- Tian Fangzheng et al. "RAMIS: Increasing Robustness and Accuracy in Medical Image Segmentation with Hybrid CNN-Transformer Synergy" (Neurocomputing, 2024)
-
+The significance of such segmentation advances lies in their downstream integration with simulation platforms. [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] present [[TVB]] as an open-source neuroinformatics environment that parameterizes [[neural-mass-models]] with empirical [[structural-connectivity]] derived from diffusion MRI [[tractography]], thereby enabling large-scale simulations of primate brain network dynamics. [[raw/papers/ritter-2013.md|Ritter et al. (2013)]] extend this framework by demonstrating that subject-specific connectivity matrices, when coupled with network dynamics, can reproduce individual [[resting-state]] [[functional-connectivity]] patterns, establishing a validated pipeline from anatomical parcellation to mechanistic prediction. Together, these works define the modeling context within which RAMAIS-type segmentation methods must ultimately operate: the anatomical boundaries they extract must furnish the [[connectome]] reconstruction and personalized simulations that platforms like [[TVB]] depend upon [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]][[raw/papers/ritter-2013.md|Ritter et al. (2013)]].
 ## Related Software
 
 - [[ANTs]] — Advanced Normalization Tools for neuroimaging registration and segmentation
@@ -64,10 +65,3 @@ RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by p
 - [[diffusion-imaging]] — MRI technique for tracking white matter tracts
 - [[tractography]] — Reconstruction of white matter pathways
 - [[neuroimaging]] — Magnetic resonance imaging methodology
-
-## References
-
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
-3. Wanting Zhang, Jinhua Yue, Bo Liu, Fugen Zhou. (2026). *MSCMH-Net: A multi-scale channel-mixing hybrid network for whole-brain segmentation.*. Neuroscience. [DOI](](https://doi.org/10.1016/j.neuroscience.2026.03.022))
-4. Maya Iratni, Amirali Abdullah, Mariam Aldhaheri, Omar Elharrouss, Alaa A. Abd-alrazaq, Zahiriddin Rustamov, Nazar Zaki, Rafat Damseh. (2025). *Transformers for Neuroimage Segmentation: Scoping Review*. Journal of Medical Internet Research. [DOI](](https://doi.org/10.2196/57723))

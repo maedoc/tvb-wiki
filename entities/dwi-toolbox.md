@@ -11,10 +11,14 @@ tags:
 - tractography
 title: DWItoolbox
 type: entity
-updated: '2026-05-06'
+updated: 2026-05-19
 ---
 
-# DWItoolbox  
+# DWItoolbox
+
+DWItoolbox occupies a niche in the computational pipeline that bridges [[diffusion-mri]] acquisition and [[connectome]]-based [[whole-brain-modeling]]. The construction of large-scale brain network models depends critically on empirical estimates of [[structural-connectivity]], which are typically derived from diffusion MRI [[tractography]] [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. [[raw/papers/ritter-2013.md|Ritter et al. (2013)]] demonstrated that subject-specific structural connectivity matrices obtained from diffusion imaging can parameterize personalized brain models capable of reproducing individual [[resting-state]] [[functional-connectivity]] patterns. In this framework, the preprocessing, tensor estimation, and fiber-tracking steps constitute the essential translation layer that turns raw diffusion-weighted data into the connectivity matrices required by simulation platforms such as [[the-virtual-brain]] [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
+
+The technical pipeline for generating these connectomes involves parcellation, streamline reconstruction, and connectivity estimation—steps that [[raw/papers/schirner-2018.md|Schirner et al. (2015)]] integrated into an automated end-to-end workflow for constructing [[tvb]]-ready model inputs with minimal manual intervention. Because [[diffusion-imaging]] analysis remains a multi-step process involving specialized algorithms for tensor fitting and streamline tracking, modular toolboxes that expose these operations through scriptable interfaces serve an important role in research environments where customization and cross-validation against empirical [[neuroimaging]] observations are necessary [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. DWItoolbox provides one such MATLAB-based environment for executing core diffusion-processing operations, offering researchers a platform from which to prepare [[structural-connectivity]] data for subsequent use in personalized [[whole-brain-modeling]] simulations [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
 
 ## Overview  
 

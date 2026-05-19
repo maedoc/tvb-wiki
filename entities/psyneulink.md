@@ -12,14 +12,10 @@ tags:
 - neuroimaging-fmri
 title: PsyNeuLink
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-19'
 ---
 
-- raw/papers/cohen-2014.md
-- raw/papers/semanticscholar-f52da2a6cbf2.md
----
-
-# PsyNeuLink
+Computational neuroscience increasingly integrates [[whole-brain-modeling]] frameworks with empirical neuroimaging and psychophysiological methods. Simulation platforms such as [[TVB]] employ the Jansen–Rit [[neural-mass-models]] to investigate how altered inhibitory neurotransmission shapes transcranial magnetic stimulation evoked potentials in major depressive disorder [[raw/papers/semanticscholar-f52da2a6cbf2.md|Hofsähs et al. (2026)]]. Complementing these approaches, standardized methods for [[neuroimaging-eeg]] and [[neuroimaging-meg]] time-series analysis—including time-frequency decomposition, spectral [[connectivity]] estimation, and statistical testing—provide critical benchmarks for validating model outputs against empirical data [[raw/papers/cohen-2014.md|Cohen (2014)]]. At the clinical-translation frontier, personalized lesion-based [[neural-mass-models]] can simulate post-stroke structural disconnection and predict individualized patterns of [[functional-connectivity]] disruption, demonstrating how patient-specific damage propagates through large-scale networks [[raw/papers/semanticscholar-929b90566fc8.md|Falconer et al. (2026)]]. Data-driven analyses of [[resting-state]] [[functional-connectivity]] further reveal how aberrant cortical-subcortical-cerebellar circuitry distinguishes schizophrenia from healthy controls, underscoring the need for models that capture whole-brain network disorganization [[raw/papers/semanticscholar-4c098a7bad24.md|Jensen et al. (2025)]]. Meanwhile, non-invasive psychophysiological tools such as pupillometry offer sensitive, reproducible readouts of autonomic and cognitive states that can constrain behavioral predictions [[raw/papers/semanticscholar-8006c459587d.md|Schwartz et al. (2025)]].
 
 ## Overview
 
