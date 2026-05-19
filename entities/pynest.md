@@ -18,7 +18,6 @@ title: PyNEST
 type: entity
 updated: '2026-05-11'
 ---
-
 PyNEST is the official Python interface to the NEST ([[neural-simulation]] Tool) simulator, one of the most widely used software platforms for [[computational-neuroscience]] and large-scale brain modeling. Developed by the NEST Initiative, PyNEST provides Python developers with direct access to NEST's kernel for simulating [[spiking-neural-networks]], enabling the construction, execution, and analysis of biologically detailed neuronal network models. The tool serves as a critical bridge between high-level Python scripting and the high-performance C++ simulation kernel, making it accessible to researchers who prefer Python's ecosystem while maintaining the computational efficiency required for large-scale simulations [@Diesmann2002; @Eppler2008].
 
 ## Technical Architecture
@@ -55,7 +54,3 @@ PyNEST has been applied to studies of [[brain-oscillations]], [[epilepsy-modelin
 - Auryn — Fast spiking neural network simulator
 - Netpyne — Python tool for building and analyzing neuronal networks
 - Neuroml — Standardized language for neuronal model specification
-
-## References
-
-1. Eppler et al. (2009). *PyNEST: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/neuro.11.012.2008))

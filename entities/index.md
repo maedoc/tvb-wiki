@@ -28,6 +28,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Brainconn](brainconn.md) - Python graph-theoretical analysis of brain connectivity networks
 - [BrainSMASH](brainsmash.md) - Spatial autocorrelation null models for brain map statistics
 - [BrainSpace](brainspace.md) - Macroscale gradient analysis toolbox
+- [Brainlife](brain-life.md) - Cloud-based distributed computing platform for neuroimaging analysis and reproducible workflows
 - [BRAPH](braph.md) - Graph theory software for brain connectivity analysis
 - [Brain Dynamics Toolbox](brain-dynamics-toolbox.md) - MATLAB toolbox for neural mass model simulation and dynamical systems analysis
 - [Brain-Score](brain-score.md) - Open-source benchmarking platform for evaluating brain models against empirical data

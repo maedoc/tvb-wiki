@@ -14,10 +14,12 @@ tags:
 - software-spm
 title: SUIT
 type: software
-updated: '2026-05-10'
+updated: '2026-05-19'
 ---
 
 # SUIT (Spatial Unbiased Infratentorial Template)
+
+The cerebellum is increasingly recognized as a key component of large-scale brain networks implicated in conditions such as [[epilepsy-modeling|epilepsy]], yet its electrophysiological and anatomical characterization remains limited in noninvasive [[neuroimaging]] recordings [[raw/papers/semanticscholar-1a3ed92b9f5a.md|Matsubara et al. (2026)]]. This limitation arises from the cerebellum's considerable depth, complex folding pattern, and unfavorable source orientations, which challenge conventional [[neuroimaging-meg|MEG]] and [[neuroimaging-eeg|EEG]] acquisition and complicate consistent anatomical modeling across individuals [[raw/papers/semanticscholar-1a3ed92b9f5a.md|Matsubara et al. (2026)]]. Comprehensive [[resting-state]] fMRI studies have mapped the major functional systems that organize the human brain, establishing a framework in which cerebellar contributions to [[network-dynamics]] must be assessed through accurate cross-subject anatomical alignment [[raw/papers/power-2011.md|Power et al. (2011)]]. Translational neuroscience further requires consistent anatomical frameworks to compare brain organization across species despite differences in size and specialization, underscoring the need for population-averaged minimal deformation templates and uniform tissue segmentation validated against established [[parcellation|parcellations]] [[raw/papers/semanticscholar-913068805e7f.md|Venkadesh et al. (2025)]]. SUIT (Spatial Unbiased Infratentorial Template) addresses these challenges by providing a dedicated spatial normalization and segmentation pipeline specifically optimized for the cerebellum and brainstem, enabling region-specific analyses that integrate with [[whole-brain-modeling]] and [[connectomics]] workflows.
 
 ## Overview
 SUIT (Spatial Unbiased Infratentorial Template) is a specialized [[neuroimaging]] software tool developed by Diedrichsen et al. within the SPM (Statistical Parametric Mapping) framework for the accurate spatial normalization and segmentation of the cerebellum and brainstem. Unlike standard [[whole-brain]] normalization algorithms that treat the cerebellum as an afterthought—often yielding suboptimal alignment due to its complex and highly folded cortical structure—SUIT provides a dedicated, anatomically informed processing pipeline specifically optimized for these challenging posterior brain regions.

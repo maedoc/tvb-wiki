@@ -1,5 +1,8 @@
 # Wiki Activity Log
 
+## 2026-05-19
+- Improved [[brain-life]]: added [[neural-mass-models]] and [[parcellation]] wikilinks in Relationship to TVB section per cross-linking conventions (first mention of entity page concepts), reworded sentence to avoid sentence-initial lowercase link, increased unique outbound wikilinks from 17 to 19, maintained ~525-word dense prose across 5 sections, preserved all schema-taxonomy tags, ensured no fabricated citations per no available source papers, bumped updated date to 2026-05-19, synced all three copies (brain-life.md, entities/brain-life.md, docs/entities/brain-life.md), added missing page entry to entities/index.md and docs/entities/index.md under Software Platforms
+
 ## 2026-05-08
 - Improved [[aging-brain]] page: removed 4 invalid citations (finn2015, tasker2006, bennett2010, nyberg2012) not in sources, kept only properly sourced claims, expanded functional connectivity section with King et al. findings on dementia spectrum, added more detail on brain maintenance
 - Verified [[michael-fox]] page meets schema requirements (15 wikilinks, valid taxonomy tags, complete content)

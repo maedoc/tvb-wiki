@@ -2,6 +2,7 @@
 created: 2026-05-13
 sources:
 - raw/papers/woodman-2014.md
+- raw/papers/thompson-2017.md
 tags:
 - software-brain-modeling
 - network-dynamics
@@ -14,10 +15,14 @@ tags:
 - neuroimaging-meg
 title: Teneto
 type: entity
-updated: '2026-05-18'
+updated: '2026-05-19'
 ---
 
 # Teneto
+
+Teneto is an open-source Python package that implements temporal network theory for the analysis of time-varying brain connectivity, released alongside the foundational methodological paper by [[raw/papers/thompson-2017.md|Thompson et al. (2017)]]. The software provides a comprehensive suite of temporal network measures — including temporal centrality, temporal closeness, burstiness, fluctuability, volatility, reachability latency and temporal efficiency — that are specifically designed to quantify how topological relationships between brain regions evolve over time rather than collapsing an entire scanning session into a single static graph [[raw/papers/thompson-2017.md|Thompson et al. (2017)]]. By operating on the full sequence of time-resolved connectivity snapshots, Teneto treats temporal ordering and path constraints as intrinsic features of the [[connectome]], offering a rigorous alternative to applying conventional graph metrics independently within each sliding window [[raw/papers/thompson-2017.md|Thompson et al. (2017)]].
+
+The package was first validated on [[resting-state]] [[fmri]] data, where its measures proved sensitive to both between-subject and between-task differences in [[dynamic functional connectivity]], demonstrating that temporal network properties carry information beyond what is captured by static summary statistics [[raw/papers/thompson-2017.md|Thompson et al. (2017)]]. In addition to its algorithmic library, Teneto includes plotting functions that facilitate visual exploration of temporal network structure, supporting the mapping of time-varying connectivity patterns onto standard neuroimaging parcellations [[raw/papers/thompson-2017.md|Thompson et al. (2017)]]. As a freely available Python toolkit, it bridges the methodological gap between abstract temporal graph theory and empirical neuroscience, enabling researchers to characterize the non-stationary dynamics of large-scale [[brain network]] architectures in health and disease [[raw/papers/thompson-2017.md|Thompson et al. (2017)]].
 
 ## Overview
 
