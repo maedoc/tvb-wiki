@@ -34,7 +34,7 @@ Done. Here's what changed in `entities/freesurfer.md`:
 - `aseg` and `aparc` as the cortical/subcortical segmentation engines producing the ROI-based volumetric measures
 - Cross-modal bridging via complementary volume and surface modules
 - Version-variability warnings grounded in Rizzo et al. (2025)
-- Ecosystem positioning alongside [[fsl]], [[ants]], and Nighres (Huntenburg et al. 2018)
+- Ecosystem positioning alongside [[fsl]], [[ants]], and [[nighres]] (Huntenburg et al. 2018)
 
 **Citations:** 5 inline citations to the available sources, all factual claims tied to what the papers actually say.
 

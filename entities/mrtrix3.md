@@ -36,5 +36,5 @@ Within the broader neuroimaging ecosystem, MRtrix3 functions alongside structura
 
 ## References
 
-1. Quynh Lê, Arichena Manmatharayan, Mashaal Syed, Ki-Sang Kang, Tsao‐Wei Liang, Mahdi Alizadeh, Chengyuan Wu. (2026). *Structural and Functional Connectivity in Parkinson's Disease Patients With Freezing of Gait and Other Gait Disturbances*. Clinical Neuroimaging. [DOI](https://doi.org/10.1002/neo2.70042)
+1. Quynh Lê, Arichena Manmatharayan, Mashaal Syed, Ki-Sang Kang, Tsao‐Wei Liang, Mahdi Alizadeh, Chengyuan Wu. (2026). *Structural and Functional [[connectivity]] in Parkinson's Disease Patients With Freezing of Gait and Other Gait Disturbances*. Clinical [[neuroimaging]]. [DOI](https://doi.org/10.1002/neo2.70042)
 2. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
