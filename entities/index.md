@@ -55,6 +55,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Brian2](brian2.md) - Equation-based spiking neural network simulator
 - [Brian2CUDA](brian2cuda.md) - GPU-accelerated backend for Brian2 via CUDA
 - [Brian2GeNN](brian2genn.md) - GPU-accelerated spiking neural network simulation via Brian2-GeNN bridge
+- [Spice](spice.md) - Multi-GPU, time-driven spiking neural network simulator with CUDA acceleration
 - [BCBToolKit](bcbtoolkit.md) - Brain-Computer Interface toolkit for real-time EEG signal processing and BCI applications
 - [BrainDecode](braindecode.md) - Deep learning library for EEG neural decoding and brain-computer interfaces
 - [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
@@ -101,6 +102,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [UK Biobank](uk-biobank.md)
 - [ABIDE](abide.md) - Autism Brain Imaging Data Exchange dataset for ASD neuroimaging
 - [CRCNS](crcns.md) - Collaborative Research in Computational Neuroscience funding program
+- [Calamity Atlas](calamity-atlas.md) - Disease-oriented brain parcellation for whole-brain modeling of pathological network states
 
 ## People & Labs
 

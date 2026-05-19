@@ -12,9 +12,8 @@ tags:
 - resting-state
 title: GAT (Graph Analysis Toolbox)
 type: entity
-updated: '2026-05-15'
+updated: 2026-05-19
 ---
-
 # GAT (Graph Analysis Toolbox)
 
 The **Graph Analysis Toolbox** (GAT) is a MATLAB-based software package that provides a graphical user interface for performing graph-theoretical analyses on structural and functional [[brain-network]] data. Built as a GUI wrapper around the core algorithms of the [[brain-connectivity-toolbox]], GAT was designed to make [[graph-theory]]-based network analysis accessible to researchers and clinicians who lack programming expertise, while still offering the statistical rigor required for between-group comparisons in clinical neuroscience.
@@ -65,7 +64,3 @@ GAT prioritizes simplicity and guided workflows for group-comparison designs, wh
 - [[network-dynamics]] — how brain network topology relates to neural dynamics
 - [[connectomics]] — the broader field within which GAT operates
 - [[the-virtual-brain]] — [[whole-brain]] simulation platform that uses GAT-analyzable connectivity data
-
-## References
-
-1. (authors unknown). *GAT: A Graph-Theoretical Analysis Toolbox for Analyzing Between-Group Differences in Large-Scale Structural and Functional Brain Networks*.

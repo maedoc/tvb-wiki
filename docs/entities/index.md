@@ -95,6 +95,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [UK Biobank](uk-biobank.md)
 - [ABIDE](abide.md) - Autism Brain Imaging Data Exchange dataset for ASD neuroimaging
 - [CRCNS](crcns.md) - Collaborative Research in Computational Neuroscience funding program
+- [Calamity Atlas](calamity-atlas.md) - Disease-oriented brain parcellation for whole-brain modeling of pathological network states
 
 ## People & Labs
 

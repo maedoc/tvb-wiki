@@ -10,10 +10,12 @@ tags:
 - image-processing
 title: SimpleITK
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-19'
 ---
 
 # SimpleITK
+
+SimpleITK is a simplified interface to the Insight Toolkit (ITK), one of the most widely used open-source libraries for medical image analysis and segmentation. It provides an intuitive API that makes common image processing tasks accessible without requiring deep expertise in C++ template programming. In the landscape of computational neuroscience, whole-brain modeling platforms such as [[tvb|The Virtual Brain]] depend on anatomical inputs—including cortical surfaces, white matter segmentations, and parcellated regions—derived from structural neuroimaging data [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The community employs diverse toolkits to prepare these inputs: [[nighres]] offers brain extraction, segmentation, and laminar analysis for high-resolution MRI [[raw/papers/huntenburg-2018.md|Huntenburg et al. (2018)]], while scilpy handles diffusion MRI preprocessing and tractography [[raw/papers/semanticscholar-380768cf42a8.md|Renauld et al. (2026)]]. SimpleITK occupies a foundational position in this preprocessing ecosystem, supporting format interoperability with [[nifti|NIfTI]] and DICOM and the spatial operations that bridge raw acquisitions and the derived anatomical products used in [[connectome]]-based modeling.
 
 ## Overview
 

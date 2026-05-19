@@ -13,10 +13,10 @@ tags:
 - software-brain-modeling
 title: Brainstorm
 type: entity
-updated: '2026-05-10'
+updated: '2026-05-19'
 ---
 
-**Brainstorm** is a collaborative, open-source MATLAB and Python application dedicated to magnetoencephalography (MEG), electroencephalography (EEG), stereo-EEG (sEEG), and electrocorticography (ECoG) data analysis and visualization. Developed primarily at the University of Southern California, Brainstorm provides an integrated graphical user interface (GUI) and scripting environment that encompasses the full pipeline from raw recordings to statistical analysis and visualization of source-reconstructed brain activity.
+**Brainstorm** is a widely used neuroimaging platform for the analysis and visualization of [[meg]] and [[eeg]] recordings, providing an integrated graphical environment that spans the full electrophysiological analysis pipeline from raw data import through preprocessing, [[source-localization]], and [[functional-connectivity]] mapping [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. As an established open-source MATLAB application, it has served as direct inspiration for subsequent end-to-end toolboxes such as MLE-Toolbox, which explicitly models its unified graphical interface and comprehensive workflow after Brainstorm and FieldTrip [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. The software maintains native interoperability with [[freesurfer]], [[eeglab]], and [[mne-python]], enabling researchers to embed Brainstorm-derived analyses within broader neuroimaging pipelines without format conversion barriers [[raw/papers/arxiv-2604.16463.md|Liu (2026)]]. Within the [[whole-brain-modeling]] ecosystem, simulation platforms such as [[the-virtual-brain]] generate synthetic [[meg]] and [[eeg]] signals through forward models designed for direct comparison against empirical recordings, establishing a validation paradigm that situates empirical electrophysiological analysis tools within computational neuroscience workflows [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Multi-scale frameworks that bridge microscopic neural populations to macroscopic brain dynamics—such as those integrating detailed spiking simulators with TVB—further highlight the scientific need for robust empirical MEG/EEG platforms against which computational predictions can be tested [[raw/papers/arxiv-2505.16861.md|Hater et al. (2025)]][[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]].
 
 ## Overview and Capabilities
 

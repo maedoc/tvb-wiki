@@ -98,19 +98,19 @@ The wiki page is now complete. Here's a summary of what I've done:
 ## ORPHAN PAGE CONTEXT (spice)
 ---
 created: 2024-01-15
+updated: 2026-05-19
+type: entity
+tags:
+- software-brain-modeling
+- spiking-neural-networks
+- whole-brain-modeling
+title: Spice
 sources:
+- raw/articles/spice-github.md
+- raw/articles/bautembach-phd.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/semanticscholar-eb704b6f5462.md
-tags:
-- software
-- [[whole-brain-modeling]]
-- neural-mass-models
-- [[spiking-neural-networks]]
-- brain-dynamics
-title: SPICE
-type: entity
-updated: '2026-05-06'
 ---
 
-SPICE (Simulation Package for Intelligent Cerebellar Exploration) is a specialized [[neural-simulation]] framework designed to model large-scale cerebellar circuits and their integration with cerebral
+Spice (/spaɪk/) is a multi-GPU, time-driven spiking neural network simulator written in C++ with CUDA acceleration. Originally developed by Dennis Bautembach during doctoral research at the University of Crete, the software targets high-performance simulation of large-scale networks of spiking neurons on graphics processing units.

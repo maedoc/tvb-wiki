@@ -1,26 +1,17 @@
 ---
-created: 2024-01-15
-sources:
-- raw/papers/sanz-leon-2013.md
-- raw/papers/ritter-2013.md
-- raw/papers/gorgolewski-2016.md
-tags:
-- software-visualization
-- connectomics
-- whole-brain-modeling
-- structural-connectivity
-- functional-connectivity
-- reproducibility
 title: nxviz
+created: 2026-04-20
+updated: 2026-05-19
 type: entity
-updated: '2026-05-19'
+tags: [software-visualization, whole-brain-modeling, connectomics, structural-connectivity, network-dynamics]
+sources: [raw/papers/sanz-leon-2013.md, raw/papers/ritter-2013.md, raw/papers/gorgolewski-2016.md]
 ---
 
 nxviz is a Python library for network visualization that operates on graph structures and symmetric connectivity matrices. These matrices are produced by neuroimaging pipelines and whole-brain modeling workflows. In connectome-based simulation, platforms such as [[the-virtual-brain]] construct personalized brain models by combining empirical [[structural-connectivity]] from diffusion MRI [[tractography]] with [[neural-mass-models]], producing matrices that encode anatomical connection strengths between parcellated regions [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Because subject-specific connectivity matrices serve as simulation inputs and empirical targets for model validation [[raw/papers/ritter-2013.md|Ritter et al. (2013)]], and neuroimaging datasets are increasingly shared in standardized formats facilitating interoperability across tools and laboratories [[raw/papers/gorgolewski-2016.md|Gorgolewski et al. (2016)]], visualization libraries that operate directly on these structures integrate naturally into reproducible research workflows.
 
 ## Motivation and Context
 
-Whole-brain modeling depends on accurate representation of empirical connectivity data that constrains simulation. [[the-virtual-brain]] builds personalized models by combining empirical structural connectivity from diffusion MRI with neural mass models, producing matrices that encode anatomical connection strengths between parcellated regions [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. These matrices parameterize models capable of reproducing individual resting-state functional connectivity patterns observed in empirical recordings [[raw/papers/ritter-2013.md|Ritter et al. (2013)]], while forward models extend simulated outputs to [[neuroimaging-eeg]] and [[neuroimaging-meg]] signals for direct comparison with empirical data [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The need to communicate topological organization within these matrices—identifying hub regions, network modules, and the large-scale architecture of [[brain-network]] dynamics—motivates visualization tools that can operate on the standardized data structures produced by neuroimaging pipelines.
+Whole-brain modeling depends on accurate representation of empirical connectivity data that constrains simulation. [[the-virtual-brain]] builds personalized models by combining empirical structural connectivity from diffusion MRI with neural mass models, producing matrices that encode anatomical connection strengths between parcellated regions [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. These matrices parameterize models capable of reproducing individual resting-state functional connectivity patterns observed in empirical recordings [[raw/papers/ritter-2013.md|Ritter et al. (2013)]], while forward models extend simulated outputs to [[neuroimaging-eeg]] and [[neuroimaging-meg]] signals for direct comparison with empirical data [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. The need to communicate topological organization within these matrices—identifying hub regions, network modules, and the large-scale architecture of [[brain-network]] dynamics—motivates visualization tools that can operate on the standardized data structures produced by neuroimaging pipelines [[raw/papers/gorgolewski-2016.md|Gorgolewski et al. (2016)]].
 
 Neuroimaging datasets used to construct these [[connectome]] models are increasingly shared in formats facilitating interoperability across tools and laboratories [[raw/papers/gorgolewski-2016.md|Gorgolewski et al. (2016)]]. Visualization libraries that operate on standardized connectivity matrices—whether derived from empirical diffusion imaging for TVB input or generated as simulated output—integrate more directly into reproducible whole-brain modeling workflows [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Standardized data organization supports not only the simulation pipeline but also the communication of modeling results through external visualization tools [[raw/papers/ritter-2013.md|Ritter et al. (2013)]], bridging the gap between computational simulation and the visual interpretation of [[network-dynamics]] results.
 
@@ -30,10 +21,6 @@ nxviz provides plotting functions for graph structures and connectivity matrices
 
 ## Relationship to TVB
 
-nxviz functions as a complementary visualization resource for outputs generated by [[the-virtual-brain]]. TVB produces structural connectivity matrices as inputs to whole-brain simulations and generates time series and functional connectivity estimates as outputs, using forward models that allow simulated signals to be compared directly against empirical [[neuroimaging-eeg]], [[neuroimaging-meg]], and [[neuroimaging-fmri]] recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. These same multimodal neuroimaging data—[[dti]], [[neuroimaging-fmri]], and [[neuroimaging-eeg]]—provide the empirical constraints that personalize TVB models to individual subjects [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. Exporting these matrices for visualization outside TVB's native environment supports interoperability with community toolchains. External Python-based visualization libraries offer additional flexibility for producing static publication figures and custom exploratory analyses beyond TVB's native interface. Researchers can export TVB connectivity matrices to generate visualizations comparing empirically observed [[structural-connectivity]] against model-derived [[functional-connectivity]] patterns, supporting the clinical translation of personalized brain models [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. Standardized data formats ensure these visualizations remain reproducible and interoperable across research groups [[raw/papers/gorgolewski-2016.md|Gorgolewski et al. (2016)]].
+nxviz functions as a complementary visualization resource for outputs generated by [[the-virtual-brain]]. TVB produces structural connectivity matrices as inputs to whole-brain simulations and generates time series and functional connectivity estimates as outputs, using forward models that allow simulated signals to be compared directly against empirical [[neuroimaging-eeg]], [[neuroimaging-meg]], and [[neuroimaging-fmri]] recordings [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. These same multimodal neuroimaging data—[[dti]], [[neuroimaging-fmri]], and [[neuroimaging-eeg]]—provide the empirical constraints that personalize TVB models to individual subjects [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. Exporting these matrices for visualization outside TVB's native environment supports interoperability with community toolchains and facilitates reproducible research practices [[raw/papers/gorgolewski-2016.md|Gorgolewski et al. (2016)]].
 
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal [[neuroimaging]]*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
-3. Gorgolewski et al. (2016). *The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments*. Scientific Data. [DOI](https://doi.org/10.1038/sdata.2016.44)
+External Python-based visualization libraries offer additional flexibility for producing static publication figures and custom exploratory analyses beyond TVB's native interface [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]]. Researchers can export TVB connectivity matrices to generate visualizations comparing empirically observed [[structural-connectivity]] against model-derived [[functional-connectivity]] patterns, supporting the clinical translation of personalized brain models [[raw/papers/ritter-2013.md|Ritter et al. (2013)]]. Standardized data formats ensure these visualizations remain reproducible and interoperable across research groups [[raw/papers/gorgolewski-2016.md|Gorgolewski et al. (2016)]].
