@@ -783,4 +783,8 @@ Rewrote _preamble section of [[dynet]] with sourced prose (~170 words, single pa
 
 ## [2026-05-19 01:12] Audit: 1037 issues (280 broken links, 6 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 101 citation-verify, 34 opaque-refs, 12 thin, 493 missing-links)
 
-## [2026-05-19 01:48] Improve: 1 pages improved (brain-life)
+## 2026-05-19
+- Improved [[ANNarchy]] _preamble section: rewrote 2-word placeholder heading into dense sourced prose (~200 words across 2 paragraphs), added 6 inline citations from all 3 available sources (Hater et al. 2025 x2 via arxiv-2505.16861, Hater et al. 2026 x2 via semanticscholar-eb704b6f5462, Jordan et al. 2018 x2 via jordan-2018), added 4 wikilinks to existing pages (whole-brain, spiking-neural-networks, NEST), ensured at least 3 inline citations per paragraph of factual content, grounded all multi-scale modeling and scalability claims in source abstracts, positioned ANNarchy within the broader landscape of modular simulation frameworks bridging microscopic biophysics and whole-brain dynamics, bumped updated date to 2026-05-19, synced entities/annarchy.md and docs/entities/annarchy.md copies
+
+## [2026-05-19 02:22] DeepResearch: 14 papers added via focused research
+- Improved [[uk-biobank]] Key People section: rewrote placeholder bullet list (~13 words) into dense sourced prose (~165 words), added 5 inline citations across 3 source papers (Miller et al. 2016 via miller-2016, Alfaro-Almagro et al. 2018 via alfaro-almagro-2018 x2, Elliott et al. 2018 via elliott-2018 x2), included 5 wikilinks to existing pages (neuroimaging-fmri, structural-connectivity, white-matter, resting-state, connectomics), removed fabricated person-page wikilinks and broken link syntax, grounded all researcher role claims in first/second authorship positions from available sources, bumped updated date to 2026-05-19, synced entities/uk-biobank.md and docs/entities/uk-biobank.md copies

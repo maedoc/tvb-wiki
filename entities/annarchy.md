@@ -15,10 +15,14 @@ tags:
 - whole-brain-modeling
 title: ANNarchy
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-19'
 ---
 
 # ANNarchy
+
+Computational neuroscience has traditionally focused on isolated scales, limiting understanding of brain function across multiple levels [[raw/papers/arxiv-2505.16861.md|Hater et al., 2025]]. While microscopic models capture biophysical details of individual neurons, macroscopic [[whole-brain]] models describe large-scale network dynamics; integrating these scales remains a significant challenge [[raw/papers/semanticscholar-eb704b6f5462.md|Hater et al., 2026]]. Modern [[spiking-neural-networks|spiking network]] implementations demonstrate that scaling from consumer laptops to petascale supercomputers requires optimized code generation and memory-efficient data structures, with frameworks such as [[NEST]] achieving simulations of up to 10¹¹ synapses—approaching the scale of a full human cortex [[raw/papers/jordan-2018.md|Jordan et al., 2018]].
+
+ANNarchy is an open-source Python library for large-scale simulations of rate-coded and spiking neural networks. By compiling high-level model descriptions into optimized C++ code with optional CUDA support for GPU acceleration, it enables researchers to bridge detailed cellular dynamics and population-level approximations, contributing to the broader effort to connect microscopic biophysics with [[whole-brain]] network models [[raw/papers/arxiv-2505.16861.md|Hater et al., 2025]]. Its unified support for both spiking and rate-coded paradigms aligns with the growing need for modular simulation frameworks that can translate between discrete neural activity and continuous regional dynamics [[raw/papers/semanticscholar-eb704b6f5462.md|Hater et al., 2026]]. The capability to span local circuit mechanisms to large-scale network behavior positions ANNarchy within the expanding ecosystem of multi-scale brain modeling tools [[raw/papers/jordan-2018.md|Jordan et al., 2018]].
 
 ## Overview
 
