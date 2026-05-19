@@ -16,7 +16,8 @@ title: SCOT
 type: entity
 updated: '2026-05-19'
 ---
-SCOT is a reportedly proposed software package for processing, analyzing, and visualizing structural brain [[connectivity]] data derived from diffusion-weighted imaging and probabilistic [[tractography]]. Its existence, feature set, and documentation status remain unverified: none of the structural-connectivity or whole-brain-modeling source papers currently held in this wiki explicitly describe or cite SCOT as an established tool in the neuroimaging ecosystem.
+
+SCOT is a reportedly proposed software package for processing, analyzing, and visualizing structural brain [[connectivity]] data derived from diffusion-weighted imaging and probabilistic [[tractography]]. Its existence, feature set, and documentation status remain unverified: none of the [[structural-connectivity]] or [[whole-brain]]-modeling source papers currently held in this wiki explicitly describe or cite SCOT as an established tool in the [[neuroimaging]] ecosystem.
 
 ## Motivation and Context
 

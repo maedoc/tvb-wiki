@@ -808,3 +808,5 @@ Rewrote _preamble section of [[dynet]] with sourced prose (~170 words, single pa
 
 ## [2026-05-19 04:43] DeepResearch: 6 papers added via focused research
 - 2026-05-19: Updated [[neuroml2]] References section with sourced prose from Panagiotou et al. (2025), Linssen et al. (2025), and Sanz Leon et al. (2013).
+
+## [2026-05-19 04:46] Improve: 4 pages improved (scirun, neurostats, pybraingraph, nilearn)

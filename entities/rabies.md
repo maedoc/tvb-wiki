@@ -34,7 +34,7 @@ RABIES occupies a methodological position alongside other neuroimaging pipelines
 
 ## References
 
-1. (authors unknown). *A standardized image processing and data quality platform for rodent fMRI*.
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+1. (authors unknown). *A standardized image processing and data quality platform for rodent [[fmri]]*.
+2. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal [[neuroimaging]]*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
 3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 4. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.

@@ -20,7 +20,7 @@ updated: '2026-05-19'
 
 # SPM
 
-**SPM** (Statistical Parametric Mapping) is a MATLAB-based software suite for the statistical analysis of brain imaging data sequences, including [[fmri]], PET, SPECT, EEG, and MEG. Developed at the Wellcome Centre for Human [[neuroimaging]] at University College London, it has become one of the most widely used neuroimaging analysis packages in computational neuroscience, serving as a foundational tool for both experimental studies and mechanistic modeling.
+**SPM** (Statistical Parametric Mapping) is a MATLAB-based software suite for the statistical analysis of brain imaging data sequences, including [[fmri]], PET, SPECT, EEG, and MEG. Developed at the Wellcome Centre for Human [[neuroimaging]] at University College London, it has become one of the most widely used neuroimaging analysis packages in [[computational-neuroscience]], serving as a foundational tool for both experimental studies and mechanistic modeling.
 
 ## Overview
 
@@ -41,5 +41,5 @@ SPM sits within a broader neuroimaging analysis ecosystem that connects data pre
 ## References
 
 1. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
-2. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
