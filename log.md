@@ -799,3 +799,5 @@ Rewrote _preamble section of [[dynet]] with sourced prose (~170 words, single pa
 
 ## [2026-05-19 03:48] Improve: 2 pages improved (pynest, brain-life)
 - 2026-05-19: Updated [[palm]] _preamble section with sourced content grounded in Winkler et al. (2014).
+
+## [2026-05-19 04:01] RefFormatter: formatted references on 28 pages

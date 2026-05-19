@@ -13,7 +13,6 @@ title: SCIRun
 type: entity
 updated: '2026-05-19'
 ---
-
 SCIRun is a modular problem-solving environment developed at the University of Utah's Scientific Computing and Imaging Institute that lets researchers assemble computational workflows through a visual dataflow programming interface. First released in the late 1990s, it serves as a computational workbench in which typed modules are wired together in a directed graph editor, supporting rapid prototyping of biophysical simulations within [[computational-neuroscience]] and related fields [[raw/articles/scirun-sci-website.md|SCI Institute]].
 
 ## Motivation and Context
@@ -35,8 +34,3 @@ SCIRun occupies a distinct niche by coupling validated biophysical forward solve
 ## Relationship to TVB
 
 SCIRun serves a complementary role in the whole-brain-modeling ecosystem alongside [[the-virtual-brain]] (TVB). Whereas TVB focuses on large-scale [[neural-mass-models]] and [[network-dynamics]] simulations coupled through [[structural-connectivity]], SCIRun contributes the biophysical forward-modeling layer that translates simulated neural activity into electromagnetic signals. In integrated workflows, TVB generates population-level dynamics across a parcellated brain network, and SCIRun computes the forward solution that projects this activity onto scalp sensors, enabling comparison with EEG or MEG data. This synergy is valuable for investigating how macroscopic [[brain-oscillations]] or seizure dynamics in [[epilepsy-modeling]] manifest at the sensor level.
-
-## References
-
-1. (authors unknown). *SCIRun GitHub Repository*.
-2. (authors unknown). *Software – Scientific Computing and Imaging Institute*.

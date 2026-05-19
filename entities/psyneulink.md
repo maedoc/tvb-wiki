@@ -1,78 +1,45 @@
 ---
-created: 2026-04-24
-sources:
-- raw/papers/semanticscholar-929b90566fc8.md
-- raw/papers/semanticscholar-8006c459587d.md
-- raw/papers/semanticscholar-4c098a7bad24.md
-tags:
-- software-brain-modeling
-- whole-brain-modeling
-- neural-mass-models
-- functional-connectivity
-- neuroimaging-fmri
 title: PsyNeuLink
-type: entity
+created: 2026-04-24
 updated: '2026-05-19'
+type: entity
+tags:
+  - software-brain-modeling
+  - whole-brain-modeling
+  - machine-learning
+  - network-dynamics
+  - functional-connectivity
+sources: []
 ---
 
-Computational neuroscience increasingly integrates [[whole-brain-modeling]] frameworks with empirical neuroimaging and psychophysiological methods. Simulation platforms such as [[TVB]] employ the Jansen–Rit [[neural-mass-models]] to investigate how altered inhibitory neurotransmission shapes transcranial magnetic stimulation evoked potentials in major depressive disorder [[raw/papers/semanticscholar-f52da2a6cbf2.md|Hofsähs et al. (2026)]]. Complementing these approaches, standardized methods for [[neuroimaging-eeg]] and [[neuroimaging-meg]] time-series analysis—including time-frequency decomposition, spectral [[connectivity]] estimation, and statistical testing—provide critical benchmarks for validating model outputs against empirical data [[raw/papers/cohen-2014.md|Cohen (2014)]]. At the clinical-translation frontier, personalized lesion-based [[neural-mass-models]] can simulate post-stroke structural disconnection and predict individualized patterns of [[functional-connectivity]] disruption, demonstrating how patient-specific damage propagates through large-scale networks [[raw/papers/semanticscholar-929b90566fc8.md|Falconer et al. (2026)]]. Data-driven analyses of [[resting-state]] [[functional-connectivity]] further reveal how aberrant cortical-subcortical-cerebellar circuitry distinguishes schizophrenia from healthy controls, underscoring the need for models that capture whole-brain network disorganization [[raw/papers/semanticscholar-4c098a7bad24.md|Jensen et al. (2025)]]. Meanwhile, non-invasive psychophysiological tools such as pupillometry offer sensitive, reproducible readouts of autonomic and cognitive states that can constrain behavioral predictions [[raw/papers/semanticscholar-8006c459587d.md|Schwartz et al. (2025)]].
+# PsyNeuLink
 
-## Overview
+**PsyNeuLink** is an open-source, graph-based Python framework for cognitive neuroscience that enables researchers to build modular models bridging biologically plausible neural mechanisms and higher-level cognitive functions such as decision-making, working memory, and attention. Developed at Princeton University, it provides a composable API in which both population-level neural dynamics and psychological processes are first-class objects, making it possible to construct mechanistically interpretable models of task-level behavior.
 
-**PsyNeuLink** is an open-source, graph-based computational framework for cognitive neuroscience that bridges the gap between biologically plausible neural circuits and cognitive-level functions. Developed initially at Princeton University by the Cohen Lab, it enables the construction and simulation of modular, composable models that integrate neural mechanisms with psychological processes Cohen et al. (2014).
+## Motivation and Context
 
-Unlike traditional simulators focused purely on neural dynamics or purely on symbolic computation, PsyNeuLink is designed to support [[hybrid-architecture]] models that combine both biological and computational representations. It provides a Python API with an emphasis on transparency, composability, and mechanistic interpretability.
+The landscape of brain simulation is typically divided into tools that model low-level neural dynamics and architectures that model high-level cognition. Simulators such as [[NEST]] or [[NEURON]] excel at capturing membrane potentials and spike trains but lack primitives for psychological constructs, whereas purely cognitive architectures often abstract away biological implementation. PsyNeuLink occupies a middle ground by treating neural processes and cognitive functions as composable mechanisms within a single directed-graph formalism. This design supports [[hybrid-architecture]] approaches that preserve mechanistic transparency while spanning scales from individual neuron populations to task-level processing. The framework is particularly relevant for researchers who seek to constrain cognitive theories with [[neuroimaging-fmri]] or [[neuroimaging-eeg]] data, or to fit model parameters against behavioral observations using modern [[machine-learning]] optimization tools.
 
-## Key Features
+## Architecture and Key Features
 
-**Graph-Based Architecture**
-Models in PsyNeuLink are constructed as directed graphs composed of nodes (representing mechanisms such as populations of neurons, mappings, or control processes) and projections (connections between nodes). This structure enables intuitive model construction and analysis of information flow through cognitive architectures.
+Models in PsyNeuLink are constructed as directed graphs whose nodes are mechanisms and whose edges are projections. At the lower level, mechanisms include biologically inspired components such as transfer functions, leaky integrators, and synaptic learning rules. At the higher level, compositions group mechanisms into functional subsystems—for example, an accumulation-to-threshold process that implements evidence accumulation during perceptual decision-making, or a gated working-memory buffer that models active maintenance. The framework emphasizes transparency: every computation is inspectable, and the graph structure makes information flow explicit.
 
-**Dual-Level Representation**
-The framework supports implementation at multiple levels of abstraction:
-- **Mechanism level**: Biologically plausible components including transfer functions, integrators, and learning rules
-- **Composition level**: Higher-order compositions of mechanisms representing cognitive processes (e.g., decision-making, working memory, attention)
-
-**Integration with [[machine-learning]]**
-PsyNeuLink provides interfaces to optimize model parameters using standard machine learning frameworks, enabling gradient-based fitting to behavioral and [[neuroimaging]] data. This bridges [[computational-psychiatry]] model fitting with deep learning tools.
-
-**Automatic Compilation**
-Models can be compiled to run on different backends (Python, LLVM) for performance optimization while maintaining model transparency and accessibility.
-
-**Ecosystem of Pre-built Components**
-The framework includes a growing library of standard cognitive and neural mechanisms, including accumulation-to-threshold models (like the drift-diffusion model), control mechanisms, and [[neural-network]] layers.
+PsyNeuLink also exposes interfaces to standard machine-learning libraries, enabling gradient-based parameter estimation against empirical data. This bridges the gap between hand-tuned cognitive models and data-driven fitting pipelines. For performance-critical applications, models can be compiled to alternate backends while retaining the same high-level specification, yielding speedups without sacrificing accessibility or interpretability.
 
 ## Relationship to TVB
 
-PsyNeuLink and [[TVB]] occupy complementary positions in the brain modeling landscape:
+PsyNeuLink and [[TVB]] occupy complementary positions in the computational neuroscience ecosystem:
 
 | Aspect | TVB | PsyNeuLink |
 |--------|-----|------------|
-| **Focus** | Whole-brain, mesoscale neural mass dynamics | Cognitive architecture, task-level processing |
-| **Scale** | Large-scale connectomes (10³–10⁴ nodes) | Local circuits to distributed systems (tens to hundreds of nodes) |
-| **Abstraction** | Neural mass, mean-field approximations | Mechanistic to cognitive, hybrid biological-cognitive |
-| **Data targets** | fMRI, EEG, MEG | Behavioral data, single-unit recordings, functional connectivity |
-| **Primary use** | Simulating brain dynamics, resting-state networks | Modeling task execution, cognitive control, learning |
+| **Primary focus** | Whole-brain [[network-dynamics]] and [[neural-mass-models]] | Cognitive architecture and task-level processing |
+| **Spatial scale** | Large-scale connectomes (thousands of nodes) | Local circuits to distributed systems (tens to hundreds of nodes) |
+| **Level of abstraction** | [[mean-field-theory]] and population-level approximations | Mechanistic to cognitive, hybrid biological-cognitive |
+| **Typical data targets** | [[neuroimaging-fmri]], [[neuroimaging-eeg]], [[neuroimaging-meg]] | Behavioral data, single-unit recordings, [[functional-connectivity]] |
+| **Core use cases** | Simulating [[resting-state]] dynamics and disease propagation | Modeling task execution, cognitive control, and learning |
 
-**Integration Pathway**: PsyNeuLink can incorporate TVB-derived whole-[[brain-dynamics]] as input to cognitive models, enabling studies of how large-scale brain states modulate specific cognitive processes. Conversely, TVB could simulate the neural substrate for PsyNeuLink cognitive architectures, though direct technical integration requires development of interfaces between the platforms.
-
-## Key Papers
-
-- **Cohen, J. D., & Asthana, S. (2017)**. PsyNeuLink: A system for cognitive neuroscience modeling. *Conference on Cognitive [[computational-neuroscience]]*. Introduces the framework's design philosophy and core abstractions Cohen et al. (2014).
-
-- **Cohen, J. D., et al. (2020)**. PsyNeuLink: An open-source, graph-based framework for cognitive neuroscience modeling. *Journal of Open Source Software*, 5(50), 2227. Documents the framework architecture, API design, and example applications in decision-making and cognitive control.
+A natural integration pathway uses TVB-derived whole-brain dynamics as contextual input to PsyNeuLink cognitive models, enabling studies of how large-scale brain states modulate specific cognitive processes. Conversely, TVB could simulate the neural substrate for PsyNeuLink architectures, though direct technical integration would require dedicated interfaces between the platforms.
 
 ## Related Software
 
-- [[TVB]] – Complementary [[whole-brain]] simulator for large-scale [[neural mass model]] dynamics
-- [[NEST]] – [[spiking-neural-networks|Spiking neural network]] simulator for detailed biophysical models
-- [[brian2cuda]] – Python-based spiking neural network simulator
-- [[ANNarchy]] – Hybrid rate-coded and spiking neural network framework
-- PyTorch / [[tensorflow]] – Machine learning frameworks integrated via PsyNeuLink's optimization interfaces
-- [[neuromorpho-toolkit]] – Model description format for interoperability
-
-## References
-
-1. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](](https://doi.org/10.1161/str.57.suppl_1.a124))
-2. Shawn T. Schwartz, Haopei Yang, Alice M. Xue, M. He. (2025). *eyeris: A flexible, extensible, and reproducible pupillometry preprocessing framework in R*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.06.01.657312))
-3. Kyle M. Jensen, Tricia Z. King, P. Andrés-Camazón, V. Calhoun, A. Iraji. (2025). *Aberrant Cortical-Subcortical-Cerebellar [[connectivity]] in [[resting-state|Resting-State fMRI]] as an Imaging Marker of Schizophrenia and Psychosis: A Systematic Review of Data-Driven Whole-Brain [[functional-connectivity]] Analyses*. medRxiv. [DOI](](https://doi.org/10.1101/2025.06.19.25329865))
+PsyNeuLink exists within a broader ecosystem of brain-modeling tools. [[NEST]] and [[brian2cuda]] provide detailed [[spiking-neural-networks]] simulation at the cellular level, while [[ANNarchy]] offers hybrid rate-coded and spiking implementations with code generation. For whole-brain modeling, [[TVB]] remains the standard for large-scale [[connectomics]]-based simulations. Machine-learning backends complement these simulators by providing gradient-based fitting capabilities through PsyNeuLink's optimization interfaces.
