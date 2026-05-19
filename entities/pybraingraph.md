@@ -17,7 +17,6 @@ title: pybraingraph
 type: entity
 updated: '2026-05-19'
 ---
-
 pybraingraph is a Python library for graph-theoretical analysis of brain [[connectivity]] networks derived from [[neuroimaging]] data. The software computes a comprehensive suite of network metrics—including node degree, betweenness centrality, clustering coefficient, path length, and modularity—enabling researchers to characterize the topological organization of both [[functional-connectivity]] and [[structural-connectivity]] networks at the systems level [@sporns2010; @bullmore2009]. Originally developed to address the need for streamlined integration between network construction pipelines and graph-theoretic analysis in Python-based neuroimaging workflows, pybraingraph provides a unified interface that accepts connectivity matrices in standard formats (e.g., [[cifti]], gifti, or NumPy arrays) and produces publication-ready metric summaries and visualizations.
 
 ## Motivation and Context
@@ -43,7 +42,3 @@ The connection is particularly valuable for **personalized-brain-modeling** pipe
 ## Related Software
 
 pybraingraph operates within a broader ecosystem of network analysis tools. The [[brain-connectivity-toolbox]] and its Python port [[bctpy]] remain the most widely used alternatives for classic graph-theoretic analysis. For visualization, [[brainnet-viewer]] and [[brainspace]] offer complementary capabilities for displaying networks on cortical surfaces. For connectivity estimation directly from neuroimaging data, researchers typically combine [[nilearn]] (for fMRI), [[mne-python]] (for EEG/MEG), or [[dipy]] (for diffusion MRI) with pybraingraph in a preprocessing pipeline. The [[connectome-workbench]] provides additional visualization and data handling for HCP-style CIFTI datasets, while [[graphvar]] offers a MATLAB-based alternative with a focus on dynamic network analysis. pybraingraph distinguishes itself through its pure Python implementation, modern API design, and emphasis on integration with scientific Python ecosystem tools like NumPy, SciPy, and pandas for downstream statistical analysis.
-
-## References
-
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

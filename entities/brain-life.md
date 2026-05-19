@@ -1,19 +1,29 @@
 ---
-title: Brainlife
 created: 2025-01-15
-updated: 2026-05-19
-type: entity
-tags: [software-brain-modeling, neuroimaging-fmri, neuroimaging-dti, neuroimaging-eeg, neuroimaging-meg, reproducibility, connectomics, structural-connectivity, functional-connectivity, whole-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+- neuroimaging-fmri
+- neuroimaging-dti
+- neuroimaging-eeg
+- neuroimaging-meg
+- reproducibility
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- whole-brain-modeling
+title: Brainlife
+type: entity
+updated: '2026-05-19'
 ---
 
-Brainlife is a cloud-based distributed computing platform designed for neuroimaging research, enabling scientists to process, analyze, and share data through containerized applications and web-based interfaces. It furnishes on-demand high-performance computing resources and modular pipeline construction without requiring local cluster infrastructure, integrating tools for functional and structural brain imaging into reproducible, shareable workflows. The platform serves the broader computational neuroscience community by lowering technical barriers and standardizing execution environments across laboratories.
+[[brainlife]] is a cloud-based distributed computing platform designed for [[neuroimaging]] research, enabling scientists to process, analyze, and share data through containerized applications and web-based interfaces. It furnishes on-demand high-performance computing resources and modular pipeline construction without requiring local cluster infrastructure, integrating tools for functional and structural brain imaging into reproducible, shareable workflows. The platform serves the broader [[computational-neuroscience]] community by lowering technical barriers and standardizing execution environments across laboratories.
 
 ## Motivation and Context
 
-Modern neuroimaging datasets, such as those from the [[hcp-dataset]] and [[abide]] initiatives, have grown in size and complexity, creating computational bottlenecks for laboratories lacking dedicated high-performance computing clusters. Local installation of analysis packages demands substantial systems administration expertise, and differences in software versions or execution environments frequently produce divergent outcomes, undermining reproducibility across sites. Brainlife addresses these interdependent challenges by offering a unified infrastructure in which researchers upload data, compose modular analysis pipelines, and execute containerized applications on remote hardware without managing underlying systems.
+Modern neuroimaging datasets, such as those from the [[hcp-dataset]] and [[abide]] initiatives, have grown in size and complexity, creating computational bottlenecks for laboratories lacking dedicated high-performance computing clusters. Local installation of analysis packages demands substantial systems administration expertise, and differences in software versions or execution environments frequently produce divergent outcomes, undermining [[reproducibility]] across sites. Brainlife addresses these interdependent challenges by offering a unified infrastructure in which researchers upload data, compose modular analysis pipelines, and execute containerized applications on remote hardware without managing underlying systems.
 
-The platform natively supports multiple imaging modalities, including functional MRI, EEG, MEG, and diffusion MRI, making it applicable to studies of both functional and structural brain organization. By standardizing execution environments and recording detailed provenance metadata for every computation, brainlife directly supports the growing emphasis on open and reproducible science. Its web-based interface lowers barriers to entry for investigators who would otherwise require cluster administration expertise, while its acceptance of standard data formats such as [[bids]] facilitates interoperability with other tools and public repositories.
+The platform natively supports multiple imaging modalities, including [[neuroimaging-fmri|functional MRI]], EEG, MEG, and [[diffusion-mri]], making it applicable to studies of both functional and structural brain organization. By standardizing execution environments and recording detailed provenance metadata for every computation, brainlife directly supports the growing emphasis on open and reproducible science. Its web-based interface lowers barriers to entry for investigators who would otherwise require cluster administration expertise, while its acceptance of standard data formats such as [[bids]] facilitates interoperability with other tools and public repositories.
 
 ## Key Features
 

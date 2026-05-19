@@ -16,7 +16,7 @@ tags:
 - standardization
 title: NeuroML2
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-19'
 ---
 
 NeuroML2 (Neural Modeling Language, version 2) is a standardized, XML-based description language for constructing, validating, and exchanging computational models of neurons and neural networks. Developed as an evolution of the original NeuroML specification [[neuroml]] [cite:Gleeson2010], NeuroML2 began development in 2011, with early beta versions released starting in 2013 and a key specification paper published in 2014 [cite:Cannon2014]. The language provides a declarative framework for specifying biophysically detailed neuron models—including multicompartmental membranes, [[ion-channel]] dynamics, and synaptic connections—as well as network architectures with defined [[connectivity]] patterns. By encoding model structure in a platform-independent format, NeuroML2 facilitates interoperability between different simulation engines and enables reproducible [[computational-neuroscience]].
@@ -41,6 +41,4 @@ NeuroML2 intersects with several other neuroscience modeling standards. Unlike [
 
 ## References
 
-1. Sotirios Panagiotou, Rene Miedema, Dimitrios Soudris, Christos Strydis. (2025). *Decoupling model descriptions from execution: a modular paradigm for extensible neurosimulation with [[eden]]*. Frontiers Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2025.1572782))
-2. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *[[nestml]]: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2025.1544143))
-3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+The recent EDEN neural simulator illustrates one practical application of NeuroML-based descriptions in decoupling abstract model specifications from execution backends. [[raw/papers/semanticscholar-de2622579d45.md|Panagiotou et al. (2025)]] describe a modular architecture that enables developers to focus on high-performance simulation while users gain portability without implementing custom engines; by integrating diverse targets including FPGA-based accelerators and the SpiNNaker neuromorphic platform, the work demonstrates how standardized descriptions can support heterogeneous hardware with minimal reprogramming effort. Complementing this domain, the NESTML project offers a domain-specific language for neuron and synapse models paired with a Python-based code generation toolchain. [[raw/papers/semanticscholar-5c84b271b035.md|Linssen et al. (2025)]] emphasize that NESTML supports FAIR principles by making models findable, accessible, interoperable, and reusable across backends such as [[nest]] Simulator and SpiNNaker. At the whole-brain scale, [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] introduced [[the-virtual-brain]], an open-source platform that combines empirical structural connectivity with [[neural-mass-model]] abstractions and supports forward modeling for [[eeg]], [[meg]], and [[fmri]], enabling [[personalized-brain-modeling]].

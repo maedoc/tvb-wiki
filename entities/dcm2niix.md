@@ -16,7 +16,6 @@ title: dcm2niix
 type: entity
 updated: '2026-05-19'
 ---
-
 dcm2niix is an established neuroimaging utility that performs DICOM conversion, translating raw scanner output into standardized volumetric images compatible with analysis pipelines throughout the [[computational-neuroscience]] and [[neuroimaging]] ecosystem. [[raw/papers/semanticscholar-f45e6044c92f.md|Haber et al. (2026)]] demonstrate its integration alongside SimNIBS and [[freesurfer]] within end-to-end workflows encompassing structural MRI preprocessing, [[volume-conduction]] modeling, montage optimization, electric field simulation, and region-of-interest analysis for non-invasive [[brain-stimulation]] research. Because whole-brain modeling frameworks require standardized data to constrain network simulations and compare simulated against empirical signals [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]], DICOM conversion represents a critical upstream step before diffusion-based [[tractography]] can reconstruct the white-matter substrates that define large-scale [[connectome]] architecture [[raw/papers/basser-1994.md|Basser et al. (1994)]].
 
 ## Motivation and Context
@@ -34,9 +33,3 @@ Although dcm2niix is not specific to [[the-virtual-brain]], it occupies a critic
 ## Ecosystem Integration
 
 dcm2niix is embedded within containerized deployment frameworks that ensure reproducibility and cross-platform compatibility in computational neuroscience. [[raw/papers/semanticscholar-f45e6044c92f.md|Haber et al. (2026)]] describe how TI-Toolbox automates the complete research pipeline from DICOM conversion through final field analysis, leveraging dcm2niix alongside SimNIBS and [[freesurfer]] to perform structural MRI preprocessing, [[volume-conduction]] modeling, montage optimization, electric field simulation, and region-of-interest analysis. [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] show that TVB combines empirical structural connectivity with neural mass models and forward models for multiple neuroimaging modalities, enabling simulated signals to be compared directly against empirical recordings. [[raw/papers/basser-1994.md|Basser et al. (1994)]] established that diffusion tensor imaging captures tissue microstructure non-invasively, providing the biological foundation for the structural connectivity matrices that define large-scale network dynamics in simulation platforms.
-
-## References
-
-1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.

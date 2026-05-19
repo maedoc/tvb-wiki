@@ -16,7 +16,6 @@ title: SCOT
 type: entity
 updated: '2026-05-19'
 ---
-
 SCOT is a reportedly proposed software package for processing, analyzing, and visualizing structural brain [[connectivity]] data derived from diffusion-weighted imaging and probabilistic [[tractography]]. Its existence, feature set, and documentation status remain unverified: none of the structural-connectivity or whole-brain-modeling source papers currently held in this wiki explicitly describe or cite SCOT as an established tool in the neuroimaging ecosystem.
 
 ## Motivation and Context
@@ -30,9 +29,3 @@ Within the [[tvb|The Virtual Brain]] ecosystem, structural connectivity matrices
 ## Verification Status
 
 The source holdings currently available do not independently confirm SCOT as an established, documented tool. The [[raw/papers/rubinov-sporns-2010.md|Rubinov & Sporns (2010)]] source describes the Brain Connectivity Toolbox for network analysis with graph-theoretic measures on weighted and binary networks; the [[raw/papers/sanz-leon-2013.md|Sanz Leon et al. (2013)]] source describes TVB architecture, neural mass model integration, and forward modeling for neuroimaging signals; and the [[raw/papers/wang-etal-2015-gretna.md|Wang et al. (2015)]] source describes GRETNA for graph-theoretic analysis with multiple parcellation and thresholding options. Any claims about SCOT's specific feature set, output formats, compatibility with [[dynamic-causal-modeling]] workflows, or integration with specific simulators should be treated as unverified pending the addition of primary documentation to the wiki source holdings.
-
-## References
-
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)

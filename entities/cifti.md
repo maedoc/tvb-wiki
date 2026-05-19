@@ -45,7 +45,7 @@ Dense grayordinate-level representations supply the empirical substrate for [[wh
 ## References
 
 1. (authors unknown). *Informatics and Data Mining Tools and Strategies for the Human Connectome Project*.
-2. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+2. (authors unknown). *Functional [[connectivity]]: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
 3. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
 4. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)
 5. Siyuan Du, Siyi Li, Shuwei Bai, Ang Li, Haolin Li, Mingqing Xiao, Yang Pan, Dongsheng Li, Weidi Xie, Yanfeng Wang, Ya Zhang, Chencheng Zhang, Jiangchao Yao. *Predicting Neuromodulation Outcome for Parkinson's Disease with Generative Virtual Brain Model*. [Link](https://arxiv.org/abs/2603.29176)

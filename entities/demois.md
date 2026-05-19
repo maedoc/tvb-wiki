@@ -1,10 +1,13 @@
 ---
-title: Demois
 created: 2024-01-15
-updated: 2026-05-19
-type: entity
-tags: [software-tvb, whole-brain-modeling, software-brain-modeling]
 sources: []
+tags:
+- software-tvb
+- whole-brain-modeling
+- software-brain-modeling
+title: Demois
+type: entity
+updated: '2026-05-19'
 ---
 
 # Demois
@@ -21,7 +24,7 @@ If Demois corresponds to a genuine project, it most likely represents an interna
 
 ## Key Features
 
-Because no primary source describes Demois as a standalone product, enumerating specific features, application programming interfaces, or software architectures would be speculative. The present guidance is to treat the name as an artifact of incomplete registry provenance rather than an endorsed tool. Investigators should rely on documented TVB utilities for simulation configuration, model validation, parameter estimation, and multimodal integration with empirical [[eeg]] or [[fmri]] data.
+Because no primary source describes Demois as a standalone product, enumerating specific features, application programming interfaces, or software architectures would be speculative. The present guidance is to treat the name as an artifact of incomplete registry provenance rather than an endorsed tool. Investigators should rely on documented TVB utilities for simulation configuration, [[model-validation]], [[parameter-estimation]], and multimodal integration with empirical [[eeg]] or [[fmri]] data.
 
 ## See Also
 

@@ -10,7 +10,6 @@ title: SpikeInterface
 type: entity
 updated: '2026-05-19'
 ---
-
 ## Overview
 
 SpikeInterface is an open-source Python framework for standardized extraction, preprocessing, and analysis of extracellular [[electrophysiology]] data. It provides a unified application programming interface that abstracts the heterogeneity of raw data formats and spike sorting outputs, enabling researchers to ingest recordings, apply preprocessing, run spike sorting, evaluate unit quality, and export standardized results without writing format-specific code. The framework thereby transforms raw voltage traces into curated single-unit and multiunit activity, supporting reproducible computational pipelines that connect experimental acquisition to downstream population-level analysis.
@@ -32,7 +31,3 @@ SpikeInterface and [[the-virtual-brain]] occupy complementary positions within t
 ## Related Software and Ecosystem
 
 SpikeInterface sits within a tightly integrated Python ecosystem for electrophysiology analysis. The [[neo]] library provides the foundational data model and I/O layer upon which SpikeInterface builds its preprocessing and sorting pipelines. Manual curation of sorted clusters typically employs [[phy]], an interactive graphical interface for inspecting waveforms and correcting merge or split errors. Biophysical forward modeling of extracellular potentials is handled by [[lfpy]] and [[lfpykit]], which simulate local field potentials from morphologically detailed neurons. Comparison between experimentally observed spike trains and simulated activity benefits from integration with [[nest]], [[neuron]], and [[brian]], while [[elephant]] offers population-level spike train analysis within the same object model. Data conversion and standardization are supported by [[neuroconv]], completing a cohesive pipeline from acquisition to archived [[reproducibility|reproducible]] analysis.
-
-## References
-
-1. Daril E. Brown, Elizaveta Okorokova, Carrina Iacobacci, Brian Coughlin, Orin Bloch, Eric M. Trautmann, Sydney S. Cash, Angelique C. Paulk, Sergey D. Stavisky, David M. Brandman. (2026). *High-Density Multi-Depth Human Recordings Using 45 mm Long Neuropixels Probes*. [Link](https://arxiv.org/abs/2601.09912)
